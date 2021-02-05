@@ -26,6 +26,7 @@ export enum EditorType {
   manuscript = 'manuscript',
   title = 'title',
 }
+import config from '../../config'
 
 export type EditorStateType = ManuscriptEditorState | TitleEditorState
 export type EditorViewType = ManuscriptEditorView | TitleEditorView
@@ -41,7 +42,12 @@ export const ManuscriptPageToolbar: React.FunctionComponent<Props> = React.memo(
   ({ editor, view }) => {
     switch (editor) {
       case EditorType.manuscript:
-        return <ManuscriptToolbar view={view as ManuscriptEditorView} />
+        return (
+          <ManuscriptToolbar
+            view={view as ManuscriptEditorView}
+            footnotesEnabled={config.footnotes.enabled}
+          />
+        )
 
       case EditorType.title:
         return <TitleToolbar view={view as TitleEditorView} />

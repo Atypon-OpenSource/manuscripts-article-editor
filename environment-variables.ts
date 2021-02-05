@@ -56,6 +56,7 @@ export const environmentVariables = [
   'SUPPORT_EMAIL',
   'SYNC_GATEWAY_URL',
   'ZOTERO_TRANSLATION_SERVER',
+  'FOOTNOTES_ENABLED',
 ]
 
 // Optional variables that are only used if they're set
@@ -98,7 +99,7 @@ if (
   process.env.NODE_ENV === 'production' &&
   !process.env.ALLOW_MISSING_VARIABLES
 ) {
-  const missing = environmentVariables.filter((key) => {
+  const missing = environmentVariables.filter(key => {
     if (optionalVariables.includes(key)) {
       return false
     }

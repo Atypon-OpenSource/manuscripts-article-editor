@@ -2008,10 +2008,10 @@
     eslint-config-prettier "^6.11.0"
     prettier "^2.1.1"
 
-"@manuscripts/examples@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.7.tgz#f7f0cef173fb2c83fbf283a2c2962b5d6ea32874"
-  integrity sha512-7a1y6H/wnvn4hTh7S+TEyC8R5tLHHNiWYJnbeS43JCMYS/6qhMCzJTS0PwQynoep7PWwi2LdgaSZ3qALxzgg0g==
+"@manuscripts/examples@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.8.tgz#877effcbf22b11c3b24e162284665042f4125192"
+  integrity sha512-hCmYSKgflejywcX1A8eTwU3MnKTaq5fHgTA7EciYG8HFm3qIST4rk+tTPvNhZ/JkwbZqs2hSTPhKbUR3IwwcDQ==
 
 "@manuscripts/library@^0.5.2":
   version "0.5.2"
@@ -2027,15 +2027,15 @@
     citeproc "^2.4.48"
     fontoxpath "^3.14.0"
 
-"@manuscripts/manuscript-editor@^0.81.4":
-  version "0.81.4"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.81.4.tgz#3999a3f3412b2d61cf0c0c3c413aa2af740b9d76"
-  integrity sha512-pewVJpZoIsQ9gDpkD0j5L+WueGBUF0pQTa3tEfS+l+DOlVgccU76eh7kgQVpj1fHYSrdHYk1J8sfsfJm16rgdQ==
+"@manuscripts/manuscript-editor@^0.82.0":
+  version "0.82.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.82.0.tgz#d2e5fc12f50f1bbdd396991e604c06afcf13a881"
+  integrity sha512-MNV7vg7xYyef/rIFms8uwXzdVmmnNYblc/PYuSIjjRKh51eNyF2iTe0kt+O7mo/2zSIuuEHFV5oNSpvO13f5ig==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
-    "@manuscripts/manuscripts-json-schema" "^1.39.0"
+    "@manuscripts/manuscripts-json-schema" "^1.45.0"
     "@manuscripts/title-editor" "^0.5.1"
     "@manuscripts/track-changes" "^0.0.2"
     astrocite-eutils "^0.16.4"
@@ -2098,7 +2098,21 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.38.0", "@manuscripts/manuscripts-json-schema@^1.39.0":
+"@manuscripts/manuscript-transform@^0.40.3":
+  version "0.40.5"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.40.5.tgz#5793fa903eea312a40ab3aa63f44b034b609cc77"
+  integrity sha512-81XI9LT2uZFZ6yhFYjhvOVA1Xq+U58jlt73jZzOjdTO/Kk7yBE6Ijirj/edZlvvzuPT82yEHkJfzZxoYcj98Mw==
+  dependencies:
+    "@manuscripts/data" "^0.1.3"
+    "@manuscripts/manuscripts-json-schema" "^1.45.6"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "^1.11.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscripts-json-schema@^1.38.0":
   version "1.39.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.39.0.tgz#cd96f1fb0b5fb88562c56b68fed2bfed809840d2"
   integrity sha512-TbPi71Uu0EsBNXikh3CARj988Q22OdURi4NIOhGEsUwqH8GrPQvnVKJY/wncKbU73+fA/IV591O90QRuUE41vA==
@@ -2107,10 +2121,19 @@
     deepmerge "^3.2.0"
     js-beautify "^1.9.0"
 
-"@manuscripts/manuscripts-json-schema@^1.41.0", "@manuscripts/manuscripts-json-schema@^1.42.0", "@manuscripts/manuscripts-json-schema@^1.44.1":
+"@manuscripts/manuscripts-json-schema@^1.41.0", "@manuscripts/manuscripts-json-schema@^1.42.0":
   version "1.44.1"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.44.1.tgz#a1a06562578c3126c2af5cb64b85e1df4654168b"
   integrity sha512-ixqOa+mybus8qgANqH1tOkmeVMGJe+GaFk9Z/uDmnLknEQGrQbyZDVYNZMTrubiDrjHDeUMKK28RAU0AAYMJoQ==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
+"@manuscripts/manuscripts-json-schema@^1.45.0", "@manuscripts/manuscripts-json-schema@^1.45.6":
+  version "1.45.8"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.45.8.tgz#7e4224e97dad4b41446c526b6de21a2dd8346430"
+  integrity sha512-9XCK9vdhJ0Xr4w3ZIvivajwblcaK968+V7sCmwXSqJVpHJpZZgvwvKkFloV6rbCu3Twy1c24WIkylqGgKrq5uQ==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"

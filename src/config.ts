@@ -114,6 +114,9 @@ interface Config {
   templates: {
     publish?: boolean
   }
+  footnotes: {
+    enabled: boolean
+  }
   version: string
 }
 
@@ -223,6 +226,9 @@ const config = {
   },
   templates: {
     publish: isTrue(process.env.PUBLISH_TEMPLATES),
+  },
+  footnotes: {
+    enabled: isTrue(process.env.FOOTNOTES_ENABLED),
   },
   version,
 }

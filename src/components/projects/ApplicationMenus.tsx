@@ -22,6 +22,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import React, { useEffect } from 'react'
 
+import config from '../../config'
 import { createDispatchMenuAction } from '../../lib/native'
 import { buildProjectMenu, ProjectMenuProps } from '../../lib/project-menu'
 
@@ -38,11 +39,14 @@ export const createMenuSpec = (props: ProjectMenuProps): MenuSpec[] => {
 
   return [
     buildProjectMenu(props),
-    ...getMenus({
-      state,
-      doCommand,
-      isCommandValid,
-    } as any),
+    ...getMenus(
+      {
+        state,
+        doCommand,
+        isCommandValid,
+      } as any,
+      config.footnotes.enabled
+    ),
   ]
 }
 
