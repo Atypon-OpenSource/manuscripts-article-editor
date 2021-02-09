@@ -101,6 +101,9 @@ interface Config {
     sts: boolean
     to_review: boolean
   }
+  production_notes: {
+    enabled: boolean
+  }
   quality_control: {
     enabled: boolean
   }
@@ -213,6 +216,9 @@ const config = {
   },
   eeo: {
     deposit_journals_url: normalizeURL(process.env.EEO_DEPOSIT_JOURNALS_URL),
+  },
+  production_notes: {
+    enabled: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
   },
   quality_control: {
     enabled: isTrue(process.env.FEATURE_QUALITY_CONTROL),

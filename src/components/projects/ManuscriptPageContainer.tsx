@@ -621,7 +621,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               selected={selected}
               selectedSection={selectedSection}
               setCommentTarget={this.setCommentTarget}
-              setNoteTarget={this.setNoteTarget}
               submission={submission}
               view={view}
               tags={this.props.tags}
@@ -1892,10 +1891,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
   private setCommentTarget = (commentTarget?: string) => {
     this.setState({ commentTarget })
-  }
-
-  private setNoteTarget = (noteTarget?: string) => {
-    this.setState({ noteTarget })
   }
 
   private publishTemplate = async () => {

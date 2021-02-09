@@ -30,6 +30,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptNoteList } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
@@ -64,6 +65,7 @@ const TABS = [
   'Content',
   'Style',
   'Comments',
+  config.production_notes.enabled && 'Production notes',
   config.quality_control.enabled && 'Quality Report',
   config.shackles.enabled && 'History',
   config.export.to_review && 'Submissions',
@@ -72,6 +74,7 @@ const TABS = [
   | 'Style'
   | 'Comments'
   | 'Quality Report'
+  | 'Production notes'
   | 'History'
   | 'Submissions'
 >
@@ -104,7 +107,6 @@ export const Inspector: React.FC<{
   selected: Selected | null
   selectedSection?: Selected
   setCommentTarget: () => void
-  setNoteTarget: () => void
   submission?: Submission
   view: ManuscriptEditorView
   tags: Tag[]
@@ -128,6 +130,8 @@ export const Inspector: React.FC<{
   listKeywords,
   manuscript,
   modelMap,
+  notes,
+  noteTarget,
   openCitationStyleSelector,
   saveManuscript,
   project,
@@ -317,6 +321,27 @@ export const Inspector: React.FC<{
                       prototypeId={manuscript.prototype}
                       manuscriptID={manuscript._id}
                       bulkUpdate={bulkUpdate}
+                    />
+                  </InspectorTabPanel>
+                )
+              }
+
+              case 'Production notes': {
+                return (
+                  <InspectorTabPanel key="Production notes">
+                    <ManuscriptNoteList
+                      createKeyword={createKeyword}
+                      notes={notes || []}
+                      currentUserId={getCurrentUser()._id}
+                      getKeyword={getKeyword}
+                      listKeywords={listKeywords}
+                      selected={selected}
+                      getCollaboratorById={getCollaboratorById}
+                      listCollaborators={listCollaborators}
+                      saveModel={saveModel}
+                      deleteModel={deleteModel}
+                      key={noteTarget}
+                      noteSource={'EDITOR'}
                     />
                   </InspectorTabPanel>
                 )
