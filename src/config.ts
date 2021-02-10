@@ -117,6 +117,9 @@ interface Config {
   templates: {
     publish?: boolean
   }
+  leanWorkflowManager: {
+    url: string
+  }
   footnotes: {
     enabled: boolean
   }
@@ -232,6 +235,9 @@ const config = {
   },
   templates: {
     publish: isTrue(process.env.PUBLISH_TEMPLATES),
+  },
+  leanWorkflowManager: {
+    url: normalizeURL(process.env.LEAN_WORKFLOW_MANAGER_URL),
   },
   footnotes: {
     enabled: isTrue(process.env.FOOTNOTES_ENABLED),

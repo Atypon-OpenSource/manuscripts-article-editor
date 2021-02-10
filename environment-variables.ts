@@ -57,6 +57,7 @@ export const environmentVariables = [
   'SUPPORT_EMAIL',
   'SYNC_GATEWAY_URL',
   'ZOTERO_TRANSLATION_SERVER',
+  'LEAN_WORKFLOW_MANAGER_URL',
   'FOOTNOTES_ENABLED',
 ]
 
@@ -77,6 +78,7 @@ const optionalVariables = [
   'FEATURE_PRODUCTION_NOTES',
   'FEATURE_PROJECT_MANAGEMENT',
   'FEATURE_QUALITY_CONTROL',
+  'LEAN_WORKFLOW_MANAGER_URL',
   'FRONTMATTER_URI',
   'GIT_COMMIT_HASH',
   'GIT_VERSION',
@@ -101,7 +103,7 @@ if (
   process.env.NODE_ENV === 'production' &&
   !process.env.ALLOW_MISSING_VARIABLES
 ) {
-  const missing = environmentVariables.filter(key => {
+  const missing = environmentVariables.filter((key) => {
     if (optionalVariables.includes(key)) {
       return false
     }

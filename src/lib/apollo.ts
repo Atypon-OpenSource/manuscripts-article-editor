@@ -17,6 +17,7 @@ import { ApolloClient } from 'apollo-client'
 import { DocumentNode, split } from 'apollo-link'
 import { setContext } from 'apollo-link-context'
 import { HttpLink } from 'apollo-link-http'
+import { createUploadLink } from 'apollo-upload-client'
 import { getMainDefinition } from 'apollo-utilities'
 import { Socket as PhoenixSocket } from 'phoenix'
 
@@ -46,6 +47,11 @@ const authLink = setContext((_, { headers }) => ({
   },
 }))
 
+const filesServerLink = createUploadLink({
+  uri: config.leanWorkflowManager.url,
+  credentials: 'include',
+})
+
 const hasSubscription = ({ query }: { query: DocumentNode }) => {
   const definition = getMainDefinition(query)
 
@@ -55,7 +61,24 @@ const hasSubscription = ({ query }: { query: DocumentNode }) => {
   )
 }
 
+const beaconOrFiles = (operation: any) => {
+  const context = operation.getContext()
+  if (
+    config.leanWorkflowManager &&
+    config.leanWorkflowManager.url &&
+    context &&
+    context.clientPurpose == 'leanWorkflowManager'
+  ) {
+    return false
+  }
+  return true
+}
+
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: split(hasSubscription, wsLink, authLink.concat(httpLink)),
+  link: split(
+    hasSubscription,
+    wsLink,
+    split(beaconOrFiles, authLink.concat(httpLink), filesServerLink)
+  ),
 })
