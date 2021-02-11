@@ -12,54 +12,31 @@
 
 import {
   Build,
-  buildModelMap,
   ContainedModel,
   ContainedProps,
   isManuscriptModel,
   ModelAttachment,
 } from '@manuscripts/manuscript-transform'
 import { Bundle, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from '@manuscripts/rxdb'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 
-import { ContainerIDs } from '../sync/Collection'
+import { Collection, ContainerIDs } from '../sync/Collection'
 import collectionManager from '../sync/CollectionManager'
 
 type ModelMap = Map<string, Model>
 
 export const useManuscriptModels = (
+  modelMap: ModelMap,
   containerID: string,
   manuscriptID: string
 ) => {
-  const [modelMap, renderWithModelMap] = useState<ModelMap>()
-  const [error, renderWithError] = useState<string>('')
-
-  const collection = collectionManager.getCollection<ContainedModel>(
+  const collection = collectionManager.getCollection(
     `project-${containerID}`
-  )
-
-  useEffect(() => {
-    collection
-      .find({
-        $and: [
-          { containerID },
-          {
-            $or: [{ manuscriptID }, { manuscriptID: { $exists: false } }],
-          },
-        ],
-      })
-      .exec()
-      .then((models) => buildModelMap(models as Array<RxDocument<Model>>))
-      .then((models) => {
-        renderWithModelMap(models)
-      })
-      .catch((e) => {
-        console.error(e)
-        renderWithError(
-          'Failed to open project for editing due to an error during data preparation'
-        )
-      })
-  }, [containerID, manuscriptID, collection])
+  ) as Collection<ContainedModel>
+  const manuscript = modelMap.get(manuscriptID) as Manuscript
+  const bundle = manuscript.bundle
+    ? (modelMap.get(manuscript.bundle) as Bundle)
+    : null
 
   const getModel = useCallback(
     <T extends Model>(id: string) => {
@@ -139,21 +116,11 @@ export const useManuscriptModels = (
     [modelMap, collection]
   )
 
-  let bundle: Bundle | null = null
-  if (modelMap) {
-    const manuscript = modelMap.get(manuscriptID) as Manuscript
-    if (manuscript && manuscript.bundle) {
-      bundle = (modelMap.get(manuscript.bundle) as Bundle) || null
-    }
-  }
-
   return {
-    map: modelMap,
     getModel,
     saveModel,
     saveManuscript,
     deleteModel,
-    error,
     collection,
     bundle,
   }

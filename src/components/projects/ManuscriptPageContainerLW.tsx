@@ -23,28 +23,26 @@ import {
   useEditor,
 } from '@manuscripts/manuscript-editor'
 import {
-  Build,
-  ContainedModel,
+  getModelsByType,
   ManuscriptNode,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
 import {
-  Bundle,
   Correction,
-  Manuscript,
   Model,
+  ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 
 import config from '../../config'
-import { Biblio, useBiblio } from '../../hooks/use-biblio'
+import { useBiblio } from '../../hooks/use-biblio'
 import { useCommits } from '../../hooks/use-commits'
-import { SnapshotStatus, useHistory } from '../../hooks/use-history'
+import { createUseLoadable } from '../../hooks/use-loadable'
 import { useManuscriptModels } from '../../hooks/use-manuscript-models'
-import { Collection } from '../../sync/Collection'
+import { bootstrap } from '../../lib/bootstrap-manuscript'
 import { InspectorContainer } from '../Inspector'
 import { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -80,102 +78,38 @@ type CombinedProps = ManuscriptPageContainerProps &
   IntlProps &
   ModalProps
 
-/**
- * TODO: The two wrapping components should be removed, and replaced with a
- * generic hook that takes a promise and returns { data, loadStatus, error }
- *
- * The promise should be a single long function composed out of smaller, testable
- * functions.
- */
+const useLoadManuscript = createUseLoadable(bootstrap)
 
 const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   const { project, match } = props
-  const {
-    loadSnapshotStatus,
-    loadSnapshot,
-    currentSnapshot,
-    snapshotsList,
-  } = useHistory(project._id)
 
-  const latestSnaphotID = snapshotsList.length ? snapshotsList[0].s3Id : null
-
-  useEffect(() => {
-    if (!latestSnaphotID) {
-      return
-    }
-    loadSnapshot(latestSnaphotID, match.params.manuscriptID)
-  }, [project._id, match.params.manuscriptID, latestSnaphotID, loadSnapshot])
-
-  const manuscriptModels = useManuscriptModels(
-    project._id,
-    match.params.manuscriptID
-  )
-  const biblio = useBiblio({
-    bundle: manuscriptModels.bundle,
-    library: props.library,
-    collection: manuscriptModels.collection,
-    lang: props.manuscript.primaryLanguageCode || 'en-GB',
+  const { data, isLoading, error } = useLoadManuscript({
+    projectID: project._id,
+    manuscriptID: match.params.manuscriptID,
   })
 
-  if (
-    loadSnapshotStatus !== SnapshotStatus.Done ||
-    !currentSnapshot ||
-    !manuscriptModels.map
-  ) {
+  if (isLoading) {
     return <ManuscriptPlaceholder />
-  } else if (manuscriptModels.error) {
-    return <ReloadDialog message={manuscriptModels.error} />
+  } else if (error || !data) {
+    return (
+      <ReloadDialog
+        message={error ? error.message : 'Unable to laod Manuscript'}
+      />
+    )
   }
 
-  return (
-    <ManuscriptPageInner
-      doc={currentSnapshot.doc}
-      modelMap={manuscriptModels.map}
-      snapshotID={latestSnaphotID!}
-      {...manuscriptModels}
-      {...biblio}
-      {...props}
-    />
-  )
+  return <ManuscriptPageView {...data} {...props} doc={data.ancestorDoc} />
 }
 
-interface ManuscriptPageInnerProps extends CombinedProps {
-  doc: ManuscriptNode
-  snapshotID: string
-  modelMap: Map<string, Model>
-  getModel: <T extends Model>(id: string) => T | undefined
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  deleteModel: (id: string) => Promise<string>
-  collection: Collection<ContainedModel>
-  bundle: Bundle | null
-}
-
-const ManuscriptPageInner: React.FC<ManuscriptPageInnerProps & Biblio> = (
-  props
-) => {
-  const { modelMap, project } = props
-
-  const commits = useCommits(modelMap, project._id, props.snapshotID)
-
-  if (commits.load !== 2) {
-    console.log(commits.load)
-    return null
-  }
-
-  return <ManuscriptPageView {...props} {...commits} />
-}
-
-interface ManuscriptPageViewProps extends ManuscriptPageInnerProps {
-  commitAtLoad: Commit | null
+interface ManuscriptPageViewProps extends CombinedProps {
+  commitAtLoad?: Commit | null
   commits: Commit[]
-  corrections: Correction[]
-  saveCommit: (commit: Commit) => void
+  doc: ManuscriptNode
+  snapshotID: string | null
+  modelMap: Map<string, Model>
 }
 
-const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
-  props
-) => {
+const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const {
     manuscript,
     project,
@@ -183,12 +117,31 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
     history,
     doc,
     modelMap,
-    getModel,
-    saveModel,
-    deleteModel,
+    snapshotID,
   } = props
 
   const popper = useRef<PopperManager>(new PopperManager())
+  const {
+    getModel,
+    saveModel,
+    saveManuscript,
+    deleteModel,
+    collection,
+    bundle,
+  } = useManuscriptModels(modelMap, project._id, manuscript._id)
+
+  const biblio = useBiblio({
+    bundle,
+    library: props.library,
+    collection,
+    lang: props.manuscript.primaryLanguageCode || 'en-GB',
+  })
+
+  const [commits, saveCommit] = useCommits(props.commits, project._id)
+  const corrections = (getModelsByType(
+    modelMap,
+    ObjectTypes.Correction
+  ) as Correction[]).filter((corr) => corr.snapshotID === snapshotID)
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
@@ -212,11 +165,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
     projectID: project._id,
 
     // refactor the library stuff to a hook-ish type thingy
-    getCitationProcessor: () => props.citationProcessor,
-    setLibraryItem: props.setLibraryItem,
-    getLibraryItem: props.getLibraryItem,
-    matchLibraryItemByIdentifier: props.matchLibraryItemByIdentifier,
-    filterLibraryItems: props.filterLibraryItems,
+    ...biblio,
 
     // model and attachment retrieval:
     modelMap,
@@ -238,7 +187,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
       CitationEditor,
       CitationViewer,
     },
-    commit: props.commitAtLoad,
+    commit: props.commitAtLoad || null,
   }
 
   const editor = useEditor<ManuscriptSchema>(
@@ -273,7 +222,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
                   manuscriptID={manuscript._id}
                   modelMap={modelMap}
                   project={project}
-                  collection={props.collection}
+                  collection={collection}
                 />
               </ApplicationMenuContainer>
               <ManuscriptToolbar view={view} />
@@ -281,14 +230,14 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
             <EditorBody>
               <MetadataContainer
                 manuscript={manuscript}
-                saveManuscript={props.saveManuscript}
+                saveManuscript={saveManuscript}
                 handleTitleStateChange={() => '' /*FIX THIS*/}
                 saveModel={saveModel}
                 deleteModel={deleteModel}
                 permissions={editorProps.permissions}
                 tokenActions={props.tokenActions}
-                getAttachment={props.collection.getAttachmentAsBlob}
-                putAttachment={props.collection.putAttachment}
+                getAttachment={collection.getAttachmentAsBlob}
+                putAttachment={collection.putAttachment}
               />
               <EditorStyles modelMap={modelMap}>
                 <div id="editor" ref={onRender}></div>
@@ -306,18 +255,22 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps & Biblio> = (
         resizerButton={ResizingInspectorButton}
       >
         <InspectorContainer>
-          <Corrections
-            editor={editor}
-            corrections={props.corrections}
-            commits={props.commits}
-            saveCorrection={saveModel}
-            saveCommit={props.saveCommit}
-            collaborators={props.collaboratorsById}
-            user={props.user}
-            containerID={project._id}
-            manuscriptID={manuscript._id}
-            snapshotID={props.snapshotID}
-          />
+          {snapshotID ? (
+            <Corrections
+              editor={editor}
+              corrections={corrections}
+              commits={commits}
+              saveCorrection={saveModel}
+              saveCommit={saveCommit}
+              collaborators={props.collaboratorsById}
+              user={props.user}
+              containerID={project._id}
+              manuscriptID={manuscript._id}
+              snapshotID={snapshotID}
+            />
+          ) : (
+            <h3>Tracking is off - create a Snapshot to get started</h3>
+          )}
         </InspectorContainer>
       </Panel>
     </RequirementsProvider>

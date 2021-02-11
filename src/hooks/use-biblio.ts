@@ -30,7 +30,7 @@ interface Args {
 }
 
 export interface Biblio {
-  citationProcessor: CiteProc.Engine | undefined
+  getCitationProcessor: () => CiteProc.Engine | undefined
   getLibraryItem: (id: string) => BibliographyItem | undefined
   setLibraryItem: (item: BibliographyItem) => void
   matchLibraryItemByIdentifier: (
@@ -85,7 +85,7 @@ export const useBiblio = ({
   })
 
   return {
-    citationProcessor: citationProcessor.current,
+    getCitationProcessor: () => citationProcessor.current,
     getLibraryItem,
     setLibraryItem,
     matchLibraryItemByIdentifier,

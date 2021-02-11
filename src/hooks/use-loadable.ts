@@ -10,30 +10,42 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { Commit, commitToJSON } from '@manuscripts/track-changes'
-import { useCallback, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import collectionManager from '../sync/CollectionManager'
+interface State<T> {
+  isLoading: boolean
+  error: Error | null
+  data: T | null
+}
 
-export const useCommits = (
-  initialCommits: Commit[],
-  containerID: string
-): [Commit[], (commit: Commit) => void] => {
-  const collection = collectionManager.getCollection<ContainedModel>(
-    `project-${containerID}`
-  )
+export const createUseLoadable = <DataT, ArgsT>(
+  task: (args: ArgsT) => Promise<DataT>,
+  key?: string
+) => (args: ArgsT) => {
+  const [state, setState] = useState<State<DataT>>({
+    isLoading: true,
+    error: null,
+    data: null,
+  })
 
-  const [commits, setCommits] = useState<Commit[]>(initialCommits)
-
-  const saveCommit = useCallback(
-    (commit: Commit) => {
-      setCommits((last) => [...last, commit])
-      collection.save(commitToJSON(commit, containerID))
-    },
+  useEffect(() => {
+    task(args)
+      .then((data) => {
+        setState({
+          isLoading: false,
+          error: null,
+          data,
+        })
+      })
+      .catch((error) => {
+        setState({
+          isLoading: false,
+          error,
+          data: null,
+        })
+      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [containerID]
-  )
+  }, [key])
 
-  return [commits, saveCommit]
+  return state
 }
