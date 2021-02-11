@@ -30,6 +30,12 @@ interface setAttachmentProps {
   designation: string
 }
 
+interface proceedProps {
+  submissionId: string
+  statusId: string
+  note: string
+}
+
 const UPLOAD_ATTACHMENT = gql`
   mutation Upload($submissionId: ID!, $file: Upload!, $typeId: ID!) {
     uploadAttachment(
@@ -57,7 +63,11 @@ const GET_SUBMISSION = gql`
     }
   }
 `
-
+const PROCEED = gql`
+  mutation Proceed($submissionId: ID!, $statusId: ID!, $note: String!) {
+    proceed(submissionId: $submissionId, statusId: $statusId, note: $note)
+  }
+`
 export const useUploadAttachment = () => {
   const [mutate] = useMutation(UPLOAD_ATTACHMENT)
   return ({
@@ -117,3 +127,18 @@ export const useGetSubmission = (documentId: string, projectId: string) =>
       type: 'DOCUMENT_ID',
     },
   })
+
+export const useProceed = () => {
+  const [mutate] = useMutation(PROCEED)
+  return ({ submissionId, statusId, note }: proceedProps) =>
+    mutate({
+      context: {
+        clientPurpose: 'leanWorkflowManager',
+      },
+      variables: {
+        submissionId,
+        statusId,
+        note,
+      },
+    })
+}
