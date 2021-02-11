@@ -102,7 +102,7 @@ export const Corrections: React.FC<Props> = ({
     const correction = buildCorrection({
       contributions: [buildContribution(user._id)],
       commitChangeID: currentCommit.changeID,
-      snippet: getSnippet(currentCommit, editor.state),
+      snippet: getSnippet(currentCommit, editor.state).substr(0, 100),
       containerID,
       manuscriptID,
       snapshotID,
@@ -149,6 +149,6 @@ export const Corrections: React.FC<Props> = ({
 }
 
 const CorrectionList = styled.ul`
-  padding: 0;
+  padding: 0 32px;
   margin: 0;
 `

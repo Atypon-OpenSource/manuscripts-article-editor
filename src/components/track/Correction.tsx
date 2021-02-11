@@ -10,12 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-// import CloseIcon from '@manuscripts/assets/react/CloseIconDark'
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import { Correction as CorrectionT } from '@manuscripts/manuscripts-json-schema'
 import { CommentUser } from '@manuscripts/style-guide'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
+
+import { Accept, Reject } from './Icons'
 
 interface Props {
   correction: CorrectionT
@@ -45,12 +46,13 @@ export const Correction: React.FC<Props> = ({
   )
 
   return (
-    <Wrapper
-      isFocused={isFocused}
-      isRejected={correction.status === 'rejected'}
-    >
+    <Wrapper isFocused={isFocused}>
       <Header>
-        <FocusHandle href="#" onClick={handleClick}>
+        <FocusHandle
+          href="#"
+          onClick={handleClick}
+          isDisabled={correction.status === 'rejected'}
+        >
           <CommentUser
             contributions={correction.contributions}
             getCollaboratorById={getCollaboratorById}
@@ -58,35 +60,47 @@ export const Correction: React.FC<Props> = ({
           />
         </FocusHandle>
         <div>
-          <Action type="button" onClick={() => handleReject(correction._id)}>
-            ☒
+          <Action
+            type="button"
+            onClick={() => handleReject(correction._id)}
+            aria-pressed={correction.status === 'rejected'}
+          >
+            <Reject color="#353535" />
           </Action>
-          <Action type="button" onClick={() => handleAccept(correction._id)}>
-            ☑
+          <Action
+            type="button"
+            onClick={() => handleAccept(correction._id)}
+            aria-pressed={correction.status === 'accepted'}
+          >
+            <Accept color="#353535" />
           </Action>
         </div>
       </Header>
-      <Snippet>{correction.snippet}</Snippet>
+      <Snippet isRejected={correction.status === 'rejected'}>
+        {correction.snippet}
+      </Snippet>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.li<{
   isFocused: boolean
-  isRejected: boolean
 }>`
   margin: 2rem 0;
   padding: 0;
   list-style-type: none;
-  opacity: ${(props) => (props.isRejected ? 0.5 : 1)};
 
   /* FocusHandle should cover entire card: */
   position: relative;
 `
 
-const FocusHandle = styled.a`
+const FocusHandle = styled.a<{
+  isDisabled: boolean
+}>`
   color: inherit;
   text-decoration: none;
+  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
+  opacity: ${(props) => (props.isDisabled ? 0.5 : 1)};
   &:after {
     content: ' ';
     position: absolute;
@@ -104,18 +118,37 @@ const Header = styled.header`
 `
 
 const Action = styled.button`
-  background: transparent;
+  background-color: transparent;
   margin: 0 1em;
-  border: 1px solid black;
-  padding: 0;
+  border: 1px solid transparent;
   border-radius: 50%;
+  padding: 0;
   width: 24px;
   height: 24px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   position: relative;
   z-index: 1;
+
+  &[aria-pressed='true'] {
+    border-color: #bce7f6;
+    background-color: #f2fbfc;
+    svg path {
+      fill: #1a9bc7;
+    }
+  }
 `
 
-const Snippet = styled.div`
+const Snippet = styled.div<{
+  isRejected: boolean
+}>`
   font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0.5em 25px 0;
+  opacity: ${(props) => (props.isRejected ? 0.5 : 1)};
 `
