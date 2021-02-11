@@ -43,7 +43,7 @@ import { useCommits } from '../../hooks/use-commits'
 import { createUseLoadable } from '../../hooks/use-loadable'
 import { useManuscriptModels } from '../../hooks/use-manuscript-models'
 import { bootstrap } from '../../lib/bootstrap-manuscript'
-import { InspectorContainer } from '../Inspector'
+import { HistoryPanelContainer } from '../inspector/History'
 import { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
 import { CitationViewer } from '../library/CitationViewer'
@@ -65,9 +65,11 @@ import {
   EditorHeader,
 } from './EditorContainer'
 import { EditorStyles } from './EditorStyles'
+import { Inspector } from './InspectorLW'
 import { ManuscriptPageContainerProps } from './ManuscriptPageContainer'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ReloadDialog } from './ReloadDialog'
+
 interface RouteParams {
   projectID: string
   manuscriptID: string
@@ -254,7 +256,12 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         hideWhen="max-width: 900px"
         resizerButton={ResizingInspectorButton}
       >
-        <InspectorContainer>
+        <Inspector tabs={['History', 'Track Changes']}>
+          <HistoryPanelContainer
+            project={project}
+            manuscriptID={manuscript._id}
+            getCurrentUser={() => props.user}
+          />
           {snapshotID ? (
             <Corrections
               editor={editor}
@@ -271,7 +278,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
           ) : (
             <h3>Tracking is off - create a Snapshot to get started</h3>
           )}
-        </InspectorContainer>
+        </Inspector>
       </Panel>
     </RequirementsProvider>
   )
