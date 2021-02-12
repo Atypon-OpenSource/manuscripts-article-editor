@@ -26,6 +26,7 @@ import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
 import { Permissions } from '../../types/permissions'
 import { AddButton } from '../AddButton'
@@ -149,38 +150,44 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       name={'sidebar'}
       side={'end'}
       sidebarTitle={
-        <SidebarHeader
-          title={
-            <CustomizedSidebarHeader>
-              <ProjectTitle>
-                {saveProjectTitle ? (
-                  <TitleField
-                    id={'project-title-field'}
-                    // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-                    tabIndex={1}
-                    editable={permissions.write}
-                    value={project.title || ''}
-                    handleChange={debounce(saveProjectTitle, 1000)}
-                  />
-                ) : (
-                  <Title
-                    id="project-title"
-                    editable={false}
-                    value={project.title || ''}
-                  />
-                )}
-              </ProjectTitle>
-              <ShareProjectButton
-                project={project}
-                user={user}
-                tokenActions={tokenActions}
-              />
-            </CustomizedSidebarHeader>
-          }
-        />
+        config.leanWorkflow.enabled ? (
+          <></>
+        ) : (
+          <SidebarHeader
+            title={
+              <CustomizedSidebarHeader>
+                <ProjectTitle>
+                  {saveProjectTitle ? (
+                    <TitleField
+                      id={'project-title-field'}
+                      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+                      tabIndex={1}
+                      editable={permissions.write}
+                      value={project.title || ''}
+                      handleChange={debounce(saveProjectTitle, 1000)}
+                    />
+                  ) : (
+                    <Title
+                      id="project-title"
+                      editable={false}
+                      value={project.title || ''}
+                    />
+                  )}
+                </ProjectTitle>
+                <ShareProjectButton
+                  project={project}
+                  user={user}
+                  tokenActions={tokenActions}
+                />
+              </CustomizedSidebarHeader>
+            }
+          />
+        )
       }
       sidebarFooter={
-        permissions.write && openTemplateSelector ? (
+        !config.leanWorkflow.enabled &&
+        permissions.write &&
+        openTemplateSelector ? (
           <AddButton
             action={() => openTemplateSelector(false)}
             size={'small'}

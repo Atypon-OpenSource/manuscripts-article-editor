@@ -180,116 +180,110 @@ export const buildExportReferencesMenu = (
 }
 
 export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
-  const submenu: MenuSpec[] = [
-    {
-      id: 'project-new',
-      label: 'New',
-      submenu: [
+  const exportManuscript = buildExportMenu(props.openExporter)
+  const exportReferences = buildExportReferencesMenu(
+    props.openExporter,
+    props.view.state
+  )
+  const viewDiagnostics = {
+    id: 'project-diagnostics',
+    label: 'View Diagnostics',
+    run: () => props.history.push(`/projects/${props.project._id}/diagnostics`),
+  }
+  const separator = {
+    role: 'separator',
+  }
+
+  const submenu: MenuSpec[] = config.leanWorkflow.enabled
+    ? [exportManuscript, exportReferences, separator, viewDiagnostics]
+    : [
         {
-          id: 'project-new-project',
-          label: 'Project…',
-          run: () => props.openTemplateSelector(true),
+          id: 'project-new',
+          label: 'New',
+          submenu: [
+            {
+              id: 'project-new-project',
+              label: 'Project…',
+              run: () => props.openTemplateSelector(true),
+            },
+            {
+              id: 'project-new-manuscript',
+              label: 'Manuscript…',
+              run: () => props.openTemplateSelector(false),
+            },
+          ],
         },
         {
-          id: 'project-new-manuscript',
-          label: 'Manuscript…',
-          run: () => props.openTemplateSelector(false),
+          id: 'project-open-recent',
+          label: 'Open Recent',
+          enable: props.getRecentProjects().length > 0,
+          submenu: props
+            .getRecentProjects()
+            .map(({ projectID, manuscriptID, projectTitle, sectionID }) => ({
+              id: `project-open-recent-${projectID}-${manuscriptID}`,
+              label: () => {
+                if (!projectTitle) {
+                  return 'Untitled Project'
+                }
+
+                const node = parseTitle(projectTitle)
+
+                return node.textContent
+              },
+              run: () => {
+                const fragment = sectionID ? `#${sectionID}` : ''
+
+                props.history.push(
+                  `/projects/${projectID}/manuscripts/${manuscriptID}${fragment}`
+                )
+              },
+            })),
         },
-      ],
-    },
-    {
-      id: 'project-open-recent',
-      label: 'Open Recent',
-      enable: props.getRecentProjects().length > 0,
-      submenu: props
-        .getRecentProjects()
-        .map(({ projectID, manuscriptID, projectTitle, sectionID }) => ({
-          id: `project-open-recent-${projectID}-${manuscriptID}`,
-          label: () => {
-            if (!projectTitle) {
-              return 'Untitled Project'
-            }
+        separator,
+        {
+          id: 'import',
+          label: 'Import Manuscript…',
+          run: props.openImporter,
+        },
+        exportManuscript,
+        separator,
+        exportReferences,
+        separator,
+        {
+          id: 'submit-to-review',
+          label: 'Submit to Review…',
+          run: config.export.to_review ? props.submitToReview : () => null,
+          enable: config.export.to_review && window.navigator.onLine,
+        },
+        separator,
+        {
+          id: 'delete-project',
+          label: 'Delete Project',
+          run: () => props.deleteProjectOrManuscript(props.project),
+        },
+        {
+          id: 'delete-manuscript',
+          label: props.manuscript.title
+            ? deleteManuscriptLabel(props.manuscript.title)
+            : 'Delete Untitled Manuscript',
+          run: () => props.deleteProjectOrManuscript(props.manuscript),
+        },
+        separator,
+        {
+          id: 'rename-project',
+          label: 'Rename Project',
+          run: () => props.openRenameProject(props.project),
+        },
+        separator,
+        viewDiagnostics,
+      ]
 
-            const node = parseTitle(projectTitle)
-
-            return node.textContent
-          },
-          run: () => {
-            const fragment = sectionID ? `#${sectionID}` : ''
-
-            props.history.push(
-              `/projects/${projectID}/manuscripts/${manuscriptID}${fragment}`
-            )
-          },
-        })),
-    },
-    {
-      role: 'separator',
-    },
-    {
-      id: 'import',
-      label: 'Import Manuscript…',
-      run: props.openImporter,
-    },
-    buildExportMenu(props.openExporter),
-    {
-      role: 'separator',
-    },
-    buildExportReferencesMenu(props.openExporter, props.view.state),
-    {
-      role: 'separator',
-    },
-    {
-      id: 'submit-to-review',
-      label: 'Submit to Review…',
-      run: config.export.to_review ? props.submitToReview : () => null,
-      enable: config.export.to_review && window.navigator.onLine,
-    },
-    {
-      role: 'separator',
-    },
-    {
-      id: 'delete-project',
-      label: 'Delete Project',
-      run: () => props.deleteProjectOrManuscript(props.project),
-    },
-    {
-      id: 'delete-manuscript',
-      label: props.manuscript.title
-        ? deleteManuscriptLabel(props.manuscript.title)
-        : 'Delete Untitled Manuscript',
-      run: () => props.deleteProjectOrManuscript(props.manuscript),
-    },
-    {
-      role: 'separator',
-    },
-    {
-      id: 'rename-project',
-      label: 'Rename Project',
-      run: () => props.openRenameProject(props.project),
-    },
-    {
-      role: 'separator',
-    },
-    {
-      id: 'project-diagnostics',
-      label: 'View Diagnostics',
-      run: () =>
-        props.history.push(`/projects/${props.project._id}/diagnostics`),
-    },
-  ]
-
-  if (config.templates.publish) {
-    submenu.push(
-      {
-        role: 'separator',
-      },
-      {
-        id: 'project-template',
-        label: 'Publish Template',
-        run: () => props.publishTemplate(),
-      }
-    )
+  if (!config.leanWorkflow.enabled && config.templates.publish) {
+    submenu.push(separator, {
+      id: 'project-template',
+      label: 'Publish Template',
+      run: () => props.publishTemplate(),
+    })
   }
 
   return {

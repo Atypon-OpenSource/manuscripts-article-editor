@@ -148,7 +148,7 @@ export const Page: React.FunctionComponent<Props> = ({
       <ViewsBar>
         <ProjectNavigator />
 
-        {config.native || (
+        {config.leanWorkflow.enabled || config.native || (
           <>
             <MenuBar tokenActions={tokenActions!}>
               <Tip title={'Home'} placement={'right'}>
@@ -180,7 +180,7 @@ export const Page: React.FunctionComponent<Props> = ({
             </ViewLink>
           </Tip>
 
-          {config.local || (
+          {config.leanWorkflow.enabled || config.local || (
             <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
               <ViewLink
                 to={`/projects/${project._id}/collaborators`}

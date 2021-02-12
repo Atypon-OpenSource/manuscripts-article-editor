@@ -137,12 +137,14 @@ export const Support: React.FC = React.memo(() => {
                 <Container>
                   <Popup>
                     <Menu>
-                      <ExternalMenuLink
-                        href={'https://community.manuscripts.io/'}
-                      >
-                        <CommunityIcon />
-                        <MenuText>Community</MenuText>
-                      </ExternalMenuLink>
+                      {config.leanWorkflow.enabled || (
+                        <ExternalMenuLink
+                          href={'https://community.manuscripts.io/'}
+                        >
+                          <CommunityIcon />
+                          <MenuText>Community</MenuText>
+                        </ExternalMenuLink>
+                      )}
 
                       <ExternalMenuLink
                         href={'https://support.manuscripts.io/'}
@@ -151,7 +153,7 @@ export const Support: React.FC = React.memo(() => {
                         <MenuText>Documentation</MenuText>
                       </ExternalMenuLink>
 
-                      {config.crisp.id && (
+                      {!config.leanWorkflow.enabled && config.crisp.id && (
                         <MenuLink to={'/chat'} onClick={openChat}>
                           <ChatIcon width={22} height={23} />
                           <MenuText>Support</MenuText>
