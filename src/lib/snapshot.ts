@@ -50,7 +50,10 @@ export const takeKeyframe = (
 }
 
 export const getSnapshot = async (projectID: string, key: string) => {
-  const { data: jwk } = await fetchProjectScopedToken(projectID, 'shackles')
+  const { data: jwk } = await fetchProjectScopedToken(
+    projectID,
+    'shackles'
+  ).catch(() => ({ data: '' }))
 
   const res = await client.get(`/snapshot/${key}`, {
     responseType: 'arraybuffer',

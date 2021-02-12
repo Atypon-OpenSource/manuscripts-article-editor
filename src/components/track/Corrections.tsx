@@ -12,66 +12,38 @@
 
 import { EditorHookValue } from '@manuscripts/manuscript-editor'
 import {
-  buildContribution,
   ManuscriptSchema,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
-import {
-  Correction as CorrectionT,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+import { Correction as CorrectionT } from '@manuscripts/manuscripts-json-schema'
 import {
   commands,
   Commit,
-  getSnippet,
   getTrackPluginState,
 } from '@manuscripts/track-changes'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
-import { v4 as uuid } from 'uuid'
 
-import sessionId from '../../lib/session-id'
 import { Correction } from './Correction'
 
 interface Props {
-  editor: EditorHookValue<ManuscriptSchema>
   corrections: CorrectionT[]
   commits: Commit[]
-  saveCorrection: (data: CorrectionT) => Promise<CorrectionT>
-  saveCommit: (commit: Commit) => void
+  editor: EditorHookValue<ManuscriptSchema>
   collaborators: Map<string, UserProfileWithAvatar>
-  containerID: string
-  manuscriptID: string
-  snapshotID: string
-  user: UserProfileWithAvatar
+  freeze: () => void
+  accept: (correctionID: string) => void
+  reject: (correctionID: string) => void
 }
-
-const buildCorrection = (
-  data: Omit<
-    CorrectionT,
-    '_id' | 'createdAt' | 'updatedAt' | 'sessionID' | 'objectType' | 'status'
-  >
-): CorrectionT => ({
-  _id: `MPCorrection:${uuid()}`,
-  createdAt: Date.now() / 1000,
-  updatedAt: Date.now() / 1000,
-  sessionID: sessionId,
-  objectType: ObjectTypes.Correction,
-  status: 'proposed',
-  ...data,
-})
 
 export const Corrections: React.FC<Props> = ({
   corrections,
   commits,
   editor,
-  user,
-  containerID,
-  manuscriptID,
-  snapshotID,
-  saveCorrection,
-  saveCommit,
+  freeze,
   collaborators,
+  accept,
+  reject,
 }) => {
   const { commit: currentCommit, focusedCommit } = getTrackPluginState(
     editor.state
@@ -96,22 +68,6 @@ export const Corrections: React.FC<Props> = ({
     [collaborators]
   )
 
-  const save = () => {
-    saveCommit(currentCommit)
-
-    const correction = buildCorrection({
-      contributions: [buildContribution(user._id)],
-      commitChangeID: currentCommit.changeID,
-      snippet: getSnippet(currentCommit, editor.state).substr(0, 100),
-      containerID,
-      manuscriptID,
-      snapshotID,
-    })
-    saveCorrection(correction)
-
-    editor.doCommand(commands.freezeCommit())
-  }
-
   const focusCorrection = (correctionId: string) => {
     const commit = getCommitFromCorrectionId(correctionId)
     if (!commit) {
@@ -127,7 +83,7 @@ export const Corrections: React.FC<Props> = ({
         <strong>Current Top-Level Commit:</strong> {currentCommit._id}
       </p>
 
-      <button type="button" onClick={save}>
+      <button type="button" onClick={freeze}>
         Save
       </button>
 
@@ -138,8 +94,8 @@ export const Corrections: React.FC<Props> = ({
             isFocused={corr.commitChangeID === focusedCommit}
             getCollaboratorById={getCollaboratorById}
             handleFocus={focusCorrection}
-            handleAccept={console.log}
-            handleReject={console.log}
+            handleAccept={accept}
+            handleReject={reject}
             key={corr._id}
           />
         ))}

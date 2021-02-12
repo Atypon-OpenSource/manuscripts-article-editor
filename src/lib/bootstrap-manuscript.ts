@@ -39,6 +39,7 @@ import { getSnapshot } from './snapshot'
 interface Data {
   snapshots: Array<RxDocument<Snapshot>>
   modelMap: Map<string, Model>
+  doc: ManuscriptNode
   ancestorDoc: ManuscriptNode
   commits: Commit[]
   snapshotID: string | null
@@ -129,13 +130,15 @@ export const bootstrap = async ({
   if (!latestSnaphotID) {
     const decoder = new Decoder(modelMap)
     const doc = decoder.createArticleNode()
+    const ancestorDoc = decoder.createArticleNode()
     return {
       snapshotID: null,
       commits,
       commitAtLoad: null,
       snapshots,
       modelMap,
-      ancestorDoc: doc,
+      doc,
+      ancestorDoc,
     }
   }
 
@@ -151,6 +154,7 @@ export const bootstrap = async ({
     )
   )
   const decoder = new Decoder(snapshotModelMap)
+  const doc = decoder.createArticleNode() as ManuscriptNode
   const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
 
   const corrections = (getModelsByType(
@@ -169,6 +173,7 @@ export const bootstrap = async ({
     snapshots,
     snapshotID: latestSnaphotID,
     modelMap,
+    doc,
     ancestorDoc,
     commits,
     commitAtLoad,

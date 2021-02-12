@@ -23,15 +23,10 @@ import {
   useEditor,
 } from '@manuscripts/manuscript-editor'
 import {
-  getModelsByType,
   ManuscriptNode,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
-import {
-  Correction,
-  Model,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Commit } from '@manuscripts/track-changes'
 import React, { useRef } from 'react'
 import ReactDOM from 'react-dom'
@@ -100,13 +95,14 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     )
   }
 
-  return <ManuscriptPageView {...data} {...props} doc={data.ancestorDoc} />
+  return <ManuscriptPageView {...data} {...props} />
 }
 
 interface ManuscriptPageViewProps extends CombinedProps {
   commitAtLoad?: Commit | null
   commits: Commit[]
   doc: ManuscriptNode
+  ancestorDoc: ManuscriptNode
   snapshotID: string | null
   modelMap: Map<string, Model>
 }
@@ -138,12 +134,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     collection,
     lang: props.manuscript.primaryLanguageCode || 'en-GB',
   })
-
-  const [commits, saveCommit] = useCommits(props.commits, project._id)
-  const corrections = (getModelsByType(
-    modelMap,
-    ObjectTypes.Correction
-  ) as Correction[]).filter((corr) => corr.snapshotID === snapshotID)
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
@@ -197,6 +187,18 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ManuscriptsEditor.createView(editorProps)
   )
   const { state, onRender, view } = editor
+
+  const { commits, corrections, freeze, accept, reject } = useCommits({
+    modelMap,
+    initialCommits: props.commits,
+    editor,
+    containerID: project._id,
+    manuscriptID: manuscript._id,
+    userProfileID: props.user._id,
+    // TODO: we have to have a snapshotID
+    snapshotID: snapshotID || '',
+    ancestorDoc: props.ancestorDoc,
+  })
 
   return (
     <RequirementsProvider modelMap={modelMap}>
@@ -267,13 +269,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
               editor={editor}
               corrections={corrections}
               commits={commits}
-              saveCorrection={saveModel}
-              saveCommit={saveCommit}
               collaborators={props.collaboratorsById}
-              user={props.user}
-              containerID={project._id}
-              manuscriptID={manuscript._id}
-              snapshotID={snapshotID}
+              freeze={freeze}
+              accept={accept}
+              reject={reject}
             />
           ) : (
             <h3>Tracking is off - create a Snapshot to get started</h3>

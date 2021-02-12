@@ -10,21 +10,86 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { Commit, commitToJSON } from '@manuscripts/track-changes'
+import { EditorHookValue } from '@manuscripts/manuscript-editor'
+import {
+  buildContribution,
+  ContainedModel,
+  getModelsByType,
+  ManuscriptNode,
+  ManuscriptSchema,
+} from '@manuscripts/manuscript-transform'
+import {
+  Correction,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/manuscripts-json-schema'
+import {
+  checkout,
+  commands,
+  Commit,
+  commitToJSON,
+  findCommitWithChanges,
+  findCommitWithin,
+  getSnippet,
+  getTrackPluginState,
+  rebase,
+} from '@manuscripts/track-changes'
 import { useCallback, useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
+import sessionId from '../lib/session-id'
 import collectionManager from '../sync/CollectionManager'
 
-export const useCommits = (
-  initialCommits: Commit[],
+const buildCorrection = (
+  data: Omit<
+    Correction,
+    '_id' | 'createdAt' | 'updatedAt' | 'sessionID' | 'objectType' | 'status'
+  >
+): Correction => ({
+  _id: `MPCorrection:${uuid()}`,
+  createdAt: Date.now() / 1000,
+  updatedAt: Date.now() / 1000,
+  sessionID: sessionId,
+  objectType: ObjectTypes.Correction,
+  status: 'proposed',
+  ...data,
+})
+
+const correctionsByDate = (a: Correction, b: Correction) =>
+  b.contributions![0].timestamp - a.contributions![0].timestamp
+
+interface Args {
+  modelMap: Map<string, Model>
+  ancestorDoc: ManuscriptNode
+  initialCommits: Commit[]
+  editor: EditorHookValue<ManuscriptSchema>
   containerID: string
-): [Commit[], (commit: Commit) => void] => {
+  manuscriptID: string
+  snapshotID: string
+  userProfileID: string
+}
+
+export const useCommits = ({
+  modelMap,
+  initialCommits,
+  editor,
+  containerID,
+  manuscriptID,
+  snapshotID,
+  userProfileID,
+  ancestorDoc,
+}: Args) => {
   const collection = collectionManager.getCollection<ContainedModel>(
     `project-${containerID}`
   )
 
   const [commits, setCommits] = useState<Commit[]>(initialCommits)
+  const [corrections, setCorrections] = useState<Correction[]>(
+    (getModelsByType(modelMap, ObjectTypes.Correction) as Correction[]).filter(
+      (corr) => corr.snapshotID === snapshotID
+    )
+  )
+  const { commit: currentCommit } = getTrackPluginState(editor.state)
 
   const saveCommit = useCallback(
     (commit: Commit) => {
@@ -35,5 +100,143 @@ export const useCommits = (
     [containerID]
   )
 
-  return [commits, saveCommit]
+  const saveCorrection = (correction: Correction) => {
+    const next = corrections.map((corr) => {
+      if (corr._id === correction._id) {
+        return correction
+      }
+      return corr
+    })
+    setCorrections(next)
+    collection.save(correction)
+  }
+
+  const freeze = () => {
+    const { commit } = getTrackPluginState(editor.state)
+
+    saveCommit(commit)
+
+    const correction = buildCorrection({
+      contributions: [buildContribution(userProfileID)],
+      commitChangeID: currentCommit.changeID,
+      snippet: getSnippet(currentCommit, editor.state).substr(0, 100),
+      containerID,
+      manuscriptID,
+      snapshotID,
+    })
+    saveCorrection(correction)
+
+    editor.doCommand(commands.freezeCommit())
+  }
+
+  const unreject = (correction: Correction) => {
+    const unrejectedCorrections = corrections
+      .filter((cor) => cor._id === correction._id || cor.status !== 'rejected')
+      .map((cor) => cor.commitChangeID || '')
+
+    const existingCommit = findCommitWithChanges(commits, unrejectedCorrections)
+    if (existingCommit) {
+      editor.replaceState(checkout(ancestorDoc, editor.state, existingCommit))
+      return
+    }
+
+    // TODO: is there some way to find the most optimal instance? The first
+    // one created should be the one that was never rebased?
+    const pickInstances = (commits
+      .map((commit) => findCommitWithin(commit)(correction.commitChangeID!))
+      .filter(Boolean) as Commit[]).sort((a, b) => a.updatedAt! - b.updatedAt!)
+    if (!pickInstances.length) {
+      return
+    }
+
+    const { commit: nextCommit, mapping } = rebase.cherryPick(
+      pickInstances[0],
+      currentCommit
+    )
+
+    saveCommit(nextCommit)
+    editor.replaceState(
+      checkout(ancestorDoc, editor.state, nextCommit, mapping)
+    )
+  }
+
+  const accept = (correctionID: string) => {
+    const current = corrections.find((corr) => corr._id === correctionID)
+    if (!current) {
+      return
+    }
+
+    const { status } = current
+
+    if (status === 'rejected') {
+      unreject(current)
+    }
+
+    saveCorrection({
+      ...current,
+      status: status === 'accepted' ? 'proposed' : 'accepted',
+      updatedAt: Date.now() / 1000,
+    })
+  }
+
+  const reject = (correctionID: string) => {
+    const current = corrections.find((corr) => corr._id === correctionID)
+    if (!current || !current.commitChangeID) {
+      return
+    }
+    const { status } = current
+
+    if (status === 'rejected') {
+      saveCorrection({
+        ...current,
+        status: 'proposed',
+        updatedAt: Date.now() / 1000,
+      })
+      return unreject(current)
+    }
+
+    saveCorrection({
+      ...current,
+      status: 'rejected',
+      updatedAt: Date.now() / 1000,
+    })
+
+    const unrejectedCorrections = corrections
+      .filter((cor) => cor.status !== 'rejected' && cor._id !== correctionID)
+      .map((cor) => cor.commitChangeID || '')
+
+    const existingCommit = findCommitWithChanges(commits, unrejectedCorrections)
+    if (existingCommit) {
+      editor.replaceState(checkout(ancestorDoc, editor.state, existingCommit))
+      return
+    }
+
+    const commitToRemove = findCommitWithin(currentCommit)(
+      current.commitChangeID
+    )
+    if (!commitToRemove) {
+      // safely return early because the commit is not in the current list
+      return
+    }
+
+    const { commit: nextCommit, mapping } = rebase.without(currentCommit, [
+      commitToRemove.changeID,
+    ])
+    if (!nextCommit) {
+      return
+    }
+
+    saveCommit(nextCommit)
+    editor.replaceState(
+      checkout(ancestorDoc, editor.state, nextCommit, mapping)
+    )
+  }
+
+  return {
+    commits,
+    corrections: corrections.slice().sort(correctionsByDate),
+    freeze,
+    accept,
+    reject,
+  }
 }
