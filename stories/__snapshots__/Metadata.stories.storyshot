@@ -2692,7 +2692,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
   box-shadow: none;
 }
 
-.c13 {
+.c16 {
   border: 1px solid #e2e2e2;
   border-radius: 4px;
   box-sizing: border-box;
@@ -2701,18 +2701,19 @@ exports[`Storyshots Metadata Author Form 1`] = `
   padding: 10px 16px;
   position: relative;
   width: 100%;
+  max-width: 100%;
 }
 
-.c13:focus {
+.c16:focus {
   border-color: #bce7f6;
   background-color: #f2fbfc;
 }
 
-.c13:hover {
+.c16:hover {
   background-color: #f2fbfc;
 }
 
-.c13:invalid {
+.c16:invalid {
   box-shadow: none;
 }
 
@@ -2738,6 +2739,20 @@ exports[`Storyshots Metadata Author Form 1`] = `
 
 .c7 .c8:not(:last-of-type):focus + .c8 {
   border-top-color: #bce7f6;
+}
+
+.c13 {
+  font-family: "Lato",sans-serif;
+  text-transform: uppercase;
+  color: #6e6e6e;
+}
+
+.c13 .c8 {
+  margin-top: 4px;
+}
+
+.c13 .c15 {
+  margin-top: 4px;
 }
 
 .c1 {
@@ -2781,7 +2796,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
   justify-content: space-between;
 }
 
-.c17 {
+.c20 {
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   background: #fff;
@@ -2789,7 +2804,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
   overflow: hidden;
 }
 
-.c18 {
+.c21 {
   margin: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -2805,14 +2820,14 @@ exports[`Storyshots Metadata Author Form 1`] = `
   color: inherit;
 }
 
-.c20 {
+.c23 {
   border: 0;
   border-radius: 50%;
   margin-right: 0.6em;
   min-width: 20px;
 }
 
-.c19 {
+.c22 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2835,45 +2850,45 @@ exports[`Storyshots Metadata Author Form 1`] = `
   outline: none;
 }
 
-.c19:focus {
+.c22:focus {
   color: #0b6bb8;
 }
 
-.c19 svg {
+.c22 svg {
   -webkit-transform: initial;
   -ms-transform: initial;
   transform: initial;
 }
 
-.c21 {
+.c24 {
   border: none;
   background: transparent;
   padding: 0;
   outline: none;
 }
 
-.c21:focus path {
+.c24:focus path {
   fill: #fff;
 }
 
-.c21 svg {
+.c24 svg {
   width: 2rem;
   height: 2rem;
 }
 
-.c14 {
+.c17 {
   margin: 0 1.89rem 1rem;
 }
 
-.c15 {
+.c18 {
   margin: 1rem 0;
 }
 
-.c16 {
+.c19 {
   margin-bottom: 0.5rem;
 }
 
-.c22 {
+.c25 {
   padding-right: 0.71rem;
   display: -webkit-box;
   display: -webkit-flex;
@@ -2888,17 +2903,17 @@ exports[`Storyshots Metadata Author Form 1`] = `
   justify-content: space-around;
 }
 
-.c22 svg {
+.c25 svg {
   width: 1.5rem;
   height: 1.5rem;
 }
 
-.c22 circle,
-.c22 use {
+.c25 circle,
+.c25 use {
   fill: #0d79d0;
 }
 
-.c22 path {
+.c25 path {
   -webkit-mask: none;
   mask: none;
 }
@@ -2952,7 +2967,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
   border-color: #f35143;
 }
 
-.c29 {
+.c32 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -2981,7 +2996,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
   white-space: nowrap;
 }
 
-.c29 svg + span {
+.c32 svg + span {
   margin-left: 4px;
 }
 
@@ -3004,39 +3019,43 @@ exports[`Storyshots Metadata Author Form 1`] = `
   border-color: #0b6bb8;
 }
 
-.c30 {
+.c33 {
   border: none;
   color: #353535;
   padding: 0;
 }
 
-.c30 svg {
+.c33 svg {
   max-height: 18px;
   max-width: 18px;
   margin-right: 12px;
 }
 
 .c12 {
+  margin: 16px 0 0;
+}
+
+.c14 {
   margin: 16px 0;
 }
 
-.c31 {
+.c34 {
   color: inherit;
   margin-left: 16px;
 }
 
-.c31 g[fill] {
+.c34 g[fill] {
   fill: currentColor;
 }
 
-.c31:not([disabled]):focus,
-.c31:not([disabled]):hover {
+.c34:not([disabled]):focus,
+.c34:not([disabled]):hover {
   color: inherit;
   -webkit-filter: brightness(80%);
   filter: brightness(80%);
 }
 
-.c27 {
+.c30 {
   height: 24px;
   margin-right: 12px;
   display: -webkit-box;
@@ -3049,7 +3068,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
   align-items: center;
 }
 
-.c26 {
+.c29 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -3063,7 +3082,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
   flex: 1;
 }
 
-.c24 {
+.c27 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -3085,13 +3104,13 @@ exports[`Storyshots Metadata Author Form 1`] = `
   white-space: normal;
 }
 
-.c25 {
+.c28 {
   background-color: #f2fbfc;
   border: solid 1px #0d79d0;
   color: #2781a1;
 }
 
-.c28 {
+.c31 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -3113,11 +3132,11 @@ exports[`Storyshots Metadata Author Form 1`] = `
   padding: 3rem;
 }
 
-.c32 {
+.c35 {
   margin-left: 12px;
 }
 
-.c23 {
+.c26 {
   position: absolute;
   bottom: 20px;
   right: 20px;
@@ -3240,6 +3259,30 @@ exports[`Storyshots Metadata Author Form 1`] = `
               Include in Authors List
             </div>
           </label>
+          <div
+            className="c12"
+          >
+            <label
+              className="c13"
+            >
+              <div
+                className="c11"
+              >
+                ORCID
+              </div>
+              <input
+                checked={false}
+                className="c8 c9"
+                data-testid="bibliographic-name-family__input"
+                name="ORCIDIdentifier"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="https://orcid.org/..."
+                value=""
+              />
+            </label>
+          </div>
         </fieldset>
         <fieldset
           className="c2"
@@ -3250,7 +3293,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
             Contributions
           </legend>
           <div
-            className="c12"
+            className="c14"
           >
             <div
               className=" css-2b097c-container"
@@ -3357,7 +3400,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
             </div>
           </div>
           <textarea
-            className="c13"
+            className="c15 c16"
             name="contribution"
             onBlur={[Function]}
             onChange={[Function]}
@@ -3368,7 +3411,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
       </div>
     </form>
     <div
-      className="c14"
+      className="c17"
     >
       <legend
         className="c4"
@@ -3376,24 +3419,24 @@ exports[`Storyshots Metadata Author Form 1`] = `
         Affiliations
       </legend>
       <div
-        className="c15"
+        className="c18"
       >
         <div
-          className="c16"
+          className="c19"
         >
           <section
-            className="c17"
+            className="c20"
           >
             <h4
-              className="c18"
+              className="c21"
             >
               <button
-                className="c19"
+                className="c22"
                 onClick={[Function]}
                 type="button"
               >
                 <svg
-                  className="c20"
+                  className="c23"
                   height={20}
                   viewBox="0 0 20 20"
                   width={20}
@@ -3421,7 +3464,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
               </button>
               <button
                 aria-label="Delete this affiliation"
-                className="c21"
+                className="c24"
                 onClick={[Function]}
                 type="button"
               >
@@ -3515,7 +3558,7 @@ exports[`Storyshots Metadata Author Form 1`] = `
               </div>
             </div>
             <div
-              className="c22"
+              className="c25"
             >
               <svg
                 height={36}
@@ -3560,16 +3603,16 @@ exports[`Storyshots Metadata Author Form 1`] = `
       </div>
     </div>
     <div
-      className="c23"
+      className="c26"
     >
       <div
-        className="c24 c25 alert-message"
+        className="c27 c28 alert-message"
       >
         <div
-          className="c26"
+          className="c29"
         >
           <div
-            className="c27"
+            className="c30"
           >
             <svg
               height={24}
@@ -3584,12 +3627,12 @@ exports[`Storyshots Metadata Author Form 1`] = `
             </svg>
           </div>
           <div
-            className="c28"
+            className="c31"
           >
             undefined 
             does not have access to the project.
             <button
-              className="c29 c30 c31 c32"
+              className="c32 c33 c34 c35"
               onClick={[Function]}
               type="button"
             >

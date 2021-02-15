@@ -77,7 +77,7 @@ class ProfilePageContainer extends React.Component<RouteComponentProps> {
           isOpen={confirmDelete}
           actions={actions}
           category={Category.confirmation}
-          header={'Are you sure you want to delete your acount?'}
+          header={'Are you sure you want to delete your account?'}
           message={
             'Your projects will be gone forever, and you will no longer have access to the projects you were invited to.'
           }

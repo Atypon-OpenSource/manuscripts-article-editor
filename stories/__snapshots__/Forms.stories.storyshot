@@ -1902,6 +1902,7 @@ exports[`Storyshots Feedback Feedback 1`] = `
   padding: 10px 16px;
   position: relative;
   width: 100%;
+  max-width: 100%;
 }
 
 .c13:focus {

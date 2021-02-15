@@ -33,6 +33,7 @@ import { AddButton } from '../AddButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import PageSidebar from '../PageSidebar'
 import { SidebarHeader } from '../Sidebar'
+import ManuscriptPageSubmitChangesLW from './ManuscriptPageSubmitChangesLW'
 import { SortableManuscript } from './SortableManuscript'
 
 const CustomizedSidebarHeader = styled.div`
@@ -185,9 +186,9 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
         )
       }
       sidebarFooter={
-        !config.leanWorkflow.enabled &&
-        permissions.write &&
-        openTemplateSelector ? (
+        config.leanWorkflow.enabled ? (
+          <ManuscriptPageSubmitChangesLW manuscript={manuscript} />
+        ) : permissions.write && openTemplateSelector ? (
           <AddButton
             action={() => openTemplateSelector(false)}
             size={'small'}
