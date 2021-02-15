@@ -26,6 +26,7 @@ import { History } from 'history'
 import React from 'react'
 import styled from 'styled-components'
 
+import { remaster } from '../../lib/bootstrap-manuscript'
 import {
   buildExportMenu,
   buildExportReferencesMenu,
@@ -84,6 +85,14 @@ export const ApplicationMenusLW: React.FC<Props> = ({
         id: 'project-diagnostics',
         label: 'View Diagnostics',
         run: () => history.push(`/projects/${project._id}/diagnostics`),
+      },
+      {
+        role: 'separator',
+      },
+      {
+        id: 'remaster',
+        label: 'Remaster',
+        run: () => remaster(editor.state, project),
       },
     ],
   }

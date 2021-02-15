@@ -13,7 +13,9 @@
 import {
   buildModelMap,
   Decoder,
+  encode,
   getModelsByType,
+  ManuscriptEditorState,
   ManuscriptNode,
   schema,
 } from '@manuscripts/manuscript-transform'
@@ -22,6 +24,7 @@ import {
   Correction,
   Model,
   ObjectTypes,
+  Project,
   Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
@@ -31,6 +34,9 @@ import {
   findCommitWithChanges,
 } from '@manuscripts/track-changes'
 
+import { buildSnapshot } from '../hooks/use-snapshot-manager'
+import * as api from '../lib/snapshot'
+import { exportProject } from '../pressroom/exporter'
 import { JsonModel } from '../pressroom/importers'
 import { Collection } from '../sync/Collection'
 import collectionManager from '../sync/CollectionManager'
@@ -122,8 +128,8 @@ export const bootstrap = async ({
 
   const snapshots = snapshotDocs
     .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
-    .filter((doc) => doc.creator)
     .sort((a, b) => b.createdAt - a.createdAt)
+  console.log(snapshots)
 
   const latestSnaphotID = snapshots.length ? snapshots[0].s3Id : null
 
@@ -178,4 +184,34 @@ export const bootstrap = async ({
     commits,
     commitAtLoad,
   }
+}
+
+// TODO: Most likely this will be executed server-side, left here for now because
+// we need to be able to do it somewhere.
+export const remaster = async (
+  state: ManuscriptEditorState,
+  project: Project
+) => {
+  const collection = collectionManager.getCollection(`project-${project._id}`)
+
+  const models = encode(state.doc)
+
+  for (const model of models.values()) {
+    await collection.save(model)
+  }
+
+  const blob = await exportProject(
+    collection.getAttachmentAsBlob,
+    models,
+    null,
+    'manuproj',
+    project
+  )
+  const data = await api.takeSnapshot(project._id, blob)
+
+  const snapshot = buildSnapshot(data, `Snapshot of ${Date.now() / 1000}`)
+
+  await collection.save(snapshot)
+
+  window.location.reload()
 }

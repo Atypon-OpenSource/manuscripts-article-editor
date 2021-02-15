@@ -25,7 +25,10 @@ export const takeSnapshot = async (
   projectID: string,
   blob: Blob
 ): Promise<{ creator: string; key: string; proof: string[] }> => {
-  const { data: jwk } = await fetchProjectScopedToken(projectID, 'shackles')
+  const { data: jwk } = await fetchProjectScopedToken(
+    projectID,
+    'shackles'
+  ).catch(() => ({ data: '' }))
 
   const form = new FormData()
   form.append('file', blob, 'snapshot.manuproj')
