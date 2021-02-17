@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import axios, { AxiosResponse, ResponseType } from 'axios'
+import axios, { AxiosError, AxiosResponse, ResponseType } from 'axios'
 
 import config from '../config'
 import { fetchScopedToken } from '../lib/api'
@@ -61,13 +61,25 @@ export const importData = async (
 
 export const exportData = async (
   form: FormData,
-  targetFormat: ExportManuscriptFormat | 'bibliography' | 'word'
+  targetFormat: ExportManuscriptFormat | 'bibliography' | 'word',
+  retries = 0
 ): Promise<Blob> => {
-  const response = await client.post<Blob>(`/export/${targetFormat}`, form, {
-    responseType: 'blob' as ResponseType,
-  })
+  try {
+    if (retries > 0) {
+      form.append('allowMissingElements', 'true')
+    }
 
-  validateResponse(response)
+    const response = await client.post<Blob>(`/export/${targetFormat}`, form, {
+      responseType: 'blob' as ResponseType,
+    })
 
-  return response.data
+    validateResponse(response)
+
+    return response.data
+  } catch (e: AxiosError | any) {
+    if (retries > 0 || e.status !== 400) {
+      throw e
+    }
+    return exportData(form, targetFormat, 1)
+  }
 }
