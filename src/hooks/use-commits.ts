@@ -101,13 +101,10 @@ export const useCommits = ({
   )
 
   const saveCorrection = (correction: Correction) => {
-    const next = corrections.map((corr) => {
-      if (corr._id === correction._id) {
-        return correction
-      }
-      return corr
-    })
-    setCorrections(next)
+    setCorrections((last) => [
+      ...last.filter((corr) => corr._id !== correction._id),
+      correction,
+    ])
     collection.save(correction)
   }
 
