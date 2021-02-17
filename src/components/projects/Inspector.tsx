@@ -65,16 +65,16 @@ const TABS = [
   'Content',
   'Style',
   'Comments',
-  config.production_notes.enabled && 'Production notes',
-  config.quality_control.enabled && 'Quality Report',
+  config.production_notes.enabled && 'Notes',
+  config.quality_control.enabled && 'Quality',
   config.shackles.enabled && 'History',
   config.export.to_review && 'Submissions',
 ].filter(Boolean) as Array<
   | 'Content'
   | 'Style'
   | 'Comments'
-  | 'Quality Report'
-  | 'Production notes'
+  | 'Quality'
+  | 'Notes'
   | 'History'
   | 'Submissions'
 >
@@ -313,9 +313,9 @@ export const Inspector: React.FC<{
                 )
               }
 
-              case 'Quality Report': {
+              case 'Quality': {
                 return (
-                  <InspectorTabPanel key="Quality Report">
+                  <InspectorTabPanel key="Quality">
                     <RequirementsInspector
                       modelMap={modelMap}
                       prototypeId={manuscript.prototype}
@@ -326,9 +326,9 @@ export const Inspector: React.FC<{
                 )
               }
 
-              case 'Production notes': {
+              case 'Notes': {
                 return (
-                  <InspectorTabPanel key="Production notes">
+                  <InspectorTabPanel key="Notes">
                     <ManuscriptNoteList
                       createKeyword={createKeyword}
                       notes={notes || []}

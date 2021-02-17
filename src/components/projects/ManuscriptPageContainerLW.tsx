@@ -258,7 +258,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         hideWhen="max-width: 900px"
         resizerButton={ResizingInspectorButton}
       >
-        <Inspector tabs={['History', 'Track Changes']}>
+        <Inspector tabs={['History', 'Changes']}>
           <HistoryPanelContainer
             project={project}
             manuscriptID={manuscript._id}
