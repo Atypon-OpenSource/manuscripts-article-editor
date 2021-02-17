@@ -19,7 +19,14 @@ import {
 } from '@manuscripts/manuscript-editor'
 import {
   ContainedModel,
+  DEFAULT_PAGE_LAYOUT,
+  fromPrototype,
+  isManuscript,
+  isManuscriptModel,
+  loadBundledDependencies,
   ManuscriptSchema,
+  StyleObject,
+  updatedPageLayout,
 } from '@manuscripts/manuscript-transform'
 import { Model, Project } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
@@ -27,6 +34,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { remaster } from '../../lib/bootstrap-manuscript'
+import { loadBundle } from '../../lib/bundles'
+import { nextManuscriptPriority } from '../../lib/manuscript'
 import {
   buildExportMenu,
   buildExportReferencesMenu,
@@ -35,6 +44,7 @@ import { ExportFormat } from '../../pressroom/exporter'
 import { Collection } from '../../sync/Collection'
 import { ModalProps } from '../ModalProvider'
 import { Exporter } from './Exporter'
+import { Importer } from './Importer'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;
@@ -75,6 +85,76 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     ))
   }
 
+  // IMPORT DOES NOT NEED TO BE IN LEAN_WORKFLOW
+  // REMOVE THIS AND openImporter after Demo on 2021/02/18
+  const importManuscript = async (models: Model[], redirect = true) => {
+    const projectID = project._id
+
+    const manuscript = models.find(isManuscript)
+
+    if (!manuscript) {
+      throw new Error('No manuscript found')
+    }
+
+    // TODO: try to share this code with createManuscript
+
+    manuscript.priority = await nextManuscriptPriority(collection)
+
+    // TODO: use the imported filename?
+    if (!manuscript.pageLayout) {
+      if (!models.find((model) => model._id === manuscript.bundle)) {
+        const [bundle, parentBundle] = await loadBundle(manuscript.bundle)
+        manuscript.bundle = bundle._id
+        models.push(bundle)
+
+        if (parentBundle) {
+          models.push(parentBundle)
+        }
+      }
+
+      const dependencies = await loadBundledDependencies()
+      const prototypedDependencies = dependencies.map(fromPrototype)
+      models.push(...prototypedDependencies)
+
+      const styleMap = new Map(
+        prototypedDependencies.map((style) => [style._id, style])
+      )
+      const pageLayout = updatedPageLayout(
+        styleMap as Map<string, StyleObject>,
+        DEFAULT_PAGE_LAYOUT
+      )
+      manuscript.pageLayout = pageLayout._id
+      models.push(pageLayout)
+
+      // TODO: apply a template?
+    }
+
+    // TODO: save dependencies first, then the manuscript
+    // TODO: handle multiple manuscripts in a project bundle
+
+    const items = models.map((model) => ({
+      ...model,
+      containerID: projectID,
+      manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
+    }))
+
+    await collection.bulkCreate(items)
+
+    if (redirect) {
+      history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
+    }
+  }
+
+  const openImporter = () => {
+    addModal('importer', ({ handleClose }) => (
+      <Importer
+        handleComplete={handleClose}
+        importManuscript={importManuscript}
+      />
+    ))
+  }
+  // END FUNCTIONS TO REMOVE
+
   const projectMenu: MenuSpec = {
     id: 'project',
     label: 'Project',
@@ -85,6 +165,14 @@ export const ApplicationMenusLW: React.FC<Props> = ({
         id: 'project-diagnostics',
         label: 'View Diagnostics',
         run: () => history.push(`/projects/${project._id}/diagnostics`),
+      },
+      {
+        role: 'separator',
+      },
+      {
+        id: 'import',
+        label: 'Import Manuscript…',
+        run: openImporter,
       },
       {
         role: 'separator',
