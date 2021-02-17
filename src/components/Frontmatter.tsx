@@ -11,13 +11,13 @@
  */
 
 import React from 'react'
-import { Redirect } from 'react-router'
 
 import config from '../config'
 
 export const Frontmatter: React.FC = ({ children }) => {
   if (config.connect.enabled) {
-    return <Redirect to={config.connect.frontmatterUri} />
+    window.location.assign(config.connect.frontmatterUri)
+    return null
   }
 
   return <React.Fragment>{children}</React.Fragment>
