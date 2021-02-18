@@ -63,7 +63,6 @@ jest.mock('../pressroom', () => ({
           responseType: 'arraybuffer',
           headers: {
             ...formData.getHeaders(),
-            'pressroom-api-key': config.pressroom.key,
           },
         }
       )

@@ -48,7 +48,6 @@ interface Config {
     url: string
   }
   pressroom: {
-    key: string
     url: string
   }
   sentry: {
@@ -164,7 +163,6 @@ const config = {
     url: normalizeURL(process.env.SYNC_GATEWAY_URL),
   },
   pressroom: {
-    key: process.env.PRESSROOM_KEY,
     url: normalizeURL(process.env.PRESSROOM_URL),
   },
   sentry: {

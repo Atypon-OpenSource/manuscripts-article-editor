@@ -21,13 +21,9 @@ const client = axios.create({
 })
 
 client.interceptors.request.use(async (requestConfig) => {
-  if (config.pressroom.key) {
-    requestConfig.headers['pressroom-api-key'] = config.pressroom.key
-  } else {
-    const { data: token } = await fetchScopedToken('pressroom-js')
+  const { data: token } = await fetchScopedToken('pressroom-js')
 
-    requestConfig.headers.Authorization = `Bearer ${token}`
-  }
+  requestConfig.headers.Authorization = `Bearer ${token}`
 
   return requestConfig
 })
