@@ -340,7 +340,6 @@ export const Inspector: React.FC<{
                       listCollaborators={listCollaborators}
                       saveModel={saveModel}
                       deleteModel={deleteModel}
-                      key={noteTarget}
                       noteSource={'EDITOR'}
                     />
                   </InspectorTabPanel>
