@@ -20,10 +20,11 @@ export const validationData: AnyValidationResult[] = [
     data: {
       order: [],
     },
-    fix: true,
+    fixable: true,
     objectType: 'MPSectionOrderValidationResult',
     _id: 'MPSectionOrderValidationResult:FCD54873-BAD0-488E-96C8-D1ECA23DD1F4',
     message: 'Sections must be listed in the following order Abstract',
+    ignored: false,
   },
   {
     type: 'section-body-has-content',
@@ -33,9 +34,10 @@ export const validationData: AnyValidationResult[] = [
       id: 'MPSection:6383A9BC-CB0E-4B0E-BB3A-31E0B5143256',
       sectionCategory: 'MPSectionCategory:abstract',
     },
-    fix: true,
+    fixable: true,
     objectType: 'MPSectionBodyValidationResult',
     _id: 'MPSectionBodyValidationResult:2C772412-BA8C-46A4-B0D6-DFDC8BCB793A',
     message: 'Abstract section must contains content',
+    ignored: false,
   },
 ]

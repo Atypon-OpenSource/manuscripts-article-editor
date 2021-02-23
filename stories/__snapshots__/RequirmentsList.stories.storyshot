@@ -14,6 +14,8 @@ exports[`Storyshots Requirments/List validations 1`] = `
 
 .c2 {
   padding: 0 0 16px 0;
+  border-bottom: 1px solid #f2f2f2;
+  margin: 24px 28px 0;
 }
 
 .c5 {
@@ -64,25 +66,15 @@ exports[`Storyshots Requirments/List validations 1`] = `
   cursor: default;
 }
 
-.c11 {
-  margin: 0 0 0 8px;
-  border: 1px solid #f2f2f2;
-}
-
 .c7 {
   padding: 15px 0 0 0;
-}
-
-.c13 {
-  margin: 0 0 0 8px;
-  border: 1px solid #f2f2f2;
 }
 
 .c1 {
   display: block;
 }
 
-.c12 {
+.c11 {
   padding: 15px 0 0 0;
 }
 
@@ -170,9 +162,6 @@ exports[`Storyshots Requirments/List validations 1`] = `
         </div>
       </div>
       <div
-        className="c11"
-      />
-      <div
         className="c2"
       >
         <div
@@ -205,7 +194,7 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
         </div>
         <div
-          className="c12"
+          className="c11"
         >
           <div
             className="c8"
@@ -225,9 +214,6 @@ exports[`Storyshots Requirments/List validations 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="c13"
-        />
       </div>
     </div>
   </div>

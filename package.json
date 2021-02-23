@@ -52,7 +52,7 @@
     "@manuscripts/manuscript-transform": "^0.40.6",
     "@manuscripts/manuscripts-json-schema": "^1.45.9",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts0",
-    "@manuscripts/requirements": "^0.3.1",
+    "@manuscripts/requirements": "^0.4.2",
     "@manuscripts/resizer": "^0.0.6",
     "@manuscripts/rxdb": "8.2.0-manuscripts1",
     "@manuscripts/style-guide": "^0.25.0",

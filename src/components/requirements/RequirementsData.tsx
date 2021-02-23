@@ -79,7 +79,7 @@ export const RequirementsData: React.FC<{
       >
         <Message> {node.message} </Message>
 
-        {isShown && !node.passed && node.fix && (
+        {isShown && !node.passed && node.fixable && (
           <ButtonsList>
             <Button onClick={fixItHandler}> Fix it</Button>
             <Button> Ignore</Button>

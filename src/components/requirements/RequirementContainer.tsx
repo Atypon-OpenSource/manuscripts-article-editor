@@ -66,6 +66,8 @@ const ExpanderButton = styled.div`
 `
 const Container = styled.div`
   padding: 0 0 16px 0;
+  border-bottom: 1px solid #f2f2f2;
+  margin: 24px 28px 0;
 `
 const Title = styled.div`
   font-family: Lato;

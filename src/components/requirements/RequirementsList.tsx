@@ -33,20 +33,25 @@ export const RequirementsList: React.FC<{
       ),
     [validationResult]
   )
-  const manuscriptValidation = sortedData.filter((node: AnyValidationResult) =>
-    node.type.startsWith('manuscript-')
+  const manuscriptValidation = sortedData.filter(
+    (node: AnyValidationResult) =>
+      node.type && node.type.startsWith('manuscript-')
   )
   const bibliographyValidation = sortedData.filter(
-    (node: AnyValidationResult) => node.type.startsWith('bibliography-')
+    (node: AnyValidationResult) =>
+      node.type && node.type.startsWith('bibliography-')
   )
-  const figureValidation = sortedData.filter((node: AnyValidationResult) =>
-    node.type.startsWith('figure-')
+  const figureValidation = sortedData.filter(
+    (node: AnyValidationResult) => node.type && node.type.startsWith('figure-')
   )
   const requiredSectionValidation = sortedData.filter(
     (node: AnyValidationResult) => node.type === 'required-section'
   )
   const sectionOrderValidation = sortedData.filter(
     (node: AnyValidationResult) => node.type === 'section-order'
+  )
+  const sectionValidation = sortedData.filter(
+    (node: AnyValidationResult) => node.type && node.type.startsWith('section-')
   )
 
   return (
@@ -70,11 +75,10 @@ export const RequirementsList: React.FC<{
                 )
             )}
           </Requirement>
-          <Separator />
         </RequirementContainer>
       )}
       <SectionValidations
-        sortedData={sortedData}
+        sortedData={sectionValidation}
         modelMap={modelMap}
         manuscriptID={manuscriptID}
         bulkUpdate={bulkUpdate}
@@ -98,7 +102,6 @@ export const RequirementsList: React.FC<{
                 )
             )}
           </Requirement>
-          <Separator />
         </RequirementContainer>
       )}
       {bibliographyValidation.length !== 0 && (
@@ -120,7 +123,6 @@ export const RequirementsList: React.FC<{
                 )
             )}
           </Requirement>
-          <Separator />
         </RequirementContainer>
       )}
       {figureValidation.length !== 0 && (
@@ -139,7 +141,6 @@ export const RequirementsList: React.FC<{
                 )
             )}
           </Requirement>
-          <Separator />
         </RequirementContainer>
       )}
       {sectionOrderValidation.length !== 0 && (
@@ -161,17 +162,11 @@ export const RequirementsList: React.FC<{
                 )
             )}
           </Requirement>
-          <Separator />
         </RequirementContainer>
       )}
     </RequirementList>
   )
 }
-
-const Separator = styled.div`
-  margin: 0 0 0 8px;
-  border: 1px solid #f2f2f2;
-`
 const RequirementList = styled.div`
   display: block;
 `

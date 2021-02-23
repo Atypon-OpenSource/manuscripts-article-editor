@@ -10,8 +10,15 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { Model, SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
+import {
+  CountValidationResult,
+  Model,
+  SectionBodyValidationResult,
+  SectionCategory,
+  SectionCategoryValidationResult,
+  SectionTitleValidationResult,
+} from '@manuscripts/manuscripts-json-schema'
 import { AnyValidationResult } from '@manuscripts/requirements'
 import React from 'react'
 import styled from 'styled-components'
@@ -25,60 +32,76 @@ export const SectionValidations: React.FC<{
   manuscriptID: string
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
 }> = ({ sortedData, modelMap, manuscriptID, bulkUpdate }) => {
-  let sectionValidation = sortedData.filter((node: AnyValidationResult) =>
-    node.type.startsWith('section-')
+  const isSectionValidation = (
+    node: AnyValidationResult
+  ): node is
+    | Build<SectionTitleValidationResult>
+    | Build<SectionBodyValidationResult>
+    | Build<SectionCategoryValidationResult>
+    | Build<CountValidationResult> => {
+    if (
+      node.type &&
+      node.type.startsWith('section-') &&
+      !node.type.startsWith('section-order')
+    ) {
+      return true
+    }
+    return false
+  }
+
+  let sectionValidation = sortedData.filter(
+    (node: AnyValidationResult) =>
+      isSectionValidation(node) && node.message !== undefined
   )
 
   const sectionsData = []
   while (sectionValidation.length > 0) {
-    if (sectionValidation[0].type !== 'section-order') {
-      const category = sectionValidation[0].data.sectionCategory
-      const sectionValidationId = sectionValidation[0]._id
-      const sections = sectionValidation.filter(
-        (node: AnyValidationResult) => node.data.sectionCategory === category
-      )
-      sectionValidation = sectionValidation.filter(
-        (x) => sections.indexOf(x) === -1
-      )
-      const categoryData = sectionCategories.map((section: SectionCategory) => {
-        if (section._id === category) {
-          return section.name
-        }
-      })
-      sectionsData.push(
-        <>
-          <RequirementContainer
-            result={sections}
-            key={sectionValidationId}
-            title={categoryData}
-          >
-            <Requirement>
-              {sections.map(
-                (section: AnyValidationResult) =>
-                  section.message && (
-                    <RequirementsData
-                      node={section}
-                      key={section._id}
-                      modelMap={modelMap}
-                      manuscriptID={manuscriptID}
-                      bulkUpdate={bulkUpdate}
-                    />
-                  )
-              )}
-            </Requirement>
-          </RequirementContainer>
-          <Separator />
-        </>
-      )
+    const category =
+      isSectionValidation(sectionValidation[0]) &&
+      sectionValidation[0].data.sectionCategory
+    const sectionValidationId = sectionValidation[0]._id
+    const sections = sectionValidation.filter(
+      (node: AnyValidationResult) =>
+        isSectionValidation(node) && node.data.sectionCategory === category
+    )
+    sectionValidation = sectionValidation.filter(
+      (x) => sections.indexOf(x) === -1
+    )
+    const categoryData = sectionCategories.map((section: SectionCategory) => {
+      if (section._id === category) {
+        return section.name
+      }
+    })
+    sectionsData.push(
+      <>
+        <RequirementContainer
+          result={sections}
+          key={sectionValidationId}
+          title={categoryData}
+        >
+          <Requirement>
+            {sections.map(
+              (section: AnyValidationResult) =>
+                section.message && (
+                  <RequirementsData
+                    node={section}
+                    key={section._id}
+                    modelMap={modelMap}
+                    manuscriptID={manuscriptID}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+            )}
+          </Requirement>
+        </RequirementContainer>
+      </>
+    )
+    if (sectionValidation.length <= 0) {
+      return <>{sectionsData}</>
     }
-    return <>{sectionsData}</>
   }
   return null
 }
-const Separator = styled.div`
-  margin: 0 0 0 8px;
-  border: 1px solid #f2f2f2;
-`
 const Requirement = styled.div`
   padding: 15px 0 0 0;
 `
