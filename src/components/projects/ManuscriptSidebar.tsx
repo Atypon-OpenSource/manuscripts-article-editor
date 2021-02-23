@@ -186,7 +186,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
         )
       }
       sidebarFooter={
-        !config.leanWorkflow.enabled ? (
+        config.leanWorkflow.enabled ? (
           <ManuscriptPageSubmitChangesLW manuscript={manuscript} />
         ) : permissions.write && openTemplateSelector ? (
           <AddButton
