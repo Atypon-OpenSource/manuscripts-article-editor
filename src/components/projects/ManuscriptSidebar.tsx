@@ -47,6 +47,7 @@ const ProjectTitle = styled.div`
   padding-right: ${(props) => props.theme.grid.unit}px;
   font-size: 24px;
   line-height: 32px;
+  user-select: text;
 
   & .ProseMirror {
     cursor: text;
