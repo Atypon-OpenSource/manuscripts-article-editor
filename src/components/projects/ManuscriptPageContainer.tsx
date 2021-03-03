@@ -742,7 +742,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         console.error(error)
       }
 
-      const decoder = new Decoder(modelMap)
+      const decoder = new Decoder(modelMap, true)
 
       try {
         const doc = decoder.createArticleNode(
