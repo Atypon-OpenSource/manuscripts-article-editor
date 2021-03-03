@@ -75,7 +75,7 @@ export const FigureStyleInspector: React.FC<
 
   const setElementFigureStyle = useCallback(
     (figureStyle?: string) => {
-      setNodeAttrs(view, element._id, { figureStyle })
+      setNodeAttrs(view.state, view.dispatch, element._id, { figureStyle })
     },
     [element, view]
   )

@@ -16,7 +16,6 @@ import data from '@manuscripts/examples/data/project-dump.json'
 import {
   ActualManuscriptNode,
   ManuscriptEditorState,
-  ManuscriptEditorView,
   SectionNode,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -126,7 +125,8 @@ storiesOf('Inspector/Manuscript Inspector', module).add(
         manuscript={manuscript}
         saveManuscript={action('save manuscript')}
         saveModel={action('save')}
-        view={view as ManuscriptEditorView}
+        state={view.state}
+        dispatch={view.dispatch}
       />
     </div>
   )

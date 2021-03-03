@@ -10,11 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  Build,
-  generateID,
-  ManuscriptEditorView,
-} from '@manuscripts/manuscript-transform'
+import { Build, generateID } from '@manuscripts/manuscript-transform'
 import {
   CountRequirement,
   Manuscript,
@@ -25,6 +21,7 @@ import {
   Model,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
+import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
 import config from '../../config'
@@ -81,13 +78,15 @@ export const ManuscriptInspector: React.FC<{
   modelMap: Map<string, Model>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   saveModel: SaveModel
-  view: ManuscriptEditorView
+  state: EditorState
+  dispatch: (tr: Transaction) => EditorState | void
 }> = ({
   manuscript,
   modelMap,
   saveManuscript,
   saveModel,
-  view,
+  state,
+  dispatch,
   // pageLayout,
 }) => {
   const getOrBuildRequirement = <T extends CountRequirement>(
@@ -212,7 +211,8 @@ export const ManuscriptInspector: React.FC<{
               modelMap={modelMap}
               saveManuscript={saveManuscript}
               saveModel={saveModel}
-              view={view}
+              state={state}
+              dispatch={dispatch}
             />
           </InspectorTabPanel>
 

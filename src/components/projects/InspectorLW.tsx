@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   InspectorContainer,
@@ -22,16 +22,18 @@ import {
 
 export const Inspector: React.FC<{
   tabs: string[]
-}> = ({ tabs, children }) => {
+  commentTarget?: string
+}> = ({ tabs, commentTarget, children }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
-  // useEffect(() => {
-  //   if (commentTarget) {
-  //     setTabIndex(tabs.findIndex((tab) => tab === 'Comments'))
-  //   } else if (submission) {
-  //     setTabIndex(tabs.findIndex((tab) => tab === 'Submissions'))
-  //   }
-  // }, [commentTarget, submission])
+  useEffect(() => {
+    if (commentTarget) {
+      setTabIndex(tabs.findIndex((tab) => tab === 'Comments'))
+    }
+    //   else if (submission) {
+    //     setTabIndex(tabs.findIndex((tab) => tab === 'Submissions'))
+    //   }
+  }, [tabs, commentTarget])
 
   const childrenAsArray = React.Children.toArray(children)
 
@@ -46,7 +48,7 @@ export const Inspector: React.FC<{
         <PaddedInspectorTabPanels>
           {tabs.map((label, i) => {
             if (i !== tabIndex) {
-              return <InspectorTabPanel key={label}></InspectorTabPanel>
+              return <InspectorTabPanel key={label} />
             }
 
             return (

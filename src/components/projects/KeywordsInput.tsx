@@ -13,7 +13,6 @@
 import { buildKeywordsContents } from '@manuscripts/manuscript-editor'
 import {
   buildManuscriptKeyword,
-  ManuscriptEditorView,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -21,6 +20,7 @@ import {
   ManuscriptKeyword,
   Model,
 } from '@manuscripts/manuscripts-json-schema'
+import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 import CreatableSelect from 'react-select/creatable'
 
@@ -32,8 +32,9 @@ export const KeywordsInput: React.FC<{
   modelMap: Map<string, Model>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   saveModel: SaveModel
-  view: ManuscriptEditorView
-}> = ({ manuscript, modelMap, saveManuscript, saveModel, view }) => {
+  state: EditorState
+  dispatch: (tr: Transaction) => EditorState | void
+}> = ({ manuscript, modelMap, saveManuscript, saveModel, state, dispatch }) => {
   const keywordIDs = manuscript.keywordIDs || []
 
   const manuscriptKeywords: ManuscriptKeyword[] = keywordIDs
@@ -46,7 +47,7 @@ export const KeywordsInput: React.FC<{
       pos: number
     }> = []
 
-    const { tr } = view.state
+    const { tr } = state
 
     tr.doc.descendants((node, pos) => {
       if (node.type === node.type.schema.nodes.keywords_element) {
@@ -67,7 +68,7 @@ export const KeywordsInput: React.FC<{
         })
       }
 
-      view.dispatch(tr)
+      dispatch(tr)
     }
   }
 

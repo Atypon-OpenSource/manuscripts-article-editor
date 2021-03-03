@@ -11,13 +11,9 @@
  */
 
 import { iterateChildren } from '@manuscripts/manuscript-editor'
-import {
-  FigureNode,
-  ManuscriptEditorView,
-  schema,
-  Selected,
-} from '@manuscripts/manuscript-transform'
+import { FigureNode, schema, Selected } from '@manuscripts/manuscript-transform'
 import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
+import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
 import { FigureInspector } from './FigureInspector'
@@ -30,8 +26,9 @@ export const NodeInspector: React.FC<{
   modelMap: Map<string, Model>
   saveModel: SaveModel
   deleteModel: (id: string) => Promise<string>
-  view: ManuscriptEditorView
-}> = ({ modelMap, selected, saveModel, view }) => {
+  state: EditorState
+  dispatch: (tr: Transaction) => EditorState | void
+}> = ({ modelMap, selected, saveModel, state, dispatch }) => {
   switch (selected.node.type) {
     case schema.nodes.figure_element: {
       const figures = []
@@ -53,7 +50,8 @@ export const NodeInspector: React.FC<{
               figure={figure}
               node={node as FigureNode}
               saveFigure={saveModel}
-              view={view}
+              state={state}
+              dispatch={dispatch}
             />
           )
         }
@@ -71,7 +69,8 @@ export const NodeInspector: React.FC<{
             figure={figure}
             node={selected.node as FigureNode}
             saveFigure={saveModel}
-            view={view}
+            state={state}
+            dispatch={dispatch}
           />
         )
       }

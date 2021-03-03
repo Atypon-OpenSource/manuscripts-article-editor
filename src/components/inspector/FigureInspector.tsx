@@ -10,12 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  buildAttribution,
-  FigureNode,
-  ManuscriptEditorView,
-} from '@manuscripts/manuscript-transform'
+import { buildAttribution, FigureNode } from '@manuscripts/manuscript-transform'
 import { Attribution, Figure } from '@manuscripts/manuscripts-json-schema'
+import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 
 import { setNodeAttrs } from '../../lib/node-attrs'
@@ -30,8 +27,9 @@ export const FigureInspector: React.FC<{
   figure: Figure
   node: FigureNode
   saveFigure: (figure: Figure) => void
-  view: ManuscriptEditorView
-}> = ({ figure, node, saveFigure, view }) => {
+  state: EditorState
+  dispatch: (tr: Transaction) => EditorState | void
+}> = ({ figure, node, saveFigure, state, dispatch }) => {
   const attribution = figure.attribution || buildAttribution()
 
   const handleLicenseChange = useCallback(
@@ -59,12 +57,12 @@ export const FigureInspector: React.FC<{
           handleChange={(embedURL) => {
             if (embedURL && isImageUrl(embedURL)) {
               // TODO: save the image attachment
-              setNodeAttrs(view, figure._id, {
+              setNodeAttrs(state, dispatch, figure._id, {
                 src: embedURL,
                 embedURL: undefined,
               })
             } else {
-              setNodeAttrs(view, figure._id, { embedURL })
+              setNodeAttrs(state, dispatch, figure._id, { embedURL })
             }
           }}
         />

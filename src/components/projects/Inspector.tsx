@@ -203,7 +203,8 @@ export const Inspector: React.FC<{
                         modelMap={modelMap}
                         saveModel={saveModel}
                         deleteModel={deleteModel}
-                        view={view}
+                        state={view.state}
+                        dispatch={view.dispatch}
                       />
                     )}
                     <ManuscriptInspector
@@ -212,7 +213,8 @@ export const Inspector: React.FC<{
                       modelMap={modelMap}
                       saveManuscript={saveManuscript}
                       saveModel={saveModel}
-                      view={view}
+                      state={view.state}
+                      dispatch={view.dispatch}
                     />
 
                     {(element || section) &&
@@ -304,7 +306,8 @@ export const Inspector: React.FC<{
                       saveModel={saveModel}
                       commentTarget={commentTarget}
                       setCommentTarget={setCommentTarget}
-                      view={view}
+                      state={view.state}
+                      dispatch={view.dispatch}
                       key={commentTarget}
                       setCommentFilter={setCommentFilter}
                       commentFilter={commentFilter}

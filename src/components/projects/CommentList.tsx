@@ -20,7 +20,6 @@ import {
 import {
   buildComment,
   buildContribution,
-  ManuscriptEditorView,
   ManuscriptNode,
   Selected,
 } from '@manuscripts/manuscript-transform'
@@ -40,6 +39,7 @@ import {
   RelativeDate,
   ResolveButton,
 } from '@manuscripts/style-guide'
+import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
@@ -127,7 +127,8 @@ interface Props {
   selected: Selected | null
   commentTarget?: string
   setCommentTarget: (commentTarget?: string) => void
-  view: ManuscriptEditorView
+  state: EditorState
+  dispatch: (tr: Transaction) => EditorState | void
   setCommentFilter: (selectResolved: CommentFilter) => void
   commentFilter: CommentFilter
 }
@@ -148,13 +149,12 @@ export const CommentList: React.FC<Props> = React.memo(
     listKeywords,
     commentTarget,
     setCommentTarget,
-    view,
+    state,
+    dispatch,
     setCommentFilter,
     commentFilter,
   }) => {
     const [newComment, setNewComment] = useState<CommentAnnotation>()
-
-    const { dispatch, state } = view
 
     useEffect(() => {
       if (commentTarget && !newComment) {

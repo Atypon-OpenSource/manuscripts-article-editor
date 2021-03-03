@@ -70,7 +70,7 @@ const ManuscriptPageContainer = React.lazy<
 >(() =>
   config.leanWorkflow.enabled
     ? import(
-        /* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainerLW'
+        /* webpackChunkName:"manuscript-page" */ './lean-workflow/ManuscriptPageContainerLW'
       )
     : import(
         /* webpackChunkName:"manuscript-page" */ './ManuscriptPageContainer'

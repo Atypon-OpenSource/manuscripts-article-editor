@@ -33,18 +33,18 @@ import { History } from 'history'
 import React from 'react'
 import styled from 'styled-components'
 
-import { remaster } from '../../lib/bootstrap-manuscript'
-import { loadBundle } from '../../lib/bundles'
-import { nextManuscriptPriority } from '../../lib/manuscript'
+import { remaster } from '../../../lib/bootstrap-manuscript'
+import { loadBundle } from '../../../lib/bundles'
+import { nextManuscriptPriority } from '../../../lib/manuscript'
 import {
   buildExportMenu,
   buildExportReferencesMenu,
-} from '../../lib/project-menu'
-import { ExportFormat } from '../../pressroom/exporter'
-import { Collection } from '../../sync/Collection'
-import { ModalProps } from '../ModalProvider'
-import { Exporter } from './Exporter'
-import { Importer } from './Importer'
+} from '../../../lib/project-menu'
+import { ExportFormat } from '../../../pressroom/exporter'
+import { Collection } from '../../../sync/Collection'
+import { ModalProps } from '../../ModalProvider'
+import { Exporter } from '../Exporter'
+import { Importer } from '../Importer'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;

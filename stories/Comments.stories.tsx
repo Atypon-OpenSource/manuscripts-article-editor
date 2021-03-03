@@ -10,10 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  ManuscriptEditorState,
-  ManuscriptEditorView,
-} from '@manuscripts/manuscript-transform'
+import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { Model, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
@@ -76,7 +73,8 @@ storiesOf('Projects/Comments', module)
         listKeywords={() => keywords}
         selected={null}
         setCommentTarget={action('set comment target')}
-        view={view as ManuscriptEditorView}
+        state={view.state}
+        dispatch={view.dispatch}
         setCommentFilter={action('set show resolved comment')}
         commentFilter={CommentFilter.ALL}
       />
@@ -98,7 +96,8 @@ storiesOf('Projects/Comments', module)
         listKeywords={() => keywords}
         selected={null}
         setCommentTarget={action('set comment target')}
-        view={view as ManuscriptEditorView}
+        state={view.state}
+        dispatch={view.dispatch}
         setCommentFilter={action('set show resolved comment')}
         commentFilter={CommentFilter.ALL}
       />

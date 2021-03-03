@@ -120,7 +120,7 @@ export const FigureLayoutInspector: React.FC<
 
   const setElementSizeFraction = useCallback(
     (sizeFraction?: number) => {
-      setNodeAttrs(view, element._id, { sizeFraction })
+      setNodeAttrs(view.state, view.dispatch, element._id, { sizeFraction })
     },
     [element, view]
   )

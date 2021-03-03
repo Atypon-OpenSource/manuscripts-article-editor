@@ -15,7 +15,9 @@ import '@manuscripts/manuscript-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
 import {
+  findParentElement,
   findParentNodeWithIdValue,
+  findParentSection,
   ManuscriptsEditor,
   ManuscriptToolbar,
   PopperManager,
@@ -23,47 +25,52 @@ import {
   useEditor,
 } from '@manuscripts/manuscript-editor'
 import {
+  ContainedModel,
+  isManuscriptModel,
   ManuscriptNode,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Model, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 
-import config from '../../config'
-import { useBiblio } from '../../hooks/use-biblio'
-import { useCommits } from '../../hooks/use-commits'
-import { createUseLoadable } from '../../hooks/use-loadable'
-import { useManuscriptModels } from '../../hooks/use-manuscript-models'
-import { bootstrap } from '../../lib/bootstrap-manuscript'
-import { HistoryPanelContainer } from '../inspector/History'
-import { IntlProps, withIntl } from '../IntlProvider'
-import CitationEditor from '../library/CitationEditor'
-import { CitationViewer } from '../library/CitationViewer'
-import MetadataContainer from '../metadata/MetadataContainer'
-import { ModalProps, withModal } from '../ModalProvider'
-import { Main } from '../Page'
-import Panel from '../Panel'
-import { ManuscriptPlaceholder } from '../Placeholders'
-import { ResizingInspectorButton } from '../ResizerButtons'
-import { Corrections } from '../track/Corrections'
-import {
-  ApplicationMenuContainer,
-  ApplicationMenusLW as ApplicationMenus,
-} from './ApplicationMenusLW'
+import config from '../../../config'
+import { useBiblio } from '../../../hooks/use-biblio'
+import { useCommits } from '../../../hooks/use-commits'
+import { createUseLoadable } from '../../../hooks/use-loadable'
+import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
+import { bootstrap } from '../../../lib/bootstrap-manuscript'
+import { ContainerIDs } from '../../../sync/Collection'
+import { IntlProps, withIntl } from '../../IntlProvider'
+import CitationEditor from '../../library/CitationEditor'
+import { CitationViewer } from '../../library/CitationViewer'
+import MetadataContainer from '../../metadata/MetadataContainer'
+import { ModalProps, withModal } from '../../ModalProvider'
+import { Main } from '../../Page'
+import Panel from '../../Panel'
+import { ManuscriptPlaceholder } from '../../Placeholders'
+import { RequirementsInspector } from '../../requirements/RequirementsInspector'
+import { ResizingInspectorButton } from '../../ResizerButtons'
+import { Corrections } from '../../track/Corrections'
 import {
   EditorBody,
   EditorContainer,
   EditorContainerInner,
   EditorHeader,
-} from './EditorContainer'
-import { EditorStyles } from './EditorStyles'
-import { Inspector } from './InspectorLW'
-import { ManuscriptPageContainerProps } from './ManuscriptPageContainer'
-import ManuscriptSidebar from './ManuscriptSidebar'
-import { ReloadDialog } from './ReloadDialog'
+} from '../EditorContainer'
+import { EditorStyles } from '../EditorStyles'
+import { Inspector } from '../InspectorLW'
+import { ManuscriptPageContainerProps } from '../ManuscriptPageContainer'
+import ManuscriptSidebar from '../ManuscriptSidebar'
+import { ReloadDialog } from '../ReloadDialog'
+import {
+  ApplicationMenuContainer,
+  ApplicationMenusLW as ApplicationMenus,
+} from './ApplicationMenusLW'
+import { CommentsTab } from './CommentsTab'
+import { ContentTab } from './ContentTab'
 
 interface RouteParams {
   projectID: string
@@ -85,6 +92,8 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     manuscriptID: match.params.manuscriptID,
   })
 
+  const [commentTarget, setCommentTarget] = useState<string | undefined>()
+
   if (isLoading) {
     return <ManuscriptPlaceholder />
   } else if (error || !data) {
@@ -95,16 +104,25 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     )
   }
 
-  return <ManuscriptPageView {...data} {...props} />
+  return (
+    <ManuscriptPageView
+      {...data}
+      {...props}
+      commentTarget={commentTarget}
+      setCommentTarget={setCommentTarget}
+    />
+  )
 }
 
-interface ManuscriptPageViewProps extends CombinedProps {
+export interface ManuscriptPageViewProps extends CombinedProps {
   commitAtLoad?: Commit | null
   commits: Commit[]
   doc: ManuscriptNode
   ancestorDoc: ManuscriptNode
   snapshotID: string | null
   modelMap: Map<string, Model>
+  setCommentTarget: (commentTarget?: string) => void
+  commentTarget?: string
 }
 
 const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
@@ -116,6 +134,11 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     doc,
     modelMap,
     snapshotID,
+    comments,
+    notes,
+    setCommentTarget,
+    commentTarget,
+    tags,
   } = props
 
   const popper = useRef<PopperManager>(new PopperManager())
@@ -170,7 +193,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       console.log('put attachment')
       return Promise.resolve('attachment id')
     },
-    setCommentTarget: console.log,
+    setCommentTarget,
     retrySync,
 
     renderReactComponent: ReactDOM.render,
@@ -186,7 +209,26 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ManuscriptsEditor.createState(editorProps),
     ManuscriptsEditor.createView(editorProps)
   )
-  const { state, onRender, view } = editor
+  const { state, onRender, dispatch, view } = editor
+
+  const selected = findParentNodeWithIdValue(state.selection)
+
+  const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
+
+  const listCollaborators = (): UserProfile[] =>
+    Array.from(props.collaborators.values())
+
+  const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
+    for (const value of items) {
+      const containerIDs: ContainerIDs = { containerID: manuscript.containerID }
+
+      if (isManuscriptModel(value)) {
+        containerIDs.manuscriptID = manuscript._id
+      }
+
+      await collection.save(value, containerIDs, true)
+    }
+  }
 
   const { commits, corrections, freeze, accept, reject } = useCommits({
     modelMap,
@@ -212,7 +254,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         user={user}
         tokenActions={props.tokenActions}
         saveModel={saveModel}
-        selected={findParentNodeWithIdValue(state.selection) || null}
+        selected={selected || null}
       />
       <Main>
         <EditorContainer>
@@ -251,18 +293,57 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         </EditorContainer>
       </Main>
       <Panel
-        name="history"
-        minSize={300}
-        direction="row"
-        side="start"
-        hideWhen="max-width: 900px"
+        name={'inspector'}
+        minSize={400}
+        direction={'row'}
+        side={'start'}
+        hideWhen={'max-width: 900px'}
+        forceOpen={commentTarget !== undefined}
         resizerButton={ResizingInspectorButton}
       >
-        <Inspector tabs={['History', 'Changes']}>
-          <HistoryPanelContainer
+        <Inspector
+          tabs={['Content', 'Comments', 'Quality', 'Changes']}
+          commentTarget={commentTarget}
+        >
+          <ContentTab
+            selected={selected}
+            selectedElement={findParentElement(state.selection, modelIds)}
+            selectedSection={findParentSection(state.selection)}
+            getModel={getModel}
+            modelMap={modelMap}
+            manuscript={manuscript}
+            state={state}
+            dispatch={dispatch}
+            hasFocus={view?.hasFocus()}
+            doc={doc}
+            saveModel={saveModel}
+            deleteModel={deleteModel}
+            saveManuscript={saveManuscript}
+            listCollaborators={listCollaborators}
             project={project}
+            tags={tags}
+          />
+          <CommentsTab
+            comments={comments}
+            notes={notes}
+            state={state}
+            dispatch={dispatch}
+            doc={doc}
+            user={props.user}
+            collaborators={props.collaborators}
+            collaboratorsById={props.collaboratorsById}
+            keywords={props.keywords}
+            saveModel={saveModel}
+            deleteModel={deleteModel}
+            selected={selected}
+            setCommentTarget={setCommentTarget}
+            commentTarget={commentTarget}
+          />
+          <RequirementsInspector
+            modelMap={modelMap}
+            prototypeId={manuscript.prototype}
             manuscriptID={manuscript._id}
-            getCurrentUser={() => props.user}
+            bulkUpdate={bulkUpdate}
           />
           {snapshotID ? (
             <Corrections

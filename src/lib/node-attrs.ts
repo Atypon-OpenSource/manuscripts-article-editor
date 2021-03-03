@@ -10,14 +10,15 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptEditorView } from '@manuscripts/manuscript-transform'
+import { EditorState, Transaction } from 'prosemirror-state'
 
 export const setNodeAttrs = (
-  view: ManuscriptEditorView,
+  state: EditorState,
+  dispatch: (tr: Transaction) => EditorState | void,
   id: string,
   attrs: Record<string, unknown>
 ) => {
-  const { tr } = view.state
+  const { tr } = state
 
   // TODO: iterator with node + pos
 
@@ -28,7 +29,7 @@ export const setNodeAttrs = (
         ...attrs,
       })
 
-      view.dispatch(tr)
+      dispatch(tr)
     }
   })
 }
