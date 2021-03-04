@@ -309,7 +309,7 @@ const convertToSTS = async (
 ) => {
   zip.remove('index.manuscript-json')
 
-  const decoder = new Decoder(modelMap)
+  const decoder = new Decoder(modelMap, true)
   const doc = decoder.createArticleNode(manuscriptID)
 
   const transformer = new STSExporter()

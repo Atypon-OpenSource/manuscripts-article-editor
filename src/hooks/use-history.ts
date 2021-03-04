@@ -106,7 +106,7 @@ export const useHistory = (projectID: string): HookValue => {
                 !doc.manuscriptID || doc.manuscriptID === manuscriptID
             )
           )
-          const decoder = new Decoder(modelMap)
+          const decoder = new Decoder(modelMap, true)
           const doc = decoder.createArticleNode() as ManuscriptNode
           setLoadSnapshotStatus(SnapshotStatus.Done)
           setCurrent({

@@ -134,7 +134,7 @@ export const bootstrap = async ({
   const latestSnaphotID = snapshots.length ? snapshots[0].s3Id : null
 
   if (!latestSnaphotID) {
-    const decoder = new Decoder(modelMap)
+    const decoder = new Decoder(modelMap, true)
     const doc = decoder.createArticleNode()
     const ancestorDoc = decoder.createArticleNode()
     return {
@@ -159,7 +159,7 @@ export const bootstrap = async ({
       (doc: any) => !doc.manuscriptID || doc.manuscriptID === manuscriptID
     )
   )
-  const decoder = new Decoder(snapshotModelMap)
+  const decoder = new Decoder(snapshotModelMap, true)
   const doc = decoder.createArticleNode() as ManuscriptNode
   const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
 

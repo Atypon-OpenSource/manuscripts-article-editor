@@ -1401,7 +1401,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   ) => {
     const { conflictManager, conflicts } = this.state
 
-    const decoder = new Decoder(new Map()) // TODO: modelMap?
+    const decoder = new Decoder(new Map(), true) // TODO: modelMap?
 
     return conflictManager!.processConflictingUpdate(
       model,
@@ -1416,7 +1416,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     this.forceEditorUpdate = (parent, blocksToUpdate: string[]) => {
       const { modelMap } = this.state
-      const decoder = new Decoder(modelMap!)
+      const decoder = new Decoder(modelMap!, true)
       const items = blocksToUpdate
         .map((block) => {
           const model = modelMap!.get(block)
@@ -1517,7 +1517,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
         // TODO: set updatedAt on nodes that depend on data models?
 
-        const decoder = new Decoder(modelMap)
+        const decoder = new Decoder(modelMap, true)
 
         try {
           const node = decoder.decode(model)
@@ -1835,7 +1835,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       throw new Error('EditorView not initialized')
     }
 
-    const decoder = new Decoder(new Map()) // TODO: modelMap?
+    const decoder = new Decoder(new Map(), true) // TODO: modelMap?
 
     const updatedConflicts = conflictManager!.updateConflicts(
       conflicts,
