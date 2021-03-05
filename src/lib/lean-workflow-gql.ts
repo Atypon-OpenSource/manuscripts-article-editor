@@ -36,6 +36,11 @@ interface proceedProps {
   note: string
 }
 
+interface mainManuscriptProps {
+  submissionId: string
+  name: string
+}
+
 const UPLOAD_ATTACHMENT = gql`
   mutation Upload($submissionId: ID!, $file: Upload!, $typeId: ID!) {
     uploadAttachment(
@@ -68,6 +73,12 @@ const PROCEED = gql`
     proceed(submissionId: $submissionId, statusId: $statusId, note: $note)
   }
 `
+const SET_MAIN_MANUSCRIPT = gql`
+  mutation SetMainManuscript($submissionId: ID!, $name: String!) {
+    setMainManuscript(submissionId: $submissionId, name: $name)
+  }
+`
+
 export const useUploadAttachment = () => {
   const [mutate] = useMutation(UPLOAD_ATTACHMENT)
   return ({
@@ -139,6 +150,20 @@ export const useProceed = () => {
         submissionId,
         statusId,
         note,
+      },
+    })
+}
+
+export const useSetMainManuscript = () => {
+  const [mutate] = useMutation(SET_MAIN_MANUSCRIPT)
+  return ({ submissionId, name }: mainManuscriptProps) =>
+    mutate({
+      context: {
+        clientPurpose: 'leanWorkflowManager',
+      },
+      variables: {
+        submissionId,
+        name,
       },
     })
 }
