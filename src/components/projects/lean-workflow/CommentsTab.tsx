@@ -9,32 +9,24 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { buildKeyword, Selected } from '@manuscripts/manuscript-transform'
 import {
-  buildKeyword,
-  ManuscriptNode,
-  Selected,
-} from '@manuscripts/manuscript-transform'
-import {
-  CommentAnnotation,
   Keyword,
   ManuscriptNote,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { ManuscriptNoteList } from '@manuscripts/style-guide'
-import { EditorState, Transaction } from 'prosemirror-state'
-import React, { useState } from 'react'
+import React from 'react'
 
 import config from '../../../config'
+import { useComments } from '../../../hooks/use-comments'
 import { InspectorSection } from '../../InspectorSection'
-import { CommentFilter } from '../CommentList'
 import { SaveModel } from '../ManuscriptInspector'
+import { CommentsList } from './CommentsList'
 
 export const CommentsTab: React.FC<{
-  comments: CommentAnnotation[]
+  commentController: ReturnType<typeof useComments>
   notes: ManuscriptNote[]
-  state: EditorState
-  dispatch: (tr: Transaction) => EditorState
-  doc: ManuscriptNode
   user: UserProfile
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
@@ -42,14 +34,9 @@ export const CommentsTab: React.FC<{
   saveModel: SaveModel
   deleteModel: (id: string) => Promise<string>
   selected: Selected | undefined
-  commentTarget?: string
-  setCommentTarget: (commentTarget?: string) => void
 }> = ({
-  comments,
+  commentController,
   notes,
-  state,
-  dispatch,
-  doc,
   user,
   collaborators,
   collaboratorsById,
@@ -57,18 +44,9 @@ export const CommentsTab: React.FC<{
   saveModel,
   deleteModel,
   selected,
-  setCommentTarget,
-  commentTarget,
 }) => {
-  // @ts-ignore
-  const [commentFilter, setCommentFilter] = useState<CommentFilter>(
-    CommentFilter.ALL
-  )
-
-  const getCurrentUser = (): UserProfile => user
-
   const createKeyword = (name: string) => saveModel(buildKeyword(name))
-  // @ts-ignore
+
   const getCollaborator = (id: string) => collaborators.get(id)
 
   const getCollaboratorById = (id: string) => collaboratorsById.get(id)
@@ -82,37 +60,24 @@ export const CommentsTab: React.FC<{
 
   return (
     <div>
-      {/* TODO:: will comment out this part when we figure out a solution to the snapshot with Comments*/}
-      {/* {config.features.commenting && (
+      {config.features.commenting && (
         <InspectorSection title={'Comments'}>
-          <CommentList
-            comments={comments || []}
-            doc={doc}
-            getCurrentUser={getCurrentUser}
-            selected={selected || null}
+          <CommentsList
+            commentController={commentController}
             createKeyword={createKeyword}
-            deleteModel={deleteModel}
             getCollaborator={getCollaborator}
-            getCollaboratorById={getCollaboratorById}
             getKeyword={getKeyword}
             listCollaborators={listCollaborators}
             listKeywords={listKeywords}
-            saveModel={saveModel}
-            commentTarget={commentTarget}
-            setCommentTarget={setCommentTarget}
-            state={state}
-            dispatch={dispatch}
-            setCommentFilter={setCommentFilter}
-            commentFilter={commentFilter}
           />
         </InspectorSection>
-      )} */}
+      )}
       {config.features.productionNotes && (
         <InspectorSection title={'Notes'}>
           <ManuscriptNoteList
             createKeyword={createKeyword}
             notes={notes || []}
-            currentUserId={getCurrentUser()._id}
+            currentUserId={user._id}
             getKeyword={getKeyword}
             listKeywords={listKeywords}
             selected={selected || null}

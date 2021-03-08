@@ -10,13 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  getHighlightTarget,
-  getHighlightText,
-} from '@manuscripts/manuscript-editor'
-import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import { CommentAnnotation } from '@manuscripts/manuscripts-json-schema'
-import React, { useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -30,14 +25,8 @@ const Container = styled.div`
 
 export const HighlightedText: React.FC<{
   comment: CommentAnnotation
-  state: ManuscriptEditorState
-}> = React.memo(({ comment, state }) => {
-  const highlightText = useMemo<string | undefined>(() => {
-    const highlight = getHighlightTarget(comment, state)
-
-    return highlight ? getHighlightText(highlight, state) : undefined
-  }, [comment, state])
-
+  getHighlightTextColor: (comment: CommentAnnotation) => string
+}> = React.memo(({ comment, getHighlightTextColor }) => {
   if (!comment.originalText) {
     return null
   }
@@ -46,7 +35,7 @@ export const HighlightedText: React.FC<{
     <Container
       style={{
         // TODO: should change colour only if highlight markers are deleted?
-        backgroundColor: highlightText !== undefined ? '#ffe08b' : '#f9020287',
+        backgroundColor: getHighlightTextColor(comment),
       }}
     >
       {comment.originalText.split('\n').map((item, index) => {

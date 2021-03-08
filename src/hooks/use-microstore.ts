@@ -10,51 +10,24 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
-import styled from 'styled-components'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-const TrackChangesOn = styled.div`
-.track-changes--blame {
-  background-color: rgba(57, 255, 20, 0.5);
-}
-.track-changes--blame-uncommitted {
-  background-color: rgba(255, 218, 20, 0.5);
-}
+// This hook is similar to useState, except that it prevents state updates
+// on unmounted components.
 
-.track-changes--blame-point {
-  position: relative;
-  &::after {
-    position: absolute;
-    left: -2.5px;
-    display: inline-block;
-    content: ' ';
-    border: 1px solid rgba(255, 0, 0);
-    transform: rotate(45deg);
-    border-top: none;
-    border-left: none;
-    width: 5px;
-    height: 5px;
-  }
-}
+export const useMicrostore = <T>(initialState: T) => {
+  const mounted = useRef(true)
+  const [state, rerender] = useState<T>(initialState)
 
-.track-changes--replaced {
-  color: rgba(0, 0, 0, 0.5);
-  text-decoration: line-through;
-`
+  const dispatch = useCallback((action: (current: T) => T) => {
+    mounted.current && rerender(action)
+  }, [])
 
-const TrackChangesOff = styled.div`
-  .track-changes--replaced {
-    display: none !important;
-  }
-`
+  useEffect(() => {
+    return () => {
+      mounted.current = false
+    }
+  }, [])
 
-export const TrackChangesStyles: React.FC<{ trackEnabled: boolean }> = ({
-  trackEnabled,
-  children,
-}) => {
-  return trackEnabled ? (
-    <TrackChangesOn>{children}</TrackChangesOn>
-  ) : (
-    <TrackChangesOff>{children}</TrackChangesOff>
-  )
+  return [state, dispatch] as const
 }

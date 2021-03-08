@@ -15,7 +15,6 @@ import {
   deleteHighlightMarkers,
   getHighlightTarget,
   getHighlightText,
-  selectedHighlights,
 } from '@manuscripts/manuscript-editor'
 import {
   buildComment,
@@ -31,43 +30,15 @@ import {
 import {
   buildCommentTree,
   CheckboxField,
-  CheckboxLabel,
   CommentData,
   CommentTarget,
   CommentWrapper,
-  NoteBodyContainer,
-  ReplyBodyContainer,
 } from '@manuscripts/style-guide'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import styled from 'styled-components'
 
+import * as Pattern from './CommentListPatterns'
 import { HighlightedText } from './HighlightedText'
-
-const CommentListContainer = styled.div`
-  flex: 1;
-  overflow-y: auto;
-`
-
-const CommentThread = styled.div`
-  margin: 16px 16px 16px 0;
-`
-
-const PlaceholderContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
-`
-
-const PlaceholderMessage = styled.div`
-  font-size: ${(props) => props.theme.font.size.medium};
-  font-weight: ${(props) => props.theme.font.weight.light};
-  color: ${(props) => props.theme.colors.text.secondary};
-  text-align: center;
-  margin: ${(props) => props.theme.grid.unit * 5}px;
-`
 
 export enum CommentFilter {
   ALL,
@@ -104,6 +75,7 @@ export const CommentList: React.FC<Props> = React.memo(
     saveModel,
     selected,
     createKeyword,
+    getCollaborator,
     getCollaboratorById,
     getKeyword,
     listCollaborators,
@@ -135,6 +107,14 @@ export const CommentList: React.FC<Props> = React.memo(
       }
     }, [commentTarget, getCurrentUser, doc, newComment, state])
 
+    const handleOnSelectChange = useCallback(
+      (e) =>
+        setCommentFilter(
+          e.target.checked ? CommentFilter.RESOLVED : CommentFilter.ALL
+        ),
+      [setCommentFilter]
+    )
+
     const items = useMemo<Array<[string, CommentData[]]>>(() => {
       const combinedComments = [...comments]
 
@@ -150,8 +130,6 @@ export const CommentList: React.FC<Props> = React.memo(
 
       return Array.from(commentsTreeMap.entries())
     }, [comments, newComment, doc, setCommentFilter])
-
-    const highlights = useMemo(() => selectedHighlights(state), [state])
 
     const saveComment = useCallback(
       (comment: CommentAnnotation) => {
@@ -173,7 +151,7 @@ export const CommentList: React.FC<Props> = React.memo(
             console.error(error)
           })
           .then(async () => {
-            if (target?.startsWith('MPHighlight:')) {
+            if (target && target.startsWith('MPHighlight:')) {
               await deleteModel(target)
             }
           })
@@ -181,7 +159,7 @@ export const CommentList: React.FC<Props> = React.memo(
             console.error(error)
           })
           .finally(() => {
-            if (target?.startsWith('MPHighlight:')) {
+            if (target && target.startsWith('MPHighlight:')) {
               deleteHighlightMarkers(target, state, dispatch)
             }
 
@@ -200,47 +178,54 @@ export const CommentList: React.FC<Props> = React.memo(
       [newComment]
     )
 
-    const handleOnSelectChange = useCallback(
-      (e) =>
-        setCommentFilter(
-          e.target.checked ? CommentFilter.RESOLVED : CommentFilter.ALL
-        ),
-      [setCommentFilter]
+    const getHighlightTextColor = useCallback(
+      (comment: CommentAnnotation) => {
+        let highlight = null
+        try {
+          const target = getHighlightTarget(comment, state)
+          highlight = target && getHighlightText(target, state)
+        } catch (e) {
+          highlight = null
+        }
+
+        return highlight ? '#ffe08b' : '#f9020287'
+      },
+      [state]
     )
 
     if (!items.length) {
       return (
-        <PlaceholderContainer>
+        <Pattern.PlaceholderContainer>
           <AuthorPlaceholder width={295} height={202} />
-          <PlaceholderMessage>
+          <Pattern.PlaceholderMessage>
             Discuss this manuscript with your collaborators by creating a
             comment.
-          </PlaceholderMessage>
-        </PlaceholderContainer>
+          </Pattern.PlaceholderMessage>
+        </Pattern.PlaceholderContainer>
       )
     }
 
     return (
-      <>
-        <ActionHeader>
+      <React.Fragment>
+        <Pattern.ActionHeader>
           {items.length > 0 && (
-            <Checkbox>
+            <Pattern.Checkbox>
               <CheckboxField
                 checked={commentFilter === CommentFilter.RESOLVED}
                 onChange={handleOnSelectChange}
               />
-              <LabelText>See resolved</LabelText>
-            </Checkbox>
+              <Pattern.LabelText>See resolved</Pattern.LabelText>
+            </Pattern.Checkbox>
           )}
-        </ActionHeader>
-        <CommentListContainer>
+        </Pattern.ActionHeader>
+        <Pattern.Container>
           {items.map(([target, commentData]) => {
             // TODO: move this into a child component?
             const isSelected =
               (selected &&
                 (selected.node.attrs.id === target ||
                   selected.node.attrs.rid === target)) ||
-              highlights.some((highlight) => highlight.rid === target)
+              false
             const selectedNoteData =
               commentFilter === CommentFilter.RESOLVED
                 ? commentData.filter((note) => note.comment.resolved)
@@ -248,43 +233,38 @@ export const CommentList: React.FC<Props> = React.memo(
             return (
               <CommentTarget key={target} isSelected={isSelected}>
                 {selectedNoteData.map(({ comment, children }) => (
-                  <CommentThread key={comment._id}>
-                    <NoteBodyContainer
-                      isSelected={isSelected}
+                  <Pattern.Thread key={comment._id}>
+                    <CommentWrapper
+                      comment={comment}
+                      createKeyword={createKeyword}
+                      deleteComment={deleteComment}
+                      getCollaborator={getCollaborator}
+                      getKeyword={getKeyword}
+                      listCollaborators={listCollaborators}
+                      listKeywords={listKeywords}
+                      saveComment={saveComment}
+                      handleCreateReply={setCommentTarget}
+                      handleSetResolved={async () =>
+                        await saveModel({
+                          ...comment,
+                          resolved: !comment.resolved,
+                        } as CommentAnnotation)
+                      }
                       isNew={isNew(comment as CommentAnnotation)}
                     >
-                      <CommentWrapper
-                        createKeyword={createKeyword}
-                        comment={comment}
-                        deleteComment={deleteComment}
-                        handleSetResolved={async () =>
-                          await saveModel({
-                            ...comment,
-                            resolved: !comment.resolved,
-                          } as CommentAnnotation)
-                        }
-                        getCollaborator={getCollaboratorById}
-                        getKeyword={getKeyword}
-                        listCollaborators={listCollaborators}
-                        listKeywords={listKeywords}
-                        saveComment={saveComment}
-                        handleCreateReply={setCommentTarget}
-                        isNew={isNew(comment as CommentAnnotation)}
-                      >
-                        <HighlightedText
-                          comment={comment as CommentAnnotation}
-                          state={state}
-                        />
-                      </CommentWrapper>
-                    </NoteBodyContainer>
+                      <HighlightedText
+                        comment={comment as CommentAnnotation}
+                        getHighlightTextColor={getHighlightTextColor}
+                      />
+                    </CommentWrapper>
 
                     {children.map((comment) => (
-                      <ReplyBodyContainer key={comment._id}>
+                      <Pattern.Reply key={comment._id}>
                         <CommentWrapper
-                          createKeyword={createKeyword}
                           comment={comment}
+                          createKeyword={createKeyword}
                           deleteComment={deleteComment}
-                          getCollaborator={getCollaboratorById}
+                          getCollaborator={getCollaborator}
                           getKeyword={getKeyword}
                           isReply={true}
                           listCollaborators={listCollaborators}
@@ -293,36 +273,15 @@ export const CommentList: React.FC<Props> = React.memo(
                           handleCreateReply={setCommentTarget}
                           isNew={isNew(comment as CommentAnnotation)}
                         />
-                      </ReplyBodyContainer>
+                      </Pattern.Reply>
                     ))}
-                  </CommentThread>
+                  </Pattern.Thread>
                 ))}
               </CommentTarget>
             )
           })}
-        </CommentListContainer>
-      </>
+        </Pattern.Container>
+      </React.Fragment>
     )
   }
 )
-
-const ActionHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: 17px;
-  margin-left: 33px;
-`
-
-export const LabelText = styled.div`
-  font-family: ${(props) => props.theme.font.family.sans};
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: 14px;
-  line-height: 24px;
-`
-
-const Checkbox = styled(CheckboxLabel)`
-  div {
-    color: ${(props) => props.theme.colors.text.primary};
-  }
-`

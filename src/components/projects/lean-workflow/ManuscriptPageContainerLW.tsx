@@ -47,9 +47,13 @@ import { RouteComponentProps } from 'react-router'
 
 import config from '../../../config'
 import { useBiblio } from '../../../hooks/use-biblio'
+import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
 import { useCommits } from '../../../hooks/use-commits'
 import { createUseLoadable } from '../../../hooks/use-loadable'
-import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
+import {
+  ManuscriptModelsProvider,
+  useManuscriptModels,
+} from '../../../hooks/use-manuscript-models'
 import { bootstrap, saveEditorState } from '../../../lib/bootstrap-manuscript'
 import {
   useGetPermittedActions,
@@ -115,8 +119,6 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     manuscriptID: match.params.manuscriptID,
   })
 
-  const [commentTarget, setCommentTarget] = useState<string | undefined>()
-
   if (isLoading) {
     return <ManuscriptPlaceholder />
   } else if (error || !data) {
@@ -127,13 +129,16 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     )
   }
 
+  props.user
+
   return (
-    <ManuscriptPageView
-      {...data}
-      {...props}
-      commentTarget={commentTarget}
-      setCommentTarget={setCommentTarget}
-    />
+    <ManuscriptModelsProvider
+      modelMap={data.modelMap}
+      containerID={project._id}
+      manuscriptID={match.params.manuscriptID}
+    >
+      <ManuscriptPageView {...data} {...props} />
+    </ManuscriptModelsProvider>
   )
 }
 
@@ -145,8 +150,6 @@ export interface ManuscriptPageViewProps extends CombinedProps {
   snapshotID: string | null
   modelMap: Map<string, Model>
   snapshots: Array<RxDocument<Snapshot>>
-  setCommentTarget: (commentTarget?: string) => void
-  commentTarget?: string
 }
 
 const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
@@ -161,8 +164,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     snapshots,
     comments,
     notes,
-    setCommentTarget,
-    commentTarget,
     tags,
   } = props
 
@@ -174,7 +175,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     deleteModel,
     collection,
     bundle,
-  } = useManuscriptModels(modelMap, project._id, manuscript._id)
+  } = useManuscriptModels()
 
   const biblio = useBiblio({
     bundle,
@@ -288,7 +289,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     saveModel,
     deleteModel,
     putAttachment: putAttachment,
-    setCommentTarget,
     retrySync,
 
     renderReactComponent: ReactDOM.render,
@@ -312,7 +312,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ManuscriptsEditor.createView(editorProps)
   )
 
-  const { state, dispatch, view } = editor
+  const { state, doCommand, dispatch, view } = editor
 
   useEffect(() => {
     saveEditorState(state, modelMap, project._id, manuscript._id)
@@ -336,6 +336,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       await collection.save(value, containerIDs, true)
     }
   }
+
+  const commentController = useComments(comments, user, state, doCommand)
 
   const [sortBy, setSortBy] = useState('Date')
   const [errorDialog, setErrorDialog] = useState(false)
@@ -448,6 +450,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   ].filter(Boolean) as Array<
     'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
   >
+
   return (
     <RequirementsProvider modelMap={modelMap}>
       <CapabilitiesProvider
@@ -530,10 +533,15 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
           direction={'row'}
           side={'start'}
           hideWhen={'max-width: 900px'}
-          forceOpen={commentTarget !== undefined}
           resizerButton={ResizingInspectorButton}
+          forceOpen={!!getUnsavedComment(commentController.items)}
         >
-          <Inspector tabs={TABS} commentTarget={commentTarget}>
+          <Inspector
+            tabs={TABS}
+            commentTarget={
+              getUnsavedComment(commentController.items) || undefined
+            }
+          >
             {TABS.map((label) => {
               switch (label) {
                 case 'Content': {
@@ -565,11 +573,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                 case 'Comments': {
                   return (
                     <CommentsTab
-                      comments={comments}
+                      commentController={commentController}
                       notes={notes}
-                      state={state}
-                      dispatch={dispatch}
-                      doc={doc}
                       user={props.user}
                       collaborators={props.collaborators}
                       collaboratorsById={props.collaboratorsById}
@@ -577,8 +582,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       saveModel={saveModel}
                       deleteModel={deleteModel}
                       selected={selected}
-                      setCommentTarget={setCommentTarget}
-                      commentTarget={commentTarget}
                       key="comments"
                     />
                   )

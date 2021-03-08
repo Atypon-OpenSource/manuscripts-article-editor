@@ -65,10 +65,10 @@ storiesOf('Projects/Comments', module)
         getCurrentUser={() => people[0]}
         getCollaborator={(id: string) => collaboratorMap.get(id)}
         getCollaboratorById={(id: string) => userMap.get(id)}
-        deleteModel={async () => action('delete model')}
-        saveModel={async () => action('save model')}
+        deleteModel={action('delete model')}
+        saveModel={action('save model')}
         listCollaborators={() => people}
-        createKeyword={async () => action('create keyword')}
+        createKeyword={action('create keyword')}
         getKeyword={(id: string) => keywordMap.get(id)}
         listKeywords={() => keywords}
         selected={null}

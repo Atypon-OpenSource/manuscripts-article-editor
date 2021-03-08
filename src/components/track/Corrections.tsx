@@ -77,9 +77,7 @@ export const Corrections: React.FC<Props> = ({
   reject,
   project,
 }) => {
-  const { commit: currentCommit, focusedCommit } = getTrackPluginState(
-    editor.state
-  )
+  const { commit: currentCommit } = getTrackPluginState(editor.state)
 
   const getCommitFromCorrectionId = useCallback(
     (correctionId: string) => {
@@ -123,7 +121,7 @@ export const Corrections: React.FC<Props> = ({
         title={'Suggestions'}
         corrections={correctionsByStatus.proposed}
         project={project}
-        focusedCommit={focusedCommit}
+        focusedCommit={null}
         getCollaboratorById={getCollaboratorById}
         handleFocus={focusCorrection}
         handleAccept={accept}
@@ -134,7 +132,7 @@ export const Corrections: React.FC<Props> = ({
         title={'Approved Suggestions'}
         corrections={correctionsByStatus.accepted}
         project={project}
-        focusedCommit={focusedCommit}
+        focusedCommit={null}
         getCollaboratorById={getCollaboratorById}
         handleFocus={focusCorrection}
         handleAccept={accept}
@@ -144,7 +142,7 @@ export const Corrections: React.FC<Props> = ({
         title={'Rejected Suggestions'}
         corrections={correctionsByStatus.rejected}
         project={project}
-        focusedCommit={focusedCommit}
+        focusedCommit={null}
         getCollaboratorById={getCollaboratorById}
         handleFocus={focusCorrection}
         handleAccept={accept}

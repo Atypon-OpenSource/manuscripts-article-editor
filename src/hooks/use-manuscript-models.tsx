@@ -18,18 +18,38 @@ import {
   ModelAttachment,
 } from '@manuscripts/manuscript-transform'
 import { Bundle, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
-import { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 
 import { Collection, ContainerIDs } from '../sync/Collection'
 import collectionManager from '../sync/CollectionManager'
 
 type ModelMap = Map<string, Model>
 
-export const useManuscriptModels = (
-  modelMap: ModelMap,
-  containerID: string,
+interface Props {
+  modelMap: ModelMap
+  containerID: string
   manuscriptID: string
-) => {
+}
+
+interface ManuscriptModels {
+  getModel: <T extends Model>(id: string) => T | undefined
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  deleteModel: (id: string) => Promise<string>
+  bundle: Bundle | null
+  collection: Collection<ContainedModel>
+}
+
+const ManuscriptModelsContext = React.createContext<ManuscriptModels | null>(
+  null
+)
+
+export const ManuscriptModelsProvider: React.FC<Props> = ({
+  modelMap,
+  containerID,
+  manuscriptID,
+  children,
+}) => {
   const collection = collectionManager.getCollection(
     `project-${containerID}`
   ) as Collection<ContainedModel>
@@ -116,7 +136,7 @@ export const useManuscriptModels = (
     [modelMap, collection]
   )
 
-  return {
+  const value = {
     getModel,
     saveModel,
     saveManuscript,
@@ -124,4 +144,19 @@ export const useManuscriptModels = (
     collection,
     bundle,
   }
+
+  return (
+    <ManuscriptModelsContext.Provider value={value}>
+      {children}
+    </ManuscriptModelsContext.Provider>
+  )
+}
+
+export const useManuscriptModels = () => {
+  const data = useContext(ManuscriptModelsContext)
+  if (!data) {
+    throw new Error('useManuscriptModels taken out of context')
+  }
+
+  return data
 }
