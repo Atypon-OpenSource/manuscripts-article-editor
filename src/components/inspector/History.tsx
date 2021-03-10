@@ -83,7 +83,7 @@ const ErrorStatus = styled.div`
 `
 
 const Form = styled.form`
-  border-color: ${(props) => props.theme.colors.border.primary};
+  border-color: ${(props) => props.theme.colors.border.primary} !important;
   border-top: 1px solid;
   border-bottom: 1px solid;
   background: ${(props) => props.theme.colors.background.info};
@@ -181,7 +181,7 @@ export const HistoryPanel: React.FC<Props> = ({
           <AddButton
             action={requestTakeSnapshot}
             size="medium"
-            title="Add a New Version"
+            title="New Version"
           />
         </AddButtonWrapper>
       )}
@@ -194,6 +194,7 @@ export const HistoryPanel: React.FC<Props> = ({
                 value={textFieldValue}
                 onChange={handleTextFieldChange}
                 id="snapshot-name"
+                placeholder="Add Title"
               />
             </TextFieldWrapper>
             {!!status && status === SaveSnapshotStatus.Error && (

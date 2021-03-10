@@ -11,14 +11,18 @@
  */
 
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { Correction as CorrectionT } from '@manuscripts/manuscripts-json-schema'
-import { CommentUser } from '@manuscripts/style-guide'
+import {
+  Correction as CorrectionT,
+  Project,
+} from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
+import { AvatarContainer, CorrectionItem, Time } from './CorrectionItem'
 import { Accept, Reject } from './Icons'
 
 interface Props {
+  project: Project
   correction: CorrectionT
   isFocused: boolean
   getCollaboratorById: (
@@ -36,6 +40,7 @@ export const Correction: React.FC<Props> = ({
   handleFocus,
   handleAccept,
   handleReject,
+  project,
 }) => {
   const handleClick = useCallback(
     (e) => {
@@ -47,84 +52,84 @@ export const Correction: React.FC<Props> = ({
 
   return (
     <Wrapper isFocused={isFocused}>
-      <Header>
-        <FocusHandle
-          href="#"
-          onClick={handleClick}
-          isDisabled={correction.status === 'rejected'}
+      <FocusHandle
+        href="#"
+        onClick={handleClick}
+        isDisabled={correction.status === 'rejected'}
+      >
+        <CorrectionItem
+          correction={correction}
+          getCollaboratorById={getCollaboratorById}
+          project={project}
+        />
+      </FocusHandle>
+      <Actions>
+        <Action
+          type="button"
+          onClick={() => handleReject(correction._id)}
+          aria-pressed={correction.status === 'rejected'}
         >
-          <CommentUser
-            contributions={correction.contributions}
-            getCollaboratorById={getCollaboratorById}
-            createdAt={correction.contributions![0].timestamp * 1000}
-          />
-        </FocusHandle>
-        <div>
-          <Action
-            type="button"
-            onClick={() => handleReject(correction._id)}
-            aria-pressed={correction.status === 'rejected'}
-          >
-            <Reject color="#353535" />
-          </Action>
-          <Action
-            type="button"
-            onClick={() => handleAccept(correction._id)}
-            aria-pressed={correction.status === 'accepted'}
-          >
-            <Accept color="#353535" />
-          </Action>
-        </div>
-      </Header>
-      <Snippet isRejected={correction.status === 'rejected'}>
-        {correction.snippet}
-      </Snippet>
+          <Reject color="#353535" />
+        </Action>
+        <Action
+          type="button"
+          onClick={() => handleAccept(correction._id)}
+          aria-pressed={correction.status === 'accepted'}
+        >
+          <Accept color="#353535" />
+        </Action>
+      </Actions>
     </Wrapper>
   )
 }
 
+const Actions = styled.div`
+  display: flex;
+  visibility: hidden;
+`
+
 const Wrapper = styled.li<{
   isFocused: boolean
 }>`
-  margin: 2rem 0;
-  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${(props) => props.theme.grid.unit * 3}px
+    ${(props) => props.theme.grid.unit * 2}px !important;
+  border-top: 1px solid ${(props) => props.theme.colors.background.secondary};
   list-style-type: none;
 
   /* FocusHandle should cover entire card: */
   position: relative;
+
+  &:hover {
+    background: ${(props) => props.theme.colors.background.fifth} !important;
+
+    ${AvatarContainer}, ${Actions}, ${Time} {
+      visibility: visible;
+    }
+  }
 `
 
 const FocusHandle = styled.a<{
   isDisabled: boolean
 }>`
+  display: flex;
+  align-items: center;
   color: inherit;
   text-decoration: none;
   pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
   opacity: ${(props) => (props.isDisabled ? 0.5 : 1)};
-  &:after {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-`
-
-const Header = styled.header`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  overflow: hidden;
 `
 
 const Action = styled.button`
   background-color: transparent;
-  margin: 0 1em;
+  margin: 0 ${(props) => props.theme.grid.unit * 2}px;
   border: 1px solid transparent;
   border-radius: 50%;
   padding: 0;
-  width: 24px;
-  height: 24px;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
@@ -133,22 +138,7 @@ const Action = styled.button`
   position: relative;
   z-index: 1;
 
-  &[aria-pressed='true'] {
-    border-color: #bce7f6;
-    background-color: #f2fbfc;
-    svg path {
-      fill: #1a9bc7;
-    }
+  &:focus {
+    outline: none;
   }
-`
-
-const Snippet = styled.div<{
-  isRejected: boolean
-}>`
-  font-size: 0.85rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0.5em 25px 0;
-  opacity: ${(props) => (props.isRejected ? 0.5 : 1)};
 `

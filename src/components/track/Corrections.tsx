@@ -15,18 +15,52 @@ import {
   ManuscriptSchema,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
-import { Correction as CorrectionT } from '@manuscripts/manuscripts-json-schema'
+import {
+  Correction as CorrectionT,
+  Project,
+} from '@manuscripts/manuscripts-json-schema'
 import {
   commands,
   Commit,
   getTrackPluginState,
 } from '@manuscripts/track-changes'
 import React, { useCallback } from 'react'
-import styled from 'styled-components'
 
-import { Correction } from './Correction'
+import { InspectorSection } from '../InspectorSection'
+import { CorrectionsSection } from './CorrectionsSection'
+
+interface CorrectionsByStatus {
+  proposed: CorrectionT[]
+  accepted: CorrectionT[]
+  rejected: CorrectionT[]
+}
+
+export const groupCorrectionsByStatus = (
+  corrections: CorrectionT[]
+): CorrectionsByStatus => {
+  const filteredCorrectionsByStatus: CorrectionsByStatus = {
+    proposed: [],
+    accepted: [],
+    rejected: [],
+  }
+
+  const correctionsByStatus = corrections.reduce((total, correction) => {
+    if (correction.status === 'proposed') {
+      total.proposed.push(correction)
+    } else if (correction.status === 'accepted') {
+      total.accepted.push(correction)
+    } else if (correction.status === 'rejected') {
+      total.rejected.push(correction)
+    }
+
+    return total
+  }, filteredCorrectionsByStatus)
+
+  return correctionsByStatus
+}
 
 interface Props {
+  project: Project
   corrections: CorrectionT[]
   commits: Commit[]
   editor: EditorHookValue<ManuscriptSchema>
@@ -44,6 +78,7 @@ export const Corrections: React.FC<Props> = ({
   collaborators,
   accept,
   reject,
+  project,
 }) => {
   const { commit: currentCommit, focusedCommit } = getTrackPluginState(
     editor.state
@@ -76,35 +111,49 @@ export const Corrections: React.FC<Props> = ({
     editor.doCommand(commands.focusCommit(commit.changeID))
   }
 
+  const correctionsByStatus = groupCorrectionsByStatus(corrections)
   return (
     <React.Fragment>
-      <h3>Information</h3>
-      <p>
-        <strong>Current Top-Level Commit:</strong> {currentCommit._id}
-      </p>
+      <CorrectionsSection
+        title={'Suggestions'}
+        corrections={correctionsByStatus.proposed}
+        project={project}
+        focusedCommit={focusedCommit}
+        getCollaboratorById={getCollaboratorById}
+        handleFocus={focusCorrection}
+        handleAccept={accept}
+        handleReject={reject}
+      />
+      <CorrectionsSection
+        title={'Approved Suggestions'}
+        corrections={correctionsByStatus.accepted}
+        project={project}
+        focusedCommit={focusedCommit}
+        getCollaboratorById={getCollaboratorById}
+        handleFocus={focusCorrection}
+        handleAccept={accept}
+        handleReject={reject}
+      />
+      <CorrectionsSection
+        title={'Rejected Suggestions'}
+        corrections={correctionsByStatus.rejected}
+        project={project}
+        focusedCommit={focusedCommit}
+        getCollaboratorById={getCollaboratorById}
+        handleFocus={focusCorrection}
+        handleAccept={accept}
+        handleReject={reject}
+      />
+      {/* // TODO: remove this section once suggestions created automatically */}
+      <InspectorSection title={'Information'}>
+        <p>
+          <strong>Current Top-Level Commit:</strong> {currentCommit._id}
+        </p>
 
-      <button type="button" onClick={freeze}>
-        Save
-      </button>
-
-      <CorrectionList>
-        {corrections.map((corr) => (
-          <Correction
-            correction={corr}
-            isFocused={corr.commitChangeID === focusedCommit}
-            getCollaboratorById={getCollaboratorById}
-            handleFocus={focusCorrection}
-            handleAccept={accept}
-            handleReject={reject}
-            key={corr._id}
-          />
-        ))}
-      </CorrectionList>
+        <button type="button" onClick={freeze}>
+          Save
+        </button>
+      </InspectorSection>
     </React.Fragment>
   )
 }
-
-const CorrectionList = styled.ul`
-  padding: 0 32px;
-  margin: 0;
-`

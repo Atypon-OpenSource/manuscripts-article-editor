@@ -17,12 +17,15 @@ const formatOptions = {
   timeStyle: 'short',
 }
 
-export const FormattedDateTime: React.FC<{ date: number }> = ({ date }) => {
+export const FormattedDateTime: React.FC<{
+  date: number
+  options?: Intl.DateTimeFormatOptions
+}> = ({ date, options }) => {
   return (
     <span>
       {new Intl.DateTimeFormat(
         'default',
-        formatOptions as Intl.DateTimeFormatOptions
+        options ? options : (formatOptions as Intl.DateTimeFormatOptions)
       ).format(new Date(date * 1000))}
     </span>
   )

@@ -67,6 +67,7 @@ interface Args {
   manuscriptID: string
   snapshotID: string
   userProfileID: string
+  sortBy: string
 }
 
 export const useCommits = ({
@@ -231,6 +232,7 @@ export const useCommits = ({
 
   return {
     commits,
+    // TODO: Depend on `sortBy` Arg to choose sorting function => `correctionsByContext` is still missing
     corrections: corrections.slice().sort(correctionsByDate),
     freeze,
     accept,

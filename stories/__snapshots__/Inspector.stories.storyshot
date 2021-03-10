@@ -1055,7 +1055,7 @@ exports[`Storyshots Inspector/History basic 1`] = `
 }
 
 .c6 {
-  border-color: #bce7f6;
+  border-color: #bce7f6 !important;
   border-top: 1px solid;
   border-bottom: 1px solid;
   background: #f2fbfc;
@@ -1128,7 +1128,7 @@ exports[`Storyshots Inspector/History basic 1`] = `
           <div
             className="c5"
           >
-            Add a New Version
+            New Version
           </div>
         </button>
       </div>
@@ -1170,6 +1170,7 @@ exports[`Storyshots Inspector/History basic 1`] = `
                 className="c14 c15"
                 id="snapshot-name"
                 onChange={[Function]}
+                placeholder="Add Title"
                 value=""
               />
               <div
@@ -1531,7 +1532,7 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
 }
 
 .c6 {
-  border-color: #bce7f6;
+  border-color: #bce7f6 !important;
   border-top: 1px solid;
   border-bottom: 1px solid;
   background: #f2fbfc;
@@ -1604,7 +1605,7 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
           <div
             className="c5"
           >
-            Add a New Version
+            New Version
           </div>
         </button>
       </div>
@@ -1646,6 +1647,7 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
                 className="c14 c15"
                 id="snapshot-name"
                 onChange={[Function]}
+                placeholder="Add Title"
                 value=""
               />
               <div
@@ -2141,7 +2143,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
 }
 
 .c6 {
-  border-color: #bce7f6;
+  border-color: #bce7f6 !important;
   border-top: 1px solid;
   border-bottom: 1px solid;
   background: #f2fbfc;
@@ -2214,7 +2216,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
           <div
             className="c5"
           >
-            Add a New Version
+            New Version
           </div>
         </button>
       </div>
@@ -2256,6 +2258,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
                 className="c14 c15"
                 id="snapshot-name"
                 onChange={[Function]}
+                placeholder="Add Title"
                 value=""
               />
               <div

@@ -30,9 +30,14 @@ import {
   ManuscriptNode,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
-import { Model, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import {
+  Model,
+  Snapshot,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
+import { RxDocument } from '@manuscripts/rxdb'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 
@@ -43,6 +48,7 @@ import { createUseLoadable } from '../../../hooks/use-loadable'
 import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
 import { bootstrap } from '../../../lib/bootstrap-manuscript'
 import { ContainerIDs } from '../../../sync/Collection'
+import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import { IntlProps, withIntl } from '../../IntlProvider'
 import CitationEditor from '../../library/CitationEditor'
 import { CitationViewer } from '../../library/CitationViewer'
@@ -54,6 +60,7 @@ import { ManuscriptPlaceholder } from '../../Placeholders'
 import { RequirementsInspector } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { Corrections } from '../../track/Corrections'
+import { SortByDropdown } from '../../track/SortByDropdown'
 import {
   EditorBody,
   EditorContainer,
@@ -121,6 +128,7 @@ export interface ManuscriptPageViewProps extends CombinedProps {
   ancestorDoc: ManuscriptNode
   snapshotID: string | null
   modelMap: Map<string, Model>
+  snapshots: Array<RxDocument<Snapshot>>
   setCommentTarget: (commentTarget?: string) => void
   commentTarget?: string
 }
@@ -134,6 +142,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     doc,
     modelMap,
     snapshotID,
+    snapshots,
     comments,
     notes,
     setCommentTarget,
@@ -230,6 +239,14 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     }
   }
 
+  const [sortBy, setSortBy] = useState('Date')
+
+  const handleSort = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      setSortBy(event.currentTarget.value)
+    },
+    []
+  )
   const { commits, corrections, freeze, accept, reject } = useCommits({
     modelMap,
     initialCommits: props.commits,
@@ -240,7 +257,14 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     // TODO: we have to have a snapshotID
     snapshotID: snapshotID || '',
     ancestorDoc: props.ancestorDoc,
+    sortBy,
   })
+
+  const [selectedSnapshot, selectSnapshot] = useState(snapshots[0])
+
+  const handleSelect = useCallback((snapshot) => {
+    selectSnapshot(snapshot)
+  }, [])
 
   return (
     <RequirementsProvider modelMap={modelMap}>
@@ -302,7 +326,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         resizerButton={ResizingInspectorButton}
       >
         <Inspector
-          tabs={['Content', 'Comments', 'Quality', 'Changes']}
+          tabs={['Content', 'Comments', 'Quality', 'History']}
           commentTarget={commentTarget}
         >
           <ContentTab
@@ -346,15 +370,25 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
             bulkUpdate={bulkUpdate}
           />
           {snapshotID ? (
-            <Corrections
-              editor={editor}
-              corrections={corrections}
-              commits={commits}
-              collaborators={props.collaboratorsById}
-              freeze={freeze}
-              accept={accept}
-              reject={reject}
-            />
+            <>
+              <SnapshotsDropdown
+                snapshots={snapshots}
+                selectedSnapshot={selectedSnapshot}
+                selectSnapshot={handleSelect}
+                selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
+              />
+              <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
+              <Corrections
+                project={project}
+                editor={editor}
+                corrections={corrections}
+                commits={commits}
+                collaborators={props.collaboratorsById}
+                freeze={freeze}
+                accept={accept}
+                reject={reject}
+              />
+            </>
           ) : (
             <h3>Tracking is off - create a Snapshot to get started</h3>
           )}

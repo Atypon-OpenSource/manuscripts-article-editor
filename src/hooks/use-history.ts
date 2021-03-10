@@ -82,7 +82,6 @@ export const useHistory = (projectID: string): HookValue => {
         }
         const models = docs
           .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
-          .filter((doc) => doc.creator)
           .sort((a, b) => b.createdAt - a.createdAt)
         setSnapshotsList(models)
       })
