@@ -409,7 +409,12 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     } = this.props
 
     if (error) {
-      return <ReloadDialog message={error} />
+      return (
+        <ReloadDialog
+          message={error}
+          handleDownload={() => this.openExporter('manuproj')}
+        />
+      )
     }
 
     const message = this.props.location.state

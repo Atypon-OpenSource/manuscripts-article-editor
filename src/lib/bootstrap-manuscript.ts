@@ -129,7 +129,6 @@ export const bootstrap = async ({
   const snapshots = snapshotDocs
     .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
     .sort((a, b) => b.createdAt - a.createdAt)
-  console.log(snapshots)
 
   const latestSnaphotID = snapshots.length ? snapshots[0].s3Id : null
 

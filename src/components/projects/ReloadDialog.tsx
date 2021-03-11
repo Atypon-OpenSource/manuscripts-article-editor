@@ -80,9 +80,13 @@ const reloadPage = () => {
 
 interface Props {
   message: string
+  handleDownload?: () => void
 }
 
-export const ReloadDialog: React.FunctionComponent<Props> = ({ message }) => (
+export const ReloadDialog: React.FunctionComponent<Props> = ({
+  message,
+  handleDownload,
+}) => (
   <StyledModal
     isOpen={true}
     onRequestClose={navigateToProjectsList}
@@ -95,6 +99,11 @@ export const ReloadDialog: React.FunctionComponent<Props> = ({ message }) => (
 
       <Body>
         <Message message={message} />
+        {handleDownload && (
+          <TertiaryButton onClick={handleDownload}>
+            Download Project
+          </TertiaryButton>
+        )}
       </Body>
 
       <Actions>
