@@ -58,6 +58,7 @@ export const environmentVariables = [
   'ZOTERO_TRANSLATION_SERVER',
   'LEAN_WORKFLOW_MANAGER_URL',
   'FOOTNOTES_ENABLED',
+  'FEATURE_FILE_MANAGEMENT',
 ]
 
 // Optional variables that are only used if they're set
@@ -95,6 +96,7 @@ const optionalVariables = [
   'SUBMISSION_SERIES_CODE',
   'SUBMISSION_GROUP_DOI',
   'ZOTERO_TRANSLATION_SERVER',
+  'FEATURE_FILE_MANAGEMENT',
 ]
 
 if (

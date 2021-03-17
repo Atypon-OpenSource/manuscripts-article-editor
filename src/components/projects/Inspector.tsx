@@ -13,6 +13,7 @@
 import {
   ActualManuscriptNode,
   ContainedModel,
+  getModelsByType,
   ManuscriptEditorView,
   SectionNode,
   Selected,
@@ -20,21 +21,28 @@ import {
 import {
   Bundle,
   CommentAnnotation,
+  ExternalFile,
   Keyword,
   Manuscript,
   ManuscriptNote,
   Model,
+  ObjectTypes,
   Project,
   Section,
   Submission,
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { ManuscriptNoteList } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
+import { FileManager, ManuscriptNoteList } from '@manuscripts/style-guide'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import config from '../../config'
 import { useStatusLabels } from '../../hooks/use-status-labels'
+import {
+  useGetSubmission,
+  useUpdateAttachmentDesignation,
+  useUploadAttachment,
+} from '../../lib/lean-workflow-gql'
 import {
   InspectorContainer,
   InspectorTab,
@@ -69,6 +77,7 @@ const TABS = [
   config.quality_control.enabled && 'Quality',
   config.shackles.enabled && 'History',
   config.export.to_review && 'Submissions',
+  config.file_management.enabled && 'File Management',
 ].filter(Boolean) as Array<
   | 'Content'
   | 'Style'
@@ -77,6 +86,7 @@ const TABS = [
   | 'Notes'
   | 'History'
   | 'Submissions'
+  | 'File Management'
 >
 
 export const Inspector: React.FC<{
@@ -160,6 +170,73 @@ export const Inspector: React.FC<{
       setTabIndex(TABS.findIndex((tab) => tab === 'Submissions'))
     }
   }, [commentTarget, submission])
+
+  const files = getModelsByType<ExternalFile>(
+    modelMap,
+    ObjectTypes.ExternalFile
+  )
+  const submissionData = useGetSubmission(
+    manuscript._id,
+    manuscript.containerID
+  )
+
+  const uploadAttachment = useUploadAttachment()
+  const handleUploadAttachment = useCallback(
+    (submissionId: string, file: File, designation: string) => {
+      return uploadAttachment({
+        submissionId: submissionId,
+        file: file,
+        designation: designation,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+    },
+    [uploadAttachment]
+  )
+
+  const changeAttachmentDesignation = useUpdateAttachmentDesignation()
+  const handleChangeAttachmentDesignation = useCallback(
+    (submissionId: string, name: string, designation: string) => {
+      return changeAttachmentDesignation({
+        submissionId: submissionId,
+        name: name,
+        designation: designation,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+    },
+    [changeAttachmentDesignation]
+  )
+  const handleReplaceAttachment = useCallback(
+    (submissionId: string, name: string, file: File, typeId: string) => {
+      uploadAttachment({
+        submissionId: submissionId,
+        file: file,
+        designation: typeId,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+      return changeAttachmentDesignation({
+        submissionId: submissionId,
+        name: name,
+        designation: typeId,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+    },
+    [uploadAttachment, changeAttachmentDesignation]
+  )
+  const handleDownloadAttachment = useCallback((url: string) => {
+    window.location.assign(url)
+  }, [])
 
   return (
     <InspectorContainer>
@@ -368,7 +445,32 @@ export const Inspector: React.FC<{
                   </InspectorTabPanel>
                 )
               }
-
+              case 'File Management': {
+                {
+                  if (
+                    submissionData.data.submission &&
+                    submissionData.data.submission.id
+                  ) {
+                    return (
+                      <InspectorTabPanel key="FileManager">
+                        <FileManager
+                          submissionId={submissionData.data.submission.id}
+                          externalFiles={files}
+                          enableDragAndDrop={true}
+                          changeDesignationHandler={
+                            handleChangeAttachmentDesignation
+                          }
+                          handleDownload={handleDownloadAttachment}
+                          handleReplace={handleReplaceAttachment}
+                          handleUpload={handleUploadAttachment}
+                        />
+                      </InspectorTabPanel>
+                    )
+                  } else {
+                    return null
+                  }
+                }
+              }
               default: {
                 return null
               }

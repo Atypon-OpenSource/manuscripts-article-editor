@@ -123,6 +123,10 @@ interface Config {
     enabled: boolean
   }
   version: string
+
+  file_management: {
+    enabled: boolean
+  }
 }
 
 const config = {
@@ -241,6 +245,9 @@ const config = {
     enabled: isTrue(process.env.FOOTNOTES_ENABLED),
   },
   version,
+  file_management: {
+    enabled: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
+  },
 }
 
 export default config as Config

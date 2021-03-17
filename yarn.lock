@@ -2167,19 +2167,21 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.25.0.tgz#4ff45ac18616531db9a69685645e02fcecc10b6f"
-  integrity sha512-kaiW0TZPoC5heXbhp1ngfRhGHIvsVws5IVQnJ0vOZxLQGCsGXOXNp57NbHZBQPe1iM+V2lJHfB+7HaYsmywbhQ==
+"@manuscripts/style-guide@^0.26.2":
+  version "0.26.2"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.26.2.tgz#eb143b89aa21f29f2bc4bf19065e80b9d68ba3de"
+  integrity sha512-fcZKybi5ovA6jlHHGGMxxZN2E2CH5xkHIS/8zCzi7Pg63CB3CZfRFDdJd3n0jPkru9nC+UBBC+2f/IF3jjGJOA==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/eslint-config" "^0.4.2"
     "@reach/tabs" "^0.11.2"
+    "@types/react-color" "^3.0.4"
     date-fns "^2.16.1"
     lodash-es "^4.17.15"
     pdfjs-dist "^2.5.207"
+    react-color "^2.19.3"
     react-dnd "^9.4.0"
     react-intl "^3.12.0"
     react-modal "^3.11.2"
@@ -16212,6 +16214,19 @@ react-color@^2.17.0, react-color@^2.18.1:
   dependencies:
     "@icons/material" "^0.2.4"
     lodash "^4.17.11"
+    material-colors "^1.2.1"
+    prop-types "^15.5.10"
+    reactcss "^1.2.0"
+    tinycolor2 "^1.4.1"
+
+react-color@^2.19.3:
+  version "2.19.3"
+  resolved "https://registry.npmjs.org/react-color/-/react-color-2.19.3.tgz#ec6c6b4568312a3c6a18420ab0472e146aa5683d"
+  integrity sha512-LEeGE/ZzNLIsFWa1TMe8y5VYqr7bibneWmvJwm1pCn/eNmrabWDh659JSPn9BuaMpEfU83WTOJfnCcjDZwNQTA==
+  dependencies:
+    "@icons/material" "^0.2.4"
+    lodash "^4.17.15"
+    lodash-es "^4.17.15"
     material-colors "^1.2.1"
     prop-types "^15.5.10"
     reactcss "^1.2.0"
