@@ -246,7 +246,7 @@ const config = {
   },
   version,
   file_management: {
-    enabled: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
+    enabled: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
   },
 }
 

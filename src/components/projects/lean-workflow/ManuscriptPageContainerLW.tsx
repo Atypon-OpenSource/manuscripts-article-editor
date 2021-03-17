@@ -26,16 +26,20 @@ import {
 } from '@manuscripts/manuscript-editor'
 import {
   ContainedModel,
+  getModelsByType,
   isManuscriptModel,
   ManuscriptNode,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
 import {
+  ExternalFile,
   Model,
+  ObjectTypes,
   Snapshot,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
+import { FileManager } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
@@ -47,6 +51,11 @@ import { useCommits } from '../../../hooks/use-commits'
 import { createUseLoadable } from '../../../hooks/use-loadable'
 import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
 import { bootstrap } from '../../../lib/bootstrap-manuscript'
+import {
+  useGetSubmission,
+  useUpdateAttachmentDesignation,
+  useUploadAttachment,
+} from '../../../lib/lean-workflow-gql'
 import { ContainerIDs } from '../../../sync/Collection'
 import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import { IntlProps, withIntl } from '../../IntlProvider'
@@ -266,6 +275,78 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     selectSnapshot(snapshot)
   }, [])
 
+  const files = getModelsByType<ExternalFile>(
+    modelMap,
+    ObjectTypes.ExternalFile
+  )
+  const submissionData = useGetSubmission(
+    manuscript._id,
+    manuscript.containerID
+  )
+
+  const uploadAttachment = useUploadAttachment()
+  const handleUploadAttachment = useCallback(
+    (submissionId: string, file: File, designation: string) => {
+      console.log(submissionId)
+      console.log(file.name)
+      console.log(designation)
+      return uploadAttachment({
+        submissionId: submissionId,
+        file: file,
+        designation: designation,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+    },
+    [uploadAttachment]
+  )
+
+  const changeAttachmentDesignation = useUpdateAttachmentDesignation()
+  const handleChangeAttachmentDesignation = useCallback(
+    (submissionId: string, name: string, designation: string) => {
+      return changeAttachmentDesignation({
+        submissionId: submissionId,
+        name: name,
+        designation: designation,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+    },
+    [changeAttachmentDesignation]
+  )
+
+  const handleReplaceAttachment = useCallback(
+    (submissionId: string, name: string, file: File, typeId: string) => {
+      uploadAttachment({
+        submissionId: submissionId,
+        file: file,
+        designation: typeId,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+      return changeAttachmentDesignation({
+        submissionId: submissionId,
+        name: name,
+        designation: typeId,
+      })
+        .then(console.log)
+        .catch((e) => {
+          console.log('catch', e)
+        })
+    },
+    [uploadAttachment, changeAttachmentDesignation]
+  )
+
+  const handleDownloadAttachment = useCallback((url: string) => {
+    window.location.assign(url)
+  }, [])
+
   return (
     <RequirementsProvider modelMap={modelMap}>
       <ManuscriptSidebar
@@ -326,7 +407,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         resizerButton={ResizingInspectorButton}
       >
         <Inspector
-          tabs={['Content', 'Comments', 'Quality', 'History']}
+          tabs={['Content', 'Comments', 'Quality', 'History', 'Files']}
           commentTarget={commentTarget}
         >
           <ContentTab
@@ -392,6 +473,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
           ) : (
             <h3>Tracking is off - create a Snapshot to get started</h3>
           )}
+          {submissionData.data && submissionData.data.submission ? (
+            <FileManager
+              submissionId={submissionData.data.submission.id}
+              externalFiles={files}
+              enableDragAndDrop={true}
+              changeDesignationHandler={handleChangeAttachmentDesignation}
+              handleDownload={handleDownloadAttachment}
+              handleReplace={handleReplaceAttachment}
+              handleUpload={handleUploadAttachment}
+            />
+          ) : null}
         </Inspector>
       </Panel>
     </RequirementsProvider>
