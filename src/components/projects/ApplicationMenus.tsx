@@ -12,6 +12,8 @@
 
 import {
   ApplicationMenus,
+  DialogController,
+  DialogNames,
   getMenus,
   MenuSpec,
   useApplicationMenus,
@@ -20,9 +22,10 @@ import {
   ManuscriptEditorState,
   ManuscriptTransaction,
 } from '@manuscripts/manuscript-transform'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
+import { addColor, buildColors } from '../../lib/colors'
 import { createDispatchMenuAction } from '../../lib/native'
 import { buildProjectMenu, ProjectMenuProps } from '../../lib/project-menu'
 
@@ -31,7 +34,10 @@ type Command = (
   dispatch?: (tr: ManuscriptTransaction) => void
 ) => boolean
 
-export const createMenuSpec = (props: ProjectMenuProps): MenuSpec[] => {
+export const createMenuSpec = (
+  props: ProjectMenuProps,
+  openDialog: (dialog: DialogNames) => void
+): MenuSpec[] => {
   const { view } = props
   const { state, dispatch } = view
   const doCommand = (command: Command) => command(state, dispatch)
@@ -45,13 +51,20 @@ export const createMenuSpec = (props: ProjectMenuProps): MenuSpec[] => {
         doCommand,
         isCommandValid,
       } as any,
+      openDialog,
       config.footnotes.enabled
     ),
   ]
 }
 
 export const ManuscriptPageMenus: React.FC<ProjectMenuProps> = (props) => {
-  const spec = createMenuSpec(props)
+  const [dialog, setDialog] = useState<DialogNames | null>(null)
+  const closeDialog = () => setDialog(null)
+  const openDialog = (dialog: DialogNames) => setDialog(dialog)
+  const { colors, colorScheme } = buildColors(props.modelMap)
+  const handleAddColor = addColor(colors, props.saveModel, colorScheme)
+
+  const spec = createMenuSpec(props, openDialog)
 
   useEffect(() => {
     window.dispatchMenuAction = createDispatchMenuAction(spec)
@@ -61,10 +74,20 @@ export const ManuscriptPageMenus: React.FC<ProjectMenuProps> = (props) => {
   const { menuState, wrapperRef, handleItemClick } = useApplicationMenus(spec)
 
   return (
-    <ApplicationMenus
-      menuState={menuState}
-      wrapperRef={wrapperRef}
-      handleItemClick={handleItemClick}
-    />
+    <React.Fragment>
+      <DialogController
+        currentDialog={dialog}
+        handleCloseDialog={closeDialog}
+        editorState={props.view.state}
+        dispatch={props.view.dispatch}
+        colors={colors}
+        handleAddColor={handleAddColor}
+      />
+      <ApplicationMenus
+        menuState={menuState}
+        wrapperRef={wrapperRef}
+        handleItemClick={handleItemClick}
+      />
+    </React.Fragment>
   )
 }

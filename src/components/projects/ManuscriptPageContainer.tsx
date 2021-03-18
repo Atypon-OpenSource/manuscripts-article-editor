@@ -485,6 +485,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                           view={view}
                           manuscript={manuscript}
                           project={project}
+                          modelMap={modelMap}
+                          saveModel={this.saveModel}
                           openTemplateSelector={this.openTemplateSelector}
                           deleteProjectOrManuscript={handleRequestDelete}
                           history={this.props.history}

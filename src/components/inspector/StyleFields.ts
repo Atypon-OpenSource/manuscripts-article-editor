@@ -42,29 +42,3 @@ export const BlockField = styled.label`
   flex-wrap: nowrap;
   margin-right: ${(props) => props.theme.grid.unit * 2}px;
 `
-
-export const ColorsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-`
-
-export const ColorButton = styled.button<{
-  color?: string
-  isActive: boolean
-}>`
-  background: ${(props) => props.color};
-  box-shadow: ${(props) => (props.isActive ? '0 0 1px 1px #000' : 'none')};
-  height: ${(props) => props.theme.grid.unit * 3}px;
-  width: ${(props) => props.theme.grid.unit * 3}px;
-  border-radius: 50%;
-  margin: 2px;
-  padding: 0;
-  border: 1px solid ${(props) => props.theme.colors.border.tertiary};
-  cursor: pointer;
-  flex-shrink: 0;
-
-  /*  &:focus {
-    outline: none;
-  }*/
-`

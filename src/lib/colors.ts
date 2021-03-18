@@ -11,6 +11,7 @@
  */
 
 import {
+  buildColor,
   getByPrototype,
   hasObjectType,
 } from '@manuscripts/manuscript-transform'
@@ -20,6 +21,8 @@ import {
   Model,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
+
+import { SaveModel } from '../components/inspector/StyleFields'
 
 export const DEFAULT_COLOR_SCHEME = 'MPColorScheme:default'
 
@@ -58,4 +61,28 @@ export const buildColors = (
   }
 
   return { colors, colorScheme }
+}
+
+export const addColor = (
+  colors: Color[],
+  saveModel: SaveModel,
+  colorScheme?: ColorScheme
+) => async (hex: string) => {
+  const color = buildColor(hex, nextColorPriority(colors)) as Color
+
+  await saveModel<Color>({
+    ...color,
+    prototype: color._id,
+  })
+
+  if (!colorScheme) {
+    return color
+  }
+
+  await saveModel<ColorScheme>({
+    ...colorScheme,
+    colors: [...(colorScheme.colors || []), color._id],
+  })
+
+  return color
 }

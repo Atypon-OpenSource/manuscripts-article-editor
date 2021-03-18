@@ -36,7 +36,7 @@ export const CorrectionItem: React.FC<{
   return (
     <>
       <SnippetText isRejected={correction.status === 'rejected'}>
-        {correction.snippet}
+        {correction.insertion}
       </SnippetText>
       {user ? (
         <AvatarContainer key={user._id}>

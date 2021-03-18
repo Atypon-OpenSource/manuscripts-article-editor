@@ -372,11 +372,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   addModal={props.addModal}
                   manuscriptID={manuscript._id}
                   modelMap={modelMap}
+                  saveModel={saveModel}
                   project={project}
                   collection={collection}
                 />
               </ApplicationMenuContainer>
-              <ManuscriptToolbar view={view} />
+              <ManuscriptToolbar
+                state={state}
+                dispatch={dispatch}
+                footnotesEnabled={config.footnotes.enabled}
+                view={view}
+              />
             </EditorHeader>
             <EditorBody>
               <MetadataContainer

@@ -15,11 +15,16 @@ import {
   ManuscriptEditorState,
   ManuscriptEditorView,
 } from '@manuscripts/manuscript-transform'
-import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
+import {
+  Manuscript,
+  Model,
+  Project,
+} from '@manuscripts/manuscripts-json-schema'
 import { parse as parseTitle } from '@manuscripts/title-editor'
 import { History } from 'history'
 import React from 'react'
 
+import { SaveModel } from '../components/inspector/StyleFields'
 import config from '../config'
 import { ExportFormat } from '../pressroom/exporter'
 import { RecentProject } from './user-project'
@@ -30,6 +35,8 @@ export interface ProjectMenuProps {
   view: ManuscriptEditorView
   project: Project
   manuscript: Manuscript
+  modelMap: Map<string, Model>
+  saveModel: SaveModel
   getRecentProjects: () => RecentProject[]
   openTemplateSelector: (newProject?: boolean) => void
   deleteProjectOrManuscript: (model: Project | Manuscript) => void

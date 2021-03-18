@@ -30,9 +30,9 @@ import {
   commitToJSON,
   findCommitWithChanges,
   findCommitWithin,
-  getSnippet,
+  getChangeSummary,
   getTrackPluginState,
-  rebase,
+  rebases,
 } from '@manuscripts/track-changes'
 import { useCallback, useState } from 'react'
 import { v4 as uuid } from 'uuid'
@@ -111,16 +111,19 @@ export const useCommits = ({
 
   const freeze = () => {
     const { commit } = getTrackPluginState(editor.state)
+    const changeSummary = getChangeSummary(editor.state, commit.changeID)
 
     saveCommit(commit)
 
     const correction = buildCorrection({
       contributions: [buildContribution(userProfileID)],
       commitChangeID: currentCommit.changeID,
-      snippet: getSnippet(currentCommit, editor.state).substr(0, 100),
       containerID,
       manuscriptID,
       snapshotID,
+      insertion: changeSummary ? changeSummary.insertion : '',
+      deletion: changeSummary ? changeSummary.deletion : '',
+      positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
     })
     saveCorrection(correction)
 
@@ -147,7 +150,7 @@ export const useCommits = ({
       return
     }
 
-    const { commit: nextCommit, mapping } = rebase.cherryPick(
+    const { commit: nextCommit, mapping } = rebases.cherryPick(
       pickInstances[0],
       currentCommit
     )
@@ -217,7 +220,7 @@ export const useCommits = ({
       return
     }
 
-    const { commit: nextCommit, mapping } = rebase.without(currentCommit, [
+    const { commit: nextCommit, mapping } = rebases.without(currentCommit, [
       commitToRemove.changeID,
     ])
     if (!nextCommit) {

@@ -12,6 +12,8 @@
 
 import {
   ApplicationMenus,
+  DialogController,
+  DialogNames,
   EditorHookValue,
   getMenus,
   MenuSpec,
@@ -19,32 +21,25 @@ import {
 } from '@manuscripts/manuscript-editor'
 import {
   ContainedModel,
-  DEFAULT_PAGE_LAYOUT,
-  fromPrototype,
-  isManuscript,
-  isManuscriptModel,
-  loadBundledDependencies,
   ManuscriptSchema,
-  StyleObject,
-  updatedPageLayout,
 } from '@manuscripts/manuscript-transform'
 import { Model, Project } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import config from '../../../config'
 import { remaster } from '../../../lib/bootstrap-manuscript'
-import { loadBundle } from '../../../lib/bundles'
-import { nextManuscriptPriority } from '../../../lib/manuscript'
+import { addColor, buildColors } from '../../../lib/colors'
 import {
   buildExportMenu,
   buildExportReferencesMenu,
 } from '../../../lib/project-menu'
 import { ExportFormat } from '../../../pressroom/exporter'
 import { Collection } from '../../../sync/Collection'
+import { SaveModel } from '../../inspector/StyleFields'
 import { ModalProps } from '../../ModalProvider'
 import { Exporter } from '../Exporter'
-import { Importer } from '../Importer'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;
@@ -60,6 +55,7 @@ interface Props {
   addModal: ModalProps['addModal']
   collection: Collection<ContainedModel>
   modelMap: Map<string, Model>
+  saveModel: SaveModel
 }
 
 export const ApplicationMenusLW: React.FC<Props> = ({
@@ -68,6 +64,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   addModal,
   manuscriptID,
   modelMap,
+  saveModel,
   project,
   collection,
 }) => {
@@ -85,76 +82,6 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     ))
   }
 
-  // IMPORT DOES NOT NEED TO BE IN LEAN_WORKFLOW
-  // REMOVE THIS AND openImporter after Demo on 2021/02/18
-  const importManuscript = async (models: Model[], redirect = true) => {
-    const projectID = project._id
-
-    const manuscript = models.find(isManuscript)
-
-    if (!manuscript) {
-      throw new Error('No manuscript found')
-    }
-
-    // TODO: try to share this code with createManuscript
-
-    manuscript.priority = await nextManuscriptPriority(collection)
-
-    // TODO: use the imported filename?
-    if (!manuscript.pageLayout) {
-      if (!models.find((model) => model._id === manuscript.bundle)) {
-        const [bundle, parentBundle] = await loadBundle(manuscript.bundle)
-        manuscript.bundle = bundle._id
-        models.push(bundle)
-
-        if (parentBundle) {
-          models.push(parentBundle)
-        }
-      }
-
-      const dependencies = await loadBundledDependencies()
-      const prototypedDependencies = dependencies.map(fromPrototype)
-      models.push(...prototypedDependencies)
-
-      const styleMap = new Map(
-        prototypedDependencies.map((style) => [style._id, style])
-      )
-      const pageLayout = updatedPageLayout(
-        styleMap as Map<string, StyleObject>,
-        DEFAULT_PAGE_LAYOUT
-      )
-      manuscript.pageLayout = pageLayout._id
-      models.push(pageLayout)
-
-      // TODO: apply a template?
-    }
-
-    // TODO: save dependencies first, then the manuscript
-    // TODO: handle multiple manuscripts in a project bundle
-
-    const items = models.map((model) => ({
-      ...model,
-      containerID: projectID,
-      manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
-    }))
-
-    await collection.bulkCreate(items)
-
-    if (redirect) {
-      history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
-    }
-  }
-
-  const openImporter = () => {
-    addModal('importer', ({ handleClose }) => (
-      <Importer
-        handleComplete={handleClose}
-        importManuscript={importManuscript}
-      />
-    ))
-  }
-  // END FUNCTIONS TO REMOVE
-
   const projectMenu: MenuSpec = {
     id: 'project',
     label: 'Project',
@@ -170,11 +97,6 @@ export const ApplicationMenusLW: React.FC<Props> = ({
         role: 'separator',
       },
       {
-        id: 'import',
-        label: 'Import Manuscript…',
-        run: openImporter,
-      },
-      {
         role: 'separator',
       },
       {
@@ -185,7 +107,28 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     ],
   }
 
-  const menus = useApplicationMenus([projectMenu, ...getMenus(editor)])
+  const [dialog, setDialog] = useState<DialogNames | null>(null)
+  const closeDialog = () => setDialog(null)
+  const openDialog = (dialog: DialogNames) => setDialog(dialog)
+  const { colors, colorScheme } = buildColors(modelMap)
+  const handleAddColor = addColor(colors, saveModel, colorScheme)
 
-  return <ApplicationMenus {...menus} />
+  const menus = useApplicationMenus([
+    projectMenu,
+    ...getMenus(editor, openDialog, config.footnotes.enabled),
+  ])
+
+  return (
+    <React.Fragment>
+      <DialogController
+        currentDialog={dialog}
+        handleCloseDialog={closeDialog}
+        colors={colors}
+        handleAddColor={handleAddColor}
+        editorState={editor.state}
+        dispatch={editor.dispatch}
+      />
+      <ApplicationMenus {...menus} />
+    </React.Fragment>
+  )
 }

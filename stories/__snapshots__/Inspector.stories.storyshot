@@ -3818,13 +3818,6 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
   border-color: transparent;
 }
 
-.c0 {
-  background-color: #fff;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-  padding: 3rem;
-}
-
 .c23 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -3855,6 +3848,27 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
 
 .c23:focus {
   outline: none;
+}
+
+.c22 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
 }
 
 .c12 {
@@ -3991,20 +4005,6 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
   flex-shrink: 0;
   width: 100px;
   color: #6e6e6e;
-}
-
-.c22 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
 }
 
 .c21 {
@@ -5162,13 +5162,6 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
   border-color: transparent;
 }
 
-.c0 {
-  background-color: #fff;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-  padding: 3rem;
-}
-
 .c21 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -5199,6 +5192,27 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
 
 .c21:focus {
   outline: none;
+}
+
+.c20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
 }
 
 .c9 {
@@ -5349,20 +5363,6 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
   flex-shrink: 0;
   width: 100px;
   color: #6e6e6e;
-}
-
-.c20 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
 }
 
 .c19 {

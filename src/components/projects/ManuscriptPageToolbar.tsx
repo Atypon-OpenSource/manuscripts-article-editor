@@ -45,6 +45,8 @@ export const ManuscriptPageToolbar: React.FunctionComponent<Props> = React.memo(
         return (
           <ManuscriptToolbar
             view={view as ManuscriptEditorView}
+            state={view.state as ManuscriptEditorState}
+            dispatch={view.dispatch}
             footnotesEnabled={config.footnotes.enabled}
           />
         )

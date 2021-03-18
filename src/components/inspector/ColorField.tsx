@@ -10,14 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildColor } from '@manuscripts/manuscript-transform'
 import { Color, ColorScheme } from '@manuscripts/manuscripts-json-schema'
+import { ColorField as ColorControl } from '@manuscripts/style-guide'
 import React from 'react'
 
-import { nextColorPriority } from '../../lib/colors'
-import { ColorSelector } from '../projects/ColorSelector'
+import { addColor } from '../../lib/colors'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
-import { ColorButton, ColorsContainer, SaveModel } from './StyleFields'
+import { SaveModel } from './StyleFields'
 
 export const ColorField: React.FC<{
   colors: Color[]
@@ -31,59 +30,37 @@ export const ColorField: React.FC<{
   colors,
   colorScheme,
   value,
-  handleChange,
+  handleChange: setColorId,
   saveModel,
   setError,
   label = 'Color',
 }) => {
+  const options = colors.filter(({ value }) => Boolean(value)) as Array<
+    Color & { value: string }
+  >
+  const current = colors.find(({ _id }) => _id === value)
+  const hex = (current && current.value) || '#fff'
+
+  const handleChange = async (hex: string) => {
+    const existing = colors.find(({ value }) => value === hex)
+    if (existing) {
+      setColorId(existing._id)
+      return
+    }
+
+    try {
+      const color = await addColor(colors, saveModel, colorScheme)(hex)
+      setColorId(color._id)
+    } catch (e) {
+      setError(e)
+    }
+  }
+
   return (
     <InspectorField>
       <InspectorLabel>{label}</InspectorLabel>
 
-      <ColorsContainer>
-        {colors.map((color) => (
-          <ColorButton
-            key={color._id}
-            type={'button'}
-            color={color.value}
-            isActive={color._id === value}
-            onClick={() => {
-              handleChange(color._id)
-            }}
-          />
-        ))}
-
-        <ColorSelector
-          handleChange={async (value) => {
-            try {
-              for (const color of colors) {
-                if (color.value === value) {
-                  return handleChange(color._id)
-                }
-              }
-
-              const color = buildColor(
-                value,
-                nextColorPriority(colors)
-              ) as Color
-
-              await saveModel<Color>({
-                ...color,
-                prototype: color._id,
-              })
-
-              await saveModel<ColorScheme>({
-                ...colorScheme,
-                colors: [...(colorScheme.colors || []), color._id],
-              })
-
-              handleChange(color._id)
-            } catch (error) {
-              setError(error)
-            }
-          }}
-        />
-      </ColorsContainer>
+      <ColorControl options={options} value={hex} handleChange={handleChange} />
     </InspectorField>
   )
 }
