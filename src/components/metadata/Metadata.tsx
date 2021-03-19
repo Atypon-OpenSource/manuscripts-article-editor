@@ -31,7 +31,7 @@ import {
   StyledModal,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { TokenActions } from '../../data/TokenData'
@@ -181,14 +181,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     props.openAddAuthors(authorsAndAffiliations.authors)
   }, [authorsAndAffiliations, props])
 
-  const isThereJointContributor = useMemo(
-    () =>
-      authorsAndAffiliations?.authors.find(
-        (contributor) => contributor.isJointContributor
-      ),
-    [authorsAndAffiliations]
-  )
-
   if (!authorsAndAffiliations || !contributorRoles) {
     return null
   }
@@ -235,12 +227,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             <AffiliationsList
               affiliations={authorsAndAffiliations.affiliations}
             />
-            {isThereJointContributor && (
-              <LegendWrapper>
-                <Legend>†</Legend>
-                These authors contributed equally to this work.
-              </LegendWrapper>
-            )}
           </AuthorsContainer>
         )}
 
@@ -282,14 +268,3 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     </HeaderContainer>
   )
 }
-
-const LegendWrapper = styled.p`
-  margin: ${(props) => props.theme.grid.unit * 4}px 0 0 0;
-`
-
-const Legend = styled.span`
-  display: inline-block;
-  font-size: 0.75em;
-  line-height: 1;
-  vertical-align: top;
-`
