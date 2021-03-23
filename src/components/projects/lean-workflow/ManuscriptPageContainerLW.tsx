@@ -295,17 +295,13 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         file: file,
         designation: designation,
       })
-        .then(console.log)
-        .catch((e) => {
-          console.log('catch', e)
-        })
     },
     [uploadAttachment]
   )
 
   const changeAttachmentDesignation = useUpdateAttachmentDesignation()
   const handleChangeAttachmentDesignation = useCallback(
-    (submissionId: string, name: string, designation: string) => {
+    (submissionId: string, designation: string, name: string) => {
       return changeAttachmentDesignation({
         submissionId: submissionId,
         name: name,
