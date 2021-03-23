@@ -22,8 +22,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import {
-  AffiliationsList,
-  AuthorsList,
+  AuthorsContainer,
   CloseButton,
   IconButton,
   ModalContainer,
@@ -50,10 +49,6 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: start;
-`
-
-const AuthorsContainer = styled.div`
-  margin-top: ${(props) => props.theme.grid.unit * 4}px;
 `
 
 export const ExpanderButton = styled(IconButton).attrs(() => ({
@@ -213,21 +208,12 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
         </TitleContainer>
 
         {props.expanded && (
-          <AuthorsContainer data-cy={'author-container'}>
-            <AuthorsList
-              authors={authorsAndAffiliations.authors.filter(
-                (author) => author.role === 'author'
-              )}
-              authorAffiliations={authorsAndAffiliations.authorAffiliations}
-              startEditing={props.startEditing}
-              showEditButton={isOwner(props.project, props.user.userID)}
-              selectAuthor={props.selectAuthor}
-            />
-
-            <AffiliationsList
-              affiliations={authorsAndAffiliations.affiliations}
-            />
-          </AuthorsContainer>
+          <AuthorsContainer
+            authorData={authorsAndAffiliations}
+            startEditing={props.startEditing}
+            showEditButton={isOwner(props.project, props.user.userID)}
+            selectAuthor={props.selectAuthor}
+          />
         )}
 
         <StyledModal
