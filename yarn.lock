@@ -2191,10 +2191,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.27.0":
-  version "0.27.0"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.27.0.tgz#c484fffc696dd560ae3e10058f77d9d099c59084"
-  integrity sha512-6hbyr4iHrTYj+c0lVd+WQ6u2wMyf0tZ5wxvMnGz08JNS54uB4Hckxk/4BdVO+PQJAkLuxhOe8grMTKBl/2+4iQ==
+"@manuscripts/style-guide@^0.27.1":
+  version "0.27.1"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.27.1.tgz#fc459a19ba83b8da1c35435593f55f47605f4db3"
+  integrity sha512-dx26zZ2CoiIj3GUkvyZ9W79f/BFENih8VW+TIxdkddDgiIjNcuwzF5Xe5GKhefx6vJHXJI6wWuUqRjxwDMoH3w==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
