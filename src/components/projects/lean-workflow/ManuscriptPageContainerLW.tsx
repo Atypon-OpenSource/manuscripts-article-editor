@@ -409,7 +409,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         resizerButton={ResizingInspectorButton}
       >
         <Inspector
-          tabs={['Content', 'Comments', 'Quality', 'History', 'Files']}
+          tabs={['Content', 'Mentions', 'Quality', 'History', 'Files']}
           commentTarget={commentTarget}
         >
           <ContentTab

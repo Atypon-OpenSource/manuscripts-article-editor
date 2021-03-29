@@ -81,28 +81,31 @@ export const CommentsTab: React.FC<{
 
   return (
     <div>
-      {/* TODO:: will comment out this part when we figure out a solution to the snapshot with Comments*/}
-      {/*<CommentList*/}
-      {/*  comments={comments || []}*/}
-      {/*  doc={doc}*/}
-      {/*  getCurrentUser={getCurrentUser}*/}
-      {/*  selected={selected || null}*/}
-      {/*  createKeyword={createKeyword}*/}
-      {/*  deleteModel={deleteModel}*/}
-      {/*  getCollaborator={getCollaborator}*/}
-      {/*  getCollaboratorById={getCollaboratorById}*/}
-      {/*  getKeyword={getKeyword}*/}
-      {/*  listCollaborators={listCollaborators}*/}
-      {/*  listKeywords={listKeywords}*/}
-      {/*  saveModel={saveModel}*/}
-      {/*  commentTarget={commentTarget}*/}
-      {/*  setCommentTarget={setCommentTarget}*/}
-      {/*  state={state}*/}
-      {/*  dispatch={dispatch}*/}
-      {/*  setCommentFilter={setCommentFilter}*/}
-      {/*  commentFilter={commentFilter}*/}
-      {/*/>*/}
-      <InspectorSection title={'Production Notes'}>
+      {/*TODO:: will comment out this part when we figure out a solution to the*/}
+      {/*snapshot with Comments*/}
+      {/*<InspectorSection title={'Comments'}>*/}
+      {/*  <CommentList*/}
+      {/*    comments={comments || []}*/}
+      {/*    doc={doc}*/}
+      {/*    getCurrentUser={getCurrentUser}*/}
+      {/*    selected={selected || null}*/}
+      {/*    createKeyword={createKeyword}*/}
+      {/*    deleteModel={deleteModel}*/}
+      {/*    getCollaborator={getCollaborator}*/}
+      {/*    getCollaboratorById={getCollaboratorById}*/}
+      {/*    getKeyword={getKeyword}*/}
+      {/*    listCollaborators={listCollaborators}*/}
+      {/*    listKeywords={listKeywords}*/}
+      {/*    saveModel={saveModel}*/}
+      {/*    commentTarget={commentTarget}*/}
+      {/*    setCommentTarget={setCommentTarget}*/}
+      {/*    state={state}*/}
+      {/*    dispatch={dispatch}*/}
+      {/*    setCommentFilter={setCommentFilter}*/}
+      {/*    commentFilter={commentFilter}*/}
+      {/*  />*/}
+      {/*</InspectorSection>*/}
+      <InspectorSection title={'Notes'}>
         <ManuscriptNoteList
           createKeyword={createKeyword}
           notes={notes || []}
