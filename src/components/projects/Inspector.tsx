@@ -56,6 +56,7 @@ import { SectionInspector } from '../inspector/SectionInspector'
 import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
 import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import { SubmissionsInspector } from '../inspector/SubmissionsInspector'
+import { InspectorSection } from '../InspectorSection'
 import { RequirementsInspector } from '../requirements/RequirementsInspector'
 import { CommentFilter, CommentList } from './CommentList'
 import { HeaderImageInspector } from './HeaderImageInspector'
@@ -64,19 +65,12 @@ import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
 const TABS = [
   'Content',
   'Style',
-  'Comments',
-  config.production_notes.enabled && 'Notes',
+  'Mentions',
   config.quality_control.enabled && 'Quality',
   config.shackles.enabled && 'History',
   config.export.to_review && 'Submissions',
 ].filter(Boolean) as Array<
-  | 'Content'
-  | 'Style'
-  | 'Comments'
-  | 'Quality'
-  | 'Notes'
-  | 'History'
-  | 'Submissions'
+  'Content' | 'Style' | 'Mentions' | 'Quality' | 'History' | 'Submissions'
 >
 
 export const Inspector: React.FC<{
@@ -155,7 +149,7 @@ export const Inspector: React.FC<{
 
   useEffect(() => {
     if (commentTarget) {
-      setTabIndex(TABS.findIndex((tab) => tab === 'Comments'))
+      setTabIndex(TABS.findIndex((tab) => tab === 'Mentions'))
     } else if (submission) {
       setTabIndex(TABS.findIndex((tab) => tab === 'Submissions'))
     }
@@ -288,30 +282,49 @@ export const Inspector: React.FC<{
                 )
               }
 
-              case 'Comments': {
+              case 'Mentions': {
                 return (
                   <InspectorTabPanel key={label}>
-                    <CommentList
-                      comments={comments || []}
-                      doc={doc}
-                      getCurrentUser={getCurrentUser}
-                      selected={selected}
-                      createKeyword={createKeyword}
-                      deleteModel={deleteModel}
-                      getCollaborator={getCollaborator}
-                      getCollaboratorById={getCollaboratorById}
-                      getKeyword={getKeyword}
-                      listCollaborators={listCollaborators}
-                      listKeywords={listKeywords}
-                      saveModel={saveModel}
-                      commentTarget={commentTarget}
-                      setCommentTarget={setCommentTarget}
-                      state={view.state}
-                      dispatch={view.dispatch}
-                      key={commentTarget}
-                      setCommentFilter={setCommentFilter}
-                      commentFilter={commentFilter}
-                    />
+                    <InspectorSection title={'Comments'}>
+                      <CommentList
+                        comments={comments || []}
+                        doc={doc}
+                        getCurrentUser={getCurrentUser}
+                        selected={selected}
+                        createKeyword={createKeyword}
+                        deleteModel={deleteModel}
+                        getCollaborator={getCollaborator}
+                        getCollaboratorById={getCollaboratorById}
+                        getKeyword={getKeyword}
+                        listCollaborators={listCollaborators}
+                        listKeywords={listKeywords}
+                        saveModel={saveModel}
+                        commentTarget={commentTarget}
+                        setCommentTarget={setCommentTarget}
+                        state={view.state}
+                        dispatch={view.dispatch}
+                        key={commentTarget}
+                        setCommentFilter={setCommentFilter}
+                        commentFilter={commentFilter}
+                      />
+                    </InspectorSection>
+                    {config.production_notes.enabled && (
+                      <InspectorSection title={'Notes'}>
+                        <ManuscriptNoteList
+                          createKeyword={createKeyword}
+                          notes={notes || []}
+                          currentUserId={getCurrentUser()._id}
+                          getKeyword={getKeyword}
+                          listKeywords={listKeywords}
+                          selected={selected}
+                          getCollaboratorById={getCollaboratorById}
+                          listCollaborators={listCollaborators}
+                          saveModel={saveModel}
+                          deleteModel={deleteModel}
+                          noteSource={'EDITOR'}
+                        />
+                      </InspectorSection>
+                    )}
                   </InspectorTabPanel>
                 )
               }
@@ -324,26 +337,6 @@ export const Inspector: React.FC<{
                       prototypeId={manuscript.prototype}
                       manuscriptID={manuscript._id}
                       bulkUpdate={bulkUpdate}
-                    />
-                  </InspectorTabPanel>
-                )
-              }
-
-              case 'Notes': {
-                return (
-                  <InspectorTabPanel key="Notes">
-                    <ManuscriptNoteList
-                      createKeyword={createKeyword}
-                      notes={notes || []}
-                      currentUserId={getCurrentUser()._id}
-                      getKeyword={getKeyword}
-                      listKeywords={listKeywords}
-                      selected={selected}
-                      getCollaboratorById={getCollaboratorById}
-                      listCollaborators={listCollaborators}
-                      saveModel={saveModel}
-                      deleteModel={deleteModel}
-                      noteSource={'EDITOR'}
                     />
                   </InspectorTabPanel>
                 )
