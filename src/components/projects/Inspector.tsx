@@ -65,12 +65,12 @@ import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
 const TABS = [
   'Content',
   'Style',
-  'Mentions',
+  'Comments',
   config.quality_control.enabled && 'Quality',
   config.shackles.enabled && 'History',
   config.export.to_review && 'Submissions',
 ].filter(Boolean) as Array<
-  'Content' | 'Style' | 'Mentions' | 'Quality' | 'History' | 'Submissions'
+  'Content' | 'Style' | 'Comments' | 'Quality' | 'History' | 'Submissions'
 >
 
 export const Inspector: React.FC<{
@@ -149,7 +149,7 @@ export const Inspector: React.FC<{
 
   useEffect(() => {
     if (commentTarget) {
-      setTabIndex(TABS.findIndex((tab) => tab === 'Mentions'))
+      setTabIndex(TABS.findIndex((tab) => tab === 'Comments'))
     } else if (submission) {
       setTabIndex(TABS.findIndex((tab) => tab === 'Submissions'))
     }
@@ -282,7 +282,7 @@ export const Inspector: React.FC<{
                 )
               }
 
-              case 'Mentions': {
+              case 'Comments': {
                 return (
                   <InspectorTabPanel key={label}>
                     <InspectorSection title={'Comments'}>
