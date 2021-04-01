@@ -41,7 +41,7 @@ import {
 import { RxDocument } from '@manuscripts/rxdb'
 import { FileManager } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 
@@ -50,7 +50,7 @@ import { useBiblio } from '../../../hooks/use-biblio'
 import { useCommits } from '../../../hooks/use-commits'
 import { createUseLoadable } from '../../../hooks/use-loadable'
 import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
-import { bootstrap } from '../../../lib/bootstrap-manuscript'
+import { bootstrap, saveEditorState } from '../../../lib/bootstrap-manuscript'
 import {
   useGetSubmission,
   useUpdateAttachmentDesignation,
@@ -228,6 +228,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ManuscriptsEditor.createView(editorProps)
   )
   const { state, onRender, dispatch, view } = editor
+
+  useEffect(() => {
+    saveEditorState(state, modelMap, project._id, manuscript._id)
+  }, [state]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const selected = findParentNodeWithIdValue(state.selection)
 

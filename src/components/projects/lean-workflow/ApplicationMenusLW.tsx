@@ -102,7 +102,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
       {
         id: 'remaster',
         label: 'Remaster',
-        run: () => remaster(editor.state, project),
+        run: () => remaster(editor.state, modelMap, project, manuscriptID),
       },
     ],
   }

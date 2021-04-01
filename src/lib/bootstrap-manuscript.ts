@@ -33,6 +33,8 @@ import {
   commitFromJSON,
   findCommitWithChanges,
 } from '@manuscripts/track-changes'
+import debounce from 'lodash-es/debounce'
+import isEqual from 'lodash-es/isEqual'
 
 import { buildSnapshot } from '../hooks/use-snapshot-manager'
 import * as api from '../lib/snapshot'
@@ -185,19 +187,86 @@ export const bootstrap = async ({
   }
 }
 
-// TODO: Most likely this will be executed server-side, left here for now because
-// we need to be able to do it somewhere.
-export const remaster = async (
+const EXCLUDED_KEYS = [
+  'id',
+  '_id',
+  '_rev',
+  '_revisions',
+  'sessionID',
+  'createdAt',
+  'updatedAt',
+  'owners',
+  'manuscriptID',
+  'containerID',
+  'src',
+  'minWordCountRequirement',
+  'maxWordCountRequirement',
+  'minCharacterCountRequirement',
+  'maxCharacterCountRequirement',
+] as (keyof Model)[]
+
+const hasChanged = (a: Model, b: Model): boolean => {
+  return !!Object.keys(a).find((key: keyof Model) => {
+    if (EXCLUDED_KEYS.includes(key)) {
+      return false
+    }
+    return !isEqual(a[key], b[key])
+  })
+}
+
+const _saveEditorState = async (
   state: ManuscriptEditorState,
-  project: Project
+  modelMap: Map<string, Model>,
+  projectID: string,
+  manuscriptID: string
 ) => {
-  const collection = collectionManager.getCollection(`project-${project._id}`)
+  const collection = collectionManager.getCollection(`project-${projectID}`)
 
   const models = encode(state.doc)
 
   for (const model of models.values()) {
-    await collection.save(model)
+    const oldModel = modelMap.get(model._id)
+    if (!oldModel) {
+      const savedModel = await collection.save(model, {
+        containerID: projectID,
+        manuscriptID: manuscriptID,
+      })
+      modelMap.set(model._id, savedModel)
+    } else if (hasChanged(model, oldModel)) {
+      console.log(`Saving ${model._id}`)
+      const nextModel = {
+        ...oldModel,
+        ...model,
+      }
+      const savedModel = await collection.save(nextModel, {
+        containerID: projectID,
+        manuscriptID: manuscriptID,
+      })
+      modelMap.set(nextModel._id, savedModel)
+    }
   }
+
+  return modelMap
+}
+
+export const saveEditorState = debounce(_saveEditorState, 1000)
+
+// TODO: Most likely this will be executed server-side, left here for now because
+// we need to be able to do it somewhere.
+export const remaster = async (
+  state: ManuscriptEditorState,
+  modelMap: Map<string, Model>,
+  project: Project,
+  manuscriptID: string
+) => {
+  const collection = collectionManager.getCollection(`project-${project._id}`)
+
+  const models = await _saveEditorState(
+    state,
+    modelMap,
+    project._id,
+    manuscriptID
+  )
 
   const blob = await exportProject(
     collection.getAttachmentAsBlob,
