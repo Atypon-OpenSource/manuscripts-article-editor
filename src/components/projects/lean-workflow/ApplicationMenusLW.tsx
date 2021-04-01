@@ -115,7 +115,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
 
   const menus = useApplicationMenus([
     projectMenu,
-    ...getMenus(editor, openDialog, config.footnotes.enabled),
+    ...getMenus(editor, openDialog, config.features.footnotes),
   ])
 
   return (

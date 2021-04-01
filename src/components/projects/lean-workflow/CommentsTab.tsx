@@ -24,6 +24,7 @@ import { ManuscriptNoteList } from '@manuscripts/style-guide'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useState } from 'react'
 
+import config from '../../../config'
 import { InspectorSection } from '../../InspectorSection'
 import { CommentFilter } from '../CommentList'
 import { SaveModel } from '../ManuscriptInspector'
@@ -81,45 +82,48 @@ export const CommentsTab: React.FC<{
 
   return (
     <div>
-      {/*TODO:: will comment out this part when we figure out a solution to the*/}
-      {/*snapshot with Comments*/}
-      {/*<InspectorSection title={'Comments'}>*/}
-      {/*  <CommentList*/}
-      {/*    comments={comments || []}*/}
-      {/*    doc={doc}*/}
-      {/*    getCurrentUser={getCurrentUser}*/}
-      {/*    selected={selected || null}*/}
-      {/*    createKeyword={createKeyword}*/}
-      {/*    deleteModel={deleteModel}*/}
-      {/*    getCollaborator={getCollaborator}*/}
-      {/*    getCollaboratorById={getCollaboratorById}*/}
-      {/*    getKeyword={getKeyword}*/}
-      {/*    listCollaborators={listCollaborators}*/}
-      {/*    listKeywords={listKeywords}*/}
-      {/*    saveModel={saveModel}*/}
-      {/*    commentTarget={commentTarget}*/}
-      {/*    setCommentTarget={setCommentTarget}*/}
-      {/*    state={state}*/}
-      {/*    dispatch={dispatch}*/}
-      {/*    setCommentFilter={setCommentFilter}*/}
-      {/*    commentFilter={commentFilter}*/}
-      {/*  />*/}
-      {/*</InspectorSection>*/}
-      <InspectorSection title={'Notes'}>
-        <ManuscriptNoteList
-          createKeyword={createKeyword}
-          notes={notes || []}
-          currentUserId={getCurrentUser()._id}
-          getKeyword={getKeyword}
-          listKeywords={listKeywords}
-          selected={selected || null}
-          getCollaboratorById={getCollaboratorById}
-          listCollaborators={listCollaborators}
-          saveModel={saveModel}
-          deleteModel={deleteModel}
-          noteSource={'EDITOR'}
-        />
-      </InspectorSection>
+      {/* TODO:: will comment out this part when we figure out a solution to the snapshot with Comments*/}
+      {/* {config.features.commenting && (
+        <InspectorSection title={'Comments'}>
+          <CommentList
+            comments={comments || []}
+            doc={doc}
+            getCurrentUser={getCurrentUser}
+            selected={selected || null}
+            createKeyword={createKeyword}
+            deleteModel={deleteModel}
+            getCollaborator={getCollaborator}
+            getCollaboratorById={getCollaboratorById}
+            getKeyword={getKeyword}
+            listCollaborators={listCollaborators}
+            listKeywords={listKeywords}
+            saveModel={saveModel}
+            commentTarget={commentTarget}
+            setCommentTarget={setCommentTarget}
+            state={state}
+            dispatch={dispatch}
+            setCommentFilter={setCommentFilter}
+            commentFilter={commentFilter}
+          />
+        </InspectorSection>
+      )} */}
+      {config.features.productionNotes && (
+        <InspectorSection title={'Notes'}>
+          <ManuscriptNoteList
+            createKeyword={createKeyword}
+            notes={notes || []}
+            currentUserId={getCurrentUser()._id}
+            getKeyword={getKeyword}
+            listKeywords={listKeywords}
+            selected={selected || null}
+            getCollaboratorById={getCollaboratorById}
+            listCollaborators={listCollaborators}
+            saveModel={saveModel}
+            deleteModel={deleteModel}
+            noteSource={'EDITOR'}
+          />
+        </InspectorSection>
+      )}
     </div>
   )
 }

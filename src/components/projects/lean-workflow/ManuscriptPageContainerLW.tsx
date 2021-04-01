@@ -343,6 +343,16 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     window.location.assign(url)
   }, [])
 
+  const TABS = [
+    'Content',
+    (config.features.commenting || config.features.productionNotes) &&
+      'Comments',
+    config.features.qualityControl && 'Quality',
+    config.shackles.enabled && 'History',
+    config.features.fileManagement && 'Files',
+  ].filter(Boolean) as Array<
+    'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
+  >
   return (
     <RequirementsProvider modelMap={modelMap}>
       <ManuscriptSidebar
@@ -376,7 +386,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
               <ManuscriptToolbar
                 state={state}
                 dispatch={dispatch}
-                footnotesEnabled={config.footnotes.enabled}
+                footnotesEnabled={config.features.footnotes}
                 view={view}
               />
             </EditorHeader>
@@ -408,84 +418,106 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         forceOpen={commentTarget !== undefined}
         resizerButton={ResizingInspectorButton}
       >
-        <Inspector
-          tabs={['Content', 'Comments', 'Quality', 'History', 'Files']}
-          commentTarget={commentTarget}
-        >
-          <ContentTab
-            selected={selected}
-            selectedElement={findParentElement(state.selection, modelIds)}
-            selectedSection={findParentSection(state.selection)}
-            getModel={getModel}
-            modelMap={modelMap}
-            manuscript={manuscript}
-            state={state}
-            dispatch={dispatch}
-            hasFocus={view?.hasFocus()}
-            doc={doc}
-            saveModel={saveModel}
-            deleteModel={deleteModel}
-            saveManuscript={saveManuscript}
-            listCollaborators={listCollaborators}
-            project={project}
-            tags={tags}
-          />
-          <CommentsTab
-            comments={comments}
-            notes={notes}
-            state={state}
-            dispatch={dispatch}
-            doc={doc}
-            user={props.user}
-            collaborators={props.collaborators}
-            collaboratorsById={props.collaboratorsById}
-            keywords={props.keywords}
-            saveModel={saveModel}
-            deleteModel={deleteModel}
-            selected={selected}
-            setCommentTarget={setCommentTarget}
-            commentTarget={commentTarget}
-          />
-          <RequirementsInspector
-            modelMap={modelMap}
-            prototypeId={manuscript.prototype}
-            manuscriptID={manuscript._id}
-            bulkUpdate={bulkUpdate}
-          />
-          {snapshotID ? (
-            <>
-              <SnapshotsDropdown
-                snapshots={snapshots}
-                selectedSnapshot={selectedSnapshot}
-                selectSnapshot={handleSelect}
-                selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
-              />
-              <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
-              <Corrections
-                project={project}
-                editor={editor}
-                corrections={corrections}
-                commits={commits}
-                collaborators={props.collaboratorsById}
-                freeze={freeze}
-                accept={accept}
-                reject={reject}
-              />
-            </>
-          ) : (
-            <h3>Tracking is off - create a Snapshot to get started</h3>
-          )}
-          {submissionData.data && submissionData.data.submission ? (
-            <FileManager
-              submissionId={submissionData.data.submission.id}
-              externalFiles={files}
-              enableDragAndDrop={true}
-              changeDesignationHandler={handleChangeAttachmentDesignation}
-              handleDownload={handleDownloadAttachment}
-              handleReplace={handleReplaceAttachment}
-              handleUpload={handleUploadAttachment}
-            />
-          ) : null}
+        <Inspector tabs={TABS} commentTarget={commentTarget}>
+          {TABS.map((label) => {
+            switch (label) {
+              case 'Content': {
+                return (
+                  <ContentTab
+                    selected={selected}
+                    selectedElement={findParentElement(
+                      state.selection,
+                      modelIds
+                    )}
+                    selectedSection={findParentSection(state.selection)}
+                    getModel={getModel}
+                    modelMap={modelMap}
+                    manuscript={manuscript}
+                    state={state}
+                    dispatch={dispatch}
+                    hasFocus={view?.hasFocus()}
+                    doc={doc}
+                    saveModel={saveModel}
+                    deleteModel={deleteModel}
+                    saveManuscript={saveManuscript}
+                    listCollaborators={listCollaborators}
+                    project={project}
+                    tags={tags}
+                  />
+                )
+              }
+              case 'Comments': {
+                return (
+                  <CommentsTab
+                    comments={comments}
+                    notes={notes}
+                    state={state}
+                    dispatch={dispatch}
+                    doc={doc}
+                    user={props.user}
+                    collaborators={props.collaborators}
+                    collaboratorsById={props.collaboratorsById}
+                    keywords={props.keywords}
+                    saveModel={saveModel}
+                    deleteModel={deleteModel}
+                    selected={selected}
+                    setCommentTarget={setCommentTarget}
+                    commentTarget={commentTarget}
+                  />
+                )
+              }
+
+              case 'Quality': {
+                return (
+                  <RequirementsInspector
+                    modelMap={modelMap}
+                    prototypeId={manuscript.prototype}
+                    manuscriptID={manuscript._id}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+              }
+              case 'History': {
+                return snapshotID ? (
+                  <>
+                    <SnapshotsDropdown
+                      snapshots={snapshots}
+                      selectedSnapshot={selectedSnapshot}
+                      selectSnapshot={handleSelect}
+                      selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
+                    />
+                    <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
+                    <Corrections
+                      project={project}
+                      editor={editor}
+                      corrections={corrections}
+                      commits={commits}
+                      collaborators={props.collaboratorsById}
+                      freeze={freeze}
+                      accept={accept}
+                      reject={reject}
+                    />
+                  </>
+                ) : (
+                  <h3>Tracking is off - create a Snapshot to get started</h3>
+                )
+              }
+
+              case 'Files': {
+                return submissionData.data && submissionData.data.submission ? (
+                  <FileManager
+                    submissionId={submissionData.data.submission.id}
+                    externalFiles={files}
+                    enableDragAndDrop={true}
+                    changeDesignationHandler={handleChangeAttachmentDesignation}
+                    handleDownload={handleDownloadAttachment}
+                    handleReplace={handleReplaceAttachment}
+                    handleUpload={handleUploadAttachment}
+                  />
+                ) : null
+              }
+            }
+          })}
         </Inspector>
       </Panel>
     </RequirementsProvider>

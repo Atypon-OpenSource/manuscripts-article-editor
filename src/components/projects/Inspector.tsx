@@ -65,8 +65,8 @@ import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
 const TABS = [
   'Content',
   'Style',
-  'Comments',
-  config.quality_control.enabled && 'Quality',
+  (config.features.commenting || config.features.productionNotes) && 'Comments',
+  config.features.qualityControl && 'Quality',
   config.shackles.enabled && 'History',
   config.export.to_review && 'Submissions',
 ].filter(Boolean) as Array<
@@ -285,30 +285,32 @@ export const Inspector: React.FC<{
               case 'Comments': {
                 return (
                   <InspectorTabPanel key={label}>
-                    <InspectorSection title={'Comments'}>
-                      <CommentList
-                        comments={comments || []}
-                        doc={doc}
-                        getCurrentUser={getCurrentUser}
-                        selected={selected}
-                        createKeyword={createKeyword}
-                        deleteModel={deleteModel}
-                        getCollaborator={getCollaborator}
-                        getCollaboratorById={getCollaboratorById}
-                        getKeyword={getKeyword}
-                        listCollaborators={listCollaborators}
-                        listKeywords={listKeywords}
-                        saveModel={saveModel}
-                        commentTarget={commentTarget}
-                        setCommentTarget={setCommentTarget}
-                        state={view.state}
-                        dispatch={view.dispatch}
-                        key={commentTarget}
-                        setCommentFilter={setCommentFilter}
-                        commentFilter={commentFilter}
-                      />
-                    </InspectorSection>
-                    {config.production_notes.enabled && (
+                    {config.features.commenting && (
+                      <InspectorSection title={'Comments'}>
+                        <CommentList
+                          comments={comments || []}
+                          doc={doc}
+                          getCurrentUser={getCurrentUser}
+                          selected={selected}
+                          createKeyword={createKeyword}
+                          deleteModel={deleteModel}
+                          getCollaborator={getCollaborator}
+                          getCollaboratorById={getCollaboratorById}
+                          getKeyword={getKeyword}
+                          listCollaborators={listCollaborators}
+                          listKeywords={listKeywords}
+                          saveModel={saveModel}
+                          commentTarget={commentTarget}
+                          setCommentTarget={setCommentTarget}
+                          state={view.state}
+                          dispatch={view.dispatch}
+                          key={commentTarget}
+                          setCommentFilter={setCommentFilter}
+                          commentFilter={commentFilter}
+                        />
+                      </InspectorSection>
+                    )}
+                    {config.features.productionNotes && (
                       <InspectorSection title={'Notes'}>
                         <ManuscriptNoteList
                           createKeyword={createKeyword}

@@ -48,7 +48,7 @@ const authLink = setContext((_, { headers }) => ({
 }))
 
 const filesServerLink = createUploadLink({
-  uri: config.leanWorkflowManager.url,
+  uri: config.leanWorkflow.url,
   credentials: 'include',
 })
 
@@ -64,8 +64,8 @@ const hasSubscription = ({ query }: { query: DocumentNode }) => {
 const beaconOrFiles = (operation: any) => {
   const context = operation.getContext()
   if (
-    config.leanWorkflowManager &&
-    config.leanWorkflowManager.url &&
+    config.leanWorkflow &&
+    config.leanWorkflow.url &&
     context &&
     context.clientPurpose == 'leanWorkflowManager'
   ) {

@@ -52,7 +52,7 @@ export const createMenuSpec = (
         isCommandValid,
       } as any,
       openDialog,
-      config.footnotes.enabled
+      config.features.footnotes
     ),
   ]
 }

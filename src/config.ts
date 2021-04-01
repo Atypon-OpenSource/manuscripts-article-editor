@@ -43,6 +43,11 @@ interface Config {
   }
   features: {
     projectManagement: boolean
+    productionNotes: boolean
+    qualityControl: boolean
+    footnotes: boolean
+    fileManagement: boolean
+    commenting: boolean
   }
   gateway: {
     url: string
@@ -83,6 +88,7 @@ interface Config {
   }
   leanWorkflow: {
     enabled: boolean
+    url: string
   }
   iam: {
     url: string
@@ -95,16 +101,9 @@ interface Config {
     url: string
   }
   export: {
-    prince: boolean
     literatum: boolean
     sts: boolean
     to_review: boolean
-  }
-  production_notes: {
-    enabled: boolean
-  }
-  quality_control: {
-    enabled: boolean
   }
   submission: {
     series_code?: string
@@ -116,17 +115,7 @@ interface Config {
   templates: {
     publish?: boolean
   }
-  leanWorkflowManager: {
-    url: string
-  }
-  footnotes: {
-    enabled: boolean
-  }
   version: string
-
-  file_management: {
-    enabled: boolean
-  }
 }
 
 const config = {
@@ -162,6 +151,11 @@ const config = {
   },
   features: {
     projectManagement: isTrue(process.env.FEATURE_PROJECT_MANAGEMENT),
+    productionNotes: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
+    qualityControl: isTrue(process.env.FEATURE_QUALITY_CONTROL),
+    footnotes: isTrue(process.env.FOOTNOTES_ENABLED),
+    fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
+    commenting: isTrue(process.env.COMMENTING),
   },
   gateway: {
     url: normalizeURL(process.env.SYNC_GATEWAY_URL),
@@ -202,6 +196,7 @@ const config = {
   },
   leanWorkflow: {
     enabled: isTrue(process.env.LEAN_WORKFLOW),
+    url: normalizeURL(process.env.LEAN_WORKFLOW_MANAGER_URL),
   },
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),
@@ -214,19 +209,12 @@ const config = {
     url: normalizeURL(process.env.ZOTERO_TRANSLATION_SERVER),
   },
   export: {
-    prince: isTrue(process.env.EXPORT_PRINCE),
     literatum: isTrue(process.env.EXPORT_LITERATUM),
     sts: isTrue(process.env.EXPORT_STS),
     to_review: isTrue(process.env.EXPORT_TO_REVIEW),
   },
   eeo: {
     deposit_journals_url: normalizeURL(process.env.EEO_DEPOSIT_JOURNALS_URL),
-  },
-  production_notes: {
-    enabled: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
-  },
-  quality_control: {
-    enabled: isTrue(process.env.FEATURE_QUALITY_CONTROL),
   },
   submission: {
     series_code: process.env.SUBMISSION_SERIES_CODE,
@@ -238,16 +226,7 @@ const config = {
   templates: {
     publish: isTrue(process.env.PUBLISH_TEMPLATES),
   },
-  leanWorkflowManager: {
-    url: normalizeURL(process.env.LEAN_WORKFLOW_MANAGER_URL),
-  },
-  footnotes: {
-    enabled: isTrue(process.env.FOOTNOTES_ENABLED),
-  },
   version,
-  file_management: {
-    enabled: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
-  },
 }
 
 export default config as Config
