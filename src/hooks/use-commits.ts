@@ -58,6 +58,9 @@ const buildCorrection = (
 const correctionsByDate = (a: Correction, b: Correction) =>
   b.contributions![0].timestamp - a.contributions![0].timestamp
 
+const correctionsByContext = (a: Correction, b: Correction) =>
+  a.positionInSnapshot! - b.positionInSnapshot!
+
 interface Args {
   modelMap: Map<string, Model>
   ancestorDoc: ManuscriptNode
@@ -79,6 +82,7 @@ export const useCommits = ({
   snapshotID,
   userProfileID,
   ancestorDoc,
+  sortBy,
 }: Args) => {
   const collection = collectionManager.getCollection<ContainedModel>(
     `project-${containerID}`
@@ -235,8 +239,9 @@ export const useCommits = ({
 
   return {
     commits,
-    // TODO: Depend on `sortBy` Arg to choose sorting function => `correctionsByContext` is still missing
-    corrections: corrections.slice().sort(correctionsByDate),
+    corrections: corrections
+      .slice()
+      .sort(sortBy === 'Date' ? correctionsByDate : correctionsByContext),
     freeze,
     accept,
     reject,

@@ -62,7 +62,6 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
               }}
               key={'in Context'}
               value={'in Context'}
-              disabled={true}
             >
               in Context
             </Option>
