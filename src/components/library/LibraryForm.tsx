@@ -641,8 +641,7 @@ const LibraryForm: React.FC<{
 
               <Field name={'keywordIDs'}>
                 {(props: FieldProps) => (
-                  <CreatableSelect<OptionType>
-                    isMulti={true}
+                  <CreatableSelect<OptionType, true>
                     onChange={async (newValue: OptionsType<OptionType>) => {
                       setFieldValue(
                         props.field.name,

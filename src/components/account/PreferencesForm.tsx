@@ -41,9 +41,9 @@ export interface PreferencesErrors {
   // submit?: {}
 }
 
-export const PreferencesForm: React.FunctionComponent<FormikProps<
-  PreferencesValues & PreferencesErrors
->> = ({ values, errors, handleBlur, handleChange }) => (
+export const PreferencesForm: React.FunctionComponent<
+  FormikProps<PreferencesValues & PreferencesErrors>
+> = ({ values, errors, handleBlur, handleChange }) => (
   <Form>
     <LocaleSelectorLabel>
       Locale

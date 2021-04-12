@@ -14,6 +14,7 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import React from 'react'
 import { hot } from 'react-hot-loader'
+import type { RouteComponentProps } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import ChangePasswordPageContainer from './components/account/ChangePasswordPageContainer'
@@ -44,6 +45,7 @@ import { apolloClient } from './lib/apollo'
 import invitationTokenHandler from './lib/invitation-token'
 import { Picker } from './picker/Picker'
 import Sync from './sync/Sync'
+import type { RouteLocationState } from './types/router-state'
 
 const DeveloperPageContainer = React.lazy(
   () =>
@@ -204,7 +206,13 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/login'}
                             exact={true}
-                            render={(props) =>
+                            render={(
+                              props: RouteComponentProps<
+                                Record<string, never>,
+                                Record<string, never>,
+                                RouteLocationState
+                              >
+                            ) =>
                               user ? (
                                 <Redirect to={'/projects'} />
                               ) : (
@@ -218,7 +226,13 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/signup'}
                             exact={true}
-                            render={(props) =>
+                            render={(
+                              props: RouteComponentProps<
+                                Record<string, never>,
+                                Record<string, never>,
+                                RouteLocationState
+                              >
+                            ) =>
                               user ? (
                                 <Redirect to={'/projects'} />
                               ) : (
@@ -262,7 +276,13 @@ const App: React.FunctionComponent = () => (
                           <Route
                             path={'/community'}
                             exact={true}
-                            render={(props) =>
+                            render={(
+                              props: RouteComponentProps<
+                                { sig: string; sso: string },
+                                Record<string, never>,
+                                RouteLocationState
+                              >
+                            ) =>
                               user ? (
                                 <CommunityLoginPageContainer {...props} />
                               ) : (
@@ -356,7 +376,13 @@ const App: React.FunctionComponent = () => (
 
                                   <Route
                                     path={'/projects'}
-                                    render={(props) =>
+                                    render={(
+                                      props: RouteComponentProps<
+                                        Record<string, never>,
+                                        Record<string, never>,
+                                        RouteLocationState
+                                      >
+                                    ) =>
                                       invitationTokenHandler.get() ? (
                                         <AcceptProjectInvitation {...props} />
                                       ) : (
@@ -364,10 +390,7 @@ const App: React.FunctionComponent = () => (
                                           {...props}
                                           tokenActions={tokenActions}
                                           errorMessage={
-                                            props.location.state
-                                              ? props.location.state
-                                                  .errorMessage
-                                              : null
+                                            props.location.state?.errorMessage
                                           }
                                         />
                                       )
@@ -460,13 +483,25 @@ const App: React.FunctionComponent = () => (
                 <Route
                   path={'/login'}
                   exact={true}
-                  render={(props) => <LoginPageContainer {...props} />}
+                  render={(
+                    props: RouteComponentProps<
+                      Record<string, never>,
+                      Record<string, never>,
+                      RouteLocationState
+                    >
+                  ) => <LoginPageContainer {...props} />}
                 />
 
                 <Route
                   path={'/signup'}
                   exact={true}
-                  render={(props) => (
+                  render={(
+                    props: RouteComponentProps<
+                      Record<string, never>,
+                      Record<string, never>,
+                      RouteLocationState
+                    >
+                  ) => (
                     <Frontmatter>
                       <SignupPageContainer {...props} />
                     </Frontmatter>

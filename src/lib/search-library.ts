@@ -62,9 +62,9 @@ interface SearchableBibliographyItem extends BibliographyItem {
   authors?: string
 }
 
-let sortPromise: Fuzzysort.CancelablePromise<Fuzzysort.KeysResults<
-  BibliographyItem
->>
+let sortPromise: Fuzzysort.CancelablePromise<
+  Fuzzysort.KeysResults<BibliographyItem>
+>
 
 export const filterLibrary = async (
   library?: Map<string, BibliographyItem>,

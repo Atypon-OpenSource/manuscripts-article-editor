@@ -17,11 +17,16 @@ import { RouteComponentProps } from 'react-router'
 
 import config from '../../config'
 import client from '../../lib/client'
+import { RouteLocationState } from '../../types/router-state'
 
-type Props = RouteComponentProps<{
-  sig: string
-  sso: string
-}>
+type Props = RouteComponentProps<
+  {
+    sig: string
+    sso: string
+  },
+  Record<string, never>,
+  RouteLocationState
+>
 
 interface State {
   error?: Error

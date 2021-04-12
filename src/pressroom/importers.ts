@@ -239,7 +239,7 @@ export const openFilePicker = (
       // so a delay is needed.
       window.setTimeout(() => {
         if (!input.files || !input.files.length) {
-          resolve()
+          resolve([])
         }
       }, 1000)
     }
@@ -262,7 +262,7 @@ export const openFilePicker = (
 
         resolve(Array.from(input.files))
       } else {
-        resolve()
+        resolve([])
       }
     })
 

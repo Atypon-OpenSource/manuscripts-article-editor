@@ -41,6 +41,7 @@ import { getCurrentUserId } from '../../lib/user'
 import { lastOpenedManuscriptID } from '../../lib/user-project'
 import { Collection } from '../../sync/Collection'
 import Sync from '../../sync/Sync'
+import type { RouteLocationState } from '../../types/router-state'
 import AddCollaboratorsPageContainer from '../collaboration/AddCollaboratorsPageContainer'
 import CollaboratorsPageContainer from '../collaboration/CollaboratorsPageContainer'
 import { DatabaseContext } from '../DatabaseProvider'
@@ -86,9 +87,13 @@ export interface ProjectPageContainerProps {
 
 class ProjectPageContainer extends React.Component<
   ProjectPageContainerProps &
-    RouteComponentProps<{
-      projectID: string
-    }>
+    RouteComponentProps<
+      {
+        projectID: string
+      },
+      Record<string, never>,
+      RouteLocationState
+    >
 > {
   public render() {
     const {
@@ -174,7 +179,18 @@ class ProjectPageContainer extends React.Component<
                                                           '/projects/:projectID/'
                                                         }
                                                         exact={true}
-                                                        render={(props) => (
+                                                        render={(
+                                                          props: RouteComponentProps<
+                                                            {
+                                                              projectID: string
+                                                            },
+                                                            Record<
+                                                              string,
+                                                              never
+                                                            >,
+                                                            RouteLocationState
+                                                          >
+                                                        ) => (
                                                           <ProjectManuscriptsData
                                                             projectID={
                                                               projectID
@@ -183,9 +199,7 @@ class ProjectPageContainer extends React.Component<
                                                           >
                                                             {(
                                                               manuscripts,
-                                                              collection: Collection<
-                                                                Manuscript
-                                                              >,
+                                                              collection: Collection<Manuscript>,
                                                               restartSync
                                                             ) => {
                                                               if (
@@ -203,7 +217,8 @@ class ProjectPageContainer extends React.Component<
                                                                     }
                                                                     user={user}
                                                                     message={
-                                                                      message
+                                                                      message ||
+                                                                      ''
                                                                     }
                                                                     restartSync={
                                                                       restartSync
@@ -475,7 +490,18 @@ class ProjectPageContainer extends React.Component<
                                                           '/projects/:projectID/collaborators'
                                                         }
                                                         exact={true}
-                                                        render={(props) => (
+                                                        render={(
+                                                          props: RouteComponentProps<
+                                                            {
+                                                              projectID: string
+                                                            },
+                                                            Record<
+                                                              string,
+                                                              never
+                                                            >,
+                                                            RouteLocationState
+                                                          >
+                                                        ) => (
                                                           <ProjectInvitationsData
                                                             projectID={
                                                               projectID

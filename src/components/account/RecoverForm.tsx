@@ -45,9 +45,9 @@ const SignupLink = styled(Link)`
   color: ${(props) => props.theme.colors.text.error};
 `
 
-export const RecoverForm: React.FunctionComponent<FormikProps<
-  RecoverValues & RecoverErrors
->> = ({ errors, isSubmitting }) => (
+export const RecoverForm: React.FunctionComponent<
+  FormikProps<RecoverValues & RecoverErrors>
+> = ({ errors, isSubmitting }) => (
   <CenteredForm noValidate={true}>
     <FormHeader>
       <SubHero>Reset Password</SubHero>

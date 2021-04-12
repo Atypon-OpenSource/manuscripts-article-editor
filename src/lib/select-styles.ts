@@ -14,7 +14,10 @@ import { StylesConfig } from 'react-select'
 
 import { theme } from '../theme/theme'
 
-export const selectStyles: StylesConfig = {
+// Since the generic OptionType is not used within the styles, it's declared as any
+// Another choice would be to make this a generic function but that might incur some extraneous
+// function calls for a data that is static.
+export const selectStyles: StylesConfig<any, boolean> = {
   container: (base) => ({
     ...base,
     flex: 1,

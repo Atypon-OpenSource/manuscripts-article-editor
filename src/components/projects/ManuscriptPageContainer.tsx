@@ -139,6 +139,7 @@ import CollectionManager from '../../sync/CollectionManager'
 // import { newestFirst, oldestFirst } from '../../lib/sort'
 import { ThemeProvider } from '../../theme/ThemeProvider'
 import { Permissions } from '../../types/permissions'
+import type { RouteLocationState } from '../../types/router-state'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
@@ -237,7 +238,7 @@ interface RouteParams {
 }
 
 type CombinedProps = ManuscriptPageContainerProps &
-  RouteComponentProps<RouteParams> &
+  RouteComponentProps<RouteParams, Record<string, never>, RouteLocationState> &
   IntlProps &
   ModalProps
 

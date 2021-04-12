@@ -32,7 +32,7 @@ const Container = styled.div`
 
 export interface ProjectsPageContainerProps {
   tokenActions: TokenActions
-  errorMessage: string
+  errorMessage?: string
 }
 
 const ProjectsPageContainer: React.FunctionComponent<

@@ -109,15 +109,11 @@ export const ManuscriptInspector: React.FC<{
       ObjectTypes.MaximumManuscriptWordCountRequirement,
       manuscript.maxWordCountRequirement
     ),
-    minCharacterCount: getOrBuildRequirement<
-      MinimumManuscriptCharacterCountRequirement
-    >(
+    minCharacterCount: getOrBuildRequirement<MinimumManuscriptCharacterCountRequirement>(
       ObjectTypes.MinimumManuscriptCharacterCountRequirement,
       manuscript.minCharacterCountRequirement
     ),
-    maxCharacterCount: getOrBuildRequirement<
-      MaximumManuscriptCharacterCountRequirement
-    >(
+    maxCharacterCount: getOrBuildRequirement<MaximumManuscriptCharacterCountRequirement>(
       ObjectTypes.MaximumManuscriptCharacterCountRequirement,
       manuscript.maxCharacterCountRequirement
     ),
@@ -306,9 +302,7 @@ export const ManuscriptInspector: React.FC<{
               placeholder={'Minimum'}
               value={requirements.minCharacterCount}
               handleChange={async (
-                requirement: Buildable<
-                  MinimumManuscriptCharacterCountRequirement
-                >
+                requirement: Buildable<MinimumManuscriptCharacterCountRequirement>
               ) => {
                 await saveModel<MinimumManuscriptCharacterCountRequirement>(
                   requirement as MinimumManuscriptCharacterCountRequirement
@@ -329,9 +323,7 @@ export const ManuscriptInspector: React.FC<{
               placeholder={'Maximum'}
               value={requirements.maxCharacterCount}
               handleChange={async (
-                requirement: Buildable<
-                  MaximumManuscriptCharacterCountRequirement
-                >
+                requirement: Buildable<MaximumManuscriptCharacterCountRequirement>
               ) => {
                 await saveModel<MaximumManuscriptCharacterCountRequirement>(
                   requirement as MaximumManuscriptCharacterCountRequirement

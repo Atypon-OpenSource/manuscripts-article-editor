@@ -41,9 +41,9 @@ const HeavyLink = styled.a`
   color: inherit;
 `
 
-export const SignupForm: React.FunctionComponent<FormikProps<
-  SignupValues & SignupErrors
->> = ({ errors, isSubmitting }) => (
+export const SignupForm: React.FunctionComponent<
+  FormikProps<SignupValues & SignupErrors>
+> = ({ errors, isSubmitting }) => (
   <CenteredForm id={'signup-form'} noValidate={true}>
     <FormHeader>
       <SubHero>Manuscripts.io</SubHero>

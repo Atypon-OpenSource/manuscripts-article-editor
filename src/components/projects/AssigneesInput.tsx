@@ -168,8 +168,7 @@ export const AssigneesInput: React.FC<{
       </Button>
     </>
   ) : (
-    <Select<UserProfile>
-      isMulti={true}
+    <Select<UserProfile, true>
       options={profiles}
       value={assignees}
       getOptionValue={(option) => option._id}

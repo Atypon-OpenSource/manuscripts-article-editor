@@ -61,11 +61,7 @@ const SyncNotificationManager: NotificationComponent = () => {
   const handleOfflineAcknowledged = useCallback(() => {
     setOfflineAcknowledged()
 
-    if (
-      navigator.storage &&
-      navigator.storage.persist &&
-      navigator.storage.persisted
-    ) {
+    if (navigator.storage && navigator.storage.persisted) {
       navigator.storage
         .persisted()
         .then((granted) => {

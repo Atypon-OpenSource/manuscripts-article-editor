@@ -141,12 +141,9 @@ export const createManuscript = async ({
 
   const addDependency = <T extends Model>(
     model: Build<T>,
-    containedIDs?: ContainedIDs
+    containedIDs: ContainedIDs = { containerID: '' }
   ) => {
-    dependencies.push({
-      ...model,
-      ...containedIDs,
-    })
+    dependencies.push({ ...model, ...containedIDs })
   }
 
   const addContainedModel = <T extends Model>(model: Build<T>) => {

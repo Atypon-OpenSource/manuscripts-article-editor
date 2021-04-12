@@ -90,7 +90,7 @@ describe('Import', () => {
         return element
       })
 
-    await expect(openFilePicker()).resolves.toBeUndefined()
+    await expect(openFilePicker()).resolves.toHaveLength(0)
   })
 
   test('Import a manuscript from a DOCX file', async () => {

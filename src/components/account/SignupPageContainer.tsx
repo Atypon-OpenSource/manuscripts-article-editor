@@ -18,6 +18,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import { resendVerificationEmail, signup, verify } from '../../lib/api'
+import { RouteLocationState } from '../../types/router-state'
 import { signupSchema } from '../../validation'
 import { Main, Page } from '../Page'
 import {
@@ -52,7 +53,14 @@ interface State {
   email?: string
 }
 
-class SignupPageContainer extends React.Component<RouteComponentProps, State> {
+class SignupPageContainer extends React.Component<
+  RouteComponentProps<
+    Record<string, never>,
+    Record<string, never>,
+    RouteLocationState
+  >,
+  State
+> {
   public state: Readonly<State> = {}
 
   public async componentDidMount() {

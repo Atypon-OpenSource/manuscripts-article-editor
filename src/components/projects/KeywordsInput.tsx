@@ -73,8 +73,7 @@ export const KeywordsInput: React.FC<{
   }
 
   return (
-    <CreatableSelect<ManuscriptKeyword>
-      isMulti={true}
+    <CreatableSelect<ManuscriptKeyword, true>
       noOptionsMessage={() => null}
       getNewOptionData={(inputValue) => {
         const option = {

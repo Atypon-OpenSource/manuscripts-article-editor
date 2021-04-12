@@ -85,7 +85,7 @@ export const promisifyReplicationState = (
   new Promise((resolve, reject) => {
     replicationState.complete$.subscribe((complete) => {
       if (complete) {
-        resolve()
+        resolve(true)
       }
     })
 

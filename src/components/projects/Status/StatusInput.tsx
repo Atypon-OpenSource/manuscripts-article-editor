@@ -101,14 +101,14 @@ export const StatusInput: React.FC<StatusInputProps> = ({
     }
   }, [newLabel, displayDndZone, handleClickOutside])
 
-  const ClearIndicator = (clearIProps: IndicatorProps<OptionTypeBase>) =>
+  const ClearIndicator = (clearIProps: IndicatorProps<OptionTypeBase, false>) =>
     components.ClearIndicator && (
       <components.ClearIndicator {...clearIProps}>
         <CloseIcon />
       </components.ClearIndicator>
     )
 
-  const Menu = (menuProps: MenuProps<OptionTypeBase>) =>
+  const Menu = (menuProps: MenuProps<OptionTypeBase, false>) =>
     components.Menu && (
       <components.Menu {...menuProps}>
         <>
@@ -131,7 +131,7 @@ export const StatusInput: React.FC<StatusInputProps> = ({
     const isNewLabel = data.name.startsWith('Create ')
     return isNewLabel ? <PlusIcon /> : RenderIcon(data._id, sortedLabels)
   }
-  const Option = (optionProps: OptionProps<OptionTypeBase>) =>
+  const Option = (optionProps: OptionProps<OptionTypeBase, false>) =>
     components.Option && (
       <components.Option {...optionProps}>
         <DndItemButton

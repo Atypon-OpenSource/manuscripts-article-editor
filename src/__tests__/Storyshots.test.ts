@@ -71,6 +71,6 @@ initStoryshots({
 
     renderer.unmount()
 
-    done()
+    done && done()
   },
 })

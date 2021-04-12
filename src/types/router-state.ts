@@ -9,4 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-declare module '@manuscripts/pouchdb-adapter-idb'
+
+export interface RouteLocationState {
+  errorMessage?: string
+  verificationMessage?: string
+  infoMessage?: string
+  empty?: boolean
+}

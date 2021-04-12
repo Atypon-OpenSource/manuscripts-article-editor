@@ -156,7 +156,10 @@ const Message = styled.div`
 
 const LoginLink: React.FunctionComponent<{ host: string }> = ({ host }) => (
   <FooterLink href={`${host}/login`}>
-    &#128279; Manuscripts.io community
+    <span role="img" aria-label="Link emoji">
+      &#128279;
+    </span>{' '}
+    Manuscripts.io community
   </FooterLink>
 )
 

@@ -135,15 +135,11 @@ export const SectionInspector = memo<{
       ObjectTypes.MaximumSectionWordCountRequirement,
       section.maxWordCountRequirement
     ),
-    minCharCount: getOrBuildRequirement<
-      MinimumSectionCharacterCountRequirement
-    >(
+    minCharCount: getOrBuildRequirement<MinimumSectionCharacterCountRequirement>(
       ObjectTypes.MinimumSectionCharacterCountRequirement,
       section.minCharacterCountRequirement
     ),
-    maxCharacterCount: getOrBuildRequirement<
-      MaximumSectionCharacterCountRequirement
-    >(
+    maxCharacterCount: getOrBuildRequirement<MaximumSectionCharacterCountRequirement>(
       ObjectTypes.MaximumSectionCharacterCountRequirement,
       section.maxCharacterCountRequirement
     ),

@@ -294,7 +294,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         submissionId: submissionId,
         file: file,
         designation: designation,
-      })
+      }).then(() => true)
     },
     [uploadAttachment]
   )
@@ -307,9 +307,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         name: name,
         designation: designation,
       })
-        .then(console.log)
+        .then(() => true)
         .catch((e) => {
           console.log('catch', e)
+          return false
         })
     },
     [changeAttachmentDesignation]
@@ -331,9 +332,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         name: name,
         designation: typeId,
       })
-        .then(console.log)
+        .then(() => true)
         .catch((e) => {
           console.log('catch', e)
+          return false
         })
     },
     [uploadAttachment, changeAttachmentDesignation]

@@ -23,6 +23,7 @@ const Container = styled.div`
 
 export const CollaboratorRolesInput: React.FunctionComponent<Props> = ({
   value,
+  name,
   ...rest
 }) => (
   <Container>

@@ -323,7 +323,7 @@ export const TagsInput: React.FC<{
       .indexOf(tag._id)
   }
 
-  const OptionComponent: React.FC<OptionProps<Tag>> = ({
+  const OptionComponent: React.FC<OptionProps<Tag, true>> = ({
     innerRef,
     innerProps,
     children,
@@ -374,7 +374,7 @@ export const TagsInput: React.FC<{
   return (
     <Manager>
       <OuterContainer>
-        <CreatableSelect<Tag>
+        <CreatableSelect<Tag, true>
           getNewOptionData={(inputValue) => {
             const option = {
               name: `Create tag for "${inputValue}"`,
@@ -397,7 +397,6 @@ export const TagsInput: React.FC<{
             })
             setCreatedTag(createdTag)
           }}
-          isMulti={true}
           options={tags}
           value={ordered}
           getOptionValue={(option) => option._id}
@@ -418,13 +417,10 @@ export const TagsInput: React.FC<{
             }),
             multiValue: (base, { data }) => ({
               ...base,
-              backgroundColor: colorsMap.get(data.color)
-                ? colorsMap.get(data.color)!.value
-                : '#F2F2F2',
+              backgroundColor:
+                colorsMap.get(data.color || '')?.value || '#F2F2F2',
               color: textColor(
-                colorsMap.get(data.color)
-                  ? colorsMap.get(data.color)!.value!
-                  : '#F2F2F2'
+                colorsMap.get(data.color || '')?.value || '#F2F2F2'
               ),
               alignItems: 'center',
               paddingRight: 8,

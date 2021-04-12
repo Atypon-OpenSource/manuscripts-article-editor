@@ -12,7 +12,7 @@
 
 process.env.NODE_ENV = 'production'
 
-import WebappWebpackPlugin from 'webapp-webpack-plugin'
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
 import SriPlugin from 'webpack-subresource-integrity'
@@ -87,7 +87,7 @@ const configuration: webpack.Configuration = merge(common, {
     new SriPlugin({
       hashFuncNames: ['sha512'],
     }),
-    new WebappWebpackPlugin({
+    new FaviconsWebpackPlugin({
       logo: './public/favicon.png',
       cache: true,
       prefix: 'webapp/[hash:8]',
@@ -97,7 +97,7 @@ const configuration: webpack.Configuration = merge(common, {
         appShortName: 'Manuscripts',
         developerName: null,
         developerURL: null,
-        version: null,
+        version: undefined,
         background: '#fff',
         theme_color: '#fff',
         icons: {

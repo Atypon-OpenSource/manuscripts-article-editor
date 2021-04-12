@@ -22,7 +22,7 @@ import LoginPageContainer from '../LoginPageContainer'
 jest.mock('../../../lib/adapter')
 jest.mock('../../../lib/token')
 
-const history = createMemoryHistory()
+const history = createMemoryHistory<Record<string, never>>()
 
 const props = {
   history,
