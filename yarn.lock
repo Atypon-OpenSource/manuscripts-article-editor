@@ -2510,7 +2510,7 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@storybook/addon-actions@^6.0.26":
+"@storybook/addon-actions@^6.2.7":
   version "6.2.7"
   resolved "https://registry.npmjs.org/@storybook/addon-actions/-/addon-actions-6.2.7.tgz#ca0500f5eb7017d3e2b4f6ee570c3650e495c7d9"
   integrity sha512-v0zgJfrgTY5di7pCUZnA5CLSu8LNcq2rwLuQ2I3qiLYszZ9Gdst5kdekMPgiz7Dk8c6GOpml/IMISnEUKBskVQ==
@@ -2533,7 +2533,7 @@
     util-deprecate "^1.0.2"
     uuid-browser "^3.1.0"
 
-"@storybook/addon-links@^6.0.26":
+"@storybook/addon-links@^6.2.7":
   version "6.2.7"
   resolved "https://registry.npmjs.org/@storybook/addon-links/-/addon-links-6.2.7.tgz#02d4636bd1ca26d243f346086d5b280fb70a730b"
   integrity sha512-pGP3gtZSP9xDbS+KgP0fiTLrhcD8eauOsP0JgzyKVCgKYzG4Yx9xuZBcDCvG25DeczDvTx7kuR6U1TavSYn12w==
@@ -2551,7 +2551,7 @@
     regenerator-runtime "^0.13.7"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-storyshots@^6.0.26":
+"@storybook/addon-storyshots@^6.2.7":
   version "6.2.7"
   resolved "https://registry.npmjs.org/@storybook/addon-storyshots/-/addon-storyshots-6.2.7.tgz#4ebf0844e61091a019eaa7fa11181d12eb69e97d"
   integrity sha512-xxyS+vdMVxcwcc212inNgG5y0ia1+aUeyUNGoCUPHEsPBhj2/2EfV1UTTwHQFsSrq0Stdphfh84FexwqTGIFZA==
@@ -2575,7 +2575,7 @@
     regenerator-runtime "^0.13.7"
     ts-dedent "^2.0.0"
 
-"@storybook/addons@6.2.7", "@storybook/addons@^6.0.26":
+"@storybook/addons@6.2.7", "@storybook/addons@^6.2.7":
   version "6.2.7"
   resolved "https://registry.npmjs.org/@storybook/addons/-/addons-6.2.7.tgz#f31343654e564dd91f1ec103f130fa23e996745b"
   integrity sha512-OHVGzkS2al/jirChr2otampV3oBvODbisUpHMhgUJQ+fcjKdBOXualJFBHhAI2TNwTODfjld+TsKQlBtiMDNDw==
@@ -2918,7 +2918,7 @@
     webpack-dev-middleware "^3.7.3"
     webpack-virtual-modules "^0.2.2"
 
-"@storybook/core@6.2.7", "@storybook/core@^6.0.26":
+"@storybook/core@6.2.7", "@storybook/core@^6.2.7":
   version "6.2.7"
   resolved "https://registry.npmjs.org/@storybook/core/-/core-6.2.7.tgz#7eb7727523134303ab2733a196bb71b53dea4e9f"
   integrity sha512-E40ezV3/bNn3y2I76n0LTmw4FLd5RrRbx4YPe5/2rOWozwErd7qHbDFRaAq6fW5dYQOC07iQNK5nneckD7id3w==
@@ -2944,7 +2944,7 @@
     npmlog "^4.1.2"
     pretty-hrtime "^1.0.3"
 
-"@storybook/react@*", "@storybook/react@^6.0.26":
+"@storybook/react@*", "@storybook/react@^6.2.7":
   version "6.2.7"
   resolved "https://registry.npmjs.org/@storybook/react/-/react-6.2.7.tgz#07a329c9baab62e0deb8488d9f6c6174045bd386"
   integrity sha512-NUbCTMhTh4rfbrPBVRtnVzYqVj7KTbvfQOkE6rHzWjk5T9+OJI86Ptla28w8T6O9K9QSQl7QftOMIGn5/ZtJiQ==

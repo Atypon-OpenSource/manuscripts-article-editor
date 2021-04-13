@@ -63,7 +63,9 @@ module.exports = ({ config, mode }) => {
   config.resolve.extensions.push('.ts', '.tsx')
 
   config.resolve.alias = {
-    react: require.resolve('react'),
+    // This seems to conflict with the jsx-runtime, maybe an issue with storybook itself
+    // react: require.resolve('react'),
+    'react/jsx-runtime': require.resolve('react/jsx-runtime'),
     'react-dom': require.resolve('react-dom'),
     'react-hot-loader': require.resolve('react-hot-loader'),
     'styled-components': require.resolve('styled-components'),
