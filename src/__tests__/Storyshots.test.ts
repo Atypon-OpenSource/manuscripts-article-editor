@@ -35,6 +35,7 @@ jest.mock('lodash-es', () => {
 jest.mock('../lib/token')
 jest.mock('../lib/adapter')
 jest.mock('../lib/device-id')
+jest.mock('../components/FormattedDateTime')
 
 jest.mock('../config', () => {
   const { default: original } = jest.requireActual('../config')

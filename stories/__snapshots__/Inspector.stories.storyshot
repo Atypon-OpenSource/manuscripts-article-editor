@@ -1221,7 +1221,7 @@ exports[`Storyshots Inspector/History basic 1`] = `
                   className="c12"
                 >
                   <span>
-                    January 1, 1970 at 12:00 AM
+                    MOCK_FORMATTED_DATETIME
                   </span>
                 </span>
                 <a
@@ -1712,7 +1712,7 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
                   className="c12"
                 >
                   <span>
-                    January 1, 1970 at 12:00 AM
+                    MOCK_FORMATTED_DATETIME
                   </span>
                 </span>
                 <a
@@ -1892,7 +1892,7 @@ exports[`Storyshots Inspector/History read only 1`] = `
                   className="c8"
                 >
                   <span>
-                    January 1, 1970 at 12:00 AM
+                    MOCK_FORMATTED_DATETIME
                   </span>
                 </span>
                 <a
@@ -2309,7 +2309,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
                   className="c12"
                 >
                   <span>
-                    January 1, 1970 at 12:00 AM
+                    MOCK_FORMATTED_DATETIME
                   </span>
                 </span>
                 <a
