@@ -47,7 +47,13 @@ const UPLOAD_ATTACHMENT = gql`
       submissionId: $submissionId
       typeId: $typeId
       content: $file
-    )
+    ) {
+      name
+      link
+      type {
+        id
+      }
+    }
   }
 `
 const UPDATE_ATTACHMENT = gql`
@@ -81,12 +87,12 @@ const SET_MAIN_MANUSCRIPT = gql`
 
 export const useUploadAttachment = () => {
   const [mutate] = useMutation(UPLOAD_ATTACHMENT)
-  return ({
+  return async ({
     submissionId,
     file,
     designation, // typeId is designation
-  }: uploadAttachmentProps) =>
-    mutate({
+  }: uploadAttachmentProps) => {
+    const fetchResult = await mutate({
       context: {
         clientPurpose: 'leanWorkflowManager',
       },
@@ -96,12 +102,18 @@ export const useUploadAttachment = () => {
         typeId: designation,
       },
     })
+    if (fetchResult.data.uploadAttachment) {
+      return true
+    } else {
+      return false
+    }
+  }
 }
 
 export const useUpdateAttachmentDesignation = () => {
   const [mutate] = useMutation(SET_ATTACHMENT_TYPE)
-  return ({ submissionId, name, designation }: setAttachmentProps) =>
-    mutate({
+  return async ({ submissionId, name, designation }: setAttachmentProps) => {
+    const fetchResult = await mutate({
       context: {
         clientPurpose: 'leanWorkflowManager',
       },
@@ -111,6 +123,13 @@ export const useUpdateAttachmentDesignation = () => {
         typeId: designation,
       },
     })
+
+    if (fetchResult.data.SetAttachmentType) {
+      return true
+    } else {
+      return false
+    }
+  }
 }
 
 export const useUpdateAttachmentFile = () => {

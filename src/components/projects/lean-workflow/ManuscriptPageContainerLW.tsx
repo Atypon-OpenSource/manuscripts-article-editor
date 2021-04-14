@@ -87,6 +87,7 @@ import {
 } from './ApplicationMenusLW'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
+import { ErrorDialog } from './ErrorDialog'
 
 interface RouteParams {
   projectID: string
@@ -253,7 +254,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   }
 
   const [sortBy, setSortBy] = useState('Date')
-
+  const [errorDialog, setErrorDialog] = useState(false)
+  const [header, setHeader] = useState('')
+  const [message, setMessage] = useState('')
   const handleSort = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       setSortBy(event.currentTarget.value)
@@ -287,18 +290,49 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     manuscript._id,
     manuscript.containerID
   )
-
+  const handleDialogError = (
+    errorMessage: string,
+    errorHeader: string,
+    showDialog: boolean
+  ) => {
+    setMessage(errorMessage)
+    setHeader(errorHeader)
+    setErrorDialog(showDialog)
+  }
   const uploadAttachment = useUploadAttachment()
   const handleUploadAttachment = useCallback(
     (submissionId: string, file: File, designation: string) => {
-      console.log(submissionId)
-      console.log(file.name)
-      console.log(designation)
       return uploadAttachment({
         submissionId: submissionId,
         file: file,
         designation: designation,
-      }).then(() => true)
+      })
+        .then((res) => {
+          if (!res) {
+            handleDialogError(
+              'Something went wrong while Uploading Attachment.',
+              'Error',
+              true
+            )
+          }
+          return res
+        })
+        .catch((e) => {
+          if (e.graphQLErrors.length != 0) {
+            handleDialogError(
+              e.graphQLErrors[0],
+              'Something went wrong while updating submission.',
+              true
+            )
+          } else {
+            handleDialogError(
+              e.message,
+              'Something went wrong while updating submission.',
+              true
+            )
+          }
+          return false
+        })
     },
     [uploadAttachment]
   )
@@ -311,9 +345,30 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         name: name,
         designation: designation,
       })
-        .then(() => true)
+        .then((res) => {
+          if (!res) {
+            handleDialogError(
+              'Something went wrong while updating the attachment designation.',
+              'Error',
+              true
+            )
+          }
+          return res
+        })
         .catch((e) => {
-          console.log('catch', e)
+          if (e.graphQLErrors.length != 0) {
+            handleDialogError(
+              e.graphQLErrors[0],
+              'Something went wrong while updating submission.',
+              true
+            )
+          } else {
+            handleDialogError(
+              e.message,
+              'Something went wrong while updating submission.',
+              true
+            )
+          }
           return false
         })
     },
@@ -327,18 +382,61 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         file: file,
         designation: typeId,
       })
-        .then(console.log)
+        .then((res) => {
+          if (!res) {
+            handleDialogError(
+              'Something went wrong while Uploading Attachment.',
+              'Error',
+              true
+            )
+          }
+          return res
+        })
         .catch((e) => {
-          console.log('catch', e)
+          if (e.graphQLErrors.length != 0) {
+            handleDialogError(
+              e.graphQLErrors[0],
+              'Something went wrong while updating submission.',
+              true
+            )
+          } else {
+            handleDialogError(
+              e.message,
+              'Something went wrong while updating submission.',
+              true
+            )
+          }
+          return false
         })
       return changeAttachmentDesignation({
         submissionId: submissionId,
         name: name,
         designation: typeId,
       })
-        .then(() => true)
+        .then((res) => {
+          if (!res) {
+            handleDialogError(
+              'Something went wrong while replacing Attachment.',
+              'Error',
+              true
+            )
+          }
+          return res
+        })
         .catch((e) => {
-          console.log('catch', e)
+          if (e.graphQLErrors.length != 0) {
+            handleDialogError(
+              e.graphQLErrors[0],
+              'Something went wrong while updating submission.',
+              true
+            )
+          } else {
+            handleDialogError(
+              e.message,
+              'Something went wrong while updating submission.',
+              true
+            )
+          }
           return false
         })
     },
@@ -511,15 +609,27 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
               case 'Files': {
                 return submissionData.data && submissionData.data.submission ? (
-                  <FileManager
-                    submissionId={submissionData.data.submission.id}
-                    externalFiles={files}
-                    enableDragAndDrop={true}
-                    changeDesignationHandler={handleChangeAttachmentDesignation}
-                    handleDownload={handleDownloadAttachment}
-                    handleReplace={handleReplaceAttachment}
-                    handleUpload={handleUploadAttachment}
-                  />
+                  <>
+                    {errorDialog && (
+                      <ErrorDialog
+                        isOpen={errorDialog}
+                        header={header}
+                        message={message}
+                        handleOk={() => setErrorDialog(false)}
+                      />
+                    )}
+                    <FileManager
+                      submissionId={submissionData.data.submission.id}
+                      externalFiles={files}
+                      enableDragAndDrop={true}
+                      changeDesignationHandler={
+                        handleChangeAttachmentDesignation
+                      }
+                      handleDownload={handleDownloadAttachment}
+                      handleReplace={handleReplaceAttachment}
+                      handleUpload={handleUploadAttachment}
+                    />
+                  </>
                 ) : null
               }
             }
