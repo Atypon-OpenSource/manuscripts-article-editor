@@ -2165,15 +2165,29 @@
   resolved "https://registry.npmjs.org/@manuscripts/plugin-persist/-/plugin-persist-0.1.2.tgz#104852652ab9024f1b303c973125077abaa67b07"
   integrity sha512-hQkwrDAEgICxYC0V5twuqyUDZ3Sro/KjN3G5rrrgDOKS4BNUUU3VbQ748jAv59NoLZJOp6pJN3SeQvWIgiVh3Q==
 
-"@manuscripts/pouchdb-adapter-http@7.0.0-manuscripts0":
-  version "7.0.0-manuscripts0"
-  resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-http/-/pouchdb-adapter-http-7.0.0-manuscripts0.tgz#2a8b39865122cac54bf40ad71829ca80138d61f9"
-  integrity sha512-bToSrrCZQavztCiPc5eiuf2kHRsC3CS1MD7sQWpV/lgLnCQJEucLsyYxrFbq2K56j8WBR2DEQ0UcPyfanJQkSA==
+"@manuscripts/pouchdb-adapter-http@7.0.0-manuscripts2":
+  version "7.0.0-manuscripts2"
+  resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-http/-/pouchdb-adapter-http-7.0.0-manuscripts2.tgz#f0aace8a9b4042b814b590eb82854fde3b3534fc"
+  integrity sha512-qxjhXSnhfeYJRgAlZKdROC4zOvWvDxWZfVnWVU3Vt2eWtjDNErkMfTiowDsy8pGEry/P4kTT2xTEFkzozzbgXA==
+  dependencies:
+    argsarray "0.0.1"
+    pouchdb-binary-utils "^7.0.0"
+    pouchdb-errors "^7.0.0"
+    pouchdb-fetch "^7.0.0"
+    pouchdb-utils "^7.0.0"
 
-"@manuscripts/pouchdb-adapter-idb@7.0.0-manuscripts1":
-  version "7.0.0-manuscripts1"
-  resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-idb/-/pouchdb-adapter-idb-7.0.0-manuscripts1.tgz#fb2a3cb6bca12755e828754fd0169f8235fee5c7"
-  integrity sha512-UlixWoz5hv4e4d0tIwNcrLq/VrDquhWuUkifx+kLNSihSKRlwnxYJH9qfTpUvJ7djSllvli8WMqc6RGCHqqnjw==
+"@manuscripts/pouchdb-adapter-idb@7.0.0-manuscripts2":
+  version "7.0.0-manuscripts2"
+  resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-idb/-/pouchdb-adapter-idb-7.0.0-manuscripts2.tgz#a609ee326011017227bf0fde778c71e0ef79d314"
+  integrity sha512-xdd3kcIEegVyKIWndJrimU8BZ6VzSzA89GK7C9xOQ0gPPWX+owIhLBVuU+WoQtR41vTw9VzXkcU3d400mPRWgA==
+  dependencies:
+    pouchdb-adapter-utils "^7.0.0"
+    pouchdb-binary-utils "^7.0.0"
+    pouchdb-collections "^7.0.0"
+    pouchdb-errors "^7.0.0"
+    pouchdb-json "^7.0.0"
+    pouchdb-merge "^7.0.0"
+    pouchdb-utils "^7.0.0"
 
 "@manuscripts/prosemirror-recreate-steps@^0.1.4":
   version "0.1.4"
@@ -4406,6 +4420,13 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
+
+abort-controller@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
+  integrity sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
+  dependencies:
+    event-target-shim "^5.0.0"
 
 abstract-leveldown@~2.7.1:
   version "2.7.2"
@@ -8608,6 +8629,11 @@ etag@~1.8.1:
   resolved "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+event-target-shim@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
+  integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
+
 eventemitter3@^3.1.0:
   version "3.1.2"
   resolved "https://registry.npmjs.org/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
@@ -9022,6 +9048,13 @@ fb-watchman@^2.0.0:
   integrity sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==
   dependencies:
     bser "2.1.1"
+
+fetch-cookie@0.10.1:
+  version "0.10.1"
+  resolved "https://registry.npmjs.org/fetch-cookie/-/fetch-cookie-0.10.1.tgz#5ea88f3d36950543c87997c27ae2aeafb4b5c4d4"
+  integrity sha512-beB+VEd4cNeVG1PY+ee74+PkuCQnik78pgLi5Ah/7qdUfov8IctU0vLUbBT8/10Ma5GMBeI4wtxhGrEfKNYs2g==
+  dependencies:
+    tough-cookie "^2.3.3 || ^3.0.1 || ^4.0.0"
 
 fetch-cookie@0.7.0:
   version "0.7.0"
@@ -13868,6 +13901,11 @@ node-dir@^0.1.10:
   dependencies:
     minimatch "^3.0.2"
 
+node-fetch@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+
 node-fetch@^2.0.0, node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
@@ -15045,7 +15083,7 @@ pouchdb-adapter-memory@^7.2.2:
     pouchdb-adapter-leveldb-core "7.2.2"
     pouchdb-utils "7.2.2"
 
-pouchdb-adapter-utils@7.2.2:
+pouchdb-adapter-utils@7.2.2, pouchdb-adapter-utils@^7.0.0:
   version "7.2.2"
   resolved "https://registry.npmjs.org/pouchdb-adapter-utils/-/pouchdb-adapter-utils-7.2.2.tgz#c64426447d9044ba31517a18500d6d2d28abd47d"
   integrity sha512-2CzZkTyTyHZkr3ePiWFMTiD5+56lnembMjaTl8ohwegM0+hYhRyJux0biAZafVxgIL4gnCUC4w2xf6WVztzKdg==
@@ -15111,7 +15149,7 @@ pouchdb-binary-utils@7.0.0:
   dependencies:
     buffer-from "1.1.0"
 
-pouchdb-binary-utils@7.2.2:
+pouchdb-binary-utils@7.2.2, pouchdb-binary-utils@^7.0.0:
   version "7.2.2"
   resolved "https://registry.npmjs.org/pouchdb-binary-utils/-/pouchdb-binary-utils-7.2.2.tgz#0690b348052c543b1e67f032f47092ca82bcb10e"
   integrity sha512-shacxlmyHbUrNfE6FGYpfyAJx7Q0m91lDdEAaPoKZM3SzAmbtB1i+OaDNtYFztXjJl16yeudkDb3xOeokVL3Qw==
@@ -15180,7 +15218,7 @@ pouchdb-collections@7.0.0:
   resolved "https://registry.npmjs.org/pouchdb-collections/-/pouchdb-collections-7.0.0.tgz#fd1f632337dc6301b0ff8649732ca79204e41780"
   integrity sha512-DaoUr/vU24Q3gM6ghj0va9j/oBanPwkbhkvnqSyC3Dm5dgf5pculNxueLF9PKMo3ycApoWzHMh6N2N8KJbDU2Q==
 
-pouchdb-collections@7.2.2:
+pouchdb-collections@7.2.2, pouchdb-collections@^7.0.0:
   version "7.2.2"
   resolved "https://registry.npmjs.org/pouchdb-collections/-/pouchdb-collections-7.2.2.tgz#aeed77f33322429e3f59d59ea233b48ff0e68572"
   integrity sha512-6O9zyAYlp3UdtfneiMYuOCWdUCQNo2bgdjvNsMSacQX+3g8WvIoFQCYJjZZCpTttQGb+MHeRMr8m2U95lhJTew==
@@ -15213,7 +15251,7 @@ pouchdb-errors@7.0.0:
   dependencies:
     inherits "2.0.3"
 
-pouchdb-errors@7.2.2:
+pouchdb-errors@7.2.2, pouchdb-errors@^7.0.0:
   version "7.2.2"
   resolved "https://registry.npmjs.org/pouchdb-errors/-/pouchdb-errors-7.2.2.tgz#80d811d65c766c9d20b755c6e6cc123f8c3c4792"
   integrity sha512-6GQsiWc+7uPfgEHeavG+7wuzH3JZW29Dnrvz8eVbDFE50kVFxNDVm3EkYHskvo5isG7/IkOx7PV7RPTA3keG3g==
@@ -15232,6 +15270,15 @@ pouchdb-fetch@7.0.0:
   dependencies:
     fetch-cookie "0.7.0"
     node-fetch "^2.0.0"
+
+pouchdb-fetch@^7.0.0:
+  version "7.2.2"
+  resolved "https://registry.npmjs.org/pouchdb-fetch/-/pouchdb-fetch-7.2.2.tgz#492791236d60c899d7e9973f9aca0d7b9cc02230"
+  integrity sha512-lUHmaG6U3zjdMkh8Vob9GvEiRGwJfXKE02aZfjiVQgew+9SLkuOxNw3y2q4d1B6mBd273y1k2Lm0IAziRNxQnA==
+  dependencies:
+    abort-controller "3.0.0"
+    fetch-cookie "0.10.1"
+    node-fetch "2.6.0"
 
 pouchdb-find@7.0.0:
   version "7.0.0"
@@ -15274,7 +15321,7 @@ pouchdb-generate-replication-id@7.2.2, pouchdb-generate-replication-id@^7.0.0:
     pouchdb-collate "7.2.2"
     pouchdb-md5 "7.2.2"
 
-pouchdb-json@7.2.2:
+pouchdb-json@7.2.2, pouchdb-json@^7.0.0:
   version "7.2.2"
   resolved "https://registry.npmjs.org/pouchdb-json/-/pouchdb-json-7.2.2.tgz#b939be24b91a7322e9a24b8880a6e21514ec5e1f"
   integrity sha512-3b2S2ynN+aoB7aCNyDZc/4c0IAdx/ir3nsHB+/RrKE9cM3QkQYbnnE3r/RvOD1Xvr6ji/KOCBie+Pz/6sxoaug==
@@ -15343,7 +15390,7 @@ pouchdb-merge@7.0.0:
   resolved "https://registry.npmjs.org/pouchdb-merge/-/pouchdb-merge-7.0.0.tgz#9f476ce7e32aae56904ad770ae8a1dfe14b57547"
   integrity sha512-tci5u6NpznQhGcPv4ho1h0miky9rs+ds/T9zQ9meQeDZbUojXNaX1Jxsb0uYEQQ+HMqdcQs3Akdl0/u0mgwPGg==
 
-pouchdb-merge@7.2.2:
+pouchdb-merge@7.2.2, pouchdb-merge@^7.0.0:
   version "7.2.2"
   resolved "https://registry.npmjs.org/pouchdb-merge/-/pouchdb-merge-7.2.2.tgz#940d85a2b532d6a93a6cab4b250f5648511bcc16"
   integrity sha512-6yzKJfjIchBaS7Tusuk8280WJdESzFfQ0sb4jeMUNnrqs4Cx3b0DIEOYTRRD9EJDM+je7D3AZZ4AT0tFw8gb4A==
@@ -15537,7 +15584,7 @@ pouchdb-utils@7.0.0:
     pouchdb-md5 "7.0.0"
     uuid "3.2.1"
 
-pouchdb-utils@7.2.2:
+pouchdb-utils@7.2.2, pouchdb-utils@^7.0.0:
   version "7.2.2"
   resolved "https://registry.npmjs.org/pouchdb-utils/-/pouchdb-utils-7.2.2.tgz#c17c4788f1d052b0daf4ef8797bbc4aaa3945aa4"
   integrity sha512-XmeM5ioB4KCfyB2MGZXu1Bb2xkElNwF1qG+zVFbQsKQij0zvepdOUfGuWvLRHxTOmt4muIuSOmWZObZa3NOgzQ==
@@ -19159,7 +19206,7 @@ tough-cookie@^2.3.1, tough-cookie@^2.3.3, tough-cookie@^2.3.4, tough-cookie@~2.5
     psl "^1.1.28"
     punycode "^2.1.1"
 
-tough-cookie@^4.0.0:
+"tough-cookie@^2.3.3 || ^3.0.1 || ^4.0.0", tough-cookie@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/tough-cookie/-/tough-cookie-4.0.0.tgz#d822234eeca882f991f0f908824ad2622ddbece4"
   integrity sha512-tHdtEpQCMrc1YLrMaqXXcj6AxhYi/xgit6mZu1+EDWUn+qhUf8wMQoFIy9NXuq23zAwtcB0t/MjACGR18pcRbg==
