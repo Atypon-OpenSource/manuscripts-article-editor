@@ -97,9 +97,6 @@ export const ApplicationMenusLW: React.FC<Props> = ({
         role: 'separator',
       },
       {
-        role: 'separator',
-      },
-      {
         id: 'remaster',
         label: 'Remaster',
         run: () => remaster(editor.state, modelMap, project, manuscriptID),

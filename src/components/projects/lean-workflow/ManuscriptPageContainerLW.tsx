@@ -88,6 +88,7 @@ import {
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
 import { ErrorDialog } from './ErrorDialog'
+import { TrackChangesStyles } from './TrackChangesStyles'
 
 interface RouteParams {
   projectID: string
@@ -221,6 +222,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       CitationEditor,
       CitationViewer,
     },
+
+    ancestorDoc: props.ancestorDoc,
     commit: props.commitAtLoad || null,
   }
 
@@ -507,7 +510,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                 putAttachment={collection.putAttachment}
               />
               <EditorStyles modelMap={modelMap}>
-                <div id="editor" ref={onRender}></div>
+                <TrackChangesStyles trackEnabled={!!snapshotID}>
+                  <div id="editor" ref={onRender}></div>
+                </TrackChangesStyles>
               </EditorStyles>
             </EditorBody>
           </EditorContainerInner>
@@ -547,6 +552,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     listCollaborators={listCollaborators}
                     project={project}
                     tags={tags}
+                    key="content"
                   />
                 )
               }
@@ -567,6 +573,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     selected={selected}
                     setCommentTarget={setCommentTarget}
                     commentTarget={commentTarget}
+                    key="comments"
                   />
                 )
               }
@@ -578,12 +585,13 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     prototypeId={manuscript.prototype}
                     manuscriptID={manuscript._id}
                     bulkUpdate={bulkUpdate}
+                    key="quality"
                   />
                 )
               }
               case 'History': {
                 return snapshotID ? (
-                  <>
+                  <React.Fragment key="history">
                     <SnapshotsDropdown
                       snapshots={snapshots}
                       selectedSnapshot={selectedSnapshot}
@@ -601,15 +609,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       accept={accept}
                       reject={reject}
                     />
-                  </>
+                  </React.Fragment>
                 ) : (
-                  <h3>Tracking is off - create a Snapshot to get started</h3>
+                  <h3 key="history">
+                    Tracking is off - create a Snapshot to get started
+                  </h3>
                 )
               }
 
               case 'Files': {
                 return submissionData.data && submissionData.data.submission ? (
-                  <>
+                  <React.Fragment key="files">
                     {errorDialog && (
                       <ErrorDialog
                         isOpen={errorDialog}
@@ -629,7 +639,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       handleReplace={handleReplaceAttachment}
                       handleUpload={handleUploadAttachment}
                     />
-                  </>
+                  </React.Fragment>
                 ) : null
               }
             }

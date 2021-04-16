@@ -10,18 +10,56 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ObjectTypes, Snapshot } from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import styled from 'styled-components'
 
-export const snapshots: Snapshot[] = [
-  {
-    objectType: ObjectTypes.Snapshot,
-    containerID: 'my-project',
-    createdAt: 1,
-    updatedAt: 1,
-    _id: 'ID',
-    creator: 'Egon Spengler',
-    s3Id: 'S3KEY',
-    proof: ['PROOF'],
-    name: 'My Snapshot',
-  },
-]
+const TrackChangesOn = styled.div`
+.blame {
+  background-color: rgba(57, 255, 20, 0.5);
+}
+.blame-uncommitted {
+  background-color: rgba(255, 218, 20, 0.5);
+}
+.blame-focused {
+  background-color: rgba(13, 213, 252, 0.5);
+}
+
+.blame-point,
+.blame-focused-point {
+  position: relative;
+}
+.blame-point::after,
+.blame-focused-point::after {
+  position: absolute;
+  left: -2.5px;
+  display: inline-block;
+  content: ' ';
+  border: 1px solid rgba(255, 0, 0);
+  transform: rotate(45deg);
+  border-top: none;
+  border-left: none;
+  width: 5px;
+  height: 5px;
+}
+
+.blame-replaced {
+  color: rgba(0, 0, 0, 0.5);
+  text-decoration: line-through;
+`
+
+const TrackChangesOff = styled.div`
+  .blame-replaced {
+    display: none !important;
+  }
+`
+
+export const TrackChangesStyles: React.FC<{ trackEnabled: boolean }> = ({
+  trackEnabled,
+  children,
+}) => {
+  return trackEnabled ? (
+    <TrackChangesOn>{children}</TrackChangesOn>
+  ) : (
+    <TrackChangesOff>{children}</TrackChangesOff>
+  )
+}

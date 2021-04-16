@@ -2049,32 +2049,33 @@
   resolved "https://registry.npmjs.org/@manuscripts/examples/-/examples-0.0.8.tgz#877effcbf22b11c3b24e162284665042f4125192"
   integrity sha512-hCmYSKgflejywcX1A8eTwU3MnKTaq5fHgTA7EciYG8HFm3qIST4rk+tTPvNhZ/JkwbZqs2hSTPhKbUR3IwwcDQ==
 
-"@manuscripts/library@^0.5.5":
-  version "0.5.7"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.5.7.tgz#a92cba8310aab3f0a4504a5f044b8ad9d9852ec8"
-  integrity sha512-mA+21wQfBguF7Oy365nTJdKX/pNOFMNho5Doh5ZsKxztucb/DOTBPQgmp3CkkYNAH6wqjyz9fAAchnZpu5W1Ug==
+"@manuscripts/library@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.5.9.tgz#4cc75b3dc130925dfcd134d10dd2d93457544566"
+  integrity sha512-oHeGJgoGL3mEOWxRivh7vYFEp709ixcrqHRRPv7+Z1JMxmUEzYKvXCRWNZe+IB2j23pHl2FE3DXORzqTvUs/NQ==
   dependencies:
     "@manuscripts/csl-locales" "^0.0.5"
     "@manuscripts/csl-styles" "^0.2.1"
     "@manuscripts/data" "^0.1.2"
-    "@manuscripts/manuscript-transform" "^0.42.2"
+    "@manuscripts/manuscript-transform" "^0.42.8"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.48"
     fontoxpath "^3.14.0"
 
-"@manuscripts/manuscript-editor@^0.84.2":
-  version "0.84.2"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.84.2.tgz#2fbaaa95c76cff9b6f4421795fd9316f52a56bd6"
-  integrity sha512-O6Pn8EstbmLV77dZuygId6IFy3u7cbkdBPoH2YY5Vykf2RXFwFvCSw5WT2bSyhzsXzRJPnQ3cpvKzuUY+Rwggw==
+"@manuscripts/manuscript-editor@^0.85.3":
+  version "0.85.3"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.85.3.tgz#2d6a5ae3546cb960f070093fd52978fbd8b5de5b"
+  integrity sha512-rAUeGA4RZjKOXppQvvqzDqEapz6pdexhrqTfLAK/GVRcvTpfN0ok/oXNmuf4Zl00bWM3QkZeKSCtZKHh+ATp5A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
-    "@manuscripts/manuscripts-json-schema" "^1.46.0"
+    "@manuscripts/comment-editor" "^0.2.1"
+    "@manuscripts/manuscripts-json-schema" "^1.46.2"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
-    "@manuscripts/track-changes" "^0.0.13"
+    "@manuscripts/track-changes" "^0.0.15"
     astrocite-eutils "^0.16.4"
     axios "^0.20.0"
     blob-util "^2.0.2"
@@ -2121,13 +2122,13 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.42.2":
-  version "0.42.5"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.5.tgz#5004351636c0bb5ef44ec01ed55ed1cc204f88c6"
-  integrity sha512-YHfAv3/M68y2i6n0TvQmgEJWkrT+J5mrvlgraKRfAZmCvUN1lSipITyWVq3Ii2Qr7njLDEW6W1MTTqF7Y9oEIA==
+"@manuscripts/manuscript-transform@^0.42.8":
+  version "0.42.8"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.8.tgz#d83f599dd49ebe45a55242b15472a9ab6dd82521"
+  integrity sha512-N26lbWJyECUFsh2m8bPjFxZnrliYlA96aS77ktTqtBXA7LXdvbkvnMF9Pf9Zna7zB3j9SP6jd93hD6GdmcnMFg==
   dependencies:
     "@manuscripts/data" "^0.1.3"
-    "@manuscripts/manuscripts-json-schema" "^1.46.0"
+    "@manuscripts/manuscripts-json-schema" "^1.46.2"
     debug "^4.1.1"
     lodash.pickby "^4.6.0"
     mathjax-full "^3.1.2"
@@ -2141,7 +2142,16 @@
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema-utils/-/manuscripts-json-schema-utils-0.2.1.tgz#4bc99a0afd2dc222b3ddff57da1a692ad0b28458"
   integrity sha512-rgt0FortFCRDVS299wqnx/zZtpEFsWiMEccfqUDWmKhuzHR5cL0Do4BxV3Rd7K3wWQZYenN1CrmV15a3SmUGog==
 
-"@manuscripts/manuscripts-json-schema@1.46.1", "@manuscripts/manuscripts-json-schema@^1.45.0", "@manuscripts/manuscripts-json-schema@^1.45.9", "@manuscripts/manuscripts-json-schema@^1.46.0":
+"@manuscripts/manuscripts-json-schema@1.46.2", "@manuscripts/manuscripts-json-schema@^1.46.2":
+  version "1.46.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.46.2.tgz#fac4be683e5301e56dbba1600691e7d617198fb3"
+  integrity sha512-TDMONHRO0grvkx+DcBTlWg9bXpsZMfW6VbHDdC5d8vsjAdIlXzYHARi7H35I5oCoFuJwiWDQ/rJsJC1c7t5jyQ==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
+"@manuscripts/manuscripts-json-schema@^1.45.0", "@manuscripts/manuscripts-json-schema@^1.45.9":
   version "1.46.1"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.46.1.tgz#4bc1a24d497efcc0152c3067be2325a8af4031d9"
   integrity sha512-Wsb7YSYrzFkPKz/jXOy1Mq5fOlpjYeqNU6q5C8Jb/hIjDPU52nK4Rqw8ezlyIsRyVbfPBvJYkbxcqeRj9S8+mw==
@@ -2284,12 +2294,12 @@
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
 
-"@manuscripts/track-changes@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.0.13.tgz#b2d38d7a4b1456395b6566a4514e221ddf971796"
-  integrity sha512-Mh3+07YBPXIgvnQG+gD0Gyah4Al4yyssOKUCeM5nM4KXkuhQ/fPjemwdHjszUZYLeTP1wzjmoEfCOyXZSigJ7Q==
+"@manuscripts/track-changes@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.0.15.tgz#463fbb4ab826ca82c4a3dde996c04aa96236b83d"
+  integrity sha512-HOjilVWCNHgaB5dpP+gOhDzVjCwUcQPbc6ID97eI8RwG1ux+snUdyMBM5iwsrQ/vlJO2XfdfULUzONi5dEq2yw==
   dependencies:
-    "@manuscripts/manuscripts-json-schema" "1.46.1"
+    "@manuscripts/manuscripts-json-schema" "1.46.2"
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
     uuid "8.3.2"
