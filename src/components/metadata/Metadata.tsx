@@ -27,6 +27,7 @@ import {
   IconButton,
   ModalContainer,
   ModalHeader,
+  SecondaryButton,
   StyledModal,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
@@ -206,6 +207,21 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             <ArrowDownBlue />
           </ExpanderButton>
         </TitleContainer>
+
+        {props.manuscript.authorInstructionsURL && (
+          <SecondaryButton
+            mini={true}
+            onClick={() =>
+              window.open(props.manuscript.authorInstructionsURL, '_blank')
+            }
+          >
+            <span role={'img'} aria-label={'Link'}>
+              {' '}
+              🔗
+            </span>{' '}
+            Author Instructions
+          </SecondaryButton>
+        )}
 
         {props.expanded && (
           <AuthorsContainer

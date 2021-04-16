@@ -2333,7 +2333,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
 `;
 
 exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
-.c18 {
+.c16 {
   display: block;
   border: 1px solid #e2e2e2;
   border-radius: 4px;
@@ -2345,16 +2345,16 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   width: 100%;
 }
 
-.c18:focus {
+.c16:focus {
   border-color: #bce7f6;
   background-color: #f2fbfc;
 }
 
-.c18:hover {
+.c16:hover {
   background-color: #f2fbfc;
 }
 
-.c18:invalid {
+.c16:invalid {
   box-shadow: none;
 }
 
@@ -2537,7 +2537,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   font-size: 1em;
 }
 
-.c19 {
+.c17 {
   padding: 8px;
   font-size: 1em;
 }
@@ -2546,7 +2546,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   margin-right: 8px;
 }
 
-.c16 {
+.c18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2559,11 +2559,11 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   margin-bottom: 16px;
 }
 
-.c16:last-child {
+.c18:last-child {
   margin-bottom: 0;
 }
 
-.c17 {
+.c19 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -2848,6 +2848,20 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                     </div>
                   </div>
                 </div>
+                <div
+                  className="c3 c15"
+                >
+                  Author Instruction URL
+                </div>
+                <input
+                  className="c16 c17"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="https://…"
+                  type="text"
+                  value=""
+                />
               </div>
               <div
                 aria-labelledby="tabs--3--tab---1"
@@ -2859,15 +2873,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="c16"
+                  className="c18"
                 >
                   <div
-                    className="c17"
+                    className="c19"
                   >
                     Figure Panel
                   </div>
                   <input
-                    className="c18 c19"
+                    className="c16 c17"
                     onChange={[Function]}
                     placeholder="Figure"
                     type="text"
@@ -2875,15 +2889,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="c16"
+                  className="c18"
                 >
                   <div
-                    className="c17"
+                    className="c19"
                   >
                     Table
                   </div>
                   <input
-                    className="c18 c19"
+                    className="c16 c17"
                     onChange={[Function]}
                     placeholder="Table"
                     type="text"
@@ -2891,15 +2905,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="c16"
+                  className="c18"
                 >
                   <div
-                    className="c17"
+                    className="c19"
                   >
                     Equation
                   </div>
                   <input
-                    className="c18 c19"
+                    className="c16 c17"
                     onChange={[Function]}
                     placeholder="Equation"
                     type="text"
@@ -2907,15 +2921,15 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="c16"
+                  className="c18"
                 >
                   <div
-                    className="c17"
+                    className="c19"
                   >
                     Listing
                   </div>
                   <input
-                    className="c18 c19"
+                    className="c16 c17"
                     onChange={[Function]}
                     placeholder="Listing"
                     type="text"
@@ -2947,7 +2961,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                     Min word count
                   </label>
                   <input
-                    className="c18 c23"
+                    className="c16 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2975,7 +2989,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                     Max word count
                   </label>
                   <input
-                    className="c18 c23"
+                    className="c16 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -3003,7 +3017,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                     Min character count
                   </label>
                   <input
-                    className="c18 c23"
+                    className="c16 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -3031,7 +3045,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                     Max character count
                   </label>
                   <input
-                    className="c18 c23"
+                    className="c16 c23"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}

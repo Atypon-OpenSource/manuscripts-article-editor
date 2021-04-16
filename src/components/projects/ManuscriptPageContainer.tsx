@@ -1941,6 +1941,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       _id: generateID(ObjectTypes.ManuscriptTemplate),
       objectType: ObjectTypes.ManuscriptTemplate,
       title: manuscript.title,
+      authorInstructionsURL: manuscript.authorInstructionsURL,
     }
 
     // build the new template models

@@ -42,6 +42,7 @@ import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
 import { RunningTitleField } from './RunningTitleField'
 import { ThemeInput } from './ThemeInput'
+import { URLInput } from './URLInput'
 
 export type SaveModel = <T extends Model>(
   model: Partial<T> | Build<T>
@@ -209,6 +210,17 @@ export const ManuscriptInspector: React.FC<{
               saveModel={saveModel}
               state={state}
               dispatch={dispatch}
+            />
+
+            <Subheading>Author Instruction URL</Subheading>
+
+            <URLInput
+              handleChange={async (authorInstructionsURL) => {
+                await saveManuscript({
+                  authorInstructionsURL,
+                })
+              }}
+              value={manuscript.authorInstructionsURL}
             />
           </InspectorTabPanel>
 

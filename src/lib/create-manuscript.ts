@@ -167,7 +167,7 @@ export const createManuscript = async ({
     buildContributor(user.bibliographicName, 'author', 0, user.userID)
   )
 
-  // bundled styles, keywords and contributor roles
+  // bundled styles, keywords, contributor roles and author instructions URL
   if (template) {
     const keywords = await loadKeywords()
     addContainedModels<StatusLabel>(
@@ -189,6 +189,10 @@ export const createManuscript = async ({
       for (const style of data.styles.values()) {
         addContainedModel<Style>(fromPrototype(style))
       }
+    }
+
+    if (template.authorInstructionsURL) {
+      manuscript.authorInstructionsURL = template.authorInstructionsURL
     }
   } else {
     const dependencies = await loadBundledDependencies()
