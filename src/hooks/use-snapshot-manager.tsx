@@ -112,13 +112,15 @@ export const useSnapshotManager = (
 
   const saveSnapshot = useCallback(
     (data: SnapshotData, name: string) => {
-      collection.save(buildSnapshot(data, name)).catch((e) => {
-        console.error('Error saving snapshot', e)
-      })
+      collection
+        .save(buildSnapshot(data, name), { containerID: project._id })
+        .catch((e) => {
+          console.error('Error saving snapshot', e)
+        })
       showNotification('snapshot', SnapshotSuccessNotification)
       setState(getInitialState())
     },
-    [collection, showNotification]
+    [collection, showNotification, project]
   )
 
   const requestTakeSnapshot = useCallback(async () => {
