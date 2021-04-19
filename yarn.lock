@@ -2063,10 +2063,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.14.0"
 
-"@manuscripts/manuscript-editor@^0.85.3":
-  version "0.85.3"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.85.3.tgz#2d6a5ae3546cb960f070093fd52978fbd8b5de5b"
-  integrity sha512-rAUeGA4RZjKOXppQvvqzDqEapz6pdexhrqTfLAK/GVRcvTpfN0ok/oXNmuf4Zl00bWM3QkZeKSCtZKHh+ATp5A==
+"@manuscripts/manuscript-editor@^0.85.4":
+  version "0.85.4"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.85.4.tgz#64a15ef32dd7e3f462912feb05f61e0a2fc6f5d2"
+  integrity sha512-OpAuhTjn+eOdBd3USj7iEnQVJOW2EV+/ahejIML3zLSoJ9TQa3pO1Il92BbunQmF/mdUVWDxC/sTU/w1SGa2ow==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2126,6 +2126,21 @@
   version "0.42.8"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.8.tgz#d83f599dd49ebe45a55242b15472a9ab6dd82521"
   integrity sha512-N26lbWJyECUFsh2m8bPjFxZnrliYlA96aS77ktTqtBXA7LXdvbkvnMF9Pf9Zna7zB3j9SP6jd93hD6GdmcnMFg==
+  dependencies:
+    "@manuscripts/data" "^0.1.3"
+    "@manuscripts/manuscripts-json-schema" "^1.46.2"
+    debug "^4.1.1"
+    lodash.pickby "^4.6.0"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscript-transform@^0.42.9":
+  version "0.42.9"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.9.tgz#0386539956236eef3f9c813a91676fdeeee54d7a"
+  integrity sha512-CM51OXK1oy/Pu+cfze0Qm69z3pKHiH7F2rxLAufFPLLxb9+A8K4dFngWvU5ZR4bXqFlbep5YFFW6Fx6p9NEYNQ==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/manuscripts-json-schema" "^1.46.2"
