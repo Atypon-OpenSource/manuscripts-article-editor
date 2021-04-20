@@ -27,10 +27,10 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { TextField } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
+import useInterval from 'react-useinterval'
 import styled from 'styled-components'
 
-import { useDebounce } from '../../hooks/use-debounce'
 import {
   chooseSectionCategory,
   findFirstParagraph,
@@ -76,13 +76,13 @@ const buildCountRequirement = <T extends CountRequirement>(
   return item as Build<T>
 }
 
-export const SectionInspector = memo<{
+export const SectionInspector: React.FC<{
   dispatchNodeAttrs: (id: string, attrs: Record<string, unknown>) => void
   section: Section
   sectionNode?: SectionNode
   modelMap: Map<string, Model>
   saveModel: SaveModel
-}>(({ dispatchNodeAttrs, section, sectionNode, modelMap, saveModel }) => {
+}> = ({ dispatchNodeAttrs, section, sectionNode, modelMap, saveModel }) => {
   // placeholder
 
   const firstParagraph = findFirstParagraph(section, modelMap)
@@ -91,24 +91,25 @@ export const SectionInspector = memo<{
     firstParagraph ? firstParagraph.placeholderInnerHTML : undefined
   )
 
-  const debouncedPlaceholder = useDebounce(placeholder, 500)
-
-  useEffect(() => {
-    if (
-      firstParagraph &&
-      debouncedPlaceholder !== firstParagraph.placeholderInnerHTML
-    ) {
+  useInterval(() => {
+    if (firstParagraph && placeholder !== firstParagraph.placeholderInnerHTML) {
       dispatchNodeAttrs(firstParagraph._id, {
-        placeholder: debouncedPlaceholder,
+        placeholder,
       })
     }
-  }, [firstParagraph, debouncedPlaceholder, dispatchNodeAttrs])
+  }, 500)
 
   // suppressed title
+  const [titleSuppressed, setTitleSuppressed] = useState<boolean>(
+    !!section.titleSuppressed
+  )
 
-  const setTitleSuppressed = useCallback(
-    (titleSuppressed: boolean) => {
-      dispatchNodeAttrs(section._id, { titleSuppressed })
+  const updateTitleSuppressed = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault()
+      const nextTitleSuppressed = !e.target.checked
+      setTitleSuppressed(nextTitleSuppressed)
+      dispatchNodeAttrs(section._id, { titleSuppressed: nextTitleSuppressed })
     },
     [section, dispatchNodeAttrs]
   )
@@ -166,10 +167,8 @@ export const SectionInspector = memo<{
                 <label>
                   <input
                     type={'checkbox'}
-                    checked={!section.titleSuppressed}
-                    onChange={(event) => {
-                      setTitleSuppressed(!event.target.checked)
-                    }}
+                    checked={!titleSuppressed}
+                    onChange={updateTitleSuppressed}
                   />{' '}
                   Title is shown
                 </label>
@@ -293,7 +292,7 @@ export const SectionInspector = memo<{
       </InspectorTabs>
     </InspectorSection>
   )
-})
+}
 
 const StyledTitle = styled(Title)`
   color: ${(props) => props.theme.colors.text.primary};

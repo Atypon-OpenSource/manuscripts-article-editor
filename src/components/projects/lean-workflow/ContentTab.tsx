@@ -31,7 +31,7 @@ import { useStatusLabels } from '../../../hooks/use-status-labels'
 import { AnyElement } from '../../inspector/ElementStyleInspector'
 import { ManageTargetInspector } from '../../inspector/ManageTargetInspector'
 import { NodeInspector } from '../../inspector/NodeInspector'
-// import { SectionInspector } from '../../inspector/SectionInspector'
+import { SectionInspector } from '../../inspector/SectionInspector'
 import { StatisticsInspector } from '../../inspector/StatisticsInspector'
 import { HeaderImageInspector } from '../HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from '../ManuscriptInspector'
@@ -81,20 +81,20 @@ export const ContentTab: React.FC<{
 
   const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)
 
-  // const dispatchNodeAttrs = (id: string, attrs: Record<string, unknown>) => {
-  //   const { tr, doc } = state
+  const dispatchNodeAttrs = (id: string, attrs: Record<string, unknown>) => {
+    const { tr, doc } = state
 
-  //   doc.descendants((node, pos) => {
-  //     if (node.attrs.id === id) {
-  //       tr.setNodeMarkup(pos, undefined, {
-  //         ...node.attrs,
-  //         ...attrs,
-  //       })
+    doc.descendants((node, pos) => {
+      if (node.attrs.id === id) {
+        tr.setNodeMarkup(pos, undefined, {
+          ...node.attrs,
+          ...attrs,
+        })
 
-  //       dispatch(tr)
-  //     }
-  //   })
-  // }
+        dispatch(tr)
+      }
+    })
+  }
 
   return (
     <div>
@@ -151,9 +151,6 @@ export const ContentTab: React.FC<{
         />
       )}
 
-      {/* 
-      This is causing a state update loop and needs to be worked out after 
-      we decide what to do about Requirements.
       {section && (
         <SectionInspector
           key={section._id}
@@ -165,7 +162,7 @@ export const ContentTab: React.FC<{
           saveModel={saveModel}
           dispatchNodeAttrs={dispatchNodeAttrs}
         />
-      )} */}
+      )}
     </div>
   )
 }
