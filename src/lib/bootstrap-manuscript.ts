@@ -279,7 +279,7 @@ export const remaster = async (
 
   const snapshot = buildSnapshot(data, `Snapshot of ${Date.now() / 1000}`)
 
-  await collection.save(snapshot)
+  await collection.save(snapshot, { containerID: project._id })
 
   window.location.reload()
 }
