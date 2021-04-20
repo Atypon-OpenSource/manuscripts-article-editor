@@ -28,7 +28,7 @@ export const setNodeAttrs = (
         ...node.attrs,
         ...attrs,
       })
-
+      console.log('dispatching')
       dispatch(tr)
     }
   })

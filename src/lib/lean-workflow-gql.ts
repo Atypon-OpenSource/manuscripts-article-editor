@@ -57,7 +57,7 @@ const UPLOAD_ATTACHMENT = gql`
   }
 `
 const UPDATE_ATTACHMENT = gql`
-  mutation Upload($submissionId: ID!, $file: Upload!, $name: ID!) {
+  mutation Update($submissionId: ID!, $file: Upload!, $name: ID!) {
     updateAttachment(submissionId: $submissionId, content: $file, name: $name)
   }
 `
@@ -102,11 +102,7 @@ export const useUploadAttachment = () => {
         typeId: designation,
       },
     })
-    if (fetchResult.data.uploadAttachment) {
-      return true
-    } else {
-      return false
-    }
+    return fetchResult
   }
 }
 

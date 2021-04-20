@@ -135,8 +135,11 @@ interface Props {
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
   tokenActions: TokenActions
-  getAttachment: (id: string, attachmentID: string) => Promise<Blob | undefined>
-  putAttachment: (
+  getAttachment?: (
+    id: string,
+    attachmentID: string
+  ) => Promise<Blob | undefined>
+  putAttachment?: (
     id: string,
     attachment: RxAttachmentCreator
   ) => Promise<RxAttachment<Model>>
@@ -184,12 +187,14 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   return (
     <HeaderContainer>
       <Header>
-        <HeaderFigure
-          getAttachment={props.getAttachment}
-          putAttachment={props.putAttachment}
-          saveModel={props.saveModel}
-          manuscript={props.manuscript}
-        />
+        {props.getAttachment && props.putAttachment && (
+          <HeaderFigure
+            getAttachment={props.getAttachment}
+            putAttachment={props.putAttachment}
+            saveModel={props.saveModel}
+            manuscript={props.manuscript}
+          />
+        )}
 
         <TitleContainer>
           <TitleFieldContainer

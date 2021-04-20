@@ -78,7 +78,6 @@ export const HeaderFigure: React.FC<{
               objectType: ObjectTypes.Figure,
               contentType: file.type,
             })
-
             const url = window.URL.createObjectURL(file)
             setSrc(url)
           })

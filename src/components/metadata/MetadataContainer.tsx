@@ -55,8 +55,11 @@ interface Props {
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
   tokenActions: TokenActions
-  getAttachment: (id: string, attachmentID: string) => Promise<Blob | undefined>
-  putAttachment: (
+  getAttachment?: (
+    id: string,
+    attachmentID: string
+  ) => Promise<Blob | undefined>
+  putAttachment?: (
     id: string,
     attachment: RxAttachmentCreator
   ) => Promise<RxAttachment<Model>>

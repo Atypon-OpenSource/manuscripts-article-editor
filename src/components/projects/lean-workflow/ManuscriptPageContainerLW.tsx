@@ -87,6 +87,7 @@ import {
 } from './ApplicationMenusLW'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
+import EditorElement from './EditorElement'
 import { ErrorDialog } from './ErrorDialog'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
@@ -189,6 +190,28 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     return Promise.resolve()
   }
 
+  const submissionData = useGetSubmission(
+    manuscript._id,
+    manuscript.containerID
+  )
+
+  const submissionId = submissionData?.data?.submission?.id
+
+  const putAttachment = (file: File, designation = 'supplementary') => {
+    return uploadAttachment({
+      submissionId: submissionId,
+      file: file,
+      designation: designation,
+    })
+      .then(({ data }) => {
+        return data.uploadAttachment?.link
+      })
+      .catch((e) => {
+        console.error(e)
+        return null
+      })
+  }
+
   const editorProps = {
     doc,
 
@@ -209,10 +232,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     getModel,
     saveModel,
     deleteModel,
-    putAttachment: () => {
-      console.log('put attachment')
-      return Promise.resolve('attachment id')
-    },
+    putAttachment: putAttachment,
     setCommentTarget,
     retrySync,
 
@@ -231,7 +251,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ManuscriptsEditor.createState(editorProps),
     ManuscriptsEditor.createView(editorProps)
   )
-  const { state, onRender, dispatch, view } = editor
+
+  const { state, dispatch, view } = editor
 
   useEffect(() => {
     saveEditorState(state, modelMap, project._id, manuscript._id)
@@ -289,10 +310,15 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     modelMap,
     ObjectTypes.ExternalFile
   )
-  const submissionData = useGetSubmission(
-    manuscript._id,
-    manuscript.containerID
-  )
+  useEffect(() => {
+    if (submissionId) {
+      editor.replaceView(
+        ManuscriptsEditor.createState(editorProps),
+        ManuscriptsEditor.createView(editorProps)
+      )
+    }
+  }, [submissionId]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleDialogError = (
     errorMessage: string,
     errorHeader: string,
@@ -302,148 +328,79 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     setHeader(errorHeader)
     setErrorDialog(showDialog)
   }
-  const uploadAttachment = useUploadAttachment()
-  const handleUploadAttachment = useCallback(
-    (submissionId: string, file: File, designation: string) => {
-      return uploadAttachment({
-        submissionId: submissionId,
-        file: file,
-        designation: designation,
-      })
+
+  const handleSubmissionMutation = useCallback(
+    (mutaton: Promise<any>, errorLog: string) => {
+      return mutaton
         .then((res) => {
           if (!res) {
-            handleDialogError(
-              'Something went wrong while Uploading Attachment.',
-              'Error',
-              true
-            )
+            handleDialogError(errorLog, 'Error', true)
           }
           return res
         })
         .catch((e) => {
-          if (e.graphQLErrors.length != 0) {
-            handleDialogError(
-              e.graphQLErrors[0],
-              'Something went wrong while updating submission.',
-              true
-            )
-          } else {
-            handleDialogError(
-              e.message,
-              'Something went wrong while updating submission.',
-              true
-            )
-          }
+          handleDialogError(
+            e.graphQLErrors[0] || e.message,
+            'Something went wrong while updating submission.',
+            true
+          )
           return false
         })
     },
-    [uploadAttachment]
+    []
+  )
+
+  const uploadAttachment = useUploadAttachment()
+  const handleUploadAttachment = useCallback(
+    (submissionId: string, file: File, designation: string) => {
+      return handleSubmissionMutation(
+        uploadAttachment({
+          submissionId: submissionId,
+          file: file,
+          designation: designation,
+        }),
+        'Something went wrong while uploading attachment.'
+      )
+    },
+    [uploadAttachment, handleSubmissionMutation]
   )
 
   const changeAttachmentDesignation = useUpdateAttachmentDesignation()
   const handleChangeAttachmentDesignation = useCallback(
     (submissionId: string, designation: string, name: string) => {
-      return changeAttachmentDesignation({
-        submissionId: submissionId,
-        name: name,
-        designation: designation,
-      })
-        .then((res) => {
-          if (!res) {
-            handleDialogError(
-              'Something went wrong while updating the attachment designation.',
-              'Error',
-              true
-            )
-          }
-          return res
-        })
-        .catch((e) => {
-          if (e.graphQLErrors.length != 0) {
-            handleDialogError(
-              e.graphQLErrors[0],
-              'Something went wrong while updating submission.',
-              true
-            )
-          } else {
-            handleDialogError(
-              e.message,
-              'Something went wrong while updating submission.',
-              true
-            )
-          }
-          return false
-        })
+      return handleSubmissionMutation(
+        changeAttachmentDesignation({
+          submissionId: submissionId,
+          name: name,
+          designation: designation,
+        }),
+        'Something went wrong while updating attachment designation.'
+      )
     },
-    [changeAttachmentDesignation]
+    [changeAttachmentDesignation, handleSubmissionMutation]
   )
 
   const handleReplaceAttachment = useCallback(
     (submissionId: string, name: string, file: File, typeId: string) => {
-      uploadAttachment({
-        submissionId: submissionId,
-        file: file,
-        designation: typeId,
-      })
-        .then((res) => {
-          if (!res) {
-            handleDialogError(
-              'Something went wrong while Uploading Attachment.',
-              'Error',
-              true
-            )
-          }
-          return res
-        })
-        .catch((e) => {
-          if (e.graphQLErrors.length != 0) {
-            handleDialogError(
-              e.graphQLErrors[0],
-              'Something went wrong while updating submission.',
-              true
-            )
-          } else {
-            handleDialogError(
-              e.message,
-              'Something went wrong while updating submission.',
-              true
-            )
-          }
-          return false
-        })
-      return changeAttachmentDesignation({
-        submissionId: submissionId,
-        name: name,
-        designation: typeId,
-      })
-        .then((res) => {
-          if (!res) {
-            handleDialogError(
-              'Something went wrong while replacing Attachment.',
-              'Error',
-              true
-            )
-          }
-          return res
-        })
-        .catch((e) => {
-          if (e.graphQLErrors.length != 0) {
-            handleDialogError(
-              e.graphQLErrors[0],
-              'Something went wrong while updating submission.',
-              true
-            )
-          } else {
-            handleDialogError(
-              e.message,
-              'Something went wrong while updating submission.',
-              true
-            )
-          }
-          return false
-        })
+      handleSubmissionMutation(
+        uploadAttachment({
+          submissionId: submissionId,
+          file: file,
+          designation: typeId,
+        }),
+        'Something went wrong while Uploading attachment.'
+      )
+
+      return handleSubmissionMutation(
+        changeAttachmentDesignation({
+          submissionId: submissionId,
+          name: name,
+          designation: typeId,
+        }),
+        'Something went wrong while replacing attachment.'
+      )
     },
-    [uploadAttachment, changeAttachmentDesignation]
+    [uploadAttachment, changeAttachmentDesignation, handleSubmissionMutation]
   )
 
   const handleDownloadAttachment = useCallback((url: string) => {
@@ -506,12 +463,24 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                 deleteModel={deleteModel}
                 permissions={editorProps.permissions}
                 tokenActions={props.tokenActions}
-                getAttachment={collection.getAttachmentAsBlob}
-                putAttachment={collection.putAttachment}
               />
               <EditorStyles modelMap={modelMap}>
                 <TrackChangesStyles trackEnabled={!!snapshotID}>
-                  <div id="editor" ref={onRender}></div>
+                  <EditorElement
+                    editor={editor}
+                    modelMap={modelMap}
+                    saveModel={saveModel}
+                    changeAttachmentDesignation={(
+                      designation: string,
+                      name: string
+                    ) =>
+                      handleChangeAttachmentDesignation(
+                        submissionId,
+                        designation,
+                        name
+                      )
+                    }
+                  />
                 </TrackChangesStyles>
               </EditorStyles>
             </EditorBody>
@@ -618,8 +587,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
               }
 
               case 'Files': {
-                return submissionData.data && submissionData.data.submission ? (
-                  <React.Fragment key="files">
+                return submissionId ? (
+                  <>
                     {errorDialog && (
                       <ErrorDialog
                         isOpen={errorDialog}
@@ -629,7 +598,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       />
                     )}
                     <FileManager
-                      submissionId={submissionData.data.submission.id}
+                      submissionId={submissionId}
                       externalFiles={files}
                       enableDragAndDrop={true}
                       changeDesignationHandler={
@@ -639,7 +608,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       handleReplace={handleReplaceAttachment}
                       handleUpload={handleUploadAttachment}
                     />
-                  </React.Fragment>
+                  </>
                 ) : null
               }
             }

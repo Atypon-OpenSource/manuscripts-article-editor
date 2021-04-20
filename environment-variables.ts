@@ -59,6 +59,9 @@ export const environmentVariables = [
   'SUPPORT_EMAIL',
   'SYNC_GATEWAY_URL',
   'ZOTERO_TRANSLATION_SERVER',
+  'LEAN_WORKFLOW_MANAGER_URL',
+  'FOOTNOTES_ENABLED',
+  'FEATURE_FILE_MANAGEMENT',
 ]
 
 // Optional variables that are only used if they're set
@@ -79,6 +82,7 @@ const optionalVariables = [
   'FEATURE_PRODUCTION_NOTES',
   'FEATURE_PROJECT_MANAGEMENT',
   'FEATURE_QUALITY_CONTROL',
+  'LEAN_WORKFLOW_MANAGER_URL',
   'FRONTMATTER_URI',
   'GIT_COMMIT_HASH',
   'GIT_VERSION',
