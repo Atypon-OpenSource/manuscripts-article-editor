@@ -64,7 +64,11 @@ export const DeleteConfirmationDialog: React.FC<Props> = ({
           isOpen={true}
           actions={actions}
           category={Category.confirmation}
-          header={'Delete Project'}
+          header={`Delete ${
+            thingToDelete.objectType === ObjectTypes.Project
+              ? 'Project'
+              : 'Manuscript'
+          }`}
           message={extractDeleteMessage(thingToDelete)}
           confirmFieldText={'DELETE'}
         />
