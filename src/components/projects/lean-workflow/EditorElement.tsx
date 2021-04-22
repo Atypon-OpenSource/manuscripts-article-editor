@@ -44,10 +44,9 @@ interface Props {
 const EditorElement: React.FC<Props> = ({
   editor,
   modelMap,
-  saveModel,
   changeAttachmentDesignation,
 }) => {
-  const { onRender, view, state, dispatch } = editor
+  const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
 
   const handleError = (e: any) => {
@@ -71,7 +70,7 @@ const EditorElement: React.FC<Props> = ({
             if (result?.data?.setAttachmentType === false) {
               return handleError('Store declined designation change')
             }
-            const resolvedPos = state.doc.resolve(docPos.pos)
+            const resolvedPos = view.state.doc.resolve(docPos.pos)
             if (resolvedPos.parent.type === schema.nodes.figure) {
               const figure = modelMap.get(resolvedPos.parent.attrs.id) as Figure
               figure.externalFileReferences = addImageRepresentation(
@@ -83,7 +82,7 @@ const EditorElement: React.FC<Props> = ({
                 externalFileReferences: figure.externalFileReferences,
               })
             } else {
-              const transaction = state.tr.setSelection(
+              const transaction = view.state.tr.setSelection(
                 new NodeSelection(resolvedPos)
               )
               view.focus()

@@ -119,12 +119,7 @@ export const useUpdateAttachmentDesignation = () => {
         typeId: designation,
       },
     })
-
-    if (fetchResult.data.SetAttachmentType) {
-      return true
-    } else {
-      return false
-    }
+    return fetchResult
   }
 }
 
