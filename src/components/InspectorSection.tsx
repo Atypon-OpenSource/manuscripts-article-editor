@@ -15,6 +15,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { ExpanderButton } from './metadata/Metadata'
+import ApproveAllButton from './track/ApproveAllButton'
 
 const Section = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
@@ -58,15 +59,22 @@ const Content = styled.div`
 
 interface Props {
   title: React.ReactNode
+  approveAll?: () => void
 }
 
-export const InspectorSection: React.FC<Props> = ({ title, children }) => {
+export const InspectorSection: React.FC<Props> = ({
+  title,
+  children,
+  approveAll,
+}) => {
   const [expanded, setExpanded] = useState(true)
 
   return (
     <Section>
       <Heading onClick={() => setExpanded(!expanded)}>
         <HeadingText>{title}</HeadingText>
+        {approveAll && <ApproveAllButton approveAll={approveAll} />}
+
         <ExpanderButton
           aria-label={'Toggle expand section'}
           onClick={() => setExpanded(!expanded)}

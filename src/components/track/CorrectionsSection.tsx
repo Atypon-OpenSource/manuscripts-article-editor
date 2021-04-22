@@ -31,6 +31,7 @@ interface Props {
   handleFocus: (correctionID: string) => void
   handleAccept: (correctionID: string) => void
   handleReject: (correctionID: string) => void
+  approveAll?: () => void
 }
 
 export const CorrectionsSection: React.FC<Props> = ({
@@ -42,9 +43,13 @@ export const CorrectionsSection: React.FC<Props> = ({
   handleFocus,
   handleAccept,
   handleReject,
+  approveAll,
 }) => {
   return (
-    <InspectorSection title={title}>
+    <InspectorSection
+      title={title.concat(corrections.length ? ` (${corrections.length})` : '')}
+      approveAll={approveAll}
+    >
       {corrections.map((corr) => (
         <Correction
           project={project}

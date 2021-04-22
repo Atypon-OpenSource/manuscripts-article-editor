@@ -112,6 +112,15 @@ export const Corrections: React.FC<Props> = ({
   }
 
   const correctionsByStatus = groupCorrectionsByStatus(corrections)
+
+  const approveAll = correctionsByStatus.proposed.length
+    ? () => {
+        correctionsByStatus.proposed.forEach((correction) => {
+          accept(correction._id)
+        })
+      }
+    : undefined
+
   return (
     <React.Fragment>
       <CorrectionsSection
@@ -123,6 +132,7 @@ export const Corrections: React.FC<Props> = ({
         handleFocus={focusCorrection}
         handleAccept={accept}
         handleReject={reject}
+        approveAll={approveAll}
       />
       <CorrectionsSection
         title={'Approved Suggestions'}
