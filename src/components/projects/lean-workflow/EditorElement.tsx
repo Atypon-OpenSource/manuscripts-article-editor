@@ -11,14 +11,10 @@
  */
 import {
   addImageRepresentation,
-  EditorHookValue,
   insertFileAsFigure,
+  useEditor,
 } from '@manuscripts/manuscript-editor'
-import {
-  Build,
-  ManuscriptSchema,
-  schema,
-} from '@manuscripts/manuscript-transform'
+import { Build, schema } from '@manuscripts/manuscript-transform'
 import {
   ExternalFile,
   Figure,
@@ -32,7 +28,7 @@ import { useDrop } from 'react-dnd'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 
 interface Props {
-  editor: EditorHookValue<ManuscriptSchema>
+  editor: ReturnType<typeof useEditor>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   modelMap: Map<string, Model>
   changeAttachmentDesignation: (

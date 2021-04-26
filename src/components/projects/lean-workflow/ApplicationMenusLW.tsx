@@ -14,15 +14,12 @@ import {
   ApplicationMenus,
   DialogController,
   DialogNames,
-  EditorHookValue,
   getMenus,
   MenuSpec,
   useApplicationMenus,
+  useEditor,
 } from '@manuscripts/manuscript-editor'
-import {
-  ContainedModel,
-  ManuscriptSchema,
-} from '@manuscripts/manuscript-transform'
+import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { Model, Project } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
 import React, { useState } from 'react'
@@ -48,7 +45,7 @@ export const ApplicationMenuContainer = styled.div`
 `
 
 interface Props {
-  editor: EditorHookValue<ManuscriptSchema>
+  editor: ReturnType<typeof useEditor>
   history: History
   project: Project
   manuscriptID: string

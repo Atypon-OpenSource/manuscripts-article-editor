@@ -10,13 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { EditorHookValue } from '@manuscripts/manuscript-editor'
+import { useEditor } from '@manuscripts/manuscript-editor'
 import {
   buildContribution,
   ContainedModel,
   getModelsByType,
   ManuscriptNode,
-  ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
 import {
   Correction,
@@ -65,7 +64,7 @@ interface Args {
   modelMap: Map<string, Model>
   ancestorDoc: ManuscriptNode
   initialCommits: Commit[]
-  editor: EditorHookValue<ManuscriptSchema>
+  editor: ReturnType<typeof useEditor>
   containerID: string
   manuscriptID: string
   snapshotID: string

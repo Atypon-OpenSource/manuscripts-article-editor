@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { EditorHookValue } from '@manuscripts/manuscript-editor'
-import {
-  ManuscriptSchema,
-  UserProfileWithAvatar,
-} from '@manuscripts/manuscript-transform'
+import { useEditor } from '@manuscripts/manuscript-editor'
+import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
 import {
   Correction as CorrectionT,
   Project,
@@ -63,7 +60,7 @@ interface Props {
   project: Project
   corrections: CorrectionT[]
   commits: Commit[]
-  editor: EditorHookValue<ManuscriptSchema>
+  editor: ReturnType<typeof useEditor>
   collaborators: Map<string, UserProfileWithAvatar>
   freeze: () => void
   accept: (correctionID: string) => void
