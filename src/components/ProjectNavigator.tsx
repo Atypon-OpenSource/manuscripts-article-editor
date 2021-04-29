@@ -37,7 +37,7 @@ class ProjectNavigator extends React.PureComponent<Props> {
 
   public componentDidMount() {
     Object.entries(this.keymap).forEach(([combo, handler]) => {
-      Mousetrap.bindGlobal(combo, handler)
+      Mousetrap.bind(combo, handler)
     })
   }
 

@@ -16,7 +16,7 @@ import '../../src/lib/__mocks__/adapter'
 import { addDecorator } from '@storybook/react'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { TestBackend } from 'react-dnd-test-backend'
 import { MemoryRouter } from 'react-router-dom'
 
 import IntlProvider from '../../src/components/IntlProvider'
@@ -26,7 +26,7 @@ import { ThemeProvider } from '../../src/theme/ThemeProvider'
 import { Story } from '../components/Story'
 
 addDecorator((story) => (
-  <DndProvider backend={HTML5Backend}>
+  <DndProvider backend={TestBackend}>
     <IntlProvider>
       <ThemeProvider>
         <MemoryRouter initialEntries={['/']}>

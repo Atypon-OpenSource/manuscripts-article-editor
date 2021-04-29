@@ -1447,7 +1447,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           throw new Error('Unexpected change event data')
         }
 
-        console.log({ op, doc, v })
+        // console.log({ op, doc, v })
 
         // TODO: only subscribe to changes to this project/manuscript?
         if (!this.isRelevantUpdate(v, projectID, manuscriptID, sessionID)) {
@@ -1829,8 +1829,6 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
         modelMap!,
         this.handleTreeChanges
       )
-
-      console.log('saved')
     } catch (error) {
       console.error(error)
     }

@@ -2273,10 +2273,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.27.2":
-  version "0.27.2"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.27.2.tgz#693080c3cb02684336e77f5445ebc3814c124915"
-  integrity sha512-D1U3Y2Dccx7SLhtFSBf+DqKesNpbDmEdkxKOtn1IYU1YOBfHVwQa2u+RCl9d8kqnXPpNC66u8E4DzSqHzvV04A==
+"@manuscripts/style-guide@^0.27.4":
+  version "0.27.5"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.27.5.tgz#fea6da1466a1a7663cda17a7546898ea4f345258"
+  integrity sha512-k8FC/+E3PISi4X0x4SO+Ql25WRSNDJLwotGPOp72Ziqwx755WzQCNF3GoCZAEfM0LcoCE8fxF+35+SrJJ+R6xw==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
@@ -2286,9 +2286,9 @@
     "@types/react-color" "^3.0.4"
     date-fns "^2.16.1"
     lodash-es "^4.17.15"
-    pdfjs-dist "^2.5.207"
+    pdfjs-dist "^2.7.570"
     react-color "^2.19.3"
-    react-dnd "^9.4.0"
+    react-dnd "^11.1.3"
     react-intl "^3.12.0"
     react-modal "^3.11.2"
     react-modern-calendar-datepicker "^3.1.3"
@@ -3129,11 +3129,6 @@
     apollo-link-http-common "^0.2.4"
     graphql "^14.5.3"
 
-"@types/asap@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/asap/-/asap-2.0.0.tgz#d529e9608c83499a62ae08c871c5e62271aa2963"
-  integrity sha512-upIS0Gt9Mc8eEpCbYMZ1K8rhNosfKUtimNcINce+zLwJF5UpM3Vv7yz3S5l/1IX+DxTa8lTkUjqynvjRXyJzsg==
-
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.14"
   resolved "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.1.14.tgz#faaeefc4185ec71c389f4501ee5ec84b170cc402"
@@ -3421,7 +3416,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/invariant@^2.2.30", "@types/invariant@^2.2.31":
+"@types/invariant@^2.2.31":
   version "2.2.34"
   resolved "https://registry.npmjs.org/@types/invariant/-/invariant-2.2.34.tgz#05e4f79f465c2007884374d4795452f995720bbe"
   integrity sha512-lYUtmJ9BqUN688fGY1U1HZoWT1/Jrmgigx2loq4ZcJpICECm/Om3V314BxdzypO0u5PORKGMM6x0OXaljV1YFg==
@@ -3892,11 +3887,6 @@
   dependencies:
     "@types/mime" "^1"
     "@types/node" "*"
-
-"@types/shallowequal@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@types/shallowequal/-/shallowequal-1.1.1.tgz#aad262bb3f2b1257d94c71d545268d592575c9b1"
-  integrity sha512-Lhni3aX80zbpdxRuWhnuYPm8j8UQaa571lHP/xI4W+7BAFhSIhRReXnqjEgT/XzPoXZTJkCqstFMJ8CZTK6IlQ==
 
 "@types/source-list-map@*":
   version "0.1.2"
@@ -5030,11 +5020,6 @@ arrify@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/arrify/-/arrify-2.0.1.tgz#c9655e9331e0abcd588d2a7cad7e9956f66701fa"
   integrity sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
-
-asap@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
-  integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
 
 asn1.js@^5.2.0:
   version "5.4.1"
@@ -7729,17 +7714,6 @@ dnd-core@^11.1.3:
   dependencies:
     "@react-dnd/asap" "^4.0.0"
     "@react-dnd/invariant" "^2.0.0"
-    redux "^4.0.4"
-
-dnd-core@^9.5.1:
-  version "9.5.1"
-  resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-9.5.1.tgz#e9ec02d33529b68fa528865704d40ac4b14f2baf"
-  integrity sha512-/yEWFF2jg51yyB8uA2UbvBr9Qis0Oo/4p9cqHLEKZdxzHHVSPfq0a/ool8NG6dIS6Q4uN+oKGObY0rNWiopJDA==
-  dependencies:
-    "@types/asap" "^2.0.0"
-    "@types/invariant" "^2.2.30"
-    asap "^2.0.6"
-    invariant "^2.2.4"
     redux "^4.0.4"
 
 dns-equal@^1.0.0:
@@ -14830,10 +14804,10 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pdfjs-dist@2.5.207, pdfjs-dist@^2.5.207:
-  version "2.5.207"
-  resolved "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-2.5.207.tgz#b5e8c19627be64269cd3fb6df3eaaf45ddffe7b6"
-  integrity sha512-xGDUhnCYPfHy+unMXCLCJtlpZaaZ17Ew3WIL0tnSgKFUZXHAPD49GO9xScyszSsQMoutNDgRb+rfBXIaX/lJbw==
+pdfjs-dist@^2.7.570:
+  version "2.7.570"
+  resolved "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-2.7.570.tgz#7233241a2437ac22387656099b6e549d032f0b35"
+  integrity sha512-/ZkA1FwkEOyDaq11JhMLazdwQAA0F9uwrP7h/1L9Akt9KWh1G5/tkzS+bPuUELq2s2GDFnaT+kooN/aSjT7DXQ==
 
 peek-readable@^3.1.3:
   version "3.1.3"
@@ -16480,19 +16454,19 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-dnd-html5-backend@^9.5.1:
-  version "9.5.1"
-  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-9.5.1.tgz#e6a0aed3ece800c1abe004f9ed9991513e2e644c"
-  integrity sha512-wUdzjREwLqHxFkA6E+XDVL5IFjRDbBI3SHVKil9n3qrGT5dm2tA2oi1aIALdfMKsu00c+OXA9lz/LuKZCE9KXg==
+react-dnd-html5-backend@^11.1.3:
+  version "11.1.3"
+  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-11.1.3.tgz#2749f04f416ec230ea193f5c1fbea2de7dffb8f7"
+  integrity sha512-/1FjNlJbW/ivkUxlxQd7o3trA5DE33QiRZgxent3zKme8DwF4Nbw3OFVhTRFGaYhHFNL1rZt6Rdj1D78BjnNLw==
   dependencies:
-    dnd-core "^9.5.1"
+    dnd-core "^11.1.3"
 
-react-dnd-test-backend@^9.5.1:
-  version "9.5.1"
-  resolved "https://registry.npmjs.org/react-dnd-test-backend/-/react-dnd-test-backend-9.5.1.tgz#88022157ffe5239a1470a8dafb4228c1e25b77f7"
-  integrity sha512-Nqs4APB7Y5ccSMaCLx/y1HeNkokGg1jl+0XmYBzYzfGvtBWZMaeL9sUZevyFb4vPahKhqMd1GhCyEViVG3BT2w==
+react-dnd-test-backend@^11.1.3:
+  version "11.1.3"
+  resolved "https://registry.npmjs.org/react-dnd-test-backend/-/react-dnd-test-backend-11.1.3.tgz#7af2cfa3dc891845ef0e4b8d2e58383b066b1f67"
+  integrity sha512-5qFm+NI2GdWIUfiYun0A8Gv0xjbq0NGOPS+f6z3x/3nTuliApjmqcM1lfTgePoz1FDG47ZofF58N8y96If62+Q==
   dependencies:
-    dnd-core "^9.5.1"
+    dnd-core "^11.1.3"
 
 react-dnd@^11.1.3:
   version "11.1.3"
@@ -16503,17 +16477,6 @@ react-dnd@^11.1.3:
     "@types/hoist-non-react-statics" "^3.3.1"
     dnd-core "^11.1.3"
     hoist-non-react-statics "^3.3.0"
-
-react-dnd@^9.4.0, react-dnd@^9.5.1:
-  version "9.5.1"
-  resolved "https://registry.npmjs.org/react-dnd/-/react-dnd-9.5.1.tgz#907e55c791d6c50cbed1a4021c14b989b86ac467"
-  integrity sha512-j2MvziPNLsxXkb3kIJzLvvOv/TQ4sysp6U4CmxAXd4C884dXm/9UGdB7K1wkTW3ZxVpI1K7XhKbX0JgNlPfLcA==
-  dependencies:
-    "@types/hoist-non-react-statics" "^3.3.1"
-    "@types/shallowequal" "^1.1.1"
-    dnd-core "^9.5.1"
-    hoist-non-react-statics "^3.3.0"
-    shallowequal "^1.1.0"
 
 react-docgen-typescript-plugin@^0.6.2:
   version "0.6.3"
