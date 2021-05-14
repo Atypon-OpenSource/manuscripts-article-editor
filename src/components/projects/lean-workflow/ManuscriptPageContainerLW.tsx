@@ -57,6 +57,7 @@ import {
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
 import { ContainerIDs } from '../../../sync/Collection'
+import { theme } from '../../../theme/theme'
 import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import { IntlProps, withIntl } from '../../IntlProvider'
 import CitationEditor from '../../library/CitationEditor'
@@ -212,6 +213,47 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       })
   }
 
+  const files = getModelsByType<ExternalFile>(
+    modelMap,
+    ObjectTypes.ExternalFile
+  )
+
+  const handleSubmissionMutation = useCallback(
+    (mutaton: Promise<any>, errorLog: string) => {
+      return mutaton
+        .then((res) => {
+          if (!res) {
+            handleDialogError(errorLog, 'Error', true)
+          }
+          return res
+        })
+        .catch((e) => {
+          handleDialogError(
+            e.graphQLErrors[0] || e.message,
+            'Something went wrong while updating submission.',
+            true
+          )
+          return false
+        })
+    },
+    []
+  )
+
+  const changeAttachmentDesignation = useUpdateAttachmentDesignation()
+  const handleChangeAttachmentDesignation = useCallback(
+    (submissionId: string, designation: string, name: string) => {
+      return handleSubmissionMutation(
+        changeAttachmentDesignation({
+          submissionId: submissionId,
+          name: name,
+          designation: designation,
+        }),
+        'Something went wrong while updating attachment designation.'
+      )
+    },
+    [changeAttachmentDesignation, handleSubmissionMutation]
+  )
+
   const editorProps = {
     doc,
 
@@ -245,6 +287,11 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
     ancestorDoc: props.ancestorDoc,
     commit: props.commitAtLoad || null,
+    externalFiles: files,
+    theme,
+    submissionId: '',
+    updateDesignation: (designation: string, name: string) =>
+      handleChangeAttachmentDesignation(submissionId, designation, name),
   }
 
   const editor = useEditor<ManuscriptSchema>(
@@ -306,15 +353,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     selectSnapshot(snapshot)
   }, [])
 
-  const files = getModelsByType<ExternalFile>(
-    modelMap,
-    ObjectTypes.ExternalFile
-  )
   useEffect(() => {
     if (submissionId) {
+      const newEditorProps = {
+        ...editorProps,
+        submissionId,
+        updateDesignation: (designation: string, name: string) =>
+          handleChangeAttachmentDesignation(submissionId, designation, name),
+      }
       editor.replaceView(
-        ManuscriptsEditor.createState(editorProps),
-        ManuscriptsEditor.createView(editorProps)
+        ManuscriptsEditor.createState(newEditorProps),
+        ManuscriptsEditor.createView(newEditorProps)
       )
     }
   }, [submissionId]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -329,27 +378,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     setErrorDialog(showDialog)
   }
 
-  const handleSubmissionMutation = useCallback(
-    (mutaton: Promise<any>, errorLog: string) => {
-      return mutaton
-        .then((res) => {
-          if (!res) {
-            handleDialogError(errorLog, 'Error', true)
-          }
-          return res
-        })
-        .catch((e) => {
-          handleDialogError(
-            e.graphQLErrors[0] || e.message,
-            'Something went wrong while updating submission.',
-            true
-          )
-          return false
-        })
-    },
-    []
-  )
-
   const uploadAttachment = useUploadAttachment()
   const handleUploadAttachment = useCallback(
     (submissionId: string, file: File, designation: string) => {
@@ -363,21 +391,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       )
     },
     [uploadAttachment, handleSubmissionMutation]
-  )
-
-  const changeAttachmentDesignation = useUpdateAttachmentDesignation()
-  const handleChangeAttachmentDesignation = useCallback(
-    (submissionId: string, designation: string, name: string) => {
-      return handleSubmissionMutation(
-        changeAttachmentDesignation({
-          submissionId: submissionId,
-          name: name,
-          designation: designation,
-        }),
-        'Something went wrong while updating attachment designation.'
-      )
-    },
-    [changeAttachmentDesignation, handleSubmissionMutation]
   )
 
   const handleReplaceAttachment = useCallback(

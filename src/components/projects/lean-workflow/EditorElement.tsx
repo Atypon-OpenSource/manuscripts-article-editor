@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  addImageRepresentation,
+  addExternalFileRef,
   insertFileAsFigure,
   useEditor,
 } from '@manuscripts/manuscript-editor'
@@ -69,7 +69,7 @@ const EditorElement: React.FC<Props> = ({
             const resolvedPos = view.state.doc.resolve(docPos.pos)
             if (resolvedPos.parent.type === schema.nodes.figure) {
               const figure = modelMap.get(resolvedPos.parent.attrs.id) as Figure
-              figure.externalFileReferences = addImageRepresentation(
+              figure.externalFileReferences = addExternalFileRef(
                 figure.externalFileReferences,
                 externalFile.publicUrl
               )

@@ -2063,10 +2063,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.14.0"
 
-"@manuscripts/manuscript-editor@^0.86.0":
-  version "0.86.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.86.0.tgz#506b7a0c0e2a7bdd4d512562590a672afd5328ff"
-  integrity sha512-eSh71F2Kq0o5b/ofvawJnVZhpXE3TUdWkKTxS6rZ+XJu7hMzqdHBoGt0I5h5xDt1HcrJQZOXpC0cd855ZhuFtA==
+"@manuscripts/manuscript-editor@^0.87.2":
+  version "0.87.2"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.87.2.tgz#8b071ffc1ff3bc5dcd51380ebf9ceb2e8cd88541"
+  integrity sha512-UbQF5MN+ibcY1E61GFez5OIaENzrFh5WPtyxAown9IKjR+94b6jD4oikH8ym/zm0QYOS2a8cJLYz45UTvFrOcA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2122,10 +2122,10 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.42.8":
-  version "0.42.8"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.8.tgz#d83f599dd49ebe45a55242b15472a9ab6dd82521"
-  integrity sha512-N26lbWJyECUFsh2m8bPjFxZnrliYlA96aS77ktTqtBXA7LXdvbkvnMF9Pf9Zna7zB3j9SP6jd93hD6GdmcnMFg==
+"@manuscripts/manuscript-transform@^0.42.11":
+  version "0.42.12"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.12.tgz#5e0d7200a70ee58f8571ecc16f8de06bda519f33"
+  integrity sha512-bg3xL6yHgohSFtuI6N/oghl19NTDqQ33Tl+bikk/S5nYENmzO/rO4fim20VCbBl9zo+p74jGf2aaJxou9clYaw==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/manuscripts-json-schema" "^1.46.2"
@@ -2137,10 +2137,10 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.42.9":
-  version "0.42.9"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.9.tgz#0386539956236eef3f9c813a91676fdeeee54d7a"
-  integrity sha512-CM51OXK1oy/Pu+cfze0Qm69z3pKHiH7F2rxLAufFPLLxb9+A8K4dFngWvU5ZR4bXqFlbep5YFFW6Fx6p9NEYNQ==
+"@manuscripts/manuscript-transform@^0.42.8":
+  version "0.42.8"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.8.tgz#d83f599dd49ebe45a55242b15472a9ab6dd82521"
+  integrity sha512-N26lbWJyECUFsh2m8bPjFxZnrliYlA96aS77ktTqtBXA7LXdvbkvnMF9Pf9Zna7zB3j9SP6jd93hD6GdmcnMFg==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/manuscripts-json-schema" "^1.46.2"

@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "start": "TS_NODE_FILES=true webpack-dev-server --open --config webpack.dev.ts",
+    "start": "TS_NODE_FILES=true NODE_OPTIONS=--max_old_space_size=4096 webpack-dev-server --open --config webpack.dev.ts",
     "build": "TS_NODE_FILES=true NODE_OPTIONS=--max_old_space_size=4096 webpack --config webpack.prod.ts",
     "test": "TZ=UTC jest --runInBand --detectOpenHandles --forceExit",
     "test:integration": "TZ=UTC jest --config=jest.integration.config.js --runInBand --detectOpenHandles --forceExit",
@@ -49,8 +49,8 @@
     "@manuscripts/csl-locales": "^0.0.4",
     "@manuscripts/data": "^0.1.3",
     "@manuscripts/library": "^0.5.9",
-    "@manuscripts/manuscript-editor": "^0.86.0",
-    "@manuscripts/manuscript-transform": "^0.42.9",
+    "@manuscripts/manuscript-editor": "^0.87.2",
+    "@manuscripts/manuscript-transform": "^0.42.11",
     "@manuscripts/manuscripts-json-schema": "^1.46.2",
     "@manuscripts/manuscripts-json-schema-utils": "^0.2.1",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts2",
