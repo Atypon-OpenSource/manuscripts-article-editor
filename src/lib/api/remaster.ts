@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export * from './authentication'
-export * from './collaboration'
-export * from './remaster'
+import client from '../client'
+
+export const remaster = async (projectID: string): Promise<void> => {
+  return client.post(`/snapshot/${projectID}/create`)
+}

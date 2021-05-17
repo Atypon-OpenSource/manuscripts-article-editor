@@ -36,9 +36,7 @@ import {
 import debounce from 'lodash-es/debounce'
 import isEqual from 'lodash-es/isEqual'
 
-import { buildSnapshot } from '../hooks/use-snapshot-manager'
-import * as api from '../lib/snapshot'
-import { exportProject } from '../pressroom/exporter'
+import * as api from '../lib/api'
 import { JsonModel } from '../pressroom/importers'
 import { Collection } from '../sync/Collection'
 import collectionManager from '../sync/CollectionManager'
@@ -251,8 +249,6 @@ const _saveEditorState = async (
 
 export const saveEditorState = debounce(_saveEditorState, 1000)
 
-// TODO: Most likely this will be executed server-side, left here for now because
-// we need to be able to do it somewhere.
 export const remaster = async (
   state: ManuscriptEditorState,
   modelMap: Map<string, Model>,
@@ -261,25 +257,11 @@ export const remaster = async (
 ) => {
   const collection = collectionManager.getCollection(`project-${project._id}`)
 
-  const models = await _saveEditorState(
-    state,
-    modelMap,
-    project._id,
-    manuscriptID
-  )
+  await _saveEditorState(state, modelMap, project._id, manuscriptID)
 
-  const blob = await exportProject(
-    collection.getAttachmentAsBlob,
-    models,
-    null,
-    'manuproj',
-    project
-  )
-  const data = await api.takeSnapshot(project._id, blob)
-
-  const snapshot = buildSnapshot(data, `Snapshot of ${Date.now() / 1000}`)
-
-  await collection.save(snapshot, { containerID: project._id })
+  // ensure that the snapshot is created with all the saved models
+  await collection.ensurePushSync()
+  await api.remaster(project._id)
 
   window.location.reload()
 }
