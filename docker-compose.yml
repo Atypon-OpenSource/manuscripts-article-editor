@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   couchbase:
@@ -31,7 +31,7 @@ services:
       replicas: 1
 
   api:
-    image: registry.gitlab.com/mpapp-private/manuscripts-api/app
+    image: registry.gitlab.com/mpapp-public/manuscripts-api/app
     env_file:
       - docker/server/defaults.env
       - docker/server/.env
@@ -46,7 +46,7 @@ services:
       replicas: 1
 
   api-initialize:
-    image: registry.gitlab.com/mpapp-private/manuscripts-api/app
+    image: registry.gitlab.com/mpapp-public/manuscripts-api/app
     env_file:
       - docker/server/defaults.env
       - docker/server/.env
