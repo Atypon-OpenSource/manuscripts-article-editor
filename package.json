@@ -58,7 +58,7 @@
     "@manuscripts/requirements": "^0.4.2",
     "@manuscripts/resizer": "^0.0.6",
     "@manuscripts/rxdb": "8.2.0-manuscripts1",
-    "@manuscripts/style-guide": "^0.27.4",
+    "@manuscripts/style-guide": "^0.29.0",
     "@manuscripts/sync-client": "^0.8.0",
     "@manuscripts/title-editor": "^0.5.1",
     "@manuscripts/track-changes": "^0.0.16",

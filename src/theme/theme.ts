@@ -149,6 +149,8 @@ export const theme: DefaultTheme = {
     family: {
       sans: fontFamily,
       serif: 'serif',
+      // TODO:: this need to be removed, for the next style-guide version
+      Lato: '"Lato"',
     },
     size: {
       xlarge: '20px',

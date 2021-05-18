@@ -614,7 +614,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       submissionId={submissionId}
                       externalFiles={files}
                       enableDragAndDrop={true}
-                      changeDesignationHandler={
+                      handleChangeDesignation={
                         handleChangeAttachmentDesignation
                       }
                       handleDownload={handleDownloadAttachment}

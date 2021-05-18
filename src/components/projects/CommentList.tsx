@@ -32,12 +32,11 @@ import {
   buildCommentTree,
   CheckboxField,
   CheckboxLabel,
-  CommentBody,
   CommentData,
   CommentTarget,
-  CommentUser,
-  RelativeDate,
-  ResolveButton,
+  CommentWrapper,
+  NoteBodyContainer,
+  ReplyBodyContainer,
 } from '@manuscripts/style-guide'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -50,45 +49,8 @@ const CommentListContainer = styled.div`
   overflow-y: auto;
 `
 
-const Container = styled.div<{
-  isSelected: boolean
-}>`
-  padding: ${(props) => props.theme.grid.unit * 4}px 0
-    ${(props) => props.theme.grid.unit * 2}px;
-  background: ${(props) => props.theme.colors.background.primary};
-  border: 1px solid ${(props) => props.theme.colors.brand.xlight};
-  border-left: 4px solid
-    ${(props) =>
-      props.isSelected
-        ? props.theme.colors.border.warning
-        : props.theme.colors.brand.light};
-`
-
 const CommentThread = styled.div`
   margin: 16px 16px 16px 0;
-`
-
-const CommentHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: ${(props) => props.theme.font.size.normal};
-  margin-bottom: 16px;
-  padding: 0 16px;
-`
-
-const Reply = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 4}px 0
-    ${(props) => props.theme.grid.unit * 2}px;
-  margin-left: ${(props) => props.theme.grid.unit * 4}px;
-  border: 1px solid ${(props) => props.theme.colors.brand.xlight};
-  border-top: none;
-`
-
-const LightRelativeDate = styled(RelativeDate)`
-  font-size: ${(props) => props.theme.font.size.small};
-  color: ${(props) => props.theme.colors.text.secondary};
-  letter-spacing: -0.2px;
 `
 
 const PlaceholderContainer = styled.div`
@@ -142,7 +104,6 @@ export const CommentList: React.FC<Props> = React.memo(
     saveModel,
     selected,
     createKeyword,
-    getCollaborator,
     getCollaboratorById,
     getKeyword,
     listCollaborators,
@@ -206,25 +167,25 @@ export const CommentList: React.FC<Props> = React.memo(
     )
 
     const deleteComment = useCallback(
-      (comment: CommentAnnotation) => {
-        return deleteModel(comment._id)
+      (id: string, target?: string) => {
+        return deleteModel(id)
           .catch((error: Error) => {
             console.error(error)
           })
           .then(async () => {
-            if (comment.target.startsWith('MPHighlight:')) {
-              await deleteModel(comment.target)
+            if (target?.startsWith('MPHighlight:')) {
+              await deleteModel(target)
             }
           })
           .catch((error: Error) => {
             console.error(error)
           })
           .finally(() => {
-            if (comment.target.startsWith('MPHighlight:')) {
-              deleteHighlightMarkers(comment.target, state, dispatch)
+            if (target?.startsWith('MPHighlight:')) {
+              deleteHighlightMarkers(target, state, dispatch)
             }
 
-            if (newComment && newComment._id === comment._id) {
+            if (newComment && newComment._id === id) {
               setCommentTarget(undefined)
             }
           })
@@ -288,65 +249,42 @@ export const CommentList: React.FC<Props> = React.memo(
               <CommentTarget key={target} isSelected={isSelected}>
                 {selectedNoteData.map(({ comment, children }) => (
                   <CommentThread key={comment._id}>
-                    <Container isSelected={isSelected}>
-                      <CommentHeader>
-                        {comment.contributions && (
-                          <CommentUser
-                            contributions={comment.contributions}
-                            getCollaboratorById={getCollaboratorById}
-                            createdAt={comment.createdAt * 1000}
-                          />
-                        )}
-                        <ResolveButton
-                          id={comment._id}
-                          resolved={comment.resolved}
-                          resolvedCallback={async () =>
-                            await saveModel({
-                              ...comment,
-                              resolved: !comment.resolved,
-                            } as CommentAnnotation)
-                          }
-                        />
-                      </CommentHeader>
-
-                      <HighlightedText
-                        comment={comment as CommentAnnotation}
-                        state={state}
-                      />
-
-                      <CommentBody
-                        comment={comment}
+                    <NoteBodyContainer
+                      isSelected={isSelected}
+                      isNew={isNew(comment as CommentAnnotation)}
+                    >
+                      <CommentWrapper
                         createKeyword={createKeyword}
+                        comment={comment}
                         deleteComment={deleteComment}
-                        getCollaborator={getCollaborator}
+                        resolvedCallback={async () =>
+                          await saveModel({
+                            ...comment,
+                            resolved: !comment.resolved,
+                          } as CommentAnnotation)
+                        }
+                        getCollaborator={getCollaboratorById}
                         getKeyword={getKeyword}
                         listCollaborators={listCollaborators}
                         listKeywords={listKeywords}
                         saveComment={saveComment}
                         setCommentTarget={setCommentTarget}
                         isNew={isNew(comment as CommentAnnotation)}
-                      />
-                    </Container>
+                      >
+                        <HighlightedText
+                          comment={comment as CommentAnnotation}
+                          state={state}
+                        />
+                      </CommentWrapper>
+                    </NoteBodyContainer>
 
                     {children.map((comment) => (
-                      <Reply key={comment._id}>
-                        <CommentHeader>
-                          {comment.contributions && (
-                            <CommentUser
-                              contributions={comment.contributions}
-                              getCollaboratorById={getCollaboratorById}
-                            />
-                          )}
-                          <LightRelativeDate
-                            createdAt={comment.createdAt * 1000}
-                          />
-                        </CommentHeader>
-
-                        <CommentBody
-                          comment={comment}
+                      <ReplyBodyContainer key={comment._id}>
+                        <CommentWrapper
                           createKeyword={createKeyword}
+                          comment={comment}
                           deleteComment={deleteComment}
-                          getCollaborator={getCollaborator}
+                          getCollaborator={getCollaboratorById}
                           getKeyword={getKeyword}
                           isReply={true}
                           listCollaborators={listCollaborators}
@@ -355,7 +293,7 @@ export const CommentList: React.FC<Props> = React.memo(
                           setCommentTarget={setCommentTarget}
                           isNew={isNew(comment as CommentAnnotation)}
                         />
-                      </Reply>
+                      </ReplyBodyContainer>
                     ))}
                   </CommentThread>
                 ))}
