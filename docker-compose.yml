@@ -31,7 +31,7 @@ services:
       replicas: 1
 
   api:
-    image: registry.gitlab.com/mpapp-public/manuscripts-api/app
+    image: registry.gitlab.com/mpapp-public/manuscripts-api/app@sha256:f56a4680903a6d7e7373d2bfac35d6dbb81b84909809193e916d65c9278517c4
     env_file:
       - docker/server/defaults.env
       - docker/server/.env
