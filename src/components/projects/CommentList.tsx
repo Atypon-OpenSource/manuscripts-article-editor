@@ -257,7 +257,7 @@ export const CommentList: React.FC<Props> = React.memo(
                         createKeyword={createKeyword}
                         comment={comment}
                         deleteComment={deleteComment}
-                        resolvedCallback={async () =>
+                        handleSetResolved={async () =>
                           await saveModel({
                             ...comment,
                             resolved: !comment.resolved,
@@ -268,7 +268,7 @@ export const CommentList: React.FC<Props> = React.memo(
                         listCollaborators={listCollaborators}
                         listKeywords={listKeywords}
                         saveComment={saveComment}
-                        setCommentTarget={setCommentTarget}
+                        handleCreateReply={setCommentTarget}
                         isNew={isNew(comment as CommentAnnotation)}
                       >
                         <HighlightedText
@@ -290,7 +290,7 @@ export const CommentList: React.FC<Props> = React.memo(
                           listCollaborators={listCollaborators}
                           listKeywords={listKeywords}
                           saveComment={saveComment}
-                          setCommentTarget={setCommentTarget}
+                          handleCreateReply={setCommentTarget}
                           isNew={isNew(comment as CommentAnnotation)}
                         />
                       </ReplyBodyContainer>

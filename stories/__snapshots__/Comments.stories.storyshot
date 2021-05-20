@@ -508,7 +508,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                     className="c17"
                   >
                     <div
-                      className="c18 note-actions"
+                      className="c18"
                     >
                       <button
                         className="c19 c20 c21"
@@ -587,7 +587,6 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                         data-for="reply-comment-1"
                         data-tip={true}
                         onClick={[Function]}
-                        title="Reply"
                       >
                         <svg
                           height={20}
