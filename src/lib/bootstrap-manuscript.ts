@@ -132,9 +132,9 @@ export const bootstrap = async ({
     .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
     .sort((a, b) => b.createdAt - a.createdAt)
 
-  const latestSnaphotID = snapshots.length ? snapshots[0].s3Id : null
+  const latestSnaphot = snapshots.length ? snapshots[0] : null
 
-  if (!latestSnaphotID) {
+  if (!latestSnaphot || !latestSnaphot.s3Id) {
     const decoder = new Decoder(modelMap, true)
     const doc = decoder.createArticleNode()
     const ancestorDoc = decoder.createArticleNode()
@@ -151,7 +151,7 @@ export const bootstrap = async ({
 
   const modelsFromSnapshot = await getSnapshot(
     projectID,
-    latestSnaphotID
+    latestSnaphot.s3Id
   ).catch(() => {
     throw new Error('Failed to load snapshot')
   })
@@ -167,7 +167,7 @@ export const bootstrap = async ({
   const corrections = (getModelsByType(
     modelMap,
     ObjectTypes.Correction
-  ) as Correction[]).filter((corr) => corr.snapshotID === latestSnaphotID)
+  ) as Correction[]).filter((corr) => corr.snapshotID === snapshots[0]._id)
 
   const unrejectedCorrections = corrections
     .filter((cor) => cor.status !== 'rejected')
@@ -178,7 +178,7 @@ export const bootstrap = async ({
 
   return {
     snapshots,
-    snapshotID: latestSnaphotID,
+    snapshotID: snapshots[0]._id,
     modelMap,
     doc,
     ancestorDoc,
