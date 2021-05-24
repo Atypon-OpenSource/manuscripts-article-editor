@@ -39,7 +39,7 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
-import { FileManager } from '@manuscripts/style-guide'
+import { CapabilitiesProvider, FileManager } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
@@ -52,6 +52,8 @@ import { createUseLoadable } from '../../../hooks/use-loadable'
 import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
 import { bootstrap, saveEditorState } from '../../../lib/bootstrap-manuscript'
 import {
+  useGetPermittedActions,
+  useGetPerson,
   useGetSubmission,
   useUpdateAttachmentDesignation,
   useUploadAttachment,
@@ -420,6 +422,11 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     window.location.assign(url)
   }, [])
 
+  const personData = useGetPerson()
+  const permittedActionsData = useGetPermittedActions(submissionId)
+  const permittedActions = permittedActionsData?.data?.permittedActions
+  const lwRole = personData?.data?.person?.role?.id
+
   const TABS = [
     'Content',
     (config.features.commenting || config.features.productionNotes) &&
@@ -432,202 +439,209 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   >
   return (
     <RequirementsProvider modelMap={modelMap}>
-      <ManuscriptSidebar
+      <CapabilitiesProvider
+        profile={props.user}
         project={project}
-        manuscript={manuscript}
-        view={view}
-        doc={doc}
-        permissions={editorProps.permissions}
-        manuscripts={props.manuscripts}
-        user={user}
-        tokenActions={props.tokenActions}
-        saveModel={saveModel}
-        selected={selected || null}
-      />
-      <Main>
-        <EditorContainer>
-          <EditorContainerInner>
-            <EditorHeader>
-              <ApplicationMenuContainer>
-                <ApplicationMenus
-                  history={props.history}
-                  editor={editor}
-                  addModal={props.addModal}
-                  manuscriptID={manuscript._id}
-                  modelMap={modelMap}
-                  saveModel={saveModel}
-                  project={project}
-                  collection={collection}
-                />
-              </ApplicationMenuContainer>
-              <ManuscriptToolbar
-                state={state}
-                dispatch={dispatch}
-                footnotesEnabled={config.features.footnotes}
-                view={view}
-              />
-            </EditorHeader>
-            <EditorBody>
-              <MetadataContainer
-                manuscript={manuscript}
-                saveManuscript={saveManuscript}
-                handleTitleStateChange={() => '' /*FIX THIS*/}
-                saveModel={saveModel}
-                deleteModel={deleteModel}
-                permissions={editorProps.permissions}
-                tokenActions={props.tokenActions}
-              />
-              <EditorStyles modelMap={modelMap}>
-                <TrackChangesStyles trackEnabled={!!snapshotID}>
-                  <EditorElement
-                    editor={editor}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    changeAttachmentDesignation={(
-                      designation: string,
-                      name: string
-                    ) =>
-                      handleChangeAttachmentDesignation(
-                        submissionId,
-                        designation,
-                        name
-                      )
-                    }
-                  />
-                </TrackChangesStyles>
-              </EditorStyles>
-            </EditorBody>
-          </EditorContainerInner>
-        </EditorContainer>
-      </Main>
-      <Panel
-        name={'inspector'}
-        minSize={400}
-        direction={'row'}
-        side={'start'}
-        hideWhen={'max-width: 900px'}
-        forceOpen={commentTarget !== undefined}
-        resizerButton={ResizingInspectorButton}
+        lwRole={lwRole}
+        permittedActions={permittedActions}
       >
-        <Inspector tabs={TABS} commentTarget={commentTarget}>
-          {TABS.map((label) => {
-            switch (label) {
-              case 'Content': {
-                return (
-                  <ContentTab
-                    selected={selected}
-                    selectedElement={findParentElement(
-                      state.selection,
-                      modelIds
-                    )}
-                    selectedSection={findParentSection(state.selection)}
-                    getModel={getModel}
-                    modelMap={modelMap}
-                    manuscript={manuscript}
-                    state={state}
-                    dispatch={dispatch}
-                    hasFocus={view?.hasFocus()}
-                    doc={doc}
-                    saveModel={saveModel}
-                    deleteModel={deleteModel}
-                    saveManuscript={saveManuscript}
-                    listCollaborators={listCollaborators}
-                    project={project}
-                    tags={tags}
-                    key="content"
-                  />
-                )
-              }
-              case 'Comments': {
-                return (
-                  <CommentsTab
-                    comments={comments}
-                    notes={notes}
-                    state={state}
-                    dispatch={dispatch}
-                    doc={doc}
-                    user={props.user}
-                    collaborators={props.collaborators}
-                    collaboratorsById={props.collaboratorsById}
-                    keywords={props.keywords}
-                    saveModel={saveModel}
-                    deleteModel={deleteModel}
-                    selected={selected}
-                    setCommentTarget={setCommentTarget}
-                    commentTarget={commentTarget}
-                    key="comments"
-                  />
-                )
-              }
-
-              case 'Quality': {
-                return (
-                  <RequirementsInspector
-                    modelMap={modelMap}
-                    prototypeId={manuscript.prototype}
+        <ManuscriptSidebar
+          project={project}
+          manuscript={manuscript}
+          view={view}
+          doc={doc}
+          permissions={editorProps.permissions}
+          manuscripts={props.manuscripts}
+          user={user}
+          tokenActions={props.tokenActions}
+          saveModel={saveModel}
+          selected={selected || null}
+        />
+        <Main>
+          <EditorContainer>
+            <EditorContainerInner>
+              <EditorHeader>
+                <ApplicationMenuContainer>
+                  <ApplicationMenus
+                    history={props.history}
+                    editor={editor}
+                    addModal={props.addModal}
                     manuscriptID={manuscript._id}
-                    bulkUpdate={bulkUpdate}
-                    key="quality"
+                    modelMap={modelMap}
+                    saveModel={saveModel}
+                    project={project}
+                    collection={collection}
                   />
-                )
-              }
-              case 'History': {
-                return snapshotID ? (
-                  <React.Fragment key="history">
-                    <SnapshotsDropdown
-                      snapshots={snapshots}
-                      selectedSnapshot={selectedSnapshot}
-                      selectSnapshot={handleSelect}
-                      selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
-                    />
-                    <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
-                    <Corrections
-                      project={project}
+                </ApplicationMenuContainer>
+                <ManuscriptToolbar
+                  state={state}
+                  dispatch={dispatch}
+                  footnotesEnabled={config.features.footnotes}
+                  view={view}
+                />
+              </EditorHeader>
+              <EditorBody>
+                <MetadataContainer
+                  manuscript={manuscript}
+                  saveManuscript={saveManuscript}
+                  handleTitleStateChange={() => '' /*FIX THIS*/}
+                  saveModel={saveModel}
+                  deleteModel={deleteModel}
+                  permissions={editorProps.permissions}
+                  tokenActions={props.tokenActions}
+                />
+                <EditorStyles modelMap={modelMap}>
+                  <TrackChangesStyles trackEnabled={!!snapshotID}>
+                    <EditorElement
                       editor={editor}
-                      corrections={corrections}
-                      commits={commits}
-                      collaborators={props.collaboratorsById}
-                      freeze={freeze}
-                      accept={accept}
-                      reject={reject}
-                    />
-                  </React.Fragment>
-                ) : (
-                  <h3 key="history">
-                    Tracking is off - create a Snapshot to get started
-                  </h3>
-                )
-              }
-
-              case 'Files': {
-                return submissionId ? (
-                  <>
-                    {errorDialog && (
-                      <ErrorDialog
-                        isOpen={errorDialog}
-                        header={header}
-                        message={message}
-                        handleOk={() => setErrorDialog(false)}
-                      />
-                    )}
-                    <FileManager
-                      submissionId={submissionId}
-                      externalFiles={files}
-                      enableDragAndDrop={true}
-                      handleChangeDesignation={
-                        handleChangeAttachmentDesignation
+                      modelMap={modelMap}
+                      saveModel={saveModel}
+                      changeAttachmentDesignation={(
+                        designation: string,
+                        name: string
+                      ) =>
+                        handleChangeAttachmentDesignation(
+                          submissionId,
+                          designation,
+                          name
+                        )
                       }
-                      handleDownload={handleDownloadAttachment}
-                      handleReplace={handleReplaceAttachment}
-                      handleUpload={handleUploadAttachment}
                     />
-                  </>
-                ) : null
+                  </TrackChangesStyles>
+                </EditorStyles>
+              </EditorBody>
+            </EditorContainerInner>
+          </EditorContainer>
+        </Main>
+        <Panel
+          name={'inspector'}
+          minSize={400}
+          direction={'row'}
+          side={'start'}
+          hideWhen={'max-width: 900px'}
+          forceOpen={commentTarget !== undefined}
+          resizerButton={ResizingInspectorButton}
+        >
+          <Inspector tabs={TABS} commentTarget={commentTarget}>
+            {TABS.map((label) => {
+              switch (label) {
+                case 'Content': {
+                  return (
+                    <ContentTab
+                      selected={selected}
+                      selectedElement={findParentElement(
+                        state.selection,
+                        modelIds
+                      )}
+                      selectedSection={findParentSection(state.selection)}
+                      getModel={getModel}
+                      modelMap={modelMap}
+                      manuscript={manuscript}
+                      state={state}
+                      dispatch={dispatch}
+                      hasFocus={view?.hasFocus()}
+                      doc={doc}
+                      saveModel={saveModel}
+                      deleteModel={deleteModel}
+                      saveManuscript={saveManuscript}
+                      listCollaborators={listCollaborators}
+                      project={project}
+                      tags={tags}
+                      key="content"
+                    />
+                  )
+                }
+                case 'Comments': {
+                  return (
+                    <CommentsTab
+                      comments={comments}
+                      notes={notes}
+                      state={state}
+                      dispatch={dispatch}
+                      doc={doc}
+                      user={props.user}
+                      collaborators={props.collaborators}
+                      collaboratorsById={props.collaboratorsById}
+                      keywords={props.keywords}
+                      saveModel={saveModel}
+                      deleteModel={deleteModel}
+                      selected={selected}
+                      setCommentTarget={setCommentTarget}
+                      commentTarget={commentTarget}
+                      key="comments"
+                    />
+                  )
+                }
+
+                case 'Quality': {
+                  return (
+                    <RequirementsInspector
+                      modelMap={modelMap}
+                      prototypeId={manuscript.prototype}
+                      manuscriptID={manuscript._id}
+                      bulkUpdate={bulkUpdate}
+                      key="quality"
+                    />
+                  )
+                }
+                case 'History': {
+                  return snapshotID ? (
+                    <React.Fragment key="history">
+                      <SnapshotsDropdown
+                        snapshots={snapshots}
+                        selectedSnapshot={selectedSnapshot}
+                        selectSnapshot={handleSelect}
+                        selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
+                      />
+                      <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
+                      <Corrections
+                        project={project}
+                        editor={editor}
+                        corrections={corrections}
+                        commits={commits}
+                        collaborators={props.collaboratorsById}
+                        freeze={freeze}
+                        accept={accept}
+                        reject={reject}
+                      />
+                    </React.Fragment>
+                  ) : (
+                    <h3 key="history">
+                      Tracking is off - create a Snapshot to get started
+                    </h3>
+                  )
+                }
+
+                case 'Files': {
+                  return submissionId ? (
+                    <>
+                      {errorDialog && (
+                        <ErrorDialog
+                          isOpen={errorDialog}
+                          header={header}
+                          message={message}
+                          handleOk={() => setErrorDialog(false)}
+                        />
+                      )}
+                      <FileManager
+                        submissionId={submissionId}
+                        externalFiles={files}
+                        enableDragAndDrop={true}
+                        handleChangeDesignation={
+                          handleChangeAttachmentDesignation
+                        }
+                        handleDownload={handleDownloadAttachment}
+                        handleReplace={handleReplaceAttachment}
+                        handleUpload={handleUploadAttachment}
+                      />
+                    </>
+                  ) : null
+                }
               }
-            }
-          })}
-        </Inspector>
-      </Panel>
+            })}
+          </Inspector>
+        </Panel>
+      </CapabilitiesProvider>
     </RequirementsProvider>
   )
 }

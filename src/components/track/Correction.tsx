@@ -15,6 +15,7 @@ import {
   Correction as CorrectionT,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
@@ -50,6 +51,8 @@ export const Correction: React.FC<Props> = ({
     [handleFocus, correction]
   )
 
+  const can = usePermissions()
+
   return (
     <Wrapper isFocused={isFocused}>
       <FocusHandle
@@ -63,11 +66,18 @@ export const Correction: React.FC<Props> = ({
           project={project}
         />
       </FocusHandle>
+
       <Actions>
         <Action
           type="button"
           onClick={() => handleReject(correction._id)}
           aria-pressed={correction.status === 'rejected'}
+          title={
+            !can.handleSuggestion
+              ? 'You are not permitted to reject suggestions.'
+              : ''
+          }
+          disabled={!can.handleSuggestion}
         >
           <Reject color="#353535" />
         </Action>
@@ -75,6 +85,12 @@ export const Correction: React.FC<Props> = ({
           type="button"
           onClick={() => handleAccept(correction._id)}
           aria-pressed={correction.status === 'accepted'}
+          title={
+            !can.handleSuggestion
+              ? 'You are not permitted to accept suggestions.'
+              : ''
+          }
+          disabled={!can.handleSuggestion}
         >
           <Accept color="#353535" />
         </Action>
@@ -137,6 +153,11 @@ const Action = styled.button`
   cursor: pointer;
   position: relative;
   z-index: 1;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 
   &:focus {
     outline: none;

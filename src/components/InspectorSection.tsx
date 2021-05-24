@@ -11,6 +11,7 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -68,12 +69,15 @@ export const InspectorSection: React.FC<Props> = ({
   approveAll,
 }) => {
   const [expanded, setExpanded] = useState(true)
+  const can = usePermissions()
 
   return (
     <Section>
       <Heading onClick={() => setExpanded(!expanded)}>
         <HeadingText>{title}</HeadingText>
-        {approveAll && <ApproveAllButton approveAll={approveAll} />}
+        {approveAll && can.handleSuggestion && (
+          <ApproveAllButton approveAll={approveAll} />
+        )}
 
         <ExpanderButton
           aria-label={'Toggle expand section'}

@@ -107,7 +107,6 @@ export const Corrections: React.FC<Props> = ({
     }
     editor.doCommand(commands.focusCommit(commit.changeID))
   }
-
   const correctionsByStatus = groupCorrectionsByStatus(corrections)
 
   const approveAll = correctionsByStatus.proposed.length
@@ -119,7 +118,7 @@ export const Corrections: React.FC<Props> = ({
     : undefined
 
   return (
-    <React.Fragment>
+    <>
       <CorrectionsSection
         title={'Suggestions'}
         corrections={correctionsByStatus.proposed}
@@ -161,6 +160,6 @@ export const Corrections: React.FC<Props> = ({
           Save
         </button>
       </InspectorSection>
-    </React.Fragment>
+    </>
   )
 }

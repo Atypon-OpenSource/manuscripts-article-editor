@@ -38,6 +38,11 @@ export const CorrectionItem: React.FC<{
       <SnippetText isRejected={correction.status === 'rejected'}>
         {correction.insertion}
       </SnippetText>
+      {correction.deletion && (
+        <SnippetText isRejected={correction.status === 'rejected'}>
+          <del>{correction.deletion}</del>
+        </SnippetText>
+      )}
       {user ? (
         <AvatarContainer key={user._id}>
           <div data-tip={true} data-for={user._id}>

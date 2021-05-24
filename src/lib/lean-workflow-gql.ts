@@ -85,6 +85,47 @@ const SET_MAIN_MANUSCRIPT = gql`
   }
 `
 
+const GET_STEP = (stage: string) => gql`
+  query Submission($id: ID!, $type: SubmissionIDType!) {
+    submission(id: $id, type: $type) {
+      id
+       ${stage}Step {
+        id
+        type {
+          id
+          stage {
+            id
+          }
+        }
+        status {
+          id
+        }
+        assignee {
+          id
+          displayName
+        }
+       }
+    }
+  }
+`
+
+const GET_PERSON = () => gql`
+  query Person {
+    person {
+      id
+      role {
+        id
+      }
+    }
+  }
+`
+
+const GET_PERMITTED_ACTIONS = (id: string) => gql`
+  query PermitedActions($id: ID!) {
+    permittedActions(submissionId: $id)
+  }
+`
+
 export const useUploadAttachment = () => {
   const [mutate] = useMutation(UPLOAD_ATTACHMENT)
   return async ({
@@ -177,3 +218,35 @@ export const useSetMainManuscript = () => {
       },
     })
 }
+
+export const useGetStep = (
+  documentId: string,
+  projectId: string,
+  stage = 'current'
+) =>
+  useQuery(GET_STEP(stage), {
+    context: {
+      clientPurpose: 'leanWorkflowManager',
+    },
+    variables: {
+      id: `${projectId}#${documentId}`,
+      type: 'DOCUMENT_ID',
+    },
+  })
+
+export const useGetPerson = () =>
+  useQuery(GET_PERSON(), {
+    context: {
+      clientPurpose: 'leanWorkflowManager',
+    },
+  })
+
+export const useGetPermittedActions = (submissionId: string) =>
+  useQuery(GET_PERMITTED_ACTIONS(submissionId), {
+    context: {
+      clientPurpose: 'leanWorkflowManager',
+    },
+    variables: {
+      id: submissionId,
+    },
+  })
