@@ -42,11 +42,11 @@ export const groupCorrectionsByStatus = (
   }
 
   const correctionsByStatus = corrections.reduce((total, correction) => {
-    if (correction.status === 'proposed') {
+    if (correction.status.label === 'proposed') {
       total.proposed.push(correction)
-    } else if (correction.status === 'accepted') {
+    } else if (correction.status.label === 'accepted') {
       total.accepted.push(correction)
-    } else if (correction.status === 'rejected') {
+    } else if (correction.status.label === 'rejected') {
       total.rejected.push(correction)
     }
 

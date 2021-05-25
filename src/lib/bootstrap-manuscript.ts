@@ -168,7 +168,7 @@ export const bootstrap = async ({
   ) as Correction[]).filter((corr) => corr.snapshotID === snapshots[0]._id)
 
   const unrejectedCorrections = corrections
-    .filter((cor) => cor.status !== 'rejected')
+    .filter((cor) => cor.status.label !== 'rejected')
     .map((cor) => cor.commitChangeID || '')
 
   const commitAtLoad =

@@ -58,7 +58,7 @@ export const Correction: React.FC<Props> = ({
       <FocusHandle
         href="#"
         onClick={handleClick}
-        isDisabled={correction.status === 'rejected'}
+        isDisabled={correction.status.label === 'rejected'}
       >
         <CorrectionItem
           correction={correction}
@@ -71,7 +71,7 @@ export const Correction: React.FC<Props> = ({
         <Action
           type="button"
           onClick={() => handleReject(correction._id)}
-          aria-pressed={correction.status === 'rejected'}
+          aria-pressed={correction.status.label === 'rejected'}
           title={
             !can.handleSuggestion
               ? 'You are not permitted to reject suggestions.'
@@ -84,7 +84,7 @@ export const Correction: React.FC<Props> = ({
         <Action
           type="button"
           onClick={() => handleAccept(correction._id)}
-          aria-pressed={correction.status === 'accepted'}
+          aria-pressed={correction.status.label === 'accepted'}
           title={
             !can.handleSuggestion
               ? 'You are not permitted to accept suggestions.'

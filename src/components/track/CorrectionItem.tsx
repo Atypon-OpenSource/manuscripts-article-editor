@@ -28,34 +28,37 @@ export const CorrectionItem: React.FC<{
   getCollaboratorById: (id: string) => UserProfileWithAvatar | undefined
   project: Project
 }> = ({ correction, getCollaboratorById, project }) => {
-  const user =
-    correction.contributions && correction.contributions.length
-      ? getCollaboratorById(correction.contributions[0].profileID)
-      : undefined
+  const user = getCollaboratorById(correction.status.editorProfileID)
   const timestamp = correction.contributions![0].timestamp
   return (
     <>
-      <SnippetText isRejected={correction.status === 'rejected'}>
+      <SnippetText isRejected={correction.status.label === 'rejected'}>
         {correction.insertion}
       </SnippetText>
       {correction.deletion && (
-        <SnippetText isRejected={correction.status === 'rejected'}>
+        <SnippetText isRejected={correction.status.label === 'rejected'}>
           <del>{correction.deletion}</del>
         </SnippetText>
       )}
       {user ? (
-        <AvatarContainer key={user._id}>
-          <div data-tip={true} data-for={user._id}>
+        <AvatarContainer key={correction._id}>
+          <div data-tip={true} data-for={correction._id}>
             <Avatar src={user?.avatar} size={22} />
           </div>
           <ReactTooltip
-            id={user._id}
+            id={correction._id}
             place="bottom"
             effect="solid"
             offset={{ top: 4 }}
             className="tooltip"
           >
-            <TooltipHeader>Created by</TooltipHeader>
+            <TooltipHeader>
+              {correction.status.label === 'proposed'
+                ? 'Created by'
+                : correction.status.label === 'accepted'
+                ? 'Approved by'
+                : 'Rejected by'}
+            </TooltipHeader>
             <Name>
               {user.bibliographicName.given +
                 ' ' +

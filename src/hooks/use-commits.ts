@@ -42,7 +42,7 @@ import collectionManager from '../sync/CollectionManager'
 const buildCorrection = (
   data: Omit<
     Correction,
-    '_id' | 'createdAt' | 'updatedAt' | 'sessionID' | 'objectType' | 'status'
+    '_id' | 'createdAt' | 'updatedAt' | 'sessionID' | 'objectType'
   >
 ): Correction => ({
   _id: `MPCorrection:${uuid()}`,
@@ -50,7 +50,6 @@ const buildCorrection = (
   updatedAt: Date.now() / 1000,
   sessionID: sessionId,
   objectType: ObjectTypes.Correction,
-  status: 'proposed',
   ...data,
 })
 
@@ -127,6 +126,7 @@ export const useCommits = ({
       insertion: changeSummary ? changeSummary.insertion : '',
       deletion: changeSummary ? changeSummary.deletion : '',
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
+      status: { label: 'proposed', editorProfileID: userProfileID },
     })
     saveCorrection(correction)
 
@@ -135,7 +135,9 @@ export const useCommits = ({
 
   const unreject = (correction: Correction) => {
     const unrejectedCorrections = corrections
-      .filter((cor) => cor._id === correction._id || cor.status !== 'rejected')
+      .filter(
+        (cor) => cor._id === correction._id || cor.status.label !== 'rejected'
+      )
       .map((cor) => cor.commitChangeID || '')
 
     const existingCommit = findCommitWithChanges(commits, unrejectedCorrections)
@@ -172,13 +174,16 @@ export const useCommits = ({
 
     const { status } = current
 
-    if (status === 'rejected') {
+    if (status.label === 'rejected') {
       unreject(current)
     }
 
     saveCorrection({
       ...current,
-      status: status === 'accepted' ? 'proposed' : 'accepted',
+      status: {
+        label: status.label === 'accepted' ? 'proposed' : 'accepted',
+        editorProfileID: userProfileID,
+      },
       updatedAt: Date.now() / 1000,
     })
   }
@@ -190,10 +195,10 @@ export const useCommits = ({
     }
     const { status } = current
 
-    if (status === 'rejected') {
+    if (status.label === 'rejected') {
       saveCorrection({
         ...current,
-        status: 'proposed',
+        status: { label: 'proposed', editorProfileID: userProfileID },
         updatedAt: Date.now() / 1000,
       })
       return unreject(current)
@@ -201,12 +206,14 @@ export const useCommits = ({
 
     saveCorrection({
       ...current,
-      status: 'rejected',
+      status: { label: 'rejected', editorProfileID: userProfileID },
       updatedAt: Date.now() / 1000,
     })
 
     const unrejectedCorrections = corrections
-      .filter((cor) => cor.status !== 'rejected' && cor._id !== correctionID)
+      .filter(
+        (cor) => cor.status.label !== 'rejected' && cor._id !== correctionID
+      )
       .map((cor) => cor.commitChangeID || '')
 
     const existingCommit = findCommitWithChanges(commits, unrejectedCorrections)

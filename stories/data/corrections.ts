@@ -15,7 +15,10 @@ import { Correction } from '@manuscripts/manuscripts-json-schema'
 export default [
   {
     objectType: 'MPCorrection',
-    status: 'proposed',
+    status: {
+      label: 'proposed',
+      editorProfileID: 'MPUserProfile:9727207c4e8a3d406df49e9759f05d5ac84a9dcf',
+    },
     contributions: [
       {
         _id: 'MPContribution:B6AAAA05-C775-4E9A-BA47-89236CA330FB',
@@ -33,7 +36,10 @@ export default [
   },
   {
     objectType: 'MPCorrection',
-    status: 'rejected',
+    status: {
+      label: 'rejected',
+      editorProfileID: 'MPUserProfile:9727207c4e8a3d406df49e9759f05d5ac84a9dcf',
+    },
     contributions: [
       {
         _id: 'MPContribution:26B7E587-E201-46A0-ABE0-07F4628B3459',
@@ -63,7 +69,10 @@ export default [
     containerID: 'MPProject:da2ca414-792c-4ad5-93c1-70ed9e3f217d',
     manuscriptID: 'MPManuscript:FE564D64-9120-4EE1-80E2-2938922E14BC',
     snapshotID: '41168b24-2db0-4e1b-80ee-d61be60bdd1f',
-    status: 'accepted',
+    status: {
+      label: 'accepted',
+      editorProfileID: 'MPUserProfile:9727207c4e8a3d406df49e9759f05d5ac84a9dcf',
+    },
     _id: 'MPCorrection:b010620d-3eb4-4bf5-87c2-4c73ca339b88',
     insertion:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
