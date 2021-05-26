@@ -269,14 +269,28 @@ export const openFilePicker = (
     input.click()
   })
 
+export const putIntoZip = async (file: File) => {
+  const zip = new JSZip()
+  const text = await file.text()
+  zip.file<'string'>(file.name, text)
+  return zip.generateAsync({ type: 'blob' })
+}
+
 export const importFile = async (file: File) => {
   const extension = file.name.split('.').pop()
 
   if (!extension) {
     throw new Error('No file extension found')
   }
-
   // TODO: reject unsupported file extensions
+
+  const form = new FormData()
+  if (['md', 'jats', 'latex', 'html'].includes(extension)) {
+    const fileToUpload = await putIntoZip(file)
+    form.append('file', fileToUpload)
+    const result = await importData(form, 'zip', {})
+    return importProjectArchive(result)
+  }
 
   if (extension === 'xml') {
     return parseXMLFile(file).then(convertXMLDocument)
@@ -286,7 +300,6 @@ export const importFile = async (file: File) => {
     return importProjectArchive(file, true)
   }
 
-  const form = new FormData()
   form.append('file', file)
 
   const headers: Record<string, string> = {}

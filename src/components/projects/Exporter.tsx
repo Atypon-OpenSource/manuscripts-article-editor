@@ -16,10 +16,12 @@ import {
   Project,
   Submission,
 } from '@manuscripts/manuscripts-json-schema'
-import { Category, Dialog } from '@manuscripts/style-guide'
+import { Category, Dialog, PrimaryButton } from '@manuscripts/style-guide'
+import { AxiosError } from 'axios'
 import { saveAs } from 'file-saver'
 import React from 'react'
 
+import { loginAgain } from '../../lib/authorization'
 import { trackEvent } from '../../lib/tracking'
 import {
   downloadExtension,
@@ -51,7 +53,7 @@ interface State {
   canCancel: boolean
   cancelled: boolean
   status: string | null
-  error: Error | null
+  error: AxiosError | any | null
 }
 
 export class Exporter extends React.Component<Props, State> {
@@ -154,15 +156,22 @@ export class Exporter extends React.Component<Props, State> {
           category={Category.error}
           header={'Export error'}
           message={
-            <React.Fragment>
-              There was an error exporting the manuscript. Please{' '}
-              <ContactSupportButton
-                message={`Export error: ${error.toString()}`}
-              >
-                contact support
-              </ContactSupportButton>{' '}
-              if this persists.
-            </React.Fragment>
+            error.status === 401 ? (
+              <React.Fragment>
+                Unable to export at this time. Please log in again.
+                <PrimaryButton onClick={loginAgain}>Log in</PrimaryButton>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                There was an error exporting the manuscript. Please{' '}
+                <ContactSupportButton
+                  message={`Export error: ${error.toString()}`}
+                >
+                  contact support
+                </ContactSupportButton>{' '}
+                if this persists.
+              </React.Fragment>
+            )
           }
           actions={{
             primary: {
