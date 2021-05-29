@@ -55,6 +55,7 @@ import {
   useGetPermittedActions,
   useGetPerson,
   useGetSubmission,
+  useSetMainManuscript,
   useUpdateAttachmentDesignation,
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
@@ -241,9 +242,19 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     []
   )
 
+  const setMainManuscript = useSetMainManuscript()
   const changeAttachmentDesignation = useUpdateAttachmentDesignation()
   const handleChangeAttachmentDesignation = useCallback(
     (submissionId: string, designation: string, name: string) => {
+      if (designation == 'main-manuscript') {
+        return handleSubmissionMutation(
+          setMainManuscript({
+            submissionId: submissionId,
+            name: name,
+          }),
+          'Something went wrong while setting main manuscript.'
+        )
+      }
       return handleSubmissionMutation(
         changeAttachmentDesignation({
           submissionId: submissionId,
@@ -253,7 +264,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         'Something went wrong while updating attachment designation.'
       )
     },
-    [changeAttachmentDesignation, handleSubmissionMutation]
+    [changeAttachmentDesignation, handleSubmissionMutation, setMainManuscript]
   )
 
   const editorProps = {
