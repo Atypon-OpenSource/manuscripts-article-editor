@@ -39,7 +39,12 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
-import { CapabilitiesProvider, FileManager } from '@manuscripts/style-guide'
+import {
+  CapabilitiesProvider,
+  Designation,
+  FileManager,
+  getDesignationName,
+} from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
@@ -423,7 +428,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         changeAttachmentDesignation({
           submissionId: submissionId,
           name: name,
-          designation: typeId,
+          designation: getDesignationName(Designation.SubmissionFile),
         }),
         'Something went wrong while replacing attachment.'
       )
