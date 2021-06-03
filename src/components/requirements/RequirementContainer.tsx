@@ -11,9 +11,10 @@
  */
 
 import { AnyValidationResult } from '@manuscripts/requirements'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
+import { useDropdown } from '../../hooks/use-dropdown'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -31,32 +32,27 @@ export const RequirementContainer: React.FC<Props> = ({
   result,
   children,
 }) => {
-  const [expanded, setExpanded] = useState(true)
   const failedResults = result.filter(
     (node: AnyValidationResult) => !node.passed
   )
+  const { toggleOpen, isOpen } = useDropdown(failedResults.length !== 0)
 
   return (
     <Container>
-      {failedResults.length === 0 ? (
-        <Data>
-          <Icon>
+      <Data onClick={toggleOpen}>
+        <Icon>
+          {failedResults.length === 0 ? (
             <ValidationPassedIcon />
-          </Icon>
-          <Title>{title}</Title>
-        </Data>
-      ) : (
-        <Data onClick={() => setExpanded(!expanded)}>
-          <Icon>
+          ) : (
             <ValidationDangerIcon />
-          </Icon>
-          <Title>{title}</Title>
-          <ExpanderButton onClick={() => setExpanded(!expanded)}>
-            {expanded ? <ArrowUpIcon /> : <ArrowDownIcon />}
-          </ExpanderButton>
-        </Data>
-      )}
-      {expanded && <>{children}</>}
+          )}
+        </Icon>
+        <Title>{title}</Title>
+        <ExpanderButton onClick={toggleOpen}>
+          {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
+        </ExpanderButton>
+      </Data>
+      {isOpen && <>{children}</>}
     </Container>
   )
 }

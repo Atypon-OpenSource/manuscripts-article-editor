@@ -12,8 +12,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export const useDropdown = () => {
-  const [isOpen, setOpen] = useState(false)
+export const useDropdown = (open?: boolean) => {
+  const [isOpen, setOpen] = useState(open !== undefined ? open : false)
 
   const toggleOpen = useCallback(() => {
     setOpen((open) => !open)
