@@ -59,6 +59,7 @@ import {
   ManuscriptModelsProvider,
   useManuscriptModels,
 } from '../../../hooks/use-manuscript-models'
+import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
 import { bootstrap, saveEditorState } from '../../../lib/bootstrap-manuscript'
 import {
   useGetPermittedActions,
@@ -79,7 +80,7 @@ import { ModalProps, withModal } from '../../ModalProvider'
 import { Main } from '../../Page'
 import Panel from '../../Panel'
 import { ManuscriptPlaceholder } from '../../Placeholders'
-import { RequirementsInspector } from '../../requirements/RequirementsInspector'
+import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { Corrections } from '../../track/Corrections'
 import { SortByDropdown } from '../../track/SortByDropdown'
@@ -318,6 +319,13 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   )
 
   const { state, doCommand, dispatch, view } = editor
+
+  const validation = useRequirementsValidation({
+    project,
+    manuscript,
+    state,
+    modelMap,
+  })
 
   useEffect(() => {
     saveEditorState(state, modelMap, project._id, manuscript._id)
@@ -594,12 +602,14 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
                 case 'Quality': {
                   return (
-                    <RequirementsInspector
+                    <RequirementsInspectorView
                       modelMap={modelMap}
                       prototypeId={manuscript.prototype}
                       manuscriptID={manuscript._id}
                       bulkUpdate={bulkUpdate}
                       key="quality"
+                      result={validation.result}
+                      error={validation.error}
                     />
                   )
                 }

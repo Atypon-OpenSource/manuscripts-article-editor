@@ -20,58 +20,66 @@ import toBuffer from 'blob-to-buffer'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { RequirementsList } from './RequirementsList'
 
-const buildQualityCheck = async (
+export const buildQualityCheck = async (
   modelMap: Map<string, Model>,
   prototypeId: string | undefined,
   manuscriptID: string
-): Promise<AnyValidationResult[] | undefined> => {
-  if (prototypeId !== undefined) {
-    const getData = async (id: string): Promise<Buffer | undefined> => {
-      if (modelMap.has(id)) {
-        const model = modelMap.get(id) as Model
-        if (isFigure(model)) {
-          const modelSrc = model.src as string
-          const blobData = await fetch(modelSrc).then((res) => res.blob())
-          const blobFile = new File([blobData], id, {
-            type: blobData.type,
-          })
-          return fileToBuffer(blobFile)
-        }
-      }
-      return undefined
-    }
-
-    const fileToBuffer = (file: File): Promise<Buffer> =>
-      new Promise((resolve, reject) => {
-        toBuffer(file, (err, buffer) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(buffer)
-          }
-        })
-      })
-
-    const validateManuscript = createTemplateValidator(prototypeId)
-    // TODO: remove `as AnyValidationResult[]`
-    const results = (await validateManuscript(
-      Array.from(modelMap.values()) as ContainedModel[],
-      manuscriptID,
-      getData
-    )) as AnyValidationResult[]
-    return results
+): Promise<AnyValidationResult[]> => {
+  if (typeof prototypeId === 'undefined') {
+    return []
   }
+
+  const getData = async (id: string): Promise<Buffer | undefined> => {
+    if (modelMap.has(id)) {
+      const model = modelMap.get(id) as Model
+      if (isFigure(model)) {
+        const modelSrc = model.src as string
+        const blobData = await fetch(modelSrc).then((res) => res.blob())
+        const blobFile = new File([blobData], id, {
+          type: blobData.type,
+        })
+        return fileToBuffer(blobFile)
+      }
+    }
+    return undefined
+  }
+
+  const fileToBuffer = (file: File): Promise<Buffer> =>
+    new Promise((resolve, reject) => {
+      toBuffer(file, (err, buffer) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(buffer)
+        }
+      })
+    })
+
+  const validateManuscript = createTemplateValidator(prototypeId)
+  // TODO: remove `as AnyValidationResult[]`
+  const results = (await validateManuscript(
+    Array.from(modelMap.values()) as ContainedModel[],
+    manuscriptID,
+    getData
+  )) as AnyValidationResult[]
+
+  return results
 }
 
-export const RequirementsInspector: React.FC<{
+interface Props {
   modelMap: Map<string, Model>
   prototypeId: string | undefined
   manuscriptID: string
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-}> = ({ modelMap, prototypeId, manuscriptID, bulkUpdate }) => {
-  const [result, setResult] = useState<AnyValidationResult[]>()
+}
+
+export const RequirementsInspector: React.FC<Props> = (props) => {
+  const { prototypeId, modelMap, manuscriptID } = props
+
+  const [result, setResult] = useState<AnyValidationResult[]>([])
   const [error, setError] = useState<Error>()
 
   useEffect(() => {
@@ -81,6 +89,12 @@ export const RequirementsInspector: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prototypeId, manuscriptID, JSON.stringify([...modelMap.values()])])
 
+  return <RequirementsInspectorView {...props} result={result} error={error} />
+}
+
+export const RequirementsInspectorView: React.FC<
+  Props & ReturnType<typeof useRequirementsValidation>
+> = ({ error, prototypeId, result, modelMap, manuscriptID, bulkUpdate }) => {
   if (error) {
     return <ErrorMessage> {error?.message}</ErrorMessage>
   }
