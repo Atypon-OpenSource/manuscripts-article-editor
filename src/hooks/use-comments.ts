@@ -145,6 +145,18 @@ export const getUnsavedComment = (state: CommentState): string | null => {
   return item?.comment._id || null
 }
 
+export const getHighlightColor = (
+  state: CommentState,
+  comment: CommentAnnotation | UnsavedComment
+): string | undefined => {
+  const uid = comment.target
+  const item = state.find((item) => item.annotation?.uid === uid)
+  if (!item) {
+    return undefined
+  }
+  return item.annotation?.color
+}
+
 export const useNewAnnotationEffect = (
   effect: (annotation: Annotation) => void,
   annotations: Annotation[]
@@ -189,12 +201,15 @@ export const useComments = (
     (
       comment: UnsavedComment | CommentAnnotation
     ): Promise<CommentAnnotation> => {
-      return saveModel(comment).then((comment: CommentAnnotation) => {
-        dispatch(updateComment(comment._id, comment))
-        return comment
-      })
+      const annotationColor = getHighlightColor(state, comment)
+      return saveModel<CommentAnnotation>({ ...comment, annotationColor }).then(
+        (comment) => {
+          dispatch(updateComment(comment._id, comment))
+          return comment
+        }
+      )
     },
-    [saveModel, dispatch]
+    [state, saveModel, dispatch]
   )
 
   const deleteComment = useCallback(

@@ -52,8 +52,8 @@ export const CommentsList: React.FC<Props> = ({
     handleCreateReply,
   } = commentController
 
-  // TODO: find the corresponding annotation and get the color from that:
-  const getHighlightTextColor = () => '#ffe08b'
+  const getHighlightTextColor = (comment: CommentAnnotation) =>
+    comment.annotationColor || 'rgb(250, 244, 150)'
 
   const threads = topLevelComments(items)
 

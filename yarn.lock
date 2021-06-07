@@ -2153,7 +2153,7 @@
     deepmerge "^3.2.0"
     js-beautify "^1.9.0"
 
-"@manuscripts/manuscripts-json-schema@^1.46.7", "@manuscripts/manuscripts-json-schema@^1.46.9":
+"@manuscripts/manuscripts-json-schema@^1.46.7":
   version "1.46.9"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.46.9.tgz#cd2dc40aa8524c7a1a9dd24b4285fcb7aa7cc7ae"
   integrity sha512-IVtfTrwcohkWgxE8m2ER2ckiL5Ljloo1UHftq0ZfB2h/R7pqOiF4FtV5oEeC4C6O5b7rHqU61M64vkhGJW4b0g==

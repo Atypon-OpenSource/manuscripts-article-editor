@@ -51,7 +51,7 @@
     "@manuscripts/library": "^0.6.2",
     "@manuscripts/manuscript-editor": "^0.87.5",
     "@manuscripts/manuscript-transform": "^0.43.4",
-    "@manuscripts/manuscripts-json-schema": "^1.46.9",
+    "@manuscripts/manuscripts-json-schema": "^1.47.0",
     "@manuscripts/manuscripts-json-schema-utils": "^0.2.1",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts2",
     "@manuscripts/pouchdb-adapter-idb": "7.0.0-manuscripts2",
