@@ -75,6 +75,7 @@ import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import { IntlProps, withIntl } from '../../IntlProvider'
 import CitationEditor from '../../library/CitationEditor'
 import { CitationViewer } from '../../library/CitationViewer'
+import { ReferencesViewer } from '../../library/ReferencesViewer'
 import MetadataContainer from '../../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../../ModalProvider'
 import { Main } from '../../Page'
@@ -300,6 +301,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     renderReactComponent: ReactDOM.render,
     unmountReactComponent: ReactDOM.unmountComponentAtNode,
     components: {
+      ReferencesViewer,
       CitationEditor,
       CitationViewer,
     },

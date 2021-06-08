@@ -133,6 +133,7 @@ import { AnyElement } from '../inspector/ElementStyleInspector'
 import IntlProvider, { IntlProps, withIntl } from '../IntlProvider'
 import CitationEditor from '../library/CitationEditor'
 import { CitationViewer } from '../library/CitationViewer'
+import { ReferencesViewer } from '../library/ReferencesViewer'
 import MetadataContainer from '../metadata/MetadataContainer'
 import { ModalProps, withModal } from '../ModalProvider'
 import { Notification } from '../NotificationMessage'
@@ -552,6 +553,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                     unmountReactComponent={this.unmountReactComponent}
                     handleStateChange={this.preparedManuscriptEditorStateChange}
                     components={{
+                      ReferencesViewer,
                       CitationEditor,
                       CitationViewer,
                     }}
