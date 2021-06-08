@@ -285,7 +285,7 @@ export const importFile = async (file: File) => {
   // TODO: reject unsupported file extensions
 
   const form = new FormData()
-  if (['md', 'jats', 'latex', 'html'].includes(extension)) {
+  if (['md', 'jats', 'latex', 'tex', 'html'].includes(extension)) {
     const fileToUpload = await putIntoZip(file)
     form.append('file', fileToUpload)
     const result = await importData(form, 'zip', {})
