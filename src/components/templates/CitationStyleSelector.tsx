@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { loadStyle } from '@manuscripts/library'
+import { loadCitationStyle } from '@manuscripts/library'
 import {
   ContainedModel,
   fromPrototype,
@@ -170,7 +170,7 @@ class CitationStyleSelector extends React.Component<
 
   private attachStyle = async (newBundle: Bundle) => {
     if (newBundle.csl && newBundle.csl.cslIdentifier) {
-      const data = await loadStyle(newBundle.csl.cslIdentifier)
+      const data = await loadCitationStyle({ bundle: newBundle })
 
       await this.props.collection.putAttachment(newBundle._id, {
         id: 'csl',

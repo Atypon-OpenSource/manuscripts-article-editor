@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { loadStyle } from '@manuscripts/library'
+import { loadCitationStyle } from '@manuscripts/library'
 import {
   Build,
   createNewBundle,
@@ -29,7 +29,7 @@ const attachBundleStyle = async (
     bundle.attachment = {
       id: 'csl',
       type: 'application/vnd.citationstyles.style+xml',
-      data: await loadStyle(bundle.csl.cslIdentifier),
+      data: await loadCitationStyle({ bundle } as { bundle: Bundle }),
     }
   }
 }

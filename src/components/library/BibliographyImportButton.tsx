@@ -12,7 +12,7 @@
 
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import Check from '@manuscripts/assets/react/Check'
-import { transformBibliography } from '@manuscripts/library'
+import { parseBibliography } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
@@ -109,7 +109,7 @@ export const BibliographyImportButton: React.FC<{
         }
 
         const { ext } = pathParse(file.name)
-        const items = await transformBibliography(text, ext)
+        const items = await parseBibliography(text, ext)
 
         if (!items || !items.length) {
           showNotification(

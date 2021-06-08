@@ -79,7 +79,6 @@ export const LibraryPageContainer: React.FC<
       if (!existingItem) {
         // add the item to the model map so it's definitely available
         projectLibrary.set(item._id, item as BibliographyItem)
-
         // save the new item
         const newItem = await projectLibraryCollection.create(item, {
           containerID: projectID,
@@ -93,7 +92,6 @@ export const LibraryPageContainer: React.FC<
 
   const createBibliographyItem = useCallback(() => {
     const item = buildBibliographyItem({})
-
     projectLibraryCollection
       .create(item, {
         containerID: projectID,

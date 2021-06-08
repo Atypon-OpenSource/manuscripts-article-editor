@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { convertBibliographyItemToData, fixCSLData } from '@manuscripts/library'
+import { convertBibliographyItemToCSL, fixCSLData } from '@manuscripts/library'
 import {
   Attachments,
   convertTeXToMathML,
@@ -343,7 +343,7 @@ const prepareBibliography = (modelMap: Map<string, Model>): Data[] => {
     }
   }
 
-  return items.map(convertBibliographyItemToData).map(fixCSLData)
+  return items.map(convertBibliographyItemToCSL).map(fixCSLData)
 }
 
 export const exportProject = async (

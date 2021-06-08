@@ -15,10 +15,10 @@ import '@manuscripts/manuscript-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
 import {
-  createProcessor,
-  GetCitationProcessor,
+  CitationProvider,
+  loadCitationStyle,
   matchLibraryItemByIdentifier,
-  transformBibliography,
+  parseBibliography,
 } from '@manuscripts/library'
 import {
   canInsert,
@@ -94,7 +94,6 @@ import {
   TreeChanges,
 } from '@manuscripts/sync-client'
 import { TitleEditorState, TitleEditorView } from '@manuscripts/title-editor'
-import CiteProc from 'citeproc'
 import debounce from 'lodash-es/debounce'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -190,7 +189,7 @@ interface State {
   noteTarget?: string
   plugins?: ManuscriptPlugin[]
   popper: PopperManager
-  processor?: CiteProc.Engine
+  citationProvider?: CitationProvider
   permissions?: Permissions
   selected: Selected | null
   selectedElement?: Selected
@@ -276,7 +275,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       },
       modelMap: undefined,
       popper: new PopperManager(),
-      processor: undefined,
+      citationProvider: undefined,
       selected: null,
       view: undefined,
     }
@@ -351,10 +350,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     const { manuscript } = this.props
 
     if (manuscript !== prevProps.manuscript) {
-      if (
-        this.shouldUpdateCitationProcessor(manuscript, prevProps.manuscript)
-      ) {
-        await this.createCitationProcessor(manuscript, this.state.modelMap!)
+      if (this.shouldUpdateCitationProvider(manuscript, prevProps.manuscript)) {
+        await this.createCitationProvider(manuscript, this.state.modelMap!)
       }
 
       this.dispatchUpdate()
@@ -525,7 +522,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                 <EditorStyles modelMap={modelMap}>
                   <Editor
                     autoFocus={!!manuscript.title}
-                    getCitationProcessor={this.getCitationProcessor}
+                    getCitationProvider={this.getCitationProvider}
                     doc={doc}
                     getModel={this.getModel}
                     saveModel={this.saveModel}
@@ -735,7 +732,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       const modelMap = await buildModelMap(models as Array<RxDocument<Model>>)
 
       try {
-        await this.createCitationProcessor(this.props.manuscript, modelMap)
+        await this.createCitationProvider(this.props.manuscript, modelMap)
       } catch (error) {
         console.error(error)
       }
@@ -905,7 +902,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private shouldUpdateCitationProcessor = (
+  private shouldUpdateCitationProvider = (
     manuscript: Manuscript,
     previousManuscript: Manuscript
   ) => {
@@ -1082,7 +1079,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private createCitationProcessor = async (
+  private createCitationProvider = async (
     manuscript: Manuscript,
     modelMap: Map<string, Model>
   ) => {
@@ -1093,18 +1090,22 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       ? await this.getCitationStyleData(bundle._id)
       : undefined
 
-    // TODO: move defaults into method?
-    const processor = await createProcessor(
-      manuscript.primaryLanguageCode || 'en-GB',
-      this.getLibraryItem,
-      { bundleID, bundle, citationStyleData }
-    )
+    const cslStyle = await loadCitationStyle({
+      bundleID,
+      bundle,
+      citationStyleData,
+    })
+    const citationProvider = new CitationProvider({
+      getLibraryItem: this.getLibraryItem,
+      citationStyle: cslStyle,
+      lang: manuscript.primaryLanguageCode || 'en-GB',
+    })
 
-    this.setState({ processor })
+    this.setState({ citationProvider })
   }
 
-  private getCitationProcessor: GetCitationProcessor = () => {
-    return this.state.processor as CiteProc.Engine
+  private getCitationProvider = () => {
+    return this.state.citationProvider
   }
 
   private loadModels = (containerID: string, manuscriptID: string) =>
@@ -1133,7 +1134,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private setLibraryItem = (item: BibliographyItem) =>
     this.props.library.set(item._id, item) // TODO: move this to the provider?
 
-  private getLibraryItem = (id: string) => this.props.library.get(id)!
+  private getLibraryItem = (id: string) => this.props.library.get(id)
 
   private filterLibraryItems = (query: string) =>
     filterLibrary(this.props.library, query)
@@ -1186,7 +1187,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   ): Promise<number> => {
     const data = window.atob(encodedData)
 
-    const items: Array<Partial<BibliographyItem>> = await transformBibliography(
+    const items: Array<Partial<BibliographyItem>> = await parseBibliography(
       data,
       type
     )

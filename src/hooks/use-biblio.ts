@@ -11,12 +11,12 @@
  */
 
 import {
-  createProcessor,
+  CitationProvider,
+  loadCitationStyle,
   matchLibraryItemByIdentifier as libMatch,
 } from '@manuscripts/library'
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { BibliographyItem, Bundle } from '@manuscripts/manuscripts-json-schema'
-import CiteProc from 'citeproc'
 import { useCallback, useEffect, useRef } from 'react'
 
 import { filterLibrary } from '../lib/search-library'
@@ -30,7 +30,7 @@ interface Args {
 }
 
 export interface Biblio {
-  getCitationProcessor: () => CiteProc.Engine | undefined
+  getCitationProvider: () => CitationProvider | undefined
   getLibraryItem: (id: string) => BibliographyItem | undefined
   setLibraryItem: (item: BibliographyItem) => void
   matchLibraryItemByIdentifier: (
@@ -45,7 +45,7 @@ export const useBiblio = ({
   collection,
   lang,
 }: Args): Biblio => {
-  const citationProcessor = useRef<CiteProc.Engine | undefined>()
+  const citationProvider = useRef<CitationProvider | undefined>()
 
   const getLibraryItem = useCallback((id: string) => library.get(id), [library])
   const setLibraryItem = useCallback(
@@ -67,15 +67,22 @@ export const useBiblio = ({
     }
     collection
       .getAttachmentAsString(bundle._id, 'csl')
-      .then((citationStyleData) => {
-        return createProcessor(lang, getLibraryItem, {
-          bundleID: bundle._id,
-          bundle,
-          citationStyleData,
-        })
-      })
-      .then((processor) => {
-        citationProcessor.current = processor
+      .then(async (citationStyleData) => {
+        if (citationProvider && citationProvider.current && citationStyleData) {
+          citationProvider.current.recreateEngine(citationStyleData, lang)
+        } else {
+          const styles = await loadCitationStyle({
+            bundleID: bundle._id,
+            bundle,
+            citationStyleData,
+          })
+          const provider = new CitationProvider({
+            getLibraryItem,
+            citationStyle: styles,
+            lang,
+          })
+          citationProvider.current = provider
+        }
       })
       .catch((error) => {
         if (window.Sentry) {
@@ -85,7 +92,7 @@ export const useBiblio = ({
   })
 
   return {
-    getCitationProcessor: () => citationProcessor.current,
+    getCitationProvider: () => citationProvider.current,
     getLibraryItem,
     setLibraryItem,
     matchLibraryItemByIdentifier,
