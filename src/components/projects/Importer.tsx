@@ -10,21 +10,34 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import {
+  ContainedModel,
+  DEFAULT_PAGE_LAYOUT,
+  fromPrototype,
+  isManuscriptModel,
+  loadBundledDependencies,
+  StyleObject,
+  updatedPageLayout,
+} from '@manuscripts/manuscript-transform'
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
+import { History } from 'history'
 import React from 'react'
 
+import { loadBundle } from '../../lib/bundles'
 import {
   BulkCreateError,
   FileExtensionError,
   FileImportError,
 } from '../../lib/errors'
+import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
 import { trackEvent } from '../../lib/tracking'
 import {
   acceptedFileExtensions,
   importFile,
   openFilePicker,
 } from '../../pressroom/importers'
+import { Collection } from '../../sync/Collection'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { ProgressModal } from './ProgressModal'
 
@@ -215,4 +228,66 @@ const buildImportErrorMessage = (error: Error) => {
       {contactMessage}
     </div>
   )
+}
+
+export const importManuscript = async (
+  models: Model[],
+  projectID: string,
+  collection: Collection<ContainedModel>,
+  history: History,
+  redirect: boolean
+) => {
+  const manuscript = models.find(isManuscript)
+
+  if (!manuscript) {
+    throw new Error('No manuscript found')
+  }
+
+  // TODO: try to share this code with createManuscript
+
+  manuscript.priority = await nextManuscriptPriority(collection)
+
+  // TODO: use the imported filename?
+  if (!manuscript.pageLayout) {
+    if (!models.find((model) => model._id === manuscript.bundle)) {
+      const [bundle, parentBundle] = await loadBundle(manuscript.bundle)
+      manuscript.bundle = bundle._id
+      models.push(bundle)
+
+      if (parentBundle) {
+        models.push(parentBundle)
+      }
+    }
+
+    const dependencies = await loadBundledDependencies()
+    const prototypedDependencies = dependencies.map(fromPrototype)
+    models.push(...prototypedDependencies)
+
+    const styleMap = new Map(
+      prototypedDependencies.map((style) => [style._id, style])
+    )
+    const pageLayout = updatedPageLayout(
+      styleMap as Map<string, StyleObject>,
+      DEFAULT_PAGE_LAYOUT
+    )
+    manuscript.pageLayout = pageLayout._id
+    models.push(pageLayout)
+
+    // TODO: apply a template?
+  }
+
+  // TODO: save dependencies first, then the manuscript
+  // TODO: handle multiple manuscripts in a project bundle
+
+  const items = models.map((model) => ({
+    ...model,
+    containerID: projectID,
+    manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
+  }))
+
+  await collection.bulkCreate(items)
+
+  if (redirect) {
+    history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
+  }
 }

@@ -37,6 +37,7 @@ import { Collection } from '../../../sync/Collection'
 import { SaveModel } from '../../inspector/StyleFields'
 import { ModalProps } from '../../ModalProvider'
 import { Exporter } from '../Exporter'
+import { Importer, importManuscript } from '../Importer'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;
@@ -65,6 +66,16 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   project,
   collection,
 }) => {
+  const openImporter = () => {
+    addModal('importer', ({ handleClose }) => (
+      <Importer
+        handleComplete={handleClose}
+        importManuscript={(models: Model[], redirect = true) =>
+          importManuscript(models, project._id, collection, history, redirect)
+        }
+      />
+    ))
+  }
   const openExporter = (format: ExportFormat, closeOnSuccess: boolean) => {
     addModal('exporter', ({ handleClose }) => (
       <Exporter
@@ -86,11 +97,6 @@ export const ApplicationMenusLW: React.FC<Props> = ({
       buildExportMenu(openExporter),
       buildExportReferencesMenu(openExporter, editor.state),
       {
-        id: 'project-diagnostics',
-        label: 'View Diagnostics',
-        run: () => history.push(`/projects/${project._id}/diagnostics`),
-      },
-      {
         role: 'separator',
       },
       {
@@ -101,16 +107,54 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     ],
   }
 
+  const developMenu: MenuSpec = {
+    id: 'develop',
+    label: 'Develop',
+    submenu: [
+      {
+        id: 'import',
+        label: 'Import Manuscript…',
+        run: openImporter,
+      },
+    ],
+  }
+
+  const helpMenu: MenuSpec = {
+    id: 'help',
+    label: 'Help',
+    submenu: [
+      {
+        id: 'documentation',
+        label: 'Documentation',
+        run: () => window.open('https://support.manuscripts.io/'),
+      },
+      {
+        role: 'separator',
+      },
+      {
+        id: 'project-diagnostics',
+        label: 'View Diagnostics',
+        run: () => history.push(`/projects/${project._id}/diagnostics`),
+      },
+    ],
+  }
+
   const [dialog, setDialog] = useState<DialogNames | null>(null)
   const closeDialog = () => setDialog(null)
   const openDialog = (dialog: DialogNames) => setDialog(dialog)
   const { colors, colorScheme } = buildColors(modelMap)
   const handleAddColor = addColor(colors, saveModel, colorScheme)
 
-  const menus = useApplicationMenus([
+  const menu = [
     projectMenu,
     ...getMenus(editor, openDialog, config.features.footnotes),
-  ])
+    helpMenu,
+  ]
+
+  if (!config.production) {
+    menu.push(developMenu)
+  }
+  const menus = useApplicationMenus(menu)
 
   return (
     <React.Fragment>

@@ -25,6 +25,7 @@ import {
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
+import { useCrisp } from '../../hooks/use-crisp'
 import { addColor, buildColors } from '../../lib/colors'
 import { createDispatchMenuAction } from '../../lib/native'
 import { buildProjectMenu, ProjectMenuProps } from '../../lib/project-menu'
@@ -36,14 +37,65 @@ type Command = (
 
 export const createMenuSpec = (
   props: ProjectMenuProps,
-  openDialog: (dialog: DialogNames) => void
+  openDialog: (dialog: DialogNames) => void,
+  openChat: () => void
 ): MenuSpec[] => {
   const { view } = props
   const { state, dispatch } = view
   const doCommand = (command: Command) => command(state, dispatch)
   const isCommandValid = (command: Command) => !!command(state)
 
-  return [
+  const developMenu: MenuSpec = {
+    id: 'develop',
+    label: 'Develop',
+    submenu: [
+      {
+        id: 'import',
+        label: 'Import Manuscript…',
+        run: props.openImporter,
+      },
+    ],
+  }
+
+  const helpMenu: MenuSpec = {
+    id: 'help',
+    label: 'Help',
+    submenu: [
+      {
+        id: 'community',
+        label: 'Community',
+        run: () => window.open('https://community.manuscripts.io/'),
+      },
+      {
+        id: 'documentation',
+        label: 'Documentation',
+        run: () => window.open('https://support.manuscripts.io/'),
+      },
+      {
+        role: 'separator',
+      },
+      {
+        id: 'project-diagnostics',
+        label: 'View Diagnostics',
+        run: () =>
+          props.history.push(`/projects/${props.project._id}/diagnostics`),
+      },
+    ],
+  }
+  if (config.crisp.id) {
+    helpMenu.submenu!.push(
+      {
+        role: 'separator',
+      },
+      {
+        id: 'support',
+        label: 'Support',
+        run: () => openChat(),
+      }
+    )
+  }
+
+  const menu = [
     buildProjectMenu(props),
     ...getMenus(
       {
@@ -54,7 +106,12 @@ export const createMenuSpec = (
       openDialog,
       config.features.footnotes
     ),
+    helpMenu,
   ]
+  if (!config.production) {
+    menu.push(developMenu)
+  }
+  return menu
 }
 
 export const ManuscriptPageMenus: React.FC<ProjectMenuProps> = (props) => {
@@ -64,7 +121,10 @@ export const ManuscriptPageMenus: React.FC<ProjectMenuProps> = (props) => {
   const { colors, colorScheme } = buildColors(props.modelMap)
   const handleAddColor = addColor(colors, props.saveModel, colorScheme)
 
-  const spec = createMenuSpec(props, openDialog)
+  const crisp = useCrisp()
+  const openChat = crisp.open
+
+  const spec = createMenuSpec(props, openDialog, openChat)
 
   useEffect(() => {
     window.dispatchMenuAction = createDispatchMenuAction(spec)

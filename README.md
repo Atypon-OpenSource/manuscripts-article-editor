@@ -215,6 +215,9 @@ The service is configured using environment variables, `.env.example` file place
   <dt>PRESSROOM_URL</dt>
   <dd>The base URL of pressroom service (used for importing/exporting).</dd>
 
+  <dt>PRODUCTION</dt>
+  <dd>If set to 0, include a "Develop" menu in the menu bar.</dd>
+
   <dt>PROJECTS_BUCKET</dt>
   <dd>The name of a database bucket for projects data.</dd>
 

@@ -192,17 +192,13 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
     props.openExporter,
     props.view.state
   )
-  const viewDiagnostics = {
-    id: 'project-diagnostics',
-    label: 'View Diagnostics',
-    run: () => props.history.push(`/projects/${props.project._id}/diagnostics`),
-  }
+
   const separator = {
     role: 'separator',
   }
 
   const submenu: MenuSpec[] = config.leanWorkflow.enabled
-    ? [exportManuscript, exportReferences, separator, viewDiagnostics]
+    ? [exportManuscript, exportReferences]
     : [
         {
           id: 'project-new',
@@ -281,8 +277,6 @@ export const buildProjectMenu = (props: ProjectMenuProps): MenuSpec => {
           label: 'Rename Project',
           run: () => props.openRenameProject(props.project),
         },
-        separator,
-        viewDiagnostics,
       ]
 
   if (!config.leanWorkflow.enabled && config.templates.publish) {

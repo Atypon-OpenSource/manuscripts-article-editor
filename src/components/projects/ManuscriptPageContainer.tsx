@@ -41,18 +41,15 @@ import {
   ContainedProps,
   Decoder,
   DEFAULT_BUNDLE,
-  DEFAULT_PAGE_LAYOUT,
   documentObjectTypes,
   elementObjects,
   encode,
-  fromPrototype,
   generateID,
   getAttachment,
   getModelsByType,
   isFigure,
   isManuscriptModel,
   isUserProfile,
-  loadBundledDependencies,
   ManuscriptEditorState,
   ManuscriptEditorView,
   ManuscriptModel,
@@ -61,9 +58,7 @@ import {
   ModelAttachment,
   schema,
   Selected,
-  StyleObject,
   timestamp,
-  updatedPageLayout,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -108,15 +103,10 @@ import { Subscription } from 'rxjs/Subscription'
 
 import config from '../../config'
 import { TokenActions } from '../../data/TokenData'
-import { loadBundle } from '../../lib/bundles'
 import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
 import deviceId from '../../lib/device-id'
 import { loadTargetJournals } from '../../lib/literatum'
-import {
-  isManuscript,
-  isSection,
-  nextManuscriptPriority,
-} from '../../lib/manuscript'
+import { isManuscript, isSection } from '../../lib/manuscript'
 import {
   createDispatchManuscriptToolbarAction,
   createDispatchTitleToolbarAction,
@@ -166,7 +156,7 @@ import {
 } from './EditorContainer'
 import { EditorStyles } from './EditorStyles'
 import { Exporter } from './Exporter'
-import { Importer } from './Importer'
+import { Importer, importManuscript } from './Importer'
 import { Inspector } from './Inspector'
 import {
   EditorType,
@@ -1075,61 +1065,13 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   private importManuscript = async (models: Model[], redirect = true) => {
     const { projectID } = this.props.match.params
 
-    const manuscript = models.find(isManuscript)
-
-    if (!manuscript) {
-      throw new Error('No manuscript found')
-    }
-
-    // TODO: try to share this code with createManuscript
-
-    manuscript.priority = await nextManuscriptPriority(this.collection)
-
-    // TODO: use the imported filename?
-    if (!manuscript.pageLayout) {
-      if (!models.find((model) => model._id === manuscript.bundle)) {
-        const [bundle, parentBundle] = await loadBundle(manuscript.bundle)
-        manuscript.bundle = bundle._id
-        models.push(bundle)
-
-        if (parentBundle) {
-          models.push(parentBundle)
-        }
-      }
-
-      const dependencies = await loadBundledDependencies()
-      const prototypedDependencies = dependencies.map(fromPrototype)
-      models.push(...prototypedDependencies)
-
-      const styleMap = new Map(
-        prototypedDependencies.map((style) => [style._id, style])
-      )
-      const pageLayout = updatedPageLayout(
-        styleMap as Map<string, StyleObject>,
-        DEFAULT_PAGE_LAYOUT
-      )
-      manuscript.pageLayout = pageLayout._id
-      models.push(pageLayout)
-
-      // TODO: apply a template?
-    }
-
-    // TODO: save dependencies first, then the manuscript
-    // TODO: handle multiple manuscripts in a project bundle
-
-    const items = models.map((model) => ({
-      ...model,
-      containerID: projectID,
-      manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
-    }))
-
-    await this.collection.bulkCreate(items)
-
-    if (redirect) {
-      this.props.history.push(
-        `/projects/${projectID}/manuscripts/${manuscript._id}`
-      )
-    }
+    importManuscript(
+      models,
+      projectID,
+      this.collection,
+      this.props.history,
+      redirect
+    )
   }
 
   private getCitationStyleData = (

@@ -55,6 +55,7 @@ interface Config {
   pressroom: {
     url: string
   }
+  production: boolean
   sentry: {
     dsn?: string
     environment: string
@@ -163,6 +164,7 @@ const config = {
   pressroom: {
     url: normalizeURL(process.env.PRESSROOM_URL),
   },
+  production: isTrue(process.env.PRODUCTION),
   sentry: {
     dsn: normalizeURL(process.env.SENTRY_PUBLIC_DSN),
     environment: process.env.CI_ENVIRONMENT_NAME || 'manual-build',
