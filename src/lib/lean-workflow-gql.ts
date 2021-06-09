@@ -126,6 +126,30 @@ const GET_PERMITTED_ACTIONS = (id: string) => gql`
   }
 `
 
+const GET_CURRENT_SUBMISSION_STEP = gql`
+  query Submission($id: ID!, $type: SubmissionIDType!) {
+    submission(id: $id, type: $type) {
+      id
+      currentStep {
+        type {
+          id
+          transitions {
+            status {
+              id
+              label
+            }
+            type {
+              id
+              description
+              label
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 export const useUploadAttachment = () => {
   const [mutate] = useMutation(UPLOAD_ATTACHMENT)
   return async ({
@@ -181,6 +205,20 @@ export const useUpdateAttachmentFile = () => {
 
 export const useGetSubmission = (documentId: string, projectId: string) =>
   useQuery(GET_SUBMISSION, {
+    context: {
+      clientPurpose: 'leanWorkflowManager',
+    },
+    variables: {
+      id: `${projectId}#${documentId}`,
+      type: 'DOCUMENT_ID',
+    },
+  })
+
+export const useGetCurrentSubmissionStep = (
+  documentId: string,
+  projectId: string
+) =>
+  useQuery(GET_CURRENT_SUBMISSION_STEP, {
     context: {
       clientPurpose: 'leanWorkflowManager',
     },

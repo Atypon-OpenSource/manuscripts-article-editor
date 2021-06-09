@@ -104,6 +104,7 @@ import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
 import EditorElement from './EditorElement'
 import { ErrorDialog } from './ErrorDialog'
+import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 interface RouteParams {
@@ -489,6 +490,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         <Main>
           <EditorContainer>
             <EditorContainerInner>
+              <ManualFlowTransitioning
+                manuscriptId={manuscript._id}
+                containerId={manuscript.containerID}
+              />
               <EditorHeader>
                 <ApplicationMenuContainer>
                   <ApplicationMenus

@@ -60,7 +60,7 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
   padding: 3rem;
 }
 
-.c5 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -77,32 +77,36 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
   border-radius: 50px;
 }
 
-.c3 {
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-right: 3px;
+  margin-right: 4px;
 }
 
-.c4 {
+.c5 {
   margin-left: 6px;
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-.c4 path {
+.c5 path {
   stroke: currentColor;
 }
 
-.c4.open {
+.c5.open {
   -webkit-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
 }
 
-.c6 {
+.c7 {
   background-color: #0d79d0;
   color: #fff;
   font-family: "Lato",sans-serif;
@@ -113,7 +117,7 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
   min-height: 10px;
 }
 
-.c7 {
+.c8 {
   background-color: #dff0d7;
   color: #36b260;
   font-family: "Lato",sans-serif;
@@ -124,23 +128,28 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
   min-height: 10px;
 }
 
+.c3 .inheritColors path {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
 <div
   className="c0"
 >
   <div>
     <div>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={false}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           Closed
         </div>
         <svg
-          className="c4"
+          className="c5"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -155,17 +164,17 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
         </svg>
       </button>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={true}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           Open
         </div>
         <svg
-          className="c4 open"
+          className="c5 open"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -180,22 +189,22 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
         </svg>
       </button>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={false}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           Closed with notifications
         </div>
         <div
-          className="c5 c6"
+          className="c6 c7"
         >
           3
         </div>
         <svg
-          className="c4"
+          className="c5"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -210,22 +219,22 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
         </svg>
       </button>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={true}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           Open with notifications
         </div>
         <div
-          className="c5 c7"
+          className="c6 c8"
         >
           3
         </div>
         <svg
-          className="c4 open"
+          className="c5 open"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -240,22 +249,22 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
         </svg>
       </button>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={false}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           More notifications
         </div>
         <div
-          className="c5 c6"
+          className="c6 c7"
         >
           30
         </div>
         <svg
-          className="c4"
+          className="c5"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -270,22 +279,22 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
         </svg>
       </button>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={false}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           More notifications
         </div>
         <div
-          className="c5 c6"
+          className="c6 c7"
         >
           300
         </div>
         <svg
-          className="c4"
+          className="c5"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -300,22 +309,22 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
         </svg>
       </button>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={false}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           More notifications
         </div>
         <div
-          className="c5 c6"
+          className="c6 c7"
         >
           3000
         </div>
         <svg
-          className="c4"
+          className="c5"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -330,12 +339,12 @@ exports[`Storyshots Nav/Dropdown Button 1`] = `
         </svg>
       </button>
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c1 c2 dropdown-toggle"
+        className="c1 c2 c3 dropdown-toggle"
         selected={false}
         type="button"
       >
         <div
-          className="c3"
+          className="c4"
         >
           Without Chevron
         </div>
@@ -417,12 +426,21 @@ exports[`Storyshots Nav/Dropdown Menu - Projects Dropdown 1`] = `
   align-items: center;
 }
 
-.c4 {
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-right: 3px;
+  margin-right: 4px;
+}
+
+.c4 .inheritColors path {
+  fill: currentColor;
+  stroke: currentColor;
 }
 
 <div
@@ -434,13 +452,13 @@ exports[`Storyshots Nav/Dropdown Menu - Projects Dropdown 1`] = `
       id="projects-dropdown"
     >
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c2 c3 dropdown-toggle"
+        className="c2 c3 c4 dropdown-toggle"
         onClick={[Function]}
         selected={false}
         type="button"
       >
         <div
-          className="c4"
+          className="c5"
         >
           Projects
         </div>
@@ -522,7 +540,7 @@ exports[`Storyshots Nav/Dropdown Menu 1`] = `
   align-items: center;
 }
 
-.c6 {
+.c7 {
   border: 1px solid #e2e2e2;
   border-radius: 4px;
   box-shadow: 0 4px 9px 0 rgba(84,83,83,0.3);
@@ -545,7 +563,7 @@ exports[`Storyshots Nav/Dropdown Menu 1`] = `
   z-index: 10;
 }
 
-.c9 {
+.c10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -566,44 +584,53 @@ exports[`Storyshots Nav/Dropdown Menu 1`] = `
   pointer-events: unset;
 }
 
-.c9:hover,
-.c9:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+.c10:hover,
+.c10:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
   background: #f2fbfc;
 }
 
-.c8 {
+.c9 {
   height: 1px;
   width: 100%;
   opacity: 0.23;
   background-color: #bce7f6;
 }
 
-.c4 {
+.c5 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-right: 3px;
+  margin-right: 4px;
 }
 
-.c5 {
+.c6 {
   margin-left: 6px;
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-.c5 path {
+.c6 path {
   stroke: currentColor;
 }
 
-.c5.open {
+.c6.open {
   -webkit-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
 }
 
-.c7 {
+.c4 .inheritColors path {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.c8 {
   padding: 12px 12px;
   color: #6e6e6e;
   font-weight: 500;
@@ -621,18 +648,18 @@ exports[`Storyshots Nav/Dropdown Menu 1`] = `
       className="c1"
     >
       <button
-        className="Dropdown__DropdownButtonContainer-fhxyb7-10 c2 c3 dropdown-toggle"
+        className="c2 c3 c4 dropdown-toggle"
         onClick={[Function]}
         selected={false}
         type="button"
       >
         <div
-          className="c4"
+          className="c5"
         >
           Menu
         </div>
         <svg
-          className="c5"
+          className="c6"
           height={8}
           viewBox="0 0 12 8"
           width={12}
@@ -647,41 +674,41 @@ exports[`Storyshots Nav/Dropdown Menu 1`] = `
         </svg>
       </button>
       <div
-        className="c6"
+        className="c7"
       >
         <div
-          className="c7"
+          className="c8"
         >
           Janine
         </div>
         <div
-          className="c8"
+          className="c9"
         />
         <a
           aria-current={null}
-          className="c9"
+          className="c10"
           href="/profile"
           onClick={[Function]}
         >
            Profile 
         </a>
         <div
-          className="c8"
+          className="c9"
         />
         <a
           aria-current={null}
-          className="c9"
+          className="c10"
           href="/diagnostics"
           onClick={[Function]}
         >
           Diagnostics
         </a>
         <div
-          className="c8"
+          className="c9"
         />
         <a
           aria-current={null}
-          className="c9"
+          className="c10"
           href="/logout"
           onClick={[Function]}
         >

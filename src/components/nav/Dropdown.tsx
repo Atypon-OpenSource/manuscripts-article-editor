@@ -104,8 +104,9 @@ export const DropdownSeparator = styled.div`
 `
 
 export const DropdownButtonText = styled.div`
+  align-items: center;
   display: flex;
-  margin-right: 3px;
+  margin-right: ${(props) => props.theme.grid.unit}px;
 `
 
 interface DropdownProps {
@@ -146,9 +147,16 @@ export const DropdownButtonContainer = styled(SecondaryButton).attrs(
   (props: DropdownProps) => ({
     selected: props.isOpen,
   })
-)<DropdownProps>``
+)<DropdownProps>`
+  .inheritColors path {
+    fill: currentColor;
+    stroke: currentColor;
+  }
+`
 
 interface DropdownButtonProps {
+  as?: React.FunctionComponent<any>
+  disabled?: boolean
   isOpen: boolean
   notificationsCount?: number
   onClick?: React.MouseEventHandler
@@ -156,13 +164,17 @@ interface DropdownButtonProps {
 }
 
 export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
+  as,
   children,
+  disabled,
   isOpen,
   notificationsCount,
   onClick,
   removeChevron,
 }) => (
   <DropdownButtonContainer
+    as={as}
+    disabled={disabled}
     onClick={onClick}
     isOpen={isOpen}
     className={'dropdown-toggle'}
