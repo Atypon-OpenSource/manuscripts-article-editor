@@ -154,7 +154,9 @@ export const getHighlightColor = (
   if (!item) {
     return undefined
   }
-  return item.annotation?.color
+  return item.annotation
+    ? `rgb(${item.annotation.color.join(', ')})`
+    : undefined
 }
 
 export const useNewAnnotationEffect = (
