@@ -22,7 +22,7 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import config from '../../config'
 import {
@@ -119,6 +119,42 @@ export const ManuscriptInspector: React.FC<{
       manuscript.maxCharacterCountRequirement
     ),
   }
+
+  const manuscriptFigureElementLabelChangeHandler = useCallback(
+    async (figureElementLabel) => {
+      await saveManuscript({
+        figureElementLabel,
+      })
+    },
+    [saveManuscript]
+  )
+
+  const manuscriptTableElementLabelChangeHandler = useCallback(
+    async (tableElementLabel) => {
+      await saveManuscript({
+        tableElementLabel,
+      })
+    },
+    [saveManuscript]
+  )
+
+  const manuscriptEquationElementLabelChangeHandler = useCallback(
+    async (equationElementLabel) => {
+      await saveManuscript({
+        equationElementLabel,
+      })
+    },
+    [saveManuscript]
+  )
+
+  const manuscriptListingElementLabelChangeHandler = useCallback(
+    async (listingElementLabel) => {
+      await saveManuscript({
+        listingElementLabel,
+      })
+    },
+    [saveManuscript]
+  )
 
   return (
     <InspectorSection title={'Manuscript'}>
@@ -229,44 +265,28 @@ export const ManuscriptInspector: React.FC<{
               label={'Figure Panel'}
               placeholder={'Figure'}
               value={manuscript.figureElementLabel || ''}
-              handleChange={async (figureElementLabel) => {
-                await saveManuscript({
-                  figureElementLabel,
-                })
-              }}
+              handleChange={manuscriptFigureElementLabelChangeHandler}
             />
 
             <LabelField
               label={'Table'}
               placeholder={'Table'}
               value={manuscript.tableElementLabel || ''}
-              handleChange={async (tableElementLabel) => {
-                await saveManuscript({
-                  tableElementLabel,
-                })
-              }}
+              handleChange={manuscriptTableElementLabelChangeHandler}
             />
 
             <LabelField
               label={'Equation'}
               placeholder={'Equation'}
               value={manuscript.equationElementLabel || ''}
-              handleChange={async (equationElementLabel) => {
-                await saveManuscript({
-                  equationElementLabel,
-                })
-              }}
+              handleChange={manuscriptEquationElementLabelChangeHandler}
             />
 
             <LabelField
               label={'Listing'}
               placeholder={'Listing'}
               value={manuscript.listingElementLabel || ''}
-              handleChange={async (listingElementLabel) => {
-                await saveManuscript({
-                  listingElementLabel,
-                })
-              }}
+              handleChange={manuscriptListingElementLabelChangeHandler}
             />
           </InspectorTabPanel>
 
