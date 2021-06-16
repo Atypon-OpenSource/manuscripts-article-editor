@@ -190,7 +190,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
 }
 
 .c17 {
-  margin-left: 8px;
+  margin-left: 4px;
 }
 
 .c17:not([disabled]):focus circle {
@@ -270,7 +270,6 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   transition: 0.1s ease-in-out opacity;
 }
 
-.c7:focus-within .note-actions,
 .c7:hover .note-actions {
   opacity: 1;
 }
@@ -279,6 +278,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   border: none;
   background: transparent;
   padding: 0;
+  text-align: left;
 }
 
 .c8 {
@@ -390,7 +390,8 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
               >
                 <button
                   className="c9"
-                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
                   type="button"
                 />
                 <div

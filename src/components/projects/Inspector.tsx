@@ -30,7 +30,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { ManuscriptNoteList } from '@manuscripts/style-guide'
+import { ManuscriptNoteList, usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
@@ -154,6 +154,8 @@ export const Inspector: React.FC<{
       setTabIndex(TABS.findIndex((tab) => tab === 'Submissions'))
     }
   }, [commentTarget, submission])
+
+  const can = usePermissions()
 
   return (
     <InspectorContainer>
@@ -317,6 +319,7 @@ export const Inspector: React.FC<{
                           notes={notes || []}
                           currentUserId={getCurrentUser()._id}
                           getKeyword={getKeyword}
+                          can={can}
                           listKeywords={listKeywords}
                           selected={selected}
                           getCollaboratorById={getCollaboratorById}

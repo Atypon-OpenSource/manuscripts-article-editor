@@ -15,7 +15,7 @@ import {
   ManuscriptNote,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { ManuscriptNoteList } from '@manuscripts/style-guide'
+import { ManuscriptNoteList, usePermissions } from '@manuscripts/style-guide'
 import React from 'react'
 
 import config from '../../../config'
@@ -58,6 +58,8 @@ export const CommentsTab: React.FC<{
 
   const listKeywords = (): Keyword[] => Array.from(keywords.values())
 
+  const can = usePermissions()
+
   return (
     <div>
       {config.features.commenting && (
@@ -77,6 +79,7 @@ export const CommentsTab: React.FC<{
           <ManuscriptNoteList
             createKeyword={createKeyword}
             notes={notes || []}
+            can={can}
             currentUserId={user._id}
             getKeyword={getKeyword}
             listKeywords={listKeywords}

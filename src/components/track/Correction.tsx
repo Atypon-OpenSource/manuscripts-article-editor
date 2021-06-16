@@ -68,32 +68,26 @@ export const Correction: React.FC<Props> = ({
       </FocusHandle>
 
       <Actions>
-        <Action
-          type="button"
-          onClick={() => handleReject(correction._id)}
-          aria-pressed={correction.status.label === 'rejected'}
-          title={
-            !can.handleSuggestion
-              ? 'You are not permitted to reject suggestions.'
-              : ''
-          }
-          disabled={!can.handleSuggestion}
-        >
-          <Reject color="#353535" />
-        </Action>
-        <Action
-          type="button"
-          onClick={() => handleAccept(correction._id)}
-          aria-pressed={correction.status.label === 'accepted'}
-          title={
-            !can.handleSuggestion
-              ? 'You are not permitted to accept suggestions.'
-              : ''
-          }
-          disabled={!can.handleSuggestion}
-        >
-          <Accept color="#353535" />
-        </Action>
+        {can.handleSuggestion && (
+          <>
+            <Action
+              type="button"
+              onClick={() => handleReject(correction._id)}
+              aria-pressed={correction.status.label === 'rejected'}
+              disabled={!can.handleSuggestion}
+            >
+              <Reject color="#353535" />
+            </Action>
+            <Action
+              type="button"
+              onClick={() => handleAccept(correction._id)}
+              aria-pressed={correction.status.label === 'accepted'}
+              disabled={!can.handleSuggestion}
+            >
+              <Accept color="#353535" />
+            </Action>
+          </>
+        )}
       </Actions>
     </Wrapper>
   )

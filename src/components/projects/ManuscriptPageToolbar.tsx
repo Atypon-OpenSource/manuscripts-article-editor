@@ -15,6 +15,7 @@ import {
   ManuscriptEditorState,
   ManuscriptEditorView,
 } from '@manuscripts/manuscript-transform'
+import { usePermissions } from '@manuscripts/style-guide'
 import {
   TitleEditorState,
   TitleEditorView,
@@ -40,16 +41,18 @@ interface Props {
 
 export const ManuscriptPageToolbar: React.FunctionComponent<Props> = React.memo(
   ({ editor, view }) => {
+    const can = usePermissions()
     switch (editor) {
       case EditorType.manuscript:
-        return (
+        return can.seeEditorToolbar ? (
           <ManuscriptToolbar
+            can={can}
             view={view as ManuscriptEditorView}
             state={view.state as ManuscriptEditorState}
             dispatch={view.dispatch}
             footnotesEnabled={config.features.footnotes}
           />
-        )
+        ) : null
 
       case EditorType.title:
         return <TitleToolbar view={view as TitleEditorView} />

@@ -44,6 +44,7 @@ import {
   Designation,
   FileManager,
   getDesignationName,
+  useCalcPermission,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -384,11 +385,23 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     selectSnapshot(snapshot)
   }, [])
 
+  const personData = useGetPerson()
+  const permittedActionsData = useGetPermittedActions(submissionId)
+  const permittedActions = permittedActionsData?.data?.permittedActions
+  const lwRole = personData?.data?.person?.role?.id
+  const can = useCalcPermission({
+    profile: props.user,
+    project,
+    lwRole,
+    permittedActions,
+  })
+
   useEffect(() => {
-    if (submissionId) {
+    if (submissionId && can) {
       const newEditorProps = {
         ...editorProps,
         submissionId,
+        capabilites: can,
         updateDesignation: (designation: string, name: string) =>
           handleChangeAttachmentDesignation(submissionId, designation, name),
       }
@@ -397,7 +410,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         ManuscriptsEditor.createView(newEditorProps)
       )
     }
-  }, [submissionId]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [submissionId, can]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDialogError = (
     errorMessage: string,
@@ -451,11 +464,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     window.location.assign(url)
   }, [])
 
-  const personData = useGetPerson()
-  const permittedActionsData = useGetPermittedActions(submissionId)
-  const permittedActions = permittedActionsData?.data?.permittedActions
-  const lwRole = personData?.data?.person?.role?.id
-
   const TABS = [
     'Content',
     (config.features.commenting || config.features.productionNotes) &&
@@ -469,12 +477,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
   return (
     <RequirementsProvider modelMap={modelMap}>
-      <CapabilitiesProvider
-        profile={props.user}
-        project={project}
-        lwRole={lwRole}
-        permittedActions={permittedActions}
-      >
+      <CapabilitiesProvider can={can}>
         <ManuscriptSidebar
           project={project}
           manuscript={manuscript}
@@ -507,12 +510,15 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     collection={collection}
                   />
                 </ApplicationMenuContainer>
-                <ManuscriptToolbar
-                  state={state}
-                  dispatch={dispatch}
-                  footnotesEnabled={config.features.footnotes}
-                  view={view}
-                />
+                {can.seeEditorToolbar && (
+                  <ManuscriptToolbar
+                    state={state}
+                    can={can}
+                    dispatch={dispatch}
+                    footnotesEnabled={config.features.footnotes}
+                    view={view}
+                  />
+                )}
               </EditorHeader>
               <EditorBody>
                 <MetadataContainer
@@ -662,6 +668,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       <FileManager
                         submissionId={submissionId}
                         externalFiles={files}
+                        can={can}
                         enableDragAndDrop={true}
                         handleChangeDesignation={
                           handleChangeAttachmentDesignation

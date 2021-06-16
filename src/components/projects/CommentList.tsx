@@ -33,6 +33,7 @@ import {
   CommentData,
   CommentTarget,
   CommentWrapper,
+  usePermissions,
 } from '@manuscripts/style-guide'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -89,11 +90,11 @@ export const CommentList: React.FC<Props> = React.memo(
   }) => {
     const [newComment, setNewComment] = useState<CommentAnnotation>()
 
+    const currentUser = useMemo(() => getCurrentUser(), [getCurrentUser])
+
     useEffect(() => {
       if (commentTarget && !newComment) {
         const newComment = buildComment(commentTarget) as CommentAnnotation
-
-        const currentUser = getCurrentUser()
         const contribution = buildContribution(currentUser._id)
         newComment.contributions = [contribution]
 
@@ -105,7 +106,7 @@ export const CommentList: React.FC<Props> = React.memo(
 
         setNewComment(newComment)
       }
-    }, [commentTarget, getCurrentUser, doc, newComment, state])
+    }, [commentTarget, getCurrentUser, doc, newComment, state, currentUser])
 
     const handleOnSelectChange = useCallback(
       (e) =>
@@ -193,6 +194,8 @@ export const CommentList: React.FC<Props> = React.memo(
       [state]
     )
 
+    const can = usePermissions()
+
     if (!items.length) {
       return (
         <Pattern.PlaceholderContainer>
@@ -244,6 +247,8 @@ export const CommentList: React.FC<Props> = React.memo(
                       listKeywords={listKeywords}
                       saveComment={saveComment}
                       handleCreateReply={setCommentTarget}
+                      can={can}
+                      currentUserId={currentUser._id}
                       handleSetResolved={async () =>
                         await saveModel({
                           ...comment,
@@ -271,6 +276,8 @@ export const CommentList: React.FC<Props> = React.memo(
                           listKeywords={listKeywords}
                           saveComment={saveComment}
                           handleCreateReply={setCommentTarget}
+                          can={can}
+                          currentUserId={currentUser._id}
                           isNew={isNew(comment as CommentAnnotation)}
                         />
                       </Pattern.Reply>
