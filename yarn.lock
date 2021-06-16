@@ -2185,10 +2185,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/plugin-persist/-/plugin-persist-0.1.2.tgz#104852652ab9024f1b303c973125077abaa67b07"
   integrity sha512-hQkwrDAEgICxYC0V5twuqyUDZ3Sro/KjN3G5rrrgDOKS4BNUUU3VbQ748jAv59NoLZJOp6pJN3SeQvWIgiVh3Q==
 
-"@manuscripts/pouchdb-adapter-http@7.0.0-manuscripts2":
-  version "7.0.0-manuscripts2"
-  resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-http/-/pouchdb-adapter-http-7.0.0-manuscripts2.tgz#f0aace8a9b4042b814b590eb82854fde3b3534fc"
-  integrity sha512-qxjhXSnhfeYJRgAlZKdROC4zOvWvDxWZfVnWVU3Vt2eWtjDNErkMfTiowDsy8pGEry/P4kTT2xTEFkzozzbgXA==
+"@manuscripts/pouchdb-adapter-http@7.0.0-manuscripts3":
+  version "7.0.0-manuscripts3"
+  resolved "https://registry.npmjs.org/@manuscripts/pouchdb-adapter-http/-/pouchdb-adapter-http-7.0.0-manuscripts3.tgz#70002bb0aebea93a5c28af9461104fb2c15b7696"
+  integrity sha512-+RNAz5YOjMYuSc+k1swIg3qWZQDWjKf5nBKaHh6b4nSq6eHq7nbAX9qqLeVcWzJ0IvrYNUzzkAaAzDdRC1HImQ==
   dependencies:
     argsarray "0.0.1"
     pouchdb-binary-utils "^7.0.0"
