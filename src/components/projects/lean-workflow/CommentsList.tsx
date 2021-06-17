@@ -16,7 +16,12 @@ import {
   Keyword,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { CommentTarget, CommentWrapper } from '@manuscripts/style-guide'
+import {
+  CommentWrapper,
+  NoteBodyContainer,
+  ReplyBodyContainer,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React from 'react'
 
 import {
@@ -30,7 +35,7 @@ import { HighlightedText } from '../HighlightedText'
 
 interface Props {
   createKeyword: (name: string) => Promise<Keyword>
-  getCollaborator: (id: string) => UserProfile | undefined
+  getCollaboratorById: (id: string) => UserProfile | undefined
   getKeyword: (id: string) => Keyword | undefined
   listCollaborators: () => UserProfile[]
   listKeywords: () => Keyword[]
@@ -39,17 +44,20 @@ interface Props {
 
 export const CommentsList: React.FC<Props> = ({
   createKeyword,
-  getCollaborator,
+  getCollaboratorById,
   getKeyword,
   listCollaborators,
   listKeywords,
   commentController,
 }) => {
+  const can = usePermissions()
   const {
     items,
+    focusedItem,
     saveComment,
     deleteComment,
     handleCreateReply,
+    handleRequestSelect,
   } = commentController
 
   const getHighlightTextColor = (comment: CommentAnnotation) =>
@@ -72,45 +80,51 @@ export const CommentsList: React.FC<Props> = ({
     <Pattern.Container>
       {threads.map(({ comment }) => {
         return (
-          <CommentTarget key={comment._id} isSelected={false}>
-            <Pattern.Thread key={comment._id}>
+          <Pattern.Thread key={comment._id}>
+            <NoteBodyContainer
+              isSelected={focusedItem === comment.target}
+              isNew={!isSavedComment(comment)}
+            >
               <CommentWrapper
                 comment={comment as CommentAnnotation}
                 createKeyword={createKeyword}
                 deleteComment={deleteComment}
-                getCollaborator={getCollaborator}
+                getCollaborator={getCollaboratorById}
                 getKeyword={getKeyword}
                 listCollaborators={listCollaborators}
                 listKeywords={listKeywords}
                 saveComment={saveComment}
                 handleCreateReply={handleCreateReply}
                 isNew={!isSavedComment(comment)}
+                can={can}
+                handleRequestSelect={() => handleRequestSelect(comment.target)}
               >
                 <HighlightedText
                   comment={comment as CommentAnnotation}
                   getHighlightTextColor={getHighlightTextColor}
                 />
               </CommentWrapper>
+            </NoteBodyContainer>
 
-              {repliesOf(items, comment._id).map(({ comment: reply }) => (
-                <Pattern.Reply key={reply._id}>
-                  <CommentWrapper
-                    isReply={true}
-                    comment={reply as CommentAnnotation}
-                    createKeyword={createKeyword}
-                    deleteComment={deleteComment}
-                    getCollaborator={getCollaborator}
-                    getKeyword={getKeyword}
-                    listCollaborators={listCollaborators}
-                    listKeywords={listKeywords}
-                    saveComment={saveComment}
-                    handleCreateReply={handleCreateReply}
-                    isNew={!isSavedComment(reply)}
-                  />
-                </Pattern.Reply>
-              ))}
-            </Pattern.Thread>
-          </CommentTarget>
+            {repliesOf(items, comment._id).map(({ comment: reply }) => (
+              <ReplyBodyContainer key={reply._id}>
+                <CommentWrapper
+                  isReply={true}
+                  comment={reply as CommentAnnotation}
+                  createKeyword={createKeyword}
+                  deleteComment={deleteComment}
+                  getCollaborator={getCollaboratorById}
+                  getKeyword={getKeyword}
+                  listCollaborators={listCollaborators}
+                  listKeywords={listKeywords}
+                  saveComment={saveComment}
+                  handleCreateReply={handleCreateReply}
+                  isNew={!isSavedComment(reply)}
+                  can={can}
+                />
+              </ReplyBodyContainer>
+            ))}
+          </Pattern.Thread>
         )
       })}
     </Pattern.Container>

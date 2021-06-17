@@ -47,8 +47,6 @@ export const CommentsTab: React.FC<{
 }) => {
   const createKeyword = (name: string) => saveModel(buildKeyword(name))
 
-  const getCollaborator = (id: string) => collaborators.get(id)
-
   const getCollaboratorById = (id: string) => collaboratorsById.get(id)
 
   const getKeyword = (id: string) => keywords.get(id)
@@ -67,7 +65,7 @@ export const CommentsTab: React.FC<{
           <CommentsList
             commentController={commentController}
             createKeyword={createKeyword}
-            getCollaborator={getCollaborator}
+            getCollaboratorById={getCollaboratorById}
             getKeyword={getKeyword}
             listCollaborators={listCollaborators}
             listKeywords={listKeywords}

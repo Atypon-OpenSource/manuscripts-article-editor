@@ -33,6 +33,8 @@ import {
   CommentData,
   CommentTarget,
   CommentWrapper,
+  NoteBodyContainer,
+  ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
 import { EditorState, Transaction } from 'prosemirror-state'
@@ -76,7 +78,6 @@ export const CommentList: React.FC<Props> = React.memo(
     saveModel,
     selected,
     createKeyword,
-    getCollaborator,
     getCollaboratorById,
     getKeyword,
     listCollaborators,
@@ -237,49 +238,56 @@ export const CommentList: React.FC<Props> = React.memo(
               <CommentTarget key={target} isSelected={isSelected}>
                 {selectedNoteData.map(({ comment, children }) => (
                   <Pattern.Thread key={comment._id}>
-                    <CommentWrapper
-                      comment={comment}
-                      createKeyword={createKeyword}
-                      deleteComment={deleteComment}
-                      getCollaborator={getCollaborator}
-                      getKeyword={getKeyword}
-                      listCollaborators={listCollaborators}
-                      listKeywords={listKeywords}
-                      saveComment={saveComment}
-                      handleCreateReply={setCommentTarget}
-                      can={can}
-                      currentUserId={currentUser._id}
-                      handleSetResolved={async () =>
-                        await saveModel({
-                          ...comment,
-                          resolved: !comment.resolved,
-                        } as CommentAnnotation)
-                      }
+                    <NoteBodyContainer
+                      isSelected={isSelected}
                       isNew={isNew(comment as CommentAnnotation)}
                     >
-                      <HighlightedText
-                        comment={comment as CommentAnnotation}
-                        getHighlightTextColor={getHighlightTextColor}
-                      />
-                    </CommentWrapper>
+                      <CommentWrapper
+                        comment={comment}
+                        createKeyword={createKeyword}
+                        deleteComment={deleteComment}
+                        getCollaborator={getCollaboratorById}
+                        getKeyword={getKeyword}
+                        listCollaborators={listCollaborators}
+                        listKeywords={listKeywords}
+                        saveComment={saveComment}
+                        handleCreateReply={setCommentTarget}
+                        can={can}
+                        currentUserId={currentUser._id}
+                        handleSetResolved={async () =>
+                          await saveModel({
+                            ...comment,
+                            resolved: !comment.resolved,
+                          } as CommentAnnotation)
+                        }
+                        isNew={isNew(comment as CommentAnnotation)}
+                      >
+                        <HighlightedText
+                          comment={comment as CommentAnnotation}
+                          getHighlightTextColor={getHighlightTextColor}
+                        />
+                      </CommentWrapper>
+                    </NoteBodyContainer>
 
                     {children.map((comment) => (
                       <Pattern.Reply key={comment._id}>
-                        <CommentWrapper
-                          comment={comment}
-                          createKeyword={createKeyword}
-                          deleteComment={deleteComment}
-                          getCollaborator={getCollaborator}
-                          getKeyword={getKeyword}
-                          isReply={true}
-                          listCollaborators={listCollaborators}
-                          listKeywords={listKeywords}
-                          saveComment={saveComment}
-                          handleCreateReply={setCommentTarget}
-                          can={can}
-                          currentUserId={currentUser._id}
-                          isNew={isNew(comment as CommentAnnotation)}
-                        />
+                        <ReplyBodyContainer>
+                          <CommentWrapper
+                            comment={comment}
+                            createKeyword={createKeyword}
+                            deleteComment={deleteComment}
+                            getCollaborator={getCollaboratorById}
+                            getKeyword={getKeyword}
+                            isReply={true}
+                            listCollaborators={listCollaborators}
+                            listKeywords={listKeywords}
+                            saveComment={saveComment}
+                            handleCreateReply={setCommentTarget}
+                            can={can}
+                            currentUserId={currentUser._id}
+                            isNew={isNew(comment as CommentAnnotation)}
+                          />
+                        </ReplyBodyContainer>
                       </Pattern.Reply>
                     ))}
                   </Pattern.Thread>

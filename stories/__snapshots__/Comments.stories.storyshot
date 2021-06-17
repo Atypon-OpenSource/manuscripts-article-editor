@@ -58,7 +58,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   border-color: #0b6bb8;
 }
 
-.c12 {
+.c19 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -87,23 +87,53 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   white-space: nowrap;
 }
 
-.c12 svg + span {
+.c19 svg + span {
   margin-left: 4px;
 }
 
-.c13 {
+.c20 {
   border: none;
   color: #353535;
   padding: 0;
 }
 
-.c13 svg {
+.c20 svg {
   max-height: 18px;
   max-width: 18px;
   margin-right: 12px;
 }
 
-.c15 {
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.c14 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c22 {
   position: relative;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -115,7 +145,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   align-items: center;
 }
 
-.c16 {
+.c23 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -129,11 +159,11 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   background: none;
 }
 
-.c16:focus {
+.c23:focus {
   outline: none;
 }
 
-.c11 {
+.c18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -149,7 +179,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   margin-right: 4;
 }
 
-.c14 {
+.c21 {
   width: 24px;
   height: 24px;
   box-sizing: border-box;
@@ -158,26 +188,26 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   border: none;
 }
 
-.c14 svg {
+.c21 svg {
   max-height: 8.5px;
   max-width: 12px;
   margin-right: 0;
 }
 
-.c14 path {
+.c21 path {
   fill: #353535;
 }
 
-.c14:not([disabled]):hover {
+.c21:not([disabled]):hover {
   background: #f2fbfc;
   border: 1px solid #c9c9c9;
 }
 
-.c14:not([disabled]):hover path {
+.c21:not([disabled]):hover path {
   fill: #1a9bc7;
 }
 
-.c10 {
+.c17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -189,15 +219,15 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   height: 24px;
 }
 
-.c17 {
+.c24 {
   margin-left: 4px;
 }
 
-.c17:not([disabled]):focus circle {
+.c24:not([disabled]):focus circle {
   fill: #1a9bc7;
 }
 
-.c20 {
+.c27 {
   margin-bottom: 8px;
   padding: 8px 8px 0;
   display: -webkit-box;
@@ -211,27 +241,27 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   height: 24px;
 }
 
-.c21 {
+.c28 {
   border: none;
   background: none;
   cursor: pointer;
 }
 
-.c21:not([disabled]):hover path {
+.c28:not([disabled]):hover path {
   stroke: #1a9bc7;
 }
 
-.c18 {
+.c25 {
   padding: 0 16px;
 }
 
-.c19 {
+.c26 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.c19 .ProseMirror {
+.c26 .ProseMirror {
   font-family: "Lato",sans-serif;
   line-height: 1.06;
   -webkit-letter-spacing: -0.2px;
@@ -242,15 +272,15 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   margin: 8px 0;
 }
 
-.c19 .ProseMirror p:first-child {
+.c26 .ProseMirror p:first-child {
   margin-top: 0;
 }
 
-.c19 .ProseMirror p:last-child {
+.c26 .ProseMirror p:last-child {
   margin-bottom: 0;
 }
 
-.c19 .ProseMirror blockquote {
+.c26 .ProseMirror blockquote {
   margin: 10px 0;
   border-left: 4px solid #faed98;
   padding-left: 1em;
@@ -264,24 +294,54 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   color: #bababa;
 }
 
-.c7 .note-actions {
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c15 {
+  margin: 0 8px;
+  font-weight: 400;
+}
+
+.c16 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #6e6e6e;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.c8 .note-actions {
   opacity: 0;
   -webkit-transition: 0.1s ease-in-out opacity;
   transition: 0.1s ease-in-out opacity;
 }
 
-.c7:hover .note-actions {
+.c8:hover .note-actions {
   opacity: 1;
 }
 
-.c9 {
+.c10 {
   border: none;
   background: transparent;
   padding: 0;
   text-align: left;
 }
 
-.c8 {
+.c9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -297,6 +357,20 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
   font-size: 14px;
   margin-bottom: 16px;
   padding: 0 16px;
+}
+
+.c7 {
+  padding: 16px 0 8px;
+  background: #fff;
+  cursor: pointer;
+  border: 1px solid #e2e2e2;
+  border-left: 4px solid #e2e2e2;
+}
+
+.c7 .tooltip {
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
 }
 
 .c0 {
@@ -388,112 +462,150 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
               <div
                 className="c8"
               >
-                <button
-                  className="c9"
-                  onKeyDown={[Function]}
-                  onMouseDown={[Function]}
-                  type="button"
-                />
                 <div
-                  className="c10"
+                  className="c9"
                 >
-                  <div
-                    className="c11"
+                  <button
+                    className="c10"
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    type="button"
                   >
-                    <button
-                      className="c12 c13 c14"
-                      data-for="comment-1"
-                      data-tip={true}
-                      onClick={[Function]}
-                      type="button"
+                    <div
+                      className="c11"
                     >
-                      <svg
-                        color="#353535"
-                        height={8.5}
-                        width={12}
+                      <div
+                        className="c12"
                       >
-                        <path
-                          d="M2.642 3.99a1.101 1.101 0 0 0-1.47.011l.228-.214c-.4.376-.39.98.02 1.346L4.207 7.62a1.147 1.147 0 0 0 1.488.004l5.846-5.193a.853.853 0 0 0-.004-1.316l.235.206a1.168 1.168 0 0 0-1.497.003L4.912 6.032 2.642 3.99z"
-                          fill="#353535"
-                          fillRule="nonzero"
-                        />
-                      </svg>
-                    </button>
+                        <div
+                          className="c13"
+                        >
+                          <img
+                            className="c14"
+                            onError={[Function]}
+                            size={20}
+                            src="test-file-stub"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="c12"
+                      >
+                        <div
+                          className="c15"
+                        >
+                          By 
+                          Janine Melnitz
+                        </div>
+                        <div
+                          className="c15 c16"
+                        >
+                          3 years ago
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                  <div
+                    className="c17"
+                  >
+                    <div
+                      className="c18"
+                    >
+                      <button
+                        className="c19 c20 c21"
+                        data-for="comment-1"
+                        data-tip={true}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <svg
+                          color="#353535"
+                          height={8.5}
+                          width={12}
+                        >
+                          <path
+                            d="M2.642 3.99a1.101 1.101 0 0 0-1.47.011l.228-.214c-.4.376-.39.98.02 1.346L4.207 7.62a1.147 1.147 0 0 0 1.488.004l5.846-5.193a.853.853 0 0 0-.004-1.316l.235.206a1.168 1.168 0 0 0-1.497.003L4.912 6.032 2.642 3.99z"
+                            fill="#353535"
+                            fillRule="nonzero"
+                          />
+                        </svg>
+                      </button>
+                      <div />
+                    </div>
+                    <div
+                      className="c22"
+                    >
+                      <button
+                        aria-label="actions list"
+                        className="c23 c24 note-actions"
+                        onClick={[Function]}
+                      >
+                        <svg
+                          fill="none"
+                          height="16"
+                          viewBox="0 0 4 16"
+                          width="4"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="2"
+                            cy="2"
+                            fill="#6E6E6E"
+                            r="2"
+                          />
+                          <circle
+                            cx="2"
+                            cy="8"
+                            fill="#6E6E6E"
+                            r="2"
+                          />
+                          <circle
+                            cx="2"
+                            cy="14"
+                            fill="#6E6E6E"
+                            r="2"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="c25"
+                  >
+                    <div
+                      className="c26"
+                    />
+                  </div>
+                  <div
+                    className="c27"
+                  >
+                    <span>
+                      <button
+                        aria-label="reply"
+                        className="c28 reply-button note-actions"
+                        data-for="reply-comment-1"
+                        data-tip={true}
+                        onClick={[Function]}
+                      >
+                        <svg
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M6.628 10.03L4 7.015 6.628 4M15 16.032c0-4.699 0-10-10-8.88"
+                            fill="none"
+                            stroke="#6E6E6E"
+                            strokeLinecap="round"
+                            strokeWidth={2}
+                          />
+                        </svg>
+                      </button>
+                    </span>
                     <div />
                   </div>
-                  <div
-                    className="c15"
-                  >
-                    <button
-                      aria-label="actions list"
-                      className="c16 c17 note-actions"
-                      onClick={[Function]}
-                    >
-                      <svg
-                        fill="none"
-                        height="16"
-                        viewBox="0 0 4 16"
-                        width="4"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="2"
-                          cy="2"
-                          fill="#6E6E6E"
-                          r="2"
-                        />
-                        <circle
-                          cx="2"
-                          cy="8"
-                          fill="#6E6E6E"
-                          r="2"
-                        />
-                        <circle
-                          cx="2"
-                          cy="14"
-                          fill="#6E6E6E"
-                          r="2"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div
-                  className="c18"
-                >
-                  <div
-                    className="c19"
-                  />
-                </div>
-                <div
-                  className="c20"
-                >
-                  <span>
-                    <button
-                      aria-label="reply"
-                      className="c21 reply-button note-actions"
-                      data-for="reply-comment-1"
-                      data-tip={true}
-                      onClick={[Function]}
-                    >
-                      <svg
-                        height={20}
-                        viewBox="0 0 20 20"
-                        width={20}
-                      >
-                        <path
-                          d="M6.628 10.03L4 7.015 6.628 4M15 16.032c0-4.699 0-10-10-8.88"
-                          fill="none"
-                          stroke="#6E6E6E"
-                          strokeLinecap="round"
-                          strokeWidth={2}
-                        />
-                      </svg>
-                    </button>
-                  </span>
-                  <div />
                 </div>
               </div>
             </div>

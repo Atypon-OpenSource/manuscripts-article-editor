@@ -25,6 +25,7 @@ import {
 import {
   Annotation,
   commands,
+  focusedEntities,
   getTrackPluginState,
 } from '@manuscripts/track-changes'
 import { Command } from 'prosemirror-commands'
@@ -187,6 +188,7 @@ export const useComments = (
   doCommand: (command: Command) => void
 ) => {
   const { annotations } = getTrackPluginState(editorState)
+  const { annotation: focusedAnnotation } = focusedEntities(editorState)
   const [state, dispatch] = useMicrostore(
     getInitialCommentState(comments, annotations)
   )
@@ -243,10 +245,19 @@ export const useComments = (
     [userProfile, dispatch]
   )
 
+  const handleRequestSelect = useCallback(
+    (target: string) => {
+      doCommand(commands.focusAnnotation(target))
+    },
+    [doCommand]
+  )
+
   return {
     items: state,
+    focusedItem: focusedAnnotation,
     saveComment,
     deleteComment,
     handleCreateReply,
+    handleRequestSelect,
   }
 }
