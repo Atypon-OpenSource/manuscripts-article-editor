@@ -31,13 +31,15 @@ import {
   findCommitWithin,
   getChangeSummary,
   getTrackPluginState,
+  isCommitContiguousWithSelection,
   rebases,
 } from '@manuscripts/track-changes'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import sessionId from '../lib/session-id'
 import collectionManager from '../sync/CollectionManager'
+import { useUnmountEffect } from './use-unmount-effect'
 
 const buildCorrection = (
   data: Omit<
@@ -71,6 +73,7 @@ interface Args {
   sortBy: string
 }
 
+// TODO: Refactor to use useMicrostore
 export const useCommits = ({
   modelMap,
   initialCommits,
@@ -82,9 +85,8 @@ export const useCommits = ({
   ancestorDoc,
   sortBy,
 }: Args) => {
-  const collection = collectionManager.getCollection<ContainedModel>(
-    `project-${containerID}`
-  )
+  const [lastSave, setLastSave] = useState<number>(Date.now())
+  const timeSinceLastSave = useCallback(() => Date.now() - lastSave, [lastSave])
 
   const [commits, setCommits] = useState<Commit[]>(initialCommits)
   const [corrections, setCorrections] = useState<Correction[]>(
@@ -96,30 +98,42 @@ export const useCommits = ({
 
   const saveCommit = useCallback(
     (commit: Commit) => {
+      const collection = collectionManager.getCollection<ContainedModel>(
+        `project-${containerID}`
+      )
       setCommits((last) => [...last, commit])
       collection.save(commitToJSON(commit, containerID))
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [containerID]
   )
 
-  const saveCorrection = (correction: Correction) => {
-    setCorrections((last) => [
-      ...last.filter((corr) => corr._id !== correction._id),
-      correction,
-    ])
-    collection.save(correction)
-  }
+  const saveCorrection = useCallback(
+    (correction: Correction) => {
+      const collection = collectionManager.getCollection<ContainedModel>(
+        `project-${containerID}`
+      )
+      setCorrections((last) => [
+        ...last.filter((corr) => corr._id !== correction._id),
+        correction,
+      ])
+      collection.save(correction)
+    },
+    [containerID]
+  )
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const freeze = () => {
     const { commit } = getTrackPluginState(editor.state)
+    if (!commit.steps.length) {
+      return
+    }
     const changeSummary = getChangeSummary(editor.state, commit.changeID)
 
     saveCommit(commit)
 
     const correction = buildCorrection({
       contributions: [buildContribution(userProfileID)],
-      commitChangeID: currentCommit.changeID,
+      commitChangeID: commit.changeID,
       containerID,
       manuscriptID,
       snapshotID,
@@ -131,7 +145,21 @@ export const useCommits = ({
     saveCorrection(correction)
 
     editor.doCommand(commands.freezeCommit())
+    setLastSave(Date.now())
   }
+
+  // Freeze the commit when 10 s has passed since the last save AND
+  // the cursor is not contiguous with any part of the current commit
+  useEffect(() => {
+    if (
+      timeSinceLastSave() > 10000 &&
+      !isCommitContiguousWithSelection(editor.state)
+    ) {
+      freeze()
+    }
+  }, [editor.state, freeze, timeSinceLastSave])
+
+  useUnmountEffect(freeze)
 
   const unreject = (correction: Correction) => {
     const unrejectedCorrections = corrections
@@ -248,7 +276,6 @@ export const useCommits = ({
     corrections: corrections
       .slice()
       .sort(sortBy === 'Date' ? correctionsByDate : correctionsByContext),
-    freeze,
     accept,
     reject,
   }

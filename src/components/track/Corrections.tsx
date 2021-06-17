@@ -16,14 +16,9 @@ import {
   Correction as CorrectionT,
   Project,
 } from '@manuscripts/manuscripts-json-schema'
-import {
-  commands,
-  Commit,
-  getTrackPluginState,
-} from '@manuscripts/track-changes'
+import { commands, Commit } from '@manuscripts/track-changes'
 import React, { useCallback } from 'react'
 
-import { InspectorSection } from '../InspectorSection'
 import { CorrectionsSection } from './CorrectionsSection'
 
 interface CorrectionsByStatus {
@@ -62,7 +57,6 @@ interface Props {
   commits: Commit[]
   editor: ReturnType<typeof useEditor>
   collaborators: Map<string, UserProfileWithAvatar>
-  freeze: () => void
   accept: (correctionID: string) => void
   reject: (correctionID: string) => void
 }
@@ -71,14 +65,11 @@ export const Corrections: React.FC<Props> = ({
   corrections,
   commits,
   editor,
-  freeze,
   collaborators,
   accept,
   reject,
   project,
 }) => {
-  const { commit: currentCommit } = getTrackPluginState(editor.state)
-
   const getCommitFromCorrectionId = useCallback(
     (correctionId: string) => {
       const correction = corrections.find((corr) => corr._id === correctionId)
@@ -148,16 +139,6 @@ export const Corrections: React.FC<Props> = ({
         handleAccept={accept}
         handleReject={reject}
       />
-      {/* // TODO: remove this section once suggestions created automatically */}
-      <InspectorSection title={'Information'}>
-        <p>
-          <strong>Current Top-Level Commit:</strong> {currentCommit._id}
-        </p>
-
-        <button type="button" onClick={freeze}>
-          Save
-        </button>
-      </InspectorSection>
     </>
   )
 }

@@ -366,7 +366,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     },
     []
   )
-  const { commits, corrections, freeze, accept, reject } = useCommits({
+  const { commits, corrections, accept, reject } = useCommits({
     modelMap,
     initialCommits: props.commits,
     editor,
@@ -642,7 +642,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                         corrections={corrections}
                         commits={commits}
                         collaborators={props.collaboratorsById}
-                        freeze={freeze}
                         accept={accept}
                         reject={reject}
                       />
