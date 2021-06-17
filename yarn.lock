@@ -2330,17 +2330,6 @@
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
 
-"@manuscripts/track-changes@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.0.19.tgz#0f615a1b53ef831900f5e265b7032e8f928c5b44"
-  integrity sha512-rXP+oMjFQP565ysN5BrJcyldiKJ1uunc1Eq1VBp/k4MdypFsLDGAeQxnVGNYzyjDDWJNmcKA2Hbx/NR8NT/uZg==
-  dependencies:
-    "@manuscripts/manuscripts-json-schema" "1.46.3"
-    prosemirror-state "~1.3.4"
-    prosemirror-view "~1.18.2"
-    tinycolor2 "^1.4.2"
-    uuid "8.3.2"
-
 "@manuscripts/track-changes@^0.1.1":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.1.1.tgz#27da52eae3c50a5a36d0d584a7cbbbbf128d8628"

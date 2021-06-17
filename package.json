@@ -61,7 +61,7 @@
     "@manuscripts/style-guide": "^0.29.6",
     "@manuscripts/sync-client": "^0.9.1",
     "@manuscripts/title-editor": "^0.5.1",
-    "@manuscripts/track-changes": "^0.0.19",
+    "@manuscripts/track-changes": "^0.1.1",
     "@reach/tabs": "^0.11.2",
     "@sentry/browser": "^5.25.0",
     "@types/apollo-upload-client": "^8.1.3",
