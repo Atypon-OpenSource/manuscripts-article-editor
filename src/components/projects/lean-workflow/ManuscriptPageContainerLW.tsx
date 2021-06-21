@@ -410,7 +410,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         ManuscriptsEditor.createView(newEditorProps)
       )
     }
-  }, [submissionId, can]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [submissionId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDialogError = (
     errorMessage: string,
