@@ -296,7 +296,11 @@ const convertToJATS = async (
 
   const transformer = new JATSExporter()
 
-  const xml = await transformer.serializeToJATS(doc.content, modelMap)
+  const xml = await transformer.serializeToJATS(
+    doc.content,
+    modelMap,
+    manuscriptID
+  )
   zip.file('manuscript.xml', xml)
 
   return zip.generateAsync({ type: 'blob' })
