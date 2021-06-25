@@ -40,6 +40,7 @@ import { v4 as uuid } from 'uuid'
 import sessionId from '../lib/session-id'
 import collectionManager from '../sync/CollectionManager'
 import { useUnmountEffect } from './use-unmount-effect'
+import { useWindowUnloadEffect } from './use-window-unload-effect'
 
 const buildCorrection = (
   data: Omit<
@@ -102,7 +103,7 @@ export const useCommits = ({
         `project-${containerID}`
       )
       setCommits((last) => [...last, commit])
-      collection.save(commitToJSON(commit, containerID))
+      return collection.save(commitToJSON(commit, containerID))
     },
     [containerID]
   )
@@ -116,7 +117,7 @@ export const useCommits = ({
         ...last.filter((corr) => corr._id !== correction._id),
         correction,
       ])
-      collection.save(correction)
+      return collection.save(correction)
     },
     [containerID]
   )
@@ -160,6 +161,7 @@ export const useCommits = ({
   }, [editor.state, freeze, timeSinceLastSave])
 
   useUnmountEffect(freeze)
+  useWindowUnloadEffect(freeze, !!currentCommit.steps.length)
 
   const unreject = (correction: Correction) => {
     const unrejectedCorrections = corrections

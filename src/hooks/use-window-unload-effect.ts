@@ -10,22 +10,47 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 /**
- * This will run the provided effect when the component unmounts
+ * This will run the provided Effect when the tab is closed (ie the window unmounts)
  */
 
-export const useUnmountEffect = (effect: () => void) => {
-  // store in a ref so that we can update its value without calling it
-  const storedEffect = useRef(effect)
+export const useWindowUnloadEffect = (
+  effect: () => void,
+  preventUnload?: boolean
+) => {
+  const handleUnload = useCallback(
+    (e: BeforeUnloadEvent) => {
+      effect()
+
+      if (preventUnload) {
+        e.preventDefault()
+        return (e.returnValue = 'You may have unsaved changes')
+      }
+    },
+    [effect, preventUnload]
+  )
+  const storedHandler = useRef(handleUnload)
   useEffect(() => {
-    storedEffect.current = effect
-  }, [effect])
+    storedHandler.current = handleUnload
+  }, [handleUnload])
 
   useEffect(() => {
+    const listener = (e: BeforeUnloadEvent) => {
+      storedHandler.current(e)
+    }
+
+    window &&
+      window.addEventListener('beforeunload', listener, {
+        capture: true,
+      })
+
     return () => {
-      storedEffect.current()
+      window &&
+        window.removeEventListener('beforeunload', listener, {
+          capture: true,
+        })
     }
   }, [])
 }
