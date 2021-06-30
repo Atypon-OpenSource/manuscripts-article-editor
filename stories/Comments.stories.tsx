@@ -16,10 +16,8 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 
-import {
-  CommentFilter,
-  CommentList,
-} from '../src/components/projects/CommentList'
+import { CommentList } from '../src/components/projects/CommentList'
+import { CommentFilter } from '../src/components/projects/CommentListPatterns'
 import { comments } from './data/comments'
 import { doc } from './data/doc'
 import { keywords } from './data/keywords'

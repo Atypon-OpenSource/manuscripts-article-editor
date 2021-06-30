@@ -32,6 +32,7 @@ import { Command } from 'prosemirror-commands'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { useCallback, useEffect, useState } from 'react'
 
+import { CommentFilter } from '../components/projects/CommentListPatterns'
 import { useManuscriptModels } from './use-manuscript-models'
 import { useMicrostore } from './use-microstore'
 
@@ -124,8 +125,15 @@ export const removeComment = (id: string) => (
 }
 
 // TODO: filter the comments by whether they are "RESOLVED"
-export const topLevelComments = (state: CommentState): CommentState => {
-  return state.filter((item) => item.comment.selector)
+export const topLevelComments = (
+  state: CommentState,
+  filter?: CommentFilter
+): CommentState => {
+  return state.filter((item) =>
+    filter && filter === CommentFilter.UNRESOLVED
+      ? item.comment.selector && !item.comment.resolved
+      : item.comment.selector
+  )
 }
 
 export const repliesOf = (

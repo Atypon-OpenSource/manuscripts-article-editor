@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import {
   CommentAnnotation,
   Keyword,
@@ -22,7 +21,7 @@ import {
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
   isSavedComment,
@@ -50,6 +49,9 @@ export const CommentsList: React.FC<Props> = ({
   listKeywords,
   commentController,
 }) => {
+  const [commentFilter, setCommentFilter] = useState<Pattern.CommentFilter>(
+    Pattern.CommentFilter.UNRESOLVED
+  )
   const can = usePermissions()
   const {
     items,
@@ -65,52 +67,27 @@ export const CommentsList: React.FC<Props> = ({
 
   const threads = topLevelComments(items)
 
-  if (!threads.length) {
-    return (
-      <Pattern.PlaceholderContainer>
-        <AuthorPlaceholder width={295} height={202} />
-        <Pattern.PlaceholderMessage>
-          Discuss this manuscript with your collaborators by creating a comment.
-        </Pattern.PlaceholderMessage>
-      </Pattern.PlaceholderContainer>
-    )
+  if (!items.length) {
+    return <Pattern.EmptyCommentsListPlaceholder />
   }
 
   return (
-    <Pattern.Container>
-      {threads.map(({ comment }) => {
-        return (
-          <Pattern.Thread key={comment._id}>
-            <NoteBodyContainer
-              isSelected={focusedItem === comment.target}
-              isNew={!isSavedComment(comment)}
-            >
-              <CommentWrapper
-                comment={comment as CommentAnnotation}
-                createKeyword={createKeyword}
-                deleteComment={deleteComment}
-                getCollaborator={getCollaboratorById}
-                getKeyword={getKeyword}
-                listCollaborators={listCollaborators}
-                listKeywords={listKeywords}
-                saveComment={saveComment}
-                handleCreateReply={handleCreateReply}
+    <React.Fragment>
+      <Pattern.SeeResolvedCheckbox
+        isEmpty={!items.length}
+        commentFilter={commentFilter}
+        setCommentFilter={setCommentFilter}
+      />
+      <Pattern.Container>
+        {threads.map(({ comment }) => {
+          return (
+            <Pattern.Thread key={comment._id}>
+              <NoteBodyContainer
+                isSelected={focusedItem === comment.target}
                 isNew={!isSavedComment(comment)}
-                can={can}
-                handleRequestSelect={() => handleRequestSelect(comment.target)}
               >
-                <HighlightedText
-                  comment={comment as CommentAnnotation}
-                  getHighlightTextColor={getHighlightTextColor}
-                />
-              </CommentWrapper>
-            </NoteBodyContainer>
-
-            {repliesOf(items, comment._id).map(({ comment: reply }) => (
-              <ReplyBodyContainer key={reply._id}>
                 <CommentWrapper
-                  isReply={true}
-                  comment={reply as CommentAnnotation}
+                  comment={comment as CommentAnnotation}
                   createKeyword={createKeyword}
                   deleteComment={deleteComment}
                   getCollaborator={getCollaboratorById}
@@ -119,14 +96,47 @@ export const CommentsList: React.FC<Props> = ({
                   listKeywords={listKeywords}
                   saveComment={saveComment}
                   handleCreateReply={handleCreateReply}
-                  isNew={!isSavedComment(reply)}
+                  isNew={!isSavedComment(comment)}
                   can={can}
-                />
-              </ReplyBodyContainer>
-            ))}
-          </Pattern.Thread>
-        )
-      })}
-    </Pattern.Container>
+                  handleRequestSelect={() =>
+                    handleRequestSelect(comment.target)
+                  }
+                  handleSetResolved={() => {
+                    saveComment({
+                      ...comment,
+                      resolved: !comment.resolved,
+                    })
+                  }}
+                >
+                  <HighlightedText
+                    comment={comment as CommentAnnotation}
+                    getHighlightTextColor={getHighlightTextColor}
+                  />
+                </CommentWrapper>
+              </NoteBodyContainer>
+
+              {repliesOf(items, comment._id).map(({ comment: reply }) => (
+                <ReplyBodyContainer key={reply._id}>
+                  <CommentWrapper
+                    isReply={true}
+                    comment={reply as CommentAnnotation}
+                    createKeyword={createKeyword}
+                    deleteComment={deleteComment}
+                    getCollaborator={getCollaboratorById}
+                    getKeyword={getKeyword}
+                    listCollaborators={listCollaborators}
+                    listKeywords={listKeywords}
+                    saveComment={saveComment}
+                    handleCreateReply={handleCreateReply}
+                    isNew={!isSavedComment(reply)}
+                    can={can}
+                  />
+                </ReplyBodyContainer>
+              ))}
+            </Pattern.Thread>
+          )
+        })}
+      </Pattern.Container>
+    </React.Fragment>
   )
 }

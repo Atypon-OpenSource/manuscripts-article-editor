@@ -58,7 +58,8 @@ import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import { SubmissionsInspector } from '../inspector/SubmissionsInspector'
 import { InspectorSection } from '../InspectorSection'
 import { RequirementsInspector } from '../requirements/RequirementsInspector'
-import { CommentFilter, CommentList } from './CommentList'
+import { CommentList } from './CommentList'
+import { CommentFilter } from './CommentListPatterns'
 import { HeaderImageInspector } from './HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
 
@@ -142,7 +143,7 @@ export const Inspector: React.FC<{
 }) => {
   const [tabIndex, setTabIndex] = useState(0)
   const [commentFilter, setCommentFilter] = useState<CommentFilter>(
-    CommentFilter.ALL
+    CommentFilter.UNRESOLVED
   )
 
   const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)

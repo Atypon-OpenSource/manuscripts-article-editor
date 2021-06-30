@@ -10,7 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { CheckboxLabel } from '@manuscripts/style-guide'
+import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
+import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 export const Container = styled.div`
@@ -66,3 +68,53 @@ export const Checkbox = styled(CheckboxLabel)`
     color: ${(props) => props.theme.colors.text.primary};
   }
 `
+
+export enum CommentFilter {
+  ALL,
+  UNRESOLVED,
+}
+
+interface SeeResolvedCheckboxProps {
+  isEmpty: boolean
+  commentFilter: CommentFilter
+  setCommentFilter: (filter: CommentFilter) => void
+}
+
+export const SeeResolvedCheckbox: React.FC<SeeResolvedCheckboxProps> = ({
+  isEmpty,
+  commentFilter,
+  setCommentFilter,
+}) => {
+  const handleOnSelectChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      setCommentFilter(
+        e.target.checked ? CommentFilter.ALL : CommentFilter.UNRESOLVED
+      ),
+    [setCommentFilter]
+  )
+
+  return (
+    <ActionHeader>
+      {isEmpty ? null : (
+        <Checkbox>
+          <CheckboxField
+            checked={commentFilter === CommentFilter.ALL}
+            onChange={handleOnSelectChange}
+          />
+          <LabelText>See resolved</LabelText>
+        </Checkbox>
+      )}
+    </ActionHeader>
+  )
+}
+
+export const EmptyCommentsListPlaceholder: React.FC = () => {
+  return (
+    <PlaceholderContainer>
+      <AuthorPlaceholder width={295} height={202} />
+      <PlaceholderMessage>
+        Discuss this manuscript with your collaborators by creating a comment.
+      </PlaceholderMessage>
+    </PlaceholderContainer>
+  )
+}

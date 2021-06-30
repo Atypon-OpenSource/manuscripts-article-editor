@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import {
   deleteHighlightMarkers,
   getHighlightTarget,
@@ -29,7 +28,6 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import {
   buildCommentTree,
-  CheckboxField,
   CommentData,
   CommentTarget,
   CommentWrapper,
@@ -42,11 +40,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import * as Pattern from './CommentListPatterns'
 import { HighlightedText } from './HighlightedText'
-
-export enum CommentFilter {
-  ALL,
-  RESOLVED,
-}
 
 interface Props {
   comments: CommentAnnotation[]
@@ -65,8 +58,8 @@ interface Props {
   setCommentTarget: (commentTarget?: string) => void
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
-  setCommentFilter: (selectResolved: CommentFilter) => void
-  commentFilter: CommentFilter
+  setCommentFilter: (selectResolved: Pattern.CommentFilter) => void
+  commentFilter: Pattern.CommentFilter
 }
 
 export const CommentList: React.FC<Props> = React.memo(
@@ -109,14 +102,6 @@ export const CommentList: React.FC<Props> = React.memo(
       }
     }, [commentTarget, getCurrentUser, doc, newComment, state, currentUser])
 
-    const handleOnSelectChange = useCallback(
-      (e) =>
-        setCommentFilter(
-          e.target.checked ? CommentFilter.RESOLVED : CommentFilter.ALL
-        ),
-      [setCommentFilter]
-    )
-
     const items = useMemo<Array<[string, CommentData[]]>>(() => {
       const combinedComments = [...comments]
 
@@ -126,12 +111,8 @@ export const CommentList: React.FC<Props> = React.memo(
 
       const commentsTreeMap = buildCommentTree(doc, combinedComments)
 
-      if (newComment && commentsTreeMap.get(newComment.target)) {
-        setCommentFilter(CommentFilter.ALL)
-      }
-
       return Array.from(commentsTreeMap.entries())
-    }, [comments, newComment, doc, setCommentFilter])
+    }, [comments, newComment, doc])
 
     const saveComment = useCallback(
       (comment: CommentAnnotation) => {
@@ -198,30 +179,16 @@ export const CommentList: React.FC<Props> = React.memo(
     const can = usePermissions()
 
     if (!items.length) {
-      return (
-        <Pattern.PlaceholderContainer>
-          <AuthorPlaceholder width={295} height={202} />
-          <Pattern.PlaceholderMessage>
-            Discuss this manuscript with your collaborators by creating a
-            comment.
-          </Pattern.PlaceholderMessage>
-        </Pattern.PlaceholderContainer>
-      )
+      ;<Pattern.EmptyCommentsListPlaceholder />
     }
 
     return (
       <React.Fragment>
-        <Pattern.ActionHeader>
-          {items.length > 0 && (
-            <Pattern.Checkbox>
-              <CheckboxField
-                checked={commentFilter === CommentFilter.RESOLVED}
-                onChange={handleOnSelectChange}
-              />
-              <Pattern.LabelText>See resolved</Pattern.LabelText>
-            </Pattern.Checkbox>
-          )}
-        </Pattern.ActionHeader>
+        <Pattern.SeeResolvedCheckbox
+          isEmpty={!items.length}
+          commentFilter={commentFilter}
+          setCommentFilter={setCommentFilter}
+        />
         <Pattern.Container>
           {items.map(([target, commentData]) => {
             // TODO: move this into a child component?
@@ -231,9 +198,9 @@ export const CommentList: React.FC<Props> = React.memo(
                   selected.node.attrs.rid === target)) ||
               false
             const selectedNoteData =
-              commentFilter === CommentFilter.RESOLVED
-                ? commentData.filter((note) => note.comment.resolved)
-                : commentData
+              commentFilter === Pattern.CommentFilter.ALL
+                ? commentData
+                : commentData.filter((note) => !note.comment.resolved)
             return (
               <CommentTarget key={target} isSelected={isSelected}>
                 {selectedNoteData.map(({ comment, children }) => (
