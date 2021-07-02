@@ -11,7 +11,7 @@
  */
 
 import { version } from '../package.json'
-import { isTrue, normalizeURL, splitArray } from './lib/config-helpers'
+import { getURL, isTrue, normalizeURL, splitArray } from './lib/config-helpers'
 
 interface Config {
   url: string
@@ -119,8 +119,13 @@ interface Config {
   version: string
 }
 
+// Infer the position of the current page hostname.
+const index = splitArray(process.env.BASE_URL).findIndex((url) =>
+  url.includes(window.location.hostname)
+)
+
 const config = {
-  url: normalizeURL(process.env.BASE_URL),
+  url: normalizeURL(getURL(process.env.BASE_URL, index)),
   environment: process.env.NODE_ENV,
   native: isTrue(process.env.NATIVE),
   // the local config value is for projects loaded by the native app from
@@ -133,7 +138,7 @@ const config = {
     id: process.env.GOOGLE_ANALYTICS_ID,
   },
   api: {
-    url: normalizeURL(process.env.API_BASE_URL),
+    url: normalizeURL(getURL(process.env.API_BASE_URL, index)),
     headers: {
       'manuscripts-app-id': process.env.API_APPLICATION_ID,
     },
@@ -159,7 +164,7 @@ const config = {
     commenting: isTrue(process.env.COMMENTING),
   },
   gateway: {
-    url: normalizeURL(process.env.SYNC_GATEWAY_URL),
+    url: normalizeURL(getURL(process.env.SYNC_GATEWAY_URL, index)),
   },
   pressroom: {
     url: normalizeURL(process.env.PRESSROOM_URL),
@@ -198,7 +203,7 @@ const config = {
   },
   leanWorkflow: {
     enabled: isTrue(process.env.LEAN_WORKFLOW),
-    url: normalizeURL(process.env.LEAN_WORKFLOW_MANAGER_URL),
+    url: normalizeURL(getURL(process.env.LEAN_WORKFLOW_MANAGER_URL, index)),
   },
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),
