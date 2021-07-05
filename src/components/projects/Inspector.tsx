@@ -30,7 +30,11 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { ManuscriptNoteList, usePermissions } from '@manuscripts/style-guide'
+import {
+  InspectorSection,
+  ManuscriptNoteList,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
@@ -56,7 +60,6 @@ import { SectionInspector } from '../inspector/SectionInspector'
 import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
 import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import { SubmissionsInspector } from '../inspector/SubmissionsInspector'
-import { InspectorSection } from '../InspectorSection'
 import { RequirementsInspector } from '../requirements/RequirementsInspector'
 import { CommentList } from './CommentList'
 import { CommentFilter } from './CommentListPatterns'
@@ -287,9 +290,12 @@ export const Inspector: React.FC<{
 
               case 'Comments': {
                 return (
-                  <InspectorTabPanel key={label}>
+                  <InspectorTabPanel key={label} style={{ marginTop: '16px' }}>
                     {config.features.commenting && (
-                      <InspectorSection title={'Comments'}>
+                      <InspectorSection
+                        title={'Comments'}
+                        contentStyles={{ margin: '0 25px 24px 0' }}
+                      >
                         <CommentList
                           comments={comments || []}
                           doc={doc}
@@ -314,7 +320,10 @@ export const Inspector: React.FC<{
                       </InspectorSection>
                     )}
                     {config.features.productionNotes && (
-                      <InspectorSection title={'Notes'}>
+                      <InspectorSection
+                        title={'Notes'}
+                        contentStyles={{ margin: '0 25px 24px 0' }}
+                      >
                         <ManuscriptNoteList
                           createKeyword={createKeyword}
                           notes={notes || []}

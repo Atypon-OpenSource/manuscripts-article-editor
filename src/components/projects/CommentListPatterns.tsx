@@ -21,7 +21,7 @@ export const Container = styled.div`
 `
 
 export const Thread = styled.div`
-  margin: 16px 16px 16px 0;
+  margin: 16px 0;
 `
 
 export const Reply = styled.div`
@@ -52,8 +52,6 @@ export const ActionHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-right: 17px;
-  margin-left: 33px;
 `
 
 export const LabelText = styled.div`

@@ -65,7 +65,7 @@ export const CommentsList: React.FC<Props> = ({
   const getHighlightTextColor = (comment: CommentAnnotation) =>
     comment.annotationColor || 'rgb(250, 244, 150)'
 
-  const threads = topLevelComments(items)
+  const threads = topLevelComments(items, commentFilter)
 
   if (!items.length) {
     return <Pattern.EmptyCommentsListPlaceholder />

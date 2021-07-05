@@ -179,7 +179,7 @@ export const CommentList: React.FC<Props> = React.memo(
     const can = usePermissions()
 
     if (!items.length) {
-      ;<Pattern.EmptyCommentsListPlaceholder />
+      return <Pattern.EmptyCommentsListPlaceholder />
     }
 
     return (

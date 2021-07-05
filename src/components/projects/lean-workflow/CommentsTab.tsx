@@ -15,12 +15,16 @@ import {
   ManuscriptNote,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { ManuscriptNoteList, usePermissions } from '@manuscripts/style-guide'
+import {
+  InspectorSection,
+  ManuscriptNoteList,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React from 'react'
+import styled from 'styled-components'
 
 import config from '../../../config'
 import { useComments } from '../../../hooks/use-comments'
-import { InspectorSection } from '../../InspectorSection'
 import { SaveModel } from '../ManuscriptInspector'
 import { CommentsList } from './CommentsList'
 
@@ -59,9 +63,12 @@ export const CommentsTab: React.FC<{
   const can = usePermissions()
 
   return (
-    <div>
+    <CommentsContainer>
       {config.features.commenting && (
-        <InspectorSection title={'Comments'}>
+        <InspectorSection
+          title={'Comments'}
+          contentStyles={{ margin: '0 25px 24px 0' }}
+        >
           <CommentsList
             commentController={commentController}
             createKeyword={createKeyword}
@@ -73,7 +80,10 @@ export const CommentsTab: React.FC<{
         </InspectorSection>
       )}
       {config.features.productionNotes && (
-        <InspectorSection title={'Notes'}>
+        <InspectorSection
+          title={'Notes'}
+          contentStyles={{ margin: '0 25px 24px 0' }}
+        >
           <ManuscriptNoteList
             createKeyword={createKeyword}
             notes={notes || []}
@@ -90,6 +100,10 @@ export const CommentsTab: React.FC<{
           />
         </InspectorSection>
       )}
-    </div>
+    </CommentsContainer>
   )
 }
+
+const CommentsContainer = styled.div`
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
+`
