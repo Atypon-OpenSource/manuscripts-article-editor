@@ -30,15 +30,30 @@ interface setAttachmentProps {
   designation: string
 }
 
-interface proceedProps {
-  submissionId: string
-  statusId: string
-  note: string
-}
-
 interface mainManuscriptProps {
   submissionId: string
   name: string
+}
+
+interface Transition {
+  status: {
+    id: string
+    label: string
+  }
+  type: {
+    id: string
+    description: string
+    label: string
+  }
+}
+
+export interface Submission {
+  id: string
+  currentStep: {
+    type: {
+      transitions: Transition[]
+    }
+  }
 }
 
 const UPLOAD_ATTACHMENT = gql`
@@ -67,14 +82,40 @@ const SET_ATTACHMENT_TYPE = gql`
   }
 `
 
+export const StepFragment = {
+  step: gql`
+    fragment step on SubmissionStep {
+      type {
+        id
+        transitions {
+          status {
+            id
+            label
+          }
+          type {
+            id
+            description
+            label
+          }
+        }
+      }
+    }
+  `,
+}
+
 const GET_SUBMISSION = gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
+      currentStep {
+        ...step
+      }
     }
   }
+  ${StepFragment.step}
 `
-const PROCEED = gql`
+
+export const PROCEED = gql`
   mutation Proceed($submissionId: ID!, $statusId: ID!, $note: String!) {
     proceed(submissionId: $submissionId, statusId: $statusId, note: $note)
   }
@@ -228,8 +269,16 @@ export const useGetCurrentSubmissionStep = (
     },
   })
 
+interface proceedProps {
+  submissionId: string
+  statusId: string
+  note: string
+}
+
 export const useProceed = () => {
-  const [mutate] = useMutation(PROCEED)
+  const [mutate] = useMutation<{ result: boolean }>(PROCEED, {
+    errorPolicy: 'all',
+  })
   return ({ submissionId, statusId, note }: proceedProps) =>
     mutate({
       context: {

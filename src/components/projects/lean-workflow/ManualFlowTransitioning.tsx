@@ -9,132 +9,199 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Category, Dialog, PrimaryButton } from '@manuscripts/style-guide'
-import React, { useState } from 'react'
+import {
+  AlertMessage,
+  AlertMessageType,
+  Category,
+  Dialog,
+  PrimaryButton,
+  usePermissions,
+} from '@manuscripts/style-guide'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
-import {
-  useGetCurrentSubmissionStep,
-  useProceed,
-} from '../../../lib/lean-workflow-gql'
+import { useDropdown } from '../../../hooks/use-dropdown'
+import { Submission, useProceed } from '../../../lib/lean-workflow-gql'
+import { Loading, LoadingOverlay } from '../../Loading'
 import { Dropdown, DropdownButton, DropdownContainer } from '../../nav/Dropdown'
+import { MediumTextArea } from '../inputs'
 import { EditIcon } from './EditIcon'
 
-type ManualFlowTransitioningProps = {
-  manuscriptId: string
-  containerId: string
-}
-
-type TransitionType = {
-  status: {
-    id: string
-    label: string
-  }
-  type: {
-    id: string
-    description: string
-    label: string
-  }
-}
-
-export const ManualFlowTransitioning: React.FC<ManualFlowTransitioningProps> = ({
-  containerId,
-  manuscriptId,
+export const ManualFlowTransitioning: React.FC<{ submission: Submission }> = ({
+  submission,
 }) => {
+  const currentStepTransition = submission.currentStep.type.transitions
+  const can = usePermissions()
+  const submitProceedMutation = useProceed()
+
   const [confirmationDialog, toggleConfirmationDialog] = useState(false)
-  const [completeTaskDropdown, toggleCompleteTaskDropdown] = useState(false)
-  const [editingDropdown, toggleEditingDropdown] = useState(false)
-  const [selectedTransition, setSelectedTransition] = useState<TransitionType>()
+  const [loading, setLoading] = useState(false)
+  const [noteValue, setNoteValue] = useState<string>('')
+  const [error, setError] = useState<string | undefined>(undefined)
+  const [
+    selectedTransitionIndex,
+    setSelectedTransitionIndex,
+  ] = useState<number>()
 
-  const proceedMutation = useProceed()
-  const submissionData = useGetCurrentSubmissionStep(manuscriptId, containerId)
+  const continueDialogAction = useCallback(async () => {
+    if (!submission || !selectedTransitionIndex) {
+      return
+    }
 
-  const continueDialogAction = React.useCallback(() => {
-    selectedTransition &&
-      proceedMutation({
-        submissionId: submissionData.data.submission.id,
-        statusId: selectedTransition.status.id,
-        note: '',
-      }).then(() => {
-        toggleConfirmationDialog(false)
+    const { status } = submission.currentStep.type.transitions[
+      selectedTransitionIndex
+    ]
+
+    setLoading(true)
+
+    return await submitProceedMutation({
+      submissionId: submission?.id,
+      statusId: status.id,
+      note: noteValue,
+    })
+      .then(({ data }) => {
+        if (data?.result) {
+          // TODO:: we should redirect user to the dashboard, LIT-396503
+          toggleConfirmationDialog(false)
+        } else {
+          setError('Server refused to proceed with your submission')
+        }
+        setLoading(false)
       })
-  }, [proceedMutation, selectedTransition, submissionData])
+      .catch(() => {
+        setError('Unable to proceed with your submission.')
+        setLoading(false)
+      })
+  }, [
+    submitProceedMutation,
+    setError,
+    toggleConfirmationDialog,
+    selectedTransitionIndex,
+    submission,
+    noteValue,
+  ])
 
-  const returnDropdownOption = React.useCallback(
-    (transition: TransitionType) => (
-      <Task
-        onClick={() => {
-          setSelectedTransition(transition)
-          toggleConfirmationDialog(true)
-        }}
-        key={'task_' + transition.type.id}
-        className={transition.status.id === 'success' ? 'happyPath' : ''}
-      >
-        <strong>{transition.type.label}</strong>
-        {transition.type.description}
-      </Task>
-    ),
-    []
+  const onTransitionClick = useCallback(
+    (event) => {
+      toggleConfirmationDialog(true)
+      setSelectedTransitionIndex(event.target.value)
+    },
+    [setSelectedTransitionIndex, toggleConfirmationDialog]
   )
 
-  const currentStepTransition =
-    submissionData?.data?.submission?.currentStep?.type.transitions
+  const onCancelClick = useCallback(() => {
+    toggleConfirmationDialog(false)
+    setSelectedTransitionIndex(undefined)
+    setError(undefined)
+  }, [toggleConfirmationDialog, setSelectedTransitionIndex, setError])
+
+  const onNoteChange = useCallback(
+    (event) => setNoteValue(event.target.value),
+    [setNoteValue]
+  )
+
+  const disable = !currentStepTransition || !can.completeTask
 
   return (
     <Wrapper>
-      <DropdownContainer>
-        <DropdownButton
-          as={PrimaryButton}
-          disabled={submissionData.data === undefined}
-          isOpen={completeTaskDropdown}
-          onClick={() => toggleCompleteTaskDropdown(!completeTaskDropdown)}
-        >
-          Complete task
-        </DropdownButton>
-        {completeTaskDropdown && (
-          <TaskDropdown direction="left">
+      {(currentStepTransition && currentStepTransition?.length > 1 && (
+        <DropdownWrapper button={'Complete task'} disabled={disable} primary>
+          <TaskDropdown>
             {currentStepTransition &&
-              currentStepTransition.map((transition: any) => {
-                return returnDropdownOption(transition)
-              })}
+              currentStepTransition.map((transition, index) => (
+                <Task
+                  key={'task_' + transition.type.id}
+                  className={
+                    transition.status.id === 'success' ? 'happyPath' : ''
+                  }
+                  value={index}
+                  onClick={onTransitionClick}
+                >
+                  <strong>{transition.type.label}</strong>
+                  {transition.type.description}
+                </Task>
+              ))}
           </TaskDropdown>
-        )}
-      </DropdownContainer>
-      {selectedTransition && (
+        </DropdownWrapper>
+      )) || (
+        <PrimaryButton value={0} onClick={onTransitionClick} disabled={disable}>
+          Complete task
+        </PrimaryButton>
+      )}
+
+      {(loading && (
+        <LoadingOverlay>
+          <Loading>proceeding with your submission…</Loading>
+        </LoadingOverlay>
+      )) || (
         <Dialog
-          isOpen={confirmationDialog}
+          isOpen={confirmationDialog && !loading}
           category={Category.confirmation}
-          header={
-            'You are about to reassign the content to the ' +
-            selectedTransition.type.label +
-            ' step.'
+          header={'Are you sure?'}
+          message={
+            'You are about to complete your task. If you confirm, you will no longer be able to make any changes.'
           }
-          message="Do you wish to continue?"
           actions={{
             primary: {
               action: continueDialogAction,
               title: 'Continue',
             },
             secondary: {
-              action: () => toggleConfirmationDialog(false),
+              action: onCancelClick,
               title: 'Cancel',
             },
           }}
-        />
+        >
+          <TextAreaWrapper>
+            <MediumTextArea
+              value={noteValue}
+              onChange={onNoteChange}
+              rows={5}
+              placeholder={'Add any additional comment here...'}
+            />
+          </TextAreaWrapper>
+
+          {error && (
+            <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
+              {error}
+            </AlertMessage>
+          )}
+        </Dialog>
       )}
 
-      <DropdownContainer>
-        <DropdownButton
-          disabled={true}
-          isOpen={editingDropdown}
-          onClick={() => toggleEditingDropdown(!editingDropdown)}
-        >
-          <EditIcon />
-          <span>Editing</span>
-        </DropdownButton>
-        {editingDropdown && <Dropdown direction="left" />}
-      </DropdownContainer>
+      <DropdownWrapper
+        button={
+          <>
+            <EditIcon />
+            <span>Editing</span>
+          </>
+        }
+        disabled={true}
+      />
     </Wrapper>
+  )
+}
+
+const DropdownWrapper: React.FC<{
+  button: any | string
+  disabled: boolean
+  primary?: boolean
+}> = ({ disabled, button, primary, children }) => {
+  const { isOpen, toggleOpen, wrapperRef } = useDropdown()
+  const onDropdownButtonClick = useCallback(() => toggleOpen(), [toggleOpen])
+
+  return (
+    <DropdownContainer id={'user-dropdown'} ref={wrapperRef}>
+      <DropdownButton
+        as={(primary && PrimaryButton) || undefined}
+        disabled={disabled}
+        isOpen={isOpen}
+        onClick={onDropdownButtonClick}
+      >
+        {button}
+      </DropdownButton>
+      {isOpen && <Dropdown direction="left">{children}</Dropdown>}
+    </DropdownContainer>
   )
 }
 
@@ -147,10 +214,17 @@ const Wrapper = styled.div`
   ${DropdownContainer} + ${DropdownContainer} {
     margin-left: ${(props) => props.theme.grid.unit * 2}px;
   }
+  ${PrimaryButton} + ${DropdownContainer} {
+    margin-left: ${(props) => props.theme.grid.unit * 2}px;
+  }
 `
-const TaskDropdown = styled(Dropdown)`
+
+const TaskDropdown = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: ${(props) => props.theme.grid.unit * 2}px 0;
 `
+
 const Task = styled.button`
   background: transparent;
   border: none;
@@ -184,4 +258,8 @@ const Task = styled.button`
     border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
     order: 0;
   }
+`
+
+const TextAreaWrapper = styled.div`
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
 `

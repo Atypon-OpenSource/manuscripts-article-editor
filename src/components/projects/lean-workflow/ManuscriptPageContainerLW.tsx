@@ -64,6 +64,7 @@ import {
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
 import { bootstrap, saveEditorState } from '../../../lib/bootstrap-manuscript'
 import {
+  Submission,
   useGetPermittedActions,
   useGetPerson,
   useGetSubmission,
@@ -163,7 +164,11 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
       manuscriptID={match.params.manuscriptID}
     >
       <CapabilitiesProvider can={can}>
-        <ManuscriptPageView {...data} {...props} submissionID={submissionId} />
+        <ManuscriptPageView
+          {...data}
+          {...props}
+          submission={submissionData?.data?.submission}
+        />
       </CapabilitiesProvider>
     </ManuscriptModelsProvider>
   )
@@ -177,7 +182,7 @@ export interface ManuscriptPageViewProps extends CombinedProps {
   snapshotID: string | null
   modelMap: Map<string, Model>
   snapshots: Array<RxDocument<Snapshot>>
-  submissionID: string
+  submission: Submission
 }
 
 const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
@@ -193,7 +198,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     comments,
     notes,
     tags,
-    submissionID,
+    submission,
   } = props
 
   const popper = useRef<PopperManager>(new PopperManager())
@@ -228,7 +233,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
   const putAttachment = (file: File, designation = 'supplementary') => {
     return uploadAttachment({
-      submissionId: submissionID,
+      submissionId: submission.id,
       file: file,
       designation: designation,
     })
@@ -327,10 +332,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     commit: props.commitAtLoad || null,
     externalFiles: files,
     theme,
-    submissionId: props.submissionID,
+    submissionId: props.submission.id,
     capabilites: can,
     updateDesignation: (designation: string, name: string) =>
-      handleChangeAttachmentDesignation(submissionID, designation, name),
+      handleChangeAttachmentDesignation(submission.id, designation, name),
   }
 
   const editor = useEditor<ManuscriptSchema>(
@@ -481,10 +486,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       <Main>
         <EditorContainer>
           <EditorContainerInner>
-            <ManualFlowTransitioning
-              manuscriptId={manuscript._id}
-              containerId={manuscript.containerID}
-            />
+            <ManualFlowTransitioning submission={submission} />
             <EditorHeader>
               <ApplicationMenuContainer>
                 <ApplicationMenus
@@ -529,7 +531,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       name: string
                     ) =>
                       handleChangeAttachmentDesignation(
-                        submissionID,
+                        submission.id,
                         designation,
                         name
                       )
@@ -642,7 +644,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
               }
 
               case 'Files': {
-                return submissionID ? (
+                return submission.id ? (
                   <>
                     {errorDialog && (
                       <ErrorDialog
@@ -653,7 +655,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       />
                     )}
                     <FileManager
-                      submissionId={submissionID}
+                      submissionId={submission.id}
                       externalFiles={files}
                       can={can}
                       enableDragAndDrop={true}
