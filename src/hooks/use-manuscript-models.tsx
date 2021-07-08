@@ -38,6 +38,8 @@ interface ManuscriptModels {
   deleteModel: (id: string) => Promise<string>
   bundle: Bundle | null
   collection: Collection<ContainedModel>
+  containerID: string
+  manuscriptID: string
 }
 
 const ManuscriptModelsContext = React.createContext<ManuscriptModels | null>(
@@ -143,6 +145,8 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
     deleteModel,
     collection,
     bundle,
+    containerID,
+    manuscriptID,
   }
 
   return (

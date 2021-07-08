@@ -55,6 +55,7 @@ import { RouteComponentProps } from 'react-router'
 
 import config from '../../../config'
 import { useBiblio } from '../../../hooks/use-biblio'
+import { useChangeReceiver } from '../../../hooks/use-change-receiver'
 import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
 import { useCommits } from '../../../hooks/use-commits'
 import { createUseLoadable } from '../../../hooks/use-loadable'
@@ -345,6 +346,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   )
 
   const { state, doCommand, dispatch, view } = editor
+  useChangeReceiver(editor)
 
   const validation = useRequirementsValidation({
     project,
