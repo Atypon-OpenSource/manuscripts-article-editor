@@ -201,6 +201,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     submission,
   } = props
 
+  const submissionId: string = submission?.id
   const popper = useRef<PopperManager>(new PopperManager())
   const {
     getModel,
@@ -233,7 +234,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
   const putAttachment = (file: File, designation = 'supplementary') => {
     return uploadAttachment({
-      submissionId: submission.id,
+      submissionId: submissionId,
       file: file,
       designation: designation,
     })
@@ -332,10 +333,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     commit: props.commitAtLoad || null,
     externalFiles: files,
     theme,
-    submissionId: props.submission.id,
+    submissionId: submissionId,
     capabilites: can,
     updateDesignation: (designation: string, name: string) =>
-      handleChangeAttachmentDesignation(submission.id, designation, name),
+      handleChangeAttachmentDesignation(submissionId, designation, name),
   }
 
   const editor = useEditor<ManuscriptSchema>(
@@ -531,7 +532,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       name: string
                     ) =>
                       handleChangeAttachmentDesignation(
-                        submission.id,
+                        submissionId,
                         designation,
                         name
                       )
@@ -644,7 +645,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
               }
 
               case 'Files': {
-                return submission.id ? (
+                return submissionId ? (
                   <>
                     {errorDialog && (
                       <ErrorDialog
@@ -655,7 +656,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       />
                     )}
                     <FileManager
-                      submissionId={submission.id}
+                      submissionId={submissionId}
                       externalFiles={files}
                       can={can}
                       enableDragAndDrop={true}

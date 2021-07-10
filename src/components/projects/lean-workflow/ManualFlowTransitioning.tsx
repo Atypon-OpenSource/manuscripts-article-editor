@@ -30,7 +30,6 @@ import { EditIcon } from './EditIcon'
 export const ManualFlowTransitioning: React.FC<{ submission: Submission }> = ({
   submission,
 }) => {
-  const currentStepTransition = submission.currentStep.type.transitions
   const can = usePermissions()
   const submitProceedMutation = useProceed()
 
@@ -100,6 +99,7 @@ export const ManualFlowTransitioning: React.FC<{ submission: Submission }> = ({
     [setNoteValue]
   )
 
+  const currentStepTransition = submission?.currentStep.type.transitions
   const disable = !currentStepTransition || !can.completeTask
 
   return (
