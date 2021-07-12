@@ -113,7 +113,6 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
           <div
             className="c6"
-            onClick={[Function]}
           >
             <svg
               fill="none"
@@ -191,7 +190,6 @@ exports[`Storyshots Requirments/List validations 1`] = `
           </div>
           <div
             className="c6"
-            onClick={[Function]}
           >
             <svg
               fill="none"

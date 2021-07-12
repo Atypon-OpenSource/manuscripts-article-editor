@@ -48,7 +48,7 @@ export const RequirementContainer: React.FC<Props> = ({
           )}
         </Icon>
         <Title>{title}</Title>
-        <ExpanderButton onClick={toggleOpen}>
+        <ExpanderButton>
           {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </ExpanderButton>
       </Data>
