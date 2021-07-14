@@ -11,6 +11,7 @@
  */
 
 import '@manuscripts/manuscript-editor/styles/Editor.css'
+import '@manuscripts/manuscript-editor/styles/LeanWorkflow.css'
 import '@manuscripts/manuscript-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
@@ -94,7 +95,6 @@ import {
   EditorContainerInner,
   EditorHeader,
 } from '../EditorContainer'
-import { EditorStyles } from '../EditorStyles'
 import { Inspector } from '../InspectorLW'
 import { ManuscriptPageContainerProps } from '../ManuscriptPageContainer'
 import ManuscriptSidebar from '../ManuscriptSidebar'
@@ -521,25 +521,23 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                 permissions={editorProps.permissions}
                 tokenActions={props.tokenActions}
               />
-              <EditorStyles modelMap={modelMap}>
-                <TrackChangesStyles trackEnabled={!!snapshotID}>
-                  <EditorElement
-                    editor={editor}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    changeAttachmentDesignation={(
-                      designation: string,
-                      name: string
-                    ) =>
-                      handleChangeAttachmentDesignation(
-                        submissionId,
-                        designation,
-                        name
-                      )
-                    }
-                  />
-                </TrackChangesStyles>
-              </EditorStyles>
+              <TrackChangesStyles trackEnabled={!!snapshotID}>
+                <EditorElement
+                  editor={editor}
+                  modelMap={modelMap}
+                  saveModel={saveModel}
+                  changeAttachmentDesignation={(
+                    designation: string,
+                    name: string
+                  ) =>
+                    handleChangeAttachmentDesignation(
+                      submissionId,
+                      designation,
+                      name
+                    )
+                  }
+                />
+              </TrackChangesStyles>
             </EditorBody>
           </EditorContainerInner>
         </EditorContainer>
