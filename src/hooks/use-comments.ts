@@ -10,10 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { insertAnnotationFromComment } from '@manuscripts/manuscript-editor'
 import {
   Build,
   buildComment,
   buildContribution,
+  findNodePositions,
   ManuscriptEditorState,
   ManuscriptSchema,
   UserProfileWithAvatar,
@@ -31,6 +33,7 @@ import {
 import { Command } from 'prosemirror-commands'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { useCallback, useEffect, useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
 import { CommentFilter } from '../components/projects/CommentListPatterns'
 import { useManuscriptModels } from './use-manuscript-models'
@@ -259,6 +262,48 @@ export const useComments = (
     },
     [doCommand]
   )
+
+  // run this once to shim any legacy HighlightMarkers into the comment state
+  useEffect(() => {
+    comments.forEach((comment) => {
+      if (!comment.target.startsWith('MPHighlight:')) {
+        return
+      }
+
+      const positions = findNodePositions(
+        editorState,
+        (node) => node.attrs.rid === comment.target
+      ).sort()
+
+      let from: number
+      let to: number
+      if (positions.length > 1) {
+        from = Math.min(...positions)
+        to = Math.max(...positions)
+      } else if (positions.length) {
+        from = positions[0]
+        to = positions[0]
+      } else {
+        return
+      }
+
+      saveComment({
+        ...comment,
+        target: uuid(),
+        selector: { from, to },
+      })
+        .then((comment) => {
+          const maybeInsert = insertAnnotationFromComment(comment)
+          if (!maybeInsert) {
+            return
+          }
+          return doCommand(maybeInsert)
+        })
+        .catch(console.error)
+    })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return {
     items: state,
