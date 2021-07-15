@@ -263,7 +263,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         })
         .catch((e) => {
           handleDialogError(
-            e.graphQLErrors[0] || e.message,
+            e.graphQLErrors[0] ? e.graphQLErrors[0].message : e && e.message,
             'Something went wrong while updating submission.',
             true
           )
