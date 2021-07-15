@@ -467,6 +467,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
             >
               <div
                 className="c8"
+                onMouseDown={[Function]}
               >
                 <div
                   className="c9"
