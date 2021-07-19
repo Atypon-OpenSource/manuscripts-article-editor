@@ -21,6 +21,7 @@ import {
   CollectionState,
   ErrorEvent,
   PouchReplicationError,
+  ReplicationStatus,
   SyncState,
 } from './types'
 
@@ -184,6 +185,14 @@ const StateData = <T>(key: keyof CollectionState, defaultVal: T) => (
 
 export const selectors = {
   isInitialPullComplete: StateData<boolean>('firstPullComplete', false),
+
+  isPushing: (collectionName: string, state: SyncState) => {
+    const push = StateData<ReplicationStatus>('push', null)(
+      collectionName,
+      state
+    )
+    return push === 'active'
+  },
 
   hasPullError: (collectionName: string, state: SyncState) => {
     const firstPullComplete = StateData<boolean | 'error'>(

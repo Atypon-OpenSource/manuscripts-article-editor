@@ -49,7 +49,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 
@@ -64,7 +64,7 @@ import {
   useManuscriptModels,
 } from '../../../hooks/use-manuscript-models'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
-import { bootstrap, saveEditorState } from '../../../lib/bootstrap-manuscript'
+import { bootstrap } from '../../../lib/bootstrap-manuscript'
 import {
   Submission,
   useGetPermittedActions,
@@ -109,6 +109,7 @@ import { ContentTab } from './ContentTab'
 import EditorElement from './EditorElement'
 import { ErrorDialog } from './ErrorDialog'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
+import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 interface RouteParams {
@@ -355,10 +356,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     modelMap,
   })
 
-  useEffect(() => {
-    saveEditorState(state, modelMap, project._id, manuscript._id)
-  }, [state]) // eslint-disable-line react-hooks/exhaustive-deps
-
   const selected = findParentNodeWithIdValue(state.selection)
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
@@ -390,7 +387,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     },
     []
   )
-  const { commits, corrections, accept, reject } = useCommits({
+  const { commits, corrections, accept, reject, isDirty } = useCommits({
     modelMap,
     initialCommits: props.commits,
     editor,
@@ -489,7 +486,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       <Main>
         <EditorContainer>
           <EditorContainerInner>
-            <ManualFlowTransitioning submission={submission} />
+            <ManualFlowTransitioning submission={submission}>
+              <SaveStatusController isDirty={isDirty} />
+            </ManualFlowTransitioning>
             <EditorHeader>
               <ApplicationMenuContainer>
                 <ApplicationMenus

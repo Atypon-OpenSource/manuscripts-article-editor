@@ -10,7 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useRef } from 'react'
+import { debounce } from 'lodash-es'
+import React, { useEffect, useMemo, useRef } from 'react'
 
 // This effect will fire "time" milliseconds after the last time "deps" change,
 // and will reset the timer every time the deps continue to change.
@@ -37,4 +38,13 @@ export const useIdlePropEffect = (
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [...deps, delay])
+}
+
+export const useDebouncedEffect = (
+  callback: React.EffectCallback,
+  delay: number
+) => {
+  return useMemo(() => {
+    debounce(callback, delay)
+  }, [callback, delay])
 }

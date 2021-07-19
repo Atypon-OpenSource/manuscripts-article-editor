@@ -40,6 +40,7 @@ interface ManuscriptModels {
   collection: Collection<ContainedModel>
   containerID: string
   manuscriptID: string
+  modelMap: ModelMap
 }
 
 const ManuscriptModelsContext = React.createContext<ManuscriptModels | null>(
@@ -141,6 +142,7 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
   const value = {
     getModel,
     saveModel,
+    modelMap,
     saveManuscript,
     deleteModel,
     collection,

@@ -33,7 +33,6 @@ import {
   commitFromJSON,
   findCommitWithChanges,
 } from '@manuscripts/track-changes'
-import debounce from 'lodash-es/debounce'
 import isEqual from 'lodash-es/isEqual'
 
 import * as api from '../lib/api'
@@ -212,7 +211,7 @@ const hasChanged = (a: Model, b: Model): boolean => {
   })
 }
 
-const _saveEditorState = async (
+export const saveEditorState = async (
   state: ManuscriptEditorState,
   modelMap: Map<string, Model>,
   projectID: string,
@@ -247,8 +246,6 @@ const _saveEditorState = async (
   return modelMap
 }
 
-export const saveEditorState = debounce(_saveEditorState, 1000)
-
 export const remaster = async (
   state: ManuscriptEditorState,
   modelMap: Map<string, Model>,
@@ -257,7 +254,7 @@ export const remaster = async (
 ) => {
   const collection = collectionManager.getCollection(`project-${project._id}`)
 
-  await _saveEditorState(state, modelMap, project._id, manuscriptID)
+  await saveEditorState(state, modelMap, project._id, manuscriptID)
 
   // ensure that the snapshot is created with all the saved models
   await collection.ensurePushSync()

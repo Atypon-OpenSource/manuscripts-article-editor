@@ -27,9 +27,9 @@ import { Dropdown, DropdownButton, DropdownContainer } from '../../nav/Dropdown'
 import { MediumTextArea } from '../inputs'
 import { EditIcon } from './EditIcon'
 
-export const ManualFlowTransitioning: React.FC<{ submission: Submission }> = ({
-  submission,
-}) => {
+export const ManualFlowTransitioning: React.FC<{
+  submission: Submission
+}> = ({ submission, children }) => {
   const can = usePermissions()
   const submitProceedMutation = useProceed()
 
@@ -178,6 +178,7 @@ export const ManualFlowTransitioning: React.FC<{ submission: Submission }> = ({
         }
         disabled={true}
       />
+      <ChildWrapper>{children}</ChildWrapper>
     </Wrapper>
   )
 }
@@ -262,4 +263,11 @@ const Task = styled.button`
 
 const TextAreaWrapper = styled.div`
   margin-top: ${(props) => props.theme.grid.unit * 4}px;
+`
+
+const ChildWrapper = styled.div`
+  display: inline-flex;
+  margin: 0 2em;
+  flex-direction: row;
+  align-items: center;
 `

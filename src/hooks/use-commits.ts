@@ -37,6 +37,7 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
+import { saveEditorState } from '../lib/bootstrap-manuscript'
 import sessionId from '../lib/session-id'
 import collectionManager from '../sync/CollectionManager'
 import { useUnmountEffect } from './use-unmount-effect'
@@ -145,6 +146,7 @@ export const useCommits = ({
     })
     saveCorrection(correction)
 
+    saveEditorState(editor.state, modelMap, containerID, manuscriptID)
     editor.doCommand(commands.freezeCommit())
     setLastSave(Date.now())
   }
@@ -275,6 +277,7 @@ export const useCommits = ({
 
   return {
     commits,
+    isDirty: !!currentCommit.steps.length,
     corrections: corrections
       .slice()
       .sort(sortBy === 'Date' ? correctionsByDate : correctionsByContext),
