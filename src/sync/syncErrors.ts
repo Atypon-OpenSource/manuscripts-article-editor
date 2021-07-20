@@ -45,8 +45,8 @@ export const isSyncTimeoutError = (detail: ErrorEvent) => {
 }
 
 export const isWriteError = (detail: ErrorEvent) => {
-  const operation = get(detail, 'operation', null)
-  return Boolean(operation)
+  const status: number = get(detail, 'error.status', 0)
+  return status >= 400
 }
 
 export const getPushSyncErrorMessage = (detail: ErrorEvent) => {
@@ -54,6 +54,7 @@ export const getPushSyncErrorMessage = (detail: ErrorEvent) => {
 
   switch (status) {
     case StatusCodes.BAD_REQUEST:
+    case StatusCodes.FORBIDDEN:
       return `Syncing your changes failed due to invalid data.`
 
     case StatusCodes.NOT_FOUND:

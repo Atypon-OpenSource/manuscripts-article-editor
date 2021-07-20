@@ -15,8 +15,8 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useReducer,
+  useRef,
 } from 'react'
 
 import { channels } from '../channels'
@@ -48,9 +48,20 @@ export const SyncStore: React.FC = ({ children }) => {
   ]
   const getState = useCallback(() => state, [state])
 
-  const wrappedDispatch = useMemo(() => CollectionEffects(dispatch), [dispatch])
+  const safeToDispatch = useRef(true)
+  const wrappedDispatch = useCallback(
+    (action: Action) => {
+      if (!safeToDispatch.current) {
+        return
+      }
+      CollectionEffects(dispatch)(action)
+      return dispatch(action)
+    },
+    [dispatch]
+  )
 
   useEffect(() => {
+    safeToDispatch.current = true
     collectionManager.listen({ dispatch: wrappedDispatch, getState })
 
     const messageHandler = (msg: string) => {
@@ -69,6 +80,7 @@ export const SyncStore: React.FC = ({ children }) => {
     channels.syncState.addEventListener('message', messageHandler)
 
     return () => {
+      safeToDispatch.current = false
       collectionManager.unlisten()
       channels.syncState.removeEventListener('message', messageHandler)
     }

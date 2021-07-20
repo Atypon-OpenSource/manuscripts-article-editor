@@ -16,33 +16,27 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import App from './App'
 import DatabaseProvider from './components/DatabaseProvider'
-import IntlProvider from './components/IntlProvider'
 import { ModalProvider } from './components/ModalProvider'
 import { NotificationProviderWithRouter } from './components/NotificationProvider'
 import { ServiceWorker } from './components/ServiceWorker'
 import { databaseCreator } from './lib/db'
 import { SyncStore } from './sync/SyncStore'
 import { GlobalStyle } from './theme/theme'
-import { ThemeProvider } from './theme/ThemeProvider'
 
 const Main = () => (
-  <IntlProvider>
-    <DndProvider backend={HTML5Backend}>
-      <ThemeProvider>
-        <DatabaseProvider databaseCreator={databaseCreator}>
-          <GlobalStyle />
-          <SyncStore>
-            <NotificationProviderWithRouter>
-              <ServiceWorker />
-              <ModalProvider>
-                <App />
-              </ModalProvider>
-            </NotificationProviderWithRouter>
-          </SyncStore>
-        </DatabaseProvider>
-      </ThemeProvider>
-    </DndProvider>
-  </IntlProvider>
+  <DndProvider backend={HTML5Backend}>
+    <DatabaseProvider databaseCreator={databaseCreator}>
+      <GlobalStyle />
+      <SyncStore>
+        <NotificationProviderWithRouter>
+          <ServiceWorker />
+          <ModalProvider>
+            <App />
+          </ModalProvider>
+        </NotificationProviderWithRouter>
+      </SyncStore>
+    </DatabaseProvider>
+  </DndProvider>
 )
 
 export default Main

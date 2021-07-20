@@ -58,6 +58,4 @@ export default (dispatch: (action: Action) => void) => (action: Action) => {
     // dispatch also between other tabs between tabs.
     channels.syncState.postMessage(JSON.stringify(action))
   }
-
-  dispatch(action)
 }

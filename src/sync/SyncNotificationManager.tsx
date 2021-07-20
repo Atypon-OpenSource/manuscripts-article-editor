@@ -125,27 +125,6 @@ const SyncNotificationManager: NotificationComponent = () => {
     )
   }
 
-  const writeError = errors.find(isWriteError)
-  if (writeError) {
-    return (
-      <SyncNotification
-        title="Error while saving your document"
-        info={[
-          <CopyableText handleCopy={composeErrorReport} key={0}>
-            Copy diagnostics to support
-          </CopyableText>,
-          <Link to="/diagnostics" key={1}>
-            View Diagnostics
-          </Link>,
-        ]}
-        buttonText="Contact Support"
-        buttonAction={crisp.open}
-        primaryButtonText="Dismiss"
-        primaryButtonAction={() => dispatch(actions.resetErrors())}
-      />
-    )
-  }
-
   if (onlineState === OnlineState.Acknowledged) {
     return null
   }
@@ -187,6 +166,27 @@ const SyncNotificationManager: NotificationComponent = () => {
         buttonAction={crisp.open}
         primaryButtonText="Retry"
         primaryButtonAction={handleRetry}
+      />
+    )
+  }
+
+  const writeError = errors.find(isWriteError)
+  if (writeError) {
+    return (
+      <SyncNotification
+        title="Error while saving your document"
+        info={[
+          <CopyableText handleCopy={composeErrorReport} key={0}>
+            Copy diagnostics to support
+          </CopyableText>,
+          <Link to="/diagnostics" key={1}>
+            View Diagnostics
+          </Link>,
+        ]}
+        buttonText="Contact Support"
+        buttonAction={crisp.open}
+        primaryButtonText="Dismiss"
+        primaryButtonAction={() => dispatch(actions.resetErrors())}
       />
     )
   }
