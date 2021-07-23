@@ -149,7 +149,7 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     permittedActions,
   })
 
-  if (isLoading || submissionData.loading) {
+  if (isLoading || submissionData.loading || !permittedActions) {
     return <ManuscriptPlaceholder />
   } else if (error || !data) {
     return (
@@ -158,7 +158,6 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
       />
     )
   }
-
   return (
     <ManuscriptModelsProvider
       modelMap={data.modelMap}
@@ -299,7 +298,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     },
     [changeAttachmentDesignation, handleSubmissionMutation, setMainManuscript]
   )
-
   const editorProps = {
     doc,
 
@@ -335,8 +333,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     commit: props.commitAtLoad || null,
     externalFiles: files,
     theme,
-    submissionId: submissionId,
-    capabilites: can,
+    submissionId,
+    capabilities: can,
     updateDesignation: (designation: string, name: string) =>
       handleChangeAttachmentDesignation(submissionId, designation, name),
   }
