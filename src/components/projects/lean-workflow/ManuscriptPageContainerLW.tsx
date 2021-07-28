@@ -68,7 +68,6 @@ import { bootstrap } from '../../../lib/bootstrap-manuscript'
 import {
   Submission,
   useGetPermittedActions,
-  useGetPerson,
   useGetSubmission,
   useSetMainManuscript,
   useUpdateAttachmentDesignation,
@@ -138,14 +137,13 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   )
 
   const submissionId: string = submissionData?.data?.submission?.id
-  const personData = useGetPerson()
   const permittedActionsData = useGetPermittedActions(submissionId)
   const permittedActions = permittedActionsData?.data?.permittedActions
-  const lwRole = personData?.data?.person?.role?.id
+  // lwRole must not be used to calculate permissions in the contenxt of manuscripts app.
+  // lwRole is only for the dashboard
   const can = useCalcPermission({
     profile: props.user,
     project,
-    lwRole,
     permittedActions,
   })
 
