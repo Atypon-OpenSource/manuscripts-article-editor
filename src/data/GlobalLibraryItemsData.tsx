@@ -25,6 +25,7 @@ interface Props {
     data: Map<string, BibliographyItem>,
     collection: Collection<BibliographyItem>
   ) => React.ReactNode
+  projectID: string
 }
 
 interface State {
@@ -58,6 +59,7 @@ class GlobalLibraryItemsData extends DataComponent<
     this.collection
       .find({
         objectType: ObjectTypes.BibliographyItem,
+        containerID: this.props.projectID,
       })
       .$.subscribe((docs) => {
         if (docs) {

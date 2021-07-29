@@ -140,10 +140,12 @@ class ProjectPageContainer extends React.Component<
                                 <GlobalLibrariesData>
                                   {(globalLibraries) => {
                                     const channels = [
-                                      ...globalLibraries.keys(),
-                                      ...globalLibraryCollections.keys(),
-                                    ].map((id) => `${id}-read`)
-
+                                      ...[
+                                        ...globalLibraries.keys(),
+                                        ...globalLibraryCollections.keys(),
+                                      ].map((id) => `${id}-read`),
+                                      `${projectID}-bibitems`,
+                                    ]
                                     return (
                                       <Sync
                                         collection={'libraryitems'}
@@ -154,6 +156,7 @@ class ProjectPageContainer extends React.Component<
                                       >
                                         <GlobalLibraryItemsData
                                           placeholder={<ProjectPlaceholder />}
+                                          projectID={projectID}
                                         >
                                           {(globalLibraryItems) => (
                                             <UserProjectsData
