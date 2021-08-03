@@ -276,7 +276,7 @@ interface proceedProps {
 }
 
 export const useProceed = () => {
-  const [mutate] = useMutation<{ result: boolean }>(PROCEED, {
+  const [mutate] = useMutation<{ proceed: boolean }>(PROCEED, {
     errorPolicy: 'all',
   })
   return ({ submissionId, statusId, note }: proceedProps) =>

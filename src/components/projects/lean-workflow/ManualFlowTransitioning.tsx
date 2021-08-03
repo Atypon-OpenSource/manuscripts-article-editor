@@ -59,7 +59,7 @@ export const ManualFlowTransitioning: React.FC<{
       note: noteValue,
     })
       .then(({ data }) => {
-        if (data?.result) {
+        if (data?.proceed) {
           // TODO:: we should redirect user to the dashboard, LIT-396503
           toggleConfirmationDialog(false)
         } else {
