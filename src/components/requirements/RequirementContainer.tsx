@@ -33,7 +33,7 @@ export const RequirementContainer: React.FC<Props> = ({
   children,
 }) => {
   const failedResults = result.filter(
-    (node: AnyValidationResult) => !node.passed
+    (node: AnyValidationResult) => !node.passed && !node.ignored
   )
   const { toggleOpen, isOpen } = useDropdown(failedResults.length !== 0)
 

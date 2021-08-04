@@ -33,24 +33,30 @@ export const RequirementsList: React.FC<{
       ),
     [validationResult]
   )
-  const manuscriptValidation = sortedData.filter(
+  const ignoredValidations = sortedData.filter(
+    (node: AnyValidationResult) => node.ignored
+  )
+  const validationsList = sortedData.filter(
+    (node: AnyValidationResult) => !node.ignored
+  )
+  const manuscriptValidation = validationsList.filter(
     (node: AnyValidationResult) =>
       node.type && node.type.startsWith('manuscript-')
   )
-  const bibliographyValidation = sortedData.filter(
+  const bibliographyValidation = validationsList.filter(
     (node: AnyValidationResult) =>
       node.type && node.type.startsWith('bibliography-')
   )
-  const figureValidation = sortedData.filter(
+  const figureValidation = validationsList.filter(
     (node: AnyValidationResult) => node.type && node.type.startsWith('figure-')
   )
-  const requiredSectionValidation = sortedData.filter(
+  const requiredSectionValidation = validationsList.filter(
     (node: AnyValidationResult) => node.type === 'required-section'
   )
-  const sectionOrderValidation = sortedData.filter(
+  const sectionOrderValidation = validationsList.filter(
     (node: AnyValidationResult) => node.type === 'section-order'
   )
-  const sectionValidation = sortedData.filter(
+  const sectionValidation = validationsList.filter(
     (node: AnyValidationResult) => node.type && node.type.startsWith('section-')
   )
 
@@ -150,6 +156,24 @@ export const RequirementsList: React.FC<{
         >
           <Requirement>
             {sectionOrderValidation.map(
+              (section: AnyValidationResult) =>
+                section.message && (
+                  <RequirementsData
+                    node={section}
+                    key={section._id}
+                    modelMap={modelMap}
+                    manuscriptID={manuscriptID}
+                    bulkUpdate={bulkUpdate}
+                  />
+                )
+            )}
+          </Requirement>
+        </RequirementContainer>
+      )}
+      {ignoredValidations.length !== 0 && (
+        <RequirementContainer result={ignoredValidations} title={'Ignored'}>
+          <Requirement>
+            {ignoredValidations.map(
               (section: AnyValidationResult) =>
                 section.message && (
                   <RequirementsData

@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  Model,
+  ObjectTypes,
+  RequirementsValidation,
+} from '@manuscripts/manuscripts-json-schema'
 import {
   AnyValidationResult,
   runManuscriptFixes,
@@ -71,6 +75,20 @@ export const RequirementsData: React.FC<{
     await bulkUpdate(changedItems)
   }, [modelMap, bulkUpdate, manuscriptID, node])
 
+  const ignoreItHandler = useCallback(async () => {
+    modelMap.forEach((model) => {
+      if (model.objectType === ObjectTypes.RequirementsValidation) {
+        const validationModel = model as RequirementsValidation
+        validationModel.results.forEach((value) => {
+          if (value._id === node._id) {
+            value.ignored = true
+          }
+        })
+        modelMap.set(validationModel._id, validationModel)
+      }
+    })
+  }, [modelMap, node])
+
   return (
     <InspectorContainer>
       <MessageContainer
@@ -82,7 +100,9 @@ export const RequirementsData: React.FC<{
         {isShown && !node.passed && node.fixable && (
           <ButtonsList>
             <Button onClick={fixItHandler}> Fix it</Button>
-            <Button> Ignore</Button>
+            {!node.ignored && (
+              <Button onClick={ignoreItHandler}> Ignore</Button>
+            )}
           </ButtonsList>
         )}
       </MessageContainer>
