@@ -147,7 +147,7 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     permittedActions,
   })
 
-  if (isLoading || submissionData.loading || !permittedActions) {
+  if (isLoading || submissionData.loading || permittedActionsData.loading) {
     return <ManuscriptPlaceholder />
   } else if (error || !data) {
     return (
@@ -156,6 +156,14 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
       />
     )
   }
+
+  if (submissionData.error || permittedActionsData.error) {
+    const message = submissionData.error
+      ? 'Request for project submission from server failed.'
+      : 'Request for user permissions from server failed.'
+    return <ReloadDialog message={message} />
+  }
+
   return (
     <ManuscriptModelsProvider
       modelMap={data.modelMap}
