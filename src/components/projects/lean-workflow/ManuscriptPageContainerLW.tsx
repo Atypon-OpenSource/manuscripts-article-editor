@@ -42,9 +42,7 @@ import {
 import { RxDocument } from '@manuscripts/rxdb'
 import {
   CapabilitiesProvider,
-  Designation,
   FileManager,
-  getDesignationName,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
@@ -71,6 +69,7 @@ import {
   useGetSubmission,
   useSetMainManuscript,
   useUpdateAttachmentDesignation,
+  useUpdateAttachmentFile,
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
 import { ContainerIDs } from '../../../sync/Collection'
@@ -435,27 +434,19 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     [uploadAttachment, handleSubmissionMutation]
   )
 
+  const updateAttachmentFile = useUpdateAttachmentFile()
   const handleReplaceAttachment = useCallback(
     (submissionId: string, name: string, file: File, typeId: string) => {
-      handleSubmissionMutation(
-        uploadAttachment({
-          submissionId: submissionId,
-          file: file,
-          designation: typeId,
-        }),
-        'Something went wrong while Uploading attachment.'
-      )
-
       return handleSubmissionMutation(
-        changeAttachmentDesignation({
-          submissionId: submissionId,
-          name: name,
-          designation: getDesignationName(Designation.SubmissionFile),
+        updateAttachmentFile({
+          submissionId,
+          file,
+          name,
         }),
         'Something went wrong while replacing attachment.'
       )
     },
-    [uploadAttachment, changeAttachmentDesignation, handleSubmissionMutation]
+    [updateAttachmentFile, handleSubmissionMutation]
   )
 
   const handleDownloadAttachment = useCallback((url: string) => {
