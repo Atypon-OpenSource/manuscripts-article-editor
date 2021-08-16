@@ -2015,6 +2015,20 @@
     prosemirror-view "~1.18.2"
     react-select "~3.1.0"
 
+"@manuscripts/comment-editor@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.npmjs.org/@manuscripts/comment-editor/-/comment-editor-0.2.3.tgz#407737a3e9f07101dafbd1db5c7a49c4c910c913"
+  integrity sha512-OXux56IBtOWZtIuKoPhdIheTYzfeuW/at5Bn25Qv358TX1DoRtkcvbGe7MfuqPQ1tri6FYW5E53+J8xlUhGC9g==
+  dependencies:
+    prosemirror-commands "~1.1.7"
+    prosemirror-history "~1.1.3"
+    prosemirror-inputrules "~1.1.3"
+    prosemirror-keymap "~1.1.4"
+    prosemirror-model "~1.14.0"
+    prosemirror-state "~1.3.4"
+    prosemirror-view "~1.18.2"
+    react-select "~3.1.0"
+
 "@manuscripts/csl-locales@^0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@manuscripts/csl-locales/-/csl-locales-0.0.4.tgz#28b427cc39349f370e65d26638e88dfa62bb9b9e"
