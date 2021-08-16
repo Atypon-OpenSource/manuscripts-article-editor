@@ -18,6 +18,7 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 
+import config from '../../config'
 import ContainersInvitationsData from '../../data/ContainersInvitationsData'
 import ProjectsData from '../../data/ProjectsData'
 import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
@@ -116,13 +117,16 @@ const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = (
                             <span className={'sidebar-title'}>Projects</span>
                           }
                         />
-                        <SidebarAction>
-                          <AddButton
-                            action={openTemplateSelector(props, user)}
-                            size={'medium'}
-                            title={'New Project'}
-                          />
-                        </SidebarAction>
+                        {!config.leanWorkflow.enabled && (
+                          <SidebarAction>
+                            <AddButton
+                              action={openTemplateSelector(props, user)}
+                              size={'medium'}
+                              title={'New Project'}
+                            />
+                          </SidebarAction>
+                        )}
+
                         <ProjectsButton
                           isDropdown={false}
                           closeModal={props.closeModal}

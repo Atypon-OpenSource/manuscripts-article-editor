@@ -19,6 +19,7 @@ import { AlertMessage, AlertMessageType } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import config from '../../config'
 import { projectListCompare } from '../../lib/projects'
 import { DropdownSeparator } from './Dropdown'
 import {
@@ -97,8 +98,9 @@ export const ProjectsDropdownList: React.FunctionComponent<Props> = ({
       </ProjectContainer>
 
       {!!projects.length && <DropdownSeparator />}
-
-      <DropdownSection onClick={addProject}>New Project</DropdownSection>
+      {!config.leanWorkflow.enabled && (
+        <DropdownSection onClick={addProject}>New Project</DropdownSection>
+      )}
     </React.Fragment>
   )
 }
