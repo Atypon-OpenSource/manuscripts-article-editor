@@ -54,6 +54,7 @@ interface Props {
   collection: Collection<ContainedModel>
   modelMap: Map<string, Model>
   saveModel: SaveModel
+  contentEditable: boolean
 }
 
 export const ApplicationMenusLW: React.FC<Props> = ({
@@ -65,6 +66,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   saveModel,
   project,
   collection,
+  contentEditable,
 }) => {
   const openImporter = () => {
     addModal('importer', ({ handleClose }) => (
@@ -147,17 +149,18 @@ export const ApplicationMenusLW: React.FC<Props> = ({
 
   const menu = [
     projectMenu,
-    ...getMenus(editor, openDialog, config.features.footnotes),
+    ...getMenus(editor, openDialog, config.features.footnotes, contentEditable),
     helpMenu,
   ]
 
   if (!config.production) {
     menu.push(developMenu)
   }
+
   const menus = useApplicationMenus(menu)
 
   return (
-    <React.Fragment>
+    <>
       <DialogController
         currentDialog={dialog}
         handleCloseDialog={closeDialog}
@@ -167,6 +170,6 @@ export const ApplicationMenusLW: React.FC<Props> = ({
         dispatch={editor.dispatch}
       />
       <ApplicationMenus {...menus} />
-    </React.Fragment>
+    </>
   )
 }

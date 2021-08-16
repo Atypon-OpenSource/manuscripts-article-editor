@@ -72,6 +72,7 @@ import {
   useUpdateAttachmentFile,
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
+import { isViewer } from '../../../lib/roles'
 import { ContainerIDs } from '../../../sync/Collection'
 import { theme } from '../../../theme/theme'
 import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
@@ -307,7 +308,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     doc,
 
     locale: manuscript.primaryLanguageCode || 'en-GB',
-    permissions: { write: true },
+    permissions: { write: !isViewer(project, props.user.userID) },
     environment: config.environment,
     history,
     popper: popper.current,
@@ -495,6 +496,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   saveModel={saveModel}
                   project={project}
                   collection={collection}
+                  contentEditable={editorProps.permissions.write}
                 />
               </ApplicationMenuContainer>
               {can.seeEditorToolbar && (
