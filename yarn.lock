@@ -2077,10 +2077,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.88.6":
-  version "0.88.6"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.88.6.tgz#5e8ed687efc9827efa3bd3fc64a7379bc4d91898"
-  integrity sha512-vzWuRCzHuLj8p5msOQdi5/f1bP5W+g8wiGjHbC6r+lPtYOikucZGPpSSKXH9QwjCIFJtkpJ96QuDv/D1R0Te/w==
+"@manuscripts/manuscript-editor@^0.88.7":
+  version "0.88.7"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.88.7.tgz#b151fc22d493ae85c3b89a788a1c1e721e105de2"
+  integrity sha512-hyMpiDeUtnQsj0+KxwQX7wveJFqag/e+jVngCTFD+chzwQA6MJzEZckd4ax9P8TPasAcj9igfaXnxdzrVZKPKw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2089,7 +2089,7 @@
     "@manuscripts/manuscripts-json-schema" "^1.47.0"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
-    "@manuscripts/track-changes" "^0.1.2"
+    "@manuscripts/track-changes" "^0.1.3"
     astrocite-eutils "^0.16.4"
     axios "^0.20.0"
     blob-util "^2.0.2"
@@ -2353,10 +2353,10 @@
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
 
-"@manuscripts/track-changes@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.1.2.tgz#e2c29cb50e6016fc2bdba0e47b032f146ce87114"
-  integrity sha512-qOp3vfRNlTdtDAeJEITGvumFAVKyPF9uNVYwrzYCG6QZsQdkuZ7ZMa1a8z4hteQ7FFKnBGV4aRhQWyK4/dch+w==
+"@manuscripts/track-changes@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.1.3.tgz#12033d2da815c2b98417d3f203cb86c596e79333"
+  integrity sha512-9ApX6K4FVX6OM1E89l11i1ZJDgVhbTST6rXw7yCD5MQRKjl0050XZacdg5NEdgINGg1CMTcmBt0mgiphDdGtIA==
   dependencies:
     "@manuscripts/manuscripts-json-schema" "1.46.3"
     prosemirror-state "~1.3.4"
