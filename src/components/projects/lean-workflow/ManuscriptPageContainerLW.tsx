@@ -72,7 +72,7 @@ import {
   useUpdateAttachmentFile,
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
-import { isViewer } from '../../../lib/roles'
+import { getUserRole, isViewer } from '../../../lib/roles'
 import { ContainerIDs } from '../../../sync/Collection'
 import { theme } from '../../../theme/theme'
 import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
@@ -482,7 +482,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       <Main>
         <EditorContainer>
           <EditorContainerInner>
-            <ManualFlowTransitioning submission={submission}>
+            <ManualFlowTransitioning
+              submission={submission}
+              userRole={getUserRole(project, user.userID)}
+            >
               <SaveStatusController isDirty={isDirty} />
             </ManualFlowTransitioning>
             <EditorHeader>

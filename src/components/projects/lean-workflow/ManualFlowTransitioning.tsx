@@ -22,14 +22,33 @@ import styled from 'styled-components'
 
 import { useDropdown } from '../../../hooks/use-dropdown'
 import { Submission, useProceed } from '../../../lib/lean-workflow-gql'
+import { ProjectRole } from '../../../lib/roles'
 import { Loading, LoadingOverlay } from '../../Loading'
 import { Dropdown, DropdownButton, DropdownContainer } from '../../nav/Dropdown'
 import { MediumTextArea } from '../inputs'
-import { EditIcon } from './EditIcon'
+import { AnnotatorIcon } from './icons/AnnotatorIcon'
+import { EditIcon } from './icons/EditIcon'
+import { ReadingIcon } from './icons/ReadingIcon'
+
+const Editing = { label: 'Editing', icon: EditIcon }
+
+const MapUserRole: {
+  [key in ProjectRole]: {
+    label: string
+    icon: React.FC<React.SVGAttributes<SVGElement>>
+  }
+} = {
+  [ProjectRole.editor]: Editing,
+  [ProjectRole.owner]: Editing,
+  [ProjectRole.writer]: Editing,
+  [ProjectRole.annotator]: { label: 'Suggesting...', icon: AnnotatorIcon },
+  [ProjectRole.viewer]: { label: 'Reading', icon: ReadingIcon },
+}
 
 export const ManualFlowTransitioning: React.FC<{
   submission: Submission
-}> = ({ submission, children }) => {
+  userRole: ProjectRole | null
+}> = ({ submission, userRole, children }) => {
   const can = usePermissions()
   const submitProceedMutation = useProceed()
 
@@ -172,8 +191,8 @@ export const ManualFlowTransitioning: React.FC<{
       <DropdownWrapper
         button={
           <>
-            <EditIcon />
-            <span>Editing</span>
+            {userRole && React.createElement(MapUserRole[userRole].icon)}
+            <span>{userRole && MapUserRole[userRole].label}</span>
           </>
         }
         disabled={true}
