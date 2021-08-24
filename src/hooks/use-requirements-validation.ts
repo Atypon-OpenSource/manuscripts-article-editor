@@ -77,7 +77,9 @@ export const useRequirementsValidation = ({
 
   useIdlePropEffect(
     () => {
-      buildQualityCheck(modelMap, prototypeID, manuscript._id)
+      buildQualityCheck(modelMap, prototypeID, manuscript._id, {
+        validateImageFiles: false,
+      })
         .then((results) => {
           // make sure not to create multiple documents
           if (!loaded) {

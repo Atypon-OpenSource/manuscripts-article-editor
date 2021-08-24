@@ -15,6 +15,7 @@ import { Model } from '@manuscripts/manuscripts-json-schema'
 import {
   AnyValidationResult,
   createTemplateValidator,
+  validationOptions,
 } from '@manuscripts/requirements'
 import toBuffer from 'blob-to-buffer'
 import React, { useEffect, useState } from 'react'
@@ -26,7 +27,8 @@ import { RequirementsList } from './RequirementsList'
 export const buildQualityCheck = async (
   modelMap: Map<string, Model>,
   prototypeId: string | undefined,
-  manuscriptID: string
+  manuscriptID: string,
+  validationOptions?: validationOptions
 ): Promise<AnyValidationResult[]> => {
   if (typeof prototypeId === 'undefined') {
     return []
@@ -63,7 +65,8 @@ export const buildQualityCheck = async (
   const results = (await validateManuscript(
     Array.from(modelMap.values()) as ContainedModel[],
     manuscriptID,
-    getData
+    getData,
+    validationOptions
   )) as AnyValidationResult[]
 
   return results

@@ -2258,10 +2258,10 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/requirements@^0.4.6":
-  version "0.4.6"
-  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.4.6.tgz#bf403cf1235a6558e54fc45a4dc7699ab61a392b"
-  integrity sha512-LzgDVUz3SSi0vrWpyukeYLcyM2U5pg80zXhwjN4tkqUQDI0AvvbgsVhMGijbrI36Wfycfd2FUvHBi0j/iqIMXg==
+"@manuscripts/requirements@^0.4.7":
+  version "0.4.7"
+  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.4.7.tgz#a43eb00b7036c2f1092a40f5ecfbfd4dfd0b8575"
+  integrity sha512-8UJLc7lACWZPE6p0EN+O49UQ1Bhz+yO4p9yKpiYX3E1K628F0lGUPhKKcttXoXYDmpwq++JWdBSqcWYQHSCFdQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/data" "^0.1.5"
