@@ -14,14 +14,22 @@ import {
   AlertMessageType,
   Category,
   Dialog,
+  PrimaryBoldHeading,
   PrimaryButton,
+  SecondarySmallText,
+  TaskStepDoneIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
+import config from '../../../config'
 import { useDropdown } from '../../../hooks/use-dropdown'
-import { Submission, useProceed } from '../../../lib/lean-workflow-gql'
+import {
+  Submission,
+  SubmissionStepType,
+  useProceed,
+} from '../../../lib/lean-workflow-gql'
 import { ProjectRole } from '../../../lib/roles'
 import { Loading, LoadingOverlay } from '../../Loading'
 import { Dropdown, DropdownButton, DropdownContainer } from '../../nav/Dropdown'
@@ -54,6 +62,7 @@ export const ManualFlowTransitioning: React.FC<{
 
   const [confirmationDialog, toggleConfirmationDialog] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [showComplete, setShowComplete] = useState(false)
   const [noteValue, setNoteValue] = useState<string>('')
   const [error, setError] = useState<string | undefined>(undefined)
   const [
@@ -79,8 +88,7 @@ export const ManualFlowTransitioning: React.FC<{
     })
       .then(({ data }) => {
         if (data?.proceed) {
-          // TODO:: we should redirect user to the dashboard, LIT-396503
-          toggleConfirmationDialog(false)
+          setShowComplete(true)
         } else {
           setError('Server refused to proceed with your submission')
         }
@@ -93,7 +101,6 @@ export const ManualFlowTransitioning: React.FC<{
   }, [
     submitProceedMutation,
     setError,
-    toggleConfirmationDialog,
     selectedTransitionIndex,
     submission,
     noteValue,
@@ -116,6 +123,51 @@ export const ManualFlowTransitioning: React.FC<{
   const onNoteChange = useCallback(
     (event) => setNoteValue(event.target.value),
     [setNoteValue]
+  )
+
+  const onDashboardRedirectClick = useCallback(() => {
+    window.location.href = config.leanWorkflow.dashboardUrl
+  }, [])
+
+  const dialogMessages = useMemo(
+    () =>
+      showComplete
+        ? {
+            header: 'Content reassigned successfully',
+            message: `to the ${submission.nextStep.type.label}`,
+            actions: {
+              primary: {
+                action: onCancelClick,
+                title: 'Close',
+              },
+              secondary: {
+                action: onDashboardRedirectClick,
+                title: 'Go to dashboard',
+              },
+            },
+          }
+        : {
+            header: 'Are you sure?',
+            message:
+              'You are about to complete your task. If you confirm, you will no longer be able to make any changes.',
+            actions: {
+              primary: {
+                action: continueDialogAction,
+                title: 'Continue',
+              },
+              secondary: {
+                action: onCancelClick,
+                title: 'Cancel',
+              },
+            },
+          },
+    [
+      showComplete,
+      continueDialogAction,
+      onDashboardRedirectClick,
+      onCancelClick,
+      submission.nextStep.type.label,
+    ]
   )
 
   const currentStepTransition = submission?.currentStep.type.transitions
@@ -156,29 +208,33 @@ export const ManualFlowTransitioning: React.FC<{
         <Dialog
           isOpen={confirmationDialog && !loading}
           category={Category.confirmation}
-          header={'Are you sure?'}
-          message={
-            'You are about to complete your task. If you confirm, you will no longer be able to make any changes.'
-          }
-          actions={{
-            primary: {
-              action: continueDialogAction,
-              title: 'Continue',
-            },
-            secondary: {
-              action: onCancelClick,
-              title: 'Cancel',
-            },
-          }}
+          header={dialogMessages.header}
+          message={dialogMessages.message}
+          actions={dialogMessages.actions}
         >
-          <TextAreaWrapper>
-            <MediumTextArea
-              value={noteValue}
-              onChange={onNoteChange}
-              rows={5}
-              placeholder={'Add any additional comment here...'}
-            />
-          </TextAreaWrapper>
+          {(showComplete && (
+            <Grid>
+              <StepDetails
+                {...submission.currentStep.type}
+                icon={
+                  <>
+                    <TaskStepDoneIcon />
+                    <Line />
+                  </>
+                }
+              />
+              <StepDetails {...submission.nextStep.type} />
+            </Grid>
+          )) || (
+            <TextAreaWrapper>
+              <MediumTextArea
+                value={noteValue}
+                onChange={onNoteChange}
+                rows={5}
+                placeholder={'Add any additional comment here...'}
+              />
+            </TextAreaWrapper>
+          )}
 
           {error && (
             <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
@@ -224,6 +280,19 @@ const DropdownWrapper: React.FC<{
     </DropdownContainer>
   )
 }
+
+const StepDetails: React.FC<
+  SubmissionStepType & { icon?: React.ReactNode }
+> = ({ icon, label, description, role }) => (
+  <>
+    {icon && <TaskStatus>{icon}</TaskStatus>}
+    <TaskContainer>
+      <PrimaryBoldHeading>{label}</PrimaryBoldHeading>
+      <SecondarySmallText>{description}</SecondarySmallText>
+      <SecondarySmallText>Actor: {role.label}</SecondarySmallText>
+    </TaskContainer>
+  </>
+)
 
 const Wrapper = styled.div`
   display: flex;
@@ -289,4 +358,32 @@ const ChildWrapper = styled.div`
   margin: 0 2em;
   flex-direction: row;
   align-items: center;
+`
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: max-content auto;
+  gap: 0 ${(props) => props.theme.grid.unit * 2}px;
+  margin-top: ${(props) => props.theme.grid.unit * 4}px;
+  background: ${(props) => props.theme.colors.background.secondary};
+  padding: ${(props) => props.theme.grid.unit * 6}px;
+`
+
+const TaskStatus = styled.div`
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5px;
+`
+
+const TaskContainer = styled.div`
+  grid-column: 2;
+  margin-bottom: 8px;
+`
+
+const Line = styled.hr`
+  margin: 5px 0 0 0;
+  flex: 1;
+  border: 1px dashed #c9c9c9;
 `

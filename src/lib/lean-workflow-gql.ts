@@ -47,12 +47,20 @@ interface Transition {
   }
 }
 
+export interface SubmissionStepType {
+  label: string
+  description: string
+  role: { label: string }
+  transitions: Transition[]
+}
+
 export interface Submission {
   id: string
   currentStep: {
-    type: {
-      transitions: Transition[]
-    }
+    type: SubmissionStepType
+  }
+  nextStep: {
+    type: SubmissionStepType
   }
 }
 
@@ -82,22 +90,17 @@ const SET_ATTACHMENT_TYPE = gql`
   }
 `
 
-export const StepFragment = {
-  step: gql`
-    fragment step on SubmissionStep {
+const TransitionsFragment = {
+  transitions: gql`
+    fragment transitions on SubmissionStepTransition {
+      status {
+        id
+        label
+      }
       type {
         id
-        transitions {
-          status {
-            id
-            label
-          }
-          type {
-            id
-            description
-            label
-          }
-        }
+        description
+        label
       }
     }
   `,
@@ -108,11 +111,29 @@ const GET_SUBMISSION = gql`
     submission(id: $id, type: $type) {
       id
       currentStep {
-        ...step
+        type {
+          label
+          role {
+            label
+          }
+          description
+          transitions {
+            ...transitions
+          }
+        }
+      }
+      nextStep {
+        type {
+          label
+          role {
+            label
+          }
+          description
+        }
       }
     }
   }
-  ${StepFragment.step}
+  ${TransitionsFragment.transitions}
 `
 
 export const PROCEED = gql`

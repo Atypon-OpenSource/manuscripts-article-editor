@@ -90,6 +90,7 @@ interface Config {
   leanWorkflow: {
     enabled: boolean
     url: string
+    dashboardUrl: string
   }
   iam: {
     url: string
@@ -204,6 +205,7 @@ const config = {
   leanWorkflow: {
     enabled: isTrue(process.env.LEAN_WORKFLOW),
     url: normalizeURL(getURL(process.env.LEAN_WORKFLOW_MANAGER_URL, index)),
+    dashboardUrl: normalizeURL(getURL(process.env.DASHBOARD_URL, index)),
   },
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),
