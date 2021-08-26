@@ -351,7 +351,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   )
 
   const { state, doCommand, dispatch, view } = editor
-  useChangeReceiver(editor)
+  useChangeReceiver(editor, saveModel, deleteModel)
 
   const validation = useRequirementsValidation({
     project,

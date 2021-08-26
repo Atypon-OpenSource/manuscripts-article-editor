@@ -46,11 +46,22 @@ const getNodePositionById = (state: ManuscriptEditorState, id: string) => {
 
 export const changeReceiver = (
   editor: ReturnType<typeof useEditor>,
-  change: Change
+  change: Change,
+  saveModel: <T extends Model>(model: T | Partial<T>) => Promise<T>,
+  deleteModel: (id: string) => Promise<string>
 ) => {
   // don't worry about remove events FOR NOW
   // don't worry about insert events because figures have to be created in
   // the editor somewhere to require a transaction
+  if (change.data.doc.startsWith('MPExternalFile:')) {
+    const model = change.data.v as Model
+    if (change.data.op !== 'REMOVE') {
+      saveModel(model)
+    } else {
+      deleteModel(model._id)
+    }
+  }
+
   if (change.data.op !== 'UPDATE') {
     return
   }
@@ -75,7 +86,11 @@ export const changeReceiver = (
   // TODO: other types of nodes/transactions
 }
 
-export const useChangeReceiver = (editor: ReturnType<typeof useEditor>) => {
+export const useChangeReceiver = (
+  editor: ReturnType<typeof useEditor>,
+  saveModel: <T extends Model>(model: T | Partial<T>) => Promise<T>,
+  deleteModel: (id: string) => Promise<string>
+) => {
   const { collection, containerID, manuscriptID } = useManuscriptModels()
 
   return collection.getCollection().$.subscribe((change) => {
@@ -104,6 +119,6 @@ export const useChangeReceiver = (editor: ReturnType<typeof useEditor>) => {
       return
     }
 
-    return changeReceiver(editor, change)
+    return changeReceiver(editor, change, saveModel, deleteModel)
   })
 }
