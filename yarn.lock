@@ -2082,10 +2082,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.88.7":
-  version "0.88.7"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.88.7.tgz#b151fc22d493ae85c3b89a788a1c1e721e105de2"
-  integrity sha512-hyMpiDeUtnQsj0+KxwQX7wveJFqag/e+jVngCTFD+chzwQA6MJzEZckd4ax9P8TPasAcj9igfaXnxdzrVZKPKw==
+"@manuscripts/manuscript-editor@^0.88.8":
+  version "0.88.8"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.88.8.tgz#7f8a5419aa5c30effdbb5286ff504e4ac8c09612"
+  integrity sha512-SoVK5aidYLEYpsKriaeEwSEExs1e3WwzvGe0gleNfY4UnTbPnB1KkcmZFvQgRCMlQJQ/TaPm8oQLeXfUTJoA0w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2357,6 +2357,17 @@
     prosemirror-model "~1.14.0"
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
+
+"@manuscripts/track-changes@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes/-/track-changes-0.1.3.tgz#12033d2da815c2b98417d3f203cb86c596e79333"
+  integrity sha512-9ApX6K4FVX6OM1E89l11i1ZJDgVhbTST6rXw7yCD5MQRKjl0050XZacdg5NEdgINGg1CMTcmBt0mgiphDdGtIA==
+  dependencies:
+    "@manuscripts/manuscripts-json-schema" "1.46.3"
+    prosemirror-state "~1.3.4"
+    prosemirror-view "~1.18.2"
+    tinycolor2 "^1.4.2"
+    uuid "8.3.2"
 
 "@manuscripts/track-changes@^0.1.3":
   version "0.1.3"
