@@ -199,7 +199,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     user,
     history,
     doc,
-    modelMap,
     snapshotID,
     snapshots,
     comments,
@@ -216,6 +215,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     saveManuscript,
     deleteModel,
     collection,
+    modelMap,
     bundle,
   } = useManuscriptModels()
 

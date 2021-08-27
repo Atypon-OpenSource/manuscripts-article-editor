@@ -18,7 +18,7 @@ import {
   ModelAttachment,
 } from '@manuscripts/manuscript-transform'
 import { Bundle, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 
 import { Collection, ContainerIDs } from '../sync/Collection'
 import collectionManager from '../sync/CollectionManager'
@@ -61,14 +61,16 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
     ? (modelMap.get(manuscript.bundle) as Bundle)
     : null
 
+  const [modelsState, setModelsState] = useState<ModelMap>(modelMap)
+
   const getModel = useCallback(
     <T extends Model>(id: string) => {
-      if (!modelMap) {
+      if (!modelsState) {
         return
       }
-      return modelMap.get(id) as T | undefined
+      return modelsState.get(id) as T | undefined
     },
-    [modelMap]
+    [modelsState]
   )
 
   const saveModel = useCallback(
@@ -91,11 +93,13 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
       }
 
       // NOTE: can't set a partial here
-      if (modelMap) {
-        modelMap.set(containedModel._id, {
-          ...containedModel,
-          ...containerIDs,
-        })
+      if (modelsState) {
+        setModelsState((prev) =>
+          new Map(prev).set(containedModel._id, {
+            ...containedModel,
+            ...containerIDs,
+          })
+        )
       }
 
       const { attachment, ...data } = containedModel as T &
@@ -112,37 +116,37 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
 
       return result as T & ContainedProps
     },
-    [modelMap, collection, containerID, manuscriptID]
+    [modelsState, collection, containerID, manuscriptID]
   )
 
   const saveManuscript = useCallback(
     async (data: Partial<Manuscript>) => {
-      if (!modelMap) {
+      if (!modelsState) {
         return
       }
-      const prevManuscript = modelMap.get(manuscriptID)
+      const prevManuscript = modelsState.get(manuscriptID)
       return saveModel({
         ...prevManuscript,
         ...data,
       }).then(() => undefined)
     },
-    [modelMap, saveModel, manuscriptID]
+    [modelsState, saveModel, manuscriptID]
   )
 
   const deleteModel = useCallback(
     (id: string) => {
-      if (modelMap) {
-        modelMap.delete(id)
+      if (modelsState) {
+        modelsState.delete(id)
       }
       return collection.delete(id)
     },
-    [modelMap, collection]
+    [modelsState, collection]
   )
 
   const value = {
     getModel,
     saveModel,
-    modelMap,
+    modelMap: modelsState,
     saveManuscript,
     deleteModel,
     collection,
