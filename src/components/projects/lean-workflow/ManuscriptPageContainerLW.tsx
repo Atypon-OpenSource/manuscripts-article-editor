@@ -438,6 +438,23 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const updateAttachmentFile = useUpdateAttachmentFile()
   const handleReplaceAttachment = useCallback(
     (submissionId: string, name: string, file: File, typeId: string) => {
+      // to replace main manuscript we need first to upload the file and then change its designation to main-manuscript
+      if (typeId == 'main-manuscript') {
+        return uploadAttachment({
+          submissionId: submissionId,
+          file: file,
+          designation: 'sumbission-file',
+        }).then(() => {
+          return handleSubmissionMutation(
+            setMainManuscript({
+              submissionId,
+              name,
+            }),
+            'Something went wrong while setting main manuscript.'
+          )
+        })
+      }
+
       return handleSubmissionMutation(
         updateAttachmentFile({
           submissionId,
@@ -447,7 +464,12 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
         'Something went wrong while replacing attachment.'
       )
     },
-    [updateAttachmentFile, handleSubmissionMutation]
+    [
+      updateAttachmentFile,
+      handleSubmissionMutation,
+      setMainManuscript,
+      uploadAttachment,
+    ]
   )
 
   const handleDownloadAttachment = useCallback((url: string) => {
