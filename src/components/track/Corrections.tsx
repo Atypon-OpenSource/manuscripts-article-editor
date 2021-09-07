@@ -59,6 +59,7 @@ interface Props {
   collaborators: Map<string, UserProfileWithAvatar>
   accept: (correctionID: string) => void
   reject: (correctionID: string) => void
+  user: UserProfileWithAvatar
 }
 
 export const Corrections: React.FC<Props> = ({
@@ -69,6 +70,7 @@ export const Corrections: React.FC<Props> = ({
   accept,
   reject,
   project,
+  user,
 }) => {
   const getCommitFromCorrectionId = useCallback(
     (correctionId: string) => {
@@ -118,6 +120,7 @@ export const Corrections: React.FC<Props> = ({
         handleAccept={accept}
         handleReject={reject}
         approveAll={approveAll}
+        user={user}
       />
       <CorrectionsSection
         title={'Approved Suggestions'}
@@ -128,6 +131,7 @@ export const Corrections: React.FC<Props> = ({
         handleFocus={focusCorrection}
         handleAccept={accept}
         handleReject={reject}
+        user={user}
       />
       <CorrectionsSection
         title={'Rejected Suggestions'}
@@ -138,6 +142,7 @@ export const Corrections: React.FC<Props> = ({
         handleFocus={focusCorrection}
         handleAccept={accept}
         handleReject={reject}
+        user={user}
       />
     </>
   )

@@ -16,7 +16,7 @@ import {
   Project,
 } from '@manuscripts/manuscripts-json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { AvatarContainer, CorrectionItem, Time } from './CorrectionItem'
@@ -32,6 +32,7 @@ interface Props {
   handleFocus: (correctionID: string) => void
   handleAccept: (correctionID: string) => void
   handleReject: (correctionID: string) => void
+  user: UserProfileWithAvatar
 }
 
 export const Correction: React.FC<Props> = ({
@@ -42,6 +43,7 @@ export const Correction: React.FC<Props> = ({
   handleAccept,
   handleReject,
   project,
+  user,
 }) => {
   const handleClick = useCallback(
     (e) => {
@@ -52,6 +54,18 @@ export const Correction: React.FC<Props> = ({
   )
 
   const can = usePermissions()
+
+  const canRejectOwnSuggestion = useMemo(() => {
+    if (
+      can.handleSuggestion ||
+      (can.rejectOwnSuggestion &&
+        correction.status.label === 'proposed' &&
+        correction.status.editorProfileID === user._id)
+    ) {
+      return true
+    }
+    return false
+  }, [correction, can, user._id])
 
   return (
     <Wrapper isFocused={isFocused}>
@@ -68,26 +82,26 @@ export const Correction: React.FC<Props> = ({
       </FocusHandle>
 
       <Actions>
-        {can.handleSuggestion && (
-          <>
+        <>
+          {canRejectOwnSuggestion && (
             <Action
               type="button"
               onClick={() => handleReject(correction._id)}
               aria-pressed={correction.status.label === 'rejected'}
-              disabled={!can.handleSuggestion}
             >
               <Reject color="#353535" />
             </Action>
+          )}
+          {can.handleSuggestion && (
             <Action
               type="button"
               onClick={() => handleAccept(correction._id)}
               aria-pressed={correction.status.label === 'accepted'}
-              disabled={!can.handleSuggestion}
             >
               <Accept color="#353535" />
             </Action>
-          </>
-        )}
+          )}
+        </>
       </Actions>
     </Wrapper>
   )

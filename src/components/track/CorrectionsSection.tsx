@@ -32,6 +32,7 @@ interface Props {
   handleAccept: (correctionID: string) => void
   handleReject: (correctionID: string) => void
   approveAll?: () => void
+  user: UserProfileWithAvatar
 }
 
 export const CorrectionsSection: React.FC<Props> = ({
@@ -44,6 +45,7 @@ export const CorrectionsSection: React.FC<Props> = ({
   handleAccept,
   handleReject,
   approveAll,
+  user,
 }) => {
   return (
     <InspectorSection
@@ -60,6 +62,7 @@ export const CorrectionsSection: React.FC<Props> = ({
           handleAccept={handleAccept}
           handleReject={handleReject}
           key={corr._id}
+          user={user}
         />
       ))}
     </InspectorSection>

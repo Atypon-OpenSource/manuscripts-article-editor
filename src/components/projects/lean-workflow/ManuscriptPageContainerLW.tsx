@@ -656,6 +656,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       collaborators={props.collaboratorsById}
                       accept={accept}
                       reject={reject}
+                      user={user}
                     />
                   </React.Fragment>
                 ) : (
