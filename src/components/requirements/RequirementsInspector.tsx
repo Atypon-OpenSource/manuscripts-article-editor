@@ -21,7 +21,9 @@ import toBuffer from 'blob-to-buffer'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import config from '../../config'
 import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
+import { ExceptionDialog } from '../projects/lean-workflow/ExceptionDialog'
 import { RequirementsList } from './RequirementsList'
 
 export const buildQualityCheck = async (
@@ -99,14 +101,26 @@ export const RequirementsInspectorView: React.FC<
   Props & ReturnType<typeof useRequirementsValidation>
 > = ({ error, prototypeId, result, modelMap, manuscriptID, bulkUpdate }) => {
   if (error) {
-    return <ErrorMessage> {error?.message}</ErrorMessage>
+    return (
+      <>
+        <ErrorMessage> {error?.message}</ErrorMessage>
+        {config.leanWorkflow.enabled && (
+          <ExceptionDialog errorCode={'QR_SERVICE_UNAVAILABLE'} />
+        )}
+      </>
+    )
   }
 
   if (!prototypeId) {
     return (
-      <AlertMessage>
-        You need to select a template to display the quality report check
-      </AlertMessage>
+      <>
+        <AlertMessage>
+          You need to select a template to display the quality report check
+        </AlertMessage>
+        {config.leanWorkflow.enabled && (
+          <ExceptionDialog errorCode={'QR_PROFILE_NOT_FOUND'} />
+        )}
+      </>
     )
   }
 

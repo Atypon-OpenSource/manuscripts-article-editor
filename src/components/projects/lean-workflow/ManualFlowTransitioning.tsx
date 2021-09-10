@@ -34,6 +34,7 @@ import { ProjectRole } from '../../../lib/roles'
 import { Loading, LoadingOverlay } from '../../Loading'
 import { Dropdown, DropdownButton, DropdownContainer } from '../../nav/Dropdown'
 import { MediumTextArea } from '../inputs'
+import { ExceptionDialog } from './ExceptionDialog'
 import { AnnotatorIcon } from './icons/AnnotatorIcon'
 import { EditIcon } from './icons/EditIcon'
 import { ReadingIcon } from './icons/ReadingIcon'
@@ -58,7 +59,7 @@ export const ManualFlowTransitioning: React.FC<{
   userRole: ProjectRole | null
 }> = ({ submission, userRole, children }) => {
   const can = usePermissions()
-  const submitProceedMutation = useProceed()
+  const { submitProceedMutation, mutationError } = useProceed()
 
   const [confirmationDialog, toggleConfirmationDialog] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -94,8 +95,12 @@ export const ManualFlowTransitioning: React.FC<{
         }
         setLoading(false)
       })
-      .catch(() => {
-        setError('Unable to proceed with your submission.')
+      .catch((error) => {
+        if (!error.graphQLErrors) {
+          setError('Unable to proceed with your submission.')
+        } else {
+          toggleConfirmationDialog(false)
+        }
         setLoading(false)
       })
   }, [
@@ -172,6 +177,9 @@ export const ManualFlowTransitioning: React.FC<{
 
   const currentStepTransition = submission?.currentStep.type.transitions
   const disable = !currentStepTransition || !can.completeTask
+  const errorCode = mutationError?.graphQLErrors?.find(
+    (error) => error?.extensions?.code
+  )?.extensions?.code
 
   return (
     <Wrapper>
@@ -254,6 +262,8 @@ export const ManualFlowTransitioning: React.FC<{
         disabled={true}
       />
       <ChildWrapper>{children}</ChildWrapper>
+
+      {errorCode && <ExceptionDialog errorCode={errorCode} />}
     </Wrapper>
   )
 }

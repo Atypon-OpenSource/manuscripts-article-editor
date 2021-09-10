@@ -64,6 +64,15 @@ export interface Submission {
   }
 }
 
+export interface Person {
+  id: string
+  displayName: string
+  role: {
+    id: string
+    label: string
+  }
+}
+
 const UPLOAD_ATTACHMENT = gql`
   mutation Upload($submissionId: ID!, $file: Upload!, $typeId: ID!) {
     uploadAttachment(
@@ -132,6 +141,14 @@ const GET_SUBMISSION = gql`
         }
       }
     }
+    person {
+      id
+      displayName
+      role {
+        id
+        label
+      }
+    }
   }
   ${TransitionsFragment.transitions}
 `
@@ -144,6 +161,12 @@ export const PROCEED = gql`
 const SET_MAIN_MANUSCRIPT = gql`
   mutation SetMainManuscript($submissionId: ID!, $name: String!) {
     setMainManuscript(submissionId: $submissionId, name: $name)
+  }
+`
+
+const SET_TASK_ON_HOLD = gql`
+  mutation SetTaskOnHold($submissionId: ID!, $errorCode: ID!) {
+    setTaskOnHold(submissionId: $submissionId, errorCode: $errorCode)
   }
 `
 
@@ -213,23 +236,27 @@ const GET_CURRENT_SUBMISSION_STEP = gql`
 `
 
 export const useUploadAttachment = () => {
-  const [mutate] = useMutation(UPLOAD_ATTACHMENT)
-  return async ({
-    submissionId,
-    file,
-    designation, // typeId is designation
-  }: uploadAttachmentProps) => {
-    const fetchResult = await mutate({
-      context: {
-        clientPurpose: 'leanWorkflowManager',
-      },
-      variables: {
-        submissionId,
-        file,
-        typeId: designation,
-      },
-    })
-    return fetchResult
+  const [mutate, { error }] = useMutation(UPLOAD_ATTACHMENT)
+  return {
+    uploadAttachment: async ({
+      submissionId,
+      file,
+      designation, // typeId is designation
+    }: uploadAttachmentProps) => {
+      return await mutate({
+        context: {
+          clientPurpose: 'leanWorkflowManager',
+        },
+        variables: {
+          submissionId,
+          file,
+          typeId: designation,
+        },
+      })
+    },
+    uploadAttachmentError: error?.graphQLErrors?.find(
+      (error) => error?.extensions?.code
+    )?.extensions?.code,
   }
 }
 
@@ -265,7 +292,10 @@ export const useUpdateAttachmentFile = () => {
     })
 }
 
-export const useGetSubmission = (documentId: string, projectId: string) =>
+export const useGetSubmissionAndPerson = (
+  documentId: string,
+  projectId: string
+) =>
   useQuery(GET_SUBMISSION, {
     context: {
       clientPurpose: 'leanWorkflowManager',
@@ -297,20 +327,23 @@ interface proceedProps {
 }
 
 export const useProceed = () => {
-  const [mutate] = useMutation<{ proceed: boolean }>(PROCEED, {
+  const [mutate, { error }] = useMutation<{ proceed: boolean }>(PROCEED, {
     errorPolicy: 'all',
   })
-  return ({ submissionId, statusId, note }: proceedProps) =>
-    mutate({
-      context: {
-        clientPurpose: 'leanWorkflowManager',
-      },
-      variables: {
-        submissionId,
-        statusId,
-        note,
-      },
-    })
+  return {
+    submitProceedMutation: ({ submissionId, statusId, note }: proceedProps) =>
+      mutate({
+        context: {
+          clientPurpose: 'leanWorkflowManager',
+        },
+        variables: {
+          submissionId,
+          statusId,
+          note,
+        },
+      }),
+    mutationError: error,
+  }
 }
 
 export const useSetMainManuscript = () => {
@@ -323,6 +356,25 @@ export const useSetMainManuscript = () => {
       variables: {
         submissionId,
         name,
+      },
+    })
+}
+
+interface onHoldProps {
+  submissionId: string
+  errorCode: string
+}
+
+export const useSetTaskOnHold = () => {
+  const [mutate] = useMutation<{ setTaskOnHold: boolean }>(SET_TASK_ON_HOLD)
+  return ({ submissionId, errorCode }: onHoldProps) =>
+    mutate({
+      context: {
+        clientPurpose: 'leanWorkflowManager',
+      },
+      variables: {
+        submissionId,
+        errorCode,
       },
     })
 }
