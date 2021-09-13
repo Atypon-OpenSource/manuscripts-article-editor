@@ -130,6 +130,13 @@ export const useCommits = ({
       return
     }
     const changeSummary = getChangeSummary(editor.state, commit.changeID)
+    if (
+      !changeSummary ||
+      (changeSummary.deletion.length === 0 &&
+        changeSummary.insertion.length === 0)
+    ) {
+      return
+    }
 
     saveCommit(commit)
 
