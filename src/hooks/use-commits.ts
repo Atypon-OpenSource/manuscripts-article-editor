@@ -97,6 +97,7 @@ export const useCommits = ({
     )
   )
   const { commit: currentCommit } = getTrackPluginState(editor.state)
+  const [isDirty, setIsDirty] = useState(false)
 
   const saveCommit = useCallback(
     (commit: Commit) => {
@@ -124,7 +125,7 @@ export const useCommits = ({
   )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const freeze = () => {
+  const freeze = async () => {
     const { commit } = getTrackPluginState(editor.state)
     if (!commit.steps.length) {
       return
@@ -138,6 +139,7 @@ export const useCommits = ({
       return
     }
 
+    setIsDirty(true)
     saveCommit(commit)
 
     const correction = buildCorrection({
@@ -151,11 +153,11 @@ export const useCommits = ({
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
       status: { label: 'proposed', editorProfileID: userProfileID },
     })
-    saveCorrection(correction)
-
-    saveEditorState(editor.state, modelMap, containerID, manuscriptID)
+    await saveCorrection(correction)
+    await saveEditorState(editor.state, modelMap, containerID, manuscriptID)
     editor.doCommand(commands.freezeCommit())
     setLastSave(Date.now())
+    setIsDirty(false)
   }
 
   // Freeze the commit when 10 s has passed since the last save AND
@@ -284,7 +286,7 @@ export const useCommits = ({
 
   return {
     commits,
-    isDirty: !!currentCommit.steps.length,
+    isDirty,
     corrections: corrections
       .slice()
       .sort(sortBy === 'Date' ? correctionsByDate : correctionsByContext),
