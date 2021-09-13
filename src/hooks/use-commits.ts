@@ -153,8 +153,8 @@ export const useCommits = ({
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
       status: { label: 'proposed', editorProfileID: userProfileID },
     })
-    await saveCorrection(correction)
-    await saveEditorState(editor.state, modelMap, containerID, manuscriptID)
+    saveCorrection(correction)
+    saveEditorState(editor.state, modelMap, containerID, manuscriptID)
     editor.doCommand(commands.freezeCommit())
     setLastSave(Date.now())
     setIsDirty(false)
