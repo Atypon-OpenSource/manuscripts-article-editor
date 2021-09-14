@@ -140,7 +140,9 @@ export const useCommits = ({
     }
 
     setIsDirty(true)
-    saveCommit(commit)
+    saveEditorState(editor.state, modelMap, containerID, manuscriptID)
+    editor.doCommand(commands.freezeCommit())
+    setLastSave(Date.now())
 
     const correction = buildCorrection({
       contributions: [buildContribution(userProfileID)],
@@ -153,11 +155,10 @@ export const useCommits = ({
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
       status: { label: 'proposed', editorProfileID: userProfileID },
     })
-    saveCorrection(correction)
-    saveEditorState(editor.state, modelMap, containerID, manuscriptID)
-    editor.doCommand(commands.freezeCommit())
-    setLastSave(Date.now())
-    setIsDirty(false)
+    return Promise.all([
+      saveCommit(commit),
+      saveCorrection(correction),
+    ]).finally(() => setIsDirty(false))
   }
 
   // Freeze the commit when 10 s has passed since the last save AND
