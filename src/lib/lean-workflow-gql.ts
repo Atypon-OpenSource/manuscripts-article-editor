@@ -166,7 +166,9 @@ const SET_MAIN_MANUSCRIPT = gql`
 
 const SET_TASK_ON_HOLD = gql`
   mutation SetTaskOnHold($submissionId: ID!, $errorCode: ID!) {
-    setTaskOnHold(submissionId: $submissionId, errorCode: $errorCode)
+    setTaskOnHold(submissionId: $submissionId, errorCode: $errorCode) {
+      id
+    }
   }
 `
 
@@ -366,7 +368,7 @@ interface onHoldProps {
 }
 
 export const useSetTaskOnHold = () => {
-  const [mutate] = useMutation<{ setTaskOnHold: boolean }>(SET_TASK_ON_HOLD)
+  const [mutate] = useMutation<{ setTaskOnHold: Submission }>(SET_TASK_ON_HOLD)
   return ({ submissionId, errorCode }: onHoldProps) =>
     mutate({
       context: {
