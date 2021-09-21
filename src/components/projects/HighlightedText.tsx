@@ -17,6 +17,7 @@ import styled from 'styled-components'
 const Container = styled.div`
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
   font-size: 14px;
   padding: 4px 8px;
   background-color: #ffe08b;
@@ -26,7 +27,8 @@ const Container = styled.div`
 export const HighlightedText: React.FC<{
   comment: CommentAnnotation
   getHighlightTextColor: (comment: CommentAnnotation) => string
-}> = React.memo(({ comment, getHighlightTextColor }) => {
+  onClick?: (comment: CommentAnnotation) => void
+}> = React.memo(({ comment, getHighlightTextColor, onClick }) => {
   if (!comment.originalText) {
     return null
   }
@@ -37,6 +39,7 @@ export const HighlightedText: React.FC<{
         // TODO: should change colour only if highlight markers are deleted?
         backgroundColor: getHighlightTextColor(comment),
       }}
+      onClick={() => onClick && onClick(comment)}
     >
       {comment.originalText.split('\n').map((item, index) => {
         return <div key={index}>{item}</div>

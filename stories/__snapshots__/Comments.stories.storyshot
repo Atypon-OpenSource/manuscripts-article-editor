@@ -256,6 +256,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
 }
 
 .c25 {
+  cursor: pointer;
   padding: 0 16px;
 }
 
@@ -370,7 +371,6 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
 .c7 {
   padding: 16px 0 8px;
   background: #fff;
-  cursor: pointer;
   border: 1px solid #e2e2e2;
   border-left: 4px solid #e2e2e2;
 }
@@ -579,6 +579,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                 <div>
                   <div
                     className="c25"
+                    onClick={[Function]}
                   >
                     <div
                       className="c26"

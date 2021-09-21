@@ -154,6 +154,15 @@ export const CommentList: React.FC<Props> = React.memo(
       [deleteModel, newComment, setCommentTarget, state, dispatch]
     )
 
+    const scrollIntoHighlight = (comment: CommentAnnotation) => {
+      const el = document.querySelector(
+        `[data-reference-id="${comment.target}"]`
+      )
+      if (el) {
+        el.scrollIntoView()
+      }
+    }
+
     const isNew = useCallback(
       (comment: CommentAnnotation): boolean => {
         return newComment ? newComment._id === comment._id : false
@@ -218,6 +227,7 @@ export const CommentList: React.FC<Props> = React.memo(
                         listCollaborators={listCollaborators}
                         listKeywords={listKeywords}
                         saveComment={saveComment}
+                        scrollIntoHighlight={scrollIntoHighlight}
                         handleCreateReply={setCommentTarget}
                         can={can}
                         currentUserId={currentUser._id}
@@ -232,6 +242,7 @@ export const CommentList: React.FC<Props> = React.memo(
                         <HighlightedText
                           comment={comment as CommentAnnotation}
                           getHighlightTextColor={getHighlightTextColor}
+                          onClick={scrollIntoHighlight}
                         />
                       </CommentWrapper>
                     </NoteBodyContainer>
