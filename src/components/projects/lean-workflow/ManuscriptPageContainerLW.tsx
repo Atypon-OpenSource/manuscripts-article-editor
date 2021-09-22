@@ -88,6 +88,7 @@ import Panel from '../../Panel'
 import { ManuscriptPlaceholder } from '../../Placeholders'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
+import TemplateSelector from '../../templates/TemplateSelector'
 import { Corrections } from '../../track/Corrections'
 import { SortByDropdown } from '../../track/SortByDropdown'
 import {
@@ -215,6 +216,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     notes,
     tags,
     submission,
+    addModal,
     lwUser,
   } = props
 
@@ -229,6 +231,22 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     modelMap,
     bundle,
   } = useManuscriptModels()
+
+  const openTemplateSelector = (
+    newProject?: boolean,
+    switchTemplate?: boolean
+  ) => {
+    addModal('template-selector', ({ handleClose }) => (
+      <TemplateSelector
+        projectID={newProject ? undefined : project._id}
+        user={user}
+        handleComplete={handleClose}
+        manuscript={manuscript}
+        switchTemplate={switchTemplate}
+        modelMap={modelMap}
+      />
+    ))
+  }
 
   const can = usePermissions()
 
@@ -628,6 +646,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       project={project}
                       tags={tags}
                       key="content"
+                      openTemplateSelector={openTemplateSelector}
                     />
                   )
                 }

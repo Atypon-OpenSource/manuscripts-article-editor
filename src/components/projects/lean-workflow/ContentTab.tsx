@@ -27,6 +27,7 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
 import config from '../../../config'
+import { useSharedData } from '../../../hooks/use-shared-data'
 import { useStatusLabels } from '../../../hooks/use-status-labels'
 import { AnyElement } from '../../inspector/ElementStyleInspector'
 import { ManageTargetInspector } from '../../inspector/ManageTargetInspector'
@@ -53,6 +54,7 @@ export const ContentTab: React.FC<{
   listCollaborators: () => UserProfile[]
   project: Project
   tags: Tag[]
+  openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
 }> = ({
   selected,
   selectedSection,
@@ -70,6 +72,7 @@ export const ContentTab: React.FC<{
   saveManuscript,
   project,
   tags,
+  openTemplateSelector,
 }) => {
   const section = selectedSection
     ? getModel<Section>(selectedSection.node.attrs.id)
@@ -80,6 +83,12 @@ export const ContentTab: React.FC<{
     : undefined
 
   const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)
+
+  const {
+    getTemplate,
+    getManuscriptCountRequirements,
+    getSectionCountRequirements,
+  } = useSharedData()
 
   const dispatchNodeAttrs = (id: string, attrs: Record<string, unknown>) => {
     const { tr, doc } = state
@@ -132,6 +141,9 @@ export const ContentTab: React.FC<{
         saveModel={saveModel}
         state={state}
         dispatch={dispatch}
+        openTemplateSelector={openTemplateSelector}
+        getTemplate={getTemplate}
+        getManuscriptCountRequirements={getManuscriptCountRequirements}
       />
 
       {(element || section) && config.features.projectManagement && (
@@ -161,6 +173,7 @@ export const ContentTab: React.FC<{
           modelMap={modelMap}
           saveModel={saveModel}
           dispatchNodeAttrs={dispatchNodeAttrs}
+          getSectionCountRequirements={getSectionCountRequirements}
         />
       )}
     </div>

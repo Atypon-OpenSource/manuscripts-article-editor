@@ -95,6 +95,7 @@ interface Props {
   // importManuscript: (models: Model[]) => Promise<void>
   selectTemplate: (template: TemplateData) => Promise<void>
   createEmpty: () => Promise<void>
+  switchTemplate?: boolean
 }
 
 interface State {
@@ -126,6 +127,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
       handleComplete,
       // importManuscript,
       researchFields,
+      switchTemplate,
     } = this.props
 
     const {
@@ -144,7 +146,13 @@ export class TemplateSelectorModal extends Component<Props, State> {
       <ModalBody>
         <TemplateModalClose handleComplete={handleComplete} />
         <ModalContainer>
-          <TemplateModalHeader title={'Add Manuscript to Project'} />
+          <TemplateModalHeader
+            title={
+              switchTemplate
+                ? 'Update Manuscript Template'
+                : 'Add Manuscript to Project'
+            }
+          />
 
           <TemplateCategorySelector
             options={categories}
@@ -211,6 +219,7 @@ export class TemplateSelectorModal extends Component<Props, State> {
             selectedTemplate={selectedItem}
             creatingManuscript={creatingManuscript}
             noTemplate={filteredItems.length === 0}
+            switchTemplate={switchTemplate}
           />
         </ModalContainer>
       </ModalBody>

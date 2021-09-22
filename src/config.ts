@@ -48,6 +48,7 @@ interface Config {
     footnotes: boolean
     fileManagement: boolean
     commenting: boolean
+    switchTemplate: boolean
   }
   gateway: {
     url: string
@@ -163,6 +164,7 @@ const config = {
     footnotes: isTrue(process.env.FOOTNOTES_ENABLED),
     fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
     commenting: isTrue(process.env.COMMENTING),
+    switchTemplate: isTrue(process.env.FEATURE_SWITCH_TEMPLATE),
   },
   gateway: {
     url: normalizeURL(getURL(process.env.SYNC_GATEWAY_URL, index)),

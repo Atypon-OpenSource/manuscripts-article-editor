@@ -31,6 +31,7 @@ import React, { useCallback, useState } from 'react'
 import useInterval from 'react-useinterval'
 import styled from 'styled-components'
 
+import { SectionCountRequirementMaps } from '../../lib/requirements'
 import {
   chooseSectionCategory,
   findFirstParagraph,
@@ -82,7 +83,17 @@ export const SectionInspector: React.FC<{
   sectionNode?: SectionNode
   modelMap: Map<string, Model>
   saveModel: SaveModel
-}> = ({ dispatchNodeAttrs, section, sectionNode, modelMap, saveModel }) => {
+  getSectionCountRequirements: (
+    templateID: string
+  ) => SectionCountRequirementMaps
+}> = ({
+  dispatchNodeAttrs,
+  section,
+  sectionNode,
+  modelMap,
+  saveModel,
+  getSectionCountRequirements,
+}) => {
   // placeholder
 
   const firstParagraph = findFirstParagraph(section, modelMap)
@@ -118,30 +129,51 @@ export const SectionInspector: React.FC<{
 
   const getOrBuildRequirement = <T extends CountRequirement>(
     objectType: ObjectTypes,
+    manuscriptID: string,
+    category?: string,
     id?: string
   ): T | Build<T> => {
     if (id && modelMap.has(id)) {
       return modelMap.get(id) as T
     }
 
-    return buildCountRequirement<T>(objectType)
+    // infer requirement from the manuscript prototype
+    let count = undefined
+    if (manuscriptID && category) {
+      const manuscript = modelMap.get(manuscriptID)
+      count = manuscript?.prototype
+        ? getSectionCountRequirements(manuscript?.prototype)[category]?.get(
+            objectType
+          )
+        : undefined
+    }
+
+    return buildCountRequirement<T>(objectType, count, count ? false : true)
   }
 
   const requirements: SectionCountRequirements = {
     minWordCount: getOrBuildRequirement<MinimumSectionWordCountRequirement>(
       ObjectTypes.MinimumSectionWordCountRequirement,
+      section.manuscriptID,
+      section.category,
       section.minWordCountRequirement
     ),
     maxWordCount: getOrBuildRequirement<MaximumSectionWordCountRequirement>(
       ObjectTypes.MaximumSectionWordCountRequirement,
+      section.manuscriptID,
+      section.category,
       section.maxWordCountRequirement
     ),
     minCharCount: getOrBuildRequirement<MinimumSectionCharacterCountRequirement>(
       ObjectTypes.MinimumSectionCharacterCountRequirement,
+      section.manuscriptID,
+      section.category,
       section.minCharacterCountRequirement
     ),
     maxCharacterCount: getOrBuildRequirement<MaximumSectionCharacterCountRequirement>(
       ObjectTypes.MaximumSectionCharacterCountRequirement,
+      section.manuscriptID,
+      section.category,
       section.maxCharacterCountRequirement
     ),
   }

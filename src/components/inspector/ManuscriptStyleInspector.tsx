@@ -17,7 +17,7 @@ import styled from 'styled-components'
 
 import { InspectorSection } from '../InspectorSection'
 
-const CitationStyle = styled(TextField).attrs({ readOnly: true })`
+export const CitationStyle = styled(TextField).attrs({ readOnly: true })`
   border-right: 0;
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -29,7 +29,7 @@ const CitationStyle = styled(TextField).attrs({ readOnly: true })`
   text-overflow: ellipsis;
 `
 
-const ChooseButton = styled(TertiaryButton)`
+export const ChooseButton = styled(TertiaryButton)`
   border-left: 0;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;

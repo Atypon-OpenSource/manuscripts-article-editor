@@ -11,7 +11,11 @@
  */
 
 import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-transform'
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import {
+  Manuscript,
+  Model,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React, {
   useCallback,
   useContext,
@@ -32,6 +36,7 @@ import {
   createMergedTemplate,
   TemplateData,
 } from '../../lib/templates'
+import { updateManuscriptTemplate } from '../../lib/update-manuscript-template'
 import { DatabaseContext } from '../DatabaseProvider'
 // import { importManuscript } from '../projects/ImportManuscript'
 import { PseudoProjectPage } from './PseudoProjectPage'
@@ -52,12 +57,18 @@ export interface TemplateSelectorProps {
   handleComplete: (isCancellation?: boolean) => void
   user: UserProfile
   projectID?: string
+  manuscript?: Manuscript
+  switchTemplate?: boolean
+  modelMap?: Map<string, Model>
 }
 
 const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   handleComplete,
   projectID,
   user,
+  manuscript,
+  switchTemplate,
+  modelMap,
 }) => {
   const db = useContext(DatabaseContext)
 
@@ -133,22 +144,44 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
         ? createMergedTemplate(item.template, data.manuscriptTemplates)
         : undefined
 
-      await createManuscript({
-        addContent: true,
-        analyticsTemplateName: item.title,
-        bundleID: chooseBundleID(item),
-        data,
-        db,
-        history,
-        projectID,
-        prototype: item.template?._id,
-        template,
-        user,
-      })
+      switchTemplate && manuscript && projectID && modelMap
+        ? await updateManuscriptTemplate({
+            bundleID: chooseBundleID(item),
+            data,
+            db,
+            projectID,
+            previousManuscript: manuscript,
+            prototype: item.template?._id,
+            template,
+            modelMap,
+            history,
+          })
+        : await createManuscript({
+            addContent: true,
+            analyticsTemplateName: item.title,
+            bundleID: chooseBundleID(item),
+            data,
+            db,
+            history,
+            projectID,
+            prototype: item.template?._id,
+            template,
+            user,
+          })
 
       handleComplete()
     },
-    [data, projectID, user, db, history, handleComplete]
+    [
+      data,
+      projectID,
+      user,
+      db,
+      history,
+      handleComplete,
+      switchTemplate,
+      manuscript,
+      modelMap,
+    ]
   )
 
   if (!data || !categories || !researchFields || !items) {
@@ -172,6 +205,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
         items={items}
         researchFields={researchFields}
         selectTemplate={selectTemplate}
+        switchTemplate={switchTemplate}
       />
     </>
   )

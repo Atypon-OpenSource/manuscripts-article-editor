@@ -623,6 +623,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
               tags={this.props.tags}
               manageManuscript={!view.hasFocus()}
               bulkUpdate={this.bulkUpdate}
+              openTemplateSelector={this.openTemplateSelector}
             />
           )}
         </Panel>
@@ -659,6 +660,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
   }
 
   private findBundle = (): Bundle | undefined => {
+    // TODO: if manuscript.bundle is undefined, infer bundle from prototype?
     const { manuscript } = this.props
     const { modelMap } = this.state
 
@@ -950,14 +952,21 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     })
   }
 
-  private openTemplateSelector = (newProject?: boolean) => {
+  private openTemplateSelector = (
+    newProject?: boolean,
+    switchTemplate?: boolean
+  ) => {
     const { addModal, project, user } = this.props
+    const { modelMap } = this.state
 
     addModal('template-selector', ({ handleClose }) => (
       <TemplateSelector
         projectID={newProject ? undefined : project._id}
         user={user}
         handleComplete={handleClose}
+        manuscript={this.getManuscript()}
+        switchTemplate={switchTemplate}
+        modelMap={modelMap}
       />
     ))
   }
@@ -1884,7 +1893,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
       _id: generateID(ObjectTypes.ManuscriptTemplate),
       objectType: ObjectTypes.ManuscriptTemplate,
       title: manuscript.title,
-      authorInstructionsURL: manuscript.authorInstructionsURL,
+      authorInstructionsURL: manuscript.authorInstructionsURL, // TODO: infer authorInstructionsURL from prototype if manuscript.authorInstructionsURL is undefined
     }
 
     // build the new template models
@@ -1892,6 +1901,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
 
     // set the new bundle
     if (manuscript.bundle) {
+      // TODO: infer bundle from prototype if manuscript.bundle is undefined
       const bundle = modelMap.get(manuscript.bundle) as Bundle | undefined
 
       if (bundle) {

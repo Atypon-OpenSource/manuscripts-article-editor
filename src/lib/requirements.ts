@@ -78,6 +78,42 @@ export type ManuscriptCountRequirementType =
   | ObjectTypes.MaximumManuscriptWordCountRequirement
   | ObjectTypes.MaximumManuscriptCharacterCountRequirement
 
+export const manuscriptCountRequirementFieldsMap: Map<
+  ManuscriptCountRequirementField,
+  ManuscriptCountRequirementType
+> = new Map([
+  [
+    'maxCharacterCountRequirement',
+    ObjectTypes.MaximumManuscriptCharacterCountRequirement,
+  ],
+  [
+    'maxWordCountRequirement',
+    ObjectTypes.MaximumManuscriptWordCountRequirement,
+  ],
+  [
+    'minCharacterCountRequirement',
+    ObjectTypes.MinimumManuscriptCharacterCountRequirement,
+  ],
+  [
+    'minWordCountRequirement',
+    ObjectTypes.MinimumManuscriptWordCountRequirement,
+  ],
+])
+
+export type SectionCountRequirementMaps = {
+  [key: string]: Map<string, number | undefined>
+}
+
+export const sectionDescriptionCountRequirementFieldsMap: Map<
+  SectionDescriptionCountRequirementField,
+  SectionCountRequirementType
+> = new Map([
+  ['maxCharCount', ObjectTypes.MaximumSectionCharacterCountRequirement],
+  ['maxWordCount', ObjectTypes.MaximumSectionWordCountRequirement],
+  ['minCharCount', ObjectTypes.MinimumSectionCharacterCountRequirement],
+  ['minWordCount', ObjectTypes.MinimumSectionWordCountRequirement],
+])
+
 export type SectionCountRequirementType =
   | ObjectTypes.MinimumSectionWordCountRequirement
   | ObjectTypes.MinimumSectionCharacterCountRequirement

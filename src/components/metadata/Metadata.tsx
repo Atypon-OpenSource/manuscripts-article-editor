@@ -37,6 +37,7 @@ import styled from 'styled-components'
 import { TokenActions } from '../../data/TokenData'
 import { useAuthorsAndAffiliations } from '../../hooks/use-authors-and-affiliations'
 import { useContributorRoles } from '../../hooks/use-contributor-roles'
+import { useSharedData } from '../../hooks/use-shared-data'
 import { isOwner } from '../../lib/roles'
 import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
@@ -160,6 +161,8 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     props.manuscript._id
   )
 
+  const { getTemplate } = useSharedData()
+
   const handleInvitationSubmit = useCallback(
     (values: InvitationValues) => {
       if (!authorsAndAffiliations) {
@@ -179,6 +182,12 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     }
     props.openAddAuthors(authorsAndAffiliations.authors)
   }, [authorsAndAffiliations, props])
+
+  const authorInstructionsURL = props.manuscript.authorInstructionsURL
+    ? props.manuscript.authorInstructionsURL
+    : props.manuscript.prototype
+    ? getTemplate(props.manuscript.prototype)?.authorInstructionsURL
+    : undefined
 
   if (!authorsAndAffiliations || !contributorRoles) {
     return null
@@ -213,12 +222,10 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
           </ExpanderButton>
         </TitleContainer>
 
-        {props.manuscript.authorInstructionsURL && (
+        {authorInstructionsURL && (
           <SecondaryButton
             mini={true}
-            onClick={() =>
-              window.open(props.manuscript.authorInstructionsURL, '_blank')
-            }
+            onClick={() => window.open(authorInstructionsURL, '_blank')}
           >
             <span role={'img'} aria-label={'Link'}>
               {' '}

@@ -76,6 +76,7 @@ interface Props {
   selectedTemplate?: TemplateData
   creatingManuscript: boolean
   noTemplate: boolean
+  switchTemplate?: boolean
 }
 
 export const TemplateModalFooter: React.FC<Props> = ({
@@ -84,6 +85,7 @@ export const TemplateModalFooter: React.FC<Props> = ({
   selectedTemplate,
   creatingManuscript,
   noTemplate,
+  switchTemplate,
 }) => {
   return (
     <ModalFooter>
@@ -111,14 +113,16 @@ export const TemplateModalFooter: React.FC<Props> = ({
         )}
       </FooterText>
       <FooterButtons>
-        <TertiaryButton onClick={createEmpty} disabled={creatingManuscript}>
-          Add Empty
-        </TertiaryButton>
+        {!switchTemplate && (
+          <TertiaryButton onClick={createEmpty} disabled={creatingManuscript}>
+            Add Empty
+          </TertiaryButton>
+        )}
         <PrimaryButton
           onClick={selectTemplate}
           disabled={creatingManuscript || !selectedTemplate}
         >
-          Add Manuscript
+          {switchTemplate ? 'Update Manuscript' : 'Add Manuscript'}
         </PrimaryButton>
       </FooterButtons>
     </ModalFooter>

@@ -68,7 +68,10 @@ export const COVER_LETTER_SECTION_CATEGORY = 'MPSectionCategory:cover-letter'
 export const COVER_LETTER_PLACEHOLDER =
   'A letter sent along with your manuscript to explain it.'
 
-const sectionRequirementTypes = new Map<keyof SectionDescription, ObjectTypes>([
+export const sectionRequirementTypes = new Map<
+  keyof SectionDescription,
+  ObjectTypes
+>([
   ['maxCharCount', ObjectTypes.MaximumSectionCharacterCountRequirement],
   ['maxWordCount', ObjectTypes.MaximumSectionWordCountRequirement],
   ['minCharCount', ObjectTypes.MinimumSectionCharacterCountRequirement],
@@ -285,7 +288,7 @@ export const createMergedTemplate = (
 
   let mergedTemplate = { ...template }
 
-  let parentTemplateID = mergedTemplate.parent
+  let parentTemplateID = mergedTemplate.parent // TODO: parent stored as the parent template title, it's not the parent template id, search by title?
 
   while (parentTemplateID) {
     const parentTemplate = manuscriptTemplates.get(parentTemplateID)

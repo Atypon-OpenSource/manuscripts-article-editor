@@ -306,26 +306,33 @@ export const buildTemplateModels = (
     for (const requirementField of manuscriptCountRequirementFields) {
       const requirementID = manuscript[requirementField]
 
+      let requirement: ManuscriptCountRequirement | undefined
       if (requirementID) {
-        const requirement = modelMap.get(requirementID) as
+        requirement = modelMap.get(requirementID) as
           | ManuscriptCountRequirement
           | undefined
+      } else if (manuscript.prototype) {
+        // TODO: infer requirements from prototype
+        // const template = getTemplate(manuscript.prototype)
+        // const requirementID = template && template[requirementField]
+        // requirement = requirementID
+        //   ? (getRequirement(requirementID) as ManuscriptCountRequirement)
+        //   : undefined
+      }
+      if (requirement && requirement.ignored === false) {
+        const objectType = requirement.objectType as ManuscriptCountRequirementType
 
-        if (requirement && requirement.ignored === false) {
-          const objectType = requirement.objectType as ManuscriptCountRequirementType
-
-          // TODO: fromPrototype?
-          const newRequirement: Build<ManuscriptCountRequirement> = {
-            _id: generateID(objectType),
-            objectType,
-            count: requirement.count,
-            severity: requirement.severity,
-          }
-
-          output.push(newRequirement)
-
-          template[requirementField] = newRequirement._id
+        // TODO: fromPrototype?
+        const newRequirement: Build<ManuscriptCountRequirement> = {
+          _id: generateID(objectType),
+          objectType,
+          count: requirement.count,
+          severity: requirement.severity,
         }
+
+        output.push(newRequirement)
+
+        template[requirementField] = newRequirement._id
       }
     }
   }

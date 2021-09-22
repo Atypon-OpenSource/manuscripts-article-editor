@@ -38,7 +38,10 @@ import {
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
+import { useSharedData } from '../../hooks/use-shared-data'
 import { useStatusLabels } from '../../hooks/use-status-labels'
+import { canWrite } from '../../lib/roles'
+import { getCurrentUserId } from '../../lib/user'
 import {
   InspectorContainer,
   InspectorTab,
@@ -110,6 +113,7 @@ export const Inspector: React.FC<{
   tags: Tag[]
   manageManuscript: boolean
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+  openTemplateSelector: (newProject: boolean, switchTemplate?: boolean) => void
 }> = ({
   bundle,
   comments,
@@ -143,6 +147,7 @@ export const Inspector: React.FC<{
   tags,
   manageManuscript,
   bulkUpdate,
+  openTemplateSelector,
 }) => {
   const [tabIndex, setTabIndex] = useState(0)
   const [commentFilter, setCommentFilter] = useState<CommentFilter>(
@@ -150,6 +155,11 @@ export const Inspector: React.FC<{
   )
 
   const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)
+  const {
+    getTemplate,
+    getManuscriptCountRequirements,
+    getSectionCountRequirements,
+  } = useSharedData()
 
   useEffect(() => {
     if (commentTarget) {
@@ -215,6 +225,12 @@ export const Inspector: React.FC<{
                       saveModel={saveModel}
                       state={view.state}
                       dispatch={view.dispatch}
+                      openTemplateSelector={openTemplateSelector}
+                      getTemplate={getTemplate}
+                      getManuscriptCountRequirements={
+                        getManuscriptCountRequirements
+                      }
+                      canWrite={canWrite(project, getCurrentUserId()!)}
                     />
 
                     {(element || section) &&
@@ -247,6 +263,9 @@ export const Inspector: React.FC<{
                         modelMap={modelMap}
                         saveModel={saveModel}
                         dispatchNodeAttrs={dispatchNodeAttrs}
+                        getSectionCountRequirements={
+                          getSectionCountRequirements
+                        }
                       />
                     )}
                   </InspectorTabPanel>

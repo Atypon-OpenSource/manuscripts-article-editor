@@ -127,6 +127,11 @@ storiesOf('Inspector/Manuscript Inspector', module).add(
         saveModel={action('save')}
         state={view.state}
         dispatch={view.dispatch}
+        openTemplateSelector={action('open template selector ')}
+        getTemplate={action('get the template')}
+        getManuscriptCountRequirements={action(
+          'get the manuscript count requirements'
+        )}
       />
     </div>
   )
@@ -141,6 +146,9 @@ storiesOf('Inspector/Section Inspector', module).add(
         section={section}
         saveModel={action('save')}
         dispatchNodeAttrs={action('dispatch node attributes')}
+        getSectionCountRequirements={action(
+          'get the section count requirements'
+        )}
       />
     </div>
   )

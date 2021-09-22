@@ -183,6 +183,9 @@ The service is configured using environment variables, `.env.example` file place
   <dt>FEATURE_QUALITY_CONTROL</dt>
   <dd>If set to '1', enables the ability to display quality reports. Specially made for lean workflow purposes.</dd>
 
+  <dt>FEATURE_SWITCH_TEMPLATE</dt>
+  <dd>If set to '1', enables the ability to change the manuscript's template.</dd>
+
   <dt>FOOTNOTES_ENABLED</dt>
   <dd>If set to '1', allow providing footnotes.</dd>
 

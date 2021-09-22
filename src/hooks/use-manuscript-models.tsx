@@ -57,7 +57,7 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
     `project-${containerID}`
   ) as Collection<ContainedModel>
   const manuscript = modelMap.get(manuscriptID) as Manuscript
-  const bundle = manuscript.bundle
+  const bundle = manuscript.bundle // TODO: infer bundle from prototype if manuscript.bundle is undefined ?
     ? (modelMap.get(manuscript.bundle) as Bundle)
     : null
 

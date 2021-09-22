@@ -25,6 +25,8 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 
 import config from '../../config'
+import { ManuscriptCountRequirementType } from '../../lib/requirements'
+import { ManuscriptTemplateData } from '../../lib/templates'
 import {
   InspectorPanelTabList,
   InspectorTab,
@@ -33,6 +35,11 @@ import {
   InspectorTabs,
 } from '../Inspector'
 import { LabelField } from '../inspector/LabelField'
+import {
+  ChooseButton,
+  CitationStyle,
+  InspectorValue,
+} from '../inspector/ManuscriptStyleInspector'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CheckboxInput } from './CheckboxInput'
 import { CountInput } from './CountInput'
@@ -81,6 +88,12 @@ export const ManuscriptInspector: React.FC<{
   saveModel: SaveModel
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
+  openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
+  getTemplate: (templateID: string) => ManuscriptTemplateData | undefined
+  getManuscriptCountRequirements: (
+    templateID: string
+  ) => Map<ManuscriptCountRequirementType, number | undefined>
+  canWrite?: boolean
 }> = ({
   manuscript,
   modelMap,
@@ -89,34 +102,54 @@ export const ManuscriptInspector: React.FC<{
   state,
   dispatch,
   // pageLayout,
+  openTemplateSelector,
+  getTemplate,
+  getManuscriptCountRequirements,
+  canWrite,
 }) => {
+  const authorInstructionsURL = manuscript.authorInstructionsURL
+    ? manuscript.authorInstructionsURL
+    : manuscript.prototype
+    ? getTemplate(manuscript.prototype)?.authorInstructionsURL
+    : undefined
+
   const getOrBuildRequirement = <T extends CountRequirement>(
-    objectType: ObjectTypes,
-    id?: string
+    objectType: ManuscriptCountRequirementType,
+    id?: string,
+    prototype?: string
   ): T | Build<T> => {
     if (id && modelMap.has(id)) {
       return modelMap.get(id) as T
     }
 
-    return buildCountRequirement<T>(objectType)
+    // infer requirement from the manuscript prototype
+    const count = prototype
+      ? getManuscriptCountRequirements(prototype)?.get(objectType)
+      : undefined
+
+    return buildCountRequirement<T>(objectType, count, count ? false : true)
   }
 
   const requirements: ManuscriptCountRequirements = {
     minWordCount: getOrBuildRequirement<MinimumManuscriptWordCountRequirement>(
       ObjectTypes.MinimumManuscriptWordCountRequirement,
-      manuscript.minWordCountRequirement
+      manuscript.minWordCountRequirement,
+      manuscript.prototype
     ),
     maxWordCount: getOrBuildRequirement<MaximumManuscriptWordCountRequirement>(
       ObjectTypes.MaximumManuscriptWordCountRequirement,
-      manuscript.maxWordCountRequirement
+      manuscript.maxWordCountRequirement,
+      manuscript.prototype
     ),
     minCharacterCount: getOrBuildRequirement<MinimumManuscriptCharacterCountRequirement>(
       ObjectTypes.MinimumManuscriptCharacterCountRequirement,
-      manuscript.minCharacterCountRequirement
+      manuscript.minCharacterCountRequirement,
+      manuscript.prototype
     ),
     maxCharacterCount: getOrBuildRequirement<MaximumManuscriptCharacterCountRequirement>(
       ObjectTypes.MaximumManuscriptCharacterCountRequirement,
-      manuscript.maxCharacterCountRequirement
+      manuscript.maxCharacterCountRequirement,
+      manuscript.prototype
     ),
   }
 
@@ -256,8 +289,25 @@ export const ManuscriptInspector: React.FC<{
                   authorInstructionsURL,
                 })
               }}
-              value={manuscript.authorInstructionsURL}
+              value={authorInstructionsURL}
             />
+            {config.features.switchTemplate && canWrite && (
+              <>
+                <Subheading>Template</Subheading>
+                <InspectorValue
+                  onClick={() => openTemplateSelector(false, true)}
+                >
+                  <CitationStyle
+                    value={
+                      manuscript.prototype
+                        ? getTemplate(manuscript.prototype)?.title
+                        : ''
+                    }
+                  />
+                  <ChooseButton mini={true}>Choose</ChooseButton>
+                </InspectorValue>
+              </>
+            )}
           </InspectorTabPanel>
 
           <InspectorTabPanel>
