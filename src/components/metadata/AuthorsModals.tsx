@@ -64,6 +64,7 @@ interface AuthorsProps {
   handleDismiss: () => void
   contributorRoles: ContributorRole[]
   createContributorRole: (name: string) => Promise<ContributorRole>
+  allowInvitingAuthors: boolean
 }
 
 export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
@@ -91,6 +92,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   handleDismiss,
   contributorRoles,
   createContributorRole,
+  allowInvitingAuthors,
 }) => (
   <ModalBody>
     <AuthorsSidebar
@@ -126,6 +128,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
           tokenActions={tokenActions}
           contributorRoles={contributorRoles}
           createContributorRole={createContributorRole}
+          allowInvitingAuthors={allowInvitingAuthors}
         />
       ) : (
         <AuthorDetailsPage />

@@ -584,6 +584,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   deleteModel={deleteModel}
                   permissions={editorProps.permissions}
                   tokenActions={props.tokenActions}
+                  allowInvitingAuthors={false}
+                  showAuthorEditButton={editorProps.permissions.write}
                 />
                 <TrackChangesStyles trackEnabled={!!snapshotID}>
                   <EditorElement

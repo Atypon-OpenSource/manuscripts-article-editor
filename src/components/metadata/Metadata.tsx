@@ -38,7 +38,6 @@ import { TokenActions } from '../../data/TokenData'
 import { useAuthorsAndAffiliations } from '../../hooks/use-authors-and-affiliations'
 import { useContributorRoles } from '../../hooks/use-contributor-roles'
 import { useSharedData } from '../../hooks/use-shared-data'
-import { isOwner } from '../../lib/roles'
 import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
@@ -144,6 +143,8 @@ interface Props {
     id: string,
     attachment: RxAttachmentCreator
   ) => Promise<RxAttachment<Model>>
+  allowInvitingAuthors: boolean
+  showAuthorEditButton: boolean
 }
 
 const expanderStyle = (expanded: boolean) => ({
@@ -239,7 +240,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
           <AuthorsContainer
             authorData={authorsAndAffiliations}
             startEditing={props.startEditing}
-            showEditButton={isOwner(props.project, props.user.userID)}
+            showEditButton={props.showAuthorEditButton}
             selectAuthor={props.selectAuthor}
           />
         )}
@@ -274,6 +275,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
                 affiliations={authorsAndAffiliations.affiliations}
                 openAddAuthors={openAddAuthors}
                 contributorRoles={contributorRoles}
+                allowInvitingAuthors={props.allowInvitingAuthors}
               />
             )}
           </ModalContainer>

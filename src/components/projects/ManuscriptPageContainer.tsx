@@ -518,6 +518,8 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
                   tokenActions={this.props.tokenActions}
                   getAttachment={this.collection.getAttachmentAsBlob}
                   putAttachment={this.collection.putAttachment}
+                  allowInvitingAuthors={true}
+                  showAuthorEditButton={true}
                 />
 
                 <EditorStyles modelMap={modelMap}>

@@ -75,6 +75,7 @@ interface Props {
     invitationID?: string
   ) => void
   contributorRoles: ContributorRole[]
+  allowInvitingAuthors?: boolean
 }
 
 class AuthorsModalContainer extends React.Component<Props, State> {
@@ -100,6 +101,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       tokenActions,
       updateAuthor,
       contributorRoles,
+      allowInvitingAuthors,
     } = this.props
 
     return (
@@ -128,6 +130,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         handleDismiss={this.handleDismiss}
         contributorRoles={contributorRoles}
         createContributorRole={this.createContributorRole}
+        allowInvitingAuthors={!!allowInvitingAuthors}
       />
     )
   }

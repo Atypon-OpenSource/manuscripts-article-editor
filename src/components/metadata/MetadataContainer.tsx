@@ -63,6 +63,8 @@ interface Props {
     id: string,
     attachment: RxAttachmentCreator
   ) => Promise<RxAttachment<Model>>
+  allowInvitingAuthors: boolean
+  showAuthorEditButton: boolean
 }
 
 interface State {
@@ -118,6 +120,8 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       permissions,
       tokenActions,
       saveModel,
+      allowInvitingAuthors,
+      showAuthorEditButton,
     } = this.props
 
     // TODO: editable prop
@@ -188,6 +192,8 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                               tokenActions={tokenActions}
                               getAttachment={getAttachment}
                               putAttachment={putAttachment}
+                              allowInvitingAuthors={allowInvitingAuthors}
+                              showAuthorEditButton={showAuthorEditButton}
                             />
                           )
                         }}

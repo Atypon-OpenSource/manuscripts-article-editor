@@ -92,6 +92,7 @@ storiesOf('Metadata', module)
       handleDismiss={action('dismiss message')}
       contributorRoles={[]}
       createContributorRole={action('create contributor role')}
+      allowInvitingAuthors={true}
     />
   ))
   .add('Authors Sidebar', () => (
@@ -151,6 +152,7 @@ storiesOf('Metadata', module)
       }}
       contributorRoles={[]}
       createContributorRole={action('create contributor role')}
+      allowInvitingAuthors={true}
     />
   ))
   .add('Add Authors Sidebar', () => (

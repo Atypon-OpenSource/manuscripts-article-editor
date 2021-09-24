@@ -56,6 +56,7 @@ interface AuthorProps {
   tokenActions: TokenActions
   contributorRoles: ContributorRole[]
   createContributorRole: (name: string) => Promise<ContributorRole>
+  allowInvitingAuthors: boolean
 }
 
 export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
@@ -76,6 +77,7 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
   tokenActions,
   contributorRoles,
   createContributorRole,
+  allowInvitingAuthors,
 }) => (
   <React.Fragment>
     <AuthorForm
@@ -94,7 +96,7 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
       removeAuthorAffiliation={removeAuthorAffiliation}
       updateAffiliation={updateAffiliation}
     />
-    {!author.userID && !author.invitationID && (
+    {!author.userID && !author.invitationID && allowInvitingAuthors && (
       <FormMessage>
         <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
           {getAuthorName(author) + ' '}
@@ -108,19 +110,21 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
         </AlertMessage>
       </FormMessage>
     )}
-    {author.invitationID && isRejected(author.invitationID) && (
-      <FormMessage>
-        <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
-          {getAuthorName(author) + ' '}
-          does not have access to the project.
-          <InviteAuthorButton
-            author={author}
-            project={project}
-            updateAuthor={updateAuthor}
-            tokenActions={tokenActions}
-          />
-        </AlertMessage>
-      </FormMessage>
-    )}
+    {author.invitationID &&
+      isRejected(author.invitationID) &&
+      allowInvitingAuthors && (
+        <FormMessage>
+          <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
+            {getAuthorName(author) + ' '}
+            does not have access to the project.
+            <InviteAuthorButton
+              author={author}
+              project={project}
+              updateAuthor={updateAuthor}
+              tokenActions={tokenActions}
+            />
+          </AlertMessage>
+        </FormMessage>
+      )}
   </React.Fragment>
 )
