@@ -372,6 +372,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     capabilities: can,
     updateDesignation: (designation: string, name: string) =>
       handleChangeAttachmentDesignation(submissionId, designation, name),
+    uploadAttachment: (designation: string, file: File) =>
+      putAttachment(file, designation),
   }
 
   const editor = useEditor<ManuscriptSchema>(

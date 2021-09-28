@@ -69,6 +69,7 @@ const EditorElement: React.FC<Props> = ({
             const resolvedPos = view.state.doc.resolve(docPos.pos)
             if (resolvedPos.parent.type === schema.nodes.figure) {
               const figure = modelMap.get(resolvedPos.parent.attrs.id) as Figure
+              // @ts-ignore
               figure.externalFileReferences = addExternalFileRef(
                 figure.externalFileReferences,
                 externalFile.publicUrl
