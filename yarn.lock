@@ -2082,10 +2082,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.88.9":
-  version "0.88.9"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.88.9.tgz#e6b7cfc287ae6bef77c2b4266c9595ed21ea6b62"
-  integrity sha512-B9C5N/Y6fjwWDT77cUSnAGfqgqwzBj8NFNU1AMNhm6n1JBdXuPKgeN8UR1wP5ioDQecXEcksePwTMwaTE01tbQ==
+"@manuscripts/manuscript-editor@^0.88.10":
+  version "0.88.10"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.88.10.tgz#84adc8b3caee52b068a9a4d8aa26e51453ec5592"
+  integrity sha512-FjDuYKPqKIRGPFqIFoSc5pWgoW9mLQZzN7IA1y7efAIgfra/bD89a/DE8UGfZhQ7s4O+jxSCaEawnppSFKd4VQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2142,14 +2142,14 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.46.4":
-  version "0.46.4"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.46.4.tgz#4c0b9381c3ccec08b1269c4258a41687511e1ed3"
-  integrity sha512-5PLRdqpsxxf8OMjEmLBPcWQIZxct4+rYsDrfchnbi7Emzy+zTqss62cBe8tRA9Td3KkfJ3DjP2pDM36geO1IGA==
+"@manuscripts/manuscript-transform@^0.47.3":
+  version "0.47.4"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.47.4.tgz#84c117abda292db701ab953e719a25c700c97de3"
+  integrity sha512-Gu0gTfkyscrrKOtBmQQEZteSMw/yOGK+BlB7LuHxehj3d2Blf3SL8yerX6+4V2CBagrnMSQSMKBSO2c/o4LUoQ==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
-    "@manuscripts/manuscripts-json-schema" "^1.48.1"
+    "@manuscripts/manuscripts-json-schema" "^1.48.6"
     debug "^4.1.1"
     lodash.pickby "^4.6.0"
     mathjax-full "^3.1.2"
@@ -2199,10 +2199,10 @@
     deepmerge "^3.2.0"
     js-beautify "^1.9.0"
 
-"@manuscripts/manuscripts-json-schema@^1.48.1":
-  version "1.48.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.48.1.tgz#6d9a00f3d1a67e25d4bea6c9904a06237411b07b"
-  integrity sha512-UKJMIChBeSivsEwYvedv7GELMYW2p5aWK7BlQuZJW6hJN3bWipy7DJLmmdjCdKCzC2L0jUJ0RP+QUOBhLnMcEA==
+"@manuscripts/manuscripts-json-schema@^1.48.6":
+  version "1.48.7"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.48.7.tgz#61957b5d62f9b2592cbcdd78923eddc3e8998cf9"
+  integrity sha512-OkE+f1CPbz5e7bj8VZnq+18Y13QQeGhK97VdAmGzyYgnxXFeva2WZqtjEWW99qX4oDuJ57zNbeXpRFepZK08DQ==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
