@@ -553,6 +553,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                 <ManualFlowTransitioning
                   submission={submission}
                   userRole={getUserRole(project, user.userID)}
+                  documentId={`${project._id}#${manuscript._id}`}
                 >
                   <SaveStatusController isDirty={isDirty} />
                 </ManualFlowTransitioning>

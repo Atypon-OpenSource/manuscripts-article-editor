@@ -26,6 +26,7 @@ import styled from 'styled-components'
 import config from '../../../config'
 import { useDropdown } from '../../../hooks/use-dropdown'
 import {
+  GET_SUBMISSION,
   Submission,
   SubmissionStepType,
   useProceed,
@@ -57,7 +58,8 @@ const MapUserRole: {
 export const ManualFlowTransitioning: React.FC<{
   submission: Submission
   userRole: ProjectRole | null
-}> = ({ submission, userRole, children }) => {
+  documentId: string
+}> = ({ submission, userRole, documentId, children }) => {
   const can = usePermissions()
   const { submitProceedMutation, mutationError } = useProceed()
 
@@ -86,29 +88,45 @@ export const ManualFlowTransitioning: React.FC<{
       submissionId: submission?.id,
       statusId: status.id,
       note: noteValue,
-    })
-      .then(({ data }) => {
+      update: (cache, { data }) => {
         if (data?.proceed) {
           setShowComplete(true)
+          const cachedSubmission = cache.readQuery<{ submission: Submission }>({
+            query: GET_SUBMISSION,
+            variables: { id: documentId, type: 'DOCUMENT_ID' },
+          })
+          if (cachedSubmission?.submission.currentStep) {
+            cache.writeQuery({
+              query: GET_SUBMISSION,
+              variables: { id: data.proceed.id },
+              data: {
+                submission: {
+                  ...cachedSubmission.submission,
+                  ...data.proceed,
+                },
+              },
+            })
+          }
         } else {
           setError('Server refused to proceed with your submission')
         }
         setLoading(false)
-      })
-      .catch((error) => {
-        if (!error.graphQLErrors) {
-          setError('Unable to proceed with your submission.')
-        } else {
-          toggleConfirmationDialog(false)
-        }
-        setLoading(false)
-      })
+      },
+    }).catch((error) => {
+      if (!error.graphQLErrors) {
+        setError('Unable to proceed with your submission.')
+      } else {
+        toggleConfirmationDialog(false)
+      }
+      setLoading(false)
+    })
   }, [
     submitProceedMutation,
     setError,
     selectedTransitionIndex,
     submission,
     noteValue,
+    documentId,
   ])
 
   const onTransitionClick = useCallback(
