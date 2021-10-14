@@ -14,9 +14,11 @@ import * as AbsintheSocket from '@absinthe/socket'
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
-import { DocumentNode, split } from 'apollo-link'
+import { DocumentNode, from, split } from 'apollo-link'
 import { setContext } from 'apollo-link-context'
+import { onError } from 'apollo-link-error'
 import { HttpLink } from 'apollo-link-http'
+import { ServerError } from 'apollo-link-http-common'
 import { createUploadLink } from 'apollo-upload-client'
 import { getMainDefinition } from 'apollo-utilities'
 import { Socket as PhoenixSocket } from 'phoenix'
@@ -48,7 +50,7 @@ const authLink = setContext((_, { headers }) => ({
 }))
 
 const filesServerLink = createUploadLink({
-  uri: config.leanWorkflow.url,
+  uri: `${config.leanWorkflow.url}/action/leanworkflowGraphQL`,
   credentials: 'include',
 })
 
@@ -74,11 +76,28 @@ const beaconOrFiles = (operation: any) => {
   return true
 }
 
+const errorLink = onError(({ networkError, operation }) => {
+  if (networkError) {
+    const { statusCode } = networkError as ServerError
+    const { clientPurpose } = operation.getContext()
+    const redirectUri = window.location.href
+
+    if (statusCode === 401 && clientPurpose == 'leanWorkflowManager') {
+      // Auto login
+      window.location.assign(
+        `${config.leanWorkflow.url}/action/showLogin?redirectUri=${redirectUri}`
+      )
+    }
+  }
+})
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: split(
-    hasSubscription,
-    wsLink,
-    split(beaconOrFiles, authLink.concat(httpLink), filesServerLink)
-  ),
+  link: from([
+    errorLink,
+    split(
+      hasSubscription,
+      wsLink,
+      split(beaconOrFiles, authLink.concat(httpLink), filesServerLink)
+    ),
+  ]),
 })
