@@ -197,7 +197,7 @@ export const ManualFlowTransitioning: React.FC<{
   const disable = !currentStepTransition || !can.completeTask
   const errorCode = mutationError?.graphQLErrors?.find(
     (error) => error?.extensions?.code
-  )?.extensions?.code
+  )?.extensions?.code.name
 
   return (
     <Wrapper>
