@@ -159,7 +159,11 @@ export const CommentList: React.FC<Props> = React.memo(
         `[data-reference-id="${comment.target}"]`
       )
       if (el) {
-        el.scrollIntoView()
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest',
+        })
       }
     }
 
