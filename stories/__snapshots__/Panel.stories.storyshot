@@ -26,7 +26,6 @@ exports[`Storyshots Panel combined 1`] = `
   box-sizing: border-box;
   color: #353535;
   font-family: "Lato",sans-serif;
-  overflow-y: hidden;
 }
 
 .c5 {
@@ -342,7 +341,6 @@ exports[`Storyshots Panel row 1`] = `
   box-sizing: border-box;
   color: #353535;
   font-family: "Lato",sans-serif;
-  overflow-y: hidden;
 }
 
 .c5 {

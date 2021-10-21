@@ -26,7 +26,6 @@ exports[`Storyshots Page A page 1`] = `
   box-sizing: border-box;
   color: #353535;
   font-family: "Lato",sans-serif;
-  overflow-y: hidden;
 }
 
 <div
@@ -201,7 +200,6 @@ exports[`Storyshots Page A page with a project 1`] = `
   box-sizing: border-box;
   color: #353535;
   font-family: "Lato",sans-serif;
-  overflow-y: hidden;
 }
 
 .c2 {

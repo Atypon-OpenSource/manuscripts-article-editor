@@ -52,7 +52,6 @@ const PageContainer = styled.div`
   box-sizing: border-box;
   color: ${(props) => props.theme.colors.text.primary};
   font-family: ${(props) => props.theme.font.family.sans};
-  overflow-y: hidden;
   // border-top: 1px solid ${(props) => props.theme.colors.background.info};
 `
 
