@@ -538,7 +538,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
           project={project}
           manuscript={manuscript}
           view={view}
-          doc={doc}
+          doc={state.doc}
           permissions={editorProps.permissions}
           manuscripts={props.manuscripts}
           user={user}
