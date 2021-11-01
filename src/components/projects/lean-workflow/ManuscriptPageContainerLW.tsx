@@ -77,6 +77,7 @@ import {
 import { getUserRole, isViewer } from '../../../lib/roles'
 import { ContainerIDs } from '../../../sync/Collection'
 import { theme } from '../../../theme/theme'
+import { ThemeProvider } from '../../../theme/ThemeProvider'
 import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import { IntlProps, withIntl } from '../../IntlProvider'
 import CitationEditor from '../../library/CitationEditor'
@@ -362,7 +363,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     putAttachment: putAttachment,
     retrySync,
 
-    renderReactComponent: ReactDOM.render,
+    renderReactComponent: (child: React.ReactChild, container: HTMLElement) => {
+      ReactDOM.render(<ThemeProvider>{child}</ThemeProvider>, container)
+    },
     unmountReactComponent: ReactDOM.unmountComponentAtNode,
     components: {
       ReferencesViewer,
