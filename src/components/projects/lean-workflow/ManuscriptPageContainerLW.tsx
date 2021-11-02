@@ -47,7 +47,13 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useCallback, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
@@ -113,7 +119,7 @@ import EditorElement from './EditorElement'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
-import { UserProvider } from './provider/UserProvider'
+import { UserContext, UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
@@ -527,6 +533,22 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
   >
 
+  const {
+    newUploadedFile,
+    stopFileUploadProgress,
+    setStopFileUploadProgress,
+    setNewUploadedFileName,
+  } = useContext(UserContext)
+
+  useEffect(() => {
+    if (
+      newUploadedFile &&
+      files.some((file) => file.filename === newUploadedFile)
+    ) {
+      setStopFileUploadProgress(true)
+    }
+  }, [files, newUploadedFile, setStopFileUploadProgress])
+
   return (
     <RequirementsProvider modelMap={modelMap}>
       <UserProvider
@@ -748,6 +770,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                           handleDownload={handleDownloadAttachment}
                           handleReplace={handleReplaceAttachment}
                           handleUpload={handleUploadAttachment}
+                          setNewUploadedFileName={setNewUploadedFileName}
+                          stopUploadProgress={stopFileUploadProgress}
                         />
                         {uploadAttachmentError && (
                           <ExceptionDialog errorCode={uploadAttachmentError} />

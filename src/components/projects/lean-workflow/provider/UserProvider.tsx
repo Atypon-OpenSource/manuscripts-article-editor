@@ -10,7 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import React, { createContext } from 'react'
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react'
 
 import { Person } from '../../../../lib/lean-workflow-gql'
 
@@ -20,8 +26,15 @@ interface ProviderProps {
   submissionId: string
 }
 
+interface FileLoadingProps {
+  newUploadedFile?: string
+  stopFileUploadProgress?: boolean
+  setNewUploadedFileName: Dispatch<SetStateAction<string | undefined>>
+  setStopFileUploadProgress: Dispatch<SetStateAction<boolean | undefined>>
+}
+
 // @ts-ignore
-export const UserContext = createContext<ProviderProps>({})
+export const UserContext = createContext<ProviderProps & FileLoadingProps>({})
 
 export const UserProvider: React.FC<ProviderProps> = ({
   lwUser,
@@ -29,12 +42,29 @@ export const UserProvider: React.FC<ProviderProps> = ({
   submissionId,
   children,
 }) => {
+  const [newUploadedFile, setNewUploadedFileName] = useState<
+    string | undefined
+  >()
+  const [stopFileUploadProgress, setStopFileUploadProgress] = useState<
+    boolean | undefined
+  >()
+
+  useEffect(() => {
+    if (newUploadedFile) {
+      setStopFileUploadProgress(true)
+    }
+  }, [newUploadedFile, setStopFileUploadProgress])
+
   return (
     <UserContext.Provider
       value={{
         lwUser,
         manuscriptUser,
         submissionId,
+        newUploadedFile,
+        setNewUploadedFileName,
+        stopFileUploadProgress,
+        setStopFileUploadProgress,
       }}
     >
       {children}
