@@ -9,35 +9,40 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import React, { createContext } from 'react'
+import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 
-import { Person } from '../../../../lib/lean-workflow-gql'
+export const FileUploadingStateContext = createContext<{
+  newUploadedFile?: string
+  stopFileUploadProgress?: boolean
+  setNewUploadedFileName: Dispatch<SetStateAction<string | undefined>>
+  setStopFileUploadProgress: Dispatch<SetStateAction<boolean | undefined>>
+}>({
+  setStopFileUploadProgress: () => {
+    console.error(`StoreContext not mounted`)
+  },
+  setNewUploadedFileName: () => {
+    console.error(`StoreContext not mounted`)
+  },
+})
 
-interface ProviderProps {
-  lwUser: Person
-  manuscriptUser: UserProfileWithAvatar
-  submissionId: string
-}
+export const FileUploadingStateProvider: React.FC = ({ children }) => {
+  const [newUploadedFile, setNewUploadedFileName] = useState<
+    string | undefined
+  >()
+  const [stopFileUploadProgress, setStopFileUploadProgress] = useState<
+    boolean | undefined
+  >()
 
-// @ts-ignore
-export const UserContext = createContext<ProviderProps>({})
-
-export const UserProvider: React.FC<ProviderProps> = ({
-  lwUser,
-  manuscriptUser,
-  submissionId,
-  children,
-}) => {
   return (
-    <UserContext.Provider
+    <FileUploadingStateContext.Provider
       value={{
-        lwUser,
-        manuscriptUser,
-        submissionId,
+        newUploadedFile,
+        setNewUploadedFileName,
+        stopFileUploadProgress,
+        setStopFileUploadProgress,
       }}
     >
       {children}
-    </UserContext.Provider>
+    </FileUploadingStateContext.Provider>
   )
 }

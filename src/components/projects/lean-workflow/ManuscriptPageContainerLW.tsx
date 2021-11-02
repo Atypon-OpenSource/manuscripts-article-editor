@@ -119,7 +119,11 @@ import EditorElement from './EditorElement'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
-import { UserContext, UserProvider } from './provider/UserProvider'
+import {
+  FileUploadingStateContext,
+  FileUploadingStateProvider,
+} from './provider/FileUploadingStateProvider'
+import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
@@ -193,12 +197,14 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
       manuscriptID={match.params.manuscriptID}
     >
       <CapabilitiesProvider can={can}>
-        <ManuscriptPageView
-          {...data}
-          {...props}
-          submission={submissionData?.data?.submission}
-          lwUser={lwUser}
-        />
+        <FileUploadingStateProvider>
+          <ManuscriptPageView
+            {...data}
+            {...props}
+            submission={submissionData?.data?.submission}
+            lwUser={lwUser}
+          />
+        </FileUploadingStateProvider>
       </CapabilitiesProvider>
     </ManuscriptModelsProvider>
   )
@@ -538,7 +544,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     stopFileUploadProgress,
     setStopFileUploadProgress,
     setNewUploadedFileName,
-  } = useContext(UserContext)
+  } = useContext(FileUploadingStateContext)
 
   useEffect(() => {
     if (
@@ -547,7 +553,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ) {
       setStopFileUploadProgress(true)
     }
-  })
+  }, [files, newUploadedFile, setStopFileUploadProgress])
 
   return (
     <RequirementsProvider modelMap={modelMap}>
