@@ -2314,7 +2314,7 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.30.13":
+"@manuscripts/style-guide@^0.30.12":
   version "0.30.13"
   resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.30.13.tgz#10fe68849946b45fb4a8e5aa2ea255342332adba"
   integrity sha512-M6khDr7KzOvyk8/JFGNBmOpzUseHE2Ka//1jvy7gB5XHugsGZuDFFb3VnvtUCxDkdVS5X9iQZdLXCxGm+4h9ww==
