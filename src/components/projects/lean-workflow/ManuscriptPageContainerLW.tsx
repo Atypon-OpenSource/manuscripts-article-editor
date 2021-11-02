@@ -547,7 +547,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ) {
       setStopFileUploadProgress(true)
     }
-  }, [files, newUploadedFile, setStopFileUploadProgress])
+  })
 
   return (
     <RequirementsProvider modelMap={modelMap}>
