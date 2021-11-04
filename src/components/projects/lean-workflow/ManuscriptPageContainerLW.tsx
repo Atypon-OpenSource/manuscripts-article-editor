@@ -539,12 +539,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
   >
 
-  const {
-    newUploadedFile,
-    stopFileUploadProgress,
-    setStopFileUploadProgress,
-    setNewUploadedFileName,
-  } = useContext(FileUploadingStateContext)
+  const { newUploadedFile, setStopFileUploadProgress } = useContext(
+    FileUploadingStateContext
+  )
 
   useEffect(() => {
     if (
@@ -776,8 +773,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                           handleDownload={handleDownloadAttachment}
                           handleReplace={handleReplaceAttachment}
                           handleUpload={handleUploadAttachment}
-                          setNewUploadedFileName={setNewUploadedFileName}
-                          stopUploadProgress={stopFileUploadProgress}
                         />
                         {uploadAttachmentError && (
                           <ExceptionDialog errorCode={uploadAttachmentError} />
