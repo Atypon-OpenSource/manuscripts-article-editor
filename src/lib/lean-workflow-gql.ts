@@ -439,4 +439,5 @@ export const useGetPermittedActions = (submissionId: string) =>
     variables: {
       id: submissionId,
     },
+    skip: submissionId === undefined,
   })
