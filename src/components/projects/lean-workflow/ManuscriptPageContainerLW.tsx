@@ -47,13 +47,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
@@ -119,10 +113,6 @@ import EditorElement from './EditorElement'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
-import {
-  FileUploadingStateContext,
-  FileUploadingStateProvider,
-} from './provider/FileUploadingStateProvider'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
@@ -197,14 +187,12 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
       manuscriptID={match.params.manuscriptID}
     >
       <CapabilitiesProvider can={can}>
-        <FileUploadingStateProvider>
-          <ManuscriptPageView
-            {...data}
-            {...props}
-            submission={submissionData?.data?.submission}
-            lwUser={lwUser}
-          />
-        </FileUploadingStateProvider>
+        <ManuscriptPageView
+          {...data}
+          {...props}
+          submission={submissionData?.data?.submission}
+          lwUser={lwUser}
+        />
       </CapabilitiesProvider>
     </ManuscriptModelsProvider>
   )
@@ -538,19 +526,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   ].filter(Boolean) as Array<
     'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
   >
-
-  const { newUploadedFile, setStopFileUploadProgress } = useContext(
-    FileUploadingStateContext
-  )
-
-  useEffect(() => {
-    if (
-      newUploadedFile &&
-      files.some((file) => file.filename === newUploadedFile)
-    ) {
-      setStopFileUploadProgress(true)
-    }
-  }, [files, newUploadedFile, setStopFileUploadProgress])
 
   return (
     <RequirementsProvider modelMap={modelMap}>
