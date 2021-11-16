@@ -10,25 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  buildValidation,
-  ManuscriptEditorState,
-} from '@manuscripts/manuscript-transform'
+import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   Model,
-  ObjectTypes,
   Project,
-  RequirementsValidation,
-  RequirementsValidationData,
 } from '@manuscripts/manuscripts-json-schema'
 import { AnyValidationResult } from '@manuscripts/requirements'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { buildQualityCheck } from '../components/requirements/RequirementsInspector'
-import CollectionManager from '../sync/CollectionManager'
 import { useIdlePropEffect } from './use-idle-prop-effect'
-import { usePullComplete } from './use-pull-complete'
 
 interface Args {
   project: Project
@@ -43,62 +35,63 @@ export const useRequirementsValidation = ({
   modelMap,
   state,
 }: Args) => {
-  const isPullComplete = usePullComplete(`project-${project._id}`)
-
-  const [doc, setDoc] = useState<RequirementsValidation | null>(null)
-  const [loaded, setLoaded] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>()
-
-  const collection = CollectionManager.getCollection(`project-${project._id}`)
+  const [result, setResult] = useState<AnyValidationResult[]>([])
   const prototypeID = manuscript.prototype
 
-  useEffect(() => {
-    if (isPullComplete) {
-      const subscription = collection
-        .find({
-          manuscriptID: manuscript._id,
-          objectType: ObjectTypes.RequirementsValidation,
-        })
-        .$.subscribe((docs) => {
-          setLoaded(true)
-          if (!docs || !docs.length) {
-            return
-          }
+  // TODO: re-enable once the quality report (RequirementsValidation) is saved
 
-          const doc = docs[0].toJSON() as RequirementsValidation
-          setDoc(doc)
-        })
-      return () => {
-        subscription.unsubscribe()
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [project._id, isPullComplete, manuscript._id])
+  // useEffect(() => {
+  //   if (isPullComplete) {
+  //     const subscription = collection
+  //       .find({
+  //         manuscriptID: manuscript._id,
+  //         objectType: ObjectTypes.RequirementsValidation,
+  //       })
+  //       .$.subscribe((docs) => {
+  //         setLoaded(true)
+  //         if (!docs || !docs.length) {
+  //           return
+  //         }
+
+  //         const doc = docs[0].toJSON() as RequirementsValidation
+  //         setDoc(doc)
+  //       })
+  //     return () => {
+  //       subscription.unsubscribe()
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [project._id, isPullComplete, manuscript._id])
 
   useIdlePropEffect(
     () => {
       buildQualityCheck(modelMap, prototypeID, manuscript._id, {
         validateImageFiles: false,
       })
-        .then((results) => {
-          // make sure not to create multiple documents
-          if (!loaded) {
-            return
-          }
+        .then(setResult)
+        // Saving the report failed, we need to update the `RequirementsValidation` schema in order to fix the issue.
+        // TODO: re-enable once we decide to save the quality report (RequirementsValidation).
 
-          const nextDoc = doc
-            ? {
-                ...doc,
-                results,
-              }
-            : buildValidation(results as RequirementsValidationData[])
+        // .then((results) => {
+        //   // make sure not to create multiple documents
+        //   if (!loaded) {
+        //     return
+        //   }
 
-          setError(null)
-          return collection.save(nextDoc, {
-            containerID: project._id,
-            manuscriptID: manuscript._id,
-          })
-        })
+        //   const nextDoc = doc
+        //     ? {
+        //         ...doc,
+        //         results,
+        //       }
+        //     : buildValidation(results as RequirementsValidationData[])
+
+        //   setError(null)
+        //   return collection.save(nextDoc, {
+        //     containerID: project._id,
+        //     manuscriptID: manuscript._id,
+        //   })
+        // })
         .catch((err) => {
           setError(err)
         })
@@ -107,5 +100,5 @@ export const useRequirementsValidation = ({
     1000
   )
 
-  return { result: (doc?.results || []) as AnyValidationResult[], error }
+  return { result, error }
 }
