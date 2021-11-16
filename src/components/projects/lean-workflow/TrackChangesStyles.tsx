@@ -10,50 +10,106 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Correction } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
 
-const TrackChangesOn = styled.div`
-.track-changes--blame {
-  background-color: rgba(57, 255, 20, 0.5);
-}
-.track-changes--blame-uncommitted {
-  background-color: rgba(255, 218, 20, 0.5);
-}
+import { trackChangesCssSelector } from '../../../lib/styles'
 
-.track-changes--blame-point {
-  position: relative;
-  &::after {
-    position: absolute;
-    left: -2.5px;
-    display: inline-block;
-    content: ' ';
-    border: 1px solid rgba(255, 0, 0);
-    transform: rotate(45deg);
-    border-top: none;
-    border-left: none;
-    width: 5px;
-    height: 5px;
+const getAcceptedControlsSelector = trackChangesCssSelector(
+  'track-changes--control'
+)
+
+const TrackChangesOn = styled.div<{
+  acceptedControlsSelector: string
+}>`
+  .track-changes--blame {
+    background-color: rgba(57, 255, 20, 0.5);
   }
-}
+  .track-changes--blame-uncommitted {
+    background-color: rgba(255, 218, 20, 0.5);
+  }
 
-.track-changes--replaced {
-  color: rgba(0, 0, 0, 0.5);
-  text-decoration: line-through;
+  .track-changes--blame-point {
+    position: relative;
+    &::after {
+      position: absolute;
+      left: -2.5px;
+      display: inline-block;
+      content: ' ';
+      border: 1px solid rgba(255, 0, 0);
+      transform: rotate(45deg);
+      border-top: none;
+      border-left: none;
+      width: 5px;
+      height: 5px;
+    }
+  }
+
+  .track-changes--replaced {
+    color: rgba(0, 0, 0, 0.5);
+    text-decoration: line-through;
+  }
+
+  .track-changes--control {
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .track-changes--control svg {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+
+  ${(props) => props.acceptedControlsSelector} ${(props) =>
+    props.acceptedControlsSelector.length ? '{display: none;}' : ''}
+`
+
+const TrackChangesReadOnly = styled(TrackChangesOn)`
+  .track-changes--control {
+    display: none;
+  }
 `
 
 const TrackChangesOff = styled.div`
   .track-changes--replaced {
     display: none !important;
   }
+  .track-changes--control {
+    display: none !important;
+  }
 `
 
-export const TrackChangesStyles: React.FC<{ trackEnabled: boolean }> = ({
-  trackEnabled,
+interface Props {
+  enabled: boolean
+  readOnly: boolean
+  corrections: Correction[]
+}
+
+export const TrackChangesStyles: React.FC<Props> = ({
+  enabled,
+  readOnly,
+  corrections,
   children,
 }) => {
-  return trackEnabled ? (
-    <TrackChangesOn>{children}</TrackChangesOn>
+  const acceptedControlsSelector = getAcceptedControlsSelector(
+    corrections
+      .filter((correction) => correction.status.label === 'accepted')
+      .map(({ commitChangeID }) => commitChangeID)
+  )
+
+  return enabled && readOnly ? (
+    <TrackChangesReadOnly acceptedControlsSelector={acceptedControlsSelector}>
+      {children}
+    </TrackChangesReadOnly>
+  ) : enabled ? (
+    <TrackChangesOn acceptedControlsSelector={acceptedControlsSelector}>
+      {children}
+    </TrackChangesOn>
   ) : (
     <TrackChangesOff>{children}</TrackChangesOff>
   )

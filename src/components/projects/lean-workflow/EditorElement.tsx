@@ -22,10 +22,12 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { NodeSelection } from 'prosemirror-state'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
+import { useCommits } from '../../../hooks/use-commits'
 import { setNodeAttrs } from '../../../lib/node-attrs'
+import { SpriteMap } from '../../track/Icons'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
@@ -35,11 +37,15 @@ interface Props {
     designation: string,
     name: string
   ) => Promise<any>
+  accept: ReturnType<typeof useCommits>['accept']
+  reject: ReturnType<typeof useCommits>['reject']
 }
 
 const EditorElement: React.FC<Props> = ({
   editor,
   modelMap,
+  accept,
+  reject,
   changeAttachmentDesignation,
 }) => {
   const { onRender, view, dispatch } = editor
@@ -93,6 +99,25 @@ const EditorElement: React.FC<Props> = ({
     },
   })
 
+  const handleEditorClick = useCallback(
+    (e: React.MouseEvent) => {
+      const button = e.target && (e.target as HTMLElement).closest('button')
+      if (!button) {
+        return
+      }
+      const action = button.getAttribute('data-action')
+      const changeId = button.getAttribute('data-changeid')
+      if (!action || !changeId) {
+        return
+      } else if (action === 'accept') {
+        accept((corr) => corr.commitChangeID === changeId)
+      } else if (action === 'reject') {
+        reject((corr) => corr.commitChangeID === changeId)
+      }
+    },
+    [accept, reject]
+  )
+
   return (
     <>
       {error && (
@@ -108,7 +133,9 @@ const EditorElement: React.FC<Props> = ({
           }}
         />
       )}
-      <div id="editorDropzone" ref={drop}>
+      <SpriteMap color="#353535" />
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
+      <div id="editorDropzone" ref={drop} onClick={handleEditorClick}>
         <div id="editor" ref={onRender}></div>
       </div>
     </>

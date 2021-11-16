@@ -33,6 +33,7 @@ import {
   getTrackPluginState,
   isCommitContiguousWithSelection,
   rebases,
+  reset as resetToLastCommit,
 } from '@manuscripts/track-changes'
 import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
@@ -125,7 +126,7 @@ export const useCommits = ({
   )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const freeze = async () => {
+  const freeze = async (asAccepted?: boolean) => {
     const { commit } = getTrackPluginState(editor.state)
     if (!commit.steps.length) {
       return
@@ -153,7 +154,10 @@ export const useCommits = ({
       insertion: changeSummary ? changeSummary.insertion : '',
       deletion: changeSummary ? changeSummary.deletion : '',
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
-      status: { label: 'proposed', editorProfileID: userProfileID },
+      status: {
+        label: asAccepted ? 'accepted' : 'proposed',
+        editorProfileID: userProfileID,
+      },
     })
     return Promise.all([
       saveCommit(commit),
@@ -208,10 +212,18 @@ export const useCommits = ({
     )
   }
 
-  const accept = (correctionID: string) => {
-    const current = corrections.find((corr) => corr._id === correctionID)
+  const findOneCorrection = (
+    correction: string | ((corr: Correction) => boolean)
+  ) => {
+    return typeof correction === 'function'
+      ? corrections.find(correction)
+      : corrections.find((corr) => corr._id === correction)
+  }
+
+  const accept = (correction: string | ((corr: Correction) => boolean)) => {
+    const current = findOneCorrection(correction)
     if (!current) {
-      return
+      return freeze(true)
     }
 
     const { status } = current
@@ -230,10 +242,10 @@ export const useCommits = ({
     })
   }
 
-  const reject = (correctionID: string) => {
-    const current = corrections.find((corr) => corr._id === correctionID)
-    if (!current || !current.commitChangeID) {
-      return
+  const reject = (correction: string | ((corr: Correction) => boolean)) => {
+    const current = findOneCorrection(correction)
+    if (!current) {
+      return editor.replaceState(resetToLastCommit(ancestorDoc, editor.state))
     }
     const { status } = current
 
@@ -254,7 +266,7 @@ export const useCommits = ({
 
     const unrejectedCorrections = corrections
       .filter(
-        (cor) => cor.status.label !== 'rejected' && cor._id !== correctionID
+        (cor) => cor.status.label !== 'rejected' && cor._id !== current._id
       )
       .map((cor) => cor.commitChangeID || '')
 
@@ -293,5 +305,6 @@ export const useCommits = ({
       .sort(sortBy === 'Date' ? correctionsByDate : correctionsByContext),
     accept,
     reject,
+    commitHash: currentCommit._id,
   }
 }

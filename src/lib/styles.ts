@@ -1047,3 +1047,9 @@ export const chooseParagraphStyle = (
     }
   }
 }
+
+export const trackChangesCssSelector = (classname: string) => (
+  ids: string[]
+) => {
+  return ids.map((id) => `.${classname}[data-changeid="${id}"]`).join(',\n')
+}

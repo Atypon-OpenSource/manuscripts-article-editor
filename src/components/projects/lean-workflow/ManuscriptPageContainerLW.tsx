@@ -600,11 +600,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     allowInvitingAuthors={false}
                     showAuthorEditButton={editorProps.permissions.write}
                   />
-                  <TrackChangesStyles trackEnabled={!!snapshotID}>
+                  <TrackChangesStyles
+                    enabled={!!snapshotID}
+                    readOnly={!can.handleSuggestion}
+                    corrections={corrections}
+                  >
                     <EditorElement
                       editor={editor}
                       modelMap={modelMap}
                       saveModel={saveModel}
+                      accept={accept}
+                      reject={reject}
                       changeAttachmentDesignation={(
                         designation: string,
                         name: string

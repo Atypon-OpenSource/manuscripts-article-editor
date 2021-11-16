@@ -28,6 +28,7 @@ import {
   buildParagraphStyles,
   buildTableStyles,
   isBorderStyle,
+  trackChangesCssSelector,
 } from '../styles'
 
 const modelMap = buildModelMap(data as ProjectDump)
@@ -104,5 +105,14 @@ describe('styles', () => {
     const result = buildTableStyles(model, colors, borderStyles)
 
     expect(result).toMatchSnapshot('')
+  })
+})
+
+describe('trackChangesCssSelector', () => {
+  it('collates changeIds into a CSS selector', () => {
+    const classname = 'my-class'
+    const ids = ['id-1', 'id-2']
+    const result = `.my-class[data-changeid="id-1"],\n.my-class[data-changeid="id-2"]`
+    expect(trackChangesCssSelector(classname)(ids)).toEqual(result)
   })
 })
