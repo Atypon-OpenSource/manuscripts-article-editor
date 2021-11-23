@@ -90,8 +90,13 @@ export const ContentTab: React.FC<{
     getSectionCountRequirements,
   } = useSharedData()
 
-  const dispatchNodeAttrs = (id: string, attrs: Record<string, unknown>) => {
+  const dispatchNodeAttrs = (
+    id: string,
+    attrs: Record<string, unknown>,
+    nodispatch = false
+  ) => {
     const { tr, doc } = state
+    let transaction
 
     doc.descendants((node, pos) => {
       if (node.attrs.id === id) {
@@ -99,10 +104,14 @@ export const ContentTab: React.FC<{
           ...node.attrs,
           ...attrs,
         })
-
-        dispatch(tr)
+        if (nodispatch) {
+          transaction = tr
+        } else {
+          dispatch(tr)
+        }
       }
     })
+    return transaction
   }
 
   return (
@@ -170,6 +179,8 @@ export const ContentTab: React.FC<{
           sectionNode={
             selectedSection ? (selectedSection.node as SectionNode) : undefined
           }
+          state={state}
+          dispatch={dispatch}
           modelMap={modelMap}
           saveModel={saveModel}
           dispatchNodeAttrs={dispatchNodeAttrs}

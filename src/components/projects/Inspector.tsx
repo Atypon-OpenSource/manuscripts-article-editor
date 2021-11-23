@@ -35,6 +35,7 @@ import {
   ManuscriptNoteList,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { Transaction } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
@@ -86,7 +87,11 @@ export const Inspector: React.FC<{
   commentTarget?: string
   createKeyword: (name: string) => Promise<Keyword>
   deleteModel: (id: string) => Promise<string>
-  dispatchNodeAttrs: (id: string, attrs: Record<string, unknown>) => void
+  dispatchNodeAttrs: (
+    id: string,
+    attrs: Record<string, unknown>,
+    nodispatch?: boolean
+  ) => Transaction | undefined
   dispatchUpdate: () => void
   doc: ActualManuscriptNode
   element?: AnyElement
@@ -255,6 +260,8 @@ export const Inspector: React.FC<{
                       <SectionInspector
                         key={section._id}
                         section={section}
+                        state={view.state}
+                        dispatch={view.dispatch}
                         sectionNode={
                           selectedSection
                             ? (selectedSection.node as SectionNode)

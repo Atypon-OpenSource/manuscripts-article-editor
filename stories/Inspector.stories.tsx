@@ -145,6 +145,8 @@ storiesOf('Inspector/Section Inspector', module).add(
         modelMap={modelMap}
         section={section}
         saveModel={action('save')}
+        state={view.state}
+        dispatch={view.dispatch}
         dispatchNodeAttrs={action('dispatch node attributes')}
         getSectionCountRequirements={action(
           'get the section count requirements'

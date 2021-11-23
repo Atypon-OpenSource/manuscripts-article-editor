@@ -9,10 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-
+import { insertSectionLabel } from '@manuscripts/manuscript-editor'
 import {
   Build,
   generateID,
+  isSectionLabelNode,
   SectionNode,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -27,6 +28,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { TextField } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
+import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import useInterval from 'react-useinterval'
 import styled from 'styled-components'
@@ -78,11 +80,17 @@ const buildCountRequirement = <T extends CountRequirement>(
 }
 
 export const SectionInspector: React.FC<{
-  dispatchNodeAttrs: (id: string, attrs: Record<string, unknown>) => void
+  dispatchNodeAttrs: (
+    id: string,
+    attrs: Record<string, unknown>,
+    nodispatch?: boolean
+  ) => Transaction | undefined
   section: Section
   sectionNode?: SectionNode
   modelMap: Map<string, Model>
   saveModel: SaveModel
+  state: EditorState
+  dispatch: (tr: Transaction) => EditorState | void
   getSectionCountRequirements: (
     templateID: string
   ) => SectionCountRequirementMaps
@@ -92,6 +100,8 @@ export const SectionInspector: React.FC<{
   sectionNode,
   modelMap,
   saveModel,
+  state,
+  dispatch,
   getSectionCountRequirements,
 }) => {
   // placeholder
@@ -115,6 +125,10 @@ export const SectionInspector: React.FC<{
     !!section.titleSuppressed
   )
 
+  const [generatedLabel, setGeneratedLabel] = useState<boolean>(
+    !!(section.generatedLabel || typeof section.generatedLabel === 'undefined')
+  )
+
   const updateTitleSuppressed = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault()
@@ -123,6 +137,36 @@ export const SectionInspector: React.FC<{
       dispatchNodeAttrs(section._id, { titleSuppressed: nextTitleSuppressed })
     },
     [section, dispatchNodeAttrs]
+  )
+
+  const updateGeneratedLabel = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault()
+      const isGenerated = !e.target.checked
+      setGeneratedLabel(isGenerated)
+
+      const tr = dispatchNodeAttrs(
+        section._id,
+        {
+          generatedLabel: isGenerated,
+        },
+        !isGenerated
+      )
+      if (!isGenerated) {
+        let existingLabel = null
+        sectionNode?.descendants((node) => {
+          if (isSectionLabelNode(node)) {
+            existingLabel = node
+          }
+        })
+        if (!existingLabel) {
+          insertSectionLabel(state, dispatch, tr)
+        } else if (tr) {
+          dispatch(tr)
+        }
+      }
+    },
+    [section, dispatchNodeAttrs, state, dispatch, sectionNode]
   )
 
   // requirements
@@ -206,6 +250,21 @@ export const SectionInspector: React.FC<{
                 </label>
               </div>
             )}
+
+            {sectionNode &&
+              currentSectionCategory !== 'MPSectionCategory:subsection' &&
+              'generatedLabel' in sectionNode.attrs && (
+                <div>
+                  <label>
+                    <input
+                      type={'checkbox'}
+                      checked={!generatedLabel}
+                      onChange={updateGeneratedLabel}
+                    />{' '}
+                    Use custom label
+                  </label>
+                </div>
+              )}
 
             {isEditableSectionCategoryID(currentSectionCategory) && (
               <>

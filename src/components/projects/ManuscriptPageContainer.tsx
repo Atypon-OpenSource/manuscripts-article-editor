@@ -933,7 +933,11 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
   }
 
-  private dispatchNodeAttrs = (id: string, attrs: Record<string, unknown>) => {
+  private dispatchNodeAttrs = (
+    id: string,
+    attrs: Record<string, unknown>,
+    nodispatch = false
+  ) => {
     const { view } = this.state
 
     if (!view) {
@@ -941,6 +945,7 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
     }
 
     const { tr, doc } = view.state
+    let transaction
 
     doc.descendants((node, pos) => {
       if (node.attrs.id === id) {
@@ -948,10 +953,14 @@ class ManuscriptPageContainer extends React.Component<CombinedProps, State> {
           ...node.attrs,
           ...attrs,
         })
-
-        view.dispatch(tr)
+        if (nodispatch) {
+          transaction = tr
+        } else {
+          view.dispatch(tr)
+        }
       }
     })
+    return transaction
   }
 
   private openTemplateSelector = (
