@@ -2127,7 +2127,7 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.42.13":
+"@manuscripts/manuscript-transform@^0.42.12":
   version "0.42.13"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.13.tgz#8d196ee5149bd3d6bf7dda0a4e718ccfdb7f9c35"
   integrity sha512-WTtBEccdR5+BSKe87Ze6bHk4Hkolz2BpHyVbvli6qC+E/ar6T4oBZGFzWOFawZsGyKviBwnvnjpPLlOE5U6b3g==
@@ -2150,6 +2150,22 @@
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
     "@manuscripts/manuscripts-json-schema" "^1.48.8"
+    debug "^4.1.1"
+    lodash.pickby "^4.6.0"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscript-transform@^0.48.6":
+  version "0.48.6"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.6.tgz#63d0df47e3d6be7ebf57c85d9cbed1df7a258a12"
+  integrity sha512-Sqc9uhTadTmfCdhWnHuIZKTnFgNwBaKMc8xCNfAUjhwgyLhagVtn7RMeJ3rEVYOlQZhFU9TckFLpQx5Id0h4jA==
+  dependencies:
+    "@manuscripts/data" "^0.1.3"
+    "@manuscripts/library" "^0.6.2"
+    "@manuscripts/manuscripts-json-schema" "^1.49.4"
     debug "^4.1.1"
     lodash.pickby "^4.6.0"
     mathjax-full "^3.1.2"
@@ -2181,15 +2197,6 @@
     deepmerge "^3.2.0"
     js-beautify "^1.9.0"
 
-"@manuscripts/manuscripts-json-schema@^1.46.8":
-  version "1.46.10"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.46.10.tgz#66c57b2b7c6608f59761943869efeb36074bda99"
-  integrity sha512-3Me1oyePX6qJeYBuvJ/am4QvFsijk05/cSexmyA1dDvjUWU0nxZHCQia4Mf2/X4ZAoLGQpSTeuVV6zsonnOUwA==
-  dependencies:
-    ajv "^6.10.0"
-    deepmerge "^3.2.0"
-    js-beautify "^1.9.0"
-
 "@manuscripts/manuscripts-json-schema@^1.47.0":
   version "1.47.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.47.0.tgz#db8b20ea817b5b2d2627bfbd9a9b53de9e2cb9d2"
@@ -2203,6 +2210,15 @@
   version "1.49.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.0.tgz#c0733a89d7ded66bfa5561cbd2218d9d95d6163e"
   integrity sha512-xTfuw+aDHJADr4ye7ebKzE3mVFYBhoaH6AbJ2Stl7C9qmwmlGfF6BL+/fmfmZuChYeuXFcviw50Xo8/6CvjSdA==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
+"@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.4":
+  version "1.49.4"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.4.tgz#be16ce2ddf0d84311c5b099115f5416f2a17e9b3"
+  integrity sha512-Upau9kpGqV4IgXHHpLVxncNRJxRUXK7LUyuuIbr9mwKTr2URE1rRTecjyKwy5w/Nvdw4indEzk875W0dWa5Kuw==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
@@ -2267,15 +2283,15 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/requirements@^0.4.8":
-  version "0.4.8"
-  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.4.8.tgz#468af7a37e34595914bac1834c44b47f2980a695"
-  integrity sha512-j+29NdaEg36OTGGcGQ6DJunSe43oN01duOSnwaHRF5buW/P2DdLmtXpE+YBqGwpZO+a+bzL1RTqhE3Cjx1kzqw==
+"@manuscripts/requirements@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.4.10.tgz#d2197d82a9360dc6b9a6b75b7145bdd88db654de"
+  integrity sha512-uCpjzoDzwm8VFaEXLHAY+gGLLlDEOYlCo1yp3g7PhIUeFzKG0H7dZrWZbdKv25M9qFHXNVW5j9CpCaIP2ROPsQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/data" "^0.1.5"
-    "@manuscripts/manuscript-transform" "^0.42.13"
-    "@manuscripts/manuscripts-json-schema" "^1.46.8"
+    "@manuscripts/manuscript-transform" "^0.48.1"
+    "@manuscripts/manuscripts-json-schema" "^1.49.1"
     deep-equal "^2.0.5"
     file-type "^15.0.1"
     grapheme-splitter "^1.0.4"
