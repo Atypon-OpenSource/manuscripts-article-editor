@@ -65,6 +65,7 @@ import {
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
 import { bootstrap } from '../../../lib/bootstrap-manuscript'
 import {
+  getErrorCode,
   Person,
   Submission,
   useGetPermittedActions,
@@ -305,18 +306,21 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
           return res
         })
         .catch((e) => {
-          handleDialogError(
-            e.graphQLErrors[0] ? e.graphQLErrors[0].message : e && e.message,
-            'Something went wrong while updating submission.',
-            true
-          )
+          const errorCode = getErrorCode(e)
+          if (!errorCode) {
+            handleDialogError(
+              e.graphQLErrors[0] ? e.graphQLErrors[0].message : e && e.message,
+              'Something went wrong while updating submission.',
+              true
+            )
+          }
           return false
         })
     },
     []
   )
 
-  const setMainManuscript = useSetMainManuscript()
+  const { setMainManuscript, setMainManuscriptError } = useSetMainManuscript()
   const changeAttachmentDesignation = useUpdateAttachmentDesignation()
   const handleChangeAttachmentDesignation = useCallback(
     (submissionId: string, designation: string, name: string) => {
@@ -511,6 +515,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       uploadAttachment,
     ]
   )
+
+  const errorCode = uploadAttachmentError || setMainManuscriptError
 
   const handleDownloadAttachment = useCallback((url: string) => {
     window.location.assign(url)
@@ -755,9 +761,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                           handleReplace={handleReplaceAttachment}
                           handleUpload={handleUploadAttachment}
                         />
-                        {uploadAttachmentError && (
-                          <ExceptionDialog errorCode={uploadAttachmentError} />
-                        )}
+                        {errorCode && <ExceptionDialog errorCode={errorCode} />}
                       </>
                     ) : null
                   }

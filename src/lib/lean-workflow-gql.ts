@@ -11,6 +11,7 @@
  */
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { DataProxy } from 'apollo-cache/src/types/DataProxy'
+import { ApolloError } from 'apollo-client'
 import { FetchResult } from 'apollo-link'
 import gql from 'graphql-tag'
 
@@ -277,9 +278,7 @@ export const useUploadAttachment = () => {
         },
       })
     },
-    uploadAttachmentError: error?.graphQLErrors?.find(
-      (error) => error?.extensions?.code
-    )?.extensions?.code,
+    uploadAttachmentError: getErrorCode(error),
   }
 }
 
@@ -377,17 +376,20 @@ export const useProceed = () => {
 }
 
 export const useSetMainManuscript = () => {
-  const [mutate] = useMutation(SET_MAIN_MANUSCRIPT)
-  return ({ submissionId, name }: mainManuscriptProps) =>
-    mutate({
-      context: {
-        clientPurpose: 'leanWorkflowManager',
-      },
-      variables: {
-        submissionId,
-        name,
-      },
-    })
+  const [mutate, { error }] = useMutation(SET_MAIN_MANUSCRIPT)
+  return {
+    setMainManuscript: ({ submissionId, name }: mainManuscriptProps) =>
+      mutate({
+        context: {
+          clientPurpose: 'leanWorkflowManager',
+        },
+        variables: {
+          submissionId,
+          name,
+        },
+      }),
+    setMainManuscriptError: getErrorCode(error),
+  }
 }
 
 interface onHoldProps {
@@ -441,3 +443,9 @@ export const useGetPermittedActions = (submissionId: string) =>
     },
     skip: submissionId === undefined,
   })
+
+export const getErrorCode = (
+  apolloError: ApolloError | undefined
+): string | undefined =>
+  apolloError?.graphQLErrors.find((error) => error?.extensions?.code)
+    ?.extensions?.code.name
