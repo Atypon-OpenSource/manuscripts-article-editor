@@ -104,8 +104,6 @@ export const SectionInspector: React.FC<{
   dispatch,
   getSectionCountRequirements,
 }) => {
-  // placeholder
-
   const firstParagraph = findFirstParagraph(section, modelMap)
 
   const [placeholder, setPlaceholder] = useState<string | undefined>(
@@ -120,13 +118,8 @@ export const SectionInspector: React.FC<{
     }
   }, 500)
 
-  // suppressed title
   const [titleSuppressed, setTitleSuppressed] = useState<boolean>(
     !!section.titleSuppressed
-  )
-
-  const [generatedLabel, setGeneratedLabel] = useState<boolean>(
-    !!(section.generatedLabel || typeof section.generatedLabel === 'undefined')
   )
 
   const updateTitleSuppressed = useCallback(
@@ -143,7 +136,7 @@ export const SectionInspector: React.FC<{
     (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault()
       const isGenerated = !e.target.checked
-      setGeneratedLabel(isGenerated)
+      // setGeneratedLabel(isGenerated)
 
       const tr = dispatchNodeAttrs(
         section._id,
@@ -222,10 +215,7 @@ export const SectionInspector: React.FC<{
     ),
   }
 
-  // category
-
   const currentSectionCategory = chooseSectionCategory(section)
-
   return (
     <InspectorSection title={'Section'}>
       {section.title && <StyledTitle value={section.title} />}
@@ -250,7 +240,6 @@ export const SectionInspector: React.FC<{
                 </label>
               </div>
             )}
-
             {sectionNode &&
               currentSectionCategory !== 'MPSectionCategory:subsection' &&
               'generatedLabel' in sectionNode.attrs && (
@@ -258,7 +247,7 @@ export const SectionInspector: React.FC<{
                   <label>
                     <input
                       type={'checkbox'}
-                      checked={!generatedLabel}
+                      checked={sectionNode.attrs.generatedLabel === false}
                       onChange={updateGeneratedLabel}
                     />{' '}
                     Use custom label
