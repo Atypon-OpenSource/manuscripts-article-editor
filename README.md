@@ -262,4 +262,7 @@ The service is configured using environment variables, `.env.example` file place
 
   <dt>ZOTERO_TRANSLATION_SERVER</dt>
   <dd>URL used as a citation search source.</dd>
+
+  <dt>FEATURE_KEYWORDS_CATEGORIES</dt>
+  <dd>Allow categories for the keywords.</dd>
 </dl>

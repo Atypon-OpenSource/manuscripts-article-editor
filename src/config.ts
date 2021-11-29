@@ -237,6 +237,7 @@ const config = {
   templates: {
     publish: isTrue(process.env.PUBLISH_TEMPLATES),
   },
+  keywordsCategories: isTrue(process.env.FEATURE_KEYWORDS_CATEGORIES),
   version,
 }
 
