@@ -125,6 +125,7 @@ storiesOf('Inspector/Manuscript Inspector', module).add(
         manuscript={manuscript}
         saveManuscript={action('save manuscript')}
         saveModel={action('save')}
+        deleteModel={action('delete')}
         state={view.state}
         dispatch={view.dispatch}
         openTemplateSelector={action('open template selector ')}

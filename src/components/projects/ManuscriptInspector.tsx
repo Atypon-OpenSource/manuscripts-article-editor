@@ -41,6 +41,7 @@ import {
   InspectorValue,
 } from '../inspector/ManuscriptStyleInspector'
 import { InspectorSection, Subheading } from '../InspectorSection'
+import { CategorisedKeywordsInput } from './CategorisedKeywordsInput'
 import { CheckboxInput } from './CheckboxInput'
 import { CountInput } from './CountInput'
 import { DateTimeInput } from './DateTimeInput'
@@ -94,11 +95,13 @@ export const ManuscriptInspector: React.FC<{
     templateID: string
   ) => Map<ManuscriptCountRequirementType, number | undefined>
   canWrite?: boolean
+  deleteModel: (id: string) => Promise<any>
 }> = ({
   manuscript,
   modelMap,
   saveManuscript,
   saveModel,
+  deleteModel,
   state,
   dispatch,
   // pageLayout,
@@ -272,15 +275,23 @@ export const ManuscriptInspector: React.FC<{
 
             <Subheading>Keywords</Subheading>
 
-            <KeywordsInput
-              manuscript={manuscript}
-              modelMap={modelMap}
-              saveManuscript={saveManuscript}
-              saveModel={saveModel}
-              state={state}
-              dispatch={dispatch}
-            />
-
+            {config.keywordsCategories ? (
+              <CategorisedKeywordsInput
+                target={manuscript}
+                modelMap={modelMap}
+                deleteModel={deleteModel}
+                saveModel={saveModel}
+              />
+            ) : (
+              <KeywordsInput
+                manuscript={manuscript}
+                modelMap={modelMap}
+                saveManuscript={saveManuscript}
+                saveModel={saveModel}
+                state={state}
+                dispatch={dispatch}
+              />
+            )}
             <Subheading>Author Instruction URL</Subheading>
 
             <URLInput

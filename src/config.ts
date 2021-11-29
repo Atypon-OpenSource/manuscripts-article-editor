@@ -118,6 +118,7 @@ interface Config {
   templates: {
     publish?: boolean
   }
+  keywordsCategories: boolean
   version: string
 }
 

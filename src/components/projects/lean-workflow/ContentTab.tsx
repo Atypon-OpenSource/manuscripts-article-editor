@@ -150,6 +150,7 @@ export const ContentTab: React.FC<{
         saveModel={saveModel}
         state={state}
         dispatch={dispatch}
+        deleteModel={deleteModel}
         openTemplateSelector={openTemplateSelector}
         getTemplate={getTemplate}
         getManuscriptCountRequirements={getManuscriptCountRequirements}

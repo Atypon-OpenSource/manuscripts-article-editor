@@ -62,7 +62,7 @@ const ColorPopper = styled(Popup)`
   height: fit-content;
   padding: ${(props) => props.theme.grid.unit * 4}px;
 `
-const OptionWrapper = styled.div<{ focused?: boolean }>`
+export const OptionWrapper = styled.div<{ focused?: boolean }>`
   padding-left: ${(props) => props.theme.grid.unit * 4}px;
   padding-top: ${(props) => props.theme.grid.unit * 2}px;
   padding-bottom: ${(props) => props.theme.grid.unit * 2}px;
@@ -92,11 +92,11 @@ const OptionLabel = styled.div<{
   border-radius: 6px;
   color: ${(props) => props.textColor};
 `
-const OuterContainer = styled.div`
+export const OuterContainer = styled.div`
   width: 100%;
 `
 
-const Container = styled.div`
+export const Container = styled.div`
   position: relative;
 `
 const ColorButton = styled.button<{
@@ -165,7 +165,6 @@ const Actions = styled.div`
   justify-content: center;
   align-items: center;
 `
-
 const PopperContent = styled.div`
   border: 1px solid ${(props) => props.theme.colors.text.muted};
   border-radius: ${(props) => props.theme.grid.radius.small};
@@ -178,7 +177,7 @@ const PopperContent = styled.div`
     width: unset !important;
   }
 `
-const EditingPopper = styled(PopperContent)`
+export const EditingPopper = styled(PopperContent)`
   width: fit-content;
   max-width: 200px;
   min-width: 140px;

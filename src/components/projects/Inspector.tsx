@@ -228,6 +228,7 @@ export const Inspector: React.FC<{
                       modelMap={modelMap}
                       saveManuscript={saveManuscript}
                       saveModel={saveModel}
+                      deleteModel={deleteModel}
                       state={view.state}
                       dispatch={view.dispatch}
                       openTemplateSelector={openTemplateSelector}
