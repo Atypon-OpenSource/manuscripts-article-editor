@@ -2158,10 +2158,10 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.48.7":
-  version "0.48.7"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.7.tgz#30829a0cfc58be14856ec8977642aef6ca9a9879"
-  integrity sha512-FcBVJedLMnT9HPKwGvEdBXQdXzgIkxyykwYuYTMVlVZa+b9EObRxsHKixZrAGMzn09pAwLfrZDYM9t1i4+GfRw==
+"@manuscripts/manuscript-transform@^0.48.8":
+  version "0.48.8"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.8.tgz#a0544d8b937a80c23cd15ea5e3093b56c5977ce1"
+  integrity sha512-SoJvMBy+PNgAL+UKOHjKCdyXHvHbq6Ip2MpFsYYh62hHQ5nVaZJJawNbAk65Dh+RJ/3R7K87XIS8Iq/Db+tzeg==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
