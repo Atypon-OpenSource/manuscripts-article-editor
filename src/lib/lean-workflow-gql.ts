@@ -300,18 +300,25 @@ export const useUpdateAttachmentDesignation = () => {
 }
 
 export const useUpdateAttachmentFile = () => {
-  const [mutate] = useMutation(UPDATE_ATTACHMENT)
-  return ({ submissionId, name, file }: updateAttachmentProps) =>
-    mutate({
-      context: {
-        clientPurpose: 'leanWorkflowManager',
-      },
-      variables: {
-        submissionId,
-        name,
-        file,
-      },
-    })
+  const [mutate, { error }] = useMutation(UPDATE_ATTACHMENT)
+  return {
+    updateAttachmentFile: ({
+      submissionId,
+      name,
+      file,
+    }: updateAttachmentProps) =>
+      mutate({
+        context: {
+          clientPurpose: 'leanWorkflowManager',
+        },
+        variables: {
+          submissionId,
+          name,
+          file,
+        },
+      }),
+    updateAttachmentFileError: getErrorCode(error),
+  }
 }
 
 export const useGetSubmissionAndPerson = (

@@ -479,7 +479,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     [uploadAttachment, handleSubmissionMutation]
   )
 
-  const updateAttachmentFile = useUpdateAttachmentFile()
+  const {
+    updateAttachmentFile,
+    updateAttachmentFileError,
+  } = useUpdateAttachmentFile()
   const handleReplaceAttachment = useCallback(
     (submissionId: string, name: string, file: File, typeId: string) => {
       // to replace main manuscript we need first to upload the file and then change its designation to main-manuscript
@@ -516,7 +519,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ]
   )
 
-  const errorCode = uploadAttachmentError || setMainManuscriptError
+  const errorCode =
+    uploadAttachmentError || setMainManuscriptError || updateAttachmentFileError
 
   const handleDownloadAttachment = useCallback((url: string) => {
     window.location.assign(url)
