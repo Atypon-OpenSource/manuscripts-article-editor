@@ -519,9 +519,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     ]
   )
 
-  const errorCode =
-    uploadAttachmentError || setMainManuscriptError || updateAttachmentFileError
-
   const handleDownloadAttachment = useCallback((url: string) => {
     window.location.assign(url)
   }, [])
@@ -765,7 +762,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                           handleReplace={handleReplaceAttachment}
                           handleUpload={handleUploadAttachment}
                         />
-                        {errorCode && <ExceptionDialog errorCode={errorCode} />}
+                        {uploadAttachmentError && (
+                          <ExceptionDialog errorCode={uploadAttachmentError} />
+                        )}
+                        {setMainManuscriptError && (
+                          <ExceptionDialog errorCode={setMainManuscriptError} />
+                        )}
+                        {updateAttachmentFileError && (
+                          <ExceptionDialog
+                            errorCode={updateAttachmentFileError}
+                          />
+                        )}
                       </>
                     ) : null
                   }
