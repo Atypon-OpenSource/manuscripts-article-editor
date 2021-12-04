@@ -240,20 +240,18 @@ export const SectionInspector: React.FC<{
                 </label>
               </div>
             )}
-            {sectionNode &&
-              currentSectionCategory !== 'MPSectionCategory:subsection' &&
-              'generatedLabel' in sectionNode.attrs && (
-                <div>
-                  <label>
-                    <input
-                      type={'checkbox'}
-                      checked={sectionNode.attrs.generatedLabel === false}
-                      onChange={updateGeneratedLabel}
-                    />{' '}
-                    Use custom label
-                  </label>
-                </div>
-              )}
+            {sectionNode && 'generatedLabel' in sectionNode.attrs && (
+              <div>
+                <label>
+                  <input
+                    type={'checkbox'}
+                    checked={sectionNode.attrs.generatedLabel === false}
+                    onChange={updateGeneratedLabel}
+                  />{' '}
+                  Use custom label
+                </label>
+              </div>
+            )}
 
             {isEditableSectionCategoryID(currentSectionCategory) && (
               <>
