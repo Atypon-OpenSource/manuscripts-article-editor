@@ -627,7 +627,7 @@ const LibraryForm: React.FC<{
                 {(props: FieldProps) => (
                   <FormTextField
                     id={'doi'}
-                    pattern={'10..+'}
+                    pattern={'(https://doi.org/)?10..+'}
                     {...props.field}
                   />
                 )}

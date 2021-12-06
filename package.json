@@ -55,7 +55,7 @@
     "@manuscripts/manuscripts-json-schema-utils": "^0.2.1",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts3",
     "@manuscripts/pouchdb-adapter-idb": "7.0.0-manuscripts2",
-    "@manuscripts/requirements": "^0.4.10",
+    "@manuscripts/requirements": "^0.4.11",
     "@manuscripts/resizer": "^0.0.6",
     "@manuscripts/rxdb": "8.2.0-manuscripts1",
     "@manuscripts/style-guide": "^0.30.18",
