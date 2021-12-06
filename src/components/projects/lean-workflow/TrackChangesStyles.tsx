@@ -16,13 +16,9 @@ import styled from 'styled-components'
 
 import { trackChangesCssSelector } from '../../../lib/styles'
 
-const getAcceptedControlsSelector = trackChangesCssSelector(
-  'track-changes--control'
-)
+const blameSelector = trackChangesCssSelector('track-changes--blame')
 
-const TrackChangesOn = styled.div<{
-  acceptedControlsSelector: string
-}>`
+const TrackChangesOn = styled.div`
   .track-changes--blame {
     background-color: rgba(57, 255, 20, 0.5);
   }
@@ -46,27 +42,45 @@ const TrackChangesOn = styled.div<{
     }
   }
 
-  .track-changes--replaced {
-    color: rgba(0, 0, 0, 0.5);
-    text-decoration: line-through;
-  }
-
   .track-changes--control {
+    display: none;
+    position: absolute;
+  }
+
+  .track-changes--blame:hover:not(.track-changes--blame-uncommitted)
+    + .track-changes--control,
+  .track-changes--blame.track-changes--focused:not(.track-changes--blame-uncommitted)
+    + .track-changes--control,
+  .track-changes--control:hover {
+    display: inline-flex;
+  }
+
+  .track-changes--control > button {
+    display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    border: none;
+    background: ${(props) =>
+      props.theme.colors.button.secondary.background.default};
+    border: 1px solid
+      ${(props) => props.theme.colors.button.secondary.border.default};
+    color: ${(props) => props.theme.colors.button.secondary.color.default};
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
     cursor: pointer;
-    vertical-align: middle;
   }
 
-  .track-changes--control svg {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
+  .track-changes--control > button:hover {
+    background: ${(props) =>
+      props.theme.colors.button.secondary.background.hover};
   }
 
-  ${(props) => props.acceptedControlsSelector} ${(props) =>
-    props.acceptedControlsSelector.length ? '{display: none;}' : ''}
+  .track-changes--control > button > svg {
+    display: inline-flex;
+    width: 1.2em;
+    height: 1.2em;
+  }
 `
 
 const TrackChangesReadOnly = styled(TrackChangesOn)`
@@ -84,10 +98,27 @@ const TrackChangesOff = styled.div`
   }
 `
 
+const ToDoDots = styled.div<{ selector: string }>`
+  ${(props) => props.selector} {
+    position: relative;
+    &::after {
+      content: ' ';
+      position: absolute;
+      left: 100%;
+      top: -3px;
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: ${(props) => props.theme.colors.text.warning};
+    }
+  }
+`
+
 interface Props {
+  corrections: Correction[]
   enabled: boolean
   readOnly: boolean
-  corrections: Correction[]
 }
 
 export const TrackChangesStyles: React.FC<Props> = ({
@@ -96,19 +127,17 @@ export const TrackChangesStyles: React.FC<Props> = ({
   corrections,
   children,
 }) => {
-  const acceptedControlsSelector = getAcceptedControlsSelector(
+  const suggestedChangesSelector = blameSelector(
     corrections
-      .filter((correction) => correction.status.label === 'accepted')
-      .map(({ commitChangeID }) => commitChangeID)
+      .filter((corr) => corr.status.label === 'proposed')
+      .map((corr) => corr.commitChangeID)
   )
 
   return enabled && readOnly ? (
-    <TrackChangesReadOnly acceptedControlsSelector={acceptedControlsSelector}>
-      {children}
-    </TrackChangesReadOnly>
+    <TrackChangesReadOnly>{children}</TrackChangesReadOnly>
   ) : enabled ? (
-    <TrackChangesOn acceptedControlsSelector={acceptedControlsSelector}>
-      {children}
+    <TrackChangesOn>
+      <ToDoDots selector={suggestedChangesSelector}>{children}</ToDoDots>
     </TrackChangesOn>
   ) : (
     <TrackChangesOff>{children}</TrackChangesOff>
