@@ -111,6 +111,7 @@ interface Config {
   submission: {
     series_code?: string
     group_doi?: string
+    id?: string
   }
   picker: {
     origins: string[]
@@ -231,6 +232,7 @@ const config = {
   submission: {
     series_code: process.env.SUBMISSION_SERIES_CODE,
     group_doi: process.env.SUBMISSION_GROUP_DOI,
+    id: process.env.SUBMISSION_ID,
   },
   picker: {
     origins: splitArray(process.env.PICKER_ORIGINS),

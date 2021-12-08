@@ -257,6 +257,9 @@ The service is configured using environment variables, `.env.example` file place
   <dt>SUBMISSION_GROUP_DOI</dt>
   <dd>Required for export as a "Literatum bundle".</dd>
 
+  <dt>SUBMISSION_ID</dt>
+  <dd>The ID of submission does exist in the lean workflow server. To be used for local development (to workaround the association between submission/manuscript to load manuscript properly) when lean workflow mode enabled.</dd>
+
   <dt>SYNC_GATEWAY_URL</dt>
   <dd>The base URL of Sync Gateway.</dd>
 

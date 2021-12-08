@@ -15,6 +15,8 @@ import { ApolloError } from 'apollo-client'
 import { FetchResult } from 'apollo-link'
 import gql from 'graphql-tag'
 
+import config from '../config'
+
 interface uploadAttachmentProps {
   submissionId: string
   file: File
@@ -329,10 +331,15 @@ export const useGetSubmissionAndPerson = (
     context: {
       clientPurpose: 'leanWorkflowManager',
     },
-    variables: {
-      id: `${projectId}#${documentId}`,
-      type: 'DOCUMENT_ID',
-    },
+    variables: config.submission.id
+      ? {
+          id: config.submission.id,
+          type: 'URI',
+        }
+      : {
+          id: `${projectId}#${documentId}`,
+          type: 'DOCUMENT_ID',
+        },
   })
 
 export const useGetCurrentSubmissionStep = (
