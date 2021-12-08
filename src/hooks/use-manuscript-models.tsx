@@ -94,8 +94,8 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
 
       // NOTE: can't set a partial here
       if (modelsState) {
-        setModelsState((prev) =>
-          new Map(prev).set(containedModel._id, {
+        setModelsState(
+          modelMap.set(containedModel._id, {
             ...containedModel,
             ...containerIDs,
           })
@@ -116,7 +116,7 @@ export const ManuscriptModelsProvider: React.FC<Props> = ({
 
       return result as T & ContainedProps
     },
-    [modelsState, collection, containerID, manuscriptID]
+    [modelsState, modelMap, collection, containerID, manuscriptID]
   )
 
   const saveManuscript = useCallback(
