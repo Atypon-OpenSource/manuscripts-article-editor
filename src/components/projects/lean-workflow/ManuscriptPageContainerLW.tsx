@@ -47,7 +47,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
@@ -448,6 +448,16 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     sortBy,
   })
 
+  const hasPendingSuggestions = useMemo(() => {
+    for (const { status } of corrections) {
+      const { label } = status
+      if (label === 'proposed') {
+        return true
+      }
+    }
+    return false
+  }, [corrections])
+
   const [selectedSnapshot, selectSnapshot] = useState(snapshots[0])
 
   const handleSelect = useCallback((snapshot) => {
@@ -566,6 +576,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     submission={submission}
                     userRole={getUserRole(project, user.userID)}
                     documentId={`${project._id}#${manuscript._id}`}
+                    hasPendingSuggestions={hasPendingSuggestions}
                   >
                     <SaveStatusController isDirty={isDirty} />
                   </ManualFlowTransitioning>

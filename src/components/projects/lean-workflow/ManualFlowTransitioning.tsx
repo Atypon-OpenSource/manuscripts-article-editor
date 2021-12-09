@@ -59,7 +59,14 @@ export const ManualFlowTransitioning: React.FC<{
   submission: Submission
   userRole: ProjectRole | null
   documentId: string
-}> = ({ submission, userRole, documentId, children }) => {
+  hasPendingSuggestions: boolean
+}> = ({
+  submission,
+  userRole,
+  documentId,
+  children,
+  hasPendingSuggestions,
+}) => {
   const can = usePermissions()
   const { submitProceedMutation, mutationError } = useProceed()
 
@@ -152,9 +159,23 @@ export const ManualFlowTransitioning: React.FC<{
     window.location.href = config.leanWorkflow.dashboardUrl
   }, [])
 
+  const isAnnotator = userRole === ProjectRole.annotator
+
   const dialogMessages = useMemo(
     () =>
-      showComplete
+      hasPendingSuggestions && !isAnnotator
+        ? {
+            header: 'The task can not be transitioned to the next step',
+            message: `There are still pending suggestions in the document.         
+            It is not possible to complete the task without having them approved or rejected.`,
+            actions: {
+              primary: {
+                action: onCancelClick,
+                title: 'Ok',
+              },
+            },
+          }
+        : showComplete
         ? {
             header: 'Content reassigned successfully',
             message: `to the ${submission.nextStep.type.label}`,
@@ -190,6 +211,8 @@ export const ManualFlowTransitioning: React.FC<{
       onDashboardRedirectClick,
       onCancelClick,
       submission.nextStep.type.label,
+      hasPendingSuggestions,
+      isAnnotator,
     ]
   )
 
@@ -251,16 +274,17 @@ export const ManualFlowTransitioning: React.FC<{
               />
               <StepDetails {...submission.nextStep.type} />
             </Grid>
-          )) || (
-            <TextAreaWrapper>
-              <MediumTextArea
-                value={noteValue}
-                onChange={onNoteChange}
-                rows={5}
-                placeholder={'Add any additional comment here...'}
-              />
-            </TextAreaWrapper>
-          )}
+          )) ||
+            ((!hasPendingSuggestions || isAnnotator) && (
+              <TextAreaWrapper>
+                <MediumTextArea
+                  value={noteValue}
+                  onChange={onNoteChange}
+                  rows={5}
+                  placeholder={'Add any additional comment here...'}
+                />
+              </TextAreaWrapper>
+            ))}
 
           {error && (
             <AlertMessage type={AlertMessageType.error} hideCloseButton={true}>
