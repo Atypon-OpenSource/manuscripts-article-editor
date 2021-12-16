@@ -17,10 +17,11 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useCallback, useMemo } from 'react'
+import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { AvatarContainer, CorrectionItem, Time } from './CorrectionItem'
-import { Accept, Reject } from './Icons'
+import { Accept, Back, Reject } from './Icons'
 
 interface Props {
   project: Project
@@ -67,13 +68,17 @@ export const Correction: React.FC<Props> = ({
     return false
   }, [correction, can, user._id])
 
+  const isRejected = useMemo(() => {
+    return correction.status.label === 'rejected'
+  }, [correction])
+
+  const isAccepted = useMemo(() => {
+    return correction.status.label === 'accepted'
+  }, [correction])
+
   return (
     <Wrapper isFocused={isFocused}>
-      <FocusHandle
-        href="#"
-        onClick={handleClick}
-        isDisabled={correction.status.label === 'rejected'}
-      >
+      <FocusHandle href="#" onClick={handleClick} isDisabled={isRejected}>
         <CorrectionItem
           correction={correction}
           getCollaboratorById={getCollaboratorById}
@@ -84,22 +89,56 @@ export const Correction: React.FC<Props> = ({
       <Actions>
         <>
           {canRejectOwnSuggestion && (
-            <Action
-              type="button"
-              onClick={() => handleReject(correction._id)}
-              aria-pressed={correction.status.label === 'rejected'}
-            >
-              <Reject color="#353535" />
-            </Action>
+            <Container>
+              <Action
+                type="button"
+                onClick={() => handleReject(correction._id)}
+                aria-pressed={isRejected}
+                data-tip={true}
+                data-for={isRejected ? 'back' : 'reject'}
+              >
+                {isRejected ? (
+                  <Back color="#353535" />
+                ) : (
+                  <Reject color="#353535" />
+                )}
+              </Action>
+              <ReactTooltip
+                id={isRejected ? 'back' : 'reject'}
+                place="bottom"
+                effect="solid"
+                offset={{ top: 10 }}
+                className="tooltip"
+              >
+                {(isRejected && 'Back to suggestions') || 'Reject'}
+              </ReactTooltip>
+            </Container>
           )}
           {can.handleSuggestion && (
-            <Action
-              type="button"
-              onClick={() => handleAccept(correction._id)}
-              aria-pressed={correction.status.label === 'accepted'}
-            >
-              <Accept color="#353535" />
-            </Action>
+            <Container>
+              <Action
+                type="button"
+                onClick={() => handleAccept(correction._id)}
+                aria-pressed={isAccepted}
+                data-tip={true}
+                data-for={isAccepted ? 'back' : 'accept'}
+              >
+                {isAccepted ? (
+                  <Back color="#353535" />
+                ) : (
+                  <Accept color="#353535" />
+                )}
+              </Action>
+              <ReactTooltip
+                id={isAccepted ? 'back' : 'accept'}
+                place="bottom"
+                effect="solid"
+                offset={{ top: 10 }}
+                className="tooltip"
+              >
+                {(isAccepted && 'Back to suggestions') || 'Approve'}
+              </ReactTooltip>
+            </Container>
           )}
         </>
       </Actions>
@@ -161,13 +200,40 @@ const Action = styled.button`
   cursor: pointer;
   position: relative;
   z-index: 1;
+  width: ${(props) => props.theme.grid.unit * 6}px;
+  height: ${(props) => props.theme.grid.unit * 6}px;
 
   &[disabled] {
     cursor: not-allowed;
     opacity: 0.5;
   }
 
+  &:not([disabled]):hover {
+    &[aria-pressed='true'] {
+      path {
+        stroke: #1a9bc7;
+      }
+    }
+
+    &[aria-pressed='false'] {
+      path {
+        fill: #1a9bc7;
+      }
+    }
+    background: #f2fbfc;
+    border: 1px solid #c9c9c9;
+  }
+
   &:focus {
     outline: none;
+  }
+`
+
+const Container = styled.div`
+  .tooltip {
+    border-radius: 6px;
+    padding: ${(props) => props.theme.grid.unit * 2}px;
+    max-width: ${(props) => props.theme.grid.unit * 15}px;
+    font-size: ${(props) => props.theme.grid.unit * 3}px;
   }
 `

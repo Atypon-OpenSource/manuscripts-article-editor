@@ -40,6 +40,51 @@ const AcceptContents: React.FC = () => (
   />
 )
 
+const BackContents: React.FC = () => (
+  <React.Fragment>
+    <path
+      d="M14.5 21.4999C15.63 21.4999 16.698 21.2319 17.644 20.7559"
+      stroke="#353535"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9.30615 19.1934C9.92215 19.8754 10.6712 20.4354 11.5122 20.8324"
+      stroke="#353535"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M7.5 14.5C7.5 15.381 7.663 16.224 7.96 17"
+      stroke="#353535"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M19.797 19.076C20.858 17.849 21.5 16.25 21.5 14.5C21.5 10.634 18.366 7.5 14.5 7.5C11.864 7.5 9.672 9.141 8.5 11.5"
+      stroke="#353535"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8.5 6.5V11.5H13.5"
+      stroke="#353535"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </React.Fragment>
+)
+
 export const Reject: React.FC<Props> = ({ color }) => (
   <svg
     width="16"
@@ -63,6 +108,19 @@ export const Accept: React.FC<Props> = ({ color }) => (
     color={color}
   >
     <AcceptContents />
+  </svg>
+)
+
+export const Back: React.FC<Props> = ({ color }) => (
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 28 28"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    color={color}
+  >
+    <BackContents />
   </svg>
 )
 
