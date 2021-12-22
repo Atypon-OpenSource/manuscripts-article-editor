@@ -50,7 +50,7 @@ const authLink = setContext((_, { headers }) => ({
 }))
 
 const filesServerLink = createUploadLink({
-  uri: `${config.leanWorkflow.url}/action/leanworkflowGraphQL`,
+  uri: `${config.leanWorkflow.url}${config.leanWorkflow.graphqlEndpoint}`,
   credentials: 'include',
 })
 

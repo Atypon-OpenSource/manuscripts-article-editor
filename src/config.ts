@@ -91,6 +91,7 @@ interface Config {
   leanWorkflow: {
     enabled: boolean
     url: string
+    graphqlEndpoint: string
     dashboardUrl: string
   }
   iam: {
@@ -209,6 +210,7 @@ const config = {
   leanWorkflow: {
     enabled: isTrue(process.env.LEAN_WORKFLOW),
     url: normalizeURL(getURL(process.env.LEAN_WORKFLOW_MANAGER_URL, index)),
+    graphqlEndpoint: process.env.LEAN_WORKFLOW_GRAPHQL_ENDPOINT,
     dashboardUrl: normalizeURL(getURL(process.env.DASHBOARD_URL, index)),
   },
   iam: {

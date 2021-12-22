@@ -218,6 +218,9 @@ The service is configured using environment variables, `.env.example` file place
   <dt>LEAN_WORKFLOW_MANAGER_URL</dt>
   <dd>The base URL of lean workflow server.</dd>
 
+  <dt>LEAN_WORKFLOW_GRAPHQL_ENDPOINT</dt>
+  <dd>The endPoint for the graphql.</dd>
+
   <dt>LOG_SYNC_EVENTS</dt>
   <dd>If set to '1', console log sync events.</dd>
 
