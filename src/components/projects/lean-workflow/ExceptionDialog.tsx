@@ -75,8 +75,8 @@ export const ExceptionDialog: React.FC<{
             },
           }
         : {
-            header: 'Service unavailable',
-            message: 'Internal error resulting to service unavailability',
+            header: title,
+            message: description,
             secondaryMessage:
               'If the problem persists, please assign the task to the Production Editor to take care of the issue.',
             actions: {
