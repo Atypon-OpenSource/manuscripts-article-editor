@@ -127,16 +127,22 @@ export const removeComment = (id: string) => (
   })
 }
 
-// TODO: filter the comments by whether they are "RESOLVED"
 export const topLevelComments = (
   state: CommentState,
   filter?: CommentFilter
 ): CommentState => {
-  return state.filter((item) =>
-    filter && filter === CommentFilter.UNRESOLVED
-      ? item.comment.selector && !item.comment.resolved
-      : item.comment.selector
-  )
+  return state
+    .filter((item) =>
+      filter && filter === CommentFilter.UNRESOLVED
+        ? item.comment.selector && !item.comment.resolved
+        : item.comment.selector
+    )
+    .slice()
+    .sort((a, b) => {
+      const bFrom = b.comment.selector!.from
+      const aFrom = a.comment.selector!.from
+      return aFrom - bFrom
+    })
 }
 
 export const repliesOf = (
