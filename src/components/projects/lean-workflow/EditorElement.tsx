@@ -21,6 +21,7 @@ import {
   Model,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
+import { commands } from '@manuscripts/track-changes'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
@@ -39,6 +40,7 @@ interface Props {
   ) => Promise<any>
   accept: ReturnType<typeof useCommits>['accept']
   reject: ReturnType<typeof useCommits>['reject']
+  doCommand: ReturnType<typeof useEditor>['doCommand']
 }
 
 const EditorElement: React.FC<Props> = ({
@@ -47,6 +49,7 @@ const EditorElement: React.FC<Props> = ({
   accept,
   reject,
   changeAttachmentDesignation,
+  doCommand,
 }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
@@ -107,15 +110,21 @@ const EditorElement: React.FC<Props> = ({
       }
       const action = button.getAttribute('data-action')
       const changeId = button.getAttribute('data-changeid')
-      if (!action || !changeId) {
+      const uid = button.getAttribute('data-uid')
+      if (!action) {
         return
       } else if (action === 'accept') {
         accept((corr) => corr.commitChangeID === changeId)
       } else if (action === 'reject') {
         reject((corr) => corr.commitChangeID === changeId)
+      } else if (action === 'select-comment') {
+        if (!uid) {
+          return
+        }
+        doCommand(commands.focusAnnotation(uid))
       }
     },
-    [accept, reject]
+    [accept, reject, doCommand]
   )
 
   return (

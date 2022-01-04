@@ -629,6 +629,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       saveModel={saveModel}
                       accept={accept}
                       reject={reject}
+                      doCommand={doCommand}
                       changeAttachmentDesignation={(
                         designation: string,
                         name: string

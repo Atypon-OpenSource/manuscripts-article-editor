@@ -81,6 +81,33 @@ const TrackChangesOn = styled.div`
     width: 1.2em;
     height: 1.2em;
   }
+
+  .track-changes--annotation-control {
+    display: inline-flex;
+    position: relative;
+    width: 0;
+    height: 0;
+    & > button {
+      position: absolute;
+      top: -2em;
+      background: transparent;
+      display: inline-flex;
+      height: auto;
+      width: auto;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      & > svg {
+        width: 1.2em;
+        height: 1.2em;
+        display: inline-flex;
+        color: #fffcdb;
+      }
+    }
+    &.track-changes--focused > button > svg {
+      color: #ffeb07;
+    }
+  }
 `
 
 const TrackChangesReadOnly = styled(TrackChangesOn)`

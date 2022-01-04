@@ -145,6 +145,39 @@ export const SpriteMap: React.FC<Props> = ({ color }) => (
       >
         <RejectContents />
       </symbol>
+      <symbol
+        id="track-changes-ann-select-comment"
+        width="18"
+        height="18"
+        viewBox="0 0 18 18"
+        fill="none"
+      >
+        <path
+          d="M5.0625 5.9375V10.3125L2.4375 14.6875H13.8125C14.7794 14.6875 15.5625 13.9044 15.5625 12.9375V5.9375C15.5625 4.97062 14.7794 4.1875 13.8125 4.1875H6.8125C5.84562 4.1875 5.0625 4.97062 5.0625 5.9375Z"
+          fill="currentColor"
+          stroke="#FFBD26"
+          strokeWidth="1.5"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.6875 7.6875H12.9375"
+          stroke="#FFBD26"
+          strokeWidth="1.5"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.6875 11.1875H10.3125"
+          stroke="#FFBD26"
+          strokeWidth="1.5"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </symbol>
     </defs>
   </svg>
 )
