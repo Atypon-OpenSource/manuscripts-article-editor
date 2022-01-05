@@ -101,6 +101,9 @@ export const CommentsList: React.FC<Props> = ({
                   handleRequestSelect={() =>
                     handleRequestSelect(comment.target)
                   }
+                  scrollIntoHighlight={(comment) => {
+                    handleRequestSelect(comment.target)
+                  }}
                   handleSetResolved={() => {
                     saveComment({
                       ...comment,
