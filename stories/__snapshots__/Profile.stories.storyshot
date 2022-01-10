@@ -769,78 +769,75 @@ exports[`Storyshots Account/Modals Profile 1`] = `
                   </section>
                 </div>
                 <div
-                  className=" css-2b097c-container"
+                  className=" css-b62m3t-container"
                   onKeyDown={[Function]}
                 >
+                  <span
+                    className="css-1f43avz-a11yText-A11yText"
+                    id="react-select-4-live-region"
+                  />
+                  <span
+                    aria-atomic="false"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    className="css-1f43avz-a11yText-A11yText"
+                  />
                   <div
                     className=" css-19titw-control"
                     onMouseDown={[Function]}
                     onTouchEnd={[Function]}
                   >
                     <div
-                      className=" css-g1d714-ValueContainer"
+                      className=" css-319lph-ValueContainer"
                     >
                       <div
-                        className=" css-1wa3eu0-placeholder"
+                        className=" css-14el2xx-placeholder"
+                        id="react-select-4-placeholder"
                       >
                         Begin typing to add affiliation
                       </div>
                       <div
-                        className="css-b8ldur-Input"
+                        className=" css-6j8wv5-Input"
+                        data-value=""
                       >
-                        <div
+                        <input
+                          aria-autocomplete="list"
+                          aria-controls="react-select-4-listbox"
+                          aria-describedby="react-select-4-placeholder"
+                          aria-expanded={false}
+                          aria-haspopup={true}
+                          aria-owns="react-select-4-listbox"
+                          autoCapitalize="none"
+                          autoComplete="off"
+                          autoCorrect="off"
                           className=""
+                          disabled={false}
+                          id="react-select-4-input"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          role="combobox"
+                          spellCheck="false"
                           style={
                             Object {
-                              "display": "inline-block",
+                              "background": 0,
+                              "border": 0,
+                              "color": "inherit",
+                              "font": "inherit",
+                              "gridArea": "1 / 2",
+                              "label": "input",
+                              "margin": 0,
+                              "minWidth": "2px",
+                              "opacity": 1,
+                              "outline": 0,
+                              "padding": 0,
+                              "width": "100%",
                             }
                           }
-                        >
-                          <input
-                            aria-autocomplete="list"
-                            autoCapitalize="none"
-                            autoComplete="off"
-                            autoCorrect="off"
-                            disabled={false}
-                            id="react-select-7-input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            spellCheck="false"
-                            style={
-                              Object {
-                                "background": 0,
-                                "border": 0,
-                                "boxSizing": "content-box",
-                                "color": "inherit",
-                                "fontSize": "inherit",
-                                "label": "input",
-                                "opacity": 1,
-                                "outline": 0,
-                                "padding": 0,
-                                "width": "1px",
-                              }
-                            }
-                            tabIndex="0"
-                            type="text"
-                            value=""
-                          />
-                          <div
-                            style={
-                              Object {
-                                "height": 0,
-                                "left": 0,
-                                "overflow": "scroll",
-                                "position": "absolute",
-                                "top": 0,
-                                "visibility": "hidden",
-                                "whiteSpace": "pre",
-                              }
-                            }
-                          >
-                            
-                          </div>
-                        </div>
+                          tabIndex={0}
+                          type="text"
+                          value=""
+                        />
                       </div>
                     </div>
                     <div

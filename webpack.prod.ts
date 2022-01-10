@@ -40,6 +40,15 @@ const configuration: webpack.Configuration = merge(common, {
             use: 'babel-loader',
           },
           {
+            test: /pdfjs-dist.+.js$/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory: true,
+              },
+            },
+          },
+          {
             test: /\.mjs$/,
             type: 'javascript/auto',
           },

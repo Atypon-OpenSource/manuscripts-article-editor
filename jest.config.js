@@ -51,6 +51,6 @@ module.exports = {
     '^.+\\.(j|t)sx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!(lodash-es|@manuscripts)/)',
+    '<rootDir>/node_modules/(?!(lodash-es|@manuscripts|pdfjs-dist)/)',
   ],
 }
