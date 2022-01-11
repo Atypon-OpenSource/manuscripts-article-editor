@@ -44,6 +44,7 @@ const configuration: webpack.Configuration = merge(common, {
             use: {
               loader: 'babel-loader',
               options: {
+                'presets': ['@babel/preset-env'],
                 cacheDirectory: true,
               },
             },

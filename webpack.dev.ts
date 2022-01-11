@@ -49,6 +49,16 @@ const configuration: webpack.Configuration = merge(common, {
             ],
           },
           {
+            test: /pdfjs-dist.+.js$/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                'presets': ['@babel/preset-env'],
+                cacheDirectory: true,
+              },
+            },
+          },
+          {
             test: /\.mjs$/,
             type: 'javascript/auto',
           },
