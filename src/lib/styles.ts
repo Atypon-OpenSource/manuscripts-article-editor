@@ -1048,8 +1048,6 @@ export const chooseParagraphStyle = (
   }
 }
 
-export const trackChangesCssSelector = (classname: string) => (
-  ids: string[]
-) => {
-  return ids.map((id) => `.${classname}[data-changeid="${id}"]`).join(',\n')
+export const trackChangesCssSelector = (ids: string[]) => {
+  return ids.map((id) => `[data-changeid="${id}"]`).join(',\n')
 }

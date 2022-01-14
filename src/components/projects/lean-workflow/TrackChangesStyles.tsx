@@ -16,8 +16,6 @@ import styled from 'styled-components'
 
 import { trackChangesCssSelector } from '../../../lib/styles'
 
-const blameSelector = trackChangesCssSelector('track-changes--blame')
-
 const TrackChangesOn = styled.div`
   .track-changes--blame {
     background-color: rgba(57, 255, 20, 0.5);
@@ -45,14 +43,6 @@ const TrackChangesOn = styled.div`
   .track-changes--control {
     display: none;
     position: absolute;
-  }
-
-  .track-changes--blame:hover:not(.track-changes--blame-uncommitted)
-    + .track-changes--control,
-  .track-changes--blame.track-changes--focused:not(.track-changes--blame-uncommitted)
-    + .track-changes--control,
-  .track-changes--control:hover {
-    display: inline-flex;
   }
 
   .track-changes--control > button {
@@ -112,7 +102,7 @@ const TrackChangesOn = styled.div`
 
 const TrackChangesReadOnly = styled(TrackChangesOn)`
   .track-changes--control {
-    display: none;
+    display: none !important;
   }
 `
 
@@ -126,7 +116,7 @@ const TrackChangesOff = styled.div`
 `
 
 const ToDoDots = styled.div<{ selector: string }>`
-  ${(props) => props.selector} {
+  .track-changes--blame:is(${(props) => props.selector}) {
     position: relative;
     &::after {
       content: ' ';
@@ -139,6 +129,14 @@ const ToDoDots = styled.div<{ selector: string }>`
       border-radius: 50%;
       background-color: ${(props) => props.theme.colors.text.warning};
     }
+  }
+
+  .track-changes--control:is(${(props) =>
+        props.selector}).track-changes--focused,
+  .track-changes--blame:hover
+    + .track-changes--control:is(${(props) => props.selector}),
+  .track-changes--control:is(${(props) => props.selector}):hover {
+    display: inline-flex;
   }
 `
 
@@ -154,7 +152,7 @@ export const TrackChangesStyles: React.FC<Props> = ({
   corrections,
   children,
 }) => {
-  const suggestedChangesSelector = blameSelector(
+  const suggestedChangesSelector = trackChangesCssSelector(
     corrections
       .filter((corr) => corr.status.label === 'proposed')
       .map((corr) => corr.commitChangeID)
