@@ -207,7 +207,7 @@ export interface ManuscriptPageViewProps extends CombinedProps {
   snapshotID: string | null
   modelMap: Map<string, Model>
   snapshots: Array<RxDocument<Snapshot>>
-  submission: Submission
+  submission: Submission | null
   lwUser: Person
 }
 
@@ -228,7 +228,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     lwUser,
   } = props
 
-  const submissionId: string = submission?.id
+  const submissionId: string = submission?.id || ''
   const popper = useRef<PopperManager>(new PopperManager())
   const {
     getModel,
@@ -549,7 +549,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       <UserProvider
         lwUser={lwUser}
         manuscriptUser={props.user}
-        submissionId={submission.id}
+        submissionId={submissionId}
       >
         <ManuscriptSidebar
           project={project}
@@ -571,7 +571,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   which will happen on the very last step = 'Published'
                   this should be handled later with are more graceful way but it is not clear at this point how.
               */}
-                {submission.nextStep && (
+                {submission?.nextStep && (
                   <ManualFlowTransitioning
                     submission={submission}
                     userRole={getUserRole(project, user.userID)}

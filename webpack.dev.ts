@@ -98,6 +98,9 @@ const configuration: webpack.Configuration = merge(common, {
       '@manuscripts/manuscript-transform': require.resolve(
         '@manuscripts/manuscript-transform'
       ),
+      '@manuscripts/track-changes': require.resolve(
+        '@manuscripts/track-changes'
+      ),
       formik: require.resolve('formik'),
       'prosemirror-model': require.resolve('prosemirror-model'),
       react: require.resolve('react'),
