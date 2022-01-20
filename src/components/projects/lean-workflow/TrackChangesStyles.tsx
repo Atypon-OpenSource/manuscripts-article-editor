@@ -131,10 +131,10 @@ const ToDoDots = styled.div<{ selector: string }>`
     }
   }
 
-  .track-changes--control:is(${(props) =>
-        props.selector}).track-changes--focused,
   .track-changes--blame:hover
     + .track-changes--control:is(${(props) => props.selector}),
+  .track-changes--control:is(${(props) =>
+        props.selector}).track-changes--focused,
   .track-changes--control:is(${(props) => props.selector}):hover {
     display: inline-flex;
   }
