@@ -345,6 +345,12 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     [changeAttachmentDesignation, handleSubmissionMutation, setMainManuscript]
   )
   const editorProps = {
+    attributes: {
+      class: 'manuscript-editor',
+      lang: 'en-GB',
+      spellcheck: 'true',
+      tabindex: '2',
+    },
     doc,
 
     locale: manuscript.primaryLanguageCode || 'en-GB',
