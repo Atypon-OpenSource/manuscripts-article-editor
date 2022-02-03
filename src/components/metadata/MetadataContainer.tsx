@@ -65,6 +65,7 @@ interface Props {
   ) => Promise<RxAttachment<Model>>
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
+  disableEditButton?: boolean
 }
 
 interface State {
@@ -122,6 +123,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
       saveModel,
       allowInvitingAuthors,
       showAuthorEditButton,
+      disableEditButton,
     } = this.props
 
     // TODO: editable prop
@@ -194,6 +196,7 @@ class MetadataContainer extends React.PureComponent<Props, State> {
                               putAttachment={putAttachment}
                               allowInvitingAuthors={allowInvitingAuthors}
                               showAuthorEditButton={showAuthorEditButton}
+                              disableEditButton={disableEditButton}
                             />
                           )
                         }}

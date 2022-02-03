@@ -75,7 +75,7 @@ import {
   useUpdateAttachmentFile,
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
-import { getUserRole, isViewer } from '../../../lib/roles'
+import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
 import { ContainerIDs } from '../../../sync/Collection'
 import { theme } from '../../../theme/theme'
 import { ThemeProvider } from '../../../theme/ThemeProvider'
@@ -622,7 +622,11 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     permissions={editorProps.permissions}
                     tokenActions={props.tokenActions}
                     allowInvitingAuthors={false}
-                    showAuthorEditButton={editorProps.permissions.write}
+                    showAuthorEditButton={true}
+                    disableEditButton={
+                      isViewer(project, props.user.userID) ||
+                      isAnnotator(project, props.user.userID)
+                    }
                   />
                   <TrackChangesStyles
                     enabled={!!snapshotID}
@@ -809,6 +813,24 @@ const PageWrapper = styled.div`
   display: flex;
   flex: 2;
   overflow: hidden;
+
+  .edit_authors_button {
+    display: initial;
+    color: ${(props) => props.theme.colors.button.secondary.color.default};
+    background: ${(props) =>
+      props.theme.colors.button.secondary.background.default};
+    border-color: ${(props) =>
+      props.theme.colors.button.secondary.border.default};
+
+    &:not([disabled]):hover,
+    &:not([disabled]):focus {
+      color: ${(props) => props.theme.colors.button.secondary.color.hover};
+      background: ${(props) =>
+        props.theme.colors.button.secondary.background.hover};
+      border-color: ${(props) =>
+        props.theme.colors.button.secondary.border.hover};
+    }
+  }
 `
 
 export default withModal(withIntl(ManuscriptPageContainer))

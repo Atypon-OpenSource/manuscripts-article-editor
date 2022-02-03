@@ -145,6 +145,7 @@ interface Props {
   ) => Promise<RxAttachment<Model>>
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
+  disableEditButton?: boolean
 }
 
 const expanderStyle = (expanded: boolean) => ({
@@ -241,6 +242,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             authorData={authorsAndAffiliations}
             startEditing={props.startEditing}
             showEditButton={props.showAuthorEditButton}
+            disableEditButton={props.disableEditButton}
             selectAuthor={props.selectAuthor}
           />
         )}
