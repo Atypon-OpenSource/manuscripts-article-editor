@@ -127,6 +127,11 @@ const CategoryInput = styled.input`
   margin-left: 14px;
   padding: 3px 6px;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
   &:disabled {
     border: none;
     background: transparent;
@@ -252,9 +257,15 @@ export const CategorisedKeywordsInput: React.FC<{
     return newKeyword
   }
 
-  const addCategory = (title: string) => {
+  const addCategory = async (title: string) => {
     if (!Object.keys(categories).includes(title)) {
-      saveModel(buildKeywordGroup({ title, type: 'author' }))
+      const category = await saveModel(
+        buildKeywordGroup({ title, type: 'author' })
+      )
+      if (keywordToEdit) {
+        const keyword = setCatForKeyword(keywordToEdit, category)
+        setKeywordToEdit(keyword)
+      }
     }
   }
 
@@ -478,6 +489,34 @@ const TagNameInput: React.FC<{
   )
 }
 
+const NewCategoryInput: React.FC<{
+  addCategory: (title: string) => void
+  onCancel: () => void
+}> = ({ addCategory, onCancel }) => {
+  const [inputValue, setInputValue] = useState('')
+
+  return (
+    <CategoryEditWrapper>
+      <CategoryInput
+        type="text"
+        value={inputValue}
+        placeholder="New Category..."
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key == 'Enter') {
+            addCategory(inputValue)
+            onCancel()
+          }
+        }}
+        onBlur={onCancel}
+      />
+
+      <CategoryEditButton onClick={() => onCancel()}>
+        <CloseIconDark height={10} width={10} />
+      </CategoryEditButton>
+    </CategoryEditWrapper>
+  )
+}
 const EditCategoryTitle: React.FC<{
   category: KeywordGroup
   name: string
@@ -560,6 +599,7 @@ const EditKeywordCat: React.FC<{
   setTag,
   setOpen,
 }) => {
+  const [inputEnabled, toggleEnabled] = useState<boolean>(false)
   const actions = {
     primary: {
       action: () => {
@@ -593,13 +633,17 @@ const EditKeywordCat: React.FC<{
           changeTitle={changeTitle}
         />
       ))}
-      <KeywordButton
-        onClick={() => addCategory('New Category')}
-        type={'button'}
-      >
-        <AddIcon width={16} height={16} />
-        <span>New Category</span>
-      </KeywordButton>
+      {inputEnabled ? (
+        <NewCategoryInput
+          addCategory={addCategory}
+          onCancel={() => toggleEnabled(false)}
+        />
+      ) : (
+        <KeywordButton onClick={() => toggleEnabled(true)} type={'button'}>
+          <AddIcon width={16} height={16} />
+          <span>New Category</span>
+        </KeywordButton>
+      )}
       <Separator />
       <KeywordDeleteButton
         type={'button'}
