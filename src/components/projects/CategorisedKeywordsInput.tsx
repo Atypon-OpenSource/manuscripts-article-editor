@@ -27,7 +27,7 @@ import {
   Model,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
-import { IconButton } from '@manuscripts/style-guide'
+import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
 import React, {
   ChangeEvent,
   useCallback,
@@ -42,7 +42,6 @@ import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { selectStyles } from '../../lib/select-styles'
-import { ascendingPriority } from '../../lib/sort'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { MediumTextField } from './inputs'
 import { SaveModel } from './ManuscriptInspector'
@@ -89,10 +88,10 @@ const Separator = styled.div`
   background-color: ${(props) => props.theme.colors.border.tertiary};
   height: 1px;
 `
-const LabelContainer = styled.div`
+const LabelContainer = styled.div<{ isCreate: boolean }>`
   display: flex;
-  flex-flow: column;
-  align-items: flex-start;
+  align-items: ${(props) => (props.isCreate && 'center') || 'flex-start'};
+  ${(props) => !props.isCreate && 'flex-flow: column'};
 `
 const KeywordCategory = styled.div`
   color: #6e6e6e;
@@ -184,6 +183,7 @@ export const CategorisedKeywordsInput: React.FC<{
   deleteModel: (id: string) => Promise<string>
 }> = ({ saveModel, target, modelMap, deleteModel }) => {
   const [keywordToEdit, setKeywordToEdit] = useState<Keyword>()
+  const [isOpen, setOpen] = useState<boolean>(false)
 
   const nodeRef = useRef<HTMLDivElement>(null)
 
@@ -209,15 +209,19 @@ export const CategorisedKeywordsInput: React.FC<{
     return cat && cat[0] ? cat[0] : ''
   }
 
-  const handleClickOutside = useCallback(async (event: Event) => {
-    if (
-      nodeRef.current &&
-      !(event.target as Element).classList.contains('VerticalEllipsis') &&
-      !nodeRef.current.contains(event.target as Node)
-    ) {
-      setKeywordToEdit(undefined)
-    }
-  }, [])
+  const handleClickOutside = useCallback(
+    async (event: Event) => {
+      if (
+        nodeRef.current &&
+        !(event.target as Element).classList.contains('VerticalEllipsis') &&
+        !nodeRef.current.contains(event.target as Node) &&
+        !isOpen
+      ) {
+        setKeywordToEdit(undefined)
+      }
+    },
+    [isOpen]
+  )
 
   useEffect(() => {
     if (keywordToEdit) {
@@ -281,9 +285,6 @@ export const CategorisedKeywordsInput: React.FC<{
   }
 
   const keywordIDs = target.keywordIDs || []
-  const targetKeywords = keywords.filter((tag) => keywordIDs.includes(tag._id))
-  const ordered = targetKeywords.sort(ascendingPriority)
-
   const options = keywords.filter(
     (keyword) => !keywordIDs.includes(keyword._id)
   )
@@ -309,7 +310,7 @@ export const CategorisedKeywordsInput: React.FC<{
         ref={innerRef}
         {...innerProps}
       >
-        <LabelContainer>
+        <LabelContainer isCreate={isCreate}>
           {isCreate && <PlusIcon />}
           <OptionLabel>{children}</OptionLabel>
           {category && <KeywordCategory>{category}</KeywordCategory>}
@@ -348,7 +349,13 @@ export const CategorisedKeywordsInput: React.FC<{
             await saveModel<Keyword>(keyword)
           }}
           options={keywords}
-          value={ordered}
+          isOptionDisabled={(option) => {
+            const isCreate = option.name.startsWith('Create keyword')
+              ? true
+              : false
+            return !isCreate
+          }}
+          placeholder={'Add new or edit existing...'}
           getOptionValue={(option) => option._id}
           getOptionLabel={(option) => option.name}
           styles={{
@@ -431,6 +438,8 @@ export const CategorisedKeywordsInput: React.FC<{
                       closeEdit={() => {
                         setKeywordToEdit(undefined)
                       }}
+                      isOpen={isOpen}
+                      setOpen={setOpen}
                     />
                   </EditingPopper>
                 </div>
@@ -529,6 +538,8 @@ const EditCategoryTitle: React.FC<{
 const EditKeywordCat: React.FC<{
   tag: Keyword
   categories: CategoriesMap
+  isOpen: boolean
+  setOpen: (value: boolean) => void
   setTag: (value: Keyword | undefined) => void
   setCatForKeyword: (keyword: Keyword, cat: KeywordGroup) => Keyword
   deleteCategory: (id: string) => void
@@ -539,6 +550,7 @@ const EditKeywordCat: React.FC<{
 }> = ({
   tag,
   categories,
+  isOpen,
   setCatForKeyword,
   deleteCategory,
   changeTitle,
@@ -546,7 +558,25 @@ const EditKeywordCat: React.FC<{
   addCategory,
   closeEdit,
   setTag,
+  setOpen,
 }) => {
+  const actions = {
+    primary: {
+      action: () => {
+        setOpen(false)
+        closeEdit()
+      },
+      title: 'Cancel',
+    },
+    secondary: {
+      action: () => {
+        deleteKeyword(tag._id)
+        setOpen(false)
+        closeEdit()
+      },
+      title: 'Remove',
+    },
+  }
   return (
     <div>
       {Object.entries(categories).map(([name, cat]) => (
@@ -574,13 +604,21 @@ const EditKeywordCat: React.FC<{
       <KeywordDeleteButton
         type={'button'}
         onClick={() => {
-          deleteKeyword(tag._id)
-          closeEdit()
+          setOpen(true)
         }}
       >
         <AnnotationRemove fill={'#F35143'} width={16} height={16} />
         <span>Delete Keyword</span>
       </KeywordDeleteButton>
+      {isOpen && (
+        <Dialog
+          isOpen={isOpen}
+          actions={actions}
+          category={Category.confirmation}
+          header={'Remove keyword'}
+          message={`Are you sure you want to remove ${tag.name} from the keywords list?`}
+        />
+      )}
     </div>
   )
 }
