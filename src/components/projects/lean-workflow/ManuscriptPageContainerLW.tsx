@@ -631,6 +631,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   <TrackChangesStyles
                     enabled={!!snapshotID}
                     readOnly={!can.handleSuggestion}
+                    rejectOnly={can.rejectOwnSuggestion}
                     corrections={corrections}
                   >
                     <EditorElement

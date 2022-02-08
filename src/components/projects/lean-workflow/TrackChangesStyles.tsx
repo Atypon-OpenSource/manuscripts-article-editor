@@ -106,6 +106,12 @@ const TrackChangesReadOnly = styled(TrackChangesOn)`
   }
 `
 
+const TrackChangesRejectOnly = styled(TrackChangesOn)`
+  [data-action='accept'] {
+    display: none !important;
+  }
+`
+
 const TrackChangesOff = styled.div`
   .track-changes--replaced {
     display: none !important;
@@ -144,11 +150,13 @@ interface Props {
   corrections: Correction[]
   enabled: boolean
   readOnly: boolean
+  rejectOnly: boolean
 }
 
 export const TrackChangesStyles: React.FC<Props> = ({
   enabled,
   readOnly,
+  rejectOnly,
   corrections,
   children,
 }) => {
@@ -158,13 +166,21 @@ export const TrackChangesStyles: React.FC<Props> = ({
       .map((corr) => corr.commitChangeID)
   )
 
-  return enabled && readOnly ? (
-    <TrackChangesReadOnly>{children}</TrackChangesReadOnly>
-  ) : enabled ? (
+  if (!enabled) {
+    return <TrackChangesOff>{children}</TrackChangesOff>
+  }
+
+  if (readOnly) {
+    return <TrackChangesReadOnly>{children}</TrackChangesReadOnly>
+  }
+
+  if (rejectOnly) {
+    return <TrackChangesRejectOnly>{children}</TrackChangesRejectOnly>
+  }
+
+  return (
     <TrackChangesOn>
       <ToDoDots selector={suggestedChangesSelector}>{children}</ToDoDots>
     </TrackChangesOn>
-  ) : (
-    <TrackChangesOff>{children}</TrackChangesOff>
   )
 }
