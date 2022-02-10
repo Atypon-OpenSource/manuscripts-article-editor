@@ -29,7 +29,7 @@ import {
 import { TextField } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import useInterval from 'react-useinterval'
 import styled from 'styled-components'
 
@@ -109,6 +109,23 @@ export const SectionInspector: React.FC<{
   const [placeholder, setPlaceholder] = useState<string | undefined>(
     firstParagraph ? firstParagraph.placeholderInnerHTML : undefined
   )
+
+  const existingCatsCounted = useMemo(() => {
+    const exisitingCats: { [key: string]: number } = {}
+    for (const model of modelMap) {
+      const section = model[1] as Section
+      if (
+        section.category &&
+        section.category.startsWith('MPSectionCategory:')
+      ) {
+        exisitingCats[section.category] = exisitingCats[section.category]
+          ? exisitingCats[section.category]++
+          : 1
+      }
+      // section.category == 'MPSectionCategory:abstract-graphical'
+    }
+    return exisitingCats
+  }, [modelMap.size]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useInterval(() => {
     if (firstParagraph && placeholder !== firstParagraph.placeholderInnerHTML) {
@@ -259,6 +276,7 @@ export const SectionInspector: React.FC<{
 
                 <CategoryInput
                   value={currentSectionCategory}
+                  existingCatsCounted={existingCatsCounted}
                   handleChange={(category: string) => {
                     dispatchNodeAttrs(section._id, { category })
                   }}
