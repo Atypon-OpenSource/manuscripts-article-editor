@@ -49,6 +49,7 @@ interface Config {
     fileManagement: boolean
     commenting: boolean
     switchTemplate: boolean
+    mediaAlternatives: boolean
   }
   gateway: {
     url: string
@@ -168,6 +169,7 @@ const config = {
     fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
     commenting: isTrue(process.env.COMMENTING),
     switchTemplate: isTrue(process.env.FEATURE_SWITCH_TEMPLATE),
+    mediaAlternatives: isTrue(process.env.FEATURE_MEDIA_ALTERNATIVES),
   },
   gateway: {
     url: normalizeURL(getURL(process.env.SYNC_GATEWAY_URL, index)),

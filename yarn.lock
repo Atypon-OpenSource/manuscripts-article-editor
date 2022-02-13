@@ -2139,10 +2139,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.91.0":
-  version "0.91.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.0.tgz#ccff7ece5796900bc85bff324ac7ad3522017954"
-  integrity sha512-PLx84jFBNduY9cTUwwa2g5dJ29o7QGaPod87U9zFdBAOyEaOP+migSBeyWMyX/NRXetFI0i5LJODkgZeYYGF/Q==
+"@manuscripts/manuscript-editor@^0.91.1":
+  version "0.91.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.1.tgz#c6ec4262f12874772d43db0a732ff3750da494ac"
+  integrity sha512-Xg1cJ8StLKOfkS0euMudlyB8rJqimIEyvQ5WaA0xhw2z13wnHJlNXYjNha4JnRF9wKxxcU6s7puhjAGAKap5og==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"

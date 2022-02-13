@@ -389,6 +389,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     theme,
     submissionId,
     capabilities: can,
+    mediaAlternativesEnabled: config.features.mediaAlternatives,
     updateDesignation: (designation: string, name: string) =>
       handleChangeAttachmentDesignation(submissionId, designation, name),
     uploadAttachment: (designation: string, file: File) =>
