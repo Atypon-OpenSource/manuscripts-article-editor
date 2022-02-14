@@ -33,6 +33,17 @@ module.exports = ({ config, mode }) => {
   })
 
   config.module.rules.push({
+    test: /pdfjs-dist.+.js$/,
+    use: {
+      loader: 'babel-loader',
+      options: {
+        'presets': ['@babel/preset-env'],
+        cacheDirectory: true,
+      },
+    },
+  })
+
+  config.module.rules.push({
     test: /\.(woff|woff2|eot|ttf|otf)$/,
     use: ['file-loader'],
   })
