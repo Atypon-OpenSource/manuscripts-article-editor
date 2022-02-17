@@ -14,6 +14,8 @@ export type action = { action: string; payload: any }
 export type state = { [key: string]: any }
 export type reducer = (_: string, payload: any, store: state) => state
 
+const DEFAULT_ACTION = 'DEFAULT_ACTION' // making actions optional
+
 const defaultReducer = (_: string, payload: any, store: state) => {
   return { ...store, ...payload }
 }
@@ -21,16 +23,24 @@ const defaultReducer = (_: string, payload: any, store: state) => {
 export interface Store {
   state: state
   dispatchAction(action: action): void
-  reducer(
+  reducer?(
     action: string,
     payload: any,
     store: { [key: string]: any }
   ): { [key: string]: any }
-  beforeAction?(action: string, payload: any, store: state): void | action
+  beforeAction?(
+    action: string,
+    payload: any,
+    store: state,
+    setState: (state: state) => void
+  ): void | action
   unmountHandler?(state: state): void
   subscribe(fn: () => void): () => void
   queue: Set<(state: state) => void>
   onUnmount(): void
+  setState(state: state): void
+  getState(): state
+  dispatchQueue(): void
 }
 
 export class GenericStore implements Store {
@@ -44,7 +54,8 @@ export class GenericStore implements Store {
     beforeAction?: (
       action: string,
       payload: any,
-      store: state
+      store: state,
+      setState: (state: state) => void
     ) => void | action,
     unmountHandler?: (state: state) => void
   ) {
@@ -73,16 +84,21 @@ export class GenericStore implements Store {
   dispatchQueue() {
     this.queue.forEach((fn) => fn(this.state))
   }
-  subscribe(fn: () => void) {
+  subscribe(fn: (state: state) => void) {
     const queue = this.queue
     queue.add(fn)
     return function unsubscribe() {
       queue.delete(fn)
     }
   }
-  dispatchAction({ action, payload }: action) {
+  dispatchAction({ action = DEFAULT_ACTION, payload }: action) {
     if (this.beforeAction) {
-      const beforeActionFilter = this.beforeAction(action, payload, this.state)
+      const beforeActionFilter = this.beforeAction(
+        action,
+        payload,
+        this.state,
+        this.setState
+      )
       if (beforeActionFilter) {
         this.setState(
           this.reducer(

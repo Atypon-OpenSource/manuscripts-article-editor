@@ -10,29 +10,44 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import React, { useMemo, useContext } from 'react'
+import { useStore, GenericStoreProvider, createStore } from '../../../store'
+import ManuscriptPageContainer from './ManuscriptPageContainerLW'
 
-export const ManuscriptEditor = ({ submissionId }) => {
+export const ManuscriptEditor = (props) => {
   //  1. Initialise store, that will take data from abstract away data source
   //  Research Sagas, MobX or just context and
+
+  // retrieve project by submission id
+  const { manuscriptID, projectID } = props.match.params
+
+  const state = buildStateFrom(manuscriptID, projectID)
+
+  const store = useMemo(() => createStore({}), [submissionId])
   return (
-    <ManuscriptPageContainer
-      {...props}
-      tags={tags}
-      comments={comments}
-      keywords={keywords}
-      library={library}
-      manuscript={manuscript}
-      manuscripts={manuscripts}
-      notes={notes}
-      project={project}
-      projects={projects} // not needed as only a single article has to be editable
-      projectsCollection={projectsCollection} // to be ABSTRACTED with DATA LEVEL
-      user={user}
-      collaborators={buildCollaboratorProfiles(collaborators, user)}
-      collaboratorsById={buildCollaboratorProfiles(collaborators, user, '_id')}
-      userProjects={userProjects} // this is not needed
-      userProjectsCollection={userProjectCollection} // to be ABSTRACTED with DATA LEVEL
-      tokenActions={this.props.tokenActions} // wtf is this
-    />
+    <GenericStoreProvider store={store}>
+      <ManuscriptPageContainer
+        {...props}
+        tags={tags}
+        comments={comments}
+        keywords={keywords}
+        library={library}
+        manuscript={manuscript}
+        manuscripts={manuscripts}
+        notes={notes}
+        project={project}
+        projects={projects} // not needed as only a single article has to be editable
+        projectsCollection={projectsCollection} // to be ABSTRACTED with DATA LEVEL
+        user={user}
+        collaborators={buildCollaboratorProfiles(collaborators, user)}
+        collaboratorsById={buildCollaboratorProfiles(
+          collaborators,
+          user,
+          '_id'
+        )}
+        userProjects={userProjects} // this is not needed
+        userProjectsCollection={userProjectCollection} // to be ABSTRACTED with DATA LEVEL
+        tokenActions={this.props.tokenActions} // wtf is this
+      />
+    </GenericStoreProvider>
   )
 }

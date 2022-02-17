@@ -9,9 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { useState, useLayoutEffect } from 'react'
-import { useGenericStore } from './genericStore'
+import { useLayoutEffect, useState } from 'react'
+
 import { state } from './Store'
+import { useGenericStore } from './StoreContext'
 // import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector';
 
 const deeperEqual = (prev: any, next: any) => {
@@ -57,7 +58,7 @@ export const useStore = (selector = (r: any) => r) => {
     selector ? selector(store.state) : store.state
   )
 
-  // @TODO - in react 18 these hooks usage will have to be replaced with this to work correctly with the concurrent render
+  // @TODO - in react 18 these hooks usage will have to be replaced with this to work correctly with the concurrent rendering
   //   const state = useSyncExternalStoreWithSelector(
   //     store.subscribe,
   //     store.getState(),

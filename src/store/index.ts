@@ -9,35 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { createContext, useContext, useEffect } from 'react'
-
-import { GenericStore, reducer, state, Store } from './Store'
-
-// how to react to saveModel and updateModel changes?
-
-const GenericStoreContext = createContext(new GenericStore({}))
-
-export const createStore = (initialState: state, reducer?: reducer) => {
-  return Object.seal(new GenericStore(initialState, reducer))
-}
-
-interface Props {
-  store: Store
-}
-
-export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
-  if (store.constructor.name !== 'GenericStore') {
-    throw new Error('GenericStoreProvider received incorrect store.')
-  }
-  useEffect(() => {
-    return () => store.onUnmount()
-  }, [store])
-
-  return (
-    <GenericStoreContext.Provider value={store}>
-      {children}
-    </GenericStoreContext.Provider>
-  )
-}
-
-export const useGenericStore = () => useContext(GenericStoreContext)
+export * from './Store'
+export * from './StoreContext'
+export * from './useStore'

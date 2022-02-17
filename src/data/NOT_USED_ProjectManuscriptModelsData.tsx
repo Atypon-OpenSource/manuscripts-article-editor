@@ -36,6 +36,7 @@ interface State {
   data?: ModelType[]
 }
 
+// NOT USED ANYWHERE AT THE MOMENT
 class ProjectManuscriptModelsData extends DataComponent<
   ModelType,
   Props,
