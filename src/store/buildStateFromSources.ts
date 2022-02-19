@@ -9,19 +9,34 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Collection } from '../sync/Collection'
+import { StoreDataSourceStrategy } from '.'
 
-import {
-  Build,
-  ContainedModel,
-  ContainedProps,
-  isManuscriptModel,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
+export type futureState = { [key: string]: any }
+export type builderFn = (
+  boundState: futureState,
+  next: (resultState: futureState) => void
+) => void
 
-class ModelManager {
-  collection: Collection<ContainedModel>
-  constructor(collection: Collection<ContainedModel>) {
-    this.collection = collection
-  }
+export function buildStateFromSources(
+  ...builders: StoreDataSourceStrategy[]
+): futureState {
+  return new Promise((resolve, reject) => {
+    let futureState = {}
+    let i = 0
+    const next = (resultState: futureState) => {
+      if (resultState) {
+        futureState = resultState
+      }
+      if (builders[++i]) {
+        builders[i].build(futureState, next)
+      } else {
+        resolve(futureState)
+      }
+    }
+    try {
+      builders[i].build(futureState, next)
+    } catch (e) {
+      reject(e)
+    }
+  })
 }

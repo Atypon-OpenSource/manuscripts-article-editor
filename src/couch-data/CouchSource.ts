@@ -9,7 +9,21 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { builderFn } from '../store'
+import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
+import RxDBDataBridge from './AllData'
 
-export function buildStateFrom(manuscriptID: string, projectID: string) {
-  // 1.
+export default class CouchSource implements StoreDataSourceStrategy {
+  rxDBDataBridge: RxDBDataBridge
+  build: builderFn = async (state, next) => {
+    if (state.manuscriptID && state.projectID) {
+      this.rxDBDataBridge = new RxDBDataBridge({
+        projectID: state.projectID,
+        manuscriptID: state.manuscriptID,
+        userID: state.userID,
+      })
+    }
+    await this.rxDBDataBridge.init()
+    next({ ...this.rxDBDataBridge.getData() })
+  }
 }

@@ -10,15 +10,28 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import React, { createContext, useContext, useEffect } from 'react'
-
-import { GenericStore, reducer, state, Store } from './Store'
-
-// how to react to saveModel and updateModel changes?
+import {
+  buildStateFromSources,
+  GenericStore,
+  reducer,
+  Store,
+  StoreDataSourceStrategy,
+} from '.'
 
 const GenericStoreContext = createContext(new GenericStore({}))
 
-export const createStore = (initialState: state, reducer?: reducer) => {
-  return Object.seal(new GenericStore(initialState, reducer))
+export const createStore = async (
+  dataSources: StoreDataSourceStrategy[],
+  reducer?: reducer,
+  unmountHandler?: Store['unmountHandler']
+) => {
+  const state = await buildStateFromSources(...dataSources)
+  const beforeAction: Store['beforeAction'] = (...args) => {
+    dataSources.map((ds) => ds.beforeAction && ds.beforeAction(...args))
+  }
+  return Object.seal(
+    new GenericStore(state, reducer, beforeAction, unmountHandler)
+  )
 }
 
 interface Props {
@@ -30,7 +43,7 @@ export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
     throw new Error('GenericStoreProvider received incorrect store.')
   }
   useEffect(() => {
-    return () => store.onUnmount()
+    return () => store.unmount()
   }, [store])
 
   return (

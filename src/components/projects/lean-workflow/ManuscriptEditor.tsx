@@ -9,20 +9,28 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { useMemo, useContext } from 'react'
-import { useStore, GenericStoreProvider, createStore } from '../../../store'
+import React, { useMemo } from 'react'
+import { GenericStoreProvider, createStore, BasicSource } from '../../../store'
 import ManuscriptPageContainer from './ManuscriptPageContainerLW'
+import CouchSource from '../../../couch-data/CouchSource'
 
 export const ManuscriptEditor = (props) => {
   //  1. Initialise store, that will take data from abstract away data source
   //  Research Sagas, MobX or just context and
 
   // retrieve project by submission id
-  const { manuscriptID, projectID } = props.match.params
+  const { manuscriptID, projectID, submissionId, userID } = props.match.params
 
-  const state = buildStateFrom(manuscriptID, projectID)
-
-  const store = useMemo(() => createStore({}), [submissionId])
+  const store = useMemo(async () => {
+    // It seems like we should expose strategies which will be consumed by the store builders,
+    // otherwise it will always be a mess
+    // Ideally it should like here like this
+    const basicSource = new BasicSource(manuscriptID, projectID, userID)
+    const couchSource = new CouchSource()
+    // const lwSource = new LeanGQLData()
+    const store = await createStore([basicSource, couchSource])
+    return store
+  }, [submissionId, manuscriptID, projectID, userID])
   return (
     <GenericStoreProvider store={store}>
       <ManuscriptPageContainer

@@ -12,22 +12,30 @@
 
 import {
   Manuscript,
+  Model,
   ObjectTypes,
   Tag,
-  UserCollaborator,
+  Commit as CommitJson,
   UserProfile,
+  Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
 import { RxDocument, RxDatabase } from '@manuscripts/rxdb'
 
 import { buildUser } from '../lib/data'
+import { buildCollaboratorProfiles } from '../lib/collaborators'
 import CollectionManager from '../sync/CollectionManager'
 import { databaseCreator } from '../lib/db'
 import { TokenData } from './TokenData'
 import { Subscription } from 'rxjs'
 
+import { buildInvitations } from '../lib/invitation'
+
+import { buildModelMap, schema } from '@manuscripts/manuscript-transform'
+
+import { commitFromJSON } from '@manuscripts/track-changes' // This type dependency seems to be out of order. That should be refactored
+import ModelManager from './ModelManager'
+
 interface Props {
-  children: (data: Manuscript) => React.ReactNode
   manuscriptID: string
   projectID: string
   userID: string
@@ -48,6 +56,7 @@ class RxDBDataBridge {
   db: RxDatabase<any>
   sub: { unsubscribe: () => void }
   rxSubscriptions: Subscription[]
+  modelManager: ModelManager
 
   public constructor(props: Props) {
     this.tokenData = new TokenData()
@@ -64,7 +73,7 @@ class RxDBDataBridge {
   }
 
   async initCollection(collection: string, channels?: string[]) {
-    await CollectionManager.createCollection<T>({
+    await CollectionManager.createCollection({
       collection,
       channels,
       db: this.db,
@@ -74,45 +83,63 @@ class RxDBDataBridge {
   public async init() {
     // create needed collections
     // @TODO getback try and catch
-    const db = databaseCreator
-    /*      
-      1. ✅  Establish DB connection
-      2. ✅  Retrieve user data
-      3. ✅  Create collections connections
-      4. ✅  Create collections connections that depend on other collections info
-      5. ✅  Subscribe to the rest of collections
-      6. Signal readiness to the listening interfaces
 
-    */
+    try {
+      const db = await databaseCreator
+      /*      
+        1. ✅  Establish DB connection
+        2. ✅  Retrieve user data
+        3. ✅  Create collections connections
+        4. ✅  Create collections connections that depend on other collections info
+        5. ✅  Apply builders. Should builder be applied here? 
+        6. ✅  Signal readiness to the listening interfaces
+      */
 
-    this.setDB(db)
-    this.initCollection(`project-${this.projectID}`, [
-      `${this.projectID}-read`,
-      `${this.projectID}-readwrite`,
-    ])
-
-    // what to do when no user?
-    // need to return an explicit warning about no user
-    // maybe return an empty object so it will later fail on user presence check
-    if (this.userID) {
-      this.initCollection('user', [
-        this.userID, // invitations
-        `${this.userID}-readwrite`, // profile
-        `${this.userProfileID}-readwrite`, // profile
-        `${this.userID}-projects`, // projects
-        `${this.userID}-libraries`, // libraries
-        `${this.userID}-library-collections`, // library collections
+      this.setDB(db)
+      await this.initCollection(`project-${this.projectID}`, [
+        `${this.projectID}-read`,
+        `${this.projectID}-readwrite`,
       ])
+
+      // what to do when no user?
+      // need to return an explicit warning about no user
+      // maybe return an empty object so it will later fail on user presence check
+      if (this.userID) {
+        await this.initCollection('user', [
+          this.userID, // invitations
+          `${this.userID}-readwrite`, // profile
+          `${this.userProfileID}-readwrite`, // profile
+          `${this.userID}-projects`, // projects
+          `${this.userID}-libraries`, // libraries
+          `${this.userID}-library-collections`, // library collections
+        ])
+      }
+
+      await this.initCollection(`collaborators`, [
+        `${this.projectID}-read`,
+        `${this.projectID}-readwrite`,
+      ])
+
+      this.sub = this.subscribe(this.manuscriptID, this.projectID, this.userID)
+
+      this.modelManager = new ModelManager(
+        this.state.modelMap,
+        (modelMap) => {
+          this.setState({ modelMap })
+        },
+        this.manuscriptID,
+        this.projectID,
+        this.cc()
+      )
+
+      return Promise.resolve(this)
+    } catch (e) {
+      return Promise.reject(e)
     }
+  }
 
-    this.initCollection(`collaborators`, [
-      `${this.projectID}-read`,
-      `${this.projectID}-readwrite`,
-    ])
-
-    this.sub = this.subscribe(this.manuscriptID, this.projectID, this.userID)
-
-    return new Promise((resolve, reject) => {})
+  public getData = () => {
+    return Object.freeze({ ...this.state, ...this.modelManager.getTools() }) // hmmm....
   }
 
   public reload(manuscriptID: string, projectID: string, userID: string) {
@@ -184,37 +211,42 @@ class RxDBDataBridge {
   }
 
   cc = (collectionName = `project-${this.projectID}`) =>
-    CollectionManager.getCollection<any>(collectionName)
+    CollectionManager.getCollection<Model>(collectionName)
 
   private dependsOnStateCondition = (
     asyncConidition: (state: State) => Promise<boolean>,
-    dependant: () => Subscription
+    dependant: (state: State) => Subscription | void
   ) => {
     const unsubscribe = this.onUpdate(async (state) => {
       const satisfied = await asyncConidition(state)
       if (satisfied) {
-        this.rxSubscriptions.push(dependant())
-        unsubscribe()
+        const maybeSubscription = dependant(state)
+        if (maybeSubscription) {
+          this.rxSubscriptions.push(maybeSubscription)
+        }
+        unsubscribe() // this maybe a problem as some of the data may not be update
+        // probably needs also to implement - dependsOnStateConditionOnce for once usage
       }
     })
   }
 
   private subscribe = (
     manuscriptID: string,
-    projectID: string,
+    containerID: string,
     userID?: string
   ) => {
+    // @TODO move subs into a separate data class sort of thing
     this.rxSubscriptions = [
       // collect all of them and expose single unsubscribe facade
       this.cc()
         .findOne(manuscriptID)
         .$.subscribe(this.omniHandler('manuscript')),
 
-      this.cc().findOne(projectID).$.subscribe(this.omniHandler('project')),
+      this.cc().findOne(containerID).$.subscribe(this.omniHandler('project')),
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           objectType: ObjectTypes.Tag,
         })
         .$.subscribe(this.omniHandler('tags')),
@@ -227,7 +259,7 @@ class RxDBDataBridge {
 
       this.cc()
         .find({
-          projectID,
+          containerID,
         })
         .$.subscribe(this.omniHandler('projectModels')), // for diagnostics
 
@@ -239,7 +271,7 @@ class RxDBDataBridge {
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           objectType: ObjectTypes.ContainerInvitation,
         })
         .$.subscribe(this.omniArrayHandler('containerInvitations')),
@@ -282,13 +314,13 @@ class RxDBDataBridge {
         this.cc('user')
           .find({
             objectType: ObjectTypes.BibliographyItem,
-            containerID: projectID,
+            containerID,
           })
           .$.subscribe(this.omniMapHandler('globalLibraryItems')),
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           manuscriptID,
           objectType: ObjectTypes.CommentAnnotation,
         })
@@ -296,7 +328,7 @@ class RxDBDataBridge {
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           manuscriptID,
           objectType: ObjectTypes.ManuscriptNote,
         })
@@ -304,35 +336,35 @@ class RxDBDataBridge {
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           objectType: ObjectTypes.ProjectInvitation,
         })
         .$.subscribe(this.omniArrayHandler('invitations')),
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           objectType: ObjectTypes.Keyword,
         })
         .$.subscribe(this.omniMapHandler('keywords')),
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           objectType: ObjectTypes.LibraryCollection,
         })
         .$.subscribe(this.omniMapHandler('projectLibraryCollections')),
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           objectType: ObjectTypes.BibliographyItem,
         })
         .$.subscribe(this.omniMapHandler('library')),
 
       this.cc()
         .find({
-          projectID,
+          containerID,
           objectType: ObjectTypes.Manuscript,
         })
         .$.subscribe((docs: any[]) => {
@@ -353,6 +385,86 @@ class RxDBDataBridge {
         .$.subscribe(this.omniArrayHandler('projects')),
     ]
 
+    // subscribing for modelsMap
+    this.cc()
+      .find({
+        $and: [
+          { containerID },
+          {
+            $or: [{ manuscriptID }, { manuscriptID: { $exists: false } }],
+          },
+        ],
+      })
+      .$.subscribe(async (models: Array<RxDocument<Model>>) => {
+        const modelsMap = buildModelMap(models)
+        this.setState((state) => ({
+          ...state,
+          modelsMap,
+        }))
+      })
+
+    // subscribing for commits
+    this.cc()
+      .find({
+        $and: [{ containerID }, { objectType: ObjectTypes.Commit }],
+      })
+      .$.subscribe((docs: RxDocument<Model>[]) => {
+        return docs.map((doc) => {
+          const json = (doc.toJSON() as unknown) as CommitJson
+          return commitFromJSON(json, schema)
+        })
+      })
+      .catch(() => {
+        throw new Error('Unable to query commits')
+      })
+
+    // getting snapshots
+    this.cc()
+      .find({
+        objectType: ObjectTypes.Snapshot, // @TODO apply somewhere buildCollaboratorProfiles
+      })
+      .$.subscribe((snapshots: RxDocument<Model>[]) => {
+        this.setState({
+          snapshots: snapshots
+            .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
+            .sort((a, b) => b.createdAt - a.createdAt),
+        })
+      })
+
+    this.dependsOnStateCondition(
+      async (state) => {
+        if (state.user && state.collaborators) {
+          return true
+        }
+        return false
+      },
+      (state) => {
+        this.setState({
+          collaborators: buildCollaboratorProfiles(
+            state.collaborators,
+            state.user
+          ),
+        })
+      }
+    )
+
+    this.dependsOnStateCondition(
+      async (state) => {
+        if (state.invitations && state.containerInvitations) {
+          return true
+        }
+        return false
+      },
+      (state) => {
+        this.setState({
+          invitations: buildInvitations(
+            state.invitations,
+            state.containerInvitations
+          ),
+        })
+      }
+    )
+
     this.dependsOnStateCondition(
       async (state) => {
         if (state.globalLibraries && state.globalLibraryCollections) {
@@ -361,7 +473,7 @@ class RxDBDataBridge {
               ...state.globalLibraries.keys(),
               ...state.globalLibraryCollections.keys(),
             ].map((id) => `${id}-read`),
-            `${projectID}-bibitems`,
+            `${containerID}-bibitems`,
           ]
           return this.initCollection(`libraryitems`, channels)
             .then(() => {

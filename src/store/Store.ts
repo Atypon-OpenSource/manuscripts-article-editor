@@ -37,7 +37,7 @@ export interface Store {
   unmountHandler?(state: state): void
   subscribe(fn: () => void): () => void
   queue: Set<(state: state) => void>
-  onUnmount(): void
+  unmount(): void
   setState(state: state): void
   getState(): state
   dispatchQueue(): void
@@ -112,7 +112,7 @@ export class GenericStore implements Store {
       this.setState(this.reducer(action, payload, this.state))
     }
   }
-  onUnmount() {
+  unmount() {
     if (this.unmountHandler) {
       this.unmountHandler(this.state)
     }

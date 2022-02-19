@@ -9,8 +9,31 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-export * from './Store'
-export * from './StoreContext'
-export * from './useStore'
-export * from './buildStateFromSources'
-export * from './DataSourceStrategy'
+
+import { builderFn, GenericStore, state } from '.'
+
+export interface StoreDataSourceStrategy {
+  build: builderFn
+  unmount?: () => void
+  listen?: (state: state) => void
+  beforeAction?: GenericStore['beforeAction']
+}
+
+export class BasicSource implements StoreDataSourceStrategy {
+  data: { [key: string]: any }
+  constructor(
+    projectID: string,
+    manuscriptID: string,
+    userID?: string | undefined
+  ) {
+    this.data = {
+      projectID,
+      manuscriptID,
+      userID,
+    }
+  }
+
+  build: builderFn = (state, next) => {
+    next({ ...this.data })
+  }
+}
