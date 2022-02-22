@@ -50,6 +50,8 @@ export const TestComponent = () => {
 
   console.log('======================== STATE: ========================')
   console.log(state)
+
+  return <h1>Testing...</h1>
 }
 
 const OnlyEditor = () => {

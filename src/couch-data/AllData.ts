@@ -181,6 +181,7 @@ class RxDBDataBridge {
 
   omniHandler = (type: string) => async (doc: any) => {
     if (doc) {
+      console.log(type)
       this.setState((state) => {
         return { ...state, [type]: doc.toJSON() }
       })
@@ -249,7 +250,7 @@ class RxDBDataBridge {
           containerID,
           objectType: ObjectTypes.Tag,
         })
-        .$.subscribe(this.omniHandler('tags')),
+        .$.subscribe(this.omniArrayHandler('tags')),
 
       this.cc()
         .find({
@@ -261,7 +262,7 @@ class RxDBDataBridge {
         .find({
           containerID,
         })
-        .$.subscribe(this.omniHandler('projectModels')), // for diagnostics
+        .$.subscribe(this.omniMapHandler('projectModels')), // for diagnostics
 
       this.cc()
         .find({
@@ -414,9 +415,9 @@ class RxDBDataBridge {
           return commitFromJSON(json, schema)
         })
       })
-      .catch(() => {
-        throw new Error('Unable to query commits')
-      })
+    // .catch(() => {
+    //   throw new Error('Unable to query commits')
+    // })
 
     // getting snapshots
     this.cc()
@@ -439,6 +440,8 @@ class RxDBDataBridge {
         return false
       },
       (state) => {
+        console.log(state.user)
+        console.log(state.collaborators)
         this.setState({
           collaborators: buildCollaboratorProfiles(
             state.collaborators,

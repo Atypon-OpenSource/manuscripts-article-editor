@@ -19,23 +19,26 @@ import DatabaseProvider from './components/DatabaseProvider'
 import { ModalProvider } from './components/ModalProvider'
 import { NotificationProviderWithRouter } from './components/NotificationProvider'
 import { ServiceWorker } from './components/ServiceWorker'
+import EditorApp from './EditorApp'
 import { databaseCreator } from './lib/db'
 import { SyncStore } from './sync/SyncStore'
 import { GlobalStyle } from './theme/theme'
 
 const Main = () => (
   <DndProvider backend={HTML5Backend}>
-    <DatabaseProvider databaseCreator={databaseCreator}>
-      <GlobalStyle />
-      <SyncStore>
-        <NotificationProviderWithRouter>
-          <ServiceWorker />
-          <ModalProvider>
-            <App />
-          </ModalProvider>
-        </NotificationProviderWithRouter>
-      </SyncStore>
-    </DatabaseProvider>
+    <GlobalStyle />
+    {/* <SyncStore> */}
+    <NotificationProviderWithRouter>
+      <ServiceWorker />
+      <ModalProvider>
+        <EditorApp
+          submissionId="13f64873-a9bf-4d88-a44a-2a25f9e49fc3"
+          manuscriptID="MPProject:E1895468-4DFE-4F17-9B06-5212ECD29555"
+          projectID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
+        />
+      </ModalProvider>
+    </NotificationProviderWithRouter>
+    {/* </SyncStore> */}
   </DndProvider>
 )
 

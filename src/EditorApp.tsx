@@ -24,7 +24,7 @@ import {
 } from './store'
 import CouchSource from './couch-data/CouchSource'
 import { getCurrentUserId } from './lib/user'
-import OnlyEditor from './OnlyEditor'
+import OnlyEditor, { TestComponent } from './OnlyEditor'
 import { Loading } from './components/Loading'
 
 interface Props {
@@ -38,7 +38,7 @@ const EditorApp: React.FC<Props> = ({
   manuscriptID,
   projectID,
 }) => {
-  const userID = getCurrentUserId()!
+  const userID = getCurrentUserId()
 
   const [store, setStore] = useState<GenericStore>()
   useEffect(() => {
@@ -61,12 +61,13 @@ const EditorApp: React.FC<Props> = ({
       .catch((e) => {
         console.log(e)
       })
-  }, [submissionId, manuscriptID, projectID, userID, store])
+  }, [submissionId, manuscriptID, projectID])
 
   return store ? (
     <GenericStoreProvider store={store}>
       <ApolloProvider client={apolloClient}>
-        <OnlyEditor />
+        {/* <OnlyEditor /> */}
+        <TestComponent />
       </ApolloProvider>
     </GenericStoreProvider>
   ) : (
