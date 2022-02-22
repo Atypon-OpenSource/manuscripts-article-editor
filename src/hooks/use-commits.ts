@@ -132,12 +132,19 @@ export const useCommits = ({
       return
     }
     const changeSummary = getChangeSummary(editor.state, commit.changeID)
-    if (
-      !changeSummary ||
-      (changeSummary.deletion.length === 0 &&
-        changeSummary.insertion.length === 0)
-    ) {
+
+    if (!changeSummary) {
       return
+    }
+
+    let changeType = 'text'
+    //This is needed because some changes have no inserted or deleted text, but we still need to define the change type (i.e figure update), so we can add a suggestion indicating that change.
+    if (
+      changeSummary.deletion.length === 0 &&
+      changeSummary.insertion.length === 0
+    ) {
+      changeType = commitToJSON(commit, containerID).steps[0].slice.content[0]
+        .type
     }
 
     setIsDirty(true)
@@ -151,8 +158,11 @@ export const useCommits = ({
       containerID,
       manuscriptID,
       snapshotID,
-      insertion: changeSummary ? changeSummary.insertion : '',
-      deletion: changeSummary ? changeSummary.deletion : '',
+      insertion:
+        changeSummary.insertion ||
+        (changeType == 'figure' && 'IMAGE UPDATED') ||
+        '',
+      deletion: changeSummary.deletion || '',
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
       status: {
         label: asAccepted ? 'accepted' : 'proposed',
