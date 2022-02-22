@@ -35,7 +35,7 @@ export const createStore = async (
 }
 
 interface Props {
-  store: Store
+  store: GenericStore
 }
 
 export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {

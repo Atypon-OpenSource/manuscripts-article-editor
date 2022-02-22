@@ -22,11 +22,13 @@ export interface StoreDataSourceStrategy {
 export class BasicSource implements StoreDataSourceStrategy {
   data: { [key: string]: any }
   constructor(
+    submissionID: string,
     projectID: string,
     manuscriptID: string,
     userID?: string | undefined
   ) {
     this.data = {
+      submissionID,
       projectID,
       manuscriptID,
       userID,

@@ -15,6 +15,7 @@ import RxDBDataBridge from './AllData'
 
 export default class CouchSource implements StoreDataSourceStrategy {
   rxDBDataBridge: RxDBDataBridge
+  ready: boolean
   build: builderFn = async (state, next) => {
     if (state.manuscriptID && state.projectID) {
       this.rxDBDataBridge = new RxDBDataBridge({
@@ -24,6 +25,7 @@ export default class CouchSource implements StoreDataSourceStrategy {
       })
     }
     await this.rxDBDataBridge.init()
+    this.ready = true
     next({ ...this.rxDBDataBridge.getData() })
   }
 }

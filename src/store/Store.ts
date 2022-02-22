@@ -10,24 +10,22 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export type action = { action: string; payload: any }
+import { buildStateFromSources, StoreDataSourceStrategy } from '.'
+
+export type action = { action?: string; [key: string]: any }
 export type state = { [key: string]: any }
-export type reducer = (_: string, payload: any, store: state) => state
+export type reducer = (payload: any, store: state, action?: string) => state
 
-const DEFAULT_ACTION = 'DEFAULT_ACTION' // making actions optional
+const DEFAULT_ACTION = '_' // making actions optional
 
-const defaultReducer = (_: string, payload: any, store: state) => {
+const defaultReducer = (payload: any, store: state, action?: string) => {
   return { ...store, ...payload }
 }
 
 export interface Store {
   state: state
   dispatchAction(action: action): void
-  reducer?(
-    action: string,
-    payload: any,
-    store: { [key: string]: any }
-  ): { [key: string]: any }
+  reducer?: reducer
   beforeAction?(
     action: string,
     payload: any,
@@ -48,6 +46,7 @@ export class GenericStore implements Store {
   beforeAction
   unmountHandler
   state
+  // private sources: StoreDataSourceStrategy[]
   constructor(
     state = {},
     reducer = defaultReducer,
@@ -72,6 +71,8 @@ export class GenericStore implements Store {
     this.dispatchAction = this.dispatchAction.bind(this)
     this.setState = this.setState.bind(this)
     this.getState = this.getState.bind(this)
+
+    // this.state = buildStateFromSources(source)
   }
   queue: Set<(state: state) => void> = new Set()
   getState() {
@@ -81,6 +82,10 @@ export class GenericStore implements Store {
     this.state = state
     this.dispatchQueue()
   }
+  // initFromSources(sources: StoreDataSourceStrategy[]) {
+  //   this.sources = sources
+  //   this.state = buildStateFromSources(...sources)
+  // }
   dispatchQueue() {
     this.queue.forEach((fn) => fn(this.state))
   }
@@ -91,7 +96,7 @@ export class GenericStore implements Store {
       queue.delete(fn)
     }
   }
-  dispatchAction({ action = DEFAULT_ACTION, payload }: action) {
+  dispatchAction({ action = DEFAULT_ACTION, ...payload }: action) {
     if (this.beforeAction) {
       const beforeActionFilter = this.beforeAction(
         action,
@@ -102,20 +107,21 @@ export class GenericStore implements Store {
       if (beforeActionFilter) {
         this.setState(
           this.reducer(
-            beforeActionFilter.action,
             beforeActionFilter.payload,
-            this.state
+            this.state,
+            beforeActionFilter.action || ''
           )
         )
       }
     } else {
-      this.setState(this.reducer(action, payload, this.state))
+      this.setState(this.reducer(payload, this.state, action))
     }
   }
   unmount() {
     if (this.unmountHandler) {
       this.unmountHandler(this.state)
     }
+    this.state = {}
     this.queue = new Set()
   }
 }
