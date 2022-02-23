@@ -45,6 +45,8 @@ interface State {
   [key: string]: any
 }
 
+const SUBSCRIPTION_TIMEOUT = 20000
+
 class RxDBDataBridge {
   listeners = new Set<(data: State) => void>()
   state: State
@@ -57,6 +59,7 @@ class RxDBDataBridge {
   sub: { unsubscribe: () => void }
   rxSubscriptions: Subscription[]
   modelManager: ModelManager
+  private expectedState: string[] = []
 
   public constructor(props: Props) {
     this.tokenData = new TokenData()
@@ -73,27 +76,26 @@ class RxDBDataBridge {
   }
 
   async initCollection(collection: string, channels?: string[]) {
-    await CollectionManager.createCollection({
+    const createdCollection = await CollectionManager.createCollection({
       collection,
       channels,
       db: this.db,
     })
+    return createdCollection
   }
 
-  public async init() {
-    // create needed collections
-    // @TODO getback try and catch
+  /*      
+        1. Establish DB connection
+        2. Retrieve user data
+        3. Create collections connections
+        4. Create collections connections that depend on other collections info
+        5. Apply builders. Should builder be applied here? 
+        6. Signal readiness to the listening interfaces
+      */
 
+  public async init() {
     try {
       const db = await databaseCreator
-      /*      
-        1. ✅  Establish DB connection
-        2. ✅  Retrieve user data
-        3. ✅  Create collections connections
-        4. ✅  Create collections connections that depend on other collections info
-        5. ✅  Apply builders. Should builder be applied here? 
-        6. ✅  Signal readiness to the listening interfaces
-      */
 
       this.setDB(db)
       await this.initCollection(`project-${this.projectID}`, [
@@ -121,6 +123,7 @@ class RxDBDataBridge {
       ])
 
       this.sub = this.subscribe(this.manuscriptID, this.projectID, this.userID)
+      // need to init if received update at least once from all the collections
 
       this.modelManager = new ModelManager(
         this.state.modelMap,
@@ -132,7 +135,31 @@ class RxDBDataBridge {
         this.cc()
       )
 
-      return Promise.resolve(this)
+      return new Promise((resolve) => {
+        console.log(this)
+        let resolved = false
+        const unsubscribe = this.onUpdate(() => {
+          console.log(this.expectedState)
+          if (!this.expectedState.length) {
+            /*
+              this is an optimisation
+              to wait for each subscription to kick in resolve once,
+              so we won't give the main store an empty state and then cause
+              a lot of updates on the store by feeding in initial state piece by piece
+             */
+            unsubscribe()
+            resolve(this)
+            resolved = true
+          }
+        })
+        // resolve anyway if takes too long
+        setTimeout(() => {
+          if (!resolved) {
+            console.warn('Not all couch subscriptions responded')
+            resolve(this)
+          }
+        }, SUBSCRIPTION_TIMEOUT)
+      })
     } catch (e) {
       return Promise.reject(e)
     }
@@ -167,6 +194,18 @@ class RxDBDataBridge {
   setState = (arg: ((data: State) => State) | State) => {
     this.state =
       typeof arg === 'function' ? arg(this.state) : { ...this.state, ...arg }
+
+    const currentKeys = Object.keys(this.state)
+    this.expectedState = this.expectedState.filter(
+      (key) => !currentKeys.includes(key)
+    )
+
+    Object.keys(this.state).forEach((stateKey) => {
+      const inExpectedIndex = this.expectedState.indexOf(stateKey)
+      if (inExpectedIndex >= 0) {
+        this.expectedState.splice(inExpectedIndex)
+      }
+    })
     this.dispatch()
   }
 
@@ -176,57 +215,73 @@ class RxDBDataBridge {
 
   onUpdate = (fn: (data: State) => void) => {
     this.listeners.add(fn)
+
     return () => this.listeners.delete(fn)
   }
 
-  omniHandler = (type: string) => async (doc: any) => {
-    if (doc) {
-      console.log(type)
-      this.setState((state) => {
-        return { ...state, [type]: doc.toJSON() }
-      })
-    }
-  }
+  omniHandler = (type: string) => {
+    this.expect(type)
 
-  omniMapHandler = (type: string) => async (docs: any) => {
-    if (docs) {
-      const docsMap = new Map<string, any>()
-
-      for (const doc of docs) {
-        docsMap.set(doc._id, doc.toJSON())
+    return async (doc: any) => {
+      if (doc) {
+        this.setState((state) => {
+          return { ...state, [type]: doc.toJSON() }
+        })
       }
-
-      this.setState((state) => {
-        return { ...state, [type]: docsMap }
-      })
     }
   }
 
-  omniArrayHandler = (type: string) => async (docs: any[]) => {
-    if (docs) {
-      this.setState((state) => ({
-        ...state,
-        [type]: docs.map((doc) => doc.toJSON()),
-      }))
+  omniMapHandler = (type: string) => {
+    this.expect(type)
+
+    return async (docs: any) => {
+      if (docs) {
+        const docsMap = new Map<string, any>()
+
+        for (const doc of docs) {
+          docsMap.set(doc._id, doc.toJSON())
+        }
+
+        this.setState((state) => {
+          return { ...state, [type]: docsMap }
+        })
+      }
+    }
+  }
+
+  private expect = (key: string) => {
+    this.expectedState.push(key) // kinda relies on the state to be flat
+  }
+
+  omniArrayHandler = (type: string) => {
+    this.expect(type)
+
+    return async (docs: any[]) => {
+      if (docs) {
+        this.setState((state) => ({
+          ...state,
+          [type]: docs.map((doc) => doc.toJSON()),
+        }))
+      }
     }
   }
 
   cc = (collectionName = `project-${this.projectID}`) =>
     CollectionManager.getCollection<Model>(collectionName)
 
-  private dependsOnStateCondition = (
-    asyncConidition: (state: State) => Promise<boolean>,
+  private dependsOnStateConditionOnce = (
+    condition: (state: State) => boolean,
     dependant: (state: State) => Subscription | void
   ) => {
-    const unsubscribe = this.onUpdate(async (state) => {
-      const satisfied = await asyncConidition(state)
+    const unsubscribe = this.onUpdate((state) => {
+      const satisfied = condition(state)
       if (satisfied) {
+        unsubscribe()
         const maybeSubscription = dependant(state)
         if (maybeSubscription) {
           this.rxSubscriptions.push(maybeSubscription)
         }
-        unsubscribe() // this maybe a problem as some of the data may not be update
-        // probably needs also to implement - dependsOnStateConditionOnce for once usage
+        // this maybe a problem as some of the data may not be updated on changes in the store
       }
     })
   }
@@ -243,7 +298,9 @@ class RxDBDataBridge {
         .findOne(manuscriptID)
         .$.subscribe(this.omniHandler('manuscript')),
 
-      this.cc().findOne(containerID).$.subscribe(this.omniHandler('project')),
+      this.cc('user')
+        .findOne(containerID)
+        .$.subscribe(this.omniHandler('project')),
 
       this.cc()
         .find({
@@ -252,7 +309,7 @@ class RxDBDataBridge {
         })
         .$.subscribe(this.omniArrayHandler('tags')),
 
-      this.cc()
+      this.cc('collaborators')
         .find({
           objectType: ObjectTypes.UserCollaborator,
         })
@@ -307,9 +364,6 @@ class RxDBDataBridge {
               })
             }
           }),
-
-      // @DEPENDENT ON ====>
-      // 1. Create collection after globalLibraries.keys()
 
       userID &&
         this.cc('user')
@@ -379,7 +433,7 @@ class RxDBDataBridge {
           }
         }),
 
-      this.cc()
+      this.cc('user')
         .find({
           objectType: ObjectTypes.Project,
         })
@@ -397,7 +451,7 @@ class RxDBDataBridge {
         ],
       })
       .$.subscribe(async (models: Array<RxDocument<Model>>) => {
-        const modelsMap = buildModelMap(models)
+        const modelsMap = await buildModelMap(models)
         this.setState((state) => ({
           ...state,
           modelsMap,
@@ -422,7 +476,7 @@ class RxDBDataBridge {
     // getting snapshots
     this.cc()
       .find({
-        objectType: ObjectTypes.Snapshot, // @TODO apply somewhere buildCollaboratorProfiles
+        objectType: ObjectTypes.Snapshot,
       })
       .$.subscribe((snapshots: RxDocument<Model>[]) => {
         this.setState({
@@ -432,18 +486,11 @@ class RxDBDataBridge {
         })
       })
 
-    this.dependsOnStateCondition(
-      async (state) => {
-        if (state.user && state.collaborators) {
-          return true
-        }
-        return false
-      },
+    this.dependsOnStateConditionOnce(
+      (state) => state.user && state.collaborators,
       (state) => {
-        console.log(state.user)
-        console.log(state.collaborators)
         this.setState({
-          collaborators: buildCollaboratorProfiles(
+          collaboratorsProfiles: buildCollaboratorProfiles(
             state.collaborators,
             state.user
           ),
@@ -451,13 +498,8 @@ class RxDBDataBridge {
       }
     )
 
-    this.dependsOnStateCondition(
-      async (state) => {
-        if (state.invitations && state.containerInvitations) {
-          return true
-        }
-        return false
-      },
+    this.dependsOnStateConditionOnce(
+      (state) => state.invitations && state.containerInvitations,
       (state) => {
         this.setState({
           invitations: buildInvitations(
@@ -468,33 +510,29 @@ class RxDBDataBridge {
       }
     )
 
-    this.dependsOnStateCondition(
-      async (state) => {
-        if (state.globalLibraries && state.globalLibraryCollections) {
-          const channels = [
-            ...[
-              ...state.globalLibraries.keys(),
-              ...state.globalLibraryCollections.keys(),
-            ].map((id) => `${id}-read`),
-            `${containerID}-bibitems`,
-          ]
-          return this.initCollection(`libraryitems`, channels)
-            .then(() => {
-              return true
-            })
-            .catch((e) => {
-              console.log(e)
-              return false
-            })
-        }
-        return false
-      },
-      () =>
-        this.cc('libraryitems')
-          .find({
-            objectType: ObjectTypes.UserProject,
+    this.dependsOnStateConditionOnce(
+      (state) => state.globalLibraries && state.globalLibraryCollections,
+      (state) => {
+        const channels = [
+          ...[
+            ...state.globalLibraries.keys(),
+            ...state.globalLibraryCollections.keys(),
+          ].map((id) => `${id}-read`),
+          `${containerID}-bibitems`,
+        ]
+        this.initCollection('libraryitems', channels)
+          .then((r) => {
+            this.cc('libraryitems')
+              .find({
+                objectType: ObjectTypes.UserProject,
+              })
+              .$.subscribe(this.omniArrayHandler('userProjects'))
           })
-          .$.subscribe(this.omniArrayHandler('userProjects'))
+          .catch((e) => {
+            console.log(e)
+            return false
+          })
+      }
     )
     return {
       unsubscribe: () =>
