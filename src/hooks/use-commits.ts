@@ -145,6 +145,9 @@ export const useCommits = ({
     ) {
       changeType = commitToJSON(commit, containerID).steps[0].slice.content[0]
         .type
+      if (changeType !== 'figure') {
+        return
+      }
     }
 
     setIsDirty(true)
