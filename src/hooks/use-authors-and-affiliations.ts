@@ -17,45 +17,20 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useState } from 'react'
 
-import { AuthorData, buildAuthorsAndAffiliations } from '../lib/authors'
+import { AuthorData } from '../lib/authors'
+import { useStore } from '../store'
 import CollectionManager from '../sync/CollectionManager'
-import { usePullComplete } from './use-pull-complete'
 
-export const useAuthorsAndAffiliations = (
-  projectID: string,
-  manuscriptID: string
-) => {
-  const isPullComplete = usePullComplete(`project-${projectID}`)
-
+export const useAuthorsAndAffiliations = () => {
   const [data, setData] = useState<AuthorData>()
 
-  useEffect(() => {
-    if (isPullComplete) {
-      const subscription = CollectionManager.getCollection(
-        `project-${projectID}`
-      )
-        .find({
-          manuscriptID,
-          $or: [
-            { objectType: ObjectTypes.Contributor },
-            { objectType: ObjectTypes.Affiliation },
-          ],
-        })
-        .$.subscribe((docs) => {
-          if (!docs) {
-            return
-          }
-          const models = docs.map((doc) => doc.toJSON()) as Array<
-            Contributor | Affiliation
-          >
-          setData(buildAuthorsAndAffiliations(models))
-        })
+  const [authorsAndAffiliations] = useStore(
+    (state) => state.authorsAndAffiliations
+  )
 
-      return () => {
-        subscription.unsubscribe()
-      }
-    }
-  }, [projectID, isPullComplete, manuscriptID])
+  useEffect(() => {
+    setData(authorsAndAffiliations)
+  }, [authorsAndAffiliations])
 
   return { data }
 }

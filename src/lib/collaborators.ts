@@ -38,6 +38,9 @@ export const buildCollaboratorProfiles = (
   const profiles: Map<string, UserProfile> = new Map()
 
   for (const collaborator of collaborators.values()) {
+    console.log(collaborators.values())
+    console.log(collaborator)
+
     profiles.set(
       collaborator.collaboratorProfile[key] as string,
       collaborator.collaboratorProfile

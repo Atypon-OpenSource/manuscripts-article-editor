@@ -12,11 +12,14 @@
 
 import { builderFn, GenericStore, state } from '.'
 
+export type stateSetter = (setState: (currentState: state) => void) => void
+
 export interface StoreDataSourceStrategy {
   build: builderFn
   unmount?: () => void
-  listen?: (state: state) => void
+  afterAction?: (state: state, setState: (currentState: state) => void) => void
   beforeAction?: GenericStore['beforeAction']
+  updateStore?: stateSetter
 }
 
 export class BasicSource implements StoreDataSourceStrategy {

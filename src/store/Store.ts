@@ -43,26 +43,23 @@ export interface Store {
 
 export class GenericStore implements Store {
   reducer
-  beforeAction
   unmountHandler
   state
-  // private sources: StoreDataSourceStrategy[]
+  private sources: StoreDataSourceStrategy[]
+  beforeAction?: (
+    action: string,
+    payload: any,
+    store: state,
+    setState: (state: state) => void
+  ) => void | action
   constructor(
     state = {},
     reducer = defaultReducer,
-    beforeAction?: (
-      action: string,
-      payload: any,
-      store: state,
-      setState: (state: state) => void
-    ) => void | action,
     unmountHandler?: (state: state) => void
   ) {
     this.reducer = reducer
     this.state = state
-    if (beforeAction) {
-      this.beforeAction = beforeAction
-    }
+
     if (unmountHandler) {
       this.unmountHandler = unmountHandler
     }
@@ -82,10 +79,30 @@ export class GenericStore implements Store {
     this.state = state
     this.dispatchQueue()
   }
-  // initFromSources(sources: StoreDataSourceStrategy[]) {
-  //   this.sources = sources
-  //   this.state = buildStateFromSources(...sources)
-  // }
+  init = async (sources: StoreDataSourceStrategy[]) => {
+    this.sources = sources
+
+    const state = await buildStateFromSources(...sources)
+    this.setState(state)
+    // listening to changes before state applied
+    this.beforeAction = (...args) => {
+      this.sources.map(
+        (source) => source.beforeAction && source.beforeAction(...args)
+      )
+    }
+    this.sources.map(
+      (source) => source.updateStore && source.updateStore(this.setState)
+    )
+    // listening to changes after state applied
+    this.sources.map((source) => {
+      if (source.afterAction) {
+        const unsubscribe = this.subscribe(
+          () =>
+            source.afterAction && source.afterAction(unsubscribe)(this.setState)
+        )
+      }
+    })
+  }
   dispatchQueue() {
     this.queue.forEach((fn) => fn(this.state))
   }

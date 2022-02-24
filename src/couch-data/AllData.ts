@@ -18,6 +18,8 @@ import {
   Commit as CommitJson,
   UserProfile,
   Snapshot,
+  Affiliation,
+  Contributor,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument, RxDatabase } from '@manuscripts/rxdb'
 
@@ -25,6 +27,7 @@ import { buildUser } from '../lib/data'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import CollectionManager from '../sync/CollectionManager'
 import { databaseCreator } from '../lib/db'
+import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { TokenData } from './TokenData'
 import { Subscription } from 'rxjs'
 
@@ -136,14 +139,12 @@ class RxDBDataBridge {
       )
 
       return new Promise((resolve) => {
-        console.log(this)
         let resolved = false
         const unsubscribe = this.onUpdate(() => {
-          console.log(this.expectedState)
           if (!this.expectedState.length) {
             /*
               this is an optimisation
-              to wait for each subscription to kick in resolve once,
+              to wait for each subscription to kick in at least once,
               so we won't give the main store an empty state and then cause
               a lot of updates on the store by feeding in initial state piece by piece
              */
@@ -340,6 +341,33 @@ class RxDBDataBridge {
         })
         .$.subscribe(this.omniMapHandler('globalLibraries')), // @TODO create channels on update and create a new db
 
+      this.cc()
+        .find({
+          manuscriptID,
+          objectType: ObjectTypes.ContributorRole,
+        })
+        .$.subscribe(this.omniArrayHandler('contributorRoles')),
+
+      this.cc()
+        .find({
+          manuscriptID,
+          $or: [
+            { objectType: ObjectTypes.Contributor },
+            { objectType: ObjectTypes.Affiliation },
+          ],
+        })
+        .$.subscribe((docs) => {
+          if (!docs) {
+            return
+          }
+          const models = docs.map((doc) => doc.toJSON()) as Array<
+            Contributor | Affiliation
+          >
+          this.setState({
+            authorsAndAffiliations: buildAuthorsAndAffiliations(models),
+          })
+        }),
+
       userID &&
         this.cc('user')
           .find({
@@ -438,6 +466,13 @@ class RxDBDataBridge {
           objectType: ObjectTypes.Project,
         })
         .$.subscribe(this.omniArrayHandler('projects')),
+
+      this.cc()
+        .find({
+          manuscriptID,
+          objectType: { $eq: ObjectTypes.StatusLabel },
+        })
+        .$.subscribe(this.omniArrayHandler('statusLabels')),
     ]
 
     // subscribing for modelsMap
@@ -469,9 +504,6 @@ class RxDBDataBridge {
           return commitFromJSON(json, schema)
         })
       })
-    // .catch(() => {
-    //   throw new Error('Unable to query commits')
-    // })
 
     // getting snapshots
     this.cc()

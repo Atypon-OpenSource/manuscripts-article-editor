@@ -12,42 +12,18 @@
 
 import { ObjectTypes, StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useMemo, useState } from 'react'
+import { useStore } from '../store'
 
 import CollectionManager from '../sync/CollectionManager'
-import { usePullComplete } from './use-pull-complete'
 
-export const useStatusLabels = (projectID: string, manuscriptID: string) => {
-  const collectionName = `project-${projectID}`
-
-  const collection = useMemo(
-    () => CollectionManager.getCollection(collectionName),
-    [collectionName]
-  )
-
-  const isPullComplete = usePullComplete(collectionName)
+export const useStatusLabels = () => {
+  const [statusLabels] = useStore((state) => state.statusLabels)
 
   const [data, setData] = useState<StatusLabel[]>([])
 
   useEffect(() => {
-    if (!collection || !isPullComplete) {
-      return
-    }
-
-    const subscription = collection
-      .find({
-        manuscriptID,
-        objectType: { $eq: ObjectTypes.StatusLabel },
-      })
-      .$.subscribe((docs) => {
-        if (docs) {
-          setData(docs.map((doc) => doc.toJSON() as StatusLabel))
-        }
-      })
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [collection, isPullComplete, manuscriptID])
+    setData(statusLabels)
+  }, [statusLabels])
 
   return data
 }

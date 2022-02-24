@@ -22,8 +22,8 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
+import { useStore } from '../store'
 import CollectionManager from '../sync/CollectionManager'
-import { usePullComplete } from './use-pull-complete'
 
 export enum SnapshotStatus {
   Ready = 'ready',
@@ -56,40 +56,18 @@ const buildModelMap = (models: JsonModel[]): Map<string, JsonModel> => {
 }
 
 export const useHistory = (projectID: string): HookValue => {
-  const collection = CollectionManager.getCollection(`project-${projectID}`)
-  const isPullComplete = usePullComplete(`project-${projectID}`)
-
-  const [snapshotsList, setSnapshotsList] = useState<
-    Array<RxDocument<Snapshot>>
-  >([])
   const [loadSnapshotStatus, setLoadSnapshotStatus] = useState<SnapshotStatus>(
     SnapshotStatus.Ready
   )
-  const [current, setCurrent] = useState<HookValue['currentSnapshot']>(null)
-
+  const [snapshotsList, setSnapshotsList] = useState<
+    Array<RxDocument<Snapshot>>
+  >([])
+  const [snapshots] = useStore((state) => state.snapshots)
   useEffect(() => {
-    if (!collection || !isPullComplete) {
-      return
-    }
-
-    const subscription = collection
-      .find({
-        objectType: ObjectTypes.Snapshot,
-      })
-      .$.subscribe((docs) => {
-        if (!docs) {
-          return
-        }
-        const models = docs
-          .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
-          .sort((a, b) => b.createdAt - a.createdAt)
-        setSnapshotsList(models)
-      })
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [collection, isPullComplete])
+    // do we need a useEffect here, will the user store trigger a chain update automatically?
+    setSnapshotsList(snapshots)
+  }, [snapshots])
+  const [current, setCurrent] = useState<HookValue['currentSnapshot']>(null)
 
   const loadSnapshot = useCallback(
     (remoteID: string, manuscriptID: string) => {

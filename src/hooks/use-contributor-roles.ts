@@ -16,41 +16,23 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useMemo, useState } from 'react'
 
+import { useStore } from '../store'
 import CollectionManager from '../sync/CollectionManager'
-import { usePullComplete } from './use-pull-complete'
 
-export const useContributorRoles = (
-  projectID: string,
-  manuscriptID: string
-) => {
-  const collectionName = `project-${projectID}`
-  const collection = useMemo(
-    () => CollectionManager.getCollection(collectionName),
-    [collectionName]
-  )
-
-  const isPullComplete = usePullComplete(collectionName)
+export const useContributorRoles = () => {
+  const [contributorRoles] = useStore((state) => state.contributorRoles)
 
   const [data, setData] = useState<ContributorRole[]>()
 
-  useEffect(() => {
-    if (isPullComplete) {
-      const subscription = collection
-        .find({
-          manuscriptID,
-          objectType: ObjectTypes.ContributorRole,
-        })
-        .$.subscribe((docs) => {
-          if (docs) {
-            setData(docs.map((doc) => doc.toJSON() as ContributorRole))
-          }
-        })
+  /* this hook can actually move completely into the store */
 
-      return () => {
-        subscription.unsubscribe()
-      }
-    }
-  }, [collection, isPullComplete, manuscriptID])
+  useEffect(() => {
+    setData(contributorRoles)
+  }, [contributorRoles])
+
+  useEffect(() => {
+    setData(contributorRoles as ContributorRole[])
+  }, [contributorRoles])
 
   return { data }
 }

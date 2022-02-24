@@ -10,13 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import React, { createContext, useContext, useEffect } from 'react'
-import {
-  buildStateFromSources,
-  GenericStore,
-  reducer,
-  Store,
-  StoreDataSourceStrategy,
-} from '.'
+import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
 
 const GenericStoreContext = createContext(new GenericStore({}))
 
@@ -25,13 +19,9 @@ export const createStore = async (
   reducer?: reducer,
   unmountHandler?: Store['unmountHandler']
 ) => {
-  const state = await buildStateFromSources(...dataSources)
-  const beforeAction: Store['beforeAction'] = (...args) => {
-    dataSources.map((ds) => ds.beforeAction && ds.beforeAction(...args))
-  }
-  return Object.seal(
-    new GenericStore(state, reducer, beforeAction, unmountHandler)
-  )
+  const store = new GenericStore(dataSources, reducer, unmountHandler)
+  await store.init(dataSources)
+  return store
 }
 
 interface Props {
