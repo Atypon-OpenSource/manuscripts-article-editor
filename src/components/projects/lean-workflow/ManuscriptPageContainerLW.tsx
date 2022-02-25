@@ -38,6 +38,7 @@ import {
   ObjectTypes,
   Snapshot,
   UserProfile,
+  Project,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
 import {
@@ -47,23 +48,17 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
 
 import config from '../../../config'
 import { useBiblio } from '../../../hooks/use-biblio'
-import { useChangeReceiver } from '../../../hooks/use-change-receiver'
+// import { useChangeReceiver } from '../../../hooks/use-change-receiver'
 import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
 import { useCommits } from '../../../hooks/use-commits'
-import { createUseLoadable } from '../../../hooks/use-loadable'
-import {
-  ManuscriptModelsProvider,
-  useManuscriptModels,
-} from '../../../hooks/use-manuscript-models'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
-import { bootstrap } from '../../../lib/bootstrap-manuscript'
 import {
   getErrorCode,
   Person,
@@ -117,6 +112,7 @@ import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
+import { useStore } from '../../../store'
 
 interface RouteParams {
   projectID: string
@@ -128,20 +124,23 @@ type CombinedProps = ManuscriptPageContainerProps &
   IntlProps &
   ModalProps
 
-const useLoadManuscript = createUseLoadable(bootstrap)
-
 const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
-  const { project, match } = props
+  const [state, dispatch] = useStore()
 
-  const { data, isLoading, error } = useLoadManuscript({
-    projectID: project._id,
-    manuscriptID: match.params.manuscriptID,
-  })
-
+  console.log(state)
   const submissionData = useGetSubmissionAndPerson(
-    match.params.manuscriptID,
-    project._id
+    state.manuscriptID,
+    state.project._id
   )
+
+  useEffect(() => {
+    if (submissionData?.data?.submission?.id && submissionData?.data?.person) {
+      dispatch({
+        submission: submissionData.data.submission,
+        lwUser: submissionData.data.person,
+      })
+    }
+  }, [submissionData])
 
   const submissionId: string = submissionData?.data?.submission?.id
   const lwUser: Person = submissionData?.data?.person
@@ -150,24 +149,25 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   // lwRole must not be used to calculate permissions in the contenxt of manuscripts app.
   // lwRole is only for the dashboard
   const can = useCalcPermission({
-    profile: props.user,
-    project,
+    profile: state.user,
+    project: state.project,
     permittedActions,
   })
 
-  if (isLoading || submissionData.loading || permittedActionsData.loading) {
+  if (submissionData.loading || permittedActionsData.loading) {
     return <ManuscriptPlaceholder />
-  } else if (error || !data) {
-    return (
-      <UserProvider
-        lwUser={lwUser}
-        manuscriptUser={props.user}
-        submissionId={submissionId}
-      >
-        <ExceptionDialog errorCode={'MANUSCRIPT_ARCHIVE_FETCH_FAILED'} />
-      </UserProvider>
-    )
   }
+  // else if (error || !data) {
+  //   return (
+  //     <UserProvider
+  //       lwUser={lwUser}
+  //       manuscriptUser={props.user}
+  //       submissionId={submissionId}
+  //     >
+  //       <ExceptionDialog errorCode={'MANUSCRIPT_ARCHIVE_FETCH_FAILED'} />
+  //     </UserProvider>
+  //   )
+  // }
 
   if (submissionData.error || permittedActionsData.error) {
     const networkError =
@@ -182,20 +182,9 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   }
 
   return (
-    <ManuscriptModelsProvider
-      modelMap={data.modelMap}
-      containerID={project._id}
-      manuscriptID={match.params.manuscriptID}
-    >
-      <CapabilitiesProvider can={can}>
-        <ManuscriptPageView
-          {...data}
-          {...props}
-          submission={submissionData?.data?.submission}
-          lwUser={lwUser}
-        />
-      </CapabilitiesProvider>
-    </ManuscriptModelsProvider>
+    <CapabilitiesProvider can={can}>
+      <ManuscriptPageView />
+    </CapabilitiesProvider>
   )
 }
 
@@ -212,6 +201,7 @@ export interface ManuscriptPageViewProps extends CombinedProps {
 }
 
 const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
+  const [store] = useStore()
   const {
     manuscript,
     project,
@@ -223,14 +213,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     comments,
     notes,
     tags,
-    submission,
     addModal,
     lwUser,
-  } = props
-
-  const submissionId: string = submission?.id || ''
-  const popper = useRef<PopperManager>(new PopperManager())
-  const {
     getModel,
     saveModel,
     saveManuscript,
@@ -238,7 +222,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     collection,
     modelMap,
     bundle,
-  } = useManuscriptModels()
+  } = store
+
+  const submissionId: string = store.submissionId || ''
+  const popper = useRef<PopperManager>(new PopperManager())
 
   const openTemplateSelector = (
     newProject?: boolean,
@@ -260,9 +247,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
   const biblio = useBiblio({
     bundle,
-    library: props.library,
+    library: store.library,
     collection,
-    lang: props.manuscript.primaryLanguageCode || 'en-GB',
+    lang: manuscript.primaryLanguageCode || 'en-GB',
   })
 
   const retrySync = (componentIDs: string[]) => {
@@ -354,7 +341,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     doc,
 
     locale: manuscript.primaryLanguageCode || 'en-GB',
-    permissions: { write: !isViewer(project, props.user.userID) },
+    permissions: { write: !isViewer(project, user.userID) },
     environment: config.environment,
     history,
     popper: popper.current,
@@ -383,8 +370,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       CitationViewer,
     },
 
-    ancestorDoc: props.ancestorDoc,
-    commit: props.commitAtLoad || null,
+    ancestorDoc: store.ancestorDoc,
+    commit: store.commitAtLoad || null,
     externalFiles: files,
     theme,
     submissionId,
@@ -401,7 +388,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   )
 
   const { state, doCommand, dispatch, view } = editor
-  useChangeReceiver(editor, saveModel, deleteModel)
+  // useChangeReceiver(editor, saveModel, deleteModel)
 
   const validation = useRequirementsValidation({
     project,
@@ -415,7 +402,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
   const listCollaborators = (): UserProfile[] =>
-    Array.from(props.collaborators.values())
+    Array.from(store.collaborators.values())
 
   const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
     for (const value of items) {
@@ -443,14 +430,14 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   )
   const { commits, corrections, accept, reject, isDirty } = useCommits({
     modelMap,
-    initialCommits: props.commits,
+    initialCommits: store.commits,
     editor,
     containerID: project._id,
     manuscriptID: manuscript._id,
-    userProfileID: props.user._id,
+    userProfileID: store.user._id,
     // TODO: we have to have a snapshotID
     snapshotID: snapshotID || '',
-    ancestorDoc: props.ancestorDoc,
+    ancestorDoc: store.ancestorDoc,
     sortBy,
   })
 
@@ -464,7 +451,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     return false
   }, [corrections])
 
-  const [selectedSnapshot, selectSnapshot] = useState(snapshots[0])
+  const [selectedSnapshot, selectSnapshot] = useState(snapshots && snapshots[0])
 
   const handleSelect = useCallback((snapshot) => {
     selectSnapshot(snapshot)
@@ -554,7 +541,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     <RequirementsProvider modelMap={modelMap}>
       <UserProvider
         lwUser={lwUser}
-        manuscriptUser={props.user}
+        manuscriptUser={store.user}
         submissionId={submissionId}
       >
         <ManuscriptSidebar
@@ -563,9 +550,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
           view={view}
           doc={state.doc}
           permissions={editorProps.permissions}
-          manuscripts={props.manuscripts}
+          manuscripts={store.manuscripts}
           user={user}
-          tokenActions={props.tokenActions}
+          tokenActions={store.tokenActions}
           saveModel={saveModel}
           selected={selected || null}
         />
@@ -577,23 +564,23 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   which will happen on the very last step = 'Published'
                   this should be handled later with are more graceful way but it is not clear at this point how.
               */}
-                {submission?.nextStep && (
+                {store.submission?.nextStep && (
                   <ManualFlowTransitioning
-                    submission={submission}
+                    submission={store.submission}
                     userRole={getUserRole(project, user.userID)}
                     documentId={`${project._id}#${manuscript._id}`}
                     hasPendingSuggestions={hasPendingSuggestions}
                   >
-                    <SaveStatusController isDirty={isDirty} />
+                    {/* <SaveStatusController isDirty={isDirty} /> */}
                   </ManualFlowTransitioning>
                 )}
 
                 <EditorHeader>
                   <ApplicationMenuContainer>
                     <ApplicationMenus
-                      history={props.history}
+                      history={store.history}
                       editor={editor}
-                      addModal={props.addModal}
+                      addModal={store.addModal}
                       manuscriptID={manuscript._id}
                       modelMap={modelMap}
                       saveModel={saveModel}
@@ -620,12 +607,12 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     saveModel={saveModel}
                     deleteModel={deleteModel}
                     permissions={editorProps.permissions}
-                    tokenActions={props.tokenActions}
+                    tokenActions={store.tokenActions}
                     allowInvitingAuthors={false}
                     showAuthorEditButton={true}
                     disableEditButton={
-                      isViewer(project, props.user.userID) ||
-                      isAnnotator(project, props.user.userID)
+                      isViewer(project, store.user.userID) ||
+                      isAnnotator(project, store.user.userID)
                     }
                   />
                   <TrackChangesStyles

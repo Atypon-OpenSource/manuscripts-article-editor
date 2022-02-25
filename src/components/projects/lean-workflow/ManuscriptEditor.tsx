@@ -9,40 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { useEffect, useMemo, useState } from 'react'
-import { useStore } from '../../../store'
+import React from 'react'
 import ManuscriptPageContainer from './ManuscriptPageContainerLW'
-import CouchSource from '../../../couch-data/CouchSource'
-import { getCurrentUserId } from '../../../lib/user'
-import { Loading } from '../../Loading'
 
-const ManuscriptEditor = (props) => {
-  //  1. Initialise store, that will take data from abstract away data source
-  //  Research Sagas, MobX or just context and
-
-  // retrieve project by submission id
-  const [state] = useStore()
-  return (
-    <ManuscriptPageContainer
-      {...props}
-      tags={tags}
-      comments={comments}
-      keywords={keywords}
-      library={library}
-      manuscript={manuscript}
-      manuscripts={manuscripts}
-      notes={notes}
-      project={project}
-      projects={projects} // not needed as only a single article has to be editable
-      projectsCollection={projectsCollection} // to be ABSTRACTED with DATA LEVEL
-      user={user}
-      collaborators={collaborators}
-      collaboratorsById={collaboratorProfiles} // buildCollaboratorProfiles(collaborators, user, '_id')
-      userProjects={userProjects} // this is not needed
-      userProjectsCollection={userProjectCollection} // to be ABSTRACTED with DATA LEVEL
-      tokenActions={tokenActions} // wtf is this
-    />
-  )
+const ManuscriptEditor = () => {
+  return
 }
 
 export default ManuscriptEditor

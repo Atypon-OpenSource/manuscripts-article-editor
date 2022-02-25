@@ -36,7 +36,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import { CommentFilter } from '../components/projects/CommentListPatterns'
-import { useManuscriptModels } from './use-manuscript-models'
+import { useStore } from '../store'
 import { useMicrostore } from './use-microstore'
 
 interface UnsavedComment extends Build<CommentAnnotation> {
@@ -216,7 +216,8 @@ export const useComments = (
     )
   }, annotations)
 
-  const { saveModel, deleteModel } = useManuscriptModels()
+  const [store] = useStore()
+  const { saveModel, deleteModel } = store
 
   const saveComment = useCallback(
     (

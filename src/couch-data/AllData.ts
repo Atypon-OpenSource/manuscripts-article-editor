@@ -486,10 +486,10 @@ class RxDBDataBridge {
         ],
       })
       .$.subscribe(async (models: Array<RxDocument<Model>>) => {
-        const modelsMap = await buildModelMap(models)
+        const modelMap = await buildModelMap(models)
         this.setState((state) => ({
           ...state,
-          modelsMap,
+          modelMap,
         }))
       })
 

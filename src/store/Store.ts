@@ -97,8 +97,7 @@ export class GenericStore implements Store {
     this.sources.map((source) => {
       if (source.afterAction) {
         const unsubscribe = this.subscribe(
-          () =>
-            source.afterAction && source.afterAction(unsubscribe)(this.setState)
+          () => source.afterAction && source.afterAction(this.setState)
         )
       }
     })

@@ -15,6 +15,7 @@ import React from 'react'
 
 import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
 import useOnlineState, { OnlineState } from '../../../hooks/use-online-state'
+import { useStore } from '../../../store'
 import { selectors } from '../../../sync/syncEvents'
 import { useSyncState } from '../../../sync/SyncStore'
 
@@ -23,8 +24,13 @@ interface Props {
 }
 
 export const SaveStatusController: React.FC<Props> = ({ isDirty }) => {
-  const { containerID } = useManuscriptModels()
-  const syncState = useSyncState()
+  const [containerID, syncState] = useStore((state) => {
+    return {
+      containerID: state.containerID,
+      syncState: state.syncState,
+    }
+  })
+  // const syncState = useSyncState()
   const [onlineState] = useOnlineState()
 
   const isOffline = onlineState !== OnlineState.Online

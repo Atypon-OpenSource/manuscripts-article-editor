@@ -127,6 +127,10 @@ const EditorElement: React.FC<Props> = ({
     [accept, reject, doCommand]
   )
 
+  console.log('==================== TRYING TO RENDER ====================')
+  console.log('==================== ================ ====================')
+  console.log('==================== ================ ====================')
+  console.log('==================== ================ ====================')
   return (
     <>
       {error && (

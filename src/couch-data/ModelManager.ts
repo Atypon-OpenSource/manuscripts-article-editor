@@ -38,7 +38,6 @@ export default class ModelManager implements ManuscriptModels {
   //   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   //   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   //   deleteModel: (id: string) => Promise<string>
-  getModel: <T extends Model>(id: string) => T | undefined
   bundle: Bundle | null
   collection: Collection<ContainedModel>
   modelMap: ModelMap
@@ -65,6 +64,13 @@ export default class ModelManager implements ManuscriptModels {
       deleteModel: this.deleteModel,
       saveManuscript: this.saveManuscript,
     }
+  }
+
+  getModel = <T extends Model>(id: string) => {
+    if (!this.modelMap) {
+      return
+    }
+    return this.modelMap.get(id) as T | undefined
   }
 
   saveModel = async (model: T | Build<T> | Partial<T>) => {

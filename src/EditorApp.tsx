@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ApolloProvider } from '@apollo/react-hooks'
 import React, { useEffect, useMemo, useState } from 'react'
 import { hot } from 'react-hot-loader'
-
-import { apolloClient } from './lib/apollo'
 
 import {
   GenericStoreProvider,
@@ -26,6 +23,9 @@ import CouchSource from './couch-data/CouchSource'
 import { getCurrentUserId } from './lib/user'
 import OnlyEditor, { TestComponent } from './OnlyEditor'
 import { Loading } from './components/Loading'
+import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
+import { useGetStep } from './lib/lean-workflow-gql'
+import styled from 'styled-components'
 
 interface Props {
   submissionId: string
@@ -33,14 +33,22 @@ interface Props {
   projectID: string
 }
 
+const Wrapper = styled.div`
+  display: flex;
+  height: calc(100vh - 1px);
+  box-sizing: border-box;
+  color: rgb(53, 53, 53);
+  font-family: Lato, sans-serif;
+`
+
 const EditorApp: React.FC<Props> = ({
   submissionId,
   manuscriptID,
   projectID,
 }) => {
   const userID = getCurrentUserId()
-
   const [store, setStore] = useState<GenericStore>()
+
   useEffect(() => {
     // implement remount for the store if component is retriggered
     if (store) {
@@ -65,10 +73,10 @@ const EditorApp: React.FC<Props> = ({
 
   return store ? (
     <GenericStoreProvider store={store}>
-      <ApolloProvider client={apolloClient}>
-        {/* <OnlyEditor /> */}
-        <TestComponent />
-      </ApolloProvider>
+      <Wrapper>
+        <ManuscriptPageContainer />
+      </Wrapper>
+      {/* <TestComponent /> */}
     </GenericStoreProvider>
   ) : (
     <Loading>Loading store...</Loading>

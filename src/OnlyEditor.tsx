@@ -20,7 +20,7 @@ import config from './config'
 import type { RouteLocationState } from './types/router-state'
 
 import { useStore, addDataSource } from './store'
-import ManuscriptEditor from './components/projects/lean-workflow/ManuscriptEditor.tsx'
+import ManuscriptEditor from './components/projects/lean-workflow/ManuscriptEditor'
 
 const DeveloperPageContainer = React.lazy(
   () =>
@@ -57,7 +57,7 @@ export const TestComponent = () => {
 const OnlyEditor = () => {
   const [state] = useStore()
 
-  const { user, userID, tokenActions } = state
+  const { user, userID, tokenActions, manuscriptID, projectID } = state
 
   return userID ? (
     <Switch>

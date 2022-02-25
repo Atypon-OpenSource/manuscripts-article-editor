@@ -25,7 +25,7 @@ export function buildStateFromSources(
     let i = 0
     const next = (resultState: futureState) => {
       if (resultState) {
-        futureState = resultState
+        futureState = { ...futureState, ...resultState }
       }
       if (builders[++i]) {
         builders[i].build(futureState, next)

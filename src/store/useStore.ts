@@ -17,6 +17,9 @@ import { useGenericStore } from './StoreContext'
 
 const deeperEqual = (prev: any, next: any) => {
   // checking only one level deeper is enough to provide render relevenat equality
+  if (!prev) {
+    return false
+  }
   switch (prev.constructor.name) {
     case 'Object':
       // if (next.constructor.name === 'Object') {
