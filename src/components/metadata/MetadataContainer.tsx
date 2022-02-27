@@ -115,7 +115,6 @@ const MetadataContainer: React.FC<CombinedProps> = ({ permissions }) => {
     collaborators,
     user,
     project,
-    containerID,
     manuscript,
     saveManuscript,
     deleteModel,

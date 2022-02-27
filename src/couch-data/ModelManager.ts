@@ -63,6 +63,7 @@ export default class ModelManager implements ManuscriptModels {
       saveModel: this.saveModel,
       deleteModel: this.deleteModel,
       saveManuscript: this.saveManuscript,
+      getModel: this.getModel,
     }
   }
 

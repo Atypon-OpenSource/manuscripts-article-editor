@@ -12,7 +12,7 @@
 import React, { createContext, useContext, useEffect } from 'react'
 import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
 
-const GenericStoreContext = createContext(new GenericStore({}))
+const GenericStoreContext = createContext(null)
 
 export const createStore = async (
   dataSources: StoreDataSourceStrategy[],
@@ -36,11 +36,14 @@ export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
     return () => store.unmount()
   }, [store])
 
-  return (
-    <GenericStoreContext.Provider value={store}>
-      {children}
-    </GenericStoreContext.Provider>
-  )
+  if (store) {
+    return (
+      <GenericStoreContext.Provider value={store}>
+        {children}
+      </GenericStoreContext.Provider>
+    )
+  }
+  return null
 }
 
 export const useGenericStore = () => useContext(GenericStoreContext)

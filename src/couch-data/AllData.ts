@@ -167,7 +167,8 @@ class RxDBDataBridge {
   }
 
   public getData = () => {
-    return Object.freeze({ ...this.state, ...this.modelManager.getTools() }) // hmmm....
+    const data = { ...this.state, ...this.modelManager.getTools() }
+    return data // hmmm....
   }
 
   public reload(manuscriptID: string, projectID: string, userID: string) {

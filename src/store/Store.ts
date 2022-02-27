@@ -76,7 +76,11 @@ export class GenericStore implements Store {
     return this.state
   }
   setState(state: state) {
-    this.state = state
+    if (typeof state === 'function') {
+      this.state = state(this.state)
+    } else {
+      this.state = { ...this.state, ...state }
+    }
     this.dispatchQueue()
   }
   init = async (sources: StoreDataSourceStrategy[]) => {

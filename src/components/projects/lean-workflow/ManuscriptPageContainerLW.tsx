@@ -127,7 +127,7 @@ type CombinedProps = ManuscriptPageContainerProps &
 const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   const [state, dispatch] = useStore()
 
-  console.log(state)
+  // console.log(state)
   const submissionData = useGetSubmissionAndPerson(
     state.manuscriptID,
     state.project._id
