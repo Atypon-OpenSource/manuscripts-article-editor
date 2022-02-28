@@ -10,7 +10,26 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { Collection, ContainerIDs } from '../sync/Collection'
-import { Bundle, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  Bundle,
+  Manuscript,
+  Model,
+  Correction,
+} from '@manuscripts/manuscripts-json-schema'
+
+import {
+  checkout,
+  commands,
+  Commit,
+  commitToJSON,
+  findCommitWithChanges,
+  findCommitWithin,
+  getChangeSummary,
+  getTrackPluginState,
+  isCommitContiguousWithSelection,
+  rebases,
+  reset as resetToLastCommit,
+} from '@manuscripts/track-changes'
 
 type ModelMap = Map<string, Model> // this is duplicated and copied in several places
 
@@ -55,6 +74,7 @@ export default class ModelManager implements ManuscriptModels {
     this.manuscriptID = manuscriptID
     this.setModelsState = setModelsState
     this.containerID = projectID
+    console.log(modelMap)
     this.modelMap = modelMap
   }
 
@@ -65,6 +85,14 @@ export default class ModelManager implements ManuscriptModels {
       saveManuscript: this.saveManuscript,
       getModel: this.getModel,
     }
+  }
+
+  saveCorrection = (correction: Correction) => {
+    return this.collection.save(correction)
+  }
+
+  saveCommit = (commit: Commit) => {
+    return this.collection.save(commitToJSON(commit, this.containerID))
   }
 
   getModel = <T extends Model>(id: string) => {
@@ -122,10 +150,15 @@ export default class ModelManager implements ManuscriptModels {
     // if (!modelsState) {
     //   return
     // }
-    const prevManuscript = this.modelMap.get(this.manuscriptID)
-    return this.saveModel({
-      ...prevManuscript,
-      ...data,
-    }).then(() => undefined)
+    try {
+      const prevManuscript = this.modelMap.get(this.manuscriptID)
+      return this.saveModel({
+        ...prevManuscript,
+        ...data,
+      }).then(() => undefined)
+    } catch (e) {
+      console.log(e)
+      console.log(this)
+    }
   }
 }

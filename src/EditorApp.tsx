@@ -26,6 +26,7 @@ import { Loading } from './components/Loading'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import { useGetStep } from './lib/lean-workflow-gql'
 import styled from 'styled-components'
+import { NotificationProviderWithRouter } from './components/NotificationProvider'
 
 interface Props {
   submissionId: string
@@ -73,9 +74,11 @@ const EditorApp: React.FC<Props> = ({
 
   return store ? (
     <GenericStoreProvider store={store}>
-      <Wrapper>
-        <ManuscriptPageContainer />
-      </Wrapper>
+      <NotificationProviderWithRouter>
+        <Wrapper>
+          <ManuscriptPageContainer />
+        </Wrapper>
+      </NotificationProviderWithRouter>
       {/* <TestComponent /> */}
     </GenericStoreProvider>
   ) : (

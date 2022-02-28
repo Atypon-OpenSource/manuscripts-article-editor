@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { CopyableText } from '../components/CopyableText'
@@ -19,6 +19,7 @@ import config from '../config'
 import { useCrisp } from '../hooks/use-crisp'
 import useOnlineState, { OnlineState } from '../hooks/use-online-state'
 import { loginAgain } from '../lib/authorization'
+import { useStore } from '../store'
 import CollectionManager from './CollectionManager'
 import {
   getPushSyncErrorMessage,
@@ -30,14 +31,17 @@ import {
 } from './syncErrors'
 import { actions, selectors } from './syncEvents'
 import SyncNotification from './SyncNotification'
-import { SyncStateContext } from './SyncStore'
 
 const SyncNotificationManager: NotificationComponent = () => {
   const [onlineState, setOfflineAcknowledged] = useOnlineState()
   const [askForPersistentStorage, setAskForPersistentStorage] = useState(false)
 
-  const { syncState, dispatch } = useContext(SyncStateContext)
-  const errors = selectors.newErrors(syncState)
+  const [{ syncState, dispatchSyncState }] = useStore((store) => ({
+    syncState: store.syncState,
+    dispatchSyncState: store.dispatchSyncState,
+  }))
+
+  const errors = selectors.newErrors(syncState || [])
 
   const handleRetry = useCallback(() => {
     CollectionManager.restartAll()
@@ -45,6 +49,9 @@ const SyncNotificationManager: NotificationComponent = () => {
 
   const crisp = useCrisp()
   const composeErrorReport = useCallback(() => {
+    if (!syncState) {
+      return
+    }
     const report = JSON.stringify(
       {
         version: config.version,
@@ -186,7 +193,7 @@ const SyncNotificationManager: NotificationComponent = () => {
         buttonText="Contact Support"
         buttonAction={crisp.open}
         primaryButtonText="Dismiss"
-        primaryButtonAction={() => dispatch(actions.resetErrors())}
+        primaryButtonAction={() => dispatchSyncState(actions.resetErrors())}
       />
     )
   }

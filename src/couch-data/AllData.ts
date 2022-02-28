@@ -37,6 +37,10 @@ import { buildModelMap, schema } from '@manuscripts/manuscript-transform'
 
 import { commitFromJSON } from '@manuscripts/track-changes' // This type dependency seems to be out of order. That should be refactored
 import ModelManager from './ModelManager'
+import { selectors } from '../sync/syncEvents'
+import reducer from '../sync/syncEvents'
+import CollectionEffects from '../sync/CollectionEffects'
+import { Action, SyncState } from '../sync/types'
 
 interface Props {
   manuscriptID: string
@@ -63,6 +67,7 @@ class RxDBDataBridge {
   rxSubscriptions: Subscription[]
   modelManager: ModelManager
   private expectedState: string[] = []
+  collectionListenerState: SyncState
 
   public constructor(props: Props) {
     this.tokenData = new TokenData()
@@ -128,15 +133,22 @@ class RxDBDataBridge {
       this.sub = this.subscribe(this.manuscriptID, this.projectID, this.userID)
       // need to init if received update at least once from all the collections
 
-      this.modelManager = new ModelManager(
-        this.state.modelMap,
-        (modelMap) => {
-          this.setState({ modelMap })
-        },
-        this.manuscriptID,
-        this.projectID,
-        this.cc()
+      this.dependsOnStateConditionOnce(
+        (state) => !!state.modelMap,
+        () => {
+          this.modelManager = new ModelManager(
+            this.state.modelMap,
+            (modelMap) => {
+              this.setState({ modelMap })
+            },
+            this.manuscriptID,
+            this.projectID,
+            this.cc()
+          )
+        }
       )
+
+      this.initSyncStateStatus()
 
       return new Promise((resolve) => {
         let resolved = false
@@ -164,6 +176,42 @@ class RxDBDataBridge {
     } catch (e) {
       return Promise.reject(e)
     }
+  }
+
+  initSyncStateStatus = () => {
+    const accumulatableDispatch = (dispatch: (action: Action) => void) => {
+      let queue: Action[] = []
+
+      return (action: Action) => {
+        if (!queue.length) {
+          setTimeout(() => {
+            queue.reverse().forEach((action) => dispatch(action))
+            queue = []
+            this.setState({
+              syncState: this.collectionListenerState,
+              dispatchSyncState: accumulatableDispatch(dispatch),
+            })
+          }, 20000)
+        }
+        queue.push(action)
+      }
+    }
+    /* PROVIDING RESULT OF SYNC'ING STATUS  */
+    this.collectionListenerState = {}
+    const dispatch = (action: Action) => {
+      this.collectionListenerState = reducer(
+        this.collectionListenerState,
+        action
+      )
+    }
+    const syncListenerDispatch = (action: Action) => {
+      CollectionEffects(dispatch)(action)
+      dispatch(action)
+    }
+    CollectionManager.listen({
+      getState: () => this.collectionListenerState,
+      dispatch: syncListenerDispatch,
+    })
   }
 
   public getData = () => {

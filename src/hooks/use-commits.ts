@@ -40,6 +40,7 @@ import { v4 as uuid } from 'uuid'
 
 import { saveEditorState } from '../lib/bootstrap-manuscript'
 import sessionId from '../lib/session-id'
+import { useStore } from '../store'
 import collectionManager from '../sync/CollectionManager'
 import { useUnmountEffect } from './use-unmount-effect'
 import { useWindowUnloadEffect } from './use-window-unload-effect'
@@ -88,6 +89,15 @@ export const useCommits = ({
   ancestorDoc,
   sortBy,
 }: Args) => {
+  const [handlers] = useStore((store) => {
+    return {
+      saveCommitToDb: store.saveCommit,
+      saveCorrectionToDb: store.saveCorrection,
+    }
+  })
+
+  const { saveCommitToDb, saveCorrectionToDb } = handlers
+
   const [lastSave, setLastSave] = useState<number>(Date.now())
   const timeSinceLastSave = useCallback(() => Date.now() - lastSave, [lastSave])
 
@@ -100,30 +110,18 @@ export const useCommits = ({
   const { commit: currentCommit } = getTrackPluginState(editor.state)
   const [isDirty, setIsDirty] = useState(false)
 
-  const saveCommit = useCallback(
-    (commit: Commit) => {
-      const collection = collectionManager.getCollection<ContainedModel>(
-        `project-${containerID}`
-      )
-      setCommits((last) => [...last, commit])
-      return collection.save(commitToJSON(commit, containerID))
-    },
-    [containerID]
-  )
+  const saveCommit = (commit: Commit) => {
+    setCommits((last) => [...last, commit])
+    return saveCommitToDb(commit)
+  }
 
-  const saveCorrection = useCallback(
-    (correction: Correction) => {
-      const collection = collectionManager.getCollection<ContainedModel>(
-        `project-${containerID}`
-      )
-      setCorrections((last) => [
-        ...last.filter((corr) => corr._id !== correction._id),
-        correction,
-      ])
-      return collection.save(correction)
-    },
-    [containerID]
-  )
+  const saveCorrection = (correction: Correction) => {
+    setCorrections((last) => [
+      ...last.filter((corr) => corr._id !== correction._id),
+      correction,
+    ])
+    return saveCorrectionToDb(correction)
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const freeze = async (asAccepted?: boolean) => {
