@@ -34,7 +34,6 @@ import { ManageTargetInspector } from '../../inspector/ManageTargetInspector'
 import { NodeInspector } from '../../inspector/NodeInspector'
 import { SectionInspector } from '../../inspector/SectionInspector'
 import { StatisticsInspector } from '../../inspector/StatisticsInspector'
-import { HeaderImageInspector } from '../HeaderImageInspector'
 import { ManuscriptInspector, SaveModel } from '../ManuscriptInspector'
 
 export const ContentTab: React.FC<{
@@ -122,15 +121,6 @@ export const ContentTab: React.FC<{
           selectedSection ? (selectedSection.node as SectionNode) : undefined
         }
       />
-      {config.export.literatum && (
-        <HeaderImageInspector
-          deleteModel={deleteModel}
-          manuscript={manuscript}
-          modelMap={modelMap}
-          saveManuscript={saveManuscript}
-          saveModel={saveModel}
-        />
-      )}
       {config.export.literatum && selected && (
         <NodeInspector
           manuscript={manuscript}
@@ -154,6 +144,7 @@ export const ContentTab: React.FC<{
         openTemplateSelector={openTemplateSelector}
         getTemplate={getTemplate}
         getManuscriptCountRequirements={getManuscriptCountRequirements}
+        leanWorkflow={true}
       />
 
       {(element || section) && config.features.projectManagement && (

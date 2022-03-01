@@ -237,6 +237,7 @@ export const Inspector: React.FC<{
                         getManuscriptCountRequirements
                       }
                       canWrite={canWrite(project, getCurrentUserId()!)}
+                      leanWorkflow={false}
                     />
 
                     {(element || section) &&

@@ -131,11 +131,17 @@ export const useCommits = ({
     if (!commit.steps.length) {
       return
     }
+    // TODO: Remove this. This is added to debug an issue not reproducible locally.
+    console.log('Freeze1')
+    console.log(commitToJSON(commit, containerID).steps)
     const changeSummary = getChangeSummary(editor.state, commit.changeID)
 
     if (!changeSummary) {
       return
     }
+    // TODO: Remove this. This is added to debug an issue not reproducible locally.
+    console.log('Freeze2')
+    console.log(changeSummary)
 
     let changeType = 'text'
     //This is needed because some changes have no inserted or deleted text, but we still need to define the change type (i.e figure update), so we can add a suggestion indicating that change.

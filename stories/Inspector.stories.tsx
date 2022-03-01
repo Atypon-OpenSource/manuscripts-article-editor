@@ -133,6 +133,7 @@ storiesOf('Inspector/Manuscript Inspector', module).add(
         getManuscriptCountRequirements={action(
           'get the manuscript count requirements'
         )}
+        leanWorkflow={false}
       />
     </div>
   )
