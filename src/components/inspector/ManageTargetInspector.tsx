@@ -42,7 +42,6 @@ type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 interface Props {
   target: AnyElement | Section | Manuscript
   saveModel: SaveModel
-  listCollaborators: () => UserProfile[]
   statusLabels: StatusLabel[]
   tags: Tag[]
   modelMap: Map<string, Model>
@@ -50,14 +49,16 @@ interface Props {
   project: Project
 }
 
-export const ManageTargetInspector: React.FC<Props> = ({
-  target,
-  listCollaborators,
-}) => {
+export const ManageTargetInspector: React.FC<Props> = ({ target }) => {
   const title = target.objectType.replace(/MP|Element/g, '')
-  const project = useStore((store) => store.project)
+  const [{ project, collaborators }] = useStore((store) => ({
+    project: store.project,
+    collaborators: store.collaborators,
+  }))
   const collaborators = new Map<string, UserProfile>()
 
+  const listCollaborators = (): UserProfile[] =>
+    Array.from(collaborators.values())
   for (const collaborator of listCollaborators()) {
     collaborators.set(collaborator.userID, collaborator)
   }

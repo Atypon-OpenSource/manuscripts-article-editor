@@ -55,9 +55,9 @@ const deeperEqual = (prev: any, next: any) => {
   }
 }
 
-export const useStore = (
-  selector = (r: state): Partial<state> => r
-): [Partial<state>, dispatch] => {
+export const useStore = <T>(
+  selector = (r: state): state | T | undefined => r
+): [T, dispatch] => {
   const store = useGenericStore()
   const [state, setState] = useState(
     selector ? selector(store!.state) : store!.state

@@ -12,17 +12,17 @@
 import { state, StoreDataSourceStrategy } from '.'
 
 export type builderFn = (
-  boundState: state,
-  next: (resultState: state) => void
+  boundState: Partial<state>,
+  next: (resultState: Partial<state>) => void
 ) => void
 
 export function buildStateFromSources(
   ...builders: StoreDataSourceStrategy[]
-): state {
+): Partial<state> {
   return new Promise((resolve, reject) => {
     let futureState = {}
     let i = 0
-    const next = (resultState: state) => {
+    const next = (resultState: Partial<state>) => {
       if (resultState) {
         futureState = { ...futureState, ...resultState }
       }

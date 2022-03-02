@@ -32,28 +32,28 @@ import { TokenData } from '../couch-data/TokenData'
 export type action = { action?: string; [key: string]: any }
 export type state = {
   [key: string]: any
-  project?: Project
-  manuscript?: Manuscript
+  project: Project
+  manuscript: Manuscript
   doc?: ManuscriptNode
   user?: UserProfile
-  tokenData?: TokenData
+  tokenData: TokenData
   projectID?: string
   userID?: string | undefined
   userProfileID?: string | undefined
   manuscriptID?: string
   containerID?: string
 
-  getModel?: <T extends Model>(id: string) => T | undefined
-  saveModel?: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  saveManuscript?: (data: Partial<Manuscript>) => Promise<void>
-  deleteModel?: (id: string) => Promise<string>
+  getModel: <T extends Model>(id: string) => T | undefined
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  deleteModel: (id: string) => Promise<string>
   bundle?: Bundle | null
-  modelMap?: Map<string, Model>
+  modelMap: Map<string, Model>
   snapshotID: string
-  snapshots: Snapshot[]
-  comments: Comment[]
-  notes: Note[]
-  tag: Tag[]
+  snapshots?: Snapshot[]
+  comments?: Comment[]
+  notes?: Note[]
+  tag?: Tag[]
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

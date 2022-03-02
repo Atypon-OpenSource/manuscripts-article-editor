@@ -41,13 +41,11 @@ export const ContentTab: React.FC<{
   dispatch: (tr: Transaction) => EditorState
   hasFocus?: boolean
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  listCollaborators: () => UserProfile[]
   openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
 }> = ({
   selected,
   selectedSection,
   selectedElement,
-  listCollaborators,
   dispatch,
   hasFocus,
   openTemplateSelector,
@@ -57,6 +55,7 @@ export const ContentTab: React.FC<{
     doc: store.doc,
     getModel: store.getModel,
   }))
+
   const section = selectedSection
     ? getModel<Section>(selectedSection.node.attrs.id)
     : undefined

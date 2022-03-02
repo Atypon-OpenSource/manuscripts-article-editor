@@ -39,6 +39,11 @@ import {
   Snapshot,
   UserProfile,
   Project,
+  Bundle,
+  Manuscript,
+  Library,
+  BibliographyItem,
+  UserCollaborator,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
 import {
@@ -113,6 +118,7 @@ import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 import { useStore, state } from '../../../store'
+import { Bibliography } from 'citeproc'
 
 interface RouteParams {
   projectID: string
@@ -200,30 +206,31 @@ export interface ManuscriptPageViewProps extends CombinedProps {
 }
 
 const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
-  const [store] = useStore()
-  const {
-    manuscript,
-    project,
-    user,
-    history,
-    doc,
-    snapshotID,
-    snapshots,
-    comments,
-    notes,
-    addModal,
-    lwUser,
-    getModel,
-    saveModel,
-    deleteModel,
-    collection,
-    modelMap,
-    bundle,
-  } = store
+  const [bundle] = useStore<Bundle>((store) => store.bundle)
+  const [manuscript] = useStore<Manuscript>((store) => store.manuscript)
+  const [project] = useStore<Project>((store) => store.project)
+  const [user] = useStore<UserProfile>((store) => store.user)
+  const [doc] = useStore((store) => store.doc)
+  const [snapshotID] = useStore((store) => store.snapshotID)
+  const [snapshots] = useStore((store) => store.snapshots)
+  const [comments] = useStore((store) => store.comments)
+  const [notes] = useStore((store) => store.notes)
+  const [addModal] = useStore((store) => store.addModal)
+  const [lwUser] = useStore((store) => store.lwUser)
+  const [getModel] = useStore((store) => store.getModel)
+  const [saveModel] = useStore((store) => store.saveModel)
+  const [deleteModel] = useStore((store) => store.deleteModel)
+  const [collection] = useStore((store) => store.collection)
+  const [modelMap] = useStore<Map<string, Model>>((store) => store.modelMap)
+  const [collaborators] = useStore<Map<string, UserCollaborator>>(
+    (store) => store.collaborators
+  )
+  const [library] = useStore<Map<string, BibliographyItem>>(
+    (store) => store.library
+  )
+  const [submissionID] = useStore<string>((store) => store.submissionID)
 
-  console.log(store)
-
-  const submissionId: string = store.submissionId || ''
+  const submissionId = submissionID || ''
   const popper = useRef<PopperManager>(new PopperManager())
 
   const openTemplateSelector = (
@@ -244,9 +251,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
   const can = usePermissions()
 
+  // !!!!!
   const biblio = useBiblio({
     bundle,
-    library: store.library,
+    library: library,
     collection,
     lang: manuscript.primaryLanguageCode || 'en-GB',
   })
@@ -400,20 +408,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
-  const listCollaborators = (): UserProfile[] =>
-    Array.from(store.collaborators.values())
+  // const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
+  //   for (const value of items) {
+  //     const containerIDs: ContainerIDs = { containerID: manuscript.containerID }
 
-  const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
-    for (const value of items) {
-      const containerIDs: ContainerIDs = { containerID: manuscript.containerID }
+  //     if (isManuscriptModel(value)) {
+  //       containerIDs.manuscriptID = manuscript._id
+  //     }
 
-      if (isManuscriptModel(value)) {
-        containerIDs.manuscriptID = manuscript._id
-      }
-
-      await collection.save(value, containerIDs, true)
-    }
-  }
+  //     await collection.save(value, containerIDs, true)
+  //   }
+  // }
 
   const commentController = useComments(comments, user, state, doCommand)
 
@@ -665,7 +670,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                         state={state}
                         dispatch={dispatch}
                         hasFocus={view?.hasFocus()}
-                        listCollaborators={listCollaborators}
                         key="content"
                         openTemplateSelector={openTemplateSelector}
                       />
