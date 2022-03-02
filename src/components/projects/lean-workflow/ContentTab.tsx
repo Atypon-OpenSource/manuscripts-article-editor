@@ -11,16 +11,12 @@
  */
 import {
   ActualManuscriptNode,
-  ManuscriptNode,
   SectionNode,
   Selected,
 } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
-  Model,
-  Project,
   Section,
-  Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
@@ -28,52 +24,39 @@ import React from 'react'
 
 import config from '../../../config'
 import { useSharedData } from '../../../hooks/use-shared-data'
-import { useStatusLabels } from '../../../hooks/use-status-labels'
+import { useStore } from '../../../store'
 import { AnyElement } from '../../inspector/ElementStyleInspector'
 import { ManageTargetInspector } from '../../inspector/ManageTargetInspector'
 import { NodeInspector } from '../../inspector/NodeInspector'
 import { SectionInspector } from '../../inspector/SectionInspector'
 import { StatisticsInspector } from '../../inspector/StatisticsInspector'
 import { HeaderImageInspector } from '../HeaderImageInspector'
-import { ManuscriptInspector, SaveModel } from '../ManuscriptInspector'
+import { ManuscriptInspector } from '../ManuscriptInspector'
 
 export const ContentTab: React.FC<{
   selected?: Selected
   selectedElement?: Selected
   selectedSection?: Selected
-  getModel: <T extends Model>(id: string) => T | undefined
-  modelMap: Map<string, Model>
-  manuscript: Manuscript
   state: EditorState
   dispatch: (tr: Transaction) => EditorState
   hasFocus?: boolean
-  doc: ManuscriptNode
-  saveModel: SaveModel
-  deleteModel: (id: string) => Promise<string>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   listCollaborators: () => UserProfile[]
-  project: Project
-  tags: Tag[]
   openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
 }> = ({
   selected,
   selectedSection,
   selectedElement,
-  getModel,
-  modelMap,
   listCollaborators,
-  manuscript,
-  state,
   dispatch,
   hasFocus,
-  doc,
-  saveModel,
-  deleteModel,
-  saveManuscript,
-  project,
-  tags,
   openTemplateSelector,
 }) => {
+  const [{ manuscript, doc, getModel }] = useStore((store) => ({
+    manuscript: store.manuscript,
+    doc: store.doc,
+    getModel: store.getModel,
+  }))
   const section = selectedSection
     ? getModel<Section>(selectedSection.node.attrs.id)
     : undefined
@@ -81,8 +64,6 @@ export const ContentTab: React.FC<{
   const element = selectedElement
     ? getModel<AnyElement>(selectedElement.node.attrs.id)
     : undefined
-
-  const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)
 
   const {
     getTemplate,
@@ -122,35 +103,13 @@ export const ContentTab: React.FC<{
           selectedSection ? (selectedSection.node as SectionNode) : undefined
         }
       />
-      {config.export.literatum && (
-        <HeaderImageInspector
-          deleteModel={deleteModel}
-          manuscript={manuscript}
-          modelMap={modelMap}
-          saveManuscript={saveManuscript}
-          saveModel={saveModel}
-        />
-      )}
+      {config.export.literatum && <HeaderImageInspector />}
       {config.export.literatum && selected && (
-        <NodeInspector
-          manuscript={manuscript}
-          selected={selected}
-          modelMap={modelMap}
-          saveModel={saveModel}
-          deleteModel={deleteModel}
-          state={state}
-          dispatch={dispatch}
-        />
+        <NodeInspector selected={selected} state={state} dispatch={dispatch} />
       )}
       <ManuscriptInspector
         key={manuscript._id}
-        manuscript={manuscript}
-        modelMap={modelMap}
-        saveManuscript={saveManuscript}
-        saveModel={saveModel}
-        state={state}
         dispatch={dispatch}
-        deleteModel={deleteModel}
         openTemplateSelector={openTemplateSelector}
         getTemplate={getTemplate}
         getManuscriptCountRequirements={getManuscriptCountRequirements}
@@ -164,12 +123,6 @@ export const ContentTab: React.FC<{
               : ((element || section) as AnyElement | Section)
           }
           listCollaborators={listCollaborators}
-          saveModel={saveModel}
-          statusLabels={statusLabels}
-          tags={tags}
-          modelMap={modelMap}
-          deleteModel={deleteModel}
-          project={project}
         />
       )}
 
@@ -181,9 +134,6 @@ export const ContentTab: React.FC<{
             selectedSection ? (selectedSection.node as SectionNode) : undefined
           }
           state={state}
-          dispatch={dispatch}
-          modelMap={modelMap}
-          saveModel={saveModel}
           dispatchNodeAttrs={dispatchNodeAttrs}
           getSectionCountRequirements={getSectionCountRequirements}
         />

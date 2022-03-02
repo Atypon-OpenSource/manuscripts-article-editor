@@ -27,6 +27,7 @@ import React, { useCallback } from 'react'
 import config from '../../config'
 import { ManuscriptCountRequirementType } from '../../lib/requirements'
 import { ManuscriptTemplateData } from '../../lib/templates'
+import { useStore } from '../../store'
 import {
   InspectorPanelTabList,
   InspectorTab,
@@ -83,10 +84,6 @@ const buildCountRequirement = <T extends CountRequirement>(
 }
 
 export const ManuscriptInspector: React.FC<{
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  saveModel: SaveModel
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
   openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
@@ -97,11 +94,6 @@ export const ManuscriptInspector: React.FC<{
   canWrite?: boolean
   deleteModel: (id: string) => Promise<any>
 }> = ({
-  manuscript,
-  modelMap,
-  saveManuscript,
-  saveModel,
-  deleteModel,
   state,
   dispatch,
   // pageLayout,
@@ -110,6 +102,16 @@ export const ManuscriptInspector: React.FC<{
   getManuscriptCountRequirements,
   canWrite,
 }) => {
+  const [
+    { manuscript, modelMap, saveManuscript, saveModel, deleteModel },
+  ] = useStore((store) => ({
+    manuscript: store.manuscript,
+    modelMap: store.modelMap,
+    saveManuscript: store.saveManuscript,
+    saveModel: store.saveModel,
+    deleteMode: store.deleteModel,
+  }))
+
   const authorInstructionsURL = manuscript.authorInstructionsURL
     ? manuscript.authorInstructionsURL
     : manuscript.prototype

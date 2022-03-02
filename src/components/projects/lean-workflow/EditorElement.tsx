@@ -28,12 +28,11 @@ import { useDrop } from 'react-dnd'
 
 import { useCommits } from '../../../hooks/use-commits'
 import { setNodeAttrs } from '../../../lib/node-attrs'
+import { useStore } from '../../../store'
 import { SpriteMap } from '../../track/Icons'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  modelMap: Map<string, Model>
   changeAttachmentDesignation: (
     designation: string,
     name: string
@@ -45,12 +44,12 @@ interface Props {
 
 const EditorElement: React.FC<Props> = ({
   editor,
-  modelMap,
   accept,
   reject,
   changeAttachmentDesignation,
   doCommand,
 }) => {
+  const [modelMap] = useStore((store) => store.modelMap)
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
 

@@ -11,7 +11,7 @@
  */
 import { useLayoutEffect, useState } from 'react'
 
-import { state } from './Store'
+import { state, dispatch } from './Store'
 import { useGenericStore } from './StoreContext'
 // import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector';
 
@@ -55,10 +55,12 @@ const deeperEqual = (prev: any, next: any) => {
   }
 }
 
-export const useStore = (selector = (r: any) => r) => {
+export const useStore = (
+  selector = (r: state): Partial<state> => r
+): [Partial<state>, dispatch] => {
   const store = useGenericStore()
   const [state, setState] = useState(
-    selector ? selector(store.state) : store.state
+    selector ? selector(store!.state) : store!.state
   )
 
   // @TODO - in react 18 these hooks usage will have to be replaced with this to work correctly with the concurrent rendering
@@ -71,7 +73,7 @@ export const useStore = (selector = (r: any) => r) => {
   //   );
 
   useLayoutEffect(() => {
-    const unsubscribe = store.subscribe((newStoreState: state) => {
+    const unsubscribe = store!.subscribe((newStoreState: state) => {
       if (selector) {
         const selectedState = selector(newStoreState)
         if (!deeperEqual(selectedState, state)) {
@@ -86,5 +88,5 @@ export const useStore = (selector = (r: any) => r) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // @TODO reconsider disabling exhaustive-deps
 
-  return [state, store.dispatchAction]
+  return [state, store!.dispatchAction]
 }

@@ -23,6 +23,7 @@ import styled from 'styled-components'
 
 import { avatarURL } from '../../lib/avatar-url'
 import { selectStyles } from '../../lib/select-styles'
+import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { SaveModel } from './ManuscriptInspector'
 import { CloseIcon, PlusIcon } from './Status/StatusIcons'
@@ -107,11 +108,10 @@ const MultiValueLabel: React.FC<Props> = (props) => {
 
 export const AssigneesInput: React.FC<{
   profiles: UserProfile[]
-  saveModel: SaveModel
   target: AnyElement | Section | Manuscript
-}> = ({ saveModel, profiles, target }) => {
+}> = ({ profiles, target }) => {
   const userIDs = target.assignees || []
-
+  const saveModel = useStore((store) => store.saveModel)
   const assignees = profiles.filter((profile) => userIDs.includes(profile._id))
   const [opened, setOpened] = useState(false)
 

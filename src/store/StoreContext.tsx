@@ -12,7 +12,7 @@
 import React, { createContext, useContext, useEffect } from 'react'
 import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
 
-const GenericStoreContext = createContext(null)
+const GenericStoreContext = createContext<GenericStore | null>(null)
 
 export const createStore = async (
   dataSources: StoreDataSourceStrategy[],

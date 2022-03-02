@@ -9,21 +9,20 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { StoreDataSourceStrategy } from '.'
+import { state, StoreDataSourceStrategy } from '.'
 
-export type futureState = { [key: string]: any }
 export type builderFn = (
-  boundState: futureState,
-  next: (resultState: futureState) => void
+  boundState: state,
+  next: (resultState: state) => void
 ) => void
 
 export function buildStateFromSources(
   ...builders: StoreDataSourceStrategy[]
-): futureState {
+): state {
   return new Promise((resolve, reject) => {
     let futureState = {}
     let i = 0
-    const next = (resultState: futureState) => {
+    const next = (resultState: state) => {
       if (resultState) {
         futureState = { ...futureState, ...resultState }
       }

@@ -84,6 +84,8 @@ export default class ModelManager implements ManuscriptModels {
       deleteModel: this.deleteModel,
       saveManuscript: this.saveManuscript,
       getModel: this.getModel,
+      getAttachment: this.collection.getAttachment,
+      putAttachment: this.collection.putAttachment,
     }
   }
 

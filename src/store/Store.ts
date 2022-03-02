@@ -11,14 +11,56 @@
  */
 
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
+import {
+  Project,
+  Manuscript,
+  UserProfile,
+  Model,
+  Tag,
+  Note,
+  Snapshot,
+} from '@manuscripts/manuscripts-json-schema'
+
+import {
+  ManuscriptNode,
+  Bundle,
+  Build,
+} from '@manuscripts/manuscript-transform'
+
+import { TokenData } from '../couch-data/TokenData'
 
 export type action = { action?: string; [key: string]: any }
-export type state = { [key: string]: any }
+export type state = {
+  [key: string]: any
+  project?: Project
+  manuscript?: Manuscript
+  doc?: ManuscriptNode
+  user?: UserProfile
+  tokenData?: TokenData
+  projectID?: string
+  userID?: string | undefined
+  userProfileID?: string | undefined
+  manuscriptID?: string
+  containerID?: string
+
+  getModel?: <T extends Model>(id: string) => T | undefined
+  saveModel?: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveManuscript?: (data: Partial<Manuscript>) => Promise<void>
+  deleteModel?: (id: string) => Promise<string>
+  bundle?: Bundle | null
+  modelMap?: Map<string, Model>
+  snapshotID: string
+  snapshots: Snapshot[]
+  comments: Comment[]
+  notes: Note[]
+  tag: Tag[]
+}
 export type reducer = (payload: any, store: state, action?: string) => state
+export type dispatch = (action: action) => void
 
 const DEFAULT_ACTION = '_' // making actions optional
 
-const defaultReducer = (payload: any, store: state, action?: string) => {
+const defaultReducer = (payload: any, store: state) => {
   return { ...store, ...payload }
 }
 
@@ -44,7 +86,7 @@ export interface Store {
 export class GenericStore implements Store {
   reducer
   unmountHandler
-  state
+  state: state
   private sources: StoreDataSourceStrategy[]
   beforeAction?: (
     action: string,
@@ -75,7 +117,7 @@ export class GenericStore implements Store {
   getState() {
     return this.state
   }
-  setState(state: state) {
+  setState(state: state | ((state: state) => state)) {
     if (typeof state === 'function') {
       this.state = state(this.state)
     } else {
@@ -101,7 +143,8 @@ export class GenericStore implements Store {
     this.sources.map((source) => {
       if (source.afterAction) {
         const unsubscribe = this.subscribe(
-          () => source.afterAction && source.afterAction(this.setState)
+          () =>
+            source.afterAction && source.afterAction(this.state, this.setState)
         )
       }
     })
@@ -116,7 +159,7 @@ export class GenericStore implements Store {
       queue.delete(fn)
     }
   }
-  dispatchAction({ action = DEFAULT_ACTION, ...payload }: action) {
+  dispatchAction({ action = DEFAULT_ACTION, ...payload }) {
     if (this.beforeAction) {
       const beforeActionFilter = this.beforeAction(
         action,

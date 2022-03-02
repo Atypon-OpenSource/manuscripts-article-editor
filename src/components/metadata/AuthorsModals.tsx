@@ -23,6 +23,7 @@ import styled from 'styled-components'
 
 import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
+import { useStore } from '../../store'
 import {
   AddAuthorsPage,
   AuthorDetailsPage,
@@ -211,24 +212,25 @@ interface InviteAuthorsProps {
 }
 
 export const InviteAuthorsModal: React.FunctionComponent<InviteAuthorsProps> = ({
-  project,
   invitationValues,
   handleInviteCancel,
   handleInvitationSubmit,
   invitationSent,
-  tokenActions,
-}) => (
-  <ModalBody>
-    <InviteCollaboratorsSidebar
-      invitationValues={invitationValues}
-      handleCancel={handleInviteCancel}
-      handleSubmit={handleInvitationSubmit}
-      invitationSent={invitationSent}
-      isModal={true}
-      tokenActions={tokenActions}
-    />
-    <StyledModalMain>
-      <InviteCollaboratorsModal />
-    </StyledModalMain>
-  </ModalBody>
-)
+}) => {
+  const [tokenActions] = useStore((store) => store.tokenActions)
+  return (
+    <ModalBody>
+      <InviteCollaboratorsSidebar
+        invitationValues={invitationValues}
+        handleCancel={handleInviteCancel}
+        handleSubmit={handleInvitationSubmit}
+        invitationSent={invitationSent}
+        isModal={true}
+        tokenActions={tokenActions}
+      />
+      <StyledModalMain>
+        <InviteCollaboratorsModal />
+      </StyledModalMain>
+    </ModalBody>
+  )
+}

@@ -49,21 +49,8 @@ import { InvitationValues } from '../collaboration/InvitationForm'
 import { Metadata } from './Metadata'
 
 interface Props {
-  manuscript: Manuscript
-  saveManuscript?: (manuscript: Partial<Manuscript>) => Promise<void>
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  deleteModel: (id: string) => Promise<string>
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
-  tokenActions: TokenActions
-  getAttachment?: (
-    id: string,
-    attachmentID: string
-  ) => Promise<Blob | undefined>
-  putAttachment?: (
-    id: string,
-    attachment: RxAttachmentCreator
-  ) => Promise<RxAttachment<Model>>
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
@@ -83,7 +70,13 @@ interface State {
   authorListError?: string
 }
 
-const MetadataContainer: React.FC<CombinedProps> = ({ permissions }) => {
+const MetadataContainer: React.FC<Props> = ({
+  permissions,
+  allowInvitingAuthors,
+  showAuthorEditButton,
+  disableEditButton,
+  handleTitleStateChange,
+}) => {
   const [state, setState] = useState({
     editing: false,
     expanded: true,
@@ -104,14 +97,8 @@ const MetadataContainer: React.FC<CombinedProps> = ({ permissions }) => {
   const [data] = useStore()
 
   const {
-    getAttachment,
-    putAttachment,
-    handleTitleStateChange,
-    tokenActions,
     saveModel,
-    allowInvitingAuthors,
-    showAuthorEditButton,
-    disableEditButton,
+
     collaborators,
     user,
     project,
@@ -403,14 +390,10 @@ const MetadataContainer: React.FC<CombinedProps> = ({ permissions }) => {
       selectAuthor={selectAuthor}
       removeAuthor={removeAuthor}
       createAuthor={createAuthor}
-      saveModel={saveModel}
-      manuscript={manuscript}
       selectedAuthor={state.selectedAuthor}
       stopEditing={stopEditing}
       toggleExpanded={toggleExpanded}
       expanded={state.expanded}
-      project={project}
-      user={user}
       addingAuthors={state.addingAuthors}
       openAddAuthors={startAddingAuthors(
         buildCollaborators(
@@ -433,9 +416,6 @@ const MetadataContainer: React.FC<CombinedProps> = ({ permissions }) => {
       invitationSent={state.invitationSent}
       handleTitleStateChange={handleTitleStateChange}
       permissions={permissions}
-      tokenActions={tokenActions}
-      getAttachment={getAttachment}
-      putAttachment={putAttachment}
       allowInvitingAuthors={allowInvitingAuthors}
       showAuthorEditButton={showAuthorEditButton}
       disableEditButton={disableEditButton}

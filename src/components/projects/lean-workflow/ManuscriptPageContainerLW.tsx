@@ -112,7 +112,7 @@ import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
-import { useStore } from '../../../store'
+import { useStore, state } from '../../../store'
 
 interface RouteParams {
   projectID: string
@@ -127,7 +127,6 @@ type CombinedProps = ManuscriptPageContainerProps &
 const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   const [state, dispatch] = useStore()
 
-  // console.log(state)
   const submissionData = useGetSubmissionAndPerson(
     state.manuscriptID,
     state.project._id
@@ -212,17 +211,17 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     snapshots,
     comments,
     notes,
-    tags,
     addModal,
     lwUser,
     getModel,
     saveModel,
-    saveManuscript,
     deleteModel,
     collection,
     modelMap,
     bundle,
   } = store
+
+  console.log(store)
 
   const submissionId: string = store.submissionId || ''
   const popper = useRef<PopperManager>(new PopperManager())
@@ -571,7 +570,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     documentId={`${project._id}#${manuscript._id}`}
                     hasPendingSuggestions={hasPendingSuggestions}
                   >
-                    {/* <SaveStatusController isDirty={isDirty} /> */}
+                    <SaveStatusController isDirty={isDirty} />
                   </ManualFlowTransitioning>
                 )}
 
@@ -601,13 +600,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                 </EditorHeader>
                 <EditorBody>
                   <MetadataContainer
-                    manuscript={manuscript}
-                    saveManuscript={saveManuscript}
                     handleTitleStateChange={() => '' /*FIX THIS*/}
-                    saveModel={saveModel}
-                    deleteModel={deleteModel}
                     permissions={editorProps.permissions}
-                    tokenActions={store.tokenActions}
                     allowInvitingAuthors={false}
                     showAuthorEditButton={true}
                     disableEditButton={
@@ -623,8 +617,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   >
                     <EditorElement
                       editor={editor}
-                      modelMap={modelMap}
-                      saveModel={saveModel}
                       accept={accept}
                       reject={reject}
                       doCommand={doCommand}
@@ -670,19 +662,10 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                           modelIds
                         )}
                         selectedSection={findParentSection(state.selection)}
-                        getModel={getModel}
-                        modelMap={modelMap}
-                        manuscript={manuscript}
                         state={state}
                         dispatch={dispatch}
                         hasFocus={view?.hasFocus()}
-                        doc={doc}
-                        saveModel={saveModel}
-                        deleteModel={deleteModel}
-                        saveManuscript={saveManuscript}
                         listCollaborators={listCollaborators}
-                        project={project}
-                        tags={tags}
                         key="content"
                         openTemplateSelector={openTemplateSelector}
                       />

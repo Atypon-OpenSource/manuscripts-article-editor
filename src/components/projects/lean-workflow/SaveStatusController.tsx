@@ -13,17 +13,16 @@
 import { SaveStatus } from '@manuscripts/style-guide'
 import React from 'react'
 
-import { useManuscriptModels } from '../../../hooks/use-manuscript-models'
 import useOnlineState, { OnlineState } from '../../../hooks/use-online-state'
-import { useStore } from '../../../store'
+import { useStore, someStuff } from '../../../store'
 import { selectors } from '../../../sync/syncEvents'
-import { useSyncState } from '../../../sync/SyncStore'
 
 interface Props {
   isDirty: boolean
 }
 
 export const SaveStatusController: React.FC<Props> = ({ isDirty }) => {
+  const someStufs = someStuff()
   const [{ containerID, syncState }] = useStore((state) => {
     return {
       containerID: state.containerID,

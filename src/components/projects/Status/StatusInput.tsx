@@ -26,9 +26,9 @@ import {
   SingleValueProps,
 } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
+import { useStore } from '../../../store'
 
 import { AnyElement } from '../../inspector/ElementStyleInspector'
-import { SaveModel } from '../ManuscriptInspector'
 import StatusDnD from './StatusDnD'
 import RenderIcon, {
   calculateCircumference,
@@ -45,21 +45,19 @@ import {
 } from './StatusInputStyling'
 
 interface StatusInputProps {
-  labels: StatusLabel[]
-  saveModel: SaveModel
   target: AnyElement | Section | Manuscript
   isOverdue?: boolean
   isDueSoon?: boolean
 }
 
 export const StatusInput: React.FC<StatusInputProps> = ({
-  labels,
-  saveModel,
   target,
   isOverdue,
   isDueSoon,
 }) => {
   const nodeRef = useRef<HTMLDivElement>(null)
+  const saveModel = useStore((store) => store.saveModel)
+  const labels = useStore((store) => store.statusLabels)
 
   const handleClickOutside = useCallback((event: Event) => {
     if (nodeRef.current && !nodeRef.current.contains(event.target as Node)) {

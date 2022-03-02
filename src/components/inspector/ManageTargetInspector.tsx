@@ -24,6 +24,7 @@ import styled from 'styled-components'
 
 import { buildCollaborators } from '../../lib/collaborators'
 import { isDueSoon, isOverdue } from '../../lib/date'
+import { useStore } from '../../store'
 import { InspectorSection } from '../InspectorSection'
 import { AssigneesInput } from '../projects/AssigneesInput'
 import { DeadlineInput } from '../projects/DeadlineInput'
@@ -51,16 +52,10 @@ interface Props {
 
 export const ManageTargetInspector: React.FC<Props> = ({
   target,
-  saveModel,
   listCollaborators,
-  statusLabels,
-  tags,
-  modelMap,
-  deleteModel,
-  project,
 }) => {
   const title = target.objectType.replace(/MP|Element/g, '')
-
+  const project = useStore((store) => store.project)
   const collaborators = new Map<string, UserProfile>()
 
   for (const collaborator of listCollaborators()) {
@@ -85,16 +80,11 @@ export const ManageTargetInspector: React.FC<Props> = ({
     <InspectorSection title={`Manage ${title}`}>
       <InspectorField>
         <Label>Assignees</Label>
-        <AssigneesInput
-          saveModel={saveModel}
-          profiles={projectCollaborators}
-          target={target}
-        />
+        <AssigneesInput profiles={projectCollaborators} target={target} />
       </InspectorField>
       <InspectorField>
         <Label>Deadline</Label>
         <DeadlineInput
-          saveModel={saveModel}
           target={target}
           isOverdue={overdue}
           isDueSoon={dueSoon}
@@ -102,23 +92,11 @@ export const ManageTargetInspector: React.FC<Props> = ({
       </InspectorField>
       <InspectorField>
         <Label>Tags</Label>
-        <TagsInput
-          tags={tags}
-          saveModel={saveModel}
-          target={target}
-          modelMap={modelMap}
-          deleteModel={deleteModel}
-        />
+        <TagsInput target={target} />
       </InspectorField>
       <InspectorField>
         <Label>Status</Label>
-        <StatusInput
-          labels={statusLabels}
-          saveModel={saveModel}
-          target={target}
-          isOverdue={overdue}
-          isDueSoon={dueSoon}
-        />
+        <StatusInput target={target} isOverdue={overdue} isDueSoon={dueSoon} />
       </InspectorField>
     </InspectorSection>
   )

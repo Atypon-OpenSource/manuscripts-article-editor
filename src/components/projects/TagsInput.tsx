@@ -46,6 +46,7 @@ import { useSyncedData } from '../../hooks/use-synced-data'
 import { buildColors, nextColorPriority } from '../../lib/colors'
 import { selectStyles } from '../../lib/select-styles'
 import { ascendingPriority } from '../../lib/sort'
+import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { Popup } from '../nav/Updates'
 import { MediumTextField } from './inputs'
@@ -216,12 +217,11 @@ const EditTag = styled(IconButton)<{
   ${(props) => props.focused && 'g { fill: #1a9bc7 !important; }'};
 `
 export const TagsInput: React.FC<{
-  tags: Tag[]
-  saveModel: SaveModel
   target: AnyElement | Section | Manuscript
-  modelMap: Map<string, Model>
-  deleteModel: (id: string) => Promise<string>
-}> = ({ saveModel, tags, target, modelMap, deleteModel }) => {
+}> = ({ target }) => {
+  const saveModel = useStore((store) => store.saveModel)
+  const tags = useStore((store) => store.tags)
+  const modelMap = useStore((store) => store.modelMap)
   const [createdTag, setCreatedTag] = useState<Tag>()
   const [openPicker, setOpen] = useState(false)
   const [pickedColor, setColor] = useState('#ffffff')

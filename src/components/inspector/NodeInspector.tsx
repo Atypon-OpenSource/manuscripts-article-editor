@@ -15,6 +15,7 @@ import { FigureNode, schema, Selected } from '@manuscripts/manuscript-transform'
 import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
+import { useStore } from '../../store'
 
 import { FigureInspector } from './FigureInspector'
 
@@ -28,7 +29,9 @@ export const NodeInspector: React.FC<{
   deleteModel: (id: string) => Promise<string>
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
-}> = ({ modelMap, selected, saveModel, state, dispatch }) => {
+}> = ({ selected, state, dispatch }) => {
+  const modelMap = useStore((store) => store.modelMap)
+  const saveModel = useStore((store) => store.saveModel)
   switch (selected.node.type) {
     case schema.nodes.figure_element: {
       const figures = []

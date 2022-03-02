@@ -17,23 +17,22 @@ import { InspectorSection, Subheading } from '../InspectorSection'
 import { CreditInput } from './CreditInput'
 import { DescriptionInput } from './DescriptionInput'
 import { ManuscriptHeaderField } from './ManuscriptHeaderField'
+import { useStore } from '../../store'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
-export const HeaderImageInspector: React.FC<{
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  saveModel: SaveModel
-  deleteModel: (id: string) => Promise<string>
-}> = ({
-  deleteModel,
-  manuscript,
-  modelMap,
-  saveManuscript,
-  saveModel,
-  // pageLayout,
-}) => {
+export const HeaderImageInspector: React.FC = () => {
+  const [data] = useStore((store) => {
+    return {
+      deleteModel: store.deleteModel,
+      manuscript: store.manuscript,
+      modelMap: store.modelMap,
+      saveManuscript: store.saveManuscript,
+      saveModel: store.saveModel,
+    }
+  })
+  const { deleteModel, manuscript, modelMap, saveManuscript, saveModel } = data
+
   const headerFigure = manuscript.headerFigure
     ? (modelMap.get(manuscript.headerFigure) as Figure | undefined)
     : undefined

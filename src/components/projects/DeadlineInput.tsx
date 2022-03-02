@@ -22,7 +22,7 @@ import ReactTooltip from 'react-tooltip'
 import styled, { css } from 'styled-components'
 
 import { AnyElement } from '../inspector/ElementStyleInspector'
-import { SaveModel } from './ManuscriptInspector'
+import { useStore } from '../../store'
 
 const DateInput = styled(TextField).attrs({
   type: 'search',
@@ -112,11 +112,12 @@ interface Props {
 }
 
 export const DeadlineInput: React.FC<{
-  saveModel: SaveModel
   target: AnyElement | Section | Manuscript
   isOverdue?: boolean
   isDueSoon?: boolean
-}> = ({ saveModel, target, isOverdue, isDueSoon }) => {
+}> = ({ target, isOverdue, isDueSoon }) => {
+  const saveModel = useStore((store) => store.saveModel)
+
   const renderCustomInput: React.FC<Props> = ({ ref }) => (
     <>
       <DateInput

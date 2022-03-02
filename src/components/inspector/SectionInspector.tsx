@@ -39,6 +39,7 @@ import {
   findFirstParagraph,
   isEditableSectionCategoryID,
 } from '../../lib/section-categories'
+import { useStore } from '../../store'
 import {
   InspectorPanelTabList,
   InspectorTab,
@@ -87,8 +88,6 @@ export const SectionInspector: React.FC<{
   ) => Transaction | undefined
   section: Section
   sectionNode?: SectionNode
-  modelMap: Map<string, Model>
-  saveModel: SaveModel
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
   getSectionCountRequirements: (
@@ -98,12 +97,12 @@ export const SectionInspector: React.FC<{
   dispatchNodeAttrs,
   section,
   sectionNode,
-  modelMap,
-  saveModel,
   state,
   dispatch,
   getSectionCountRequirements,
 }) => {
+  const modelMap = useStore((store) => store.modelMap)
+  const saveModel = useStore((store) => store.saveModel)
   const firstParagraph = findFirstParagraph(section, modelMap)
 
   const [placeholder, setPlaceholder] = useState<string | undefined>(

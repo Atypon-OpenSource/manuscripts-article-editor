@@ -38,6 +38,7 @@ import { TokenActions } from '../../data/TokenData'
 import { useAuthorsAndAffiliations } from '../../hooks/use-authors-and-affiliations'
 import { useContributorRoles } from '../../hooks/use-contributor-roles'
 import { useSharedData } from '../../hooks/use-shared-data'
+import { useStore } from '../../store'
 import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
@@ -153,15 +154,25 @@ const expanderStyle = (expanded: boolean) => ({
 })
 
 export const Metadata: React.FunctionComponent<Props> = (props) => {
-  const { data: authorsAndAffiliations } = useAuthorsAndAffiliations(
-    props.manuscript.containerID,
-    props.manuscript._id
-  )
-
-  const { data: contributorRoles } = useContributorRoles(
-    props.manuscript.containerID,
-    props.manuscript._id
-  )
+  const [
+    {
+      getAttachment,
+      putAttachment,
+      saveModel,
+      manuscript,
+      authorsAndAffiliations,
+      contributorRoles,
+    },
+  ] = useStore((store) => {
+    return {
+      manuscript: store.manuscript,
+      authorsAndAffiliations: store.authorsAndAffiliations,
+      contributorRoles: store.contributorRoles,
+      saveModel: store.saveModel,
+      getAttachment: store.getAttachment,
+      putAttachment: store.putAttachment,
+    }
+  })
 
   const { getTemplate } = useSharedData()
 
@@ -185,10 +196,10 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     props.openAddAuthors(authorsAndAffiliations.authors)
   }, [authorsAndAffiliations, props])
 
-  const authorInstructionsURL = props.manuscript.authorInstructionsURL
-    ? props.manuscript.authorInstructionsURL
-    : props.manuscript.prototype
-    ? getTemplate(props.manuscript.prototype)?.authorInstructionsURL
+  const authorInstructionsURL = manuscript.authorInstructionsURL
+    ? manuscript.authorInstructionsURL
+    : manuscript.prototype
+    ? getTemplate(manuscript.prototype)?.authorInstructionsURL
     : undefined
 
   if (!authorsAndAffiliations || !contributorRoles) {
@@ -198,18 +209,18 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   return (
     <HeaderContainer>
       <Header>
-        {props.getAttachment && props.putAttachment && (
+        {getAttachment && putAttachment && (
           <HeaderFigure
-            getAttachment={props.getAttachment}
-            putAttachment={props.putAttachment}
-            saveModel={props.saveModel}
-            manuscript={props.manuscript}
+            getAttachment={getAttachment}
+            putAttachment={putAttachment}
+            saveModel={saveModel}
+            manuscript={manuscript}
           />
         )}
 
         <TitleContainer>
           <TitleFieldContainer
-            title={props.manuscript.title || ''}
+            title={manuscript.title || ''}
             handleChange={props.saveTitle}
             handleStateChange={props.handleTitleStateChange}
             editable={props.permissions.write}
@@ -261,17 +272,14 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             </ModalHeader>
             {props.isInvite ? (
               <InviteAuthorsModal
-                {...props}
                 handleInvitationSubmit={handleInvitationSubmit}
               />
             ) : props.addingAuthors ? (
               <AddAuthorsModalContainer
-                {...props}
                 authors={authorsAndAffiliations.authors}
               />
             ) : (
               <AuthorsModalContainer
-                {...props}
                 authors={authorsAndAffiliations.authors}
                 authorAffiliations={authorsAndAffiliations.authorAffiliations}
                 affiliations={authorsAndAffiliations.affiliations}

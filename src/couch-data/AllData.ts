@@ -20,6 +20,19 @@ import {
   Snapshot,
   Affiliation,
   Contributor,
+  LibraryCollection,
+  BibliographyItem,
+  UserProject,
+  StatusLabel,
+  Project,
+  Keyword,
+  ProjectInvitation,
+  ManuscriptNote,
+  CommentAnnotation,
+  ContributorRole,
+  Library,
+  ContainerInvitation,
+  UserCollaborator,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument, RxDatabase } from '@manuscripts/rxdb'
 
@@ -33,11 +46,14 @@ import { Subscription } from 'rxjs'
 
 import { buildInvitations } from '../lib/invitation'
 
-import { buildModelMap, schema } from '@manuscripts/manuscript-transform'
+import {
+  buildModelMap,
+  ContainedModel,
+  schema,
+} from '@manuscripts/manuscript-transform'
 
-import { commitFromJSON } from '@manuscripts/track-changes' // This type dependency seems to be out of order. That should be refactored
+import { Commit, commitFromJSON } from '@manuscripts/track-changes' // This type dependency seems to be out of order. That should be refactored
 import ModelManager from './ModelManager'
-import { selectors } from '../sync/syncEvents'
 import reducer from '../sync/syncEvents'
 import CollectionEffects from '../sync/CollectionEffects'
 import { Action, SyncState } from '../sync/types'
@@ -48,9 +64,7 @@ interface Props {
   userID: string
 }
 
-interface State {
-  [key: string]: any
-}
+type State = Record<string, any>
 
 const SUBSCRIPTION_TIMEOUT = 20000
 
@@ -272,7 +286,7 @@ class RxDBDataBridge {
   omniHandler = (type: string) => {
     this.expect(type)
 
-    return async (doc: any) => {
+    return async <T>(doc: RxDocument<T>) => {
       if (doc) {
         this.setState((state) => {
           return { ...state, [type]: doc.toJSON() }
@@ -284,7 +298,7 @@ class RxDBDataBridge {
   omniMapHandler = (type: string) => {
     this.expect(type)
 
-    return async (docs: any) => {
+    return async <T extends Model>(docs: RxDocument<T>[]) => {
       if (docs) {
         const docsMap = new Map<string, any>()
 
@@ -306,7 +320,7 @@ class RxDBDataBridge {
   omniArrayHandler = (type: string) => {
     this.expect(type)
 
-    return async (docs: any[]) => {
+    return async <T extends Model>(docs: RxDocument<T>[]) => {
       if (docs) {
         this.setState((state) => ({
           ...state,
@@ -316,8 +330,8 @@ class RxDBDataBridge {
     }
   }
 
-  cc = (collectionName = `project-${this.projectID}`) =>
-    CollectionManager.getCollection<Model>(collectionName)
+  cc = <T extends Model>(collectionName = `project-${this.projectID}`) =>
+    CollectionManager.getCollection<T>(collectionName)
 
   private dependsOnStateConditionOnce = (
     condition: (state: State) => boolean,
@@ -344,60 +358,60 @@ class RxDBDataBridge {
     // @TODO move subs into a separate data class sort of thing
     this.rxSubscriptions = [
       // collect all of them and expose single unsubscribe facade
-      this.cc()
+      this.cc<Manuscript>()
         .findOne(manuscriptID)
         .$.subscribe(this.omniHandler('manuscript')),
 
-      this.cc('user')
+      this.cc<Project>('user')
         .findOne(containerID)
         .$.subscribe(this.omniHandler('project')),
 
-      this.cc()
+      this.cc<Tag>()
         .find({
           containerID,
           objectType: ObjectTypes.Tag,
         })
         .$.subscribe(this.omniArrayHandler('tags')),
 
-      this.cc('collaborators')
+      this.cc<UserCollaborator>('collaborators')
         .find({
           objectType: ObjectTypes.UserCollaborator,
         })
         .$.subscribe(this.omniMapHandler('collaborators')),
 
-      this.cc()
+      this.cc<Model>()
         .find({
           containerID,
         })
         .$.subscribe(this.omniMapHandler('projectModels')), // for diagnostics
 
-      this.cc()
+      this.cc<Library>()
         .find({
           objectType: ObjectTypes.Library,
         })
         .$.subscribe(this.omniMapHandler('library')),
 
-      this.cc()
+      this.cc<ContainerInvitation>()
         .find({
           containerID,
           objectType: ObjectTypes.ContainerInvitation,
         })
         .$.subscribe(this.omniArrayHandler('containerInvitations')),
 
-      this.cc()
+      this.cc<Library>()
         .find({
           objectType: ObjectTypes.Library,
         })
         .$.subscribe(this.omniMapHandler('globalLibraries')), // @TODO create channels on update and create a new db
 
-      this.cc()
+      this.cc<ContributorRole>()
         .find({
           manuscriptID,
           objectType: ObjectTypes.ContributorRole,
         })
         .$.subscribe(this.omniArrayHandler('contributorRoles')),
 
-      this.cc()
+      this.cc<Contributor | Affiliation>()
         .find({
           manuscriptID,
           $or: [
@@ -417,40 +431,7 @@ class RxDBDataBridge {
           })
         }),
 
-      userID &&
-        this.cc('user')
-          .find({
-            objectType: ObjectTypes.LibraryCollection,
-          })
-          .$.subscribe(this.omniMapHandler('globalLibraryCollections')), // @TODO create channels on update and create a new db
-
-      userID &&
-        this.cc('user')
-          .findOne({
-            userID, // NOTE: finding by `userID` not `_id`
-            objectType: ObjectTypes.UserProfile,
-          })
-          .$.subscribe(async (doc: RxDocument<UserProfile>) => {
-            if (doc) {
-              const user = await buildUser(doc)
-              this.setState((state) => {
-                return {
-                  ...state,
-                  user,
-                }
-              })
-            }
-          }),
-
-      userID &&
-        this.cc('user')
-          .find({
-            objectType: ObjectTypes.BibliographyItem,
-            containerID,
-          })
-          .$.subscribe(this.omniMapHandler('globalLibraryItems')),
-
-      this.cc()
+      this.cc<CommentAnnotation>()
         .find({
           containerID,
           manuscriptID,
@@ -458,7 +439,7 @@ class RxDBDataBridge {
         })
         .$.subscribe(this.omniArrayHandler('comments')),
 
-      this.cc()
+      this.cc<ManuscriptNote>()
         .find({
           containerID,
           manuscriptID,
@@ -466,35 +447,35 @@ class RxDBDataBridge {
         })
         .$.subscribe(this.omniArrayHandler('notes')),
 
-      this.cc()
+      this.cc<ProjectInvitation>()
         .find({
           containerID,
           objectType: ObjectTypes.ProjectInvitation,
         })
         .$.subscribe(this.omniArrayHandler('invitations')),
 
-      this.cc()
+      this.cc<Keyword>()
         .find({
           containerID,
           objectType: ObjectTypes.Keyword,
         })
         .$.subscribe(this.omniMapHandler('keywords')),
 
-      this.cc()
+      this.cc<LibraryCollection>()
         .find({
           containerID,
           objectType: ObjectTypes.LibraryCollection,
         })
         .$.subscribe(this.omniMapHandler('projectLibraryCollections')),
 
-      this.cc()
+      this.cc<BibliographyItem>()
         .find({
           containerID,
           objectType: ObjectTypes.BibliographyItem,
         })
         .$.subscribe(this.omniMapHandler('library')),
 
-      this.cc()
+      this.cc<Manuscript>()
         .find({
           containerID,
           objectType: ObjectTypes.Manuscript,
@@ -510,13 +491,13 @@ class RxDBDataBridge {
           }
         }),
 
-      this.cc('user')
+      this.cc<Project>('user')
         .find({
           objectType: ObjectTypes.Project,
         })
         .$.subscribe(this.omniArrayHandler('projects')),
 
-      this.cc()
+      this.cc<StatusLabel>()
         .find({
           manuscriptID,
           objectType: { $eq: ObjectTypes.StatusLabel },
@@ -525,7 +506,7 @@ class RxDBDataBridge {
     ]
 
     // subscribing for modelsMap
-    this.cc()
+    this.cc<Model>()
       .find({
         $and: [
           { containerID },
@@ -534,7 +515,7 @@ class RxDBDataBridge {
           },
         ],
       })
-      .$.subscribe(async (models: Array<RxDocument<Model>>) => {
+      .$.subscribe(async (models) => {
         const modelMap = await buildModelMap(models)
         this.setState((state) => ({
           ...state,
@@ -543,11 +524,11 @@ class RxDBDataBridge {
       })
 
     // subscribing for commits
-    this.cc()
+    this.cc<ContainedModel>()
       .find({
         $and: [{ containerID }, { objectType: ObjectTypes.Commit }],
       })
-      .$.subscribe((docs: RxDocument<Model>[]) => {
+      .$.subscribe((docs) => {
         return docs.map((doc) => {
           const json = (doc.toJSON() as unknown) as CommitJson
           return commitFromJSON(json, schema)
@@ -555,11 +536,11 @@ class RxDBDataBridge {
       })
 
     // getting snapshots
-    this.cc()
+    this.cc<Snapshot>()
       .find({
         objectType: ObjectTypes.Snapshot,
       })
-      .$.subscribe((snapshots: RxDocument<Model>[]) => {
+      .$.subscribe((snapshots) => {
         this.setState({
           snapshots: snapshots
             .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
@@ -603,7 +584,7 @@ class RxDBDataBridge {
         ]
         this.initCollection('libraryitems', channels)
           .then((r) => {
-            this.cc('libraryitems')
+            this.cc<UserProject>('libraryitems')
               .find({
                 objectType: ObjectTypes.UserProject,
               })
@@ -615,6 +596,41 @@ class RxDBDataBridge {
           })
       }
     )
+
+    if (userID) {
+      const userSubs = [
+        this.cc<LibraryCollection>('user')
+          .find({
+            objectType: ObjectTypes.LibraryCollection,
+          })
+          .$.subscribe(this.omniMapHandler('globalLibraryCollections')), // @TODO create channels on update and create a new db
+
+        this.cc<UserProfile>('user')
+          .findOne({
+            userID, // NOTE: finding by `userID` not `_id`
+            objectType: ObjectTypes.UserProfile,
+          })
+          .$.subscribe(async (doc) => {
+            if (doc) {
+              const user = await buildUser(doc)
+              this.setState((state) => {
+                return {
+                  ...state,
+                  user,
+                }
+              })
+            }
+          }),
+
+        this.cc<BibliographyItem>('user')
+          .find({
+            objectType: ObjectTypes.BibliographyItem,
+            containerID,
+          })
+          .$.subscribe(this.omniMapHandler('globalLibraryItems')),
+      ]
+      this.rxSubscriptions = [...this.rxSubscriptions, ...userSubs]
+    }
     return {
       unsubscribe: () =>
         this.rxSubscriptions.forEach((sub) => sub.unsubscribe()),
