@@ -19,6 +19,7 @@ import {
   Tag,
   Note,
   Snapshot,
+  UserCollaborator,
 } from '@manuscripts/manuscripts-json-schema'
 
 import {
@@ -54,6 +55,7 @@ export type state = {
   comments?: Comment[]
   notes?: Note[]
   tag?: Tag[]
+  collaborators?: UserCollaborator[]
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

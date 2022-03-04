@@ -121,7 +121,6 @@ export const ContentTab: React.FC<{
               ? manuscript
               : ((element || section) as AnyElement | Section)
           }
-          listCollaborators={listCollaborators}
         />
       )}
 

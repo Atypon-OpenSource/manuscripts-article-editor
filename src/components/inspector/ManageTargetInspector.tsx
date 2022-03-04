@@ -51,14 +51,15 @@ interface Props {
 
 export const ManageTargetInspector: React.FC<Props> = ({ target }) => {
   const title = target.objectType.replace(/MP|Element/g, '')
-  const [{ project, collaborators }] = useStore((store) => ({
+  const [{ project, collaborators: dbCollaborators }] = useStore((store) => ({
     project: store.project,
     collaborators: store.collaborators,
   }))
   const collaborators = new Map<string, UserProfile>()
 
   const listCollaborators = (): UserProfile[] =>
-    Array.from(collaborators.values())
+    Array.from(dbCollaborators.values())
+
   for (const collaborator of listCollaborators()) {
     collaborators.set(collaborator.userID, collaborator)
   }
