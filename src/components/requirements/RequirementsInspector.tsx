@@ -23,6 +23,7 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
+import { useStore } from '../../store'
 import { ExceptionDialog } from '../projects/lean-workflow/ExceptionDialog'
 import { RequirementsList } from './RequirementsList'
 
@@ -82,7 +83,16 @@ interface Props {
 }
 
 export const RequirementsInspector: React.FC<Props> = (props) => {
-  const { prototypeId, modelMap, manuscriptID } = props
+  const [{ modelMap, manuscript, manuscriptID, bulkUpdate }] = useStore(
+    (store) => ({
+      modelMap: store.modelMap,
+      manuscript: store.manuscript,
+      manuscriptID: store.manuscriptID,
+      bulkUpdate: store.bulkUpdate,
+    })
+  )
+
+  const prototypeId = manuscript.prototype
 
   const [result, setResult] = useState<AnyValidationResult[]>([])
   const [error, setError] = useState<Error>()

@@ -94,7 +94,7 @@ import {
 } from '../EditorContainer'
 import { Inspector } from '../InspectorLW'
 import { ManuscriptPageContainerProps } from '../ManuscriptPageContainer'
-import ManuscriptSidebar from '../ManuscriptSidebar'
+// import ManuscriptSidebar from '../ManuscriptSidebar'
 import { ReloadDialog } from '../ReloadDialog'
 import {
   ApplicationMenuContainer,
@@ -189,8 +189,6 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
 export interface ManuscriptPageViewProps extends CombinedProps {
   commitAtLoad?: Commit | null
   commits: Commit[]
-  doc: ManuscriptNode
-  ancestorDoc: ManuscriptNode
   snapshotID: string | null
   snapshots: Array<RxDocument<Snapshot>>
   submission: Submission | null
@@ -218,7 +216,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const [ancestorDoc] = useStore((store) => store.ancestorDoc)
   const [commitAtLoad] = useStore((store) => store.commitAtLoad)
   const [initialCommits] = useStore((store) => store.commits)
-  const [bulkUpdate] = useStore((store) => store.bulkUpdate)
 
   const submissionId = submissionID || ''
   const popper = useRef<PopperManager>(new PopperManager())
@@ -390,16 +387,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
-  // const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
-  //   for (const value of items) {
-  //     const containerIDs: ContainerIDs = { containerID: manuscript.containerID }
-  //     if (isManuscriptModel(value)) {
-  //       containerIDs.manuscriptID = manuscript._id
-  //     }
-  //     await collection.save(value, containerIDs, true)
-  //   }
-  // }
-
   const commentController = useComments(comments, user, state, doCommand)
 
   const [sortBy, setSortBy] = useState('Date')
@@ -552,7 +539,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
               */}
                 {submission?.nextStep && (
                   <ManualFlowTransitioning
-                    submission={store.submission}
+                    submission={submission}
                     userRole={getUserRole(project, user.userID)}
                     documentId={`${project._id}#${manuscript._id}`}
                     hasPendingSuggestions={hasPendingSuggestions}
@@ -564,7 +551,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                 <EditorHeader>
                   <ApplicationMenuContainer>
                     <ApplicationMenus
-                      history={store.history}
+                      history={props.history}
                       editor={editor}
                       addModal={props.addModal}
                       manuscriptID={manuscript._id}
@@ -677,10 +664,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   case 'Quality': {
                     return (
                       <RequirementsInspectorView
-                        modelMap={modelMap}
-                        prototypeId={manuscript.prototype}
-                        manuscriptID={manuscript._id}
-                        bulkUpdate={bulkUpdate}
                         key="quality"
                         result={validation.result}
                         error={validation.error}

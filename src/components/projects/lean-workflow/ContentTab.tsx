@@ -40,7 +40,6 @@ export const ContentTab: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState
   hasFocus?: boolean
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
 }> = ({
   selected,
@@ -54,6 +53,7 @@ export const ContentTab: React.FC<{
     manuscript: store.manuscript,
     doc: store.doc,
     getModel: store.getModel,
+    saveManuscript: store.saveManuscript,
   }))
 
   const section = selectedSection
