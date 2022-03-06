@@ -206,7 +206,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const [snapshots] = useStore((store) => store.snapshots)
   const [comments] = useStore((store) => store.comments)
   const [notes] = useStore((store) => store.notes)
-  const [addModal] = useStore((store) => store.addModal)
+  // const [addModal] = useStore((store) => store.addModal)
   const [lwUser] = useStore((store) => store.lwUser)
   const [getModel] = useStore((store) => store.getModel)
   const [saveModel] = useStore((store) => store.saveModel)
@@ -227,7 +227,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     newProject?: boolean,
     switchTemplate?: boolean
   ) => {
-    addModal('template-selector', ({ handleClose }) => (
+    props.addModal('template-selector', ({ handleClose }) => (
       <TemplateSelector
         projectID={newProject ? undefined : project._id}
         user={user}
@@ -566,7 +566,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     <ApplicationMenus
                       history={store.history}
                       editor={editor}
-                      addModal={store.addModal}
+                      addModal={props.addModal}
                       manuscriptID={manuscript._id}
                       modelMap={modelMap}
                       saveModel={saveModel}
