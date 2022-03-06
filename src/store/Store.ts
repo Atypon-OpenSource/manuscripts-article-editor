@@ -10,20 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  Build,
-  Bundle,
-  ManuscriptNode,
-} from '@manuscripts/manuscript-transform'
+import { Build, ManuscriptNode } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   Model,
-  Note,
+  ManuscriptNote,
   Project,
   Snapshot,
   Tag,
   UserCollaborator,
   UserProfile,
+  CommentAnnotation,
 } from '@manuscripts/manuscripts-json-schema'
 
 import { BiblioTools } from '../couch-data/Bibilo'
@@ -36,12 +33,13 @@ export type state = {
   project: Project
   manuscript: Manuscript
   doc?: ManuscriptNode
+  ancestorDoc?: ManuscriptNode
   user?: UserProfile
   tokenData: TokenData
   projectID?: string
   userID?: string | undefined
   userProfileID?: string | undefined
-  manuscriptID?: string
+  manuscriptID: string
   containerID?: string
   biblio?: BiblioTools
 
@@ -49,12 +47,11 @@ export type state = {
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   deleteModel: (id: string) => Promise<string>
-  bundle?: Bundle | null
   modelMap: Map<string, Model>
   snapshotID: string
   snapshots?: Snapshot[]
-  comments?: Comment[]
-  notes?: Note[]
+  comments?: CommentAnnotation[]
+  notes?: ManuscriptNote[]
   tag?: Tag[]
   collaborators?: UserCollaborator[]
   collaboratorsProfiles?: Map<string, UserProfile>
@@ -64,12 +61,12 @@ export type dispatch = (action: action) => void
 
 const DEFAULT_ACTION = '_' // making actions optional
 
-const defaultReducer = (payload: any, store: state) => {
+const defaultReducer = (payload: any, store: state, action?: string) => {
   return { ...store, ...payload }
 }
 
 export interface Store {
-  state: state
+  state: state | null
   dispatchAction(action: action): void
   reducer?: reducer
   beforeAction?(
@@ -90,7 +87,7 @@ export interface Store {
 export class GenericStore implements Store {
   reducer
   unmountHandler
-  state: state
+  state: state | null
   private sources: StoreDataSourceStrategy[]
   beforeAction?: (
     action: string,
@@ -99,12 +96,10 @@ export class GenericStore implements Store {
     setState: (state: state) => void
   ) => void | action
   constructor(
-    state = {},
     reducer = defaultReducer,
     unmountHandler?: (state: state) => void
   ) {
     this.reducer = reducer
-    this.state = state
 
     if (unmountHandler) {
       this.unmountHandler = unmountHandler

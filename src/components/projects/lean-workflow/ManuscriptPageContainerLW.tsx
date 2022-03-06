@@ -26,23 +26,17 @@ import {
   useEditor,
 } from '@manuscripts/manuscript-editor'
 import {
-  ContainedModel,
   getModelsByType,
-  isManuscriptModel,
   ManuscriptNode,
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
 import {
-  BibliographyItem,
-  Bundle,
   ExternalFile,
-  Library,
   Manuscript,
   Model,
   ObjectTypes,
   Project,
   Snapshot,
-  UserCollaborator,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
@@ -53,15 +47,12 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
-import { Bibliography } from 'citeproc'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
 
 import config from '../../../config'
-import { useBiblio } from '../../../hooks/use-biblio'
-// import { useChangeReceiver } from '../../../hooks/use-change-receiver'
 import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
 import { useCommits } from '../../../hooks/use-commits'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
@@ -77,8 +68,7 @@ import {
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
 import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
-import { state, useStore } from '../../../store'
-import { ContainerIDs } from '../../../sync/Collection'
+import { useStore } from '../../../store'
 import { theme } from '../../../theme/theme'
 import { ThemeProvider } from '../../../theme/ThemeProvider'
 import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
@@ -131,12 +121,15 @@ type CombinedProps = ManuscriptPageContainerProps &
   ModalProps
 
 const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
-  const [state, dispatch] = useStore()
+  const [{ manuscriptID, project, user }, dispatch] = useStore((state) => {
+    return {
+      manuscriptID: state.manuscriptID,
+      project: state.project,
+      user: state.user,
+    }
+  })
 
-  const submissionData = useGetSubmissionAndPerson(
-    state.manuscriptID,
-    state.project._id
-  )
+  const submissionData = useGetSubmissionAndPerson(manuscriptID, project._id)
 
   useEffect(() => {
     if (submissionData?.data?.submission?.id && submissionData?.data?.person) {
@@ -154,8 +147,8 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
   // lwRole must not be used to calculate permissions in the contenxt of manuscripts app.
   // lwRole is only for the dashboard
   const can = useCalcPermission({
-    profile: state.user,
-    project: state.project,
+    profile: user,
+    project: project,
     permittedActions,
   })
 
@@ -199,14 +192,12 @@ export interface ManuscriptPageViewProps extends CombinedProps {
   doc: ManuscriptNode
   ancestorDoc: ManuscriptNode
   snapshotID: string | null
-  modelMap: Map<string, Model>
   snapshots: Array<RxDocument<Snapshot>>
   submission: Submission | null
   lwUser: Person
 }
 
 const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
-  const [bundle] = useStore<Bundle>((store) => store.bundle)
   const [manuscript] = useStore<Manuscript>((store) => store.manuscript)
   const [project] = useStore<Project>((store) => store.project)
   const [user] = useStore<UserProfile>((store) => store.user)
@@ -223,7 +214,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const [collection] = useStore((store) => store.collection)
   const [modelMap] = useStore<Map<string, Model>>((store) => store.modelMap)
   const [biblio] = useStore((store) => store.biblio)
-  const [submissionID] = useStore<string>((store) => store.submissionID)
+  const [submissionID] = useStore((store) => store.submissionID)
+  const [ancestorDoc] = useStore((store) => store.ancestorDoc)
+  const [commitAtLoad] = useStore((store) => store.commitAtLoad)
 
   const submissionId = submissionID || ''
   const popper = useRef<PopperManager>(new PopperManager())
@@ -245,14 +238,6 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   }
 
   const can = usePermissions()
-
-  // !!!!!
-  // const biblio = useBiblio({
-  //   bundle,
-  //   library: library,
-  //   collection,
-  //   lang: manuscript.primaryLanguageCode || 'en-GB',
-  // })
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
@@ -372,8 +357,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       CitationViewer,
     },
 
-    ancestorDoc: store.ancestorDoc,
-    commit: store.commitAtLoad || null,
+    ancestorDoc: ancestorDoc,
+    commit: commitAtLoad || null,
     externalFiles: files,
     theme,
     submissionId,
@@ -406,11 +391,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   // const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
   //   for (const value of items) {
   //     const containerIDs: ContainerIDs = { containerID: manuscript.containerID }
-
   //     if (isManuscriptModel(value)) {
   //       containerIDs.manuscriptID = manuscript._id
   //     }
-
   //     await collection.save(value, containerIDs, true)
   //   }
   // }
@@ -429,14 +412,14 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   )
   const { commits, corrections, accept, reject, isDirty } = useCommits({
     modelMap,
-    initialCommits: store.commits,
+    initialCommits: commits,
     editor,
     containerID: project._id,
     manuscriptID: manuscript._id,
-    userProfileID: store.user._id,
+    userProfileID: user._id,
     // TODO: we have to have a snapshotID
     snapshotID: snapshotID || '',
-    ancestorDoc: store.ancestorDoc,
+    ancestorDoc: ancestorDoc,
     sortBy,
   })
 

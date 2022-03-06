@@ -14,6 +14,8 @@ import {
   Correction,
   Manuscript,
   Model,
+  Snapshot,
+  ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   checkout,
@@ -29,7 +31,27 @@ import {
   reset as resetToLastCommit,
 } from '@manuscripts/track-changes'
 
+import {
+  buildModelMap,
+  Decoder,
+  encode,
+  getModelsByType,
+  ManuscriptEditorState,
+  ManuscriptNode,
+  schema,
+} from '@manuscripts/manuscript-transform'
+
 import { Collection, ContainerIDs } from '../sync/Collection'
+import { getSnapshot } from '../lib/snapshot'
+import { JsonModel } from '../pressroom/importers'
+
+import {
+  Build,
+  ContainedModel,
+  ContainedProps,
+  isManuscriptModel,
+  ModelAttachment,
+} from '@manuscripts/manuscript-transform'
 
 type ModelMap = Map<string, Model> // this is duplicated and copied in several places
 
@@ -44,14 +66,6 @@ interface ManuscriptModels {
   setModelsState: (modelMap: Map<string, Model>) => void
 }
 
-import {
-  Build,
-  ContainedModel,
-  ContainedProps,
-  isManuscriptModel,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
-
 export default class ModelManager implements ManuscriptModels {
   //   getModel: <T extends Model>(id: string) => T | undefined
   //   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
@@ -63,23 +77,97 @@ export default class ModelManager implements ManuscriptModels {
   setModelsState: (modelMap: Map<string, Model>) => void
   manuscriptID: string
   containerID: string
+  snapshots: Snapshot[]
+  commits: Commit[]
   constructor(
     modelMap: Map<string, Model>,
     setModelsState: (modelMap: Map<string, Model>) => void,
     manuscriptID: string,
     projectID: string,
-    collection: Collection<ContainedModel>
+    collection: Collection<ContainedModel>,
+    snapshots: Snapshot[],
+    commits: Commit[]
   ) {
+    this.snapshots = snapshots
+    this.commits = commits
     this.collection = collection
     this.manuscriptID = manuscriptID
     this.setModelsState = setModelsState
     this.containerID = projectID
-    console.log(modelMap)
     this.modelMap = modelMap
   }
 
-  getTools = () => {
+  buildModelMapFromJson = (models: JsonModel[]): Map<string, JsonModel> => {
+    return new Map(
+      models.map((model) => {
+        if (model.objectType === ObjectTypes.Figure && model.attachment) {
+          model.src = window.URL.createObjectURL(model.attachment.data)
+        }
+        return [model._id, model]
+      })
+    )
+  }
+
+  getTools = async () => {
+    const latestSnaphot = this.snapshots.length ? this.snapshots[0] : null
+
+    if (!latestSnaphot || !latestSnaphot.s3Id) {
+      const decoder = new Decoder(this.modelMap, true)
+      const doc = decoder.createArticleNode()
+      const ancestorDoc = decoder.createArticleNode()
+      return {
+        snapshotID: null,
+        commits: this.commits,
+        commitAtLoad: null,
+        snapshots: this.snapshots,
+        doc,
+        ancestorDoc,
+        saveModel: this.saveModel,
+        deleteModel: this.deleteModel,
+        saveManuscript: this.saveManuscript,
+        getModel: this.getModel,
+        getAttachment: this.collection.getAttachment,
+        putAttachment: this.collection.putAttachment,
+      }
+    }
+
+    const modelsFromSnapshot = await getSnapshot(
+      this.containerID,
+      latestSnaphot.s3Id
+    ).catch(() => {
+      throw new Error('Failed to load snapshot')
+    })
+    const snapshotModelMap = this.buildModelMapFromJson(
+      modelsFromSnapshot.filter(
+        (doc: any) =>
+          !doc.manuscriptID || doc.manuscriptID === this.manuscriptID
+      )
+    )
+    const decoder = new Decoder(snapshotModelMap, true)
+    const doc = decoder.createArticleNode() as ManuscriptNode
+    const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
+
+    const corrections = (getModelsByType(
+      this.modelMap,
+      ObjectTypes.Correction
+    ) as Correction[]).filter(
+      (corr) => corr.snapshotID === this.snapshots[0]._id
+    )
+
+    const unrejectedCorrections = corrections
+      .filter((cor) => cor.status.label !== 'rejected')
+      .map((cor) => cor.commitChangeID || '')
+
+    const commitAtLoad =
+      findCommitWithChanges(this.commits, unrejectedCorrections) || null
+
     return {
+      snapshotID: null,
+      commits: this.commits,
+      commitAtLoad,
+      snapshots: this.snapshots,
+      doc,
+      ancestorDoc,
       saveModel: this.saveModel,
       deleteModel: this.deleteModel,
       saveManuscript: this.saveManuscript,
@@ -104,7 +192,7 @@ export default class ModelManager implements ManuscriptModels {
     return this.modelMap.get(id) as T | undefined
   }
 
-  saveModel = async (model: T | Build<T> | Partial<T>) => {
+  saveModel = async <T extends Model>(model: T | Build<T> | Partial<T>) => {
     if (!model._id) {
       throw new Error('Model ID required')
     }
@@ -149,9 +237,6 @@ export default class ModelManager implements ManuscriptModels {
   }
 
   saveManuscript = async (data: Partial<Manuscript>) => {
-    // if (!modelsState) {
-    //   return
-    // }
     try {
       const prevManuscript = this.modelMap.get(this.manuscriptID)
       return this.saveModel({

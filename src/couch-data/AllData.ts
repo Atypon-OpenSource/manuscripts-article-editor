@@ -105,15 +105,6 @@ class RxDBDataBridge {
     return createdCollection
   }
 
-  /*      
-        1. Establish DB connection
-        2. Retrieve user data
-        3. Create collections connections
-        4. Create collections connections that depend on other collections info
-        5. Apply builders. Should builder be applied here? 
-        6. Signal readiness to the listening interfaces
-      */
-
   public async init() {
     try {
       const db = await databaseCreator
@@ -156,7 +147,9 @@ class RxDBDataBridge {
             },
             this.manuscriptID,
             this.projectID,
-            this.cc()
+            this.cc(),
+            this.state.snapshots,
+            this.state.commits
           )
         }
       )
@@ -227,16 +220,8 @@ class RxDBDataBridge {
     })
   }
 
-  public getData = () => {
-    const modelTools = this.modelManager.getTools()
-    if (modelTools.saveModel) {
-      modelTools.saveModel = (...args) => {
-        return modelTools.saveModel(args).then((...args) => {
-          this.dispatch()
-          return args
-        })
-      }
-    }
+  public getData = async () => {
+    const modelTools = await this.modelManager.getTools()
     const data = { ...this.state, modelTools }
     return data // hmmm....
   }
@@ -537,9 +522,12 @@ class RxDBDataBridge {
         $and: [{ containerID }, { objectType: ObjectTypes.Commit }],
       })
       .$.subscribe((docs) => {
-        return docs.map((doc) => {
+        const commits = docs.map((doc) => {
           const json = (doc.toJSON() as unknown) as CommitJson
           return commitFromJSON(json, schema)
+        })
+        return this.setState({
+          commits,
         })
       })
 
@@ -606,11 +594,11 @@ class RxDBDataBridge {
     )
 
     this.dependsOnStateConditionOnce(
-      (state) => state.bundle && state.library && state.manuscript,
+      (state) => state.library && state.manuscript,
       (state) => {
         this.cc()
         this.biblio = new Biblio(
-          state.bundle,
+          state.manuscript.bundle,
           state.library,
           this.cc(),
           state.manuscript.lang
