@@ -25,7 +25,6 @@ import { avatarURL } from '../../lib/avatar-url'
 import { selectStyles } from '../../lib/select-styles'
 import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
-import { SaveModel } from './ManuscriptInspector'
 import { CloseIcon, PlusIcon } from './Status/StatusIcons'
 
 const Name = styled.div`
@@ -111,7 +110,7 @@ export const AssigneesInput: React.FC<{
   target: AnyElement | Section | Manuscript
 }> = ({ profiles, target }) => {
   const userIDs = target.assignees || []
-  const saveModel = useStore((store) => store.saveModel)
+  const [saveModel] = useStore((store) => store.saveModel)
   const assignees = profiles.filter((profile) => userIDs.includes(profile._id))
   const [opened, setOpened] = useState(false)
 

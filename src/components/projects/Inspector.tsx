@@ -43,6 +43,7 @@ import { useSharedData } from '../../hooks/use-shared-data'
 import { useStatusLabels } from '../../hooks/use-status-labels'
 import { canWrite } from '../../lib/roles'
 import { getCurrentUserId } from '../../lib/user'
+import { useStore } from '../../store'
 import {
   InspectorContainer,
   InspectorTab,
@@ -86,7 +87,6 @@ export const Inspector: React.FC<{
   comments?: CommentAnnotation[]
   commentTarget?: string
   createKeyword: (name: string) => Promise<Keyword>
-  deleteModel: (id: string) => Promise<string>
   dispatchNodeAttrs: (
     id: string,
     attrs: Record<string, unknown>,
@@ -101,8 +101,6 @@ export const Inspector: React.FC<{
   getKeyword: (id: string) => Keyword | undefined
   listCollaborators: () => UserProfile[]
   listKeywords: () => Keyword[]
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
   notes?: ManuscriptNote[]
   noteTarget?: string
   openCitationStyleSelector: () => void
@@ -124,7 +122,6 @@ export const Inspector: React.FC<{
   comments,
   commentTarget,
   createKeyword,
-  deleteModel,
   dispatchNodeAttrs,
   dispatchUpdate,
   doc,
@@ -135,23 +132,15 @@ export const Inspector: React.FC<{
   getKeyword,
   listCollaborators,
   listKeywords,
-  manuscript,
-  modelMap,
   notes,
-  noteTarget,
   openCitationStyleSelector,
-  saveManuscript,
-  project,
-  saveModel,
   section,
   selected,
   selectedSection,
   setCommentTarget,
   submission,
   view,
-  tags,
   manageManuscript,
-  bulkUpdate,
   openTemplateSelector,
 }) => {
   const [tabIndex, setTabIndex] = useState(0)
@@ -159,7 +148,13 @@ export const Inspector: React.FC<{
     CommentFilter.UNRESOLVED
   )
 
-  const statusLabels = useStatusLabels(manuscript.containerID, manuscript._id)
+  const [modelMap] = useStore((s) => s.modelMap)
+  const [manuscript] = useStore((s) => s.manuscript)
+  const [project] = useStore((s) => s.project)
+  const [saveModel] = useStore((s) => s.saveModel)
+  const [bulkUpdate] = useStore((s) => s.bulkUpdate)
+  const [deleteModel] = useStore((s) => s.deleteModel)
+
   const {
     getTemplate,
     getManuscriptCountRequirements,
@@ -202,33 +197,16 @@ export const Inspector: React.FC<{
                           : undefined
                       }
                     />
-                    {config.export.literatum && (
-                      <HeaderImageInspector
-                        deleteModel={deleteModel}
-                        manuscript={manuscript}
-                        modelMap={modelMap}
-                        saveManuscript={saveManuscript}
-                        saveModel={saveModel}
-                      />
-                    )}
+                    {config.export.literatum && <HeaderImageInspector />}
                     {config.export.literatum && selected && (
                       <NodeInspector
-                        manuscript={manuscript}
                         selected={selected}
-                        modelMap={modelMap}
-                        saveModel={saveModel}
-                        deleteModel={deleteModel}
                         state={view.state}
                         dispatch={view.dispatch}
                       />
                     )}
                     <ManuscriptInspector
                       key={manuscript._id}
-                      manuscript={manuscript}
-                      modelMap={modelMap}
-                      saveManuscript={saveManuscript}
-                      saveModel={saveModel}
-                      deleteModel={deleteModel}
                       state={view.state}
                       dispatch={view.dispatch}
                       openTemplateSelector={openTemplateSelector}
@@ -247,13 +225,6 @@ export const Inspector: React.FC<{
                               ? manuscript
                               : ((element || section) as AnyElement | Section)
                           }
-                          listCollaborators={listCollaborators}
-                          saveModel={saveModel}
-                          statusLabels={statusLabels}
-                          tags={tags}
-                          modelMap={modelMap}
-                          deleteModel={deleteModel}
-                          project={project}
                         />
                       )}
 
@@ -268,8 +239,6 @@ export const Inspector: React.FC<{
                             ? (selectedSection.node as SectionNode)
                             : undefined
                         }
-                        modelMap={modelMap}
-                        saveModel={saveModel}
                         dispatchNodeAttrs={dispatchNodeAttrs}
                         getSectionCountRequirements={
                           getSectionCountRequirements

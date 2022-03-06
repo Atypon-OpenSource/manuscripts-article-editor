@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
+import { Figure, Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
 import { useStore } from '../../store'

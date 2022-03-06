@@ -116,7 +116,7 @@ export const DeadlineInput: React.FC<{
   isOverdue?: boolean
   isDueSoon?: boolean
 }> = ({ target, isOverdue, isDueSoon }) => {
-  const saveModel = useStore((store) => store.saveModel)
+  const [saveModel] = useStore((store) => store.saveModel)
 
   const renderCustomInput: React.FC<Props> = ({ ref }) => (
     <>

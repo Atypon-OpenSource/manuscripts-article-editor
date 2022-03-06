@@ -25,10 +25,7 @@ import React, { useState } from 'react'
 
 import { projectInvite } from '../../lib/api'
 import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
-import {
-  buildCollaboratorProfiles,
-  buildCollaborators,
-} from '../../lib/collaborators'
+import { buildCollaborators } from '../../lib/collaborators'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
 import { useStore } from '../../store'
