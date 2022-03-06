@@ -135,7 +135,8 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
     if (submissionData?.data?.submission?.id && submissionData?.data?.person) {
       dispatch({
         submission: submissionData.data.submission,
-        lwUser: submissionData.data.person,
+        submissionId: submissionData.data.submission.id as string,
+        lwUser: submissionData.data.person as Person,
       })
     }
   }, [submissionData])
@@ -216,6 +217,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const [ancestorDoc] = useStore((store) => store.ancestorDoc)
   const [commitAtLoad] = useStore((store) => store.commitAtLoad)
   const [initialCommits] = useStore((store) => store.commits)
+  const [submission] = useStore((store) => store.submission)
 
   const submissionId = submissionID || ''
   const popper = useRef<PopperManager>(new PopperManager())

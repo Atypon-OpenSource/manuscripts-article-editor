@@ -203,12 +203,10 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
 )
 
 interface InviteAuthorsProps {
-  project: Project
   invitationValues: InvitationValues
   handleInviteCancel: () => void
   handleInvitationSubmit: (values: InvitationValues) => Promise<void>
   invitationSent: boolean
-  tokenActions: TokenActions
 }
 
 export const InviteAuthorsModal: React.FunctionComponent<InviteAuthorsProps> = ({

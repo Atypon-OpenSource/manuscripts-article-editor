@@ -35,8 +35,6 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { TokenActions } from '../../data/TokenData'
-import { useAuthorsAndAffiliations } from '../../hooks/use-authors-and-affiliations'
-import { useContributorRoles } from '../../hooks/use-contributor-roles'
 import { useSharedData } from '../../hooks/use-shared-data'
 import { useStore } from '../../store'
 import { Permissions } from '../../types/permissions'

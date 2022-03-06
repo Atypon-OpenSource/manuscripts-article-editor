@@ -32,6 +32,7 @@ import {
 } from '@manuscripts/track-changes'
 
 import {
+  Attachment,
   buildModelMap,
   Decoder,
   encode,
@@ -173,7 +174,11 @@ export default class ModelManager implements ManuscriptModels {
       saveManuscript: this.saveManuscript,
       getModel: this.getModel,
       getAttachment: this.collection.getAttachment,
-      putAttachment: this.collection.putAttachment,
+      putAttachment: (id: string, attachment: Attachment) => {
+        return this.collection
+          .putAttachment(id, attachment)
+          .then(() => undefined)
+      },
     }
   }
 

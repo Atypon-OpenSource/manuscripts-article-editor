@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+/* IDLE COMPONENT */
+
 import { useEditor } from '@manuscripts/manuscript-editor'
 import {
   ContainedModel,
@@ -25,7 +27,6 @@ import {
 } from '@manuscripts/rxdb'
 
 import sessionID from '../lib/session-id'
-import { useStore } from '../store'
 import { useManuscriptModels } from './use-manuscript-models'
 
 type Change =
@@ -92,8 +93,7 @@ export const useChangeReceiver = (
   saveModel: <T extends Model>(model: T | Partial<T>) => Promise<T>,
   deleteModel: (id: string) => Promise<string>
 ) => {
-  const [store] = useStore()
-  const { collection, containerID, manuscriptID } = store
+  const { collection, containerID, manuscriptID } = useManuscriptModels()
 
   return collection.getCollection().$.subscribe((change) => {
     const model = change.data.v as Model

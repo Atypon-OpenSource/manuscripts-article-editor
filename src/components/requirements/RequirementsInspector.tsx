@@ -75,22 +75,12 @@ export const buildQualityCheck = async (
   return results
 }
 
-interface Props {
-  modelMap: Map<string, Model>
-  prototypeId: string | undefined
-  manuscriptID: string
-  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-}
-
-export const RequirementsInspector: React.FC<Props> = (props) => {
-  const [{ modelMap, manuscript, manuscriptID, bulkUpdate }] = useStore(
-    (store) => ({
-      modelMap: store.modelMap,
-      manuscript: store.manuscript,
-      manuscriptID: store.manuscriptID,
-      bulkUpdate: store.bulkUpdate,
-    })
-  )
+export const RequirementsInspector: React.FC = () => {
+  const [{ modelMap, manuscript, manuscriptID }] = useStore((store) => ({
+    modelMap: store.modelMap,
+    manuscript: store.manuscript,
+    manuscriptID: store.manuscriptID,
+  }))
 
   const prototypeId = manuscript.prototype
 
@@ -104,12 +94,22 @@ export const RequirementsInspector: React.FC<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prototypeId, manuscriptID, JSON.stringify([...modelMap.values()])])
 
-  return <RequirementsInspectorView {...props} result={result} error={error} />
+  return (
+    <RequirementsInspectorView
+      prototypeId={prototypeId}
+      result={result}
+      error={error}
+    />
+  )
+}
+
+interface Props {
+  prototypeId?: string
 }
 
 export const RequirementsInspectorView: React.FC<
   Props & ReturnType<typeof useRequirementsValidation>
-> = ({ error, prototypeId, result, modelMap, manuscriptID, bulkUpdate }) => {
+> = ({ error, prototypeId, result }) => {
   if (error) {
     return (
       <>
@@ -138,14 +138,7 @@ export const RequirementsInspectorView: React.FC<
     return null // TODO
   }
 
-  return (
-    <RequirementsList
-      validationResult={result}
-      modelMap={modelMap}
-      manuscriptID={manuscriptID}
-      bulkUpdate={bulkUpdate}
-    />
-  )
+  return <RequirementsList validationResult={result} />
 }
 
 const AlertMessage = styled.div`

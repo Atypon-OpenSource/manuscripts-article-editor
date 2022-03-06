@@ -60,6 +60,14 @@ export type state = {
   tag?: Tag[]
   collaborators?: UserCollaborator[]
   collaboratorsProfiles?: Map<string, UserProfile>
+  getAttachment?: (
+    id: string,
+    attachmentID: string
+  ) => Promise<Blob | undefined>
+  putAttachment?: (
+    id: string,
+    attachment: RxAttachmentCreator
+  ) => Promise<RxAttachment<Model>>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

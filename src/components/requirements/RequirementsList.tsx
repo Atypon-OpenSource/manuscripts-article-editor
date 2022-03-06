@@ -10,11 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
 import { AnyValidationResult } from '@manuscripts/requirements'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
+import { useStore } from '../../store'
 
 import { RequirementContainer } from './RequirementContainer'
 import { RequirementsData } from './RequirementsData'
@@ -22,10 +21,12 @@ import { SectionValidations } from './SectionValidations'
 
 export const RequirementsList: React.FC<{
   validationResult: AnyValidationResult[]
-  modelMap: Map<string, Model>
-  manuscriptID: string
-  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-}> = ({ validationResult, modelMap, manuscriptID, bulkUpdate }) => {
+}> = ({ validationResult }) => {
+  const [{ modelMap, manuscriptID, bulkUpdate }] = useStore((store) => ({
+    modelMap: store.modelMap,
+    manuscriptID: store.manuscriptID,
+    bulkUpdate: store.bulkUpdate,
+  }))
   const sortedData = useMemo(
     () =>
       [...validationResult].sort((a, b) =>
