@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import React from 'react'
+
 import ManuscriptPageContainer from './ManuscriptPageContainerLW'
 
 const ManuscriptEditor = () => {

@@ -35,7 +35,6 @@ import ProjectTagsData from '../../data/ProjectTagsData'
 import { TokenActions } from '../../data/TokenData'
 import UserData from '../../data/UserData'
 import UserProjectsData from '../../data/UserProjectsData'
-
 import { buildCollaboratorProfiles } from '../../lib/collaborators'
 import { buildInvitations } from '../../lib/invitation'
 import { getCurrentUserId } from '../../lib/user'

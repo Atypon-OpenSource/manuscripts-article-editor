@@ -15,8 +15,8 @@ import { FigureNode, schema, Selected } from '@manuscripts/manuscript-transform'
 import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
-import { useStore } from '../../store'
 
+import { useStore } from '../../store'
 import { FigureInspector } from './FigureInspector'
 
 type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>

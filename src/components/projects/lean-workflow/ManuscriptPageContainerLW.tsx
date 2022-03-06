@@ -33,17 +33,17 @@ import {
   ManuscriptSchema,
 } from '@manuscripts/manuscript-transform'
 import {
+  BibliographyItem,
+  Bundle,
   ExternalFile,
+  Library,
+  Manuscript,
   Model,
   ObjectTypes,
-  Snapshot,
-  UserProfile,
   Project,
-  Bundle,
-  Manuscript,
-  Library,
-  BibliographyItem,
+  Snapshot,
   UserCollaborator,
+  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDocument } from '@manuscripts/rxdb'
 import {
@@ -53,6 +53,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
+import { Bibliography } from 'citeproc'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RouteComponentProps } from 'react-router'
@@ -76,6 +77,7 @@ import {
   useUploadAttachment,
 } from '../../../lib/lean-workflow-gql'
 import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
+import { state, useStore } from '../../../store'
 import { ContainerIDs } from '../../../sync/Collection'
 import { theme } from '../../../theme/theme'
 import { ThemeProvider } from '../../../theme/ThemeProvider'
@@ -117,8 +119,6 @@ import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
-import { useStore, state } from '../../../store'
-import { Bibliography } from 'citeproc'
 
 interface RouteParams {
   projectID: string
@@ -222,12 +222,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const [deleteModel] = useStore((store) => store.deleteModel)
   const [collection] = useStore((store) => store.collection)
   const [modelMap] = useStore<Map<string, Model>>((store) => store.modelMap)
-  const [collaborators] = useStore<Map<string, UserCollaborator>>(
-    (store) => store.collaborators
-  )
-  const [library] = useStore<Map<string, BibliographyItem>>(
-    (store) => store.library
-  )
+  const [biblio] = useStore((store) => store.biblio)
   const [submissionID] = useStore<string>((store) => store.submissionID)
 
   const submissionId = submissionID || ''
@@ -252,12 +247,12 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const can = usePermissions()
 
   // !!!!!
-  const biblio = useBiblio({
-    bundle,
-    library: library,
-    collection,
-    lang: manuscript.primaryLanguageCode || 'en-GB',
-  })
+  // const biblio = useBiblio({
+  //   bundle,
+  //   library: library,
+  //   collection,
+  //   lang: manuscript.primaryLanguageCode || 'en-GB',
+  // })
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {

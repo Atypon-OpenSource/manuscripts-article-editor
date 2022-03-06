@@ -12,21 +12,21 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { hot } from 'react-hot-loader'
+import styled from 'styled-components'
 
-import {
-  GenericStoreProvider,
-  createStore,
-  BasicSource,
-  GenericStore,
-} from './store'
+import { Loading } from './components/Loading'
+import { NotificationProviderWithRouter } from './components/NotificationProvider'
+import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import CouchSource from './couch-data/CouchSource'
+import { useGetStep } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
 import OnlyEditor, { TestComponent } from './OnlyEditor'
-import { Loading } from './components/Loading'
-import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
-import { useGetStep } from './lib/lean-workflow-gql'
-import styled from 'styled-components'
-import { NotificationProviderWithRouter } from './components/NotificationProvider'
+import {
+  BasicSource,
+  createStore,
+  GenericStore,
+  GenericStoreProvider,
+} from './store'
 
 interface Props {
   submissionId: string

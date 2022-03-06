@@ -21,8 +21,8 @@ import DatePicker, { Day } from 'react-modern-calendar-datepicker'
 import ReactTooltip from 'react-tooltip'
 import styled, { css } from 'styled-components'
 
-import { AnyElement } from '../inspector/ElementStyleInspector'
 import { useStore } from '../../store'
+import { AnyElement } from '../inspector/ElementStyleInspector'
 
 const DateInput = styled(TextField).attrs({
   type: 'search',

@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { ApolloProvider } from '@apollo/react-hooks'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -17,9 +18,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { ModalProvider } from './components/ModalProvider'
 import { ServiceWorker } from './components/ServiceWorker'
 import EditorApp from './EditorApp'
-import { GlobalStyle } from './theme/theme'
-import { ApolloProvider } from '@apollo/react-hooks'
 import { apolloClient } from './lib/apollo'
+import { GlobalStyle } from './theme/theme'
 
 const Main = () => (
   <DndProvider backend={HTML5Backend}>

@@ -10,25 +10,25 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import {
-  Project,
+  Build,
+  Bundle,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-transform'
+import {
   Manuscript,
-  UserProfile,
   Model,
-  Tag,
   Note,
+  Project,
   Snapshot,
+  Tag,
   UserCollaborator,
+  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 
-import {
-  ManuscriptNode,
-  Bundle,
-  Build,
-} from '@manuscripts/manuscript-transform'
-
+import { BiblioTools } from '../couch-data/Bibilo'
 import { TokenData } from '../couch-data/TokenData'
+import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 
 export type action = { action?: string; [key: string]: any }
 export type state = {
@@ -43,6 +43,7 @@ export type state = {
   userProfileID?: string | undefined
   manuscriptID?: string
   containerID?: string
+  biblio?: BiblioTools
 
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
@@ -56,6 +57,7 @@ export type state = {
   notes?: Note[]
   tag?: Tag[]
   collaborators?: UserCollaborator[]
+  collaboratorsProfiles?: Map<string, UserProfile>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

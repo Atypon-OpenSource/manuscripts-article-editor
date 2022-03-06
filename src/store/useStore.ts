@@ -11,7 +11,7 @@
  */
 import { useLayoutEffect, useState } from 'react'
 
-import { state, dispatch } from './Store'
+import { dispatch, state } from './Store'
 import { useGenericStore } from './StoreContext'
 // import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector';
 

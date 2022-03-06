@@ -16,11 +16,10 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 
 import LoginPageContainer from './components/account/LoginPageContainer'
 import { Frontmatter } from './components/Frontmatter'
-import config from './config'
-import type { RouteLocationState } from './types/router-state'
-
-import { useStore, addDataSource } from './store'
 import ManuscriptEditor from './components/projects/lean-workflow/ManuscriptEditor'
+import config from './config'
+import { addDataSource, useStore } from './store'
+import type { RouteLocationState } from './types/router-state'
 
 const DeveloperPageContainer = React.lazy(
   () =>

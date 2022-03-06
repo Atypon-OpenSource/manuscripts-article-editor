@@ -14,7 +14,7 @@ import { SaveStatus } from '@manuscripts/style-guide'
 import React from 'react'
 
 import useOnlineState, { OnlineState } from '../../../hooks/use-online-state'
-import { useStore, someStuff } from '../../../store'
+import { someStuff, useStore } from '../../../store'
 import { selectors } from '../../../sync/syncEvents'
 
 interface Props {

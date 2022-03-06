@@ -12,8 +12,8 @@
 
 import { ObjectTypes, StatusLabel } from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useMemo, useState } from 'react'
-import { useStore } from '../store'
 
+import { useStore } from '../store'
 import CollectionManager from '../sync/CollectionManager'
 
 export const useStatusLabels = () => {

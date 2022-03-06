@@ -11,52 +11,50 @@
  */
 
 import {
-  Manuscript,
-  Model,
-  ObjectTypes,
-  Tag,
-  Commit as CommitJson,
-  UserProfile,
-  Snapshot,
-  Affiliation,
-  Contributor,
-  LibraryCollection,
-  BibliographyItem,
-  UserProject,
-  StatusLabel,
-  Project,
-  Keyword,
-  ProjectInvitation,
-  ManuscriptNote,
-  CommentAnnotation,
-  ContributorRole,
-  Library,
-  ContainerInvitation,
-  UserCollaborator,
-} from '@manuscripts/manuscripts-json-schema'
-import { RxDocument, RxDatabase } from '@manuscripts/rxdb'
-
-import { buildUser } from '../lib/data'
-import { buildCollaboratorProfiles } from '../lib/collaborators'
-import CollectionManager from '../sync/CollectionManager'
-import { databaseCreator } from '../lib/db'
-import { buildAuthorsAndAffiliations } from '../lib/authors'
-import { TokenData } from './TokenData'
-import { Subscription } from 'rxjs'
-
-import { buildInvitations } from '../lib/invitation'
-
-import {
   buildModelMap,
   ContainedModel,
   schema,
 } from '@manuscripts/manuscript-transform'
+import {
+  Affiliation,
+  BibliographyItem,
+  CommentAnnotation,
+  Commit as CommitJson,
+  ContainerInvitation,
+  Contributor,
+  ContributorRole,
+  Keyword,
+  Library,
+  LibraryCollection,
+  Manuscript,
+  ManuscriptNote,
+  Model,
+  ObjectTypes,
+  Project,
+  ProjectInvitation,
+  Snapshot,
+  StatusLabel,
+  Tag,
+  UserCollaborator,
+  UserProfile,
+  UserProject,
+} from '@manuscripts/manuscripts-json-schema'
+import { RxDatabase, RxDocument } from '@manuscripts/rxdb'
+import { commitFromJSON } from '@manuscripts/track-changes' // This type dependency seems to be out of order. That should be refactored
+import { Subscription } from 'rxjs'
 
-import { Commit, commitFromJSON } from '@manuscripts/track-changes' // This type dependency seems to be out of order. That should be refactored
-import ModelManager from './ModelManager'
-import reducer from '../sync/syncEvents'
+import { buildAuthorsAndAffiliations } from '../lib/authors'
+import { buildCollaboratorProfiles } from '../lib/collaborators'
+import { buildUser } from '../lib/data'
+import { databaseCreator } from '../lib/db'
+import { buildInvitations } from '../lib/invitation'
 import CollectionEffects from '../sync/CollectionEffects'
+import CollectionManager from '../sync/CollectionManager'
+import reducer from '../sync/syncEvents'
 import { Action, SyncState } from '../sync/types'
+import { Biblio } from './Bibilo'
+import ModelManager from './ModelManager'
+import { TokenData } from './TokenData'
 
 interface Props {
   manuscriptID: string
@@ -82,6 +80,7 @@ class RxDBDataBridge {
   modelManager: ModelManager
   private expectedState: string[] = []
   collectionListenerState: SyncState
+  biblio: Biblio
 
   public constructor(props: Props) {
     this.tokenData = new TokenData()
@@ -229,7 +228,16 @@ class RxDBDataBridge {
   }
 
   public getData = () => {
-    const data = { ...this.state, ...this.modelManager.getTools() }
+    const modelTools = this.modelManager.getTools()
+    if (modelTools.saveModel) {
+      modelTools.saveModel = (...args) => {
+        return modelTools.saveModel(args).then((...args) => {
+          this.dispatch()
+          return args
+        })
+      }
+    }
+    const data = { ...this.state, modelTools }
     return data // hmmm....
   }
 
@@ -594,6 +602,20 @@ class RxDBDataBridge {
             console.log(e)
             return false
           })
+      }
+    )
+
+    this.dependsOnStateConditionOnce(
+      (state) => state.bundle && state.library && state.manuscript,
+      (state) => {
+        this.cc()
+        this.biblio = new Biblio(
+          state.bundle,
+          state.library,
+          this.cc(),
+          state.manuscript.lang
+        )
+        this.setState({ biblio: this.biblio.getTools() })
       }
     )
 

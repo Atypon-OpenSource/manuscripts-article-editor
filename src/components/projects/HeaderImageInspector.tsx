@@ -13,11 +13,11 @@
 import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
+import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CreditInput } from './CreditInput'
 import { DescriptionInput } from './DescriptionInput'
 import { ManuscriptHeaderField } from './ManuscriptHeaderField'
-import { useStore } from '../../store'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 

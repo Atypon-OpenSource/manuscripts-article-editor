@@ -26,8 +26,8 @@ import {
   SingleValueProps,
 } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
-import { useStore } from '../../../store'
 
+import { useStore } from '../../../store'
 import { AnyElement } from '../../inspector/ElementStyleInspector'
 import StatusDnD from './StatusDnD'
 import RenderIcon, {

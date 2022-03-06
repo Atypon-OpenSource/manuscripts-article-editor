@@ -9,14 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Collection, ContainerIDs } from '../sync/Collection'
 import {
   Bundle,
+  Correction,
   Manuscript,
   Model,
-  Correction,
 } from '@manuscripts/manuscripts-json-schema'
-
 import {
   checkout,
   commands,
@@ -30,6 +28,8 @@ import {
   rebases,
   reset as resetToLastCommit,
 } from '@manuscripts/track-changes'
+
+import { Collection, ContainerIDs } from '../sync/Collection'
 
 type ModelMap = Map<string, Model> // this is duplicated and copied in several places
 
