@@ -18,41 +18,26 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import {
-  checkout,
-  commands,
   Commit,
   commitToJSON,
   findCommitWithChanges,
-  findCommitWithin,
-  getChangeSummary,
-  getTrackPluginState,
-  isCommitContiguousWithSelection,
-  rebases,
-  reset as resetToLastCommit,
 } from '@manuscripts/track-changes'
 
 import {
   Attachment,
-  buildModelMap,
   Decoder,
-  encode,
   getModelsByType,
-  ManuscriptEditorState,
   ManuscriptNode,
-  schema,
-} from '@manuscripts/manuscript-transform'
-
-import { Collection, ContainerIDs } from '../sync/Collection'
-import { getSnapshot } from '../lib/snapshot'
-import { JsonModel } from '../pressroom/importers'
-
-import {
   Build,
   ContainedModel,
   ContainedProps,
   isManuscriptModel,
   ModelAttachment,
 } from '@manuscripts/manuscript-transform'
+
+import { Collection, ContainerIDs } from '../sync/Collection'
+import { getSnapshot } from '../lib/snapshot'
+import { JsonModel } from '../pressroom/importers'
 
 type ModelMap = Map<string, Model> // this is duplicated and copied in several places
 
@@ -68,10 +53,6 @@ interface ManuscriptModels {
 }
 
 export default class ModelManager implements ManuscriptModels {
-  //   getModel: <T extends Model>(id: string) => T | undefined
-  //   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  //   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  //   deleteModel: (id: string) => Promise<string>
   bundle: Bundle | null
   collection: Collection<ContainedModel>
   modelMap: ModelMap

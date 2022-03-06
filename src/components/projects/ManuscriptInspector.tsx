@@ -13,7 +13,6 @@
 import { Build, generateID } from '@manuscripts/manuscript-transform'
 import {
   CountRequirement,
-  Manuscript,
   MaximumManuscriptCharacterCountRequirement,
   MaximumManuscriptWordCountRequirement,
   MinimumManuscriptCharacterCountRequirement,
@@ -92,7 +91,6 @@ export const ManuscriptInspector: React.FC<{
     templateID: string
   ) => Map<ManuscriptCountRequirementType, number | undefined>
   canWrite?: boolean
-  deleteModel: (id: string) => Promise<any>
 }> = ({
   state,
   dispatch,
@@ -109,7 +107,7 @@ export const ManuscriptInspector: React.FC<{
     modelMap: store.modelMap,
     saveManuscript: store.saveManuscript,
     saveModel: store.saveModel,
-    deleteMode: store.deleteModel,
+    deleteModel: store.deleteModel,
   }))
 
   const authorInstructionsURL = manuscript.authorInstructionsURL
@@ -278,21 +276,9 @@ export const ManuscriptInspector: React.FC<{
             <Subheading>Keywords</Subheading>
 
             {config.keywordsCategories ? (
-              <CategorisedKeywordsInput
-                target={manuscript}
-                modelMap={modelMap}
-                deleteModel={deleteModel}
-                saveModel={saveModel}
-              />
+              <CategorisedKeywordsInput target={manuscript} />
             ) : (
-              <KeywordsInput
-                manuscript={manuscript}
-                modelMap={modelMap}
-                saveManuscript={saveManuscript}
-                saveModel={saveModel}
-                state={state}
-                dispatch={dispatch}
-              />
+              <KeywordsInput state={state} dispatch={dispatch} />
             )}
             <Subheading>Author Instruction URL</Subheading>
 

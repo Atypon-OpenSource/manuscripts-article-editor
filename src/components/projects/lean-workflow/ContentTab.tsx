@@ -47,6 +47,7 @@ export const ContentTab: React.FC<{
   selectedElement,
   dispatch,
   hasFocus,
+  state,
   openTemplateSelector,
 }) => {
   const [{ manuscript, doc, getModel }] = useStore((store) => ({
@@ -108,6 +109,7 @@ export const ContentTab: React.FC<{
       )}
       <ManuscriptInspector
         key={manuscript._id}
+        state={state}
         dispatch={dispatch}
         openTemplateSelector={openTemplateSelector}
         getTemplate={getTemplate}

@@ -10,39 +10,37 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Build } from '@manuscripts/manuscript-transform'
-import {
-  Figure,
-  Manuscript,
-  Model,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
-import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
+import { Figure, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
 import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
+import { useStore } from '../../store'
 
-export const HeaderFigure: React.FC<{
-  manuscript: Manuscript
-  saveModel: <T extends Model>(model: Build<T>) => Promise<T>
-  getAttachment: (id: string, attachmentID: string) => Promise<Blob | undefined>
-  putAttachment: (
-    id: string,
-    attachment: RxAttachmentCreator
-  ) => Promise<RxAttachment<Model>>
-}> = ({ manuscript, saveModel, getAttachment, putAttachment }) => {
+export const HeaderFigure: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean>()
   const [src, setSrc] = useState<string>()
+  const [{ getAttachment, putAttachment, saveModel, manuscript }] = useStore(
+    (store) => {
+      return {
+        manuscript: store.manuscript,
+        saveModel: store.saveModel,
+        getAttachment: store.getAttachment,
+        putAttachment: store.putAttachment,
+      }
+    }
+  )
 
   useEffect(() => {
     setLoaded(false)
     setSrc(undefined)
 
-    if (manuscript.headerFigure) {
+    if (manuscript.headerFigure && getAttachment) {
       getAttachment(manuscript.headerFigure, 'image')
         .then((blob) => {
-          const url = window.URL.createObjectURL(blob)
-          setSrc(url)
+          if (blob) {
+            const url = window.URL.createObjectURL(blob)
+            setSrc(url)
+          }
         })
         .finally(() => {
           setLoaded(true)
@@ -59,7 +57,7 @@ export const HeaderFigure: React.FC<{
     (acceptedFiles: File[]) => {
       const figureID = manuscript.headerFigure
 
-      if (figureID) {
+      if (figureID && putAttachment) {
         const [file] = acceptedFiles
 
         if (!file) {

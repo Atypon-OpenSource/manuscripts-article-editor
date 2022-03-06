@@ -12,11 +12,7 @@
 
 import {
   Manuscript,
-  Model,
-  Project,
   Section,
-  StatusLabel,
-  Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useMemo } from 'react'
@@ -36,17 +32,8 @@ import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
 const Label = styled(InspectorLabel)`
   color: ${(props) => props.theme.colors.text.primary};
 `
-
-type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
-
 interface Props {
   target: AnyElement | Section | Manuscript
-  saveModel: SaveModel
-  statusLabels: StatusLabel[]
-  tags: Tag[]
-  modelMap: Map<string, Model>
-  deleteModel: (id: string) => Promise<string>
-  project: Project
 }
 
 export const ManageTargetInspector: React.FC<Props> = ({ target }) => {

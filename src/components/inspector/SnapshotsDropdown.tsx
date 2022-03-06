@@ -27,8 +27,8 @@ import {
 } from '../nav/Dropdown'
 
 interface SnapProps {
-  snapshots: Array<RxDocument<Snapshot>>
-  selectSnapshot: (snapshot: RxDocument<Snapshot>) => void
+  snapshots: Array<Snapshot>
+  selectSnapshot: (snapshot: Snapshot) => void
   selectedSnapshot: Snapshot
   selectedSnapshotURL: string
 }

@@ -42,6 +42,7 @@ import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import { selectStyles } from '../../lib/select-styles'
+import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { MediumTextField } from './inputs'
 import { SaveModel } from './ManuscriptInspector'
@@ -182,11 +183,13 @@ interface CategoriesMap {
 }
 
 export const CategorisedKeywordsInput: React.FC<{
-  saveModel: SaveModel
   target: AnyElement | Section | Manuscript
-  modelMap: Map<string, Model>
-  deleteModel: (id: string) => Promise<string>
-}> = ({ saveModel, target, modelMap, deleteModel }) => {
+}> = ({ target }) => {
+  const [{ modelMap, saveModel, deleteModel }] = useStore((store) => ({
+    modelMap: store.modelMap,
+    saveModel: store.saveModel,
+    deleteModel: store.deleteModel,
+  }))
   const [keywordToEdit, setKeywordToEdit] = useState<Keyword>()
   const [isOpen, setOpen] = useState<boolean>(false)
 

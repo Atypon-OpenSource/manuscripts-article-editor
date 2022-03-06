@@ -182,21 +182,12 @@ const ManuscriptPageContainer: React.FC<CombinedProps> = (props) => {
 
   return (
     <CapabilitiesProvider can={can}>
-      <ManuscriptPageView />
+      <ManuscriptPageView {...props} />
     </CapabilitiesProvider>
   )
 }
 
-export interface ManuscriptPageViewProps extends CombinedProps {
-  commitAtLoad?: Commit | null
-  commits: Commit[]
-  snapshotID: string | null
-  snapshots: Array<RxDocument<Snapshot>>
-  submission: Submission | null
-  lwUser: Person
-}
-
-const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
+const ManuscriptPageView: React.FC<CombinedProps> = (props) => {
   const [manuscript] = useStore<Manuscript>((store) => store.manuscript)
   const [project] = useStore<Project>((store) => store.project)
   const [user] = useStore<UserProfile>((store) => store.user)

@@ -15,26 +15,26 @@ import {
   buildManuscriptKeyword,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
-import {
-  Manuscript,
-  ManuscriptKeyword,
-  Model,
-} from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptKeyword } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 import CreatableSelect from 'react-select/creatable'
 
 import { selectStyles } from '../../lib/select-styles'
-import { SaveModel } from './ManuscriptInspector'
+import { useStore } from '../../store'
 
 export const KeywordsInput: React.FC<{
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  saveModel: SaveModel
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
-}> = ({ manuscript, modelMap, saveManuscript, saveModel, state, dispatch }) => {
+}> = ({ state, dispatch }) => {
+  const [{ modelMap, saveModel, manuscript, saveManuscript }] = useStore(
+    (store) => ({
+      modelMap: store.modelMap,
+      saveModel: store.saveModel,
+      manuscript: store.manuscript,
+      saveManuscript: store.saveManuscript,
+    })
+  )
   const keywordIDs = manuscript.keywordIDs || []
 
   const manuscriptKeywords: ManuscriptKeyword[] = keywordIDs

@@ -11,16 +11,12 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import { Build } from '@manuscripts/manuscript-transform'
 import {
   ContainerInvitation,
   Contributor,
-  Manuscript,
-  Model,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import {
   AuthorsContainer,
   CloseButton,
@@ -34,7 +30,6 @@ import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { TokenActions } from '../../data/TokenData'
 import { useSharedData } from '../../hooks/use-shared-data'
 import { useStore } from '../../store'
 import { Permissions } from '../../types/permissions'
@@ -91,7 +86,6 @@ const Header = styled.div`
 
 interface Props {
   saveTitle: (title: string) => void
-  manuscript: Manuscript
   invitations: ContainerInvitation[]
   startEditing: () => void
   editing: boolean
@@ -105,7 +99,6 @@ interface Props {
   removeAuthor: (data: Contributor) => Promise<void>
   selectAuthor: (data: Contributor) => void
   selectedAuthor: string | null
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   expanded: boolean
   toggleExpanded: () => void
   addingAuthors: boolean
@@ -133,15 +126,6 @@ interface Props {
   updateAuthor: (author: Contributor, email: string) => void
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
-  tokenActions: TokenActions
-  getAttachment?: (
-    id: string,
-    attachmentID: string
-  ) => Promise<Blob | undefined>
-  putAttachment?: (
-    id: string,
-    attachment: RxAttachmentCreator
-  ) => Promise<RxAttachment<Model>>
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
@@ -154,12 +138,12 @@ const expanderStyle = (expanded: boolean) => ({
 export const Metadata: React.FunctionComponent<Props> = (props) => {
   const [
     {
-      getAttachment,
-      putAttachment,
-      saveModel,
       manuscript,
       authorsAndAffiliations,
       contributorRoles,
+      tokenActions,
+      project,
+      saveModel,
     },
   ] = useStore((store) => {
     return {
@@ -169,6 +153,8 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       saveModel: store.saveModel,
       getAttachment: store.getAttachment,
       putAttachment: store.putAttachment,
+      project: store.project,
+      tokenActions: store.tokenActions,
     }
   })
 
@@ -207,15 +193,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   return (
     <HeaderContainer>
       <Header>
-        {getAttachment && putAttachment && (
-          <HeaderFigure
-            getAttachment={getAttachment}
-            putAttachment={putAttachment}
-            saveModel={saveModel}
-            manuscript={manuscript}
-          />
-        )}
-
+        <HeaderFigure />
         <TitleContainer>
           <TitleFieldContainer
             title={manuscript.title || ''}
@@ -270,18 +248,25 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             </ModalHeader>
             {props.isInvite ? (
               <InviteAuthorsModal
+                {...props}
                 handleInvitationSubmit={handleInvitationSubmit}
               />
             ) : props.addingAuthors ? (
               <AddAuthorsModalContainer
+                {...props}
                 authors={authorsAndAffiliations.authors}
               />
             ) : (
               <AuthorsModalContainer
+                {...props}
+                saveModel={saveModel}
                 authors={authorsAndAffiliations.authors}
                 authorAffiliations={authorsAndAffiliations.authorAffiliations}
                 affiliations={authorsAndAffiliations.affiliations}
                 openAddAuthors={openAddAuthors}
+                project={project}
+                manuscript={manuscript}
+                tokenActions={tokenActions}
                 contributorRoles={contributorRoles}
                 allowInvitingAuthors={props.allowInvitingAuthors}
               />

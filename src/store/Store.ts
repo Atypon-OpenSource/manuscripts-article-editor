@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Build, ManuscriptNode } from '@manuscripts/manuscript-transform'
+import {
+  Attachment,
+  Build,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   Model,
@@ -64,10 +68,7 @@ export type state = {
     id: string,
     attachmentID: string
   ) => Promise<Blob | undefined>
-  putAttachment?: (
-    id: string,
-    attachment: RxAttachmentCreator
-  ) => Promise<RxAttachment<Model>>
+  putAttachment?: (id: string, attachment: Attachment) => Promise<void>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

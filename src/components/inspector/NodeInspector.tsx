@@ -12,26 +12,20 @@
 
 import { iterateChildren } from '@manuscripts/manuscript-editor'
 import { FigureNode, schema, Selected } from '@manuscripts/manuscript-transform'
-import { Figure, Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
+import { Figure } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
 import { useStore } from '../../store'
 import { FigureInspector } from './FigureInspector'
 
-type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
-
 export const NodeInspector: React.FC<{
   selected: Selected
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
-  saveModel: SaveModel
-  deleteModel: (id: string) => Promise<string>
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
 }> = ({ selected, state, dispatch }) => {
-  const modelMap = useStore((store) => store.modelMap)
-  const saveModel = useStore((store) => store.saveModel)
+  const [modelMap] = useStore((store) => store.modelMap)
+  const [saveModel] = useStore((store) => store.saveModel)
   switch (selected.node.type) {
     case schema.nodes.figure_element: {
       const figures = []
