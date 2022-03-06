@@ -12,16 +12,10 @@
 
 /* IDLE COMPONENT */
 
-import {
-  Affiliation,
-  Contributor,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
 import { useEffect, useState } from 'react'
 
 import { AuthorData } from '../lib/authors'
 import { useStore } from '../store'
-import CollectionManager from '../sync/CollectionManager'
 
 export const useAuthorsAndAffiliations = () => {
   const [data, setData] = useState<AuthorData>()

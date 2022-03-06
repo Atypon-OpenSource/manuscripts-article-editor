@@ -219,9 +219,9 @@ const EditTag = styled(IconButton)<{
 export const TagsInput: React.FC<{
   target: AnyElement | Section | Manuscript
 }> = ({ target }) => {
-  const saveModel = useStore((store) => store.saveModel)
-  const tags = useStore((store) => store.tags)
-  const modelMap = useStore((store) => store.modelMap)
+  const [saveModel] = useStore((store) => store.saveModel)
+  const [tags] = useStore((store) => store.tags)
+  const [modelMap] = useStore((store) => store.modelMap)
   const [createdTag, setCreatedTag] = useState<Tag>()
   const [openPicker, setOpen] = useState(false)
   const [pickedColor, setColor] = useState('#ffffff')

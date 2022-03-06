@@ -29,7 +29,7 @@ import {
 import { TextField } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import useInterval from 'react-useinterval'
 import styled from 'styled-components'
 
@@ -101,9 +101,12 @@ export const SectionInspector: React.FC<{
   dispatch,
   getSectionCountRequirements,
 }) => {
-  const modelMap = useStore((store) => store.modelMap)
-  const saveModel = useStore((store) => store.saveModel)
-  const firstParagraph = findFirstParagraph(section, modelMap)
+  const [modelMap] = useStore((store) => store.modelMap)
+  const [saveModel] = useStore((store) => store.saveModel)
+  const firstParagraph = useMemo(() => findFirstParagraph(section, modelMap), [
+    section,
+    modelMap,
+  ])
 
   const [placeholder, setPlaceholder] = useState<string | undefined>(
     firstParagraph ? firstParagraph.placeholderInnerHTML : undefined

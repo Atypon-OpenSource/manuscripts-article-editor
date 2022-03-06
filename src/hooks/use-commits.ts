@@ -13,7 +13,6 @@
 import { useEditor } from '@manuscripts/manuscript-editor'
 import {
   buildContribution,
-  ContainedModel,
   getModelsByType,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
@@ -26,7 +25,6 @@ import {
   checkout,
   commands,
   Commit,
-  commitToJSON,
   findCommitWithChanges,
   findCommitWithin,
   getChangeSummary,
@@ -41,7 +39,6 @@ import { v4 as uuid } from 'uuid'
 import { saveEditorState } from '../lib/bootstrap-manuscript'
 import sessionId from '../lib/session-id'
 import { useStore } from '../store'
-import collectionManager from '../sync/CollectionManager'
 import { useUnmountEffect } from './use-unmount-effect'
 import { useWindowUnloadEffect } from './use-window-unload-effect'
 

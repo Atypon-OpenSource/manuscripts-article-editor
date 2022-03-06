@@ -216,8 +216,10 @@ export const useComments = (
     )
   }, annotations)
 
-  const [store] = useStore()
-  const { saveModel, deleteModel } = store
+  const [{ saveModel, deleteModel }] = useStore((store) => ({
+    saveModel: store.saveModel,
+    deleteModel: store.deleteModel,
+  }))
 
   const saveComment = useCallback(
     (

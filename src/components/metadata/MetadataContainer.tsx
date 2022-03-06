@@ -11,28 +11,18 @@
  */
 
 import {
-  Build,
   buildBibliographicName,
   buildContributor,
 } from '@manuscripts/manuscript-transform'
 import {
   ContainerInvitation,
   Contributor,
-  Manuscript,
-  Model,
   ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { RxAttachment, RxAttachmentCreator } from '@manuscripts/rxdb'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useState } from 'react'
 
-import CollaboratorsData from '../../data/CollaboratorsData'
-import ContainerInvitationsData from '../../data/ContainerInvitationsData'
-import ProjectData from '../../data/ProjectData'
-import ProjectInvitationsData from '../../data/ProjectInvitationsData'
-import { TokenActions } from '../../data/TokenData'
-import UserData from '../../data/UserData'
 import { projectInvite } from '../../lib/api'
 import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
 import {
@@ -41,7 +31,6 @@ import {
 } from '../../lib/collaborators'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
-import { getCurrentUserId } from '../../lib/user'
 import { useStore } from '../../store'
 import CollectionManager from '../../sync/CollectionManager'
 import { Permissions } from '../../types/permissions'
@@ -77,7 +66,7 @@ const MetadataContainer: React.FC<Props> = ({
   disableEditButton,
   handleTitleStateChange,
 }) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<State>({
     editing: false,
     expanded: true,
     selectedAuthor: null,
@@ -94,20 +83,29 @@ const MetadataContainer: React.FC<Props> = ({
     },
   })
 
-  const [data] = useStore()
-
-  const {
-    saveModel,
-
-    collaborators,
-    user,
-    project,
-    manuscript,
-    saveManuscript,
-    deleteModel,
-    containerInvitations,
-    invitations,
-  } = data
+  const [
+    {
+      saveModel,
+      collaboratorsProfiles,
+      user,
+      project,
+      manuscript,
+      saveManuscript,
+      deleteModel,
+      containerInvitations,
+      invitations,
+    },
+  ] = useStore((store) => ({
+    saveModel: store.saveModel,
+    collaboratorsProfiles: store.collaboratorsProfiles,
+    user: store.user,
+    project: store.project,
+    manuscript: store.manuscript,
+    saveManuscript: store.saveManuscript,
+    deleteModel: store.deleteModel,
+    containerInvitations: store.containerInvitations,
+    invitations: store.invitations,
+  }))
 
   const allInvitations = [
     ...buildContainerInvitations(invitations),
@@ -129,23 +127,22 @@ const MetadataContainer: React.FC<Props> = ({
   }
 
   const toggleExpanded = () => {
-    setState({
-      expanded: !state.expanded,
-    })
+    setState((state) => ({ ...state, expanded: !state.expanded }))
   }
 
   const startEditing = () => {
-    setState({ editing: true })
+    setState((state) => ({ ...state, editing: true }))
   }
 
   const stopEditing = () => {
-    setState({
+    setState((state) => ({
+      ...state,
       editing: false,
       selectedAuthor: null,
       addingAuthors: false,
       isInvite: false,
       invitationSent: false,
-    })
+    }))
   }
 
   const saveTitle = async (title: string) => {
@@ -175,9 +172,10 @@ const MetadataContainer: React.FC<Props> = ({
 
       await saveModel(author)
 
-      setState({
+      setState((state) => ({
+        ...state,
         numberOfAddedAuthors: state.numberOfAddedAuthors + 1,
-      })
+      }))
     }
 
     if (person) {
@@ -190,10 +188,11 @@ const MetadataContainer: React.FC<Props> = ({
 
       const createdAuthor: Contributor = await saveModel(author)
 
-      setState({
+      setState((state) => ({
+        ...state,
         addedAuthors: state.addedAuthors.concat(author.userID as string),
         numberOfAddedAuthors: state.numberOfAddedAuthors + 1,
-      })
+      }))
 
       selectAuthor(createdAuthor)
     }
@@ -201,13 +200,11 @@ const MetadataContainer: React.FC<Props> = ({
 
   const selectAuthor = (author: Contributor) => {
     // TODO: make this switch without deselecting
-    setState({ selectedAuthor: null }, () => {
-      setState({ selectedAuthor: author._id })
-    })
+    setState((state) => ({ ...state, selectedAuthor: author._id }))
   }
 
   const deselectAuthor = () => {
-    setState({ selectedAuthor: null })
+    setState((state) => ({ ...state, selectedAuthor: null }))
   }
 
   const removeAuthor = async (author: Contributor) => {
@@ -223,13 +220,21 @@ const MetadataContainer: React.FC<Props> = ({
     collaborators: UserProfile[],
     invitations: ContainerInvitation[]
   ) => (authors: Contributor[]) => {
-    setState({ addingAuthors: true, invitationSent: false })
+    setState((state) => ({
+      ...state,
+      addingAuthors: true,
+      invitationSent: false,
+    }))
 
     buildNonAuthors(authors, collaborators, invitations)
   }
 
   const handleAddingDoneCancel = () =>
-    setState({ numberOfAddedAuthors: 0, addingAuthors: false })
+    setState((state) => ({
+      ...state,
+      numberOfAddedAuthors: 0,
+      addingAuthors: false,
+    }))
 
   const handleInvite = (searchText: string) => {
     const invitationValues = {
@@ -244,11 +249,11 @@ const MetadataContainer: React.FC<Props> = ({
       invitationValues.name = searchText
     }
 
-    setState({ invitationValues, isInvite: true })
+    setState((state) => ({ ...state, invitationValues, isInvite: true }))
   }
 
   const handleInviteCancel = () =>
-    setState({ isInvite: false, invitationSent: false })
+    setState((state) => ({ ...state, isInvite: false, invitationSent: false }))
 
   const handleInvitationSubmit = (
     invitingUser: UserProfile,
@@ -274,12 +279,13 @@ const MetadataContainer: React.FC<Props> = ({
       await createInvitedAuthor(authors, email, invitingID, name)
     }
 
-    setState({
+    setState((state) => ({
+      ...state,
       isInvite: false,
       invitationSent: true,
       addingAuthors: false,
       numberOfAddedAuthors: 0,
-    })
+    }))
 
     trackEvent({
       category: 'Invitations',
@@ -333,7 +339,7 @@ const MetadataContainer: React.FC<Props> = ({
         !invitedAuthorsEmail.includes(person.email as string)
     )
 
-    setState({ nonAuthors })
+    setState((state) => ({ ...state, nonAuthors }))
   }
 
   const handleDrop = (
@@ -349,10 +355,13 @@ const MetadataContainer: React.FC<Props> = ({
       })
     )
       .then(() => {
-        setState({ authorListError: '' })
+        setState((state) => ({ ...state, authorListError: '' }))
       })
       .catch(() => {
-        setState({ authorListError: 'There was an error saving authors' })
+        setState((state) => ({
+          ...state,
+          authorListError: 'There was an error saving authors',
+        }))
       })
   }
 
@@ -381,6 +390,10 @@ const MetadataContainer: React.FC<Props> = ({
     })
   }
 
+  if (!collaboratorsProfiles || !user) {
+    return
+  }
+
   return (
     <Metadata
       saveTitle={saveTitle}
@@ -396,10 +409,7 @@ const MetadataContainer: React.FC<Props> = ({
       expanded={state.expanded}
       addingAuthors={state.addingAuthors}
       openAddAuthors={startAddingAuthors(
-        buildCollaborators(
-          project,
-          buildCollaboratorProfiles(collaborators, user)
-        ),
+        buildCollaborators(project, collaboratorsProfiles),
         allInvitations
       )}
       numberOfAddedAuthors={state.numberOfAddedAuthors}

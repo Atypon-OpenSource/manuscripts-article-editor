@@ -61,7 +61,7 @@ export type state = {
   snapshots?: Snapshot[]
   comments?: CommentAnnotation[]
   notes?: ManuscriptNote[]
-  tag?: Tag[]
+  tags?: Tag[]
   collaborators?: UserCollaborator[]
   collaboratorsProfiles?: Map<string, UserProfile>
   getAttachment?: (

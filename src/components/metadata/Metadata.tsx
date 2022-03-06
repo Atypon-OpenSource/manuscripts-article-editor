@@ -105,8 +105,6 @@ interface Props {
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
   addedAuthors: string[]
-  project: Project
-  user: UserProfile
   isInvite: boolean
   invitationValues: InvitationValues
   invitationSent: boolean
@@ -143,6 +141,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       contributorRoles,
       tokenActions,
       project,
+      user,
       saveModel,
     },
   ] = useStore((store) => {
@@ -154,6 +153,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       getAttachment: store.getAttachment,
       putAttachment: store.putAttachment,
       project: store.project,
+      user: store.user,
       tokenActions: store.tokenActions,
     }
   })

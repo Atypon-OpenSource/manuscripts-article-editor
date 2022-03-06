@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { Snapshot } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from '@manuscripts/rxdb'
 import { Avatar, SecondaryButton } from '@manuscripts/style-guide'
 import React from 'react'
 import { Link } from 'react-router-dom'
