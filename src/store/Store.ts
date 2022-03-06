@@ -21,7 +21,10 @@ import {
   UserCollaborator,
   UserProfile,
   CommentAnnotation,
+  ContainedModel,
 } from '@manuscripts/manuscripts-json-schema'
+
+import { Commit } from '@manuscripts/track-changes'
 
 import { BiblioTools } from '../couch-data/Bibilo'
 import { TokenData } from '../couch-data/TokenData'
@@ -47,6 +50,8 @@ export type state = {
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   deleteModel: (id: string) => Promise<string>
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+  commits: Commit[]
   modelMap: Map<string, Model>
   snapshotID: string
   snapshots?: Snapshot[]

@@ -217,6 +217,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const [submissionID] = useStore((store) => store.submissionID)
   const [ancestorDoc] = useStore((store) => store.ancestorDoc)
   const [commitAtLoad] = useStore((store) => store.commitAtLoad)
+  const [initialCommits] = useStore((store) => store.commits)
+  const [bulkUpdate] = useStore((store) => store.bulkUpdate)
 
   const submissionId = submissionID || ''
   const popper = useRef<PopperManager>(new PopperManager())
@@ -412,7 +414,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   )
   const { commits, corrections, accept, reject, isDirty } = useCommits({
     modelMap,
-    initialCommits: commits,
+    initialCommits: initialCommits,
     editor,
     containerID: project._id,
     manuscriptID: manuscript._id,
@@ -523,21 +525,23 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     <RequirementsProvider modelMap={modelMap}>
       <UserProvider
         lwUser={lwUser}
-        manuscriptUser={store.user}
+        manuscriptUser={user}
         submissionId={submissionId}
       >
-        <ManuscriptSidebar
+        {/* 
+          // Commented as this is not needed in the LW
+         <ManuscriptSidebar
           project={project}
           manuscript={manuscript}
           view={view}
           doc={state.doc}
           permissions={editorProps.permissions}
-          manuscripts={store.manuscripts}
+          manuscripts={manuscripts}
           user={user}
-          tokenActions={store.tokenActions}
+          tokenActions={tokenActions}
           saveModel={saveModel}
           selected={selected || null}
-        />
+        /> */}
         <PageWrapper>
           <Main>
             <EditorContainer>
@@ -546,7 +550,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                   which will happen on the very last step = 'Published'
                   this should be handled later with are more graceful way but it is not clear at this point how.
               */}
-                {store.submission?.nextStep && (
+                {submission?.nextStep && (
                   <ManualFlowTransitioning
                     submission={store.submission}
                     userRole={getUserRole(project, user.userID)}
@@ -588,8 +592,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                     allowInvitingAuthors={false}
                     showAuthorEditButton={true}
                     disableEditButton={
-                      isViewer(project, store.user.userID) ||
-                      isAnnotator(project, store.user.userID)
+                      isViewer(project, user.userID) ||
+                      isAnnotator(project, user.userID)
                     }
                   />
                   <TrackChangesStyles

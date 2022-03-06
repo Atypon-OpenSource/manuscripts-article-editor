@@ -192,6 +192,18 @@ export default class ModelManager implements ManuscriptModels {
     return this.modelMap.get(id) as T | undefined
   }
 
+  bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
+    for (const value of items) {
+      const containerIDs: ContainerIDs = {
+        containerID: this.containerID,
+      }
+      if (isManuscriptModel(value)) {
+        containerIDs.manuscriptID = this.manuscriptID
+      }
+      await this.collection.save(value, containerIDs, true)
+    }
+  }
+
   saveModel = async <T extends Model>(model: T | Build<T> | Partial<T>) => {
     if (!model._id) {
       throw new Error('Model ID required')
