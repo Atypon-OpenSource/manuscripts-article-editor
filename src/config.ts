@@ -77,6 +77,7 @@ interface Config {
   jupyter: {
     url: string
     token: string
+    disabled: boolean
   }
   shackles: {
     enabled: boolean
@@ -197,6 +198,7 @@ const config = {
   jupyter: {
     url: normalizeURL(process.env.JUPYTER_URL),
     token: process.env.JUPYTER_TOKEN,
+    disabled: isTrue(process.env.DISABLE_ATTACH_CODE),
   },
   shackles: {
     enabled: isTrue(process.env.SHACKLES_ENABLED),

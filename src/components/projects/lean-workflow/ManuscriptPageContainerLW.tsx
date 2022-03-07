@@ -390,6 +390,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     submissionId,
     capabilities: can,
     mediaAlternativesEnabled: config.features.mediaAlternatives,
+    jupyterConfig: config.jupyter,
     updateDesignation: (designation: string, name: string) =>
       handleChangeAttachmentDesignation(submissionId, designation, name),
     uploadAttachment: (designation: string, file: File) =>
