@@ -56,8 +56,8 @@ export const StatusInput: React.FC<StatusInputProps> = ({
   isDueSoon,
 }) => {
   const nodeRef = useRef<HTMLDivElement>(null)
-  const saveModel = useStore((store) => store.saveModel)
-  const labels = useStore((store) => store.statusLabels)
+  const [saveModel] = useStore((store) => store.saveModel)
+  const [labels] = useStore((store) => store.statusLabels)
 
   const handleClickOutside = useCallback((event: Event) => {
     if (nodeRef.current && !nodeRef.current.contains(event.target as Node)) {

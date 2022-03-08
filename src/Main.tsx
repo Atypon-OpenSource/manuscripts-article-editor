@@ -15,22 +15,33 @@ import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import { ModalProvider } from './components/ModalProvider'
+// import { ModalProvider } from './components/ModalProvider'
+import { ModalProvider } from './components/ModalHookableProvider'
 import { ServiceWorker } from './components/ServiceWorker'
 import EditorApp from './EditorApp'
 import { apolloClient } from './lib/apollo'
 import { GlobalStyle } from './theme/theme'
 
-const Main = () => (
+interface Props {
+  submissionId: string
+  manuscriptID: string
+  projectID: string
+}
+
+// submissionId="13f64873-a9bf-4d88-a44a-2a25f9e49fc3"
+// manuscriptID="MPProject:E1895468-4DFE-4F17-9B06-5212ECD29555"
+// projectID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
+
+const Main: React.FC<Props> = ({ submissionId, manuscriptID, projectID }) => (
   <DndProvider backend={HTML5Backend}>
     <GlobalStyle />
     <ServiceWorker />
     <ModalProvider>
       <ApolloProvider client={apolloClient}>
         <EditorApp
-          submissionId="13f64873-a9bf-4d88-a44a-2a25f9e49fc3"
-          manuscriptID="MPProject:E1895468-4DFE-4F17-9B06-5212ECD29555"
-          projectID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
+          submissionId={submissionId}
+          manuscriptID={manuscriptID}
+          projectID={projectID}
         />
       </ApolloProvider>
     </ModalProvider>

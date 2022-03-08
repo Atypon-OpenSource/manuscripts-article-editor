@@ -20,7 +20,7 @@ import { Avatar } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
-import { TokenActions } from '../../data/TokenData'
+import { TokenActions } from '../../store'
 import {
   Sidebar,
   SidebarContent,

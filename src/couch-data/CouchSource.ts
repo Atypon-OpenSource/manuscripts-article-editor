@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { action, builderFn, state, stateSetter } from '../store'
+import { builderFn, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import RxDBDataBridge from './AllData'
 
@@ -23,27 +23,31 @@ export default class CouchSource implements StoreDataSourceStrategy {
       this.rxDBDataBridge = new RxDBDataBridge({
         projectID: state.projectID,
         manuscriptID: state.manuscriptID,
-        userID: state.userID,
+        userID: state.userID || '',
       })
     }
     await this.rxDBDataBridge.init()
     this.ready = true
-    next({ ...this.rxDBDataBridge.getData() })
+    const data = await this.rxDBDataBridge.getData()
+    next({ ...data })
   }
   afterAction: StoreDataSourceStrategy['afterAction'] = (state, setState) => {
-    const data = this.rxDBDataBridge.getData()
     if (
-      state.manuscriptID !== data.manuscriptID ||
-      state.projectID !== data.projectID ||
-      state.userID !== data.userID
+      state.manuscriptID !== this.rxDBDataBridge.manuscriptID ||
+      state.projectID !== this.rxDBDataBridge.projectID ||
+      state.userID !== this.rxDBDataBridge.userID
     ) {
-      this.rxDBDataBridge
-        .reload(state.manuscriptID, state.projectID, state.userID)
-        ?.then(() => {
-          setState((state) => {
-            return { ...state, ...this.rxDBDataBridge.getData() }
+      if (state.userID) {
+        this.rxDBDataBridge
+          .reload(state.manuscriptID, state.projectID, state.userID)
+          ?.then(() => {
+            setState((state) => {
+              return { ...state, ...this.rxDBDataBridge.getData() }
+            })
           })
-        })
+      } else {
+        // ...
+      }
     }
   }
   updateStore = (setState: stateSetter) => {

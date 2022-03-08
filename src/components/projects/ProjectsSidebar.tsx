@@ -19,15 +19,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
-import ContainersInvitationsData from '../../data/ContainersInvitationsData'
-import ProjectsData from '../../data/ProjectsData'
-import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
-import { TokenActions } from '../../data/TokenData'
-import UserData from '../../data/UserData'
 import { buildContainerInvitations } from '../../lib/invitation'
-import { getCurrentUserId } from '../../lib/user'
+import { useStore } from '../../store'
 import { AddButton } from '../AddButton'
 import ImportContainer, { ImportProps } from '../ImportContainer'
+import { useModal } from '../ModalHookableProvider'
 import { ModalProps, withModal } from '../ModalProvider'
 import ProjectsButton from '../nav/ProjectsButton'
 import { Sidebar, SidebarHeader } from '../Sidebar'
@@ -67,96 +63,78 @@ const ProjectsContainer = styled.div`
   }
 `
 
-const openTemplateSelector = (
-  props: ModalProps,
-  user: UserProfileWithAvatar
-) => () => {
-  props.addModal('template-selector', ({ handleClose }) => (
-    <TemplateSelector user={user} handleComplete={handleClose} />
-  ))
-}
-
 interface Props {
   closeModal?: () => void
   importManuscript?: (models: Model[]) => Promise<void>
-  tokenActions: TokenActions
 }
 
 const ProjectsSidebar: React.FunctionComponent<ModalProps & Props> = (
   props
-) => (
-  <UserData userID={getCurrentUserId()!}>
-    {(user) => (
-      <ProjectsData>
-        {(projects) => (
-          <ContainersInvitationsData>
-            {(invitations) => (
-              <ProjectsInvitationsData>
-                {(projectsInvitations) => {
-                  const containerInvitations: ContainerInvitation[] = buildContainerInvitations(
-                    projectsInvitations
-                  )
+) => {
+  const [{ invitations, projectsInvitations, projects, user }] = useStore(
+    (store) => ({
+      invitations: store.invitations || [],
+      projectsInvitations: store.projectsInvitations,
+      projects: store.projects,
+      user: store.user,
+    })
+  )
 
-                  const allInvitations: ContainerInvitation[] = [
-                    ...invitations,
-                    ...containerInvitations,
-                  ]
+  const { addModal } = useModal()
 
-                  const invitationReceived = allInvitations.filter(
-                    (invitation) =>
-                      invitation.invitedUserEmail === user.email &&
-                      !invitation.acceptedAt &&
-                      invitation.containerID.startsWith('MPProject')
-                  )
+  const openTemplateSelector = (
+    props: ModalProps,
+    user: UserProfileWithAvatar
+  ) => () => {
+    addModal('template-selector', ({ handleClose }) => (
+      <TemplateSelector user={user} handleComplete={handleClose} />
+    ))
+  }
 
-                  return projects.length || invitationReceived.length ? (
-                    <Container id={'projects-sidebar'}>
-                      <ProjectsContainer>
-                        <Header
-                          title={
-                            <span className={'sidebar-title'}>Projects</span>
-                          }
-                        />
-                        {!config.leanWorkflow.enabled && (
-                          <SidebarAction>
-                            <AddButton
-                              action={openTemplateSelector(props, user)}
-                              size={'medium'}
-                              title={'New Project'}
-                            />
-                          </SidebarAction>
-                        )}
+  const containerInvitations: ContainerInvitation[] = buildContainerInvitations(
+    projectsInvitations
+  )
 
-                        <ProjectsButton
-                          isDropdown={false}
-                          closeModal={props.closeModal}
-                          tokenActions={props.tokenActions}
-                        />
-                      </ProjectsContainer>
-                    </Container>
-                  ) : (
-                    <ImportContainer
-                      importManuscript={props.importManuscript!}
-                      render={({ handleClick, isDragAccept }: ImportProps) => (
-                        <ProjectsListPlaceholder
-                          handleClick={handleClick}
-                          openTemplateSelector={openTemplateSelector(
-                            props,
-                            user
-                          )}
-                          isDragAccept={isDragAccept}
-                        />
-                      )}
-                    />
-                  )
-                }}
-              </ProjectsInvitationsData>
-            )}
-          </ContainersInvitationsData>
+  const allInvitations: ContainerInvitation[] = [
+    ...invitations,
+    ...containerInvitations,
+  ]
+
+  const invitationReceived = allInvitations.filter(
+    (invitation) =>
+      invitation.invitedUserEmail === user.email &&
+      !invitation.acceptedAt &&
+      invitation.containerID.startsWith('MPProject')
+  )
+  return projects.length || invitationReceived.length ? (
+    <Container id={'projects-sidebar'}>
+      <ProjectsContainer>
+        <Header title={<span className={'sidebar-title'}>Projects</span>} />
+        {!config.leanWorkflow.enabled && (
+          <SidebarAction>
+            <AddButton
+              action={openTemplateSelector(props, user)}
+              size={'medium'}
+              title={'New Project'}
+            />
+          </SidebarAction>
         )}
-      </ProjectsData>
-    )}
-  </UserData>
-)
+
+        <ProjectsButton isDropdown={false} closeModal={props.closeModal} />
+      </ProjectsContainer>
+    </Container>
+  ) : (
+    <ImportContainer
+      importManuscript={props.importManuscript!}
+      render={({ handleClick, isDragAccept }: ImportProps) => (
+        <ProjectsListPlaceholder
+          handleClick={handleClick}
+          openTemplateSelector={openTemplateSelector(props, user)}
+          isDragAccept={isDragAccept}
+        />
+      )}
+    />
+  )
+}
 
 export default withModal(ProjectsSidebar)

@@ -16,13 +16,7 @@ import {
   Model,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { useUserTemplates } from '../../hooks/use-user-templates'
@@ -37,7 +31,7 @@ import {
   TemplateData,
 } from '../../lib/templates'
 import { updateManuscriptTemplate } from '../../lib/update-manuscript-template'
-import { DatabaseContext } from '../DatabaseProvider'
+import { useStore } from '../../store'
 // import { importManuscript } from '../projects/ImportManuscript'
 import { PseudoProjectPage } from './PseudoProjectPage'
 import { TemplateLoadingModal } from './TemplateLoadingModal'
@@ -70,7 +64,10 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   switchTemplate,
   modelMap,
 }) => {
-  const db = useContext(DatabaseContext)
+  const [{ saveNewManuscript, updateTemplate }] = useStore((store) => ({
+    saveNewManuscript: store.saveNewManuscript,
+    updateTemplate: store.updateManuscriptTemplate,
+  }))
 
   const [data, setData] = useState<SharedData>()
 
@@ -123,14 +120,14 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
       analyticsTemplateName: '(empty)',
       bundleID: DEFAULT_BUNDLE,
       data,
-      db,
       history,
       projectID,
       user,
+      saveNewManuscript,
     })
 
     handleComplete()
-  }, [data, projectID, user, db, history, handleComplete])
+  }, [data, projectID, user, saveNewManuscript, history, handleComplete])
 
   // TODO: refactor most of this to a separate module
   const selectTemplate = useCallback(
@@ -148,25 +145,25 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
         ? await updateManuscriptTemplate({
             bundleID: chooseBundleID(item),
             data,
-            db,
             projectID,
             previousManuscript: manuscript,
             prototype: item.template?._id,
             template,
             modelMap,
             history,
+            updateManuscriptTemplate: updateTemplate,
           })
         : await createManuscript({
             addContent: true,
             analyticsTemplateName: item.title,
             bundleID: chooseBundleID(item),
             data,
-            db,
             history,
             projectID,
             prototype: item.template?._id,
             template,
             user,
+            saveNewManuscript,
           })
 
       handleComplete()
@@ -175,12 +172,13 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
       data,
       projectID,
       user,
-      db,
       history,
       handleComplete,
       switchTemplate,
       manuscript,
       modelMap,
+      saveNewManuscript,
+      updateTemplate,
     ]
   )
 

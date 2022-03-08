@@ -271,4 +271,7 @@ The service is configured using environment variables, `.env.example` file place
 
   <dt>FEATURE_KEYWORDS_CATEGORIES</dt>
   <dd>Allow categories for the keywords.</dd>
+
+  <dt>RXDB</dt>
+  <dd>Enable RxDb Database.</dd>
 </dl>

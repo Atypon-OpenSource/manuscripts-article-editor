@@ -10,16 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 
+// import { useHistory, useLocation, useParams } from 'react-router-dom'
+import config from '../config'
 import SyncNotificationManager from '../sync/SyncNotificationManager'
 import { Notifications } from './Notifications'
 
 export type NotificationComponent<
   P = Record<string, unknown>
-> = React.ComponentType<NotificationProps & RouteComponentProps & P>
+> = React.ComponentType<NotificationProps & P>
 
 export type ShowNotification = (
   id: string,
@@ -51,36 +52,13 @@ interface State {
   notifications: NotificationItem[]
 }
 
-export class NotificationProvider extends React.Component<
-  RouteComponentProps,
-  State
-> {
-  private readonly value: NotificationValue
+export const NotificationProvider: React.FC = ({ children }) => {
+  const [state, setState] = useState<State>({
+    notifications: [],
+  })
 
-  public constructor(props: RouteComponentProps) {
-    super(props)
-
-    this.value = {
-      removeNotification: this.removeNotification,
-      showNotification: this.showNotification,
-    }
-
-    this.state = {
-      notifications: [],
-    }
-  }
-
-  public render() {
-    return (
-      <NotificationContext.Provider value={this.value}>
-        {this.props.children}
-        {this.renderNotifications()}
-      </NotificationContext.Provider>
-    )
-  }
-
-  private showNotification: ShowNotification = (id, notification) => {
-    this.setState((state) => {
+  const showNotification: ShowNotification = (id, notification) => {
+    setState((state) => {
       const item: NotificationItem = { id, notification }
 
       return {
@@ -93,8 +71,8 @@ export class NotificationProvider extends React.Component<
     })
   }
 
-  private removeNotification = (id: string) => {
-    this.setState((state) => ({
+  const removeNotification = (id: string) => {
+    setState((state) => ({
       ...state,
       notifications: state.notifications.filter(
         (notification) => notification.id !== id
@@ -102,29 +80,39 @@ export class NotificationProvider extends React.Component<
     }))
   }
 
-  private renderNotifications = () => {
-    const notifications = this.state.notifications.concat({
-      id: 'sync',
-      notification: SyncNotificationManager,
-    })
+  const value: NotificationValue = {
+    removeNotification,
+    showNotification,
+  }
+
+  // const history = useHistory()
+  // const location = useLocation()
+
+  const renderNotifications = () => {
+    const notifications = config.rxdb.enabled
+      ? state.notifications.concat({
+          id: 'sync',
+          notification: SyncNotificationManager,
+        })
+      : state.notifications
 
     if (!notifications.length) {
       return null
     }
 
-    const { history, location, match } = this.props
-
     return ReactDOM.createPortal(
       <Notifications
         items={notifications}
-        removeNotification={this.removeNotification}
-        history={history}
-        location={location}
-        match={match}
+        removeNotification={removeNotification}
       />,
       document.getElementById('notifications')!
     )
   }
-}
 
-export const NotificationProviderWithRouter = withRouter(NotificationProvider)
+  return (
+    <NotificationContext.Provider value={value}>
+      {children}
+      {renderNotifications()}
+    </NotificationContext.Provider>
+  )
+}

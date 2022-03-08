@@ -11,30 +11,22 @@
  */
 
 import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
-import {
-  Manuscript,
-  Model,
-  Project,
-} from '@manuscripts/manuscripts-json-schema'
 import { AnyValidationResult } from '@manuscripts/requirements'
 import { useState } from 'react'
 
 import { buildQualityCheck } from '../components/requirements/RequirementsInspector'
+import { useStore } from '../store'
 import { useIdlePropEffect } from './use-idle-prop-effect'
 
 interface Args {
-  project: Project
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
   state: ManuscriptEditorState
 }
 
-export const useRequirementsValidation = ({
-  project,
-  manuscript,
-  modelMap,
-  state,
-}: Args) => {
+export const useRequirementsValidation = ({ state }: Args) => {
+  const [{ manuscript, modelMap }] = useStore((store) => ({
+    manuscript: store.manuscript,
+    modelMap: store.modelMap,
+  }))
   const [error, setError] = useState<Error | null>()
   const [result, setResult] = useState<AnyValidationResult[]>([])
   const prototypeID = manuscript.prototype

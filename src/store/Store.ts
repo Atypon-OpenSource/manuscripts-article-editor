@@ -13,57 +13,107 @@
 import {
   Attachment,
   Build,
+  ContainedModel,
+  ManuscriptModel,
   ManuscriptNode,
+  ModelAttachment,
 } from '@manuscripts/manuscript-transform'
 import {
+  CommentAnnotation,
+  ContainerInvitation,
   Manuscript,
-  Model,
   ManuscriptNote,
+  Model,
   Project,
+  ProjectInvitation,
   Snapshot,
   Tag,
-  UserCollaborator,
   UserProfile,
-  CommentAnnotation,
-  ContainedModel,
 } from '@manuscripts/manuscripts-json-schema'
-
 import { Commit } from '@manuscripts/track-changes'
 
 import { BiblioTools } from '../couch-data/Bibilo'
 import { TokenData } from '../couch-data/TokenData'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 
+export interface TokenActions {
+  delete: () => void
+  update: (token: string) => void
+}
+
 export type action = { action?: string; [key: string]: any }
+export type ImportError = { error: boolean; message: string }
+export type ImportOk = { ok: boolean }
+export type bulkCreate = <T>(
+  models: Array<Build<T> & ContainerIDs & ModelAttachment>
+) => Promise<Array<ImportError | ImportOk>>
+export interface ContainerIDs {
+  containerID?: string
+  manuscriptID?: string
+  templateID?: string
+}
+
+export interface ContainedIDs {
+  containerID: string
+  manuscriptID?: string
+}
+
 export type state = {
   [key: string]: any
   project: Project
   manuscript: Manuscript
-  doc?: ManuscriptNode
-  ancestorDoc?: ManuscriptNode
-  user?: UserProfile
+  manuscripts?: Manuscript[]
+  doc: ManuscriptNode
+  ancestorDoc: ManuscriptNode
+  user: UserProfile // probably should be optional
   tokenData: TokenData
-  projectID?: string
+  projectID: string
+  submissionID?: string
   userID?: string | undefined
   userProfileID?: string | undefined
   manuscriptID: string
-  containerID?: string
-  biblio?: BiblioTools
+  containerID: string
+  biblio: BiblioTools
+  commitAtLoad?: Commit | null
+  invitations?: ContainerInvitation[]
+  projectInvitations?: ProjectInvitation[]
+  containerInvitations?: ContainerInvitation[]
+  projects: Project[]
 
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   deleteModel: (id: string) => Promise<string>
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+  bulkCreate: bulkCreate
+  deleteProject: (projectID: string) => Promise<string>
+  updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+  saveNewManuscript: (
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    containerID: string,
+    manuscript: Build<Manuscript>,
+    newProject?: Build<Project>
+  ) => Promise<Build<Manuscript>>
+  updateManuscriptTemplate: (
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    containerID: string,
+    manuscript: Manuscript,
+    updatedModels: ManuscriptModel[]
+  ) => Promise<Manuscript>
+  getInvitation: (
+    invitingUserID: string,
+    invitedEmail: string
+  ) => Promise<ContainerInvitation>
   commits: Commit[]
   modelMap: Map<string, Model>
-  snapshotID: string
+  snapshotID: string | null
   snapshots?: Snapshot[]
   comments?: CommentAnnotation[]
   notes?: ManuscriptNote[]
   tags?: Tag[]
-  collaborators?: UserCollaborator[]
+  collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
+  collaboratorsById?: Map<string, UserProfile>
   getAttachment?: (
     id: string,
     attachmentID: string
@@ -111,9 +161,14 @@ export class GenericStore implements Store {
   ) => void | action
   constructor(
     reducer = defaultReducer,
-    unmountHandler?: (state: state) => void
+    unmountHandler?: (state: state) => void,
+    state = {}
   ) {
     this.reducer = reducer
+
+    if (state) {
+      this.state = state as state
+    }
 
     if (unmountHandler) {
       this.unmountHandler = unmountHandler
@@ -128,11 +183,11 @@ export class GenericStore implements Store {
   }
   queue: Set<(state: state) => void> = new Set()
   getState() {
-    return this.state
+    return this.state!
   }
   setState(state: state | ((state: state) => state)) {
     if (typeof state === 'function') {
-      this.state = state(this.state)
+      this.state = state(this.state!)
     } else {
       this.state = { ...this.state, ...state }
     }
@@ -142,7 +197,7 @@ export class GenericStore implements Store {
     this.sources = sources
 
     const state = await buildStateFromSources(...sources)
-    this.setState(state)
+    this.setState(state as state)
     // listening to changes before state applied
     this.beforeAction = (...args) => {
       this.sources.map(
@@ -155,15 +210,15 @@ export class GenericStore implements Store {
     // listening to changes after state applied
     this.sources.map((source) => {
       if (source.afterAction) {
-        const unsubscribe = this.subscribe(
+        this.subscribe(
           () =>
-            source.afterAction && source.afterAction(this.state, this.setState)
+            source.afterAction && source.afterAction(this.state!, this.setState)
         )
       }
     })
   }
   dispatchQueue() {
-    this.queue.forEach((fn) => fn(this.state))
+    this.queue.forEach((fn) => fn(this.state!))
   }
   subscribe(fn: (state: state) => void) {
     const queue = this.queue
@@ -177,27 +232,27 @@ export class GenericStore implements Store {
       const beforeActionFilter = this.beforeAction(
         action,
         payload,
-        this.state,
+        this.state!,
         this.setState
       )
       if (beforeActionFilter) {
         this.setState(
           this.reducer(
             beforeActionFilter.payload,
-            this.state,
+            this.state!,
             beforeActionFilter.action || ''
           )
         )
       }
     } else {
-      this.setState(this.reducer(payload, this.state, action))
+      this.setState(this.reducer(payload, this.state!, action))
     }
   }
   unmount() {
     if (this.unmountHandler) {
-      this.unmountHandler(this.state)
+      this.unmountHandler(this.state!)
     }
-    this.state = {}
+    this.state = {} as state
     this.queue = new Set()
   }
 }

@@ -20,13 +20,9 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import CollaboratorsData from '../../data/CollaboratorsData'
-import { TokenActions } from '../../data/TokenData'
-import {
-  buildCollaboratorProfiles,
-  buildCollaborators,
-} from '../../lib/collaborators'
+import { buildCollaborators } from '../../lib/collaborators'
 import { projectListCompare } from '../../lib/projects'
+import { useStore } from '../../store'
 import AcceptedLabel from '../AcceptedLabel'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import ProjectContextMenuButton from './ProjectContextMenuButton'
@@ -118,7 +114,6 @@ interface Props {
   user: UserProfileWithAvatar
   closeModal?: () => void
   acceptedInvitations: string[]
-  tokenActions: TokenActions
 }
 
 export const ProjectsList: React.FunctionComponent<Props> = ({
@@ -128,81 +123,77 @@ export const ProjectsList: React.FunctionComponent<Props> = ({
   saveProjectTitle,
   user,
   acceptedInvitations,
-  tokenActions,
-}) => (
-  <CollaboratorsData>
-    {(collaborators) => {
-      const collaboratorProfiles = buildCollaboratorProfiles(
-        collaborators,
-        user
-      )
+}) => {
+  const [collaboratorProfiles] = useStore(
+    (store) => store.collaboratorsProfiles || new Map()
+  )
+  const [tokenData] = useStore((store) => store.tokenData)
+  const tokenActions = tokenData.getTokenActions()
+  return (
+    <div>
+      {projects.sort(projectListCompare).map((project) => {
+        const path = `/projects/${project._id}`
 
-      return (
-        <div>
-          {projects.sort(projectListCompare).map((project) => {
-            const path = `/projects/${project._id}`
-
-            return (
-              <Route path={path} exact={false} key={project._id}>
-                {({ history, match }) => {
-                  return (
-                    <SidebarProject
-                      key={project._id}
-                      isActive={match !== null}
-                      onClick={() => {
-                        closeModal && closeModal()
-                        history.push(path)
-                      }}
-                    >
-                      <SidebarProjectHeader>
-                        <ProjectTitle>
-                          {project.title ? (
-                            <Title value={project.title} />
-                          ) : (
-                            <PlaceholderTitle value={'Untitled Project'} />
-                          )}
-                        </ProjectTitle>
-                        {acceptedInvitations.includes(project._id) && (
-                          <AcceptedLabel shouldFade={true} />
-                        )}
-                        <Container>
-                          <Edit>
-                            <ProjectContextMenuButton
-                              project={project}
-                              deleteProject={deleteProject(project)}
-                              saveProjectTitle={saveProjectTitle(project)}
-                              closeModal={closeModal}
-                            />
-                          </Edit>
-                          <ShareProjectButton
-                            project={project}
-                            user={user}
-                            tokenActions={tokenActions}
-                          />
-                        </Container>
-                      </SidebarProjectHeader>
-
-                      <ProjectContributors>
-                        {buildCollaborators(project, collaboratorProfiles).map(
-                          (collaborator, index) => (
-                            <React.Fragment key={collaborator._id}>
-                              {!!index && ', '}
-                              <ProjectContributor key={collaborator._id}>
-                                {initials(collaborator.bibliographicName)}{' '}
-                                {collaborator.bibliographicName.family}
-                              </ProjectContributor>
-                            </React.Fragment>
-                          )
-                        )}
-                      </ProjectContributors>
-                    </SidebarProject>
-                  )
-                }}
-              </Route>
-            )
-          })}
-        </div>
-      )
-    }}
-  </CollaboratorsData>
-)
+        return (
+          <Route path={path} exact={false} key={project._id}>
+            {({ history, match }) => {
+              return (
+                <SidebarProject
+                  key={project._id}
+                  isActive={match !== null}
+                  onClick={() => {
+                    closeModal && closeModal()
+                    history.push(path)
+                  }}
+                >
+                  <SidebarProjectHeader>
+                    <ProjectTitle>
+                      {project.title ? (
+                        <Title value={project.title} />
+                      ) : (
+                        <PlaceholderTitle value={'Untitled Project'} />
+                      )}
+                    </ProjectTitle>
+                    {acceptedInvitations.includes(project._id) && (
+                      <AcceptedLabel shouldFade={true} />
+                    )}
+                    <Container>
+                      <Edit>
+                        <ProjectContextMenuButton
+                          project={project}
+                          deleteProject={deleteProject(project)}
+                          saveProjectTitle={saveProjectTitle(project)}
+                          closeModal={closeModal}
+                        />
+                      </Edit>
+                      {tokenActions && (
+                        <ShareProjectButton
+                          project={project}
+                          user={user}
+                          tokenActions={tokenActions}
+                        />
+                      )}
+                    </Container>
+                  </SidebarProjectHeader>
+                  <ProjectContributors>
+                    {buildCollaborators(project, collaboratorProfiles).map(
+                      (collaborator, index) => (
+                        <React.Fragment key={collaborator._id}>
+                          {!!index && ', '}
+                          <ProjectContributor key={collaborator._id}>
+                            {initials(collaborator.bibliographicName)}{' '}
+                            {collaborator.bibliographicName.family}
+                          </ProjectContributor>
+                        </React.Fragment>
+                      )
+                    )}
+                  </ProjectContributors>
+                </SidebarProject>
+              )
+            }}
+          </Route>
+        )
+      })}
+    </div>
+  )
+}

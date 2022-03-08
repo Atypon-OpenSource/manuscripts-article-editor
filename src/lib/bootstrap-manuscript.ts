@@ -11,178 +11,177 @@
  */
 
 import {
-  buildModelMap,
-  Decoder,
+  // buildModelMap,
+  // Decoder,
   encode,
-  getModelsByType,
+  // getModelsByType,
   ManuscriptEditorState,
-  ManuscriptNode,
-  schema,
+  // ManuscriptNode,
+  // schema,
 } from '@manuscripts/manuscript-transform'
 import {
-  Commit as CommitJson,
-  Correction,
+  // Commit as CommitJson,
+  // Correction,
   Model,
-  ObjectTypes,
+  // ObjectTypes,
   Project,
-  Snapshot,
+  // Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from '@manuscripts/rxdb'
-import {
-  Commit,
-  commitFromJSON,
-  findCommitWithChanges,
-} from '@manuscripts/track-changes'
+// import {
+//   Commit,
+//   commitFromJSON,
+//   findCommitWithChanges,
+// } from '@manuscripts/track-changes'
 import isEqual from 'lodash-es/isEqual'
 
 import * as api from '../lib/api'
-import { JsonModel } from '../pressroom/importers'
-import { Collection } from '../sync/Collection'
+// import { JsonModel } from '../pressroom/importers'
+import { state } from '../store'
 import collectionManager from '../sync/CollectionManager'
-import { getSnapshot } from './snapshot'
+// import { getSnapshot } from './snapshot'
 
-interface Data {
-  snapshots: Array<RxDocument<Snapshot>>
-  modelMap: Map<string, Model>
-  doc: ManuscriptNode
-  ancestorDoc: ManuscriptNode
-  commits: Commit[]
-  snapshotID: string | null
-  commitAtLoad: Commit | null
-}
+// interface Data {
+//   snapshots: Array<RxDocument<Snapshot>>
+//   modelMap: Map<string, Model>
+//   doc: ManuscriptNode
+//   ancestorDoc: ManuscriptNode
+//   commits: Commit[]
+//   snapshotID: string | null
+//   commitAtLoad: Commit | null
+// }
 
-const buildModelMapFromJson = (models: JsonModel[]): Map<string, JsonModel> => {
-  return new Map(
-    models.map((model) => {
-      if (model.objectType === ObjectTypes.Figure && model.attachment) {
-        model.src = window.URL.createObjectURL(model.attachment.data)
-      }
-      return [model._id, model]
-    })
-  )
-}
+// const buildModelMapFromJson = (models: JsonModel[]): Map<string, JsonModel> => {
+//   return new Map(
+//     models.map((model) => {
+//       if (model.objectType === ObjectTypes.Figure && model.attachment) {
+//         model.src = window.URL.createObjectURL(model.attachment.data)
+//       }
+//       return [model._id, model]
+//     })
+//   )
+// }
 
-const querySnapshots = (collection: Collection<Model>) =>
-  collection
-    .find({
-      objectType: ObjectTypes.Snapshot,
-    })
-    .exec()
-    .catch(() => {
-      throw new Error('Failed to find snapshots in project collection')
-    })
+// const querySnapshots = (collection: Collection<Model>) =>
+//   collection
+//     .find({
+//       objectType: ObjectTypes.Snapshot,
+//     })
+//     .exec()
+//     .catch(() => {
+//       throw new Error('Failed to find snapshots in project collection')
+//     })
 
-const queryModelMap = (
-  collection: Collection<Model>,
-  containerID: string,
-  manuscriptID: string
-) =>
-  collection
-    .find({
-      $and: [
-        { containerID },
-        {
-          $or: [{ manuscriptID }, { manuscriptID: { $exists: false } }],
-        },
-      ],
-    })
-    .exec()
-    .then((models: Array<RxDocument<Model>>) => buildModelMap(models))
-    .catch(() => {
-      throw new Error('Unable to query project collection models')
-    })
+// const queryModelMap = (
+//   collection: Collection<Model>,
+//   containerID: string,
+//   manuscriptID: string
+// ) =>
+//   collection
+//     .find({
+//       $and: [
+//         { containerID },
+//         {
+//           $or: [{ manuscriptID }, { manuscriptID: { $exists: false } }],
+//         },
+//       ],
+//     })
+//     .exec()
+//     .then((models: Array<RxDocument<Model>>) => buildModelMap(models))
+//     .catch(() => {
+//       throw new Error('Unable to query project collection models')
+//     })
 
-const queryCommits = (collection: Collection<Model>, containerID: string) =>
-  collection
-    .find({
-      $and: [{ containerID }, { objectType: ObjectTypes.Commit }],
-    })
-    .exec()
-    .then((docs) => {
-      return docs.map((doc) => {
-        const json = (doc.toJSON() as unknown) as CommitJson
-        return commitFromJSON(json, schema)
-      })
-    })
-    .catch(() => {
-      throw new Error('Unable to query commits')
-    })
+// const queryCommits = (collection: Collection<Model>, containerID: string) =>
+//   collection
+//     .find({
+//       $and: [{ containerID }, { objectType: ObjectTypes.Commit }],
+//     })
+//     .exec()
+//     .then((docs) => {
+//       return docs.map((doc) => {
+//         const json = (doc.toJSON() as unknown) as CommitJson
+//         return commitFromJSON(json, schema)
+//       })
+//     })
+//     .catch(() => {
+//       throw new Error('Unable to query commits')
+//     })
 
-interface Args {
-  projectID: string
-  manuscriptID: string
-}
+// interface Args {
+//   projectID: string
+//   manuscriptID: string
+// }
 
-export const bootstrap = async ({
-  projectID,
-  manuscriptID,
-}: Args): Promise<Data> => {
-  const collection = collectionManager.getCollection(`project-${projectID}`)
+// export const bootstrap = async ({
+//   projectID,
+//   manuscriptID,
+// }: Args): Promise<Data> => {
+//   const collection = collectionManager.getCollection(`project-${projectID}`)
 
-  const [snapshotDocs, modelMap, commits] = await Promise.all([
-    querySnapshots(collection),
-    queryModelMap(collection, projectID, manuscriptID),
-    queryCommits(collection, projectID),
-  ])
+//   const [snapshotDocs, modelMap, commits] = await Promise.all([
+//     querySnapshots(collection),
+//     queryModelMap(collection, projectID, manuscriptID),
+//     queryCommits(collection, projectID),
+//   ])
 
-  const snapshots = snapshotDocs
-    .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
-    .sort((a, b) => b.createdAt - a.createdAt)
+//   const snapshots = snapshotDocs
+//     .map((doc) => doc.toJSON() as RxDocument<Snapshot>)
+//     .sort((a, b) => b.createdAt - a.createdAt)
 
-  const latestSnaphot = snapshots.length ? snapshots[0] : null
+//   const latestSnaphot = snapshots.length ? snapshots[0] : null
 
-  if (!latestSnaphot || !latestSnaphot.s3Id) {
-    const decoder = new Decoder(modelMap, true)
-    const doc = decoder.createArticleNode()
-    const ancestorDoc = decoder.createArticleNode()
-    return {
-      snapshotID: null,
-      commits,
-      commitAtLoad: null,
-      snapshots,
-      modelMap,
-      doc,
-      ancestorDoc,
-    }
-  }
+//   if (!latestSnaphot || !latestSnaphot.s3Id) {
+//     const decoder = new Decoder(modelMap, true)
+//     const doc = decoder.createArticleNode()
+//     const ancestorDoc = decoder.createArticleNode()
+//     return {
+//       snapshotID: null,
+//       commits,
+//       commitAtLoad: null,
+//       snapshots,
+//       modelMap,
+//       doc,
+//       ancestorDoc,
+//     }
+//   }
 
-  const modelsFromSnapshot = await getSnapshot(
-    projectID,
-    latestSnaphot.s3Id
-  ).catch(() => {
-    throw new Error('Failed to load snapshot')
-  })
-  const snapshotModelMap = buildModelMapFromJson(
-    modelsFromSnapshot.filter(
-      (doc: any) => !doc.manuscriptID || doc.manuscriptID === manuscriptID
-    )
-  )
-  const decoder = new Decoder(snapshotModelMap, true)
-  const doc = decoder.createArticleNode() as ManuscriptNode
-  const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
+//   const modelsFromSnapshot = await getSnapshot(
+//     projectID,
+//     latestSnaphot.s3Id
+//   ).catch(() => {
+//     throw new Error('Failed to load snapshot')
+//   })
+//   const snapshotModelMap = buildModelMapFromJson(
+//     modelsFromSnapshot.filter(
+//       (doc: any) => !doc.manuscriptID || doc.manuscriptID === manuscriptID
+//     )
+//   )
+//   const decoder = new Decoder(snapshotModelMap, true)
+//   const doc = decoder.createArticleNode() as ManuscriptNode
+//   const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
 
-  const corrections = (getModelsByType(
-    modelMap,
-    ObjectTypes.Correction
-  ) as Correction[]).filter((corr) => corr.snapshotID === snapshots[0]._id)
+//   const corrections = (getModelsByType(
+//     modelMap,
+//     ObjectTypes.Correction
+//   ) as Correction[]).filter((corr) => corr.snapshotID === snapshots[0]._id)
 
-  const unrejectedCorrections = corrections
-    .filter((cor) => cor.status.label !== 'rejected')
-    .map((cor) => cor.commitChangeID || '')
+//   const unrejectedCorrections = corrections
+//     .filter((cor) => cor.status.label !== 'rejected')
+//     .map((cor) => cor.commitChangeID || '')
 
-  const commitAtLoad =
-    findCommitWithChanges(commits, unrejectedCorrections) || null
+//   const commitAtLoad =
+//     findCommitWithChanges(commits, unrejectedCorrections) || null
 
-  return {
-    snapshots,
-    snapshotID: snapshots[0]._id,
-    modelMap,
-    doc,
-    ancestorDoc,
-    commits,
-    commitAtLoad,
-  }
-}
+//   return {
+//     snapshots,
+//     snapshotID: snapshots[0]._id,
+//     modelMap,
+//     doc,
+//     ancestorDoc,
+//     commits,
+//     commitAtLoad,
+//   }
+// }
 
 const EXCLUDED_KEYS = [
   'id',
@@ -214,51 +213,39 @@ const hasChanged = (a: Model, b: Model): boolean => {
 export const saveEditorState = async (
   state: ManuscriptEditorState,
   modelMap: Map<string, Model>,
-  projectID: string,
-  manuscriptID: string
+  saveModel: state['saveModel']
 ) => {
-  const collection = collectionManager.getCollection(`project-${projectID}`)
-
   const models = encode(state.doc)
 
   for (const model of models.values()) {
     const oldModel = modelMap.get(model._id)
     if (!oldModel) {
-      const savedModel = await collection.save(model, {
-        containerID: projectID,
-        manuscriptID: manuscriptID,
-      })
-      modelMap.set(model._id, savedModel)
+      await saveModel(model)
     } else if (hasChanged(model, oldModel)) {
       console.log(`Saving ${model._id}`)
       const nextModel = {
         ...oldModel,
         ...model,
       }
-      const savedModel = await collection.save(nextModel, {
-        containerID: projectID,
-        manuscriptID: manuscriptID,
-      })
-      modelMap.set(nextModel._id, savedModel)
+      await saveModel(nextModel)
     }
   }
-
-  return modelMap
 }
 
 export const remaster = async (
   state: ManuscriptEditorState,
   modelMap: Map<string, Model>,
   project: Project,
-  manuscriptID: string
+  saveModel: state['saveModel']
 ) => {
   const collection = collectionManager.getCollection(`project-${project._id}`)
 
-  await saveEditorState(state, modelMap, project._id, manuscriptID)
+  await saveEditorState(state, modelMap, saveModel)
 
   // ensure that the snapshot is created with all the saved models
   await collection.ensurePushSync()
   await api.remaster(project._id)
 
+  // why? -- @TODO - move out side effects
   window.location.reload()
 }

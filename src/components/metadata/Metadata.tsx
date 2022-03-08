@@ -14,7 +14,6 @@ import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import {
   ContainerInvitation,
   Contributor,
-  Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
@@ -141,7 +140,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       contributorRoles,
       tokenActions,
       project,
-      user,
       saveModel,
     },
   ] = useStore((store) => {
@@ -153,7 +151,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       getAttachment: store.getAttachment,
       putAttachment: store.putAttachment,
       project: store.project,
-      user: store.user,
       tokenActions: store.tokenActions,
     }
   })

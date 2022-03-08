@@ -19,10 +19,9 @@ import {
   useApplicationMenus,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { Model, Project } from '@manuscripts/manuscripts-json-schema'
-import { History } from 'history'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
 
 import config from '../../../config'
@@ -33,9 +32,8 @@ import {
   buildExportReferencesMenu,
 } from '../../../lib/project-menu'
 import { ExportFormat } from '../../../pressroom/exporter'
-import { Collection } from '../../../sync/Collection'
-import { SaveModel } from '../../inspector/StyleFields'
-import { ModalProps } from '../../ModalProvider'
+import { useStore } from '../../../store'
+import { useModal } from '../../ModalHookableProvider'
 import { Exporter } from '../Exporter'
 import { Importer, importManuscript } from '../Importer'
 
@@ -47,33 +45,39 @@ export const ApplicationMenuContainer = styled.div`
 
 interface Props {
   editor: ReturnType<typeof useEditor>
-  history: History
-  project: Project
-  manuscriptID: string
-  addModal: ModalProps['addModal']
-  collection: Collection<ContainedModel>
-  modelMap: Map<string, Model>
-  saveModel: SaveModel
   contentEditable: boolean
 }
 
 export const ApplicationMenusLW: React.FC<Props> = ({
-  history,
   editor,
-  addModal,
-  manuscriptID,
-  modelMap,
-  saveModel,
-  project,
-  collection,
   contentEditable,
 }) => {
+  const [store] = useStore((store) => ({
+    manuscriptID: store.manuscriptID,
+    modelMap: store.modelMap,
+    saveModel: store.saveModel,
+    manuscripts: store.manuscripts,
+    project: store.project,
+    bulkCreate: store.bulkCreate,
+    getAttachment: store.getAttachment,
+  }))
+
+  const history = useHistory()
+  const { addModal } = useModal()
+
   const openImporter = () => {
     addModal('importer', ({ handleClose }) => (
       <Importer
         handleComplete={handleClose}
         importManuscript={(models: Model[], redirect = true) =>
-          importManuscript(models, project._id, collection, history, redirect)
+          importManuscript(
+            models,
+            store.project._id,
+            store.bulkCreate,
+            history,
+            store.manuscripts || [],
+            redirect
+          )
         }
       />
     ))
@@ -82,11 +86,11 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     addModal('exporter', ({ handleClose }) => (
       <Exporter
         format={format}
-        getAttachment={collection.getAttachmentAsBlob}
+        getAttachment={store.getAttachment}
         handleComplete={handleClose}
-        modelMap={modelMap}
-        manuscriptID={manuscriptID}
-        project={project}
+        modelMap={store.modelMap}
+        manuscriptID={store.manuscriptID}
+        project={store.project}
         closeOnSuccess={closeOnSuccess}
       />
     ))
@@ -104,7 +108,13 @@ export const ApplicationMenusLW: React.FC<Props> = ({
       {
         id: 'remaster',
         label: 'Remaster',
-        run: () => remaster(editor.state, modelMap, project, manuscriptID),
+        run: () =>
+          remaster(
+            editor.state,
+            store.modelMap,
+            store.project,
+            store.saveModel
+          ),
       },
     ],
   }
@@ -136,7 +146,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
       {
         id: 'project-diagnostics',
         label: 'View Diagnostics',
-        run: () => history.push(`/projects/${project._id}/diagnostics`),
+        run: () => history.push(`/projects/${store.project._id}/diagnostics`),
       },
     ],
   }
@@ -144,8 +154,8 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   const [dialog, setDialog] = useState<DialogNames | null>(null)
   const closeDialog = () => setDialog(null)
   const openDialog = (dialog: DialogNames) => setDialog(dialog)
-  const { colors, colorScheme } = buildColors(modelMap)
-  const handleAddColor = addColor(colors, saveModel, colorScheme)
+  const { colors, colorScheme } = buildColors(store.modelMap)
+  const handleAddColor = addColor(colors, store.saveModel, colorScheme)
 
   const menu = [
     projectMenu,

@@ -12,13 +12,14 @@
 
 import TriangleCollapsed from '@manuscripts/assets/react/TriangleCollapsed'
 import TriangleExpanded from '@manuscripts/assets/react/TriangleExpanded'
+import { Build } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Library,
   LibraryCollection,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { sources } from '../../lib/sources'
@@ -90,29 +91,26 @@ const SectionTitleLink = styled(SectionLink)`
   padding: 7px ${(props) => props.theme.grid.unit * 4}px;
 `
 
-export const LibrarySidebar: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    sourceType: string
-    sourceID?: string
-    filterID?: string
-  }> & {
-    projectLibraryCollections: Map<string, LibraryCollection>
-    globalLibraries: Map<string, Library>
-    globalLibraryCollections: Map<string, LibraryCollection>
-    importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
-    createBibliographyItem: () => void
-  }
-> = ({
+export const LibrarySidebar: React.FC<{
+  projectLibraryCollections: Map<string, LibraryCollection>
+  globalLibraries: Map<string, Library>
+  globalLibraryCollections: Map<string, LibraryCollection>
+  importItems: (
+    items: Array<Build<BibliographyItem>>
+  ) => Promise<BibliographyItem[]>
+  createBibliographyItem: () => void
+}> = ({
   projectLibraryCollections,
   globalLibraries,
   globalLibraryCollections,
-  match: {
-    params: { projectID, sourceID, sourceType },
-  },
   importItems,
   createBibliographyItem,
 }) => {
+  const { projectID, sourceID, sourceType } = useParams<{
+    projectID: string
+    sourceType: string
+    sourceID?: string
+  }>()
   const globalLibrariesArray = Array.from(globalLibraries.values())
   const globalLibraryCollectionsArray = Array.from(
     globalLibraryCollections.values()
@@ -236,7 +234,7 @@ export const LibrarySidebar: React.FC<
   )
 }
 
-export const LibrarySidebarWithRouter = withRouter(LibrarySidebar)
+export const LibrarySidebarWithRouter = LibrarySidebar
 
 const ImportButton: React.FC<{
   importItems: () => void

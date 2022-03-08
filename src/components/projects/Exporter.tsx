@@ -40,7 +40,7 @@ export type GetAttachment = (
 
 interface Props {
   format: ExportFormat
-  getAttachment: GetAttachment
+  getAttachment?: GetAttachment
   handleComplete: (success: boolean) => void
   manuscriptID: string
   modelMap: Map<string, Model>
@@ -73,6 +73,10 @@ export class Exporter extends React.Component<Props, State> {
       project,
       submission,
     } = this.props
+
+    if (!getAttachment) {
+      return
+    }
 
     try {
       this.setState({

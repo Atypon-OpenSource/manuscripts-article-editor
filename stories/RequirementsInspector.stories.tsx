@@ -33,6 +33,7 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 
 import { RequirementsInspector } from '../src/components/requirements/RequirementsInspector'
+import { GenericStore, GenericStoreProvider } from '../src/store'
 import { modelMap } from './data/doc'
 
 const maximumManuscriptWordCountRequirement: MaximumManuscriptWordCountRequirement = {
@@ -199,13 +200,19 @@ const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
   })
 }
 
-storiesOf('Inspector/Requirements', module).add('validations', () => (
-  <RequirementsProvider modelMap={modelMap}>
-    <RequirementsInspector
-      modelMap={modelMap}
-      manuscriptID={manuscript._id}
-      prototypeId={manuscript.prototype}
-      bulkUpdate={bulkUpdate}
-    />
-  </RequirementsProvider>
-))
+const storeState = {
+  manuscript,
+  modelMap,
+  bulkUpdate,
+}
+const store = new GenericStore(undefined, undefined, storeState)
+
+storiesOf('Inspector/Requirements', module).add('validations', () => {
+  return (
+    <GenericStoreProvider store={store}>
+      <RequirementsProvider modelMap={modelMap}>
+        <RequirementsInspector />
+      </RequirementsProvider>
+    </GenericStoreProvider>
+  )
+})

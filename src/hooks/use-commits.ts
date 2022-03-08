@@ -14,13 +14,8 @@ import { useEditor } from '@manuscripts/manuscript-editor'
 import {
   buildContribution,
   getModelsByType,
-  ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
-import {
-  Correction,
-  Model,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+import { Correction, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import {
   checkout,
   commands,
@@ -63,29 +58,23 @@ const correctionsByContext = (a: Correction, b: Correction) =>
   a.positionInSnapshot! - b.positionInSnapshot!
 
 interface Args {
-  modelMap: Map<string, Model>
-  ancestorDoc: ManuscriptNode
-  initialCommits: Commit[]
   editor: ReturnType<typeof useEditor>
-  containerID: string
-  manuscriptID: string
-  snapshotID: string
-  userProfileID: string
   sortBy: string
 }
 
 // TODO: Refactor to use useMicrostore
-export const useCommits = ({
-  modelMap,
-  initialCommits,
-  editor,
-  containerID,
-  manuscriptID,
-  snapshotID,
-  userProfileID,
-  ancestorDoc,
-  sortBy,
-}: Args) => {
+export const useCommits = ({ sortBy, editor }: Args) => {
+  const [store] = useStore((store) => ({
+    modelMap: store.modelMap,
+    saveModel: store.saveModel,
+    initialCommits: store.commits,
+    projectID: store.project._id,
+    manuscriptID: store.manuscript._id,
+    snapshotID: store.snapshotID,
+    userProfileID: store.user?._id || '',
+    ancestorDoc: store.ancestorDoc,
+  }))
+
   const [handlers] = useStore((store) => {
     return {
       saveCommitToDb: store.saveCommit,
@@ -98,11 +87,12 @@ export const useCommits = ({
   const [lastSave, setLastSave] = useState<number>(Date.now())
   const timeSinceLastSave = useCallback(() => Date.now() - lastSave, [lastSave])
 
-  const [commits, setCommits] = useState<Commit[]>(initialCommits)
+  const [commits, setCommits] = useState<Commit[]>(store.initialCommits)
   const [corrections, setCorrections] = useState<Correction[]>(
-    (getModelsByType(modelMap, ObjectTypes.Correction) as Correction[]).filter(
-      (corr) => corr.snapshotID === snapshotID
-    )
+    (getModelsByType(
+      store.modelMap,
+      ObjectTypes.Correction
+    ) as Correction[]).filter((corr) => corr.snapshotID === store.snapshotID)
   )
   const { commit: currentCommit } = getTrackPluginState(editor.state)
   const [isDirty, setIsDirty] = useState(false)
@@ -136,22 +126,22 @@ export const useCommits = ({
     }
 
     setIsDirty(true)
-    saveEditorState(editor.state, modelMap, containerID, manuscriptID)
+    saveEditorState(editor.state, store.modelMap, store.saveModel)
     editor.doCommand(commands.freezeCommit())
     setLastSave(Date.now())
 
     const correction = buildCorrection({
-      contributions: [buildContribution(userProfileID)],
+      contributions: [buildContribution(store.userProfileID)],
       commitChangeID: commit.changeID,
-      containerID,
-      manuscriptID,
-      snapshotID,
+      containerID: store.projectID,
+      manuscriptID: store.manuscriptID,
+      snapshotID: store.snapshotID || '',
       insertion: changeSummary ? changeSummary.insertion : '',
       deletion: changeSummary ? changeSummary.deletion : '',
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
       status: {
         label: asAccepted ? 'accepted' : 'proposed',
-        editorProfileID: userProfileID,
+        editorProfileID: store.userProfileID,
       },
     })
     return Promise.all([
@@ -183,7 +173,9 @@ export const useCommits = ({
 
     const existingCommit = findCommitWithChanges(commits, unrejectedCorrections)
     if (existingCommit) {
-      editor.replaceState(checkout(ancestorDoc, editor.state, existingCommit))
+      editor.replaceState(
+        checkout(store.ancestorDoc, editor.state, existingCommit)
+      )
       return
     }
 
@@ -203,7 +195,7 @@ export const useCommits = ({
 
     saveCommit(nextCommit)
     editor.replaceState(
-      checkout(ancestorDoc, editor.state, nextCommit, mapping)
+      checkout(store.ancestorDoc, editor.state, nextCommit, mapping)
     )
   }
 
@@ -231,7 +223,7 @@ export const useCommits = ({
       ...current,
       status: {
         label: status.label === 'accepted' ? 'proposed' : 'accepted',
-        editorProfileID: userProfileID,
+        editorProfileID: store.userProfileID,
       },
       updatedAt: Date.now() / 1000,
     })
@@ -240,14 +232,16 @@ export const useCommits = ({
   const reject = (correction: string | ((corr: Correction) => boolean)) => {
     const current = findOneCorrection(correction)
     if (!current) {
-      return editor.replaceState(resetToLastCommit(ancestorDoc, editor.state))
+      return editor.replaceState(
+        resetToLastCommit(store.ancestorDoc, editor.state)
+      )
     }
     const { status } = current
 
     if (status.label === 'rejected') {
       saveCorrection({
         ...current,
-        status: { label: 'proposed', editorProfileID: userProfileID },
+        status: { label: 'proposed', editorProfileID: store.userProfileID },
         updatedAt: Date.now() / 1000,
       })
       return unreject(current)
@@ -255,7 +249,7 @@ export const useCommits = ({
 
     saveCorrection({
       ...current,
-      status: { label: 'rejected', editorProfileID: userProfileID },
+      status: { label: 'rejected', editorProfileID: store.userProfileID },
       updatedAt: Date.now() / 1000,
     })
 
@@ -267,7 +261,9 @@ export const useCommits = ({
 
     const existingCommit = findCommitWithChanges(commits, unrejectedCorrections)
     if (existingCommit) {
-      editor.replaceState(checkout(ancestorDoc, editor.state, existingCommit))
+      editor.replaceState(
+        checkout(store.ancestorDoc, editor.state, existingCommit)
+      )
       return
     }
 
@@ -288,7 +284,7 @@ export const useCommits = ({
 
     saveCommit(nextCommit)
     editor.replaceState(
-      checkout(ancestorDoc, editor.state, nextCommit, mapping)
+      checkout(store.ancestorDoc, editor.state, nextCommit, mapping)
     )
   }
 

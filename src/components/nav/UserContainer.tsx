@@ -12,35 +12,26 @@
 
 import React from 'react'
 
-import UserData from '../../data/UserData'
-import { getCurrentUserId } from '../../lib/user'
+import { useStore } from '../../store'
 import { LogoutConfirmation } from '../account/LogoutConfirmation'
-import { DatabaseContext } from '../DatabaseProvider'
 import { SignInMessage } from '../Messages'
 import { MenuLink } from './Menu'
 import { ProfileDropdown } from './ProfileDropdown'
 import { UserInfo } from './UserInfo'
 
-const UserContainer = () => (
-  <UserData userID={getCurrentUserId()!}>
-    {(user) =>
-      user ? (
-        <DatabaseContext.Consumer>
-          {(db) => (
-            <LogoutConfirmation db={db}>
-              <ProfileDropdown user={user}>
-                <UserInfo user={user} />
-              </ProfileDropdown>
-            </LogoutConfirmation>
-          )}
-        </DatabaseContext.Consumer>
-      ) : (
-        <MenuLink to={'/login'}>
-          <SignInMessage />
-        </MenuLink>
-      )
-    }
-  </UserData>
-)
+const UserContainer = () => {
+  const [user] = useStore((store) => store.user)
+  return user ? (
+    <LogoutConfirmation>
+      <ProfileDropdown user={user}>
+        <UserInfo user={user} />
+      </ProfileDropdown>
+    </LogoutConfirmation>
+  ) : (
+    <MenuLink to={'/login'}>
+      <SignInMessage />
+    </MenuLink>
+  )
+}
 
 export default UserContainer

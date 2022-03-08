@@ -14,12 +14,8 @@ import {
   insertFileAsFigure,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-import { Build, schema } from '@manuscripts/manuscript-transform'
-import {
-  ExternalFile,
-  Figure,
-  Model,
-} from '@manuscripts/manuscripts-json-schema'
+import { schema } from '@manuscripts/manuscript-transform'
+import { ExternalFile, Figure } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { commands } from '@manuscripts/track-changes'
 import { NodeSelection } from 'prosemirror-state'
@@ -30,25 +26,15 @@ import { useCommits } from '../../../hooks/use-commits'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
 import { SpriteMap } from '../../track/Icons'
+import useFileHandling from './FileHandling'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
-  changeAttachmentDesignation: (
-    designation: string,
-    name: string
-  ) => Promise<any>
   accept: ReturnType<typeof useCommits>['accept']
   reject: ReturnType<typeof useCommits>['reject']
-  doCommand: ReturnType<typeof useEditor>['doCommand']
 }
 
-const EditorElement: React.FC<Props> = ({
-  editor,
-  accept,
-  reject,
-  changeAttachmentDesignation,
-  doCommand,
-}) => {
+const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
   const [modelMap] = useStore((store) => store.modelMap)
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
@@ -57,6 +43,11 @@ const EditorElement: React.FC<Props> = ({
     console.log(e)
     setError(e)
   }
+
+  const {
+    handleChangeAttachmentDesignation: changeAttachmentDesignation,
+  } = useFileHandling()
+  const [submissionId] = useStore((store) => store.submissionID || '')
 
   const [, drop] = useDrop({
     accept: 'FileSectionItem',
@@ -69,7 +60,11 @@ const EditorElement: React.FC<Props> = ({
         if (!externalFile || !docPos || !docPos.pos) {
           return
         }
-        changeAttachmentDesignation('figure', externalFile.filename)
+        changeAttachmentDesignation(
+          submissionId,
+          'figure',
+          externalFile.filename
+        )
           .then((result) => {
             if (result?.data?.setAttachmentType === false) {
               return handleError('Store declined designation change')
@@ -120,10 +115,10 @@ const EditorElement: React.FC<Props> = ({
         if (!uid) {
           return
         }
-        doCommand(commands.focusAnnotation(uid))
+        editor.doCommand(commands.focusAnnotation(uid))
       }
     },
-    [accept, reject, doCommand]
+    [accept, reject, editor]
   )
   return (
     <>

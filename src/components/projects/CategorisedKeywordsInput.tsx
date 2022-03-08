@@ -24,7 +24,6 @@ import {
   Keyword,
   KeywordGroup,
   Manuscript,
-  Model,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
@@ -45,7 +44,6 @@ import { selectStyles } from '../../lib/select-styles'
 import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { MediumTextField } from './inputs'
-import { SaveModel } from './ManuscriptInspector'
 import { PlusIcon } from './Status/StatusIcons'
 import {
   Container,

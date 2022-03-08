@@ -10,12 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { RxDatabase } from '@manuscripts/rxdb'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-import { Collections } from '../../collections'
 import CollectionManager from '../../sync/CollectionManager'
 import { selectors } from '../../sync/syncEvents'
 import { useSyncState } from '../../sync/SyncStore'
@@ -33,15 +31,9 @@ const headers = {
   gaveup: 'Unable to sync your changes',
 }
 
-interface Props {
-  db: RxDatabase<Collections>
-}
-
-const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
-  children,
-  history,
-}) => {
+const LogoutConfirmationComponent: React.FC = ({ children }) => {
   const syncState = useSyncState()
+  const history = useHistory()
 
   const [confirmationStage, setConfirmationStage] = useState<ConfirmationStage>(
     'ready'
@@ -56,6 +48,7 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
 
       const unsyncedCollections = await CollectionManager.unsyncedCollections()
 
+      // INSTEAD if (loggedOut)
       if (!unsyncedCollections.length && !selectors.oneZombie(syncState)) {
         history.push('/logout')
         return
@@ -127,4 +120,4 @@ const LogoutConfirmationComponent: React.FC<RouteComponentProps & Props> = ({
   )
 }
 
-export const LogoutConfirmation = withRouter(LogoutConfirmationComponent)
+export const LogoutConfirmation = LogoutConfirmationComponent

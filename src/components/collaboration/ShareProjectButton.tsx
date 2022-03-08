@@ -18,7 +18,7 @@ import React from 'react'
 import { Manager, Popper, PopperChildrenProps, Reference } from 'react-popper'
 import styled from 'styled-components'
 
-import { TokenActions } from '../../data/TokenData'
+import { TokenActions } from '../../store'
 import ShareProjectPopperContainer from './ShareProjectPopperContainer'
 
 const Container = styled.div`

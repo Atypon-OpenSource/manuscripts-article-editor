@@ -46,13 +46,13 @@ import { Subscription } from 'rxjs'
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { buildUser } from '../lib/data'
-import { databaseCreator } from '../lib/db'
 import { buildInvitations } from '../lib/invitation'
 import CollectionEffects from '../sync/CollectionEffects'
 import CollectionManager from '../sync/CollectionManager'
 import reducer from '../sync/syncEvents'
 import { Action, SyncState } from '../sync/types'
 import { Biblio } from './Bibilo'
+import { databaseCreator } from './db'
 import ModelManager from './ModelManager'
 import { TokenData } from './TokenData'
 
@@ -137,8 +137,17 @@ class RxDBDataBridge {
       this.sub = this.subscribe(this.manuscriptID, this.projectID, this.userID)
       // need to init if received update at least once from all the collections
 
+      this.setState({
+        deleteProject: async (projectID: string) => {
+          return this.cc<Project>('user').delete(projectID)
+        },
+        updateProject: (projectID: string, data: Partial<Project>) => {
+          return this.cc<Project>('user').update(projectID, data)
+        },
+      })
+
       this.dependsOnStateConditionOnce(
-        (state) => !!state.modelMap,
+        (state) => !!state.modelMap && state.snapshots && state.commits,
         () => {
           this.modelManager = new ModelManager(
             this.state.modelMap,
@@ -148,9 +157,12 @@ class RxDBDataBridge {
             this.manuscriptID,
             this.projectID,
             this.cc(),
+            this.cc('user'),
             this.state.snapshots,
-            this.state.commits
+            this.state.commits,
+            this.db
           )
+          this.dispatch()
         }
       )
 
@@ -159,7 +171,11 @@ class RxDBDataBridge {
       return new Promise((resolve) => {
         let resolved = false
         const unsubscribe = this.onUpdate(() => {
-          if (!this.expectedState.length) {
+          if (
+            !this.expectedState.length &&
+            this.modelManager &&
+            this.state.biblio
+          ) {
             /*
               this is an optimisation
               to wait for each subscription to kick in at least once,
@@ -222,7 +238,7 @@ class RxDBDataBridge {
 
   public getData = async () => {
     const modelTools = await this.modelManager.getTools()
-    const data = { ...this.state, modelTools }
+    const data = { ...this.state, ...modelTools }
     return data // hmmm....
   }
 
@@ -279,7 +295,7 @@ class RxDBDataBridge {
   omniHandler = (type: string) => {
     this.expect(type)
 
-    return async <T>(doc: RxDocument<T>) => {
+    return async <T>(doc: RxDocument<T> | null) => {
       if (doc) {
         this.setState((state) => {
           return { ...state, [type]: doc.toJSON() }
@@ -552,6 +568,11 @@ class RxDBDataBridge {
             state.collaborators,
             state.user
           ),
+          collaboratorsById: buildCollaboratorProfiles(
+            state.collaborators,
+            state.user,
+            '_id'
+          ),
         })
       }
     )
@@ -560,6 +581,7 @@ class RxDBDataBridge {
       (state) => state.invitations && state.containerInvitations,
       (state) => {
         this.setState({
+          projectInvitations: state.invitations,
           invitations: buildInvitations(
             state.invitations,
             state.containerInvitations

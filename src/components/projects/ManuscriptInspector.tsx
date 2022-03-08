@@ -41,6 +41,8 @@ import {
   InspectorValue,
 } from '../inspector/ManuscriptStyleInspector'
 import { InspectorSection, Subheading } from '../InspectorSection'
+import { useModal } from '../ModalHookableProvider'
+import TemplateSelector from '../templates/TemplateSelector'
 import { CategorisedKeywordsInput } from './CategorisedKeywordsInput'
 import { CheckboxInput } from './CheckboxInput'
 import { CountInput } from './CountInput'
@@ -85,7 +87,7 @@ const buildCountRequirement = <T extends CountRequirement>(
 export const ManuscriptInspector: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
-  openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
+  openTemplateSelector?: (newProject: boolean, switchTemplate: boolean) => void
   getTemplate: (templateID: string) => ManuscriptTemplateData | undefined
   getManuscriptCountRequirements: (
     templateID: string
@@ -101,13 +103,15 @@ export const ManuscriptInspector: React.FC<{
   canWrite,
 }) => {
   const [
-    { manuscript, modelMap, saveManuscript, saveModel, deleteModel },
+    { manuscript, modelMap, saveManuscript, saveModel, user, project },
   ] = useStore((store) => ({
     manuscript: store.manuscript,
     modelMap: store.modelMap,
     saveManuscript: store.saveManuscript,
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
+    user: store.user,
+    project: store.project,
   }))
 
   const authorInstructionsURL = manuscript.authorInstructionsURL
@@ -191,6 +195,24 @@ export const ManuscriptInspector: React.FC<{
     },
     [saveManuscript]
   )
+
+  const { addModal } = useModal()
+
+  const openTemplateSelectorHandler = (
+    newProject?: boolean,
+    switchTemplate?: boolean
+  ) => {
+    addModal('template-selector', ({ handleClose }) => (
+      <TemplateSelector
+        projectID={newProject ? undefined : project._id}
+        user={user}
+        handleComplete={handleClose}
+        manuscript={manuscript}
+        switchTemplate={switchTemplate}
+        modelMap={modelMap}
+      />
+    ))
+  }
 
   return (
     <InspectorSection title={'Manuscript'}>
@@ -294,7 +316,11 @@ export const ManuscriptInspector: React.FC<{
               <>
                 <Subheading>Template</Subheading>
                 <InspectorValue
-                  onClick={() => openTemplateSelector(false, true)}
+                  onClick={() =>
+                    openTemplateSelector
+                      ? openTemplateSelector(false, true)
+                      : openTemplateSelectorHandler(false, true)
+                  }
                 >
                   <CitationStyle
                     value={

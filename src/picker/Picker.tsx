@@ -32,16 +32,13 @@ import { Title } from '@manuscripts/title-editor'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
-import { Database } from '../components/DatabaseProvider'
 import { PlaceholderTitle } from '../components/nav/Dropdown'
 import { ModalBody } from '../components/Sidebar'
 import config from '../config'
-import ProjectsData from '../data/ProjectsData'
-import { TokenActions } from '../data/TokenData'
 import { usePickerContributorsData } from '../hooks/use-picker-contributors-data'
 import { usePickerManuscriptDocs } from '../hooks/use-picker-manuscript-docs'
 import { fetchProjectScopedToken } from '../lib/api'
-import Sync from '../sync/Sync'
+import { useStore } from '../store'
 import { DropdownMenu } from './DropdownMenu'
 import { Filter } from './Filter'
 // type ProjectSelectable = Project
@@ -102,10 +99,7 @@ export const groupManuscripts = (
   }, [] as (Manuscript | string)[])
 }
 
-export const Picker: React.FC<{ db: Database; tokenActions: TokenActions }> = ({
-  db,
-  tokenActions,
-}) => {
+export const Picker: React.FC = () => {
   const selectManuscript = useCallback(
     (manuscript: Manuscript, project: Project) => {
       const targetOrigin = window.parent.origin
@@ -150,148 +144,128 @@ export const Picker: React.FC<{ db: Database; tokenActions: TokenActions }> = ({
   ] = useState<Project | null>()
   const [selectedManuscript, setSelectedManuscript] = useState<Manuscript>()
 
+  const [projects] = useStore((store) => store.projects as Project[])
+
   return (
-    <ProjectsData>
-      {(projects) => (
-        <Sync
-          collection={'picker'}
-          channels={projects.map((project) => `${project._id}-metadata`)}
-          db={db}
-          tokenActions={tokenActions}
-        >
-          <StyledModal isOpen={true} shouldCloseOnOverlayClick={false}>
-            <ModalContainer>
-              <ModalHeader>
-                <CloseButton
-                  onClick={closeWindow}
-                  data-cy={'modal-close-button'}
-                />
-              </ModalHeader>
-              <Box>
-                <Row>
-                  <Column>
-                    <Heading>
-                      <LogotypeColor style={{ maxWidth: '100%' }} />
-                    </Heading>
-                    <Item
-                      onClick={() => {
-                        setSelectedMenuProject(null)
-                        setSelectedManuscript(undefined)
-                      }}
-                      selected={!selectedMenuProject}
-                    >
-                      All manuscripts
-                    </Item>
-                    {[...projects].sort(alphabetical).map((project) => (
-                      <Item
-                        key={project._id}
-                        onClick={() => {
-                          setSelectedMenuProject(project)
-                          setSelectedProject(undefined)
-                          setSelectedManuscript(undefined)
-                        }}
-                        selected={selectedMenuProject === project}
-                      >
-                        {project.title ? (
-                          <Title value={project.title} />
-                        ) : (
-                          <PlaceholderTitle value={'Untitled Project'} />
-                        )}
-                      </Item>
-                    ))}
-                  </Column>
-                  <ProjectsColumn>
-                    {projects.length && manuscripts?.length && (
-                      <Filter
-                        rows={manuscripts.filter((manuscript) =>
-                          selectedMenuProject
-                            ? manuscript.containerID === selectedMenuProject._id
-                            : true
-                        )}
-                      >
-                        {(filtered) => {
-                          return maybeGroup(filtered, projects).map(
-                            (manuscript) => {
-                              if (typeof manuscript === 'string') {
-                                return (
-                                  <TitleItem key={manuscript}>
-                                    {manuscript}
-                                  </TitleItem>
-                                )
-                              }
-                              return (
-                                <Item
-                                  key={manuscript._id}
-                                  onClick={() => {
-                                    setSelectedManuscript(manuscript)
-                                    setSelectedProject(
-                                      projects.find(
-                                        (project) =>
-                                          manuscript.containerID === project._id
-                                      )
-                                    )
-                                  }}
-                                  selected={selectedManuscript === manuscript}
-                                >
-                                  <IconWrapper>
-                                    <ProjectIcon color="#FDCD47" />
-                                  </IconWrapper>
-                                  <ItemContent>
-                                    {manuscript.title ? (
-                                      <Title value={manuscript.title} />
-                                    ) : (
-                                      <PlaceholderTitle
-                                        value={'Untitled Manuscript'}
-                                      />
-                                    )}
-                                    <Contributors>
-                                      {contributors &&
-                                        contributors
-                                          .filter(
-                                            (contributor) =>
-                                              contributor.manuscriptID ===
-                                              manuscript._id
-                                          )
-                                          .sort(lowestPriorityFirst)
-                                          .map(
-                                            (contributor) =>
-                                              `${contributor.bibliographicName.given} ${contributor.bibliographicName.family}`
-                                          )}
-                                    </Contributors>
-                                  </ItemContent>
-                                </Item>
+    <StyledModal isOpen={true} shouldCloseOnOverlayClick={false}>
+      <ModalContainer>
+        <ModalHeader>
+          <CloseButton onClick={closeWindow} data-cy={'modal-close-button'} />
+        </ModalHeader>
+        <Box>
+          <Row>
+            <Column>
+              <Heading>
+                <LogotypeColor style={{ maxWidth: '100%' }} />
+              </Heading>
+              <Item
+                onClick={() => {
+                  setSelectedMenuProject(null)
+                  setSelectedManuscript(undefined)
+                }}
+                selected={!selectedMenuProject}
+              >
+                All manuscripts
+              </Item>
+              {[...projects].sort(alphabetical).map((project) => (
+                <Item
+                  key={project._id}
+                  onClick={() => {
+                    setSelectedMenuProject(project)
+                    setSelectedProject(undefined)
+                    setSelectedManuscript(undefined)
+                  }}
+                  selected={selectedMenuProject === project}
+                >
+                  {project.title ? (
+                    <Title value={project.title} />
+                  ) : (
+                    <PlaceholderTitle value={'Untitled Project'} />
+                  )}
+                </Item>
+              ))}
+            </Column>
+            <ProjectsColumn>
+              {projects.length && manuscripts?.length && (
+                <Filter
+                  rows={manuscripts.filter((manuscript) =>
+                    selectedMenuProject
+                      ? manuscript.containerID === selectedMenuProject._id
+                      : true
+                  )}
+                >
+                  {(filtered) => {
+                    return maybeGroup(filtered, projects).map((manuscript) => {
+                      if (typeof manuscript === 'string') {
+                        return (
+                          <TitleItem key={manuscript}>{manuscript}</TitleItem>
+                        )
+                      }
+                      return (
+                        <Item
+                          key={manuscript._id}
+                          onClick={() => {
+                            setSelectedManuscript(manuscript)
+                            setSelectedProject(
+                              projects.find(
+                                (project) =>
+                                  manuscript.containerID === project._id
                               )
-                            }
-                          )
-                        }}
-                      </Filter>
-                    )}
-                  </ProjectsColumn>
-                </Row>
-                <Footer>
-                  <DropdownMenu />
-                  <Actions>
-                    <SecondaryButton onClick={closeWindow}>
-                      Close
-                    </SecondaryButton>
-                    <PrimaryButton
-                      disabled={!selectedProject || !selectedManuscript}
-                      onClick={() => {
-                        if (selectedProject && selectedManuscript) {
-                          selectManuscript(selectedManuscript, selectedProject)
-                        }
-                      }}
-                    >
-                      Export
-                    </PrimaryButton>
-                  </Actions>
-                </Footer>
-              </Box>
-            </ModalContainer>
-          </StyledModal>
-        </Sync>
-      )}
-    </ProjectsData>
+                            )
+                          }}
+                          selected={selectedManuscript === manuscript}
+                        >
+                          <IconWrapper>
+                            <ProjectIcon color="#FDCD47" />
+                          </IconWrapper>
+                          <ItemContent>
+                            {manuscript.title ? (
+                              <Title value={manuscript.title} />
+                            ) : (
+                              <PlaceholderTitle value={'Untitled Manuscript'} />
+                            )}
+                            <Contributors>
+                              {contributors &&
+                                contributors
+                                  .filter(
+                                    (contributor) =>
+                                      contributor.manuscriptID ===
+                                      manuscript._id
+                                  )
+                                  .sort(lowestPriorityFirst)
+                                  .map(
+                                    (contributor) =>
+                                      `${contributor.bibliographicName.given} ${contributor.bibliographicName.family}`
+                                  )}
+                            </Contributors>
+                          </ItemContent>
+                        </Item>
+                      )
+                    })
+                  }}
+                </Filter>
+              )}
+            </ProjectsColumn>
+          </Row>
+          <Footer>
+            <DropdownMenu />
+            <Actions>
+              <SecondaryButton onClick={closeWindow}>Close</SecondaryButton>
+              <PrimaryButton
+                disabled={!selectedProject || !selectedManuscript}
+                onClick={() => {
+                  if (selectedProject && selectedManuscript) {
+                    selectManuscript(selectedManuscript, selectedProject)
+                  }
+                }}
+              >
+                Export
+              </PrimaryButton>
+            </Actions>
+          </Footer>
+        </Box>
+      </ModalContainer>
+    </StyledModal>
   )
 }
 

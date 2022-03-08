@@ -46,12 +46,8 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
 
-import { Database } from '../components/DatabaseProvider'
-import { isBulkDocsError } from '../sync/Collection'
+import { ContainedIDs, state } from '../store'
 import { loadBundle } from './bundles'
-import { createAndPushNewProject, createProjectCollection } from './collections'
-import { BulkCreateError } from './errors'
-import { nextManuscriptPriority } from './manuscript'
 import { postWebkitMessage } from './native'
 import { manuscriptCountRequirementFields, Requirement } from './requirements'
 import { SharedData } from './shared-data'
@@ -83,22 +79,32 @@ const sendNewProjectNotification = (projectID: string) => {
   })
 }
 
+// const getPriority = async (
+//   newProject: Build<Project> | undefined,
+//   collection: Collection<ContainedModel | ManuscriptModel>
+// ) => {
+//   const docs = await collection
+//     .getCollection()
+//     .find({
+//       objectType: ObjectTypes.Manuscript,
+//     })
+//     .exec()
+
+//   const manuscripts = docs.map((doc) => doc.toJSON()) as Manuscript[]
+//   return newProject ? 1 : await nextManuscriptPriority(manuscripts)
+// }
+
 interface CreateManuscriptProps {
   addContent?: boolean
   analyticsTemplateName: string
   bundleID: string
   data: SharedData
-  db: Database
   history: History
   projectID?: string
   prototype?: string
   template?: ManuscriptTemplateData
   user: UserProfile
-}
-
-interface ContainedIDs {
-  containerID: string
-  manuscriptID?: string
+  saveNewManuscript: state['saveNewManuscript']
 }
 
 const isStatusLabel = hasObjectType<StatusLabel>(ObjectTypes.StatusLabel)
@@ -109,24 +115,16 @@ export const createManuscript = async ({
   analyticsTemplateName,
   bundleID,
   data,
-  db,
   history,
   projectID,
   prototype,
   template,
   user,
+  saveNewManuscript,
 }: CreateManuscriptProps) => {
   const newProject = buildNewProject({ projectID, user })
-
-  if (newProject) {
-    await createAndPushNewProject(newProject)
-  }
-
   const containerID: string = newProject ? newProject._id : projectID!
-
-  const collection = await createProjectCollection(db, containerID)
-
-  const priority = newProject ? 1 : await nextManuscriptPriority(collection)
+  const priority = 1
 
   // build the manuscript
   const manuscript: Build<Manuscript> & { prototype?: string } = {
@@ -317,24 +315,15 @@ export const createManuscript = async ({
     }
   }
 
-  // save the manuscript dependencies
-  const results = await collection.bulkCreate(dependencies)
-
-  const failures = results.filter(isBulkDocsError)
-
-  if (failures.length) {
-    throw new BulkCreateError(failures)
-  }
-
-  // save the manuscript
-  await collection.create(manuscript, { containerID })
-
+  // Save the manuscript and its dependencies. Create new project if needed
+  await saveNewManuscript(dependencies, containerID, manuscript, newProject)
   trackEvent({
     category: 'Manuscripts',
     action: 'Create',
     label: `template=${analyticsTemplateName}`,
   })
 
+  // @TODO - move out this side effects
   history.push(`/projects/${containerID}/manuscripts/${manuscript._id}`)
 
   if (newProject) {

@@ -67,6 +67,7 @@ export const environmentVariables = [
   'FOOTNOTES_ENABLED',
   'FEATURE_FILE_MANAGEMENT',
   'FEATURE_KEYWORDS_CATEGORIES',
+  'RXDB',
 ]
 
 // Optional variables that are only used if they're set
@@ -111,6 +112,7 @@ const optionalVariables = [
   'SUBMISSION_ID',
   'ZOTERO_TRANSLATION_SERVER',
   'FEATURE_KEYWORDS_CATEGORIES',
+  'RXDB',
 ]
 
 if (

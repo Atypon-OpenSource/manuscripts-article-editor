@@ -14,11 +14,7 @@ import {
   SectionNode,
   Selected,
 } from '@manuscripts/manuscript-transform'
-import {
-  Manuscript,
-  Section,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import { Section } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
@@ -40,7 +36,6 @@ export const ContentTab: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState
   hasFocus?: boolean
-  openTemplateSelector: (newProject: boolean, switchTemplate: boolean) => void
 }> = ({
   selected,
   selectedSection,
@@ -48,14 +43,15 @@ export const ContentTab: React.FC<{
   dispatch,
   hasFocus,
   state,
-  openTemplateSelector,
 }) => {
-  const [{ manuscript, doc, getModel }] = useStore((store) => ({
-    manuscript: store.manuscript,
-    doc: store.doc,
-    getModel: store.getModel,
-    saveManuscript: store.saveManuscript,
-  }))
+  const [{ manuscript, doc, getModel }] = useStore((store) => {
+    return {
+      manuscript: store.manuscript,
+      doc: store.doc,
+      getModel: store.getModel,
+      saveManuscript: store.saveManuscript,
+    }
+  })
 
   const section = selectedSection
     ? getModel<Section>(selectedSection.node.attrs.id)
@@ -111,7 +107,6 @@ export const ContentTab: React.FC<{
         key={manuscript._id}
         state={state}
         dispatch={dispatch}
-        openTemplateSelector={openTemplateSelector}
         getTemplate={getTemplate}
         getManuscriptCountRequirements={getManuscriptCountRequirements}
       />
@@ -134,6 +129,7 @@ export const ContentTab: React.FC<{
             selectedSection ? (selectedSection.node as SectionNode) : undefined
           }
           state={state}
+          dispatch={dispatch}
           dispatchNodeAttrs={dispatchNodeAttrs}
           getSectionCountRequirements={getSectionCountRequirements}
         />

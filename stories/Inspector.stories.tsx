@@ -49,6 +49,7 @@ import { project } from './data/projects'
 import { snapshots } from './data/snapshots'
 import { statusLabels } from './data/status-labels'
 import { tags } from './data/tags'
+import { GenericStore, GenericStoreProvider } from '../src/store'
 
 const manuscript: Manuscript = {
   _id: 'MPManuscript:1',
@@ -116,44 +117,56 @@ storiesOf('Inspector', module).add('tabs', () => (
   </div>
 ))
 
+const storeState = {
+  manuscript,
+  modelMap,
+  saveManuscript: action('save manuscript'),
+  saveModel: action('save'),
+  deleteModel: action('delete'),
+  listCollaborators: () => people,
+  statusLabels: statusLabels,
+  tags: tags,
+  project: project,
+}
+const store = new GenericStore(undefined, undefined, storeState)
+
 storiesOf('Inspector/Manuscript Inspector', module).add(
   'without requirements',
-  () => (
-    <div style={{ width: 500 }}>
-      <ManuscriptInspector
-        modelMap={modelMap}
-        manuscript={manuscript}
-        saveManuscript={action('save manuscript')}
-        saveModel={action('save')}
-        deleteModel={action('delete')}
-        state={view.state}
-        dispatch={view.dispatch}
-        openTemplateSelector={action('open template selector ')}
-        getTemplate={action('get the template')}
-        getManuscriptCountRequirements={action(
-          'get the manuscript count requirements'
-        )}
-      />
-    </div>
-  )
+  () => {
+    return (
+      <GenericStoreProvider store={store}>
+        <div style={{ width: 500 }}>
+          <ManuscriptInspector
+            state={view.state}
+            dispatch={view.dispatch}
+            openTemplateSelector={action('open template selector ')}
+            getTemplate={action('get the template')}
+            getManuscriptCountRequirements={action(
+              'get the manuscript count requirements'
+            )}
+          />
+        </div>
+      </GenericStoreProvider>
+    )
+  }
 )
 
 storiesOf('Inspector/Section Inspector', module).add(
   'without requirements',
   () => (
-    <div style={{ width: 500 }}>
-      <SectionInspector
-        modelMap={modelMap}
-        section={section}
-        saveModel={action('save')}
-        state={view.state}
-        dispatch={view.dispatch}
-        dispatchNodeAttrs={action('dispatch node attributes')}
-        getSectionCountRequirements={action(
-          'get the section count requirements'
-        )}
-      />
-    </div>
+    <GenericStoreProvider store={store}>
+      <div style={{ width: 500 }}>
+        <SectionInspector
+          section={section}
+          state={view.state}
+          dispatch={view.dispatch}
+          dispatchNodeAttrs={action('dispatch node attributes')}
+          getSectionCountRequirements={action(
+            'get the section count requirements'
+          )}
+        />
+      </div>
+    </GenericStoreProvider>
   )
 )
 
@@ -284,19 +297,14 @@ storiesOf('Inspector/History', module).add('read only', () => (
 ))
 
 storiesOf('Inspector', module).add('Manage Section', () => (
-  <ManageTargetInspector
-    target={{
-      ...section,
-      assignees: ['user-1'],
-      deadline: 1593982800,
-      keywordIDs: ['tag-1', 'tag-2'],
-    }}
-    saveModel={action('save')}
-    listCollaborators={() => people}
-    statusLabels={statusLabels}
-    tags={tags}
-    modelMap={modelMap}
-    deleteModel={action('delete')}
-    project={project}
-  />
+  <GenericStoreProvider store={store}>
+    <ManageTargetInspector
+      target={{
+        ...section,
+        assignees: ['user-1'],
+        deadline: 1593982800,
+        keywordIDs: ['tag-1', 'tag-2'],
+      }}
+    />
+  </GenericStoreProvider>
 ))

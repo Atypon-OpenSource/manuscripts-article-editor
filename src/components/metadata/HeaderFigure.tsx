@@ -14,6 +14,7 @@ import { Figure, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
 import Dropzone from 'react-dropzone'
 import styled from 'styled-components'
+
 import { useStore } from '../../store'
 
 export const HeaderFigure: React.FC = () => {

@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import config from '../../config'
-import ProjectsData from '../../data/ProjectsData'
+import { useStore } from '../../store'
 import CollectionManager from '../../sync/CollectionManager'
 import { useSyncState } from '../../sync/SyncStore'
 import { GlobalMenu } from '../nav/GlobalMenu'
@@ -72,6 +72,7 @@ const PlaceholderTitle = styled(Title)`
 const DiagnosticsPageContainer: React.FunctionComponent = () => {
   const [apiVersion, setApiVersion] = useState<string>()
   const [gatewayVersion, setGatewayVersion] = useState<string>()
+  const [projects] = useStore((store) => store.projects)
 
   useEffect(() => {
     fetch(`${config.api.url}/app/version`)
@@ -135,23 +136,19 @@ const DiagnosticsPageContainer: React.FunctionComponent = () => {
 
             <h2>Project Diagnostics</h2>
 
-            <ProjectsData>
-              {(projects) => (
-                <ProjectsList>
-                  {projects.map((project) => (
-                    <ProjectTitle key={project._id}>
-                      <ProjectLink to={`/projects/${project._id}/diagnostics`}>
-                        {project.title ? (
-                          <Title value={project.title} />
-                        ) : (
-                          <PlaceholderTitle value={'Untitled Project'} />
-                        )}
-                      </ProjectLink>
-                    </ProjectTitle>
-                  ))}
-                </ProjectsList>
-              )}
-            </ProjectsData>
+            <ProjectsList>
+              {projects.map((project) => (
+                <ProjectTitle key={project._id}>
+                  <ProjectLink to={`/projects/${project._id}/diagnostics`}>
+                    {project.title ? (
+                      <Title value={project.title} />
+                    ) : (
+                      <PlaceholderTitle value={'Untitled Project'} />
+                    )}
+                  </ProjectLink>
+                </ProjectTitle>
+              ))}
+            </ProjectsList>
 
             <h2>All Collections</h2>
 

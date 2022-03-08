@@ -11,14 +11,11 @@
  */
 
 import { useEditor } from '@manuscripts/manuscript-editor'
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import {
-  Correction as CorrectionT,
-  Project,
-} from '@manuscripts/manuscripts-json-schema'
+import { Correction as CorrectionT } from '@manuscripts/manuscripts-json-schema'
 import { commands, Commit } from '@manuscripts/track-changes'
 import React, { useCallback } from 'react'
 
+import { useStore } from '../../store'
 import { CorrectionsSection } from './CorrectionsSection'
 
 interface CorrectionsByStatus {
@@ -52,26 +49,25 @@ export const groupCorrectionsByStatus = (
 }
 
 interface Props {
-  project: Project
   corrections: CorrectionT[]
-  commits: Commit[]
   editor: ReturnType<typeof useEditor>
-  collaborators: Map<string, UserProfileWithAvatar>
+  commits: Commit[]
   accept: (correctionID: string) => void
   reject: (correctionID: string) => void
-  user: UserProfileWithAvatar
 }
 
 export const Corrections: React.FC<Props> = ({
   corrections,
   commits,
   editor,
-  collaborators,
   accept,
   reject,
-  project,
-  user,
 }) => {
+  const [{ project, user, collaborators }] = useStore((store) => ({
+    project: store.project,
+    user: store.user,
+    collaborators: store.collaborators || new Map(),
+  }))
   const getCommitFromCorrectionId = useCallback(
     (correctionId: string) => {
       const correction = corrections.find((corr) => corr._id === correctionId)

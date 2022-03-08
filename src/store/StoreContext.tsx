@@ -13,14 +13,14 @@ import React, { createContext, useContext, useEffect } from 'react'
 
 import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
 
-const GenericStoreContext = createContext<GenericStore | null>(null)
+const GenericStoreContext = createContext<GenericStore>(new GenericStore())
 
 export const createStore = async (
   dataSources: StoreDataSourceStrategy[],
   reducer?: reducer,
   unmountHandler?: Store['unmountHandler']
 ) => {
-  const store = new GenericStore(dataSources, reducer, unmountHandler)
+  const store = new GenericStore(reducer, unmountHandler)
   await store.init(dataSources)
   return store
 }

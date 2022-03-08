@@ -9,6 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
+import { Styles } from 'react-select'
 import styled, { css } from 'styled-components'
 
 import { selectStyles } from '../../../lib/select-styles'
@@ -27,7 +28,7 @@ interface StyleProps {
     percent: number
   }
 }
-export const customStyles = {
+export const customStyles: Partial<Styles<any, false>> = {
   ...selectStyles,
   clearIndicator: (styles: Record<string, unknown>) => {
     return {

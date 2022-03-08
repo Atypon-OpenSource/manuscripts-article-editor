@@ -39,7 +39,7 @@ export const StyledButton = styled.button<{ copyState: CopyState }>`
 `
 
 interface Props {
-  handleCopy: () => string
+  handleCopy: () => string | undefined
 }
 
 export const CopyableText: React.FC<Props> = ({ handleCopy, children }) => {
@@ -48,7 +48,7 @@ export const CopyableText: React.FC<Props> = ({ handleCopy, children }) => {
   const copy = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault()
-      copyToClipboard(handleCopy())
+      copyToClipboard(handleCopy() || '')
         .then(() => setCopyState(CopyState.Copied))
         .catch(() => setCopyState(CopyState.Failed))
     },

@@ -13,8 +13,8 @@
 import { AnyValidationResult } from '@manuscripts/requirements'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { useStore } from '../../store'
 
+import { useStore } from '../../store'
 import { RequirementContainer } from './RequirementContainer'
 import { RequirementsData } from './RequirementsData'
 import { SectionValidations } from './SectionValidations'

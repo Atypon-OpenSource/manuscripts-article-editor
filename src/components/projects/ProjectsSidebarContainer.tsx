@@ -11,31 +11,20 @@
  */
 
 import React from 'react'
-import { RouteComponentProps, withRouter } from 'react-router'
+import { useHistory } from 'react-router'
 
-import { TokenActions } from '../../data/TokenData'
-import { DatabaseContext } from '../DatabaseProvider'
+import { useStore } from '../../store'
 import { importManuscript } from './ImportManuscript'
 import ProjectsSidebar from './ProjectsSidebar'
 
-interface Props {
-  tokenActions: TokenActions
-}
-class ProjectsSidebarContainer extends React.Component<
-  RouteComponentProps & Props
-> {
-  public render() {
-    return (
-      <DatabaseContext.Consumer>
-        {(db) => (
-          <ProjectsSidebar
-            importManuscript={importManuscript(db, this.props.history)}
-            tokenActions={this.props.tokenActions}
-          />
-        )}
-      </DatabaseContext.Consumer>
-    )
-  }
+const ProjectsSidebarContainer: React.FC = () => {
+  const history = useHistory()
+  const [saveNewManuscript] = useStore((store) => store.saveNewManuscript)
+  return (
+    <ProjectsSidebar
+      importManuscript={importManuscript(history, saveNewManuscript)}
+    />
+  )
 }
 
-export default withRouter(ProjectsSidebarContainer)
+export default ProjectsSidebarContainer

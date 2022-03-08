@@ -11,13 +11,13 @@
  */
 
 import {
+  findParentNodeWithIdValue,
   ManuscriptOutline,
   OutlineManuscript,
+  useEditor,
 } from '@manuscripts/manuscript-editor'
 import {
   ManuscriptEditorView,
-  ManuscriptNode,
-  Selected,
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
@@ -27,7 +27,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
-import { TokenActions } from '../../data/TokenData'
+import { useStore } from '../../store'
 import { Permissions } from '../../types/permissions'
 import { AddButton } from '../AddButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
@@ -85,32 +85,32 @@ const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
 interface Props {
   openTemplateSelector?: (newProject: boolean) => void
   manuscript: Manuscript
-  manuscripts: Manuscript[]
   project: Project
   saveProjectTitle?: (title: string) => Promise<Project>
-  selected: Selected | null
   view?: ManuscriptEditorView
-  doc?: ManuscriptNode
+  state: ReturnType<typeof useEditor>['state']
   user: UserProfileWithAvatar
   permissions: Permissions
-  tokenActions: TokenActions
-  saveModel: (model: Manuscript) => Promise<Manuscript>
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   openTemplateSelector,
-  doc,
+  state,
   manuscript,
-  manuscripts,
   view,
   permissions,
   project,
   saveProjectTitle,
-  selected,
   user,
-  tokenActions,
-  saveModel,
 }) => {
+  const [{ manuscripts, tokenActions, saveModel }] = useStore((store) => ({
+    manuscripts: store.manuscripts || [],
+    saveModel: store.saveModel,
+    tokenActions: store.tokenActions,
+  }))
+
+  const selected = findParentNodeWithIdValue(state.selection)
+
   const [sortedManuscripts, setSortedManuscripts] = useState<Manuscript[]>()
 
   useEffect(() => {
@@ -204,10 +204,10 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
           item={item}
           setIndex={setIndex}
         >
-          {item._id === manuscript._id ? (
+          {selected && item._id === manuscript._id ? (
             <ManuscriptOutline
               manuscript={manuscript}
-              doc={doc || null}
+              doc={state?.doc || null}
               view={view}
               selected={selected}
               permissions={permissions}

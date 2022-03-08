@@ -12,9 +12,9 @@
 
 import decode from 'jwt-decode'
 
+import { removeDatabase } from '../couch-data/db'
 import userID from '../lib/user-id'
 import * as api from './api'
-import { removeDatabase } from './db'
 import { TokenPayload } from './user'
 
 export const login = async (email: string, password: string) => {

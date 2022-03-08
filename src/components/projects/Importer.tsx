@@ -11,7 +11,6 @@
  */
 
 import {
-  ContainedModel,
   DEFAULT_PAGE_LAYOUT,
   fromPrototype,
   isManuscriptModel,
@@ -19,7 +18,7 @@ import {
   StyleObject,
   updatedPageLayout,
 } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { History } from 'history'
 import React from 'react'
@@ -37,7 +36,7 @@ import {
   importFile,
   openFilePicker,
 } from '../../pressroom/importers'
-import { Collection } from '../../sync/Collection'
+import { bulkCreate } from '../../store'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { ProgressModal } from './ProgressModal'
 
@@ -233,8 +232,9 @@ const buildImportErrorMessage = (error: Error) => {
 export const importManuscript = async (
   models: Model[],
   projectID: string,
-  collection: Collection<ContainedModel>,
+  bulkCreate: bulkCreate,
   history: History,
+  manuscripts: Manuscript[],
   redirect: boolean
 ) => {
   const manuscript = models.find(isManuscript)
@@ -245,7 +245,7 @@ export const importManuscript = async (
 
   // TODO: try to share this code with createManuscript
 
-  manuscript.priority = await nextManuscriptPriority(collection)
+  manuscript.priority = await nextManuscriptPriority(manuscripts)
 
   // TODO: use the imported filename?
   if (!manuscript.pageLayout) {
@@ -285,7 +285,7 @@ export const importManuscript = async (
     manuscriptID: isManuscriptModel(model) ? manuscript._id : undefined,
   }))
 
-  await collection.bulkCreate(items)
+  await bulkCreate(items)
 
   if (redirect) {
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)

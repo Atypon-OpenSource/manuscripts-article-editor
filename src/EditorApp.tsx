@@ -9,18 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { hot } from 'react-hot-loader'
+import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Loading } from './components/Loading'
-import { NotificationProviderWithRouter } from './components/NotificationProvider'
+import { NotificationProvider } from './components/NotificationProvider'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import CouchSource from './couch-data/CouchSource'
-import { useGetStep } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
-import OnlyEditor, { TestComponent } from './OnlyEditor'
 import {
   BasicSource,
   createStore,
@@ -36,9 +34,10 @@ interface Props {
 
 const Wrapper = styled.div`
   display: flex;
-  height: calc(100vh - 1px);
   box-sizing: border-box;
   color: rgb(53, 53, 53);
+  width: 100%;
+  overflow: hidden;
   font-family: Lato, sans-serif;
 `
 
@@ -57,12 +56,11 @@ const EditorApp: React.FC<Props> = ({
     }
     const basicSource = new BasicSource(
       submissionId,
-      manuscriptID,
       projectID,
-      userID
+      manuscriptID,
+      userID || ''
     )
     const couchSource = new CouchSource()
-    // const lwSource = new LeanGQLData()
     createStore([basicSource, couchSource])
       .then((store) => {
         setStore(store)
@@ -70,16 +68,18 @@ const EditorApp: React.FC<Props> = ({
       .catch((e) => {
         console.log(e)
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissionId, manuscriptID, projectID])
 
   return store ? (
     <GenericStoreProvider store={store}>
-      <NotificationProviderWithRouter>
-        <Wrapper>
-          <ManuscriptPageContainer />
-        </Wrapper>
-      </NotificationProviderWithRouter>
-      {/* <TestComponent /> */}
+      <Router>
+        <NotificationProvider>
+          <Wrapper>
+            <ManuscriptPageContainer />
+          </Wrapper>
+        </NotificationProvider>
+      </Router>
     </GenericStoreProvider>
   ) : (
     <Loading>Loading store...</Loading>

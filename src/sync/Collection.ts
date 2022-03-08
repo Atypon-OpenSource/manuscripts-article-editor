@@ -44,11 +44,7 @@ import {
 
 const externalSessionID = uuid()
 
-export interface ContainerIDs {
-  containerID?: string
-  manuscriptID?: string
-  templateID?: string
-}
+import { ContainerIDs } from '../store'
 
 export const isBulkDocsSuccess = (
   item: BulkDocsSuccess | BulkDocsError

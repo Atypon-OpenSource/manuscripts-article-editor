@@ -22,7 +22,6 @@ import {
   MaximumSectionWordCountRequirement,
   MinimumSectionCharacterCountRequirement,
   MinimumSectionWordCountRequirement,
-  Model,
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
@@ -51,8 +50,6 @@ import { InspectorSection, Subheading } from '../InspectorSection'
 import { CategoryInput } from '../projects/CategoryInput'
 import { CountInput } from '../projects/CountInput'
 import { PageBreakInput } from '../projects/PageBreakInput'
-
-type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 
 type Buildable<T> = T | Build<T>
 

@@ -14,7 +14,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import styled from 'styled-components'
 
-import { TokenActions } from '../../data/TokenData'
+import { TokenActions } from '../../store'
 import MessageBanner from '../MessageBanner'
 import { GlobalMenu } from '../nav/GlobalMenu'
 import { Main, Page } from '../Page'
@@ -43,7 +43,7 @@ const ProjectsPageContainer: React.FunctionComponent<
       <Container>
         <GlobalMenu active={'projects'} />
         <MessageBanner errorMessage={errorMessage} />
-        <ProjectsSidebarContainer tokenActions={tokenActions} />
+        <ProjectsSidebarContainer />
       </Container>
     </Main>
   </Page>

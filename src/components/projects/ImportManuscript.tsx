@@ -18,19 +18,13 @@ import {
 import { Model, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
 
-import {
-  createAndPushNewProject,
-  createProjectCollection,
-} from '../../lib/collections'
-import { BulkCreateError } from '../../lib/errors'
-import { isManuscript, nextManuscriptPriority } from '../../lib/manuscript'
+import { isManuscript } from '../../lib/manuscript'
 import { getCurrentUserId } from '../../lib/user'
-import { isBulkDocsError } from '../../sync/Collection'
-import { Database } from '../DatabaseProvider'
+import { state } from '../../store'
 
 export const importManuscript = (
-  db: Database,
   history: History,
+  saveNewManuscript: state['saveNewManuscript'],
   user?: UserProfile,
   handleComplete?: () => void,
   possibleProjectID?: string
@@ -38,26 +32,15 @@ export const importManuscript = (
   const userID = user ? user.userID : getCurrentUserId()!
 
   const newProject = possibleProjectID ? null : buildProject(userID)
-
-  if (newProject) {
-    await createAndPushNewProject(newProject)
-  }
-
   const projectID = newProject ? newProject._id : possibleProjectID!
-
-  const collection = await createProjectCollection(db, projectID)
-
   // TODO: handle multiple manuscripts in a project bundle
-
   const manuscript = models.find(isManuscript)
-
   if (!manuscript) {
     throw new Error('No manuscript found')
   }
-
   // TODO: try to share this code with createManuscript
 
-  manuscript.priority = await nextManuscriptPriority(collection)
+  //  manuscript.priority = await nextManuscriptPriority(collection)
 
   // save the dependencies
   const dependencies: Array<ContainedModel & { manuscriptID?: string }> = []
@@ -72,16 +55,12 @@ export const importManuscript = (
     }
   }
 
-  const results = await collection.bulkCreate(dependencies)
-
-  const failures = results.filter(isBulkDocsError)
-
-  if (failures.length) {
-    throw new BulkCreateError(failures)
-  }
-
-  // save the manuscript
-  await collection.create(manuscript)
+  await saveNewManuscript(
+    dependencies,
+    projectID,
+    manuscript,
+    newProject || undefined
+  )
 
   // redirect to the manuscript page
   history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)

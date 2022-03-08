@@ -9,222 +9,214 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+export {}
+// import { buildUserProfileAffiliation } from '@manuscripts/manuscript-transform'
+// import {
+//   ObjectTypes,
+//   UserProfile,
+//   UserProfileAffiliation,
+// } from '@manuscripts/manuscripts-json-schema'
+// import { Category, Dialog } from '@manuscripts/style-guide'
+// import { FormikErrors, FormikHelpers } from 'formik'
+// import React, { useState } from 'react'
 
-import { buildUserProfileAffiliation } from '@manuscripts/manuscript-transform'
-import {
-  ObjectTypes,
-  UserProfile,
-  UserProfileAffiliation,
-} from '@manuscripts/manuscripts-json-schema'
-import { Category, Dialog } from '@manuscripts/style-guide'
-import { FormikErrors, FormikHelpers } from 'formik'
-import React from 'react'
-import { RouteComponentProps } from 'react-router'
+// import config from '../../config'
+// import { logout } from '../../lib/account'
+// import { markUserForDeletion } from '../../lib/api/authentication'
+// import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
+// import tokenHandler from '../../lib/token'
+// import { useStore } from '../../store'
+// import { Collection } from '../../sync/Collection'
+// import { ProfileErrors, ProfileValues } from './ProfileForm'
+// import { ProfilePageComponent } from './ProfilePage'
 
-import config from '../../config'
-import UserAffiliationsData from '../../data/UserAffiliationsData'
-import UserData from '../../data/UserData'
-import { logout } from '../../lib/account'
-import { markUserForDeletion } from '../../lib/api/authentication'
-import { PROFILE_IMAGE_ATTACHMENT } from '../../lib/data'
-import tokenHandler from '../../lib/token'
-import { getCurrentUserId } from '../../lib/user'
-import { Collection } from '../../sync/Collection'
-import { ProfileErrors, ProfileValues } from './ProfileForm'
-import { ProfilePageComponent } from './ProfilePage'
+// const ProfilePage = React.lazy<ProfilePageComponent>(
+//   () => import('./ProfilePage')
+// )
 
-const ProfilePage = React.lazy<ProfilePageComponent>(
-  () => import('./ProfilePage')
-)
+// interface State {
+//   confirmDelete: boolean
+// }
 
-interface State {
-  confirmDelete: boolean
-}
+// const ProfilePageContainer = (props) => {
+//   const [state, setState] = useState<State>({
+//     confirmDelete: false,
+//   })
 
-class ProfilePageContainer extends React.Component<RouteComponentProps> {
-  public state: Readonly<State> = {
-    confirmDelete: false,
-  }
+//   const { confirmDelete } = state
 
-  public render() {
-    const { confirmDelete } = this.state
+//   const actions = {
+//     primary: {
+//       action: async () => {
+//         await markUserForDeletion()
+//         await logout()
 
-    const actions = {
-      primary: {
-        action: async () => {
-          await markUserForDeletion()
-          await logout()
+//         tokenHandler.remove()
 
-          tokenHandler.remove()
+//         window.location.assign('/sorry')
+//       },
+//       title: 'Delete Now',
+//       isDestructive: true,
+//     },
+//     secondary: {
+//       action: () =>
+//         setState({
+//           confirmDelete: false,
+//         }),
+//       title: 'Keep my account',
+//     },
+//   }
 
-          window.location.assign('/sorry')
-        },
-        title: 'Delete Now',
-        isDestructive: true,
-      },
-      secondary: {
-        action: () =>
-          this.setState({
-            confirmDelete: false,
-          }),
-        title: 'Keep my account',
-      },
-    }
+//   const [
+//     { user, affiliations, updateUser, updateAffiliation, removeAffiliation },
+//   ] = useStore((store) => ({
+//     user: store.user,
+//     affiliations: store.affiliations,
+//     updateUser: store.updateUser,
+//     updateAffiliation: store.updateAffiliation,
+//     removeAffiliation: store.removeAffiliation,
+//     updateUser: store.updateUser,
+//   }))
 
-    if (confirmDelete) {
-      return (
-        <Dialog
-          isOpen={confirmDelete}
-          actions={actions}
-          category={Category.confirmation}
-          header={'Are you sure you want to delete your account?'}
-          message={
-            'Your projects will be gone forever, and you will no longer have access to the projects you were invited to.'
-          }
-          confirmFieldText={'DELETE'}
-        />
-      )
-    }
-    return (
-      <UserData userID={getCurrentUserId()!}>
-        {(user, userCollection) => (
-          <UserAffiliationsData profileID={user._id}>
-            {(affiliations, affiliationsCollection) => (
-              <React.Suspense fallback={null}>
-                <ProfilePage
-                  userWithAvatar={user}
-                  affiliationsMap={affiliations}
-                  handleSave={this.handleSave(user, userCollection)}
-                  handleChangePassword={this.handleChangePassword}
-                  handleDeleteAccount={this.handleDeleteAccount}
-                  handleClose={this.handleClose}
-                  saveUserProfileAvatar={this.saveUserProfileAvatar(
-                    user._id,
-                    userCollection
-                  )}
-                  deleteUserProfileAvatar={this.deleteUserProfileAvatar(
-                    user._id,
-                    userCollection
-                  )}
-                  createAffiliation={this.createAffiliation(
-                    user._id,
-                    affiliationsCollection,
-                    userCollection
-                  )}
-                  updateAffiliation={this.updateAffiliation(
-                    affiliationsCollection
-                  )}
-                  removeAffiliation={this.removeAffiliation(
-                    affiliationsCollection
-                  )}
-                />
-              </React.Suspense>
-            )}
-          </UserAffiliationsData>
-        )}
-      </UserData>
-    )
-  }
+//   if (confirmDelete) {
+//     return (
+//       <Dialog
+//         isOpen={confirmDelete}
+//         actions={actions}
+//         category={Category.confirmation}
+//         header={'Are you sure you want to delete your account?'}
+//         message={
+//           'Your projects will be gone forever, and you will no longer have access to the projects you were invited to.'
+//         }
+//         confirmFieldText={'DELETE'}
+//       />
+//     )
+//   }
 
-  private handleSave = (
-    user: UserProfile,
-    userCollection: Collection<UserProfile>
-  ) => async (
-    values: ProfileValues,
-    { setSubmitting, setErrors }: FormikHelpers<ProfileValues | ProfileErrors>
-  ) =>
-    userCollection
-      .update(user._id, values)
-      .then(() => setSubmitting(false))
-      .catch((error) => {
-        setSubmitting(false)
+//   const handleSave = (
+//     user: UserProfile,
+//     userCollection: Collection<UserProfile>
+//   ) => async (
+//     values: ProfileValues,
+//     { setSubmitting, setErrors }: FormikHelpers<ProfileValues | ProfileErrors>
+//   ) =>
+//     userCollection
+//       .update(user._id, values)
+//       .then(() => setSubmitting(false))
+//       .catch((error) => {
+//         setSubmitting(false)
 
-        const errors: FormikErrors<ProfileErrors> = {
-          submit: error.response
-            ? error.response.data.error
-            : 'There was an error',
-        }
+//         const errors: FormikErrors<ProfileErrors> = {
+//           submit: error.response
+//             ? error.response.data.error
+//             : 'There was an error',
+//         }
 
-        setErrors(errors)
-      })
+//         setErrors(errors)
+//       })
 
-  private handleChangePassword = () =>
-    config.connect.enabled
-      ? window.open(`${config.iam.url}/security/password`)
-      : this.props.history.push('/change-password')
+//   const handleChangePassword = () =>
+//     config.connect.enabled
+//       ? window.open(`${config.iam.url}/security/password`)
+//       : props.history.push('/change-password')
 
-  private handleDeleteAccount = () =>
-    config.connect.enabled
-      ? this.setState({
-          confirmDelete: true,
-        })
-      : this.props.history.push('/delete-account')
+//   const handleDeleteAccount = () =>
+//     config.connect.enabled
+//       ? setState({
+//           confirmDelete: true,
+//         })
+//       : props.history.push('/delete-account')
 
-  private handleClose = () => this.props.history.goBack()
+//   const handleClose = () => props.history.goBack()
 
-  private createAffiliation = (
-    userID: string,
-    affiliationsCollection: Collection<UserProfileAffiliation>,
-    userCollection: Collection<UserProfile>
-  ) => async (institution: string) => {
-    const userProfileAffiliation = buildUserProfileAffiliation(institution)
+//   const createAffiliation = (
+//     userID: string,
+//     affiliationsCollection: Collection<UserProfileAffiliation>,
+//     userCollection: Collection<UserProfile>
+//   ) => async (institution: string) => {
+//     const userProfileAffiliation = buildUserProfileAffiliation(institution)
 
-    try {
-      const user = await userCollection.findDoc(userID)
-      await user.atomicUpdate((current) => {
-        current.affiliations = current.affiliations || []
-        current.affiliations.push(userProfileAffiliation._id)
-        return current
-      })
-    } catch (e) {
-      console.error('Failed to create affiliation', e)
-    }
+//     try {
+//       const user = await userCollection.findDoc(userID)
+//       await user.atomicUpdate((current) => {
+//         current.affiliations = current.affiliations || []
+//         current.affiliations.push(userProfileAffiliation._id)
+//         return current
+//       })
+//     } catch (e) {
+//       console.error('Failed to create affiliation', e)
+//     }
 
-    return affiliationsCollection.create(userProfileAffiliation, {
-      containerID: userID,
-    })
-  }
+//     return affiliationsCollection.create(userProfileAffiliation, {
+//       containerID: userID,
+//     })
+//   }
 
-  private updateAffiliation = (
-    affiliationsCollection: Collection<UserProfileAffiliation>
-  ) => async (data: Partial<UserProfileAffiliation>) => {
-    return affiliationsCollection.save({
-      ...data,
-      objectType: ObjectTypes.UserProfileAffiliation,
-    })
-  }
+//   const updateAffiliation = (
+//     affiliationsCollection: Collection<UserProfileAffiliation>
+//   ) => async (data: Partial<UserProfileAffiliation>) => {
+//     return affiliationsCollection.save({
+//       ...data,
+//       objectType: ObjectTypes.UserProfileAffiliation,
+//     })
+//   }
 
-  private removeAffiliation = (
-    affiliationsCollection: Collection<UserProfileAffiliation>
-  ) => async (data: UserProfileAffiliation) => {
-    return affiliationsCollection.delete(data._id)
-  }
+//   const removeAffiliation = (
+//     affiliationsCollection: Collection<UserProfileAffiliation>
+//   ) => async (data: UserProfileAffiliation) => {
+//     return affiliationsCollection.delete(data._id)
+//   }
 
-  private saveUserProfileAvatar = (
-    id: string,
-    userCollection: Collection<UserProfile>
-  ) => async (data: Blob) => {
-    await userCollection.putAttachment(id, {
-      id: PROFILE_IMAGE_ATTACHMENT,
-      type: data.type,
-      data,
-    })
-  }
+//   const saveUserProfileAvatar = (
+//     id: string,
+//     userCollection: Collection<UserProfile>
+//   ) => async (data: Blob) => {
+//     await userCollection.putAttachment(id, {
+//       id: PROFILE_IMAGE_ATTACHMENT,
+//       type: data.type,
+//       data,
+//     })
+//   }
 
-  private deleteUserProfileAvatar = (
-    id: string,
-    userCollection: Collection<UserProfile>
-  ) => async () => {
-    const doc = await userCollection.findOne(id).exec()
+//   const deleteUserProfileAvatar = (
+//     id: string,
+//     userCollection: Collection<UserProfile>
+//   ) => async () => {
+//     const doc = await userCollection.findOne(id).exec()
 
-    if (!doc) {
-      throw new Error('Document not found')
-    }
+//     if (!doc) {
+//       throw new Error('Document not found')
+//     }
 
-    const attachment = doc.getAttachment(PROFILE_IMAGE_ATTACHMENT)
+//     const attachment = doc.getAttachment(PROFILE_IMAGE_ATTACHMENT)
 
-    return attachment.remove()
-  }
-}
+//     return attachment.remove()
+//   }
 
-export default ProfilePageContainer
+//   return (
+//     <React.Suspense fallback={null}>
+//       <ProfilePage
+//         userWithAvatar={user}
+//         affiliationsMap={affiliations}
+//         handleSave={handleSave(user, userCollection)}
+//         handleChangePassword={handleChangePassword}
+//         handleDeleteAccount={handleDeleteAccount}
+//         handleClose={handleClose}
+//         saveUserProfileAvatar={saveUserProfileAvatar(user._id, userCollection)}
+//         deleteUserProfileAvatar={deleteUserProfileAvatar(
+//           user._id,
+//           userCollection
+//         )}
+//         createAffiliation={createAffiliation(
+//           user._id,
+//           affiliationsCollection,
+//           userCollection
+//         )}
+//         updateAffiliation={updateAffiliation(affiliationsCollection)}
+//         removeAffiliation={removeAffiliation(affiliationsCollection)}
+//       />
+//     </React.Suspense>
+//   )
+// }
+
+// export default ProfilePageContainer

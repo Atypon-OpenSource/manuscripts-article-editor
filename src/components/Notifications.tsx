@@ -13,7 +13,6 @@
 import AttentionBlue from '@manuscripts/assets/react/AttentionBlue'
 import { ButtonGroup } from '@manuscripts/style-guide'
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import { Transition } from 'react-spring/renderprops.cjs'
 import styled from 'styled-components'
 
@@ -24,7 +23,7 @@ interface Props {
   removeNotification: (id: string) => void
 }
 
-export const Notifications: React.FC<Props & RouteComponentProps> = ({
+export const Notifications: React.FC<Props> = ({
   items,
   removeNotification,
   ...rest

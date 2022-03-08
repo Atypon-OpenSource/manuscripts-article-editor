@@ -14,8 +14,8 @@ import projectDump from '@manuscripts/examples/data/project-dump.json'
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import { v4 as uuid } from 'uuid'
 
+import { databaseCreator } from '../../couch-data/db'
 import { clearChannelFolder } from '../../lib/broadcast-channel'
-import { databaseCreator } from '../../lib/db'
 import { Collection, isBulkDocsError, isBulkDocsSuccess } from '../Collection'
 
 jest.mock('../../lib/adapter')

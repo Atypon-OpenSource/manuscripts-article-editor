@@ -12,7 +12,7 @@
 
 import React from 'react'
 
-import { TokenActions } from '../../data/TokenData'
+import { TokenActions } from '../../store'
 import {
   ModalSidebar,
   Sidebar,

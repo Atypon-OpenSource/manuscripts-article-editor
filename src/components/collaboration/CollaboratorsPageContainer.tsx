@@ -19,11 +19,11 @@ import {
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import { TokenActions } from '../../data/TokenData'
 import { projectInvite, projectUninvite, updateUserRole } from '../../lib/api'
 import { buildCollaborators } from '../../lib/collaborators'
 import { ProjectRole } from '../../lib/roles'
 import { trackEvent } from '../../lib/tracking'
+import { TokenActions } from '../../store'
 import { Main } from '../Page'
 import { CollaboratorDetailsPage } from './CollaboratorsPage'
 import CollaboratorsSidebar from './CollaboratorsSidebar'

@@ -10,15 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect } from 'react'
 import type { RouteComponentProps } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import LoginPageContainer from './components/account/LoginPageContainer'
 import { Frontmatter } from './components/Frontmatter'
-import ManuscriptEditor from './components/projects/lean-workflow/ManuscriptEditor'
 import config from './config'
-import { addDataSource, useStore } from './store'
+import { useStore } from './store'
 import type { RouteLocationState } from './types/router-state'
 
 const DeveloperPageContainer = React.lazy(
@@ -54,9 +53,9 @@ export const TestComponent = () => {
 }
 
 const OnlyEditor = () => {
-  const [state] = useStore()
+  const [state] = useStore((store) => store)
 
-  const { user, userID, tokenActions, manuscriptID, projectID } = state
+  const { user, userID } = state
 
   return userID ? (
     <Switch>
@@ -108,7 +107,7 @@ const OnlyEditor = () => {
         }
       />
 
-      <Route
+      {/* <Route
         path={'/projects/:projectID/manuscripts/:manuscriptID'}
         render={(props) => (
           <ManuscriptEditor
@@ -118,7 +117,7 @@ const OnlyEditor = () => {
             manuscriptID={props.match.params.projectID}
           />
         )}
-      />
+      /> */}
 
       <Route
         path={'/developer'}

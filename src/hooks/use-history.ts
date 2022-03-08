@@ -17,13 +17,11 @@ import {
   ObjectTypes,
   Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from '@manuscripts/rxdb'
 import { useCallback, useEffect, useState } from 'react'
 
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
 import { useStore } from '../store'
-import CollectionManager from '../sync/CollectionManager'
 
 export enum SnapshotStatus {
   Ready = 'ready',
@@ -34,7 +32,7 @@ export enum SnapshotStatus {
 }
 
 interface HookValue {
-  snapshotsList: Array<RxDocument<Snapshot>>
+  snapshotsList: Snapshot[]
   loadSnapshot: (remoteID: string, manuscriptID: string) => void
   loadSnapshotStatus: SnapshotStatus
   currentSnapshot: {
@@ -59,10 +57,8 @@ export const useHistory = (projectID: string): HookValue => {
   const [loadSnapshotStatus, setLoadSnapshotStatus] = useState<SnapshotStatus>(
     SnapshotStatus.Ready
   )
-  const [snapshotsList, setSnapshotsList] = useState<
-    Array<RxDocument<Snapshot>>
-  >([])
-  const [snapshots] = useStore((state) => state.snapshots)
+  const [snapshotsList, setSnapshotsList] = useState<Snapshot[]>([])
+  const [snapshots] = useStore((state) => state.snapshots || [])
   useEffect(() => {
     // do we need a useEffect here, will the user store trigger a chain update automatically?
     setSnapshotsList(snapshots)

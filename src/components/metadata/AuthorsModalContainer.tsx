@@ -33,8 +33,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
-import { TokenActions } from '../../data/TokenData'
 import { AffiliationMap } from '../../lib/authors'
+import { TokenActions } from '../../store'
 import { AuthorsModal } from './AuthorsModals'
 
 const Invited = styled.div`

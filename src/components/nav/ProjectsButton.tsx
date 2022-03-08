@@ -17,14 +17,9 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import ContainersInvitationsData from '../../data/ContainersInvitationsData'
-import ProjectsData from '../../data/ProjectsData'
-import ProjectsInvitationsData from '../../data/ProjectsInvitationsData'
-import { TokenActions } from '../../data/TokenData'
-import UserData from '../../data/UserData'
 import { acceptProjectInvitation, rejectProjectInvitation } from '../../lib/api'
 import {
   buildContainerInvitations,
@@ -32,7 +27,7 @@ import {
   groupInvitations,
 } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
-import { getCurrentUserId } from '../../lib/user'
+import { useStore } from '../../store'
 import { acceptInvitationErrorMessage } from '../Messages'
 import { InvitationsList } from '../projects/InvitationsList'
 import { ProjectsList } from '../projects/ProjectsList'
@@ -77,182 +72,39 @@ interface State {
 interface Props {
   isDropdown: boolean
   closeModal?: () => void
-  tokenActions?: TokenActions
 }
-class ProjectsButton extends React.Component<Props, State> {
-  public state: Readonly<State> = {
+const ProjectsButton: React.FC<Props> = (props) => {
+  const [
+    {
+      user,
+      projects,
+      deleteProject,
+      updateProject,
+      invitations,
+      projectInvitations,
+    },
+  ] = useStore((store) => ({
+    user: store.user,
+    projects: store.projects,
+    deleteProject: store.deleteProject,
+    updateProject: store.updateProject,
+    invitations: store.invitations || [],
+    projectInvitations: store.projectInvitations || [],
+  }))
+  const [state, setState] = useState<State>({
     handledInvitations: new Set(),
     acceptedInvitations: [],
     rejectedInvitations: [],
     acceptError: null,
     rejectedInvitation: null,
     invitingUserProfile: null,
-  }
+  })
 
-  public render() {
-    const { closeModal, tokenActions } = this.props
-
-    const {
-      acceptedInvitations,
-      rejectedInvitations,
-      acceptError,
-      rejectedInvitation,
-    } = this.state
-
-    const actions = {
-      primary: {
-        action: () => this.rejectInvitation(rejectedInvitation!),
-        title: 'Reject',
-        isDestructive: true,
-      },
-      secondary: {
-        action: () =>
-          this.setState({
-            rejectedInvitation: null,
-            invitingUserProfile: null,
-          }),
-        title: 'Cancel',
-      },
-    }
-    return (
-      <React.Fragment>
-        {
-          <UserData userID={getCurrentUserId()!}>
-            {(user) => (
-              <ProjectsData>
-                {(projects, projectsCollection) => (
-                  <ContainersInvitationsData>
-                    {(invitations) => (
-                      <ProjectsInvitationsData>
-                        {(projectsInvitations) => {
-                          const containerInvitations: ContainerInvitation[] = buildContainerInvitations(
-                            projectsInvitations
-                          )
-                          const allInvitations: ContainerInvitation[] = [
-                            ...invitations,
-                            ...containerInvitations,
-                          ].filter((invitation) =>
-                            invitation.containerID.startsWith('MPProject')
-                          )
-
-                          const invitationsByContainer = groupInvitations(
-                            allInvitations,
-                            'Container'
-                          )
-
-                          const leastLimitingInvitations: ContainerInvitation[] = []
-
-                          for (const invitations of Object.values(
-                            invitationsByContainer
-                          )) {
-                            leastLimitingInvitations.push(
-                              findLeastLimitingInvitation(invitations)
-                            )
-                          }
-
-                          const invitationsData = this.buildInvitationData(
-                            leastLimitingInvitations,
-                            user
-                          )
-
-                          const projectsIDs = projects.map(
-                            (project) => project._id
-                          )
-
-                          const filteredInvitationsData = invitationsData.filter(
-                            (invitationData) =>
-                              projectsIDs.indexOf(
-                                invitationData.container._id
-                              ) < 0
-                          )
-
-                          return !this.props.isDropdown ? (
-                            <React.Fragment>
-                              <StyledSidebarContent>
-                                <InvitationsList
-                                  invitationsData={filteredInvitationsData}
-                                  acceptInvitation={this.acceptInvitation}
-                                  acceptError={acceptError}
-                                  confirmReject={this.confirmReject}
-                                />
-                                <ProjectsList
-                                  projects={projects}
-                                  acceptedInvitations={acceptedInvitations}
-                                  deleteProject={(project: Project) => () =>
-                                    projectsCollection.delete(project._id)}
-                                  saveProjectTitle={(project: Project) => (
-                                    title: string
-                                  ) =>
-                                    projectsCollection.update(project._id, {
-                                      title,
-                                    })}
-                                  closeModal={closeModal}
-                                  user={user}
-                                  tokenActions={tokenActions!}
-                                />
-                              </StyledSidebarContent>
-                            </React.Fragment>
-                          ) : (
-                            <ProjectsDropdown
-                              notificationsCount={
-                                filteredInvitationsData.length
-                              }
-                            >
-                              <ProjectsMenu
-                                invitationsData={filteredInvitationsData}
-                                projects={projects}
-                                removeInvitationData={this.removeInvitationData}
-                                acceptedInvitations={acceptedInvitations}
-                                rejectedInvitations={rejectedInvitations}
-                                acceptError={acceptError}
-                                acceptInvitation={this.acceptInvitation}
-                                confirmReject={this.confirmReject}
-                                user={user}
-                              />
-                            </ProjectsDropdown>
-                          )
-                        }}
-                      </ProjectsInvitationsData>
-                    )}
-                  </ContainersInvitationsData>
-                )}
-              </ProjectsData>
-            )}
-          </UserData>
-        }
-
-        {this.state.rejectedInvitation && (
-          <Dialog
-            isOpen={this.state.rejectedInvitation ? true : false}
-            actions={actions}
-            category={Category.confirmation}
-            header={'Reject Project Invitation'}
-            message={
-              <div>
-                <div>Are you sure you want to reject invitation from</div>
-                <br />{' '}
-                <Container>
-                  {this.state.invitingUserProfile!.bibliographicName.given! +
-                    ' ' +
-                    this.state.invitingUserProfile!.bibliographicName.family!}
-                </Container>
-                <Container>
-                  ({this.state.invitingUserProfile!.email}
-                  )?
-                </Container>{' '}
-              </div>
-            }
-          />
-        )}
-      </React.Fragment>
-    )
-  }
-
-  private buildInvitationData = (
+  const buildInvitationData = (
     invitations: ContainerInvitation[],
     user: UserProfile
   ) => {
-    const { handledInvitations } = this.state
+    const { handledInvitations } = state
 
     const invitationsData: InvitationData[] = []
 
@@ -288,24 +140,24 @@ class ProjectsButton extends React.Component<Props, State> {
     return invitationsData
   }
 
-  private removeInvitationData = (id: string) => {
-    const { handledInvitations } = this.state
+  const removeInvitationData = (id: string) => {
+    const { handledInvitations } = state
 
     handledInvitations.add(id)
 
-    this.setState({ handledInvitations })
+    setState((state) => ({ ...state, handledInvitations }))
   }
 
-  private acceptInvitation = async (invitation: ContainerInvitation) => {
+  const acceptInvitation = async (invitation: ContainerInvitation) => {
     await acceptProjectInvitation(invitation._id).then(
       ({ data }) => {
-        const acceptedInvitations = this.state.acceptedInvitations.concat(
+        const acceptedInvitations = state.acceptedInvitations.concat(
           invitation.containerID
         )
 
-        this.setState({ acceptedInvitations })
+        setState((state) => ({ ...state, acceptedInvitations }))
 
-        this.removeInvitationData(invitation._id)
+        removeInvitationData(invitation._id)
 
         trackEvent({
           category: 'Invitations',
@@ -317,39 +169,153 @@ class ProjectsButton extends React.Component<Props, State> {
         const errorMessage = error.response
           ? acceptInvitationErrorMessage(error.response.status)
           : ''
-        this.setState({
+        setState((state) => ({
+          ...state,
           acceptError: { invitationId: invitation._id, errorMessage },
-        })
+        }))
       }
     )
   }
 
-  private confirmReject = async (
+  const confirmReject = async (
     invitingUserProfile: UserProfileWithAvatar,
     invitation: ContainerInvitation
   ) => {
-    this.setState({
+    setState((state) => ({
+      ...state,
       invitingUserProfile,
       rejectedInvitation: invitation,
-    })
+    }))
   }
-
-  private rejectInvitation = async (invitation: ContainerInvitation) => {
+  const rejectInvitation = async (invitation: ContainerInvitation) => {
     await rejectProjectInvitation(invitation._id)
 
-    const rejectedInvitations = this.state.rejectedInvitations.concat(
+    const rejectedInvitations = state.rejectedInvitations.concat(
       invitation.containerID
     )
 
-    this.setState({ rejectedInvitations })
+    setState((state) => ({ ...state, rejectedInvitations }))
 
-    this.removeInvitationData(invitation._id)
+    removeInvitationData(invitation._id)
 
-    this.setState({
+    setState((state) => ({
+      ...state,
       rejectedInvitation: null,
       invitingUserProfile: null,
-    })
+    }))
   }
+
+  const { closeModal } = props
+
+  const {
+    acceptedInvitations,
+    rejectedInvitations,
+    acceptError,
+    rejectedInvitation,
+  } = state
+
+  const actions = {
+    primary: {
+      action: () => rejectInvitation(rejectedInvitation!),
+      title: 'Reject',
+      isDestructive: true,
+    },
+    secondary: {
+      action: () =>
+        setState((state) => ({
+          ...state,
+          rejectedInvitation: null,
+          invitingUserProfile: null,
+        })),
+      title: 'Cancel',
+    },
+  }
+
+  const containerInvitations = buildContainerInvitations(projectInvitations)
+
+  const allInvitations: ContainerInvitation[] = [
+    ...invitations,
+    ...containerInvitations,
+  ].filter((invitation) => invitation.containerID.startsWith('MPProject'))
+
+  const invitationsByContainer = groupInvitations(allInvitations, 'Container')
+
+  const leastLimitingInvitations: ContainerInvitation[] = []
+
+  for (const invitations of Object.values(invitationsByContainer)) {
+    leastLimitingInvitations.push(findLeastLimitingInvitation(invitations))
+  }
+
+  const invitationsData = buildInvitationData(leastLimitingInvitations, user)
+
+  const projectsIDs = projects.map((project) => project._id)
+
+  const filteredInvitationsData = invitationsData.filter(
+    (invitationData) => projectsIDs.indexOf(invitationData.container._id) < 0
+  )
+
+  return (
+    <React.Fragment>
+      {!props.isDropdown ? (
+        <React.Fragment>
+          <StyledSidebarContent>
+            <InvitationsList
+              invitationsData={filteredInvitationsData}
+              acceptInvitation={acceptInvitation}
+              acceptError={acceptError}
+              confirmReject={confirmReject}
+            />
+            <ProjectsList
+              projects={projects}
+              acceptedInvitations={acceptedInvitations}
+              deleteProject={(project) => () => deleteProject(project._id)}
+              saveProjectTitle={(project: Project) => (title: string) =>
+                updateProject(project._id, { title })}
+              closeModal={closeModal}
+              user={user}
+            />
+          </StyledSidebarContent>
+        </React.Fragment>
+      ) : (
+        <ProjectsDropdown notificationsCount={filteredInvitationsData.length}>
+          <ProjectsMenu
+            invitationsData={filteredInvitationsData}
+            projects={projects}
+            removeInvitationData={removeInvitationData}
+            acceptedInvitations={acceptedInvitations}
+            rejectedInvitations={rejectedInvitations}
+            acceptError={acceptError}
+            acceptInvitation={acceptInvitation}
+            confirmReject={confirmReject}
+            user={user}
+          />
+        </ProjectsDropdown>
+      )}
+      {state.rejectedInvitation && (
+        <Dialog
+          isOpen={state.rejectedInvitation ? true : false}
+          actions={actions}
+          category={Category.confirmation}
+          header={'Reject Project Invitation'}
+          message={
+            <div>
+              <div>Are you sure you want to reject invitation from</div>
+              <br />{' '}
+              <Container>
+                {state.invitingUserProfile!.bibliographicName.given! +
+                  ' ' +
+                  state.invitingUserProfile!.bibliographicName.family!}
+              </Container>
+              <Container>
+                ({state.invitingUserProfile!.email}
+                )?
+              </Container>{' '}
+            </div>
+          }
+        />
+      )}
+    </React.Fragment>
+  )
 }
 
 export default ProjectsButton

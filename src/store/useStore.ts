@@ -56,11 +56,11 @@ const deeperEqual = (prev: any, next: any) => {
 }
 
 export const useStore = <T>(
-  selector = (r: state): state | T | undefined => r
+  selector = (r: state): state | T => r
 ): [T, dispatch] => {
   const store = useGenericStore()
   const [state, setState] = useState(
-    selector ? selector(store!.state) : store!.state
+    selector ? () => selector(store.state!) : store.state
   )
 
   // @TODO - in react 18 these hooks usage will have to be replaced with this to work correctly with the concurrent rendering
@@ -73,7 +73,7 @@ export const useStore = <T>(
   //   );
 
   useLayoutEffect(() => {
-    const unsubscribe = store!.subscribe((newStoreState: state) => {
+    const unsubscribe = store.subscribe((newStoreState: state) => {
       if (selector) {
         const selectedState = selector(newStoreState)
         if (!deeperEqual(selectedState, state)) {
@@ -87,6 +87,6 @@ export const useStore = <T>(
     return () => unsubscribe && unsubscribe()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // @TODO reconsider disabling exhaustive-deps
-
-  return [state, store!.dispatchAction]
+  // @ts-ignore
+  return [state, store.dispatchAction]
 }

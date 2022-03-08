@@ -16,13 +16,10 @@ import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import ProjectsData from '../../data/ProjectsData'
-import { TokenActions } from '../../data/TokenData'
-import UserData from '../../data/UserData'
 import { logout } from '../../lib/account'
 import { markUserForDeletion } from '../../lib/api'
 import { isOwner } from '../../lib/roles'
-import { getCurrentUserId } from '../../lib/user'
+import { TokenActions, useStore } from '../../store'
 import { deleteAccountSchema } from '../../validation'
 import { DeleteAccountMessage } from '../Messages'
 import { ModalForm } from '../ModalForm'
@@ -34,75 +31,71 @@ interface Props {
 
 const DeleteAccountPageContainer: React.FunctionComponent<
   Props & RouteComponentProps
-> = ({ history, tokenActions }) => (
-  <ProjectsData>
-    {(projects) => (
-      <UserData userID={getCurrentUserId()!}>
-        {(user) => (
-          <ModalForm
-            title={<DeleteAccountMessage />}
-            handleClose={() => history.goBack()}
-          >
-            <Formik<DeleteAccountValues>
-              initialValues={{
-                password: '',
-              }}
-              validationSchema={deleteAccountSchema}
-              isInitialValid={true}
-              validateOnChange={false}
-              validateOnBlur={false}
-              onSubmit={async (values, actions) => {
-                actions.setErrors({})
+> = ({ history, tokenActions }) => {
+  const [{ tokenData, projects, user }] = useStore((store) => ({
+    tokenData: store.tokenData,
+    projects: store.projects,
+    user: store.user,
+  }))
+  return (
+    <ModalForm
+      title={<DeleteAccountMessage />}
+      handleClose={() => history.goBack()}
+    >
+      <Formik<DeleteAccountValues>
+        initialValues={{
+          password: '',
+        }}
+        validationSchema={deleteAccountSchema}
+        isInitialValid={true}
+        validateOnChange={false}
+        validateOnBlur={false}
+        onSubmit={async (values, actions) => {
+          actions.setErrors({})
 
-                try {
-                  await markUserForDeletion(values.password)
+          try {
+            await markUserForDeletion(values.password)
 
-                  actions.setSubmitting(false)
+            actions.setSubmitting(false)
 
-                  await logout()
+            await logout()
 
-                  tokenActions.delete()
+            tokenData.getTokenActions()?.delete()
 
-                  window.location.assign('/signup')
-                } catch (error) {
-                  actions.setSubmitting(false)
+            window.location.assign('/signup')
+          } catch (error) {
+            actions.setSubmitting(false)
 
-                  const errors: FormikErrors<
-                    DeleteAccountValues & FormErrors
-                  > = {
-                    submit:
-                      error.response &&
-                      error.response.status === StatusCodes.FORBIDDEN
-                        ? 'The password entered is incorrect'
-                        : 'There was an error',
-                  }
+            const errors: FormikErrors<DeleteAccountValues & FormErrors> = {
+              submit:
+                error.response &&
+                error.response.status === StatusCodes.FORBIDDEN
+                  ? 'The password entered is incorrect'
+                  : 'There was an error',
+            }
 
-                  if (
-                    error.response &&
-                    error.response.status === StatusCodes.UNAUTHORIZED
-                  ) {
-                    tokenActions.delete()
-                  } else {
-                    actions.setErrors(errors)
-                  }
-                }
-              }}
-              render={(props) => (
-                <DeleteAccountForm
-                  {...props}
-                  deletedProjects={projects.filter(
-                    (project) =>
-                      project.owners.length === 1 &&
-                      isOwner(project, user.userID)
-                  )}
-                />
-              )}
-            />
-          </ModalForm>
+            if (
+              error.response &&
+              error.response.status === StatusCodes.UNAUTHORIZED
+            ) {
+              tokenActions.delete()
+            } else {
+              actions.setErrors(errors)
+            }
+          }
+        }}
+        render={(props) => (
+          <DeleteAccountForm
+            {...props}
+            deletedProjects={projects.filter(
+              (project) =>
+                project.owners.length === 1 && isOwner(project, user.userID)
+            )}
+          />
         )}
-      </UserData>
-    )}
-  </ProjectsData>
-)
+      />
+    </ModalForm>
+  )
+}
 
 export default DeleteAccountPageContainer

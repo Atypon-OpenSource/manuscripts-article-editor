@@ -30,8 +30,8 @@ import { StatusCodes } from 'http-status-codes'
 import React from 'react'
 import styled from 'styled-components'
 
-import { TokenActions } from '../../data/TokenData'
 import { ProjectRole } from '../../lib/roles'
+import { TokenActions } from '../../store'
 import { projectInvitationSchema } from '../../validation'
 import { RadioButton } from '../RadioButton'
 

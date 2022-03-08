@@ -16,9 +16,9 @@ import React from 'react'
 import { PopperChildrenProps } from 'react-popper'
 import styled from 'styled-components'
 
-import { TokenActions } from '../../data/TokenData'
 import { projectInvite } from '../../lib/api/collaboration'
 import { trackEvent } from '../../lib/tracking'
+import { TokenActions } from '../../store'
 import {
   InvitationForm,
   InvitationValues,

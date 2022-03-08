@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { version } from '../package.json'
 import { getURL, isTrue, normalizeURL, splitArray } from './lib/config-helpers'
 
 interface Config {
@@ -119,6 +118,9 @@ interface Config {
   }
   templates: {
     publish?: boolean
+  }
+  rxdb: {
+    enabled?: boolean
   }
   keywordsCategories: boolean
   version: string
@@ -243,7 +245,10 @@ const config = {
     publish: isTrue(process.env.PUBLISH_TEMPLATES),
   },
   keywordsCategories: isTrue(process.env.FEATURE_KEYWORDS_CATEGORIES),
-  version,
+  rxdb: {
+    enabled: isTrue(process.env.RXDB),
+  },
+  version: process.env.VERSION ? process.env.VERSION : '1',
 }
 
 export default config as Config

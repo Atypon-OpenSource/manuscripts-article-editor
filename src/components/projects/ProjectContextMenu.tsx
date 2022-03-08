@@ -13,9 +13,8 @@
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 
-import UserData from '../../data/UserData'
 import { isOwner, isWriter } from '../../lib/roles'
-import { getCurrentUserId } from '../../lib/user'
+import { useStore } from '../../store'
 import { ModalProps, withModal } from '../ModalProvider'
 import {
   DropdownElement,
@@ -35,34 +34,24 @@ const ProjectContextMenu: React.FunctionComponent<Props & ModalProps> = ({
   deleteProject,
   project,
   renameProject,
-}) => (
-  <UserData userID={getCurrentUserId()!}>
-    {(user) => {
-      const owner = isOwner(project, user.userID)
-      const writer = isWriter(project, user.userID)
-
-      return (
-        <React.Fragment>
-          <DropdownLink to={`/projects/${project._id}`} onClick={closeModal}>
-            Open
-          </DropdownLink>
-          <DropdownElement
-            disabled={!(owner || writer)}
-            onClick={renameProject}
-          >
-            Rename
-          </DropdownElement>
-          <DropdownSeparator />
-          <DropdownElement
-            disabled={!owner}
-            onClick={() => deleteProject(project)}
-          >
-            Delete
-          </DropdownElement>
-        </React.Fragment>
-      )
-    }}
-  </UserData>
-)
+}) => {
+  const [user] = useStore((store) => store.user)
+  const owner = isOwner(project, user.userID)
+  const writer = isWriter(project, user.userID)
+  return (
+    <>
+      <DropdownLink to={`/projects/${project._id}`} onClick={closeModal}>
+        Open
+      </DropdownLink>
+      <DropdownElement disabled={!(owner || writer)} onClick={renameProject}>
+        Rename
+      </DropdownElement>
+      <DropdownSeparator />
+      <DropdownElement disabled={!owner} onClick={() => deleteProject(project)}>
+        Delete
+      </DropdownElement>
+    </>
+  )
+}
 
 export default withModal(ProjectContextMenu)

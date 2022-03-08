@@ -16,6 +16,7 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 
 import { RequirementsList } from '../src/components/requirements/RequirementsList'
+import { GenericStore, GenericStoreProvider } from '../src/store'
 import { manuscriptID, modelMap } from './data/doc'
 import { validationData } from './data/validationData'
 
@@ -25,11 +26,18 @@ const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
   })
 }
 
+const state = {
+  bulkUpdate,
+  manuscriptID,
+  modelMap,
+}
+
+const store = new GenericStore(undefined, undefined, state)
+
 storiesOf('Requirments/List', module).add('validations', () => (
-  <RequirementsList
-    validationResult={validationData as AnyValidationResult[]}
-    modelMap={modelMap}
-    manuscriptID={manuscriptID}
-    bulkUpdate={bulkUpdate}
-  />
+  <GenericStoreProvider store={store}>
+    <RequirementsList
+      validationResult={validationData as AnyValidationResult[]}
+    />
+  </GenericStoreProvider>
 ))

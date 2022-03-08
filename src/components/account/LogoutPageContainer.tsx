@@ -15,10 +15,10 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import { channels } from '../../channels'
-import { TokenActions } from '../../data/TokenData'
 import { logout } from '../../lib/account'
 import tokenHandler from '../../lib/token'
 import userID from '../../lib/user-id'
+import { TokenActions } from '../../store'
 import { DatabaseProps, withDatabase } from '../DatabaseProvider'
 import { Main, Page } from '../Page'
 

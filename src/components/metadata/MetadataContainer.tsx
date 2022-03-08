@@ -17,7 +17,6 @@ import {
 import {
   ContainerInvitation,
   Contributor,
-  ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { TitleEditorView } from '@manuscripts/title-editor'
@@ -29,7 +28,6 @@ import { buildCollaborators } from '../../lib/collaborators'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
 import { useStore } from '../../store'
-import CollectionManager from '../../sync/CollectionManager'
 import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { Metadata } from './Metadata'
@@ -91,6 +89,7 @@ const MetadataContainer: React.FC<Props> = ({
       deleteModel,
       containerInvitations,
       invitations,
+      getInvitation,
     },
   ] = useStore((store) => ({
     saveModel: store.saveModel,
@@ -100,8 +99,9 @@ const MetadataContainer: React.FC<Props> = ({
     manuscript: store.manuscript,
     saveManuscript: store.saveManuscript,
     deleteModel: store.deleteModel,
-    containerInvitations: store.containerInvitations,
-    invitations: store.invitations,
+    containerInvitations: store.containerInvitations || [],
+    invitations: store.projectInvitations || [],
+    getInvitation: store.getInvitation,
   }))
 
   const allInvitations = [
@@ -362,33 +362,8 @@ const MetadataContainer: React.FC<Props> = ({
       })
   }
 
-  const getInvitation = (
-    invitingUserID: string,
-    invitedEmail: string
-  ): Promise<ContainerInvitation> => {
-    return new Promise((resolve) => {
-      const collection = CollectionManager.getCollection<ContainerInvitation>(
-        'user'
-      )
-
-      const sub = collection
-        .findOne({
-          objectType: ObjectTypes.ContainerInvitation,
-          containerID: manuscript.containerID,
-          invitedUserEmail: invitedEmail,
-          invitingUserID,
-        })
-        .$.subscribe((doc) => {
-          if (doc) {
-            sub.unsubscribe()
-            resolve(doc.toJSON())
-          }
-        })
-    })
-  }
-
   if (!collaboratorsProfiles || !user) {
-    return
+    return null
   }
 
   return (

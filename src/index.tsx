@@ -15,57 +15,71 @@ import './lib/fonts'
 import './channels'
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import decode from 'jwt-decode'
+import React, { useEffect } from 'react'
 
-import IntlProvider from './components/IntlProvider'
+import { IntlProvider } from './components/IntlHookableProvider'
 import { LoadingPage } from './components/Loading'
-import { NativeToken } from './components/NativeToken'
-import config from './config'
 import tokenHandler from './lib/token'
+import { TokenPayload } from './lib/user'
+import userID from './lib/user-id'
+import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 
-const Main = React.lazy(() => import('./Main'))
+export interface ManuscriptEditorAppProps {
+  submissionId: string
+  manuscriptID: string
+  projectID: string
+  authToken?: string
+}
 
-ReactDOM.render(
-  <React.StrictMode>
-    <IntlProvider>
-      <ThemeProvider>
-        <React.Suspense
-          fallback={
-            <LoadingPage className={'loader'}>
-              <AppIcon />
-            </LoadingPage>
-          }
-        >
-          <BrowserRouter>
-            <Switch>
-              <Route path={'/'} exact={true}>
-                {({ history }) => {
-                  if (tokenHandler.get()) {
-                    history.push('/projects')
-                  } else {
-                    window.location.assign('/about/')
-                  }
-                  return null
-                }}
-              </Route>
+export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
+  submissionId,
+  manuscriptID,
+  projectID,
+  authToken,
+}) => {
+  useEffect(() => {
+    if (authToken) {
+      tokenHandler.remove()
+      tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
+      const { userId } = decode<TokenPayload>(authToken)
 
-              {config.native && (
-                <Route
-                  path={'/native'}
-                  exact={true}
-                  render={() => <NativeToken />}
-                />
-              )}
+      if (!userId) {
+        throw new Error('Invalid token')
+      }
 
-              <Route path={'/'} render={() => <Main />} />
-            </Switch>
-          </BrowserRouter>
-        </React.Suspense>
-      </ThemeProvider>
-    </IntlProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+      userID.set(userId)
+    }
+    return () => {
+      tokenHandler.remove()
+      userID.remove()
+    }
+  }, [authToken])
+
+  return (
+    <>
+      <IntlProvider>
+        <ThemeProvider>
+          <React.Suspense
+            fallback={
+              <LoadingPage className={'loader'}>
+                <AppIcon />
+              </LoadingPage>
+            }
+          >
+            <Main
+              // userID={userID}
+              submissionId={submissionId}
+              manuscriptID={manuscriptID}
+              projectID={projectID}
+            />
+          </React.Suspense>
+        </ThemeProvider>
+      </IntlProvider>
+      <div id="menu"></div>
+      <div id="notifications"></div>
+      <div id="size"></div>
+    </>
+  )
+}

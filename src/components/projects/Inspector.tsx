@@ -23,7 +23,6 @@ import {
   Keyword,
   Manuscript,
   ManuscriptNote,
-  Model,
   Project,
   Section,
   Submission,
@@ -40,7 +39,6 @@ import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
 import { useSharedData } from '../../hooks/use-shared-data'
-import { useStatusLabels } from '../../hooks/use-status-labels'
 import { canWrite } from '../../lib/roles'
 import { getCurrentUserId } from '../../lib/user'
 import { useStore } from '../../store'
@@ -152,7 +150,6 @@ export const Inspector: React.FC<{
   const [manuscript] = useStore((s) => s.manuscript)
   const [project] = useStore((s) => s.project)
   const [saveModel] = useStore((s) => s.saveModel)
-  const [bulkUpdate] = useStore((s) => s.bulkUpdate)
   const [deleteModel] = useStore((s) => s.deleteModel)
 
   const {
@@ -343,12 +340,7 @@ export const Inspector: React.FC<{
               case 'Quality': {
                 return (
                   <InspectorTabPanel key="Quality">
-                    <RequirementsInspector
-                      modelMap={modelMap}
-                      prototypeId={manuscript.prototype}
-                      manuscriptID={manuscript._id}
-                      bulkUpdate={bulkUpdate}
-                    />
+                    <RequirementsInspector />
                   </InspectorTabPanel>
                 )
               }

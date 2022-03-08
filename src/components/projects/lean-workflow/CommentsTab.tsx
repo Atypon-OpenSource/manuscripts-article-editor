@@ -10,11 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { buildKeyword, Selected } from '@manuscripts/manuscript-transform'
-import {
-  Keyword,
-  ManuscriptNote,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import {
   InspectorSection,
   ManuscriptNoteList,
@@ -25,33 +21,36 @@ import styled from 'styled-components'
 
 import config from '../../../config'
 import { useComments } from '../../../hooks/use-comments'
-import { SaveModel } from '../ManuscriptInspector'
+import { useStore } from '../../../store'
 import { CommentsList } from './CommentsList'
 
 export const CommentsTab: React.FC<{
   commentController: ReturnType<typeof useComments>
-  notes: ManuscriptNote[]
-  user: UserProfile
-  collaborators: Map<string, UserProfile>
-  collaboratorsById: Map<string, UserProfile>
-  keywords: Map<string, Keyword>
-  saveModel: SaveModel
-  deleteModel: (id: string) => Promise<string>
   selected: Selected | undefined
-}> = ({
-  commentController,
-  notes,
-  user,
-  collaborators,
-  collaboratorsById,
-  keywords,
-  saveModel,
-  deleteModel,
-  selected,
-}) => {
+}> = ({ commentController, selected }) => {
+  const [
+    {
+      notes,
+      user,
+      collaborators,
+      collaboratorsById,
+      keywords,
+      saveModel,
+      deleteModel,
+    },
+  ] = useStore((store) => ({
+    notes: store.notes,
+    user: store.user,
+    collaborators: store.collaborators || new Map(),
+    collaboratorsById: store.collaboratorsById,
+    keywords: store.keywords,
+    saveModel: store.saveModel,
+    deleteModel: store.deleteModel,
+  }))
   const createKeyword = (name: string) => saveModel(buildKeyword(name))
 
-  const getCollaboratorById = (id: string) => collaboratorsById.get(id)
+  const getCollaboratorById = (id: string) =>
+    collaboratorsById && collaboratorsById.get(id)
 
   const getKeyword = (id: string) => keywords.get(id)
 

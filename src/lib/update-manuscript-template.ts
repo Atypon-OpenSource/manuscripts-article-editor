@@ -30,11 +30,8 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { History } from 'history'
 
-import { Database } from '../components/DatabaseProvider'
-import { isBulkDocsError } from '../sync/Collection'
+import { state } from '../store'
 import { loadBundle } from './bundles'
-import { createProjectCollection } from './collections'
-import { BulkCreateError } from './errors'
 import { isSection } from './manuscript'
 import {
   manuscriptCountRequirementFields,
@@ -47,13 +44,13 @@ import { ManuscriptTemplateData, sectionRequirementTypes } from './templates'
 interface UpdateManuscriptProps {
   bundleID: string
   data: SharedData
-  db: Database
   projectID: string
   previousManuscript: Manuscript
   prototype?: string
   template?: ManuscriptTemplateData
   modelMap: Map<string, Model>
   history: History
+  updateManuscriptTemplate: state['updateManuscriptTemplate']
 }
 
 interface ContainedIDs {
@@ -64,18 +61,15 @@ interface ContainedIDs {
 export const updateManuscriptTemplate = async ({
   bundleID,
   data,
-  db,
   projectID,
   previousManuscript,
   prototype,
   template,
   modelMap,
   history,
+  updateManuscriptTemplate,
 }: UpdateManuscriptProps) => {
   const containerID: string = projectID
-
-  const collection = await createProjectCollection(db, containerID)
-
   // set the new prototype
   const manuscript = {
     ...previousManuscript,
@@ -261,22 +255,13 @@ export const updateManuscriptTemplate = async ({
     }
   }
 
-  // save the manuscript dependencies
-  const results = await collection.bulkCreate(dependencies)
+  await updateManuscriptTemplate(
+    dependencies,
+    containerID,
+    manuscript,
+    updatedModels
+  )
 
-  const failures = results.filter(isBulkDocsError)
-
-  if (failures.length) {
-    throw new BulkCreateError(failures)
-  }
-
-  // save the updated models
-  for (const model of updatedModels) {
-    await collection.save(model)
-  }
-
-  // save the manuscript
-  await collection.save(manuscript)
-
+  // @TODO - move out side effect
   history.push(`/projects/${containerID}/manuscripts/${manuscript._id}`)
 }

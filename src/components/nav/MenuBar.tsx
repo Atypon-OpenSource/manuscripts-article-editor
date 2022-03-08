@@ -13,7 +13,7 @@
 import React from 'react'
 import Modal from 'react-modal'
 
-import { TokenActions } from '../../data/TokenData'
+import { TokenActions } from '../../store'
 import ProjectsSidebar from '../projects/ProjectsSidebar'
 import { Menu, MenuBarIcon } from './Menu'
 
@@ -33,7 +33,7 @@ class MenuBar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { children, tokenActions } = this.props
+    const { children } = this.props
 
     return (
       <React.Fragment>
@@ -68,10 +68,7 @@ class MenuBar extends React.Component<Props, State> {
           }}
         >
           <Menu handleClose={this.handleClose} />
-          <ProjectsSidebar
-            closeModal={this.handleClose}
-            tokenActions={tokenActions}
-          />
+          <ProjectsSidebar closeModal={this.handleClose} />
         </Modal>
       </React.Fragment>
     )

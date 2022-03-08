@@ -10,34 +10,40 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  Attachment,
+  Build,
+  ContainedModel,
+  ContainedProps,
+  Decoder,
+  getModelsByType,
+  isManuscriptModel,
+  ManuscriptModel,
+  ManuscriptNode,
+  ModelAttachment,
+} from '@manuscripts/manuscript-transform'
+import {
   Bundle,
+  ContainerInvitation,
   Correction,
   Manuscript,
   Model,
-  Snapshot,
   ObjectTypes,
+  Project,
+  Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
+import { RxDatabase } from '@manuscripts/rxdb'
 import {
   Commit,
   commitToJSON,
   findCommitWithChanges,
 } from '@manuscripts/track-changes'
 
-import {
-  Attachment,
-  Decoder,
-  getModelsByType,
-  ManuscriptNode,
-  Build,
-  ContainedModel,
-  ContainedProps,
-  isManuscriptModel,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
-
-import { Collection, ContainerIDs } from '../sync/Collection'
+import { BulkCreateError } from '../lib/errors'
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
+import { ContainedIDs, ContainerIDs } from '../store'
+import { Collection, isBulkDocsError } from '../sync/Collection'
+import { createAndPushNewProject, createProjectCollection } from './collections'
 
 type ModelMap = Map<string, Model> // this is duplicated and copied in several places
 
@@ -55,28 +61,34 @@ interface ManuscriptModels {
 export default class ModelManager implements ManuscriptModels {
   bundle: Bundle | null
   collection: Collection<ContainedModel>
+  userCollection: Collection<ContainedModel>
   modelMap: ModelMap
   setModelsState: (modelMap: Map<string, Model>) => void
   manuscriptID: string
   containerID: string
   snapshots: Snapshot[]
   commits: Commit[]
+  db: RxDatabase<any>
   constructor(
     modelMap: Map<string, Model>,
     setModelsState: (modelMap: Map<string, Model>) => void,
     manuscriptID: string,
     projectID: string,
     collection: Collection<ContainedModel>,
+    userCollection: Collection<ContainedModel>,
     snapshots: Snapshot[],
-    commits: Commit[]
+    commits: Commit[],
+    db: RxDatabase<any>
   ) {
     this.snapshots = snapshots
     this.commits = commits
     this.collection = collection
+    this.userCollection = userCollection
     this.manuscriptID = manuscriptID
     this.setModelsState = setModelsState
     this.containerID = projectID
     this.modelMap = modelMap
+    this.db = db
   }
 
   buildModelMapFromJson = (models: JsonModel[]): Map<string, JsonModel> => {
@@ -88,6 +100,67 @@ export default class ModelManager implements ManuscriptModels {
         return [model._id, model]
       })
     )
+  }
+
+  saveDependenciesForNew = async (
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    collection: Collection<ContainedModel | ManuscriptModel>
+  ) => {
+    const results = await collection.bulkCreate(dependencies)
+    const failures = results.filter(isBulkDocsError)
+    if (failures.length) {
+      throw new BulkCreateError(failures)
+    }
+  }
+
+  getAttachment = async (id: string, attachmentID: string) => {
+    const attachment = await this.collection.getAttachmentAsBlob(
+      id,
+      attachmentID
+    )
+    return attachment
+  }
+  putAttachment = (id: string, attachment: Attachment) => {
+    return this.collection.putAttachment(id, attachment).then(() => undefined)
+  }
+  saveNewManuscript = async (
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    containerID: string,
+    manuscript: Build<Manuscript>,
+    newProject?: Build<Project>
+  ) => {
+    if (newProject) {
+      await createAndPushNewProject(newProject)
+    }
+    const collection = await createProjectCollection(this.db, containerID)
+    await this.saveDependenciesForNew(dependencies, collection)
+    await collection.create(manuscript, { containerID })
+    return Promise.resolve(manuscript)
+  }
+
+  updateManuscriptTemplate = async (
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    containerID: string,
+    manuscript: Manuscript,
+    updatedModels: ManuscriptModel[]
+  ) => {
+    const collection = await createProjectCollection(this.db, containerID)
+    // save the manuscript dependencies
+    const results = await collection.bulkCreate(dependencies)
+    const failures = results.filter(isBulkDocsError)
+
+    if (failures.length) {
+      throw new BulkCreateError(failures)
+    }
+
+    // save the updated models
+    for (const model of updatedModels) {
+      await collection.save(model)
+    }
+
+    // save the manuscript
+    await collection.save(manuscript)
+    return Promise.resolve(manuscript)
   }
 
   getTools = async () => {
@@ -108,15 +181,19 @@ export default class ModelManager implements ManuscriptModels {
         deleteModel: this.deleteModel,
         saveManuscript: this.saveManuscript,
         getModel: this.getModel,
-        getAttachment: this.collection.getAttachment,
-        putAttachment: this.collection.putAttachment,
+        saveNewManuscript: this.saveNewManuscript,
+        putAttachment: this.putAttachment,
+        getAttachment: this.getAttachment,
+        updateManuscriptTemplate: this.updateManuscriptTemplate,
+        getInvitation: this.getInvitation,
       }
     }
 
     const modelsFromSnapshot = await getSnapshot(
       this.containerID,
       latestSnaphot.s3Id
-    ).catch(() => {
+    ).catch((e) => {
+      console.log(e)
       throw new Error('Failed to load snapshot')
     })
     const snapshotModelMap = this.buildModelMapFromJson(
@@ -125,6 +202,7 @@ export default class ModelManager implements ManuscriptModels {
           !doc.manuscriptID || doc.manuscriptID === this.manuscriptID
       )
     )
+    // to use modelMap for test here
     const decoder = new Decoder(snapshotModelMap, true)
     const doc = decoder.createArticleNode() as ManuscriptNode
     const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
@@ -144,7 +222,7 @@ export default class ModelManager implements ManuscriptModels {
       findCommitWithChanges(this.commits, unrejectedCorrections) || null
 
     return {
-      snapshotID: null,
+      snapshotID: this.snapshots[0]._id,
       commits: this.commits,
       commitAtLoad,
       snapshots: this.snapshots,
@@ -154,12 +232,11 @@ export default class ModelManager implements ManuscriptModels {
       deleteModel: this.deleteModel,
       saveManuscript: this.saveManuscript,
       getModel: this.getModel,
-      getAttachment: this.collection.getAttachment,
-      putAttachment: (id: string, attachment: Attachment) => {
-        return this.collection
-          .putAttachment(id, attachment)
-          .then(() => undefined)
-      },
+      saveNewManuscript: this.saveNewManuscript,
+      putAttachment: this.putAttachment,
+      getAttachment: this.getAttachment,
+      updateManuscriptTemplate: this.updateManuscriptTemplate,
+      getInvitation: this.getInvitation,
     }
   }
 
@@ -191,6 +268,9 @@ export default class ModelManager implements ManuscriptModels {
   }
 
   saveModel = async <T extends Model>(model: T | Build<T> | Partial<T>) => {
+    if (!model) {
+      console.log(new Error().stack)
+    }
     if (!model._id) {
       throw new Error('Model ID required')
     }
@@ -243,7 +323,29 @@ export default class ModelManager implements ManuscriptModels {
       }).then(() => undefined)
     } catch (e) {
       console.log(e)
-      console.log(this)
     }
+  }
+
+  getInvitation = (
+    invitingUserID: string,
+    invitedEmail: string
+  ): Promise<ContainerInvitation> => {
+    return new Promise((resolve) => {
+      const collection = this.userCollection
+
+      const sub = collection
+        .findOne({
+          objectType: ObjectTypes.ContainerInvitation,
+          containerID: this.manuscriptID,
+          invitedUserEmail: invitedEmail,
+          invitingUserID,
+        })
+        .$.subscribe((doc) => {
+          if (doc) {
+            sub.unsubscribe()
+            resolve(doc.toJSON() as ContainerInvitation)
+          }
+        })
+    })
   }
 }

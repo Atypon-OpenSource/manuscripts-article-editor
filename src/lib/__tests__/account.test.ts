@@ -15,9 +15,9 @@ jest.mock('../adapter')
 
 import decode from 'jwt-decode'
 
+import { databaseCreator, recreateDatabase } from '../../couch-data/db'
 import { login, logout, resetPassword } from '../account'
 import { clearChannelFolder } from '../broadcast-channel'
-import { databaseCreator, recreateDatabase } from '../db'
 import { TokenPayload } from '../user'
 
 const schema = {

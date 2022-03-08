@@ -33,6 +33,8 @@ export interface BiblioTools {
 export class Biblio implements BiblioTools {
   citationProvider: CitationProvider
   library: Map<string, BibliographyItem>
+  getLibraryItem: (id: string) => BibliographyItem | undefined
+  setLibraryItem: (item: BibliographyItem) => any
   constructor(
     bundle: Bundle,
     library: Map<string, BibliographyItem>,
@@ -83,7 +85,7 @@ export class Biblio implements BiblioTools {
       matchLibraryItemByIdentifier: this.matchLibraryItemByIdentifier,
       setLibraryItem: this.setLibraryItem,
       getCitationProvider: this.getCitationProvider,
-      matchLibraryItemByIdentifier: this.matchLibraryItemByIdentifier,
+      getLibraryItem: this.getLibraryItem,
     }
   }
 }

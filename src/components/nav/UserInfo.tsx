@@ -55,7 +55,7 @@ export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => {
   const handleLogout = useContext(LogoutConfirmationContext)
 
   return (
-    <React.Fragment>
+    <>
       <Name>{displayName(user)}</Name>
       <DropdownSeparator />
       <DropdownLink to={'/profile'}> Profile </DropdownLink>
@@ -68,6 +68,6 @@ export const UserInfo: React.FunctionComponent<UserProps> = ({ user }) => {
       <DropdownLink to="/logout" onClick={handleLogout}>
         <SignOutMessage />
       </DropdownLink>
-    </React.Fragment>
+    </>
   )
 }

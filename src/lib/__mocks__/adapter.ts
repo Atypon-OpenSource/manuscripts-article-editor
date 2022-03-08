@@ -12,7 +12,7 @@
 
 import PouchDBLevelAdapter from 'pouchdb-adapter-memory'
 
-import RxDB from '../rxdb'
+import RxDB from '../../couch-data/rxdb'
 
 RxDB.plugin(PouchDBLevelAdapter)
 
