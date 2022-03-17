@@ -4862,6 +4862,11 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                   >
                     Review Response Letter
                   </option>
+                  <option
+                    value="MPSectionCategory:abstract-graphical"
+                  >
+                    Graphical Abstract
+                  </option>
                 </select>
                 <div
                   className="c3 c16"

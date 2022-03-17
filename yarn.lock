@@ -2101,15 +2101,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.1.tgz#c499e2b2600811792a0e9172df9e6a3ce1df1a4f"
   integrity sha512-DUbNRehtEiX1K3qA3swqRNyxv2fIa4zGYz8MasIkSxrMfrBG7f68FSWtERrorz6OyL4tL2WQ+K5hIt3WrIlg2Q==
 
-"@manuscripts/data@^0.1.2", "@manuscripts/data@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.3.tgz#7f5fda8b518e6851e4461e21664182aae39621f9"
-  integrity sha512-FriVBENLiEyNS7S6r3lgwqbpmKxpZirwcrjNdE6jdchEI6AfbZUe2OoLyv29a9HNRbQAZq1eUKevoZZ4OuwLpw==
-
-"@manuscripts/data@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.5.tgz#e0fdbb35d9acb79ae774e056c8b79b75c2f3a003"
-  integrity sha512-iTF4CeTncy/jactp+LrQR67Q/tdIVytvJaJ2X6W8tmZyfCcDFVeQadvsbJko+9Y1xDfEdGqEItfJiVOxPYAmWw==
+"@manuscripts/data@^0.1.2", "@manuscripts/data@^0.1.3", "@manuscripts/data@^0.1.5", "@manuscripts/data@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.6.tgz#1d18760049426c2dce611625b2e4d3e54ded3cac"
+  integrity sha512-qgrVMGy83ki74fRU3pw0Z42L/mYbntx3G9RYyLrsUl5i1RXdpwauWRV/FDNbMjK9tYXttBI0wsNN2Hb0pktvEg==
 
 "@manuscripts/eslint-config@^0.4.2":
   version "0.4.2"
@@ -2139,10 +2134,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.91.3":
-  version "0.91.3"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.3.tgz#15bce4320632212b193ef000e23b31614aa6a14f"
-  integrity sha512-nUQC6/9CWTv05uNUw51wURIh7LMgzDnOYJqO8sESIRpretMohrxLuRjA2R3+JUJg44+uMe/YevniD+36KBj8aQ==
+"@manuscripts/manuscript-editor@^0.91.4":
+  version "0.91.4"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.4.tgz#22bef0614c66991c3540360d729e65ab1c73064a"
+  integrity sha512-pBRj4Dj8Otv62SQB6F8rJFqQ1lttVsrt0wO5oV7JZdwKl7LXpGSo5wyECZwVTmsmz2Q4iaTeETKadi76OTotEQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2215,10 +2210,10 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.48.16":
-  version "0.48.16"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.16.tgz#df9eb5935c4e20e9c81ea7014d3db276abd94341"
-  integrity sha512-dzTpucYEPCWLqeqS/bMYpqBrPLZrj8UTWo8+n/fhvBFMd91NLnRHg5/11eDCzFgye59QcUtlgOK2f4Q0fmzakw==
+"@manuscripts/manuscript-transform@^0.48.18":
+  version "0.48.18"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.18.tgz#e0bc9fa2b4623c5a8301b118f8000bb900097236"
+  integrity sha512-5NP/bRTuA7xnmC3Qmx0oMhU7p18h9LFZkkNA35Aj7mxbl0J34nyEzv8lzsrRk9RdCtP3j/C1kReIfPyjzDBFTQ==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
