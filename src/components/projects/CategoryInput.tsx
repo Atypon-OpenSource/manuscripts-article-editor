@@ -16,6 +16,7 @@ import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isEditableSectionCategory,
+  isUnique,
   isUniquePresent,
   sortedSectionCategories,
 } from '../../lib/section-categories'
@@ -44,7 +45,8 @@ export const CategoryInput: React.FC<{
         .filter((cat) => {
           return (
             isEditableSectionCategory(cat) &&
-            !isUniquePresent(cat, existingCatsCounted)
+            (!isUniquePresent(cat, existingCatsCounted) ||
+              isUnique(currentValue))
           )
         })
         .map((sectionCategory) => (
