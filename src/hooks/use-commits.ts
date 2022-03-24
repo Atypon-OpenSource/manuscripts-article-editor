@@ -132,6 +132,9 @@ export const useCommits = ({ sortBy, editor }: Args) => {
     ) {
       changeType = commitToJSON(commit, store.projectID).steps[0].slice
         .content[0].type
+      if (changeType !== 'figure') {
+        return
+      }
     }
 
     setIsDirty(true)
