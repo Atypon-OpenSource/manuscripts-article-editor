@@ -393,6 +393,7 @@ export const useUpdateAttachmentFile = () => {
   return {
     updateAttachmentFile: ({
       submissionId,
+      attachmentId,
       name,
       file,
     }: updateAttachmentProps) =>
@@ -402,6 +403,7 @@ export const useUpdateAttachmentFile = () => {
         },
         variables: {
           submissionId,
+          attachmentId,
           name,
           file,
         },
