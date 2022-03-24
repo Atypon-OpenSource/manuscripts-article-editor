@@ -323,21 +323,24 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
   const { setMainManuscript, setMainManuscriptError } = useSetMainManuscript()
   const changeAttachmentDesignation = useUpdateAttachmentDesignation()
   const handleChangeAttachmentDesignation = useCallback(
-    (submissionId: string, designation: string, name: string) => {
+    (
+      submissionId: string,
+      attachmentId: string,
+      designation: string,
+      name: string
+    ) => {
       if (designation == 'main-manuscript') {
         return handleSubmissionMutation(
-          setMainManuscript({
-            submissionId: submissionId,
-            name: name,
-          }),
+          setMainManuscript({ submissionId, attachmentId, name }),
           'Something went wrong while setting main manuscript.'
         )
       }
       return handleSubmissionMutation(
         changeAttachmentDesignation({
-          submissionId: submissionId,
-          name: name,
-          designation: designation,
+          submissionId,
+          attachmentId,
+          name,
+          designation,
         }),
         'Something went wrong while updating attachment designation.'
       )
@@ -391,8 +394,8 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     capabilities: can,
     mediaAlternativesEnabled: config.features.mediaAlternatives,
     jupyterConfig: config.jupyter,
-    updateDesignation: (designation: string, name: string) =>
-      handleChangeAttachmentDesignation(submissionId, designation, name),
+    // TODO:: remove this as we are not going to use designation
+    updateDesignation: () => new Promise(() => false),
     uploadAttachment: (designation: string, file: File) =>
       putAttachment(file, designation),
   }
@@ -502,18 +505,32 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
     updateAttachmentFileError,
   } = useUpdateAttachmentFile()
   const handleReplaceAttachment = useCallback(
-    (submissionId: string, name: string, file: File, typeId: string) => {
+    (
+      submissionId: string,
+      attachmentId: string,
+      name: string,
+      file: File,
+      typeId: string
+    ) => {
       // to replace main manuscript we need first to upload the file and then change its designation to main-manuscript
       if (typeId == 'main-manuscript') {
         return uploadAttachment({
           submissionId: submissionId,
           file: file,
           designation: 'sumbission-file',
-        }).then(() => {
+        }).then((result) => {
+          if (!result.data?.uploadAttachment) {
+            return null
+          }
+
+          const { uploadAttachment } = result.data
+
           return handleSubmissionMutation(
             setMainManuscript({
               submissionId,
+              attachmentId,
               name,
+              uploadAttachment,
             }),
             'Something went wrong while setting main manuscript.'
           )
@@ -523,6 +540,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
       return handleSubmissionMutation(
         updateAttachmentFile({
           submissionId,
+          attachmentId,
           file,
           name,
         }),
@@ -643,15 +661,9 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                       accept={accept}
                       reject={reject}
                       doCommand={doCommand}
-                      changeAttachmentDesignation={(
-                        designation: string,
-                        name: string
-                      ) =>
-                        handleChangeAttachmentDesignation(
-                          submissionId,
-                          designation,
-                          name
-                        )
+                      // TODO:: remove this as we are not going to use designation
+                      changeAttachmentDesignation={() =>
+                        new Promise(() => false)
                       }
                     />
                   </TrackChangesStyles>
@@ -777,7 +789,7 @@ const ManuscriptPageView: React.FC<ManuscriptPageViewProps> = (props) => {
                         )}
                         <FileManager
                           submissionId={submissionId}
-                          externalFiles={files}
+                          attachments={submission?.attachments || []}
                           modelMap={modelMap}
                           can={can}
                           enableDragAndDrop={true}

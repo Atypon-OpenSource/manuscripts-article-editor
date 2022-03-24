@@ -15,6 +15,11 @@ import { ApolloError } from 'apollo-client'
 import { FetchResult } from 'apollo-link'
 import gql from 'graphql-tag'
 
+import {
+  updateMainManuscriptAttachment,
+  updateSubmissionAttachment,
+  updateSubmissionAttachmentDesignation,
+} from '../components/projects/lean-workflow/apolloCacheUpdate'
 import config from '../config'
 
 interface uploadAttachmentProps {
@@ -25,19 +30,23 @@ interface uploadAttachmentProps {
 
 interface updateAttachmentProps {
   submissionId: string
+  attachmentId: string
   file: File
   name: string
 }
 
 interface setAttachmentProps {
   submissionId: string
+  attachmentId: string
   name: string
   designation: string
 }
 
 interface mainManuscriptProps {
   submissionId: string
+  attachmentId: string
   name: string
+  uploadAttachment?: SubmissionAttachment
 }
 
 interface Transition {
@@ -59,8 +68,21 @@ export interface SubmissionStepType {
   transitions: Transition[]
 }
 
+export type SubmissionAttachment = {
+  id: string
+  name: string
+  type: SubmissionAttachmentType
+  link: string
+}
+
+export type SubmissionAttachmentType = {
+  id: string
+  label?: string
+}
+
 export interface Submission {
   id: string
+  attachments: SubmissionAttachment[]
   currentStep: {
     type: SubmissionStepType
   }
@@ -93,14 +115,50 @@ const UPLOAD_ATTACHMENT = gql`
     }
   }
 `
-const UPDATE_ATTACHMENT = gql`
-  mutation Update($submissionId: ID!, $file: Upload!, $name: ID!) {
-    updateAttachment(submissionId: $submissionId, content: $file, name: $name)
+
+export const UPDATE_ATTACHMENT = gql`
+  mutation Update(
+    $submissionId: ID
+    $attachmentId: ID
+    $name: String
+    $file: Upload
+  ) {
+    updateAttachment(
+      submissionId: $submissionId
+      attachmentId: $attachmentId
+      content: $file
+      name: $name
+    )
   }
 `
-const SET_ATTACHMENT_TYPE = gql`
-  mutation SetAttachmentType($submissionId: ID!, $typeId: ID!, $name: String!) {
-    setAttachmentType(submissionId: $submissionId, typeId: $typeId, name: $name)
+
+export const SET_ATTACHMENT_TYPE = gql`
+  mutation SetAttachmentType(
+    $submissionId: ID
+    $attachmentId: ID
+    $name: String
+    $typeId: ID!
+  ) {
+    setAttachmentType(
+      submissionId: $submissionId
+      attachmentId: $attachmentId
+      typeId: $typeId
+      name: $name
+    )
+  }
+`
+
+export const SET_MAIN_MANUSCRIPT = gql`
+  mutation SetMainManuscript(
+    $submissionId: ID
+    $attachmentId: ID
+    $name: String
+  ) {
+    setMainManuscript(
+      submissionId: $submissionId
+      attachmentId: $attachmentId
+      name: $name
+    )
   }
 `
 
@@ -124,6 +182,15 @@ export const GET_SUBMISSION = gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
+      attachments {
+        id
+        name
+        link
+        type {
+          id
+          label
+        }
+      }
       currentStep {
         type {
           label
@@ -180,11 +247,6 @@ const PROCEED = gql`
         }
       }
     }
-  }
-`
-const SET_MAIN_MANUSCRIPT = gql`
-  mutation SetMainManuscript($submissionId: ID!, $name: String!) {
-    setMainManuscript(submissionId: $submissionId, name: $name)
   }
 `
 
@@ -278,6 +340,15 @@ export const useUploadAttachment = () => {
           file,
           typeId: designation,
         },
+        update(cache, { data }) {
+          if (data?.uploadAttachment) {
+            updateSubmissionAttachment(
+              cache,
+              submissionId,
+              data.uploadAttachment
+            )
+          }
+        },
       })
     },
     uploadAttachmentError: getErrorCode(error),
@@ -286,15 +357,31 @@ export const useUploadAttachment = () => {
 
 export const useUpdateAttachmentDesignation = () => {
   const [mutate] = useMutation(SET_ATTACHMENT_TYPE)
-  return async ({ submissionId, name, designation }: setAttachmentProps) => {
+  return async ({
+    submissionId,
+    attachmentId,
+    name,
+    designation,
+  }: setAttachmentProps) => {
     const fetchResult = await mutate({
       context: {
         clientPurpose: 'leanWorkflowManager',
       },
       variables: {
         submissionId,
+        attachmentId,
         name,
         typeId: designation,
+      },
+      update(cache, data) {
+        if (data?.data?.setAttachmentType) {
+          updateSubmissionAttachmentDesignation(
+            cache,
+            submissionId,
+            attachmentId,
+            designation
+          )
+        }
       },
     })
     return fetchResult
@@ -392,14 +479,29 @@ export const useProceed = () => {
 export const useSetMainManuscript = () => {
   const [mutate, { error }] = useMutation(SET_MAIN_MANUSCRIPT)
   return {
-    setMainManuscript: ({ submissionId, name }: mainManuscriptProps) =>
+    setMainManuscript: ({
+      submissionId,
+      attachmentId,
+      name,
+      uploadAttachment,
+    }: mainManuscriptProps) =>
       mutate({
         context: {
           clientPurpose: 'leanWorkflowManager',
         },
         variables: {
           submissionId,
+          attachmentId,
           name,
+        },
+        update(cache, { data }) {
+          if (data?.setMainManuscript && uploadAttachment) {
+            updateMainManuscriptAttachment(
+              cache,
+              submissionId,
+              uploadAttachment
+            )
+          }
         },
       }),
     setMainManuscriptError: getErrorCode(error),
