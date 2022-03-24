@@ -43,13 +43,13 @@ import { buildColors } from '../src/lib/colors'
 import { findBodyTextParagraphStyles } from '../src/lib/styles'
 import { buildModelMap } from '../src/pressroom/__tests__/util'
 import { ProjectDump } from '../src/pressroom/importers'
+import { GenericStore, GenericStoreProvider } from '../src/store'
 import { doc } from './data/doc'
 import { people } from './data/people'
 import { project } from './data/projects'
 import { snapshots } from './data/snapshots'
 import { statusLabels } from './data/status-labels'
 import { tags } from './data/tags'
-import { GenericStore, GenericStoreProvider } from '../src/store'
 
 const manuscript: Manuscript = {
   _id: 'MPManuscript:1',
