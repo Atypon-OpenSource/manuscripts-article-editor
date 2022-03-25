@@ -223,6 +223,7 @@ const Inspector: React.FC<Props> = ({
                     externalFiles={files}
                     can={can}
                     enableDragAndDrop={true}
+                    modelMap={modelMap}
                     handleChangeDesignation={handleChangeAttachmentDesignation}
                     handleDownload={handleDownloadAttachment}
                     handleReplace={handleReplaceAttachment}
