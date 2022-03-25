@@ -51,11 +51,11 @@ Manuscripts is highly modular: it is composed out of a series of NPM published m
 
 ## Installation
 
-Run `yarn` to install the dependencies.
+Run `yarn install @manuscripts/article-editor` in your application.
 
 ## Build (for production)
 
-The variables listed in `.env.example` must all be defined as environment variables.
+The variables listed in `.env.example` must all be defined as environment variables in your project.
 
 Run `yarn build` to build the app to the `dist` folder.
 

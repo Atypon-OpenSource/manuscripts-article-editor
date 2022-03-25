@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "license": "CPAL-1.0",
+  "description": "React components for editing and viewing manuscripts",
+  "repository": "github.com:Atypon-OpenSource/manuscripts-article-editor.git",
   "files": [
     "dist"
   ],
