@@ -93,6 +93,7 @@ export const ManuscriptInspector: React.FC<{
     templateID: string
   ) => Map<ManuscriptCountRequirementType, number | undefined>
   canWrite?: boolean
+  leanWorkflow: boolean
 }> = ({
   state,
   dispatch,
@@ -101,6 +102,7 @@ export const ManuscriptInspector: React.FC<{
   getTemplate,
   getManuscriptCountRequirements,
   canWrite,
+  leanWorkflow,
 }) => {
   const [
     { manuscript, modelMap, saveManuscript, saveModel, user, project },
@@ -219,8 +221,8 @@ export const ManuscriptInspector: React.FC<{
       <InspectorTabs>
         <InspectorPanelTabList>
           <InspectorTab>Metadata</InspectorTab>
-          <InspectorTab>Labels</InspectorTab>
-          <InspectorTab>Requirements</InspectorTab>
+          {!leanWorkflow && <InspectorTab>Labels</InspectorTab>}
+          {!leanWorkflow && <InspectorTab>Requirements</InspectorTab>}
         </InspectorPanelTabList>
 
         <InspectorTabPanels>
@@ -250,48 +252,52 @@ export const ManuscriptInspector: React.FC<{
                   }}
                 />
 
-                <Subheading>Publication Date</Subheading>
+                {!leanWorkflow && (
+                  <>
+                    <Subheading>Publication Date</Subheading>
 
-                <DateTimeInput
-                  value={manuscript.publicationDate}
-                  handleChange={async (publicationDate) => {
-                    await saveManuscript({
-                      publicationDate,
-                    })
-                  }}
-                />
+                    <DateTimeInput
+                      value={manuscript.publicationDate}
+                      handleChange={async (publicationDate) => {
+                        await saveManuscript({
+                          publicationDate,
+                        })
+                      }}
+                    />
 
-                <Subheading>Paywall</Subheading>
+                    <Subheading>Paywall</Subheading>
 
-                <CheckboxInput
-                  value={manuscript.paywall}
-                  handleChange={async (paywall) => {
-                    await saveManuscript({ paywall })
-                  }}
-                  label={'Publish behind a paywall'}
-                />
+                    <CheckboxInput
+                      value={manuscript.paywall}
+                      handleChange={async (paywall) => {
+                        await saveManuscript({ paywall })
+                      }}
+                      label={'Publish behind a paywall'}
+                    />
 
-                <Subheading>Abstract</Subheading>
+                    <Subheading>Abstract</Subheading>
 
-                <DescriptionInput
-                  value={manuscript.desc}
-                  handleChange={async (desc) => {
-                    await saveManuscript({
-                      desc,
-                    })
-                  }}
-                />
+                    <DescriptionInput
+                      value={manuscript.desc}
+                      handleChange={async (desc) => {
+                        await saveManuscript({
+                          desc,
+                        })
+                      }}
+                    />
 
-                <Subheading>Theme</Subheading>
+                    <Subheading>Theme</Subheading>
 
-                <ThemeInput
-                  value={manuscript.layoutTheme || ''}
-                  handleChange={async (layoutTheme) => {
-                    await saveManuscript({
-                      layoutTheme,
-                    })
-                  }}
-                />
+                    <ThemeInput
+                      value={manuscript.layoutTheme || ''}
+                      handleChange={async (layoutTheme) => {
+                        await saveManuscript({
+                          layoutTheme,
+                        })
+                      }}
+                    />
+                  </>
+                )}
               </>
             )}
 
@@ -302,16 +308,20 @@ export const ManuscriptInspector: React.FC<{
             ) : (
               <KeywordsInput state={state} dispatch={dispatch} />
             )}
-            <Subheading>Author Instruction URL</Subheading>
+            {!leanWorkflow && (
+              <>
+                <Subheading>Author Instruction URL</Subheading>
 
-            <URLInput
-              handleChange={async (authorInstructionsURL) => {
-                await saveManuscript({
-                  authorInstructionsURL,
-                })
-              }}
-              value={authorInstructionsURL}
-            />
+                <URLInput
+                  handleChange={async (authorInstructionsURL) => {
+                    await saveManuscript({
+                      authorInstructionsURL,
+                    })
+                  }}
+                  value={authorInstructionsURL}
+                />
+              </>
+            )}
             {config.features.switchTemplate && canWrite && (
               <>
                 <Subheading>Template</Subheading>
