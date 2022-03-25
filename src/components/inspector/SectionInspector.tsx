@@ -109,6 +109,23 @@ export const SectionInspector: React.FC<{
     firstParagraph ? firstParagraph.placeholderInnerHTML : undefined
   )
 
+  const existingCatsCounted = useMemo(() => {
+    const exisitingCats: { [key: string]: number } = {}
+    for (const model of modelMap) {
+      const section = model[1] as Section
+      if (
+        section.category &&
+        section.category.startsWith('MPSectionCategory:')
+      ) {
+        exisitingCats[section.category] = exisitingCats[section.category]
+          ? exisitingCats[section.category]++
+          : 1
+      }
+      // section.category == 'MPSectionCategory:abstract-graphical'
+    }
+    return exisitingCats
+  }, [modelMap.size]) // eslint-disable-line react-hooks/exhaustive-deps
+
   useInterval(() => {
     if (firstParagraph && placeholder !== firstParagraph.placeholderInnerHTML) {
       dispatchNodeAttrs(firstParagraph._id, {
@@ -258,6 +275,7 @@ export const SectionInspector: React.FC<{
 
                 <CategoryInput
                   value={currentSectionCategory}
+                  existingCatsCounted={existingCatsCounted}
                   handleChange={(category: string) => {
                     dispatchNodeAttrs(section._id, { category })
                   }}

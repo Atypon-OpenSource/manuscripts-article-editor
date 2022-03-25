@@ -18,7 +18,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { isParagraphElement } from '@manuscripts/sync-client'
 
-export const generatedSectionCategories: string[] = [
+export const uneditableSectionCategories: string[] = [
   'MPSectionCategory:bibliography',
   'MPSectionCategory:keywords',
   'MPSectionCategory:list-of-figures',
@@ -26,8 +26,12 @@ export const generatedSectionCategories: string[] = [
   'MPSectionCategory:toc',
 ]
 
+export const uniqueSectionCategories: string[] = [
+  'MPSectionCategory:abstract-graphical',
+]
+
 export const isEditableSectionCategoryID = (id: string) =>
-  !generatedSectionCategories.includes(id)
+  !uneditableSectionCategories.includes(id)
 
 export const isEditableSectionCategory = (sectionCategory: SectionCategory) =>
   isEditableSectionCategoryID(sectionCategory._id)
@@ -61,4 +65,17 @@ export const findFirstParagraph = (
       }
     }
   }
+}
+
+export const isUniquePresent = (
+  cat: SectionCategory,
+  existingCats: { [key: string]: number }
+) => {
+  if (
+    uniqueSectionCategories.includes(cat._id) &&
+    Object.keys(existingCats).includes(cat._id)
+  ) {
+    return true
+  }
+  return false
 }

@@ -16,13 +16,15 @@ import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isEditableSectionCategory,
+  isUniquePresent,
   sortedSectionCategories,
 } from '../../lib/section-categories'
 
 export const CategoryInput: React.FC<{
   value: string
   handleChange: (category: string) => void
-}> = ({ value, handleChange }) => {
+  existingCatsCounted: { [key: string]: number }
+}> = ({ value, handleChange, existingCatsCounted }) => {
   const [currentValue, handleLocalChange] = useSyncedData<string>(
     value,
     handleChange,
@@ -39,7 +41,12 @@ export const CategoryInput: React.FC<{
   return (
     <CategorySelector value={currentValue} onChange={handleInputChange}>
       {sortedSectionCategories
-        .filter(isEditableSectionCategory)
+        .filter((cat) => {
+          return (
+            isEditableSectionCategory(cat) &&
+            !isUniquePresent(cat, existingCatsCounted)
+          )
+        })
         .map((sectionCategory) => (
           <option value={sectionCategory._id} key={sectionCategory._id}>
             {sectionCategory.name}
