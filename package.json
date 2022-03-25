@@ -1,8 +1,8 @@
 {
-  "name": "@manuscripts/frontend",
-  "version": "1.0.29",
+  "name": "@manuscripts/article-editor",
+  "version": "0.1.0",
   "private": true,
-  "repository": "gitlab:mpapp-public/manuscripts-frontend",
+  "repository": "github.com:Atypon-OpenSource/manuscripts-article-editor.git",
   "license": "CPAL-1.0",
   "main": "dist",
   "files": [
