@@ -58,7 +58,7 @@
     "@manuscripts/csl-locales": "^0.0.4",
     "@manuscripts/data": "^0.1.5",
     "@manuscripts/library": "^0.6.2",
-    "@manuscripts/manuscript-editor": "^0.90.3",
+    "@manuscripts/manuscript-editor": "^0.91.3",
     "@manuscripts/manuscript-transform": "^0.48.11",
     "@manuscripts/manuscripts-json-schema": "^1.49.3",
     "@manuscripts/manuscripts-json-schema-utils": "^0.2.1",

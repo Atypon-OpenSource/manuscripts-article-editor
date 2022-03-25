@@ -165,6 +165,9 @@ The service is configured using environment variables, `.env.example` file place
   <dt>DERIVED_DATA_BUCKET</dt>
   <dd>The name of a database bucket for derived data.</dd>
 
+  <dt>DISABLE_ATTACH_CODE</dt>
+  <dd>If set to '1', disables the ability to attach code with figure.</dd>
+
   <dt>DISCOURSE_HOST</dt>
   <dd>The base URL of the Discourse host (used to show updates).</dd>
 

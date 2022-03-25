@@ -121,6 +121,7 @@ export const useCreateEditor = (permissions: Permissions) => {
     permissions: permissions,
     environment: config.environment,
     history,
+    jupyterConfig: config.jupyter,
     popper: popper.current,
     projectID: project._id,
 
