@@ -1,8 +1,6 @@
-# manuscripts-frontend
+# manuscripts-article-editor
 
-This repository contains the browser client for the Manuscripts collaborative authoring environment, in a single-page React app ([desktop and mobile app embeddable](https://gitlab.com/mpapp-public/manuscripts-cocoa-app)).
-
-[![pipeline status](https://gitlab.com/mpapp-public/manuscripts-frontend/badges/master/pipeline.svg)](https://gitlab.com/mpapp-public/manuscripts-frontend/commits/master)
+This repository contains the editor package of Manuscripts app to be used in a react application.
 
 ## Dependencies
 
