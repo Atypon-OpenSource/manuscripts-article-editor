@@ -44,9 +44,12 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
     setError(e)
   }
 
-  const {
-    handleChangeAttachmentDesignation: changeAttachmentDesignation,
-  } = useFileHandling()
+  // const {
+  //   handleChangeAttachmentDesignation: changeAttachmentDesignation,
+  // } = useFileHandling()
+  // TODO:: remove this as we are not going to use designation
+  const changeAttachmentDesignation = (s: string, d: string, name: string) =>
+    Promise.resolve({} as any)
   const [submissionId] = useStore((store) => store.submissionID || '')
 
   const [, drop] = useDrop({

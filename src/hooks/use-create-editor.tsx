@@ -159,8 +159,8 @@ export const useCreateEditor = (permissions: Permissions) => {
     theme,
     submissionId,
     capabilities: can,
-    updateDesignation: (designation: string, name: string) =>
-      handleChangeAttachmentDesignation(submissionId, designation, name),
+    // TODO:: remove this as we are not going to use designation
+    updateDesignation: () => new Promise(() => false),
     uploadAttachment: (designation: string, file: File) =>
       putAttachment(file, designation),
   }

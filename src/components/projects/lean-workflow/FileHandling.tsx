@@ -63,21 +63,24 @@ const useFileHandling = () => {
   )
 
   const handleChangeAttachmentDesignation = useCallback(
-    (submissionId: string, designation: string, name: string) => {
+    (
+      submissionId: string,
+      attachmentId: string,
+      designation: string,
+      name: string
+    ) => {
       if (designation == 'main-manuscript') {
         return handleSubmissionMutation(
-          setMainManuscript({
-            submissionId: submissionId,
-            name: name,
-          }),
+          setMainManuscript({ submissionId, attachmentId, name }),
           'Something went wrong while setting main manuscript.'
         )
       }
       return handleSubmissionMutation(
         changeAttachmentDesignation({
-          submissionId: submissionId,
-          name: name,
-          designation: designation,
+          submissionId,
+          attachmentId,
+          name,
+          designation,
         }),
         'Something went wrong while updating attachment designation.'
       )
@@ -118,18 +121,32 @@ const useFileHandling = () => {
   }
 
   const handleReplaceAttachment = useCallback(
-    (submissionId: string, name: string, file: File, typeId: string) => {
+    (
+      submissionId: string,
+      attachmentId: string,
+      name: string,
+      file: File,
+      typeId: string
+    ) => {
       // to replace main manuscript we need first to upload the file and then change its designation to main-manuscript
       if (typeId == 'main-manuscript') {
         return uploadAttachment({
           submissionId: submissionId,
           file: file,
           designation: 'sumbission-file',
-        }).then(() => {
+        }).then((result) => {
+          if (!result.data?.uploadAttachment) {
+            return null
+          }
+
+          const { uploadAttachment } = result.data
+
           return handleSubmissionMutation(
             setMainManuscript({
               submissionId,
+              attachmentId,
               name,
+              uploadAttachment,
             }),
             'Something went wrong while setting main manuscript.'
           )
@@ -139,6 +156,7 @@ const useFileHandling = () => {
       return handleSubmissionMutation(
         updateAttachmentFile({
           submissionId,
+          attachmentId,
           file,
           name,
         }),
