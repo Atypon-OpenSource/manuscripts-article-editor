@@ -67,14 +67,18 @@ export const findFirstParagraph = (
   }
 }
 
+export const isUnique = (categoryId: string) => {
+  if (uniqueSectionCategories.includes(categoryId)) {
+    return true
+  }
+  return false
+}
+
 export const isUniquePresent = (
   cat: SectionCategory,
   existingCats: { [key: string]: number }
 ) => {
-  if (
-    uniqueSectionCategories.includes(cat._id) &&
-    Object.keys(existingCats).includes(cat._id)
-  ) {
+  if (isUnique(cat._id) && Object.keys(existingCats).includes(cat._id)) {
     return true
   }
   return false
