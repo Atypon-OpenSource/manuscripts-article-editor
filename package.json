@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
@@ -17,9 +17,9 @@
   },
   "scripts": {
     "start": "TS_NODE_FILES=true NODE_OPTIONS=--max_old_space_size=4096 webpack-dev-server --open --config webpack.dev.ts",
-    "build": "TS_NODE_FILES=true NODE_OPTIONS=--max_old_space_size=4096 webpack --config webpack.prod.ts",
-    "buildDepDev": "concurrently 'yarn:build-dep:* --watch'",
-    "buildDep": "concurrently 'yarn:build-dep:*'",
+    "buildApp": "TS_NODE_FILES=true NODE_OPTIONS=--max_old_space_size=4096 webpack --config webpack.prod.ts",
+    "dev": "concurrently 'yarn:build-dep:* --watch'",
+    "build": "concurrently 'yarn:build-dep:*'",
     "build-dep:cjs": "tsc --outDir dist/cjs --module commonjs --project tsconfig.build.json",
     "build-dep:es": "tsc --outDir dist/es --declarationDir dist/types --declaration --project tsconfig.build.json",
     "test": "TZ=UTC jest --runInBand --detectOpenHandles --forceExit",
