@@ -71,7 +71,6 @@ export const useCreateEditor = (permissions: Permissions) => {
 
   const can = usePermissions()
   const popper = useRef<PopperManager>(new PopperManager())
-  const { handleChangeAttachmentDesignation } = useFileHandling()
 
   const { uploadAttachment } = useUploadAttachment()
 
