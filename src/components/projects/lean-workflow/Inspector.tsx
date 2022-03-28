@@ -15,9 +15,11 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import { getModelsByType } from '@manuscripts/manuscript-transform'
-import { ExternalFile, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
-import { FileManager, usePermissions } from '@manuscripts/style-guide'
+import {
+  FileManager,
+  SubmissionAttachment,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useState } from 'react'
 
@@ -63,6 +65,7 @@ const Inspector: React.FC<Props> = ({
       project,
       manuscript,
       submissionId,
+      submission,
       fileManagementErrors,
       commitsSortBy,
       comments,
@@ -76,6 +79,7 @@ const Inspector: React.FC<Props> = ({
     user: store.user,
     project: store.project,
     submissionId: store.submissionID,
+    submission: store.submission,
     snapshotID: store.snapshotID,
     fileManagementErrors: (store.fileManagementErrors as string[]) || [],
     commitsSortBy: store.commitsSortBy as string,
@@ -116,11 +120,6 @@ const Inspector: React.FC<Props> = ({
       commitsSortBy: event.currentTarget.value,
     })
   }
-
-  const files = getModelsByType<ExternalFile>(
-    modelMap,
-    ObjectTypes.ExternalFile
-  )
 
   const handleDownloadAttachment = useCallback((url: string) => {
     window.location.assign(url)
@@ -220,10 +219,12 @@ const Inspector: React.FC<Props> = ({
                   )}
                   <FileManager
                     submissionId={submissionId}
-                    externalFiles={files}
                     can={can}
                     enableDragAndDrop={true}
                     modelMap={modelMap}
+                    attachments={
+                      submission.attachments as SubmissionAttachment[]
+                    }
                     handleChangeDesignation={handleChangeAttachmentDesignation}
                     handleDownload={handleDownloadAttachment}
                     handleReplace={handleReplaceAttachment}

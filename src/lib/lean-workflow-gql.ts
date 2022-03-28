@@ -24,7 +24,6 @@ import {
 
 interface uploadAttachmentProps {
   submissionId: string
-  attachmentId: string
   file: File
   designation: string
 }

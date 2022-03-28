@@ -26,7 +26,6 @@ import { useCommits } from '../../../hooks/use-commits'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
 import { SpriteMap } from '../../track/Icons'
-import useFileHandling from './FileHandling'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
