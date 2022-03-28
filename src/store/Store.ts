@@ -23,6 +23,7 @@ import {
   ContainerInvitation,
   Manuscript,
   ManuscriptNote,
+  ManuscriptTemplate,
   Model,
   Project,
   ProjectInvitation,
@@ -119,6 +120,10 @@ export type state = {
     attachmentID: string
   ) => Promise<Blob | undefined>
   putAttachment?: (id: string, attachment: Attachment) => Promise<void>
+  getUserTemplates?: () => Promise<{
+    userTemplates: ManuscriptTemplate[]
+    userTemplateModels: ManuscriptModel[]
+  }>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
@@ -197,7 +202,7 @@ export class GenericStore implements Store {
     this.sources = sources
 
     const state = await buildStateFromSources(...sources)
-    this.setState(state as state)
+    this.setState({ ...this.state, ...(state as state) })
     // listening to changes before state applied
     this.beforeAction = (...args) => {
       this.sources.map(

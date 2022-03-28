@@ -197,7 +197,7 @@ exports[`Storyshots Nav/User UserInfo 1`] = `
 }
 
 .c3:hover,
-.c3:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+.c3:hover .Dropdown__PlaceholderTitle-m0tl90-2 {
   background: #f2fbfc;
 }
 

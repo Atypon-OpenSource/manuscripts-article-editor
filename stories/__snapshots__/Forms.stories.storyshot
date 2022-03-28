@@ -250,7 +250,7 @@ exports[`Storyshots Account/Forms/Modal Change password 1`] = `
             Change Password
           </div>
           <div
-            className="ModalForm__ModalBody-sc-19rmanp-1"
+            className="ModalForm__ModalBody-stjygz-1"
           >
             <form
               action="#"
@@ -581,7 +581,7 @@ exports[`Storyshots Account/Forms/Modal Delete account 1`] = `
             Delete account
           </div>
           <div
-            className="ModalForm__ModalBody-sc-19rmanp-1"
+            className="ModalForm__ModalBody-stjygz-1"
           >
             <form
               action="#"
@@ -904,7 +904,7 @@ exports[`Storyshots Account/Forms/Modal Delete account with projects 1`] = `
             Delete account
           </div>
           <div
-            className="ModalForm__ModalBody-sc-19rmanp-1"
+            className="ModalForm__ModalBody-stjygz-1"
           >
             <form
               action="#"
@@ -2147,7 +2147,7 @@ exports[`Storyshots Feedback Feedback 1`] = `
             Feedback
           </div>
           <div
-            className="ModalForm__ModalBody-sc-19rmanp-1"
+            className="ModalForm__ModalBody-stjygz-1"
           >
             <form
               action="#"

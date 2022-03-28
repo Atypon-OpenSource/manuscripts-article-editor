@@ -10,16 +10,19 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { DEFAULT_BUNDLE } from '@manuscripts/manuscript-transform'
+import {
+  DEFAULT_BUNDLE,
+  ManuscriptModel,
+} from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
+  ManuscriptTemplate,
   Model,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { useUserTemplates } from '../../hooks/use-user-templates'
 import { createManuscript } from '../../lib/create-manuscript'
 import { loadAllSharedData, SharedData } from '../../lib/shared-data'
 import {
@@ -77,20 +80,32 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
     handleComplete(true)
   }, [handleComplete])
 
-  const { userTemplates, userTemplateModels, isDone } = useUserTemplates()
+  const [{ userTemplates, userTemplateModels }, setUserData] = useState<{
+    userTemplates?: ManuscriptTemplate[]
+    userTemplateModels?: ManuscriptModel[]
+  }>({})
+  const [getUserTemplates] = useStore((store) => store.getUserTemplates)
 
   useEffect(() => {
-    if (isDone) {
-      if (userTemplates && userTemplateModels) {
-        loadAllSharedData(userTemplates, userTemplateModels)
-          .then(setData)
-          .catch((error) => {
-            // TODO: display error message
-            console.error(error)
-          })
-      }
+    if (getUserTemplates) {
+      getUserTemplates()
+        .then(({ userTemplateModels, userTemplates }) => {
+          setUserData({ userTemplateModels, userTemplates })
+        })
+        .catch((e) => console.log(e))
     }
-  }, [userTemplates, userTemplateModels, isDone])
+  }, [getUserTemplates])
+
+  useEffect(() => {
+    if (userTemplates && userTemplateModels) {
+      loadAllSharedData(userTemplates, userTemplateModels)
+        .then(setData)
+        .catch((error) => {
+          // TODO: display error message
+          console.error(error)
+        })
+    }
+  }, [userTemplates, userTemplateModels])
 
   // const importManuscriptModels = useMemo(
   //   () => importManuscript(db, history, user, handleComplete, projectID),

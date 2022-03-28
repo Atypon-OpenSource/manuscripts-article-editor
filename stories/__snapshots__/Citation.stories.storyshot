@@ -295,7 +295,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           }
         >
           <div
-            className="CitationEditor__CitedItemTitle-sc-1651091-1"
+            className="CitationEditor__CitedItemTitle-sc-18cf38b-1"
           />
           <div
             className="c3"
@@ -309,7 +309,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
+                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -337,7 +337,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           }
         >
           <div
-            className="CitationEditor__CitedItemTitle-sc-1651091-1"
+            className="CitationEditor__CitedItemTitle-sc-18cf38b-1"
           />
           <div
             className="c3"
@@ -351,7 +351,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
+                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -379,7 +379,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           }
         >
           <div
-            className="CitationEditor__CitedItemTitle-sc-1651091-1"
+            className="CitationEditor__CitedItemTitle-sc-18cf38b-1"
           />
           <div
             className="c3"
@@ -393,7 +393,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
+                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -421,7 +421,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           }
         >
           <div
-            className="CitationEditor__CitedItemTitle-sc-1651091-1"
+            className="CitationEditor__CitedItemTitle-sc-18cf38b-1"
           />
           <div
             className="c3"
@@ -435,7 +435,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
+                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -463,7 +463,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
           }
         >
           <div
-            className="CitationEditor__CitedItemTitle-sc-1651091-1"
+            className="CitationEditor__CitedItemTitle-sc-18cf38b-1"
           />
           <div
             className="c3"
@@ -477,7 +477,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-1651091-6 c6 c7 c8"
+                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
                 onClick={[Function]}
                 size={24}
                 type="button"
@@ -975,7 +975,7 @@ exports[`Storyshots Citation Citation Viewer 1`] = `
         onClick={[Function]}
       >
         <div
-          className="CitationViewer__CitedItemTitle-q6gk2k-1"
+          className="CitationViewer__CitedItemTitle-tdnr1-1"
         />
         <div
           className="c3"
@@ -988,7 +988,7 @@ exports[`Storyshots Citation Citation Viewer 1`] = `
         onClick={[Function]}
       >
         <div
-          className="CitationViewer__CitedItemTitle-q6gk2k-1"
+          className="CitationViewer__CitedItemTitle-tdnr1-1"
         />
         <div
           className="c3"
@@ -1001,7 +1001,7 @@ exports[`Storyshots Citation Citation Viewer 1`] = `
         onClick={[Function]}
       >
         <div
-          className="CitationViewer__CitedItemTitle-q6gk2k-1"
+          className="CitationViewer__CitedItemTitle-tdnr1-1"
         />
         <div
           className="c3"
@@ -1014,7 +1014,7 @@ exports[`Storyshots Citation Citation Viewer 1`] = `
         onClick={[Function]}
       >
         <div
-          className="CitationViewer__CitedItemTitle-q6gk2k-1"
+          className="CitationViewer__CitedItemTitle-tdnr1-1"
         />
         <div
           className="c3"
@@ -1027,7 +1027,7 @@ exports[`Storyshots Citation Citation Viewer 1`] = `
         onClick={[Function]}
       >
         <div
-          className="CitationViewer__CitedItemTitle-q6gk2k-1"
+          className="CitationViewer__CitedItemTitle-tdnr1-1"
         />
         <div
           className="c3"

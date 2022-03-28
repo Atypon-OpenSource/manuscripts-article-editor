@@ -343,7 +343,7 @@ exports[`Storyshots Projects Projects Menu 1`] = `
         type="button"
       >
         <svg
-          className="AddButton__RegularAddIcon-sc-16tykoq-0"
+          className="AddButton__RegularAddIcon-x7a50a-0"
           height={40}
           viewBox="0 0 32 34"
           width={40}
@@ -524,7 +524,7 @@ exports[`Storyshots Projects Projects Page - Empty 1`] = `
       className="c1"
     >
       <div
-        className="EmptyProjectPage__Placeholder-sc-1tyx5jc-1"
+        className="EmptyProjectPage__Placeholder-sc-148twx6-1"
       >
         <div
           className="c2"
@@ -536,7 +536,7 @@ exports[`Storyshots Projects Projects Page - Empty 1`] = `
         </div>
       </div>
       <div
-        className="EmptyProjectPage__ActionContainer-sc-1tyx5jc-2"
+        className="EmptyProjectPage__ActionContainer-sc-148twx6-2"
       >
         <button
           className="c3 c4 c5"
@@ -545,7 +545,7 @@ exports[`Storyshots Projects Projects Page - Empty 1`] = `
           type="button"
         >
           <svg
-            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            className="AddButton__RegularAddIcon-x7a50a-0"
             height={40}
             viewBox="0 0 32 34"
             width={40}
@@ -760,7 +760,7 @@ exports[`Storyshots Projects Projects Page - Empty due to pull error 1`] = `
       className="c1"
     >
       <div
-        className="EmptyProjectPage__Placeholder-sc-1tyx5jc-1"
+        className="EmptyProjectPage__Placeholder-sc-148twx6-1"
       >
         <div
           className="c2"
@@ -772,7 +772,7 @@ exports[`Storyshots Projects Projects Page - Empty due to pull error 1`] = `
         </div>
       </div>
       <div
-        className="EmptyProjectPage__ActionContainer-sc-1tyx5jc-2"
+        className="EmptyProjectPage__ActionContainer-sc-148twx6-2"
       >
         <button
           className="c3 c4 c5"
@@ -781,7 +781,7 @@ exports[`Storyshots Projects Projects Page - Empty due to pull error 1`] = `
           type="button"
         >
           <svg
-            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            className="AddButton__RegularAddIcon-x7a50a-0"
             height={40}
             viewBox="0 0 32 34"
             width={40}

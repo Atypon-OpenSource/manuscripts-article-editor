@@ -184,7 +184,7 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
 }
 
 .c1:hover,
-.c1:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+.c1:hover .Dropdown__PlaceholderTitle-m0tl90-2 {
   background: #f2fbfc;
 }
 
@@ -211,7 +211,7 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
 }
 
 .c5:hover,
-.c5:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+.c5:hover .Dropdown__PlaceholderTitle-m0tl90-2 {
   background: #f2fbfc;
 }
 
@@ -648,7 +648,7 @@ exports[`Storyshots Nav/Projects Dropdown List With only invitations 1`] = `
         type="button"
       >
         <svg
-          className="AddButton__RegularAddIcon-sc-16tykoq-0"
+          className="AddButton__RegularAddIcon-x7a50a-0"
           height={40}
           viewBox="0 0 32 34"
           width={40}
@@ -1022,7 +1022,7 @@ exports[`Storyshots Nav/Projects Dropdown List With projects 1`] = `
         type="button"
       >
         <svg
-          className="AddButton__RegularAddIcon-sc-16tykoq-0"
+          className="AddButton__RegularAddIcon-x7a50a-0"
           height={40}
           viewBox="0 0 32 34"
           width={40}
@@ -1834,7 +1834,7 @@ exports[`Storyshots Nav/Projects Dropdown List With projects and invitations 1`]
         type="button"
       >
         <svg
-          className="AddButton__RegularAddIcon-sc-16tykoq-0"
+          className="AddButton__RegularAddIcon-x7a50a-0"
           height={40}
           viewBox="0 0 32 34"
           width={40}
@@ -2646,7 +2646,7 @@ exports[`Storyshots Nav/Projects Dropdown List With rejected invitations 1`] = `
         type="button"
       >
         <svg
-          className="AddButton__RegularAddIcon-sc-16tykoq-0"
+          className="AddButton__RegularAddIcon-x7a50a-0"
           height={40}
           viewBox="0 0 32 34"
           width={40}
@@ -2783,7 +2783,7 @@ exports[`Storyshots Nav/Projects Dropdown List Without projects 1`] = `
         type="button"
       >
         <svg
-          className="AddButton__RegularAddIcon-sc-16tykoq-0"
+          className="AddButton__RegularAddIcon-x7a50a-0"
           height={40}
           viewBox="0 0 32 34"
           width={40}

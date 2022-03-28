@@ -128,11 +128,11 @@ const storeState = {
   tags: tags,
   project: project,
 }
-const store = new GenericStore(undefined, undefined, storeState)
 
 storiesOf('Inspector/Manuscript Inspector', module).add(
   'without requirements',
   () => {
+    const store = new GenericStore(undefined, undefined, { ...storeState })
     return (
       <GenericStoreProvider store={store}>
         <div style={{ width: 500 }}>
@@ -153,21 +153,24 @@ storiesOf('Inspector/Manuscript Inspector', module).add(
 
 storiesOf('Inspector/Section Inspector', module).add(
   'without requirements',
-  () => (
-    <GenericStoreProvider store={store}>
-      <div style={{ width: 500 }}>
-        <SectionInspector
-          section={section}
-          state={view.state}
-          dispatch={view.dispatch}
-          dispatchNodeAttrs={action('dispatch node attributes')}
-          getSectionCountRequirements={action(
-            'get the section count requirements'
-          )}
-        />
-      </div>
-    </GenericStoreProvider>
-  )
+  () => {
+    const store = new GenericStore(undefined, undefined, { ...storeState })
+    return (
+      <GenericStoreProvider store={store}>
+        <div style={{ width: 500 }}>
+          <SectionInspector
+            section={section}
+            state={view.state}
+            dispatch={view.dispatch}
+            dispatchNodeAttrs={action('dispatch node attributes')}
+            getSectionCountRequirements={action(
+              'get the section count requirements'
+            )}
+          />
+        </div>
+      </GenericStoreProvider>
+    )
+  }
 )
 
 storiesOf('Inspector/Manuscript Style Inspector', module)
@@ -296,15 +299,18 @@ storiesOf('Inspector/History', module).add('read only', () => (
   />
 ))
 
-storiesOf('Inspector', module).add('Manage Section', () => (
-  <GenericStoreProvider store={store}>
-    <ManageTargetInspector
-      target={{
-        ...section,
-        assignees: ['user-1'],
-        deadline: 1593982800,
-        keywordIDs: ['tag-1', 'tag-2'],
-      }}
-    />
-  </GenericStoreProvider>
-))
+storiesOf('Inspector', module).add('Manage Section', () => {
+  const store = new GenericStore(undefined, undefined, { ...storeState })
+  return (
+    <GenericStoreProvider store={store}>
+      <ManageTargetInspector
+        target={{
+          ...section,
+          assignees: ['user-1'],
+          deadline: 1593982800,
+          keywordIDs: ['tag-1', 'tag-2'],
+        }}
+      />
+    </GenericStoreProvider>
+  )
+})

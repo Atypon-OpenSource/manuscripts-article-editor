@@ -15,12 +15,12 @@ import { ApolloError } from 'apollo-client'
 import { FetchResult } from 'apollo-link'
 import gql from 'graphql-tag'
 
+import config from '../config'
 import {
   updateMainManuscriptAttachment,
   updateSubmissionAttachment,
   updateSubmissionAttachmentDesignation,
-} from '../components/projects/lean-workflow/apolloCacheUpdate'
-import config from '../config'
+} from '../lib/apolloCacheUpdate'
 
 interface uploadAttachmentProps {
   submissionId: string

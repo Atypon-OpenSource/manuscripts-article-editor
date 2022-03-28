@@ -19,7 +19,7 @@ import tokenHandler from '../../../lib/token'
 import { theme } from '../../../theme/theme'
 import LoginPageContainer from '../LoginPageContainer'
 
-jest.mock('../../../lib/adapter')
+jest.mock('../../../couch-data/adapter')
 jest.mock('../../../lib/token')
 
 const history = createMemoryHistory<Record<string, never>>()

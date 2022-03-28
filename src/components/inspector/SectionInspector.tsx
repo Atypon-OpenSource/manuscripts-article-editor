@@ -99,6 +99,7 @@ export const SectionInspector: React.FC<{
   getSectionCountRequirements,
 }) => {
   const [modelMap] = useStore((store) => store.modelMap)
+  const [storeState] = useStore()
   const [saveModel] = useStore((store) => store.saveModel)
   const firstParagraph = useMemo(() => findFirstParagraph(section, modelMap), [
     section,

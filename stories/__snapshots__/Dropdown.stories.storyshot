@@ -585,7 +585,7 @@ exports[`Storyshots Nav/Dropdown Menu 1`] = `
 }
 
 .c10:hover,
-.c10:hover .Dropdown__PlaceholderTitle-fhxyb7-2 {
+.c10:hover .Dropdown__PlaceholderTitle-m0tl90-2 {
   background: #f2fbfc;
 }
 

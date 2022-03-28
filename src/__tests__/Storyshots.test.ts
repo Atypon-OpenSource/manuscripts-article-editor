@@ -33,7 +33,7 @@ jest.mock('lodash-es', () => {
 })
 
 jest.mock('../lib/token')
-jest.mock('../lib/adapter')
+jest.mock('../couch-data/adapter')
 jest.mock('../lib/device-id')
 jest.mock('../components/FormattedDateTime')
 

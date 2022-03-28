@@ -59,36 +59,6 @@ exports[`Storyshots Inspector Manage Section 1`] = `
   border-color: transparent;
 }
 
-.c14 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  position: relative;
-}
-
-.c15 {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
 .c0 {
   background-color: #fff;
   color: #353535;
@@ -138,113 +108,48 @@ exports[`Storyshots Inspector Manage Section 1`] = `
   margin: 8px 8px 32px;
 }
 
-.c13 {
-  margin-right: 4px;
-  position: relative;
-}
-
-.c13 .tooltip {
-  border-radius: 6px;
-}
-
-.c13 img {
-  border: 1px solid transparent;
-}
-
-.c13:hover img {
-  border: 1px solid #bce7f6;
-}
-
-.c13:hover .remove {
-  cursor: pointer;
-}
-
-.c13:hover .remove svg {
-  fill: #6e6e6e;
-}
-
 .c12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin-left: 8px;
-}
-
-.c17 {
   border: none;
   background: none;
   cursor: pointer;
 }
 
-.c17 .tooltip {
+.c12 .tooltip {
   border-radius: 6px;
 }
 
-.c17:focus {
+.c12:focus {
   outline: none;
 }
 
-.c16 {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  height: 10px;
-  width: 10px;
-  display: -webkit-box !important;
-  display: -webkit-flex !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.c16 svg {
-  fill: none;
-}
-
-.c18 {
+.c13 {
   width: 100%;
 }
 
-.c18 .DatePicker {
+.c13 .DatePicker {
   width: 100%;
   z-index: 10;
 }
 
-.c18 .Calendar__weekDay {
+.c13 .Calendar__weekDay {
   color: #e6e6e;
   font-size: 14px;
 }
 
-.c18 .Calendar__day:not(.-blank):not(.-selected):hover {
+.c13 .Calendar__day:not(.-blank):not(.-selected):hover {
   background: #f2fbfc !important;
 }
 
-.c18 .Calendar__day.-today:hover::after {
+.c13 .Calendar__day.-today:hover::after {
   opacity: 0.5 !important;
 }
 
-.c18 .selected-day {
+.c13 .selected-day {
   color: #353535 !important;
   border: 1px solid #bce7f6 !important;
 }
 
-.c18 .DatePicker__calendarContainer {
+.c13 .DatePicker__calendarContainer {
   position: absolute;
   top: unset;
   left: unset !important;
@@ -254,12 +159,12 @@ exports[`Storyshots Inspector Manage Section 1`] = `
   transform: unset !important;
 }
 
-.c20 {
+.c15 {
   position: relative;
   width: 100%;
 }
 
-.c19 {
+.c14 {
   width: 100%;
 }
 
@@ -357,48 +262,8 @@ exports[`Storyshots Inspector Manage Section 1`] = `
           >
             Assignees
           </div>
-          <div
-            className="c12"
-          >
-            <div
-              className="c13"
-            >
-              <div
-                data-for="user-1"
-                data-tip={true}
-              >
-                <div
-                  className="c14"
-                >
-                  <img
-                    className="c15"
-                    onError={[Function]}
-                    size={22}
-                    src="//user-1/image"
-                  />
-                </div>
-              </div>
-              <div />
-              <div
-                className="c16 remove"
-                onClick={[Function]}
-              >
-                <svg
-                  height="16px"
-                  viewBox="0 0 512 512"
-                  width="16px"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M256 0C114.836 0 0 114.836 0 256s114.836 256 256 256 256-114.836 256-256S397.164 0 256 0zm94.273 320.105c8.34 8.344 8.34 21.825 0 30.168a21.275 21.275 0 01-15.086 6.25c-5.46 0-10.921-2.09-15.082-6.25L256 286.164l-64.105 64.11a21.273 21.273 0 01-15.083 6.25 21.275 21.275 0 01-15.085-6.25c-8.34-8.344-8.34-21.825 0-30.169L225.836 256l-64.11-64.105c-8.34-8.344-8.34-21.825 0-30.168 8.344-8.34 21.825-8.34 30.169 0L256 225.836l64.105-64.11c8.344-8.34 21.825-8.34 30.168 0 8.34 8.344 8.34 21.825 0 30.169L286.164 256zm0 0"
-                  />
-                </svg>
-                 
-              </div>
-            </div>
-          </div>
           <button
-            className="c17"
+            className="c12"
             onClick={[Function]}
           >
             <div
@@ -436,7 +301,7 @@ exports[`Storyshots Inspector Manage Section 1`] = `
             Deadline
           </div>
           <div
-            className="c18"
+            className="c13"
             selected={true}
           >
             <div />
@@ -451,7 +316,7 @@ exports[`Storyshots Inspector Manage Section 1`] = `
             Tags
           </div>
           <div
-            className="c19"
+            className="c14"
           >
             <div
               className=" css-1akvy1b-container"
@@ -567,7 +432,7 @@ exports[`Storyshots Inspector Manage Section 1`] = `
             Status
           </div>
           <div
-            className="c20"
+            className="c15"
           >
             <div
               className=" css-1akvy1b-container"
@@ -1105,7 +970,7 @@ exports[`Storyshots Inspector/History basic 1`] = `
           type="button"
         >
           <svg
-            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            className="AddButton__RegularAddIcon-x7a50a-0"
             height={40}
             viewBox="0 0 32 34"
             width={40}
@@ -1582,7 +1447,7 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
           type="button"
         >
           <svg
-            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            className="AddButton__RegularAddIcon-x7a50a-0"
             height={40}
             viewBox="0 0 32 34"
             width={40}
@@ -2193,7 +2058,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
           type="button"
         >
           <svg
-            className="AddButton__RegularAddIcon-sc-16tykoq-0"
+            className="AddButton__RegularAddIcon-x7a50a-0"
             height={40}
             viewBox="0 0 32 34"
             width={40}
@@ -4867,7 +4732,6 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                   >
                     Graphical Abstract
                   </option>
-
                 </select>
                 <div
                   className="c3 c16"

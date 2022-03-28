@@ -10,39 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import {
-  Project,
-  UserCollaborator,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import PouchDBLevelAdapter from 'pouchdb-adapter-memory'
 
-export const buildCollaborators = (
-  project: Project,
-  collaborators: Map<string, UserProfile>
-): UserProfile[] => {
-  const getCollaborator = (id: string) => collaborators.get(id)!
+import RxDB from '../rxdb'
 
-  return [
-    ...project.owners.map(getCollaborator),
-    ...project.writers.map(getCollaborator),
-    ...project.viewers.map(getCollaborator),
-  ].filter((_) => _)
-}
+RxDB.plugin(PouchDBLevelAdapter)
 
-export const buildCollaboratorProfiles = (
-  collaborators: Map<string, UserCollaborator>,
-  user: UserProfileWithAvatar,
-  key: keyof UserProfile = 'userID'
-) => {
-  const profiles: Map<string, UserProfile> = new Map()
-
-  for (const collaborator of collaborators.values()) {
-    profiles.set(
-      collaborator.collaboratorProfile[key] as string,
-      collaborator.collaboratorProfile
-    )
-  }
-  profiles.set(user[key] as string, user)
-  return profiles
-}
+export const adapter = 'memory'

@@ -30,7 +30,7 @@ exports[`Storyshots SubmissionItem Failure 1`] = `
         Example Journal
       </div>
       <div
-        className="SubmissionItem__StatusMessage-sc-8qvef2-2"
+        className="SubmissionItem__StatusMessage-h2v09t-2"
       >
         There was an error submitting this manuscript.
       </div>
@@ -69,7 +69,7 @@ exports[`Storyshots SubmissionItem Submitting 1`] = `
         Example Journal
       </div>
       <div
-        className="SubmissionItem__StatusMessage-sc-8qvef2-2"
+        className="SubmissionItem__StatusMessage-h2v09t-2"
       >
         Submitting…
       </div>
@@ -108,7 +108,7 @@ exports[`Storyshots SubmissionItem Success 1`] = `
         Example Journal
       </div>
       <div
-        className="SubmissionItem__StatusMessage-sc-8qvef2-2"
+        className="SubmissionItem__StatusMessage-h2v09t-2"
       >
         Submitted successfully.
       </div>

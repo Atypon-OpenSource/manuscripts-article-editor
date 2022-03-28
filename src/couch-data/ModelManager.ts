@@ -26,6 +26,7 @@ import {
   ContainerInvitation,
   Correction,
   Manuscript,
+  ManuscriptTemplate,
   Model,
   ObjectTypes,
   Project,
@@ -163,6 +164,65 @@ export default class ModelManager implements ManuscriptModels {
     return Promise.resolve(manuscript)
   }
 
+  getUserTemplates = async () => {
+    const userTemplates: ManuscriptTemplate[] = []
+    const userTemplateModels: ManuscriptModel[] = []
+    const promiseEverything = this.userCollection
+      .find({
+        objectType: ObjectTypes.Project,
+        templateContainer: true,
+      })
+      .exec()
+      .then((docs) => docs.map((doc) => doc.toJSON()))
+      .then((projects) =>
+        Promise.all(
+          projects.map(async (project) => {
+            const collection = new Collection({
+              collection: `project-${project._id}`,
+              channels: [`${project._id}-read`, `${project._id}-readwrite`],
+              db: this.db,
+            })
+
+            let retries = 0
+            while (retries <= 1) {
+              try {
+                await collection.initialize(false)
+                await collection.syncOnce('pull')
+                break
+              } catch (e) {
+                retries++
+                console.error(e)
+              }
+            }
+
+            const templates = await collection
+              .find({ objectType: ObjectTypes.ManuscriptTemplate })
+              .exec()
+              .then((docs) =>
+                docs.map((doc) => doc.toJSON() as ManuscriptTemplate)
+              )
+            userTemplates.push(...templates)
+
+            const models = await collection
+              .find({
+                templateID: {
+                  $in: templates.map((template) => template._id),
+                },
+              })
+              .exec()
+              .then((docs) =>
+                docs.map((doc) => doc.toJSON() as ManuscriptModel)
+              )
+            userTemplateModels.push(...models)
+            return
+          })
+        )
+      )
+
+    await promiseEverything
+    return { userTemplates, userTemplateModels }
+  }
+
   getTools = async () => {
     const latestSnaphot = this.snapshots.length ? this.snapshots[0] : null
 
@@ -186,6 +246,7 @@ export default class ModelManager implements ManuscriptModels {
         getAttachment: this.getAttachment,
         updateManuscriptTemplate: this.updateManuscriptTemplate,
         getInvitation: this.getInvitation,
+        getUserTemplates: this.getUserTemplates,
       }
     }
 
@@ -237,6 +298,7 @@ export default class ModelManager implements ManuscriptModels {
       getAttachment: this.getAttachment,
       updateManuscriptTemplate: this.updateManuscriptTemplate,
       getInvitation: this.getInvitation,
+      getUserTemplates: this.getUserTemplates,
     }
   }
 

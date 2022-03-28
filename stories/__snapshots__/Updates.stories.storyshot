@@ -46,7 +46,7 @@ exports[`Storyshots Updates Error 1`] = `
 >
   <div>
     <div
-      className="Updates__Container-i7aaxp-4"
+      className="Updates__Container-sc-1laa4f-4"
     >
       <div
         className="c1"
@@ -190,7 +190,7 @@ exports[`Storyshots Updates Loaded 1`] = `
 >
   <div>
     <div
-      className="Updates__Container-i7aaxp-4"
+      className="Updates__Container-sc-1laa4f-4"
     >
       <div
         className="c1"
@@ -307,7 +307,7 @@ exports[`Storyshots Updates Loading 1`] = `
 >
   <div>
     <div
-      className="Updates__Container-i7aaxp-4"
+      className="Updates__Container-sc-1laa4f-4"
     >
       <div
         className="c1"

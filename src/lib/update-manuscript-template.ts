@@ -263,5 +263,5 @@ export const updateManuscriptTemplate = async ({
   )
 
   // @TODO - move out side effect
-  history.push(`/projects/${containerID}/manuscripts/${manuscript._id}`)
+  // history.push(`/projects/${containerID}/manuscripts/${manuscript._id}`)
 }

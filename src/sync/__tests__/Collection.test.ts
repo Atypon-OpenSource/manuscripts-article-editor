@@ -18,7 +18,7 @@ import { databaseCreator } from '../../couch-data/db'
 import { clearChannelFolder } from '../../lib/broadcast-channel'
 import { Collection, isBulkDocsError, isBulkDocsSuccess } from '../Collection'
 
-jest.mock('../../lib/adapter')
+jest.mock('../../couch-data/adapter')
 
 const store = {
   getState: jest.fn(() => ({})),

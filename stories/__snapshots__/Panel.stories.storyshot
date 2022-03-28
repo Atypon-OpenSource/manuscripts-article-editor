@@ -8,26 +8,6 @@ exports[`Storyshots Panel combined 1`] = `
   padding: 3rem;
 }
 
-.c12 {
-  height: 100%;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: calc(100vh - 1px);
-  box-sizing: border-box;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-}
-
 .c5 {
   position: relative;
   background: none;
@@ -223,6 +203,26 @@ exports[`Storyshots Panel combined 1`] = `
   top: -1px;
 }
 
+.c12 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 1px);
+  box-sizing: border-box;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+}
+
 <div
   className="c0"
 >
@@ -321,26 +321,6 @@ exports[`Storyshots Panel row 1`] = `
   color: #353535;
   font-family: "Lato",sans-serif;
   padding: 3rem;
-}
-
-.c8 {
-  height: 100%;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: calc(100vh - 1px);
-  box-sizing: border-box;
-  color: #353535;
-  font-family: "Lato",sans-serif;
 }
 
 .c5 {
@@ -501,6 +481,26 @@ exports[`Storyshots Panel row 1`] = `
 
 .c4::before {
   left: -1px;
+}
+
+.c8 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 1px);
+  box-sizing: border-box;
+  color: #353535;
+  font-family: "Lato",sans-serif;
 }
 
 <div

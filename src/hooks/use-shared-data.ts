@@ -10,8 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { ManuscriptModel } from '@manuscripts/manuscript-transform'
 import {
   MandatorySubsectionsRequirement,
+  ManuscriptTemplate,
   SectionDescription,
 } from '@manuscripts/manuscripts-json-schema'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -29,25 +31,37 @@ import {
   createMergedTemplate,
   ManuscriptTemplateData,
 } from '../lib/templates'
-import { useUserTemplates } from './use-user-templates'
+import { useStore } from '../store'
 
 export const useSharedData = () => {
   const [data, setData] = useState<SharedData>()
 
-  const { userTemplates, userTemplateModels, isDone } = useUserTemplates()
+  const [{ userTemplates, userTemplateModels }, setUserData] = useState<{
+    userTemplates?: ManuscriptTemplate[]
+    userTemplateModels?: ManuscriptModel[]
+  }>({})
+  const [getUserTemplates] = useStore((store) => store.getUserTemplates)
 
   useEffect(() => {
-    if (isDone) {
-      if (userTemplates && userTemplateModels) {
-        loadAllSharedData(userTemplates, userTemplateModels)
-          .then(setData)
-          .catch((error) => {
-            // TODO: display error message
-            console.error(error)
-          })
-      }
+    if (getUserTemplates) {
+      getUserTemplates()
+        .then(({ userTemplateModels, userTemplates }) => {
+          setUserData({ userTemplateModels, userTemplates })
+        })
+        .catch((e) => console.log(e))
     }
-  }, [userTemplates, userTemplateModels, isDone])
+  }, [getUserTemplates])
+
+  useEffect(() => {
+    if (userTemplates && userTemplateModels) {
+      loadAllSharedData(userTemplates, userTemplateModels)
+        .then(setData)
+        .catch((error) => {
+          // TODO: display error message
+          console.error(error)
+        })
+    }
+  }, [userTemplates, userTemplateModels])
 
   const items = useMemo(() => (data ? buildItems(data) : undefined), [data])
   const getRequirement = useCallback(

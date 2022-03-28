@@ -50,6 +50,511 @@ exports[`Storyshots Account/Pages Login 1`] = `
   border-top-color: #bce7f6;
 }
 
+.c12 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font: 400 16px / 24px "Lato",sans-serif;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  outline: none;
+  padding: 7px 12px;
+  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.c12 svg + span {
+  margin-left: 4px;
+}
+
+.c13 {
+  color: #fff;
+  background-color: #0d79d0;
+  border-color: #0d79d0;
+}
+
+.c13:not([disabled]):hover,
+.c13:not([disabled]):focus {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c13:not([disabled]):active {
+  color: #fff;
+  background-color: #0b6bb8;
+  border-color: #0b6bb8;
+}
+
+.c15 {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+}
+
+.c16 {
+  color: #353535;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
+  color: #1a9bc7;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c16:not([disabled]):active {
+  color: #0d79d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.c3 {
+  width: 100%;
+  max-width: 450px;
+}
+
+.c4 {
+  padding: 40px;
+  text-align: center;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: rgba(0,0,0,0.51);
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
+.c1 {
+  height: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.c20 {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+}
+
+.c21 {
+  color: inherit;
+  font-weight: 500;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c19 {
+  color: #6e6e6e;
+}
+
+.c17 {
+  margin: 4px;
+  padding: 0 16px;
+  width: auto;
+}
+
+.c18 {
+  height: 40px;
+  margin: -4px 0 0 -4px;
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.c11 {
+  color: #0b6bb8;
+  font: inherit;
+  font-size: 14px;
+}
+
+.c6 {
+  font-size: 280%;
+  white-space: nowrap;
+}
+
+.c5 {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+@media (max-width:450px) {
+  .c4 {
+    padding: 40px 0;
+  }
+}
+
+<div
+  className="c0"
+>
+  <div>
+    <main
+      className="c1 c2"
+    >
+      <form
+        action="#"
+        className="c3"
+        id="signup-form"
+        noValidate={true}
+        onReset={[Function]}
+        onSubmit={[Function]}
+      >
+        <div
+          className="c4"
+        >
+          <div
+            className="c5"
+          >
+            Manuscripts.io
+          </div>
+          <div
+            className="c6"
+          >
+            Sign Up
+          </div>
+        </div>
+        <div
+          className="c7"
+        >
+          <input
+            autoComplete="name"
+            className="c8 c9"
+            name="name"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="name"
+            required={true}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="c7"
+        >
+          <input
+            autoComplete="username email"
+            className="c8 c9"
+            name="email"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="email"
+            required={true}
+            type="email"
+            value=""
+          />
+          <input
+            autoComplete="new-password"
+            className="c8 c9"
+            name="password"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="password"
+            required={true}
+            type="password"
+            value=""
+          />
+        </div>
+        <div>
+          By signing up you agree to our
+           
+          <a
+            className="SignupForm__HeavyLink-a891cz-0 cSLScI"
+            href="https://www.atypon.com/privacy-policy/"
+          >
+            Privacy policy
+          </a>
+          .
+          <br />
+        </div>
+        <div
+          className="c10"
+        >
+          <div>
+            Have an account? 
+            <a
+              className="c11"
+              href="/login"
+              onClick={[Function]}
+            >
+              Sign In
+            </a>
+          </div>
+          <button
+            className="c12 c13"
+            disabled={false}
+            type="submit"
+          >
+            Sign up
+          </button>
+        </div>
+      </form>
+      <div
+        className="c14"
+      >
+        <div>
+          Sign up with
+        </div>
+        <div>
+          <button
+            className="c12 c15 c16 c17"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="c18"
+            >
+              <svg
+                height={45}
+                size={45}
+                title="Google logo"
+                width={45}
+              >
+                <defs>
+                  <filter
+                    filterUnits="objectBoundingBox"
+                    height="200%"
+                    id="google-a"
+                    width="200%"
+                    x="-50%"
+                    y="-50%"
+                  >
+                    <feOffset
+                      dy={1}
+                      in="SourceAlpha"
+                      result="shadowOffsetOuter1"
+                    />
+                    <feGaussianBlur
+                      in="shadowOffsetOuter1"
+                      result="shadowBlurOuter1"
+                      stdDeviation={0.5}
+                    />
+                    <feColorMatrix
+                      in="shadowBlurOuter1"
+                      result="shadowMatrixOuter1"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.168 0"
+                    />
+                    <feOffset
+                      in="SourceAlpha"
+                      result="shadowOffsetOuter2"
+                    />
+                    <feGaussianBlur
+                      in="shadowOffsetOuter2"
+                      result="shadowBlurOuter2"
+                      stdDeviation={0.5}
+                    />
+                    <feColorMatrix
+                      in="shadowBlurOuter2"
+                      result="shadowMatrixOuter2"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.084 0"
+                    />
+                    <feMerge>
+                      <feMergeNode
+                        in="shadowMatrixOuter1"
+                      />
+                      <feMergeNode
+                        in="shadowMatrixOuter2"
+                      />
+                      <feMergeNode
+                        in="SourceGraphic"
+                      />
+                    </feMerge>
+                  </filter>
+                  <rect
+                    height={40}
+                    id="google-b"
+                    rx={2}
+                    width={40}
+                  />
+                </defs>
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <g
+                    filter="url(#google-a)"
+                    transform="translate(3 3)"
+                  >
+                    <use
+                      fill="#FFF"
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                    <use
+                      xlinkHref="#google-b"
+                    />
+                  </g>
+                  <path
+                    d="M31.64 23.205c0-.639-.057-1.252-.164-1.841H23v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M23 32c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711h-3.007v2.332A8.997 8.997 0 0 0 23 32z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M17.964 24.71a5.41 5.41 0 0 1-.282-1.71c0-.593.102-1.17.282-1.71v-2.332h-3.007A8.996 8.996 0 0 0 14 23c0 1.452.348 2.827.957 4.042l3.007-2.332z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M23 17.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C27.463 14.891 25.426 14 23 14a8.997 8.997 0 0 0-8.043 4.958l3.007 2.332c.708-2.127 2.692-3.71 5.036-3.71z"
+                    fill="#EA4335"
+                  />
+                  <path
+                    d="M14 14h18v18H14V14z"
+                  />
+                </g>
+              </svg>
+            </span>
+            <div
+              className="c19"
+            >
+              Google
+            </div>
+          </button>
+        </div>
+      </div>
+      <div
+        className="c20"
+      >
+        <div>
+          Copyright © 2019 Atypon Systems, LLC.
+        </div>
+        <a
+          className="c21"
+          href="https://www.atypon.com/privacy-policy/"
+        >
+          Privacy policy
+        </a>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Account/Pages Login 2`] = `
+.c9 {
+  display: block;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.c9:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c9:hover {
+  background-color: #f2fbfc;
+}
+
+.c9:invalid {
+  box-shadow: none;
+}
+
+.c7 .c8:first-of-type {
+  margin-top: 4px;
+}
+
+.c7 .c8:last-of-type {
+  margin-bottom: 4px;
+}
+
+.c7 .c8:not(:first-of-type) {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.c7 .c8:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.c7 .c8:not(:last-of-type):focus + .c8 {
+  border-top-color: #bce7f6;
+}
+
 .c14 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -933,516 +1438,6 @@ exports[`Storyshots Account/Pages Set password 1`] = `
           </button>
         </div>
       </form>
-    </main>
-  </div>
-</div>
-`;
-
-exports[`Storyshots Account/Pages Sign up 1`] = `
-.c9 {
-  display: block;
-  border: 1px solid #e2e2e2;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font: 400 16px / 1 "Lato",sans-serif;
-  outline: none;
-  padding: 10px 16px;
-  position: relative;
-  width: 100%;
-}
-
-.c9:focus {
-  border-color: #bce7f6;
-  background-color: #f2fbfc;
-}
-
-.c9:hover {
-  background-color: #f2fbfc;
-}
-
-.c9:invalid {
-  box-shadow: none;
-}
-
-.c7 .c8:first-of-type {
-  margin-top: 4px;
-}
-
-.c7 .c8:last-of-type {
-  margin-bottom: 4px;
-}
-
-.c7 .c8:not(:first-of-type) {
-  margin-top: -1px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.c7 .c8:not(:last-of-type) {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-bottom: 0;
-}
-
-.c7 .c8:not(:last-of-type):focus + .c8 {
-  border-top-color: #bce7f6;
-}
-
-.c13 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  font: 400 16px / 24px "Lato",sans-serif;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  outline: none;
-  padding: 7px 12px;
-  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
-  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.c13 svg + span {
-  margin-left: 4px;
-}
-
-.c14 {
-  color: #fff;
-  background-color: #0d79d0;
-  border-color: #0d79d0;
-}
-
-.c14:not([disabled]):hover,
-.c14:not([disabled]):focus {
-  color: #fff;
-  background-color: #0b6bb8;
-  border-color: #0b6bb8;
-}
-
-.c14:not([disabled]):active {
-  color: #fff;
-  background-color: #0b6bb8;
-  border-color: #0b6bb8;
-}
-
-.c16 {
-  padding: 0;
-  height: 40px;
-  width: 40px;
-}
-
-.c17 {
-  color: #353535;
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.c17:not([disabled]):hover,
-.c17:not([disabled]):focus {
-  color: #1a9bc7;
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.c17:not([disabled]):active {
-  color: #0d79d0;
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.c3 {
-  width: 100%;
-  max-width: 450px;
-}
-
-.c4 {
-  padding: 40px;
-  text-align: center;
-}
-
-.c11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  color: rgba(0,0,0,0.51);
-}
-
-.c0 {
-  background-color: #fff;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-  padding: 3rem;
-}
-
-.c1 {
-  height: 100%;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.c21 {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-}
-
-.c22 {
-  color: inherit;
-  font-weight: 500;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c20 {
-  color: #6e6e6e;
-}
-
-.c18 {
-  margin: 4px;
-  padding: 0 16px;
-  width: auto;
-}
-
-.c19 {
-  height: 40px;
-  margin: -4px 0 0 -4px;
-}
-
-.c15 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
-
-.c12 {
-  color: #0b6bb8;
-  font: inherit;
-  font-size: 14px;
-}
-
-.c6 {
-  font-size: 280%;
-  white-space: nowrap;
-}
-
-.c5 {
-  font-size: 20px;
-  white-space: nowrap;
-}
-
-.c10 {
-  font-weight: 500;
-  color: inherit;
-}
-
-@media (max-width:450px) {
-  .c4 {
-    padding: 40px 0;
-  }
-}
-
-<div
-  className="c0"
->
-  <div>
-    <main
-      className="c1 c2"
-    >
-      <form
-        action="#"
-        className="c3"
-        id="signup-form"
-        noValidate={true}
-        onReset={[Function]}
-        onSubmit={[Function]}
-      >
-        <div
-          className="c4"
-        >
-          <div
-            className="c5"
-          >
-            Manuscripts.io
-          </div>
-          <div
-            className="c6"
-          >
-            Sign Up
-          </div>
-        </div>
-        <div
-          className="c7"
-        >
-          <input
-            autoComplete="name"
-            className="c8 c9"
-            name="name"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="name"
-            required={true}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="c7"
-        >
-          <input
-            autoComplete="username email"
-            className="c8 c9"
-            name="email"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="email"
-            required={true}
-            type="email"
-            value=""
-          />
-          <input
-            autoComplete="new-password"
-            className="c8 c9"
-            name="password"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="password"
-            required={true}
-            type="password"
-            value=""
-          />
-        </div>
-        <div>
-          By signing up you agree to our
-           
-          <a
-            className="c10"
-            href="https://www.atypon.com/privacy-policy/"
-          >
-            Privacy policy
-          </a>
-          .
-          <br />
-        </div>
-        <div
-          className="c11"
-        >
-          <div>
-            Have an account? 
-            <a
-              className="c12"
-              href="/login"
-              onClick={[Function]}
-            >
-              Sign In
-            </a>
-          </div>
-          <button
-            className="c13 c14"
-            disabled={false}
-            type="submit"
-          >
-            Sign up
-          </button>
-        </div>
-      </form>
-      <div
-        className="c15"
-      >
-        <div>
-          Sign up with
-        </div>
-        <div>
-          <button
-            className="c13 c16 c17 c18"
-            onClick={[Function]}
-            type="button"
-          >
-            <span
-              className="c19"
-            >
-              <svg
-                height={45}
-                size={45}
-                title="Google logo"
-                width={45}
-              >
-                <defs>
-                  <filter
-                    filterUnits="objectBoundingBox"
-                    height="200%"
-                    id="google-a"
-                    width="200%"
-                    x="-50%"
-                    y="-50%"
-                  >
-                    <feOffset
-                      dy={1}
-                      in="SourceAlpha"
-                      result="shadowOffsetOuter1"
-                    />
-                    <feGaussianBlur
-                      in="shadowOffsetOuter1"
-                      result="shadowBlurOuter1"
-                      stdDeviation={0.5}
-                    />
-                    <feColorMatrix
-                      in="shadowBlurOuter1"
-                      result="shadowMatrixOuter1"
-                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.168 0"
-                    />
-                    <feOffset
-                      in="SourceAlpha"
-                      result="shadowOffsetOuter2"
-                    />
-                    <feGaussianBlur
-                      in="shadowOffsetOuter2"
-                      result="shadowBlurOuter2"
-                      stdDeviation={0.5}
-                    />
-                    <feColorMatrix
-                      in="shadowBlurOuter2"
-                      result="shadowMatrixOuter2"
-                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.084 0"
-                    />
-                    <feMerge>
-                      <feMergeNode
-                        in="shadowMatrixOuter1"
-                      />
-                      <feMergeNode
-                        in="shadowMatrixOuter2"
-                      />
-                      <feMergeNode
-                        in="SourceGraphic"
-                      />
-                    </feMerge>
-                  </filter>
-                  <rect
-                    height={40}
-                    id="google-b"
-                    rx={2}
-                    width={40}
-                  />
-                </defs>
-                <g
-                  fill="none"
-                  fillRule="evenodd"
-                >
-                  <g
-                    filter="url(#google-a)"
-                    transform="translate(3 3)"
-                  >
-                    <use
-                      fill="#FFF"
-                      xlinkHref="#google-b"
-                    />
-                    <use
-                      xlinkHref="#google-b"
-                    />
-                    <use
-                      xlinkHref="#google-b"
-                    />
-                    <use
-                      xlinkHref="#google-b"
-                    />
-                  </g>
-                  <path
-                    d="M31.64 23.205c0-.639-.057-1.252-.164-1.841H23v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"
-                    fill="#4285F4"
-                  />
-                  <path
-                    d="M23 32c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711h-3.007v2.332A8.997 8.997 0 0 0 23 32z"
-                    fill="#34A853"
-                  />
-                  <path
-                    d="M17.964 24.71a5.41 5.41 0 0 1-.282-1.71c0-.593.102-1.17.282-1.71v-2.332h-3.007A8.996 8.996 0 0 0 14 23c0 1.452.348 2.827.957 4.042l3.007-2.332z"
-                    fill="#FBBC05"
-                  />
-                  <path
-                    d="M23 17.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C27.463 14.891 25.426 14 23 14a8.997 8.997 0 0 0-8.043 4.958l3.007 2.332c.708-2.127 2.692-3.71 5.036-3.71z"
-                    fill="#EA4335"
-                  />
-                  <path
-                    d="M14 14h18v18H14V14z"
-                  />
-                </g>
-              </svg>
-            </span>
-            <div
-              className="c20"
-            >
-              Google
-            </div>
-          </button>
-        </div>
-      </div>
-      <div
-        className="c21"
-      >
-        <div>
-          Copyright © 2019 Atypon Systems, LLC.
-        </div>
-        <a
-          className="c22"
-          href="https://www.atypon.com/privacy-policy/"
-        >
-          Privacy policy
-        </a>
-      </div>
     </main>
   </div>
 </div>

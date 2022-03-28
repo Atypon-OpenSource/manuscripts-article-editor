@@ -11,7 +11,7 @@
  */
 
 jest.mock('../api/authentication')
-jest.mock('../adapter')
+jest.mock('../../couch-data/adapter')
 
 import decode from 'jwt-decode'
 

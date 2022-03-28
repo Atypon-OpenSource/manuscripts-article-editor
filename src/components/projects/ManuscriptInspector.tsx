@@ -93,7 +93,7 @@ export const ManuscriptInspector: React.FC<{
     templateID: string
   ) => Map<ManuscriptCountRequirementType, number | undefined>
   canWrite?: boolean
-  leanWorkflow: boolean
+  leanWorkflow?: boolean
 }> = ({
   state,
   dispatch,

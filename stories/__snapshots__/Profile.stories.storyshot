@@ -1093,7 +1093,7 @@ exports[`Storyshots Account/Profile AvatarFileUpload - with new Avatar 1`] = `
         >
           <div />
           <input
-            className="AvatarFileUpload__RangeInput-wn580i-10"
+            className="AvatarFileUpload__RangeInput-sc-13z91ld-10"
             max={4}
             min={1}
             onChange={[Function]}
