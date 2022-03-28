@@ -1,0 +1,50 @@
+/*!
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ *
+ * The Original Code is manuscripts-frontend.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ *
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ */
+import React from 'react';
+export declare const Popup: import("styled-components").StyledComponent<"div", import("styled-components").DefaultTheme, {}, never>;
+export declare const Link: import("styled-components").StyledComponent<"a", import("styled-components").DefaultTheme, {}, never>;
+export declare const Title: import("styled-components").StyledComponent<"div", import("styled-components").DefaultTheme, {}, never>;
+export declare const Heading: import("styled-components").StyledComponent<"div", import("styled-components").DefaultTheme, {}, never>;
+export declare const Timestamp: import("styled-components").StyledComponent<"span", import("styled-components").DefaultTheme, {}, never>;
+export declare const TopicItem: import("styled-components").StyledComponent<"div", import("styled-components").DefaultTheme, {}, never>;
+export declare const IndividualTopic: import("styled-components").StyledComponent<"div", import("styled-components").DefaultTheme, {}, never>;
+export declare const oldestFirst: (a: Post, b: Post) => 0 | 1 | -1;
+export declare const newestFirst: (a: Topic, b: Topic) => 0 | 1 | -1;
+export interface Topic {
+    id: number;
+    title: string;
+    created_at: string;
+}
+export interface Post {
+    id: number;
+    created_at: string;
+    topic_id: number;
+    cooked: string;
+    blurb: string;
+}
+interface Props {
+    error?: string;
+    host: string;
+    loaded: boolean;
+    posts?: Post[];
+    topics?: Topic[];
+}
+interface State {
+    selectedTopic?: Topic;
+}
+export declare class Updates extends React.Component<Props, State> {
+    state: Readonly<State>;
+    render(): JSX.Element;
+    private renderTopics;
+    private selectTopic;
+}
+export {};

@@ -5,7 +5,6 @@ stats.json
 .cache/
 build/
 coverage/
-dist/
 node_modules/
 storybook-static/
 screenshots
