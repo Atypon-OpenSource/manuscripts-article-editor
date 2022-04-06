@@ -44,8 +44,8 @@ node {
         }
     }
 
-    stage("Test report") {
-
+    stage("Tests report") {
+        junit "junit.xml"
     }
 
 }
