@@ -38,9 +38,9 @@ node {
                 label: "yarn build",
                 returnStdout: true)
 
-            sh (script: "yarn bundlesize",
-                label: "yarn bundlesize",
-                returnStdout: true)
+            // sh (script: "yarn bundlesize",
+            //     label: "yarn bundlesize",
+            //     returnStdout: true)
         }
     }
 
