@@ -47,6 +47,11 @@ node {
     stage("Tests report") {
         junit "junit.xml"
     }
-
+    
+    stage ("Publish") {
+        withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
+            sh ("npx @manuscripts/publish")
+        }
+    }
 }
 
