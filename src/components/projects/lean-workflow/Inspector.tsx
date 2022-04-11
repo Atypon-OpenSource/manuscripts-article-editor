@@ -65,7 +65,6 @@ const Inspector: React.FC<Props> = ({
       project,
       manuscript,
       submissionId,
-      submission,
       fileManagementErrors,
       commitsSortBy,
       comments,
@@ -222,9 +221,7 @@ const Inspector: React.FC<Props> = ({
                     can={can}
                     enableDragAndDrop={true}
                     modelMap={modelMap}
-                    attachments={
-                      submission.attachments as SubmissionAttachment[]
-                    }
+                    attachments={[] as SubmissionAttachment[]}
                     handleChangeDesignation={handleChangeAttachmentDesignation}
                     handleDownload={handleDownloadAttachment}
                     handleReplace={handleReplaceAttachment}
