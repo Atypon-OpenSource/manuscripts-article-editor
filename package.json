@@ -5,7 +5,9 @@
   "description": "React components for editing and viewing manuscripts",
   "repository": "github.com:Atypon-OpenSource/manuscripts-article-editor.git",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "package.json"
   ],
   "main": "dist/cjs/src",
   "module": "dist/es/src",
