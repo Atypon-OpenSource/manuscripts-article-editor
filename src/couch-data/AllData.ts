@@ -18,6 +18,7 @@ import {
 import {
   Affiliation,
   BibliographyItem,
+  Bundle,
   CommentAnnotation,
   Commit as CommitJson,
   ContainerInvitation,
@@ -162,7 +163,16 @@ class RxDBDataBridge {
             this.state.commits,
             this.db
           )
-          this.dispatch()
+          this.modelManager
+            .getTools()
+            .then((modelTools) => {
+              this.setState({
+                modelTools,
+              })
+            })
+            .catch((e) => {
+              console.log(e)
+            })
         }
       )
 
@@ -237,8 +247,7 @@ class RxDBDataBridge {
   }
 
   public getData = async () => {
-    const modelTools = await this.modelManager.getTools()
-    const data = { ...this.state, ...modelTools }
+    const data = { ...this.state }
     return data // hmmm....
   }
 
@@ -616,11 +625,14 @@ class RxDBDataBridge {
     )
 
     this.dependsOnStateConditionOnce(
-      (state) => state.library && state.manuscript,
+      (state) => state.library && state.manuscript && state.modelMap,
       (state) => {
         this.cc()
+        const bundle = state.manuscript.bundle // TODO: infer bundle from prototype if manuscript.bundle is undefined ?
+          ? (state.modelMap.get(state.manuscript.bundle) as Bundle)
+          : null
         this.biblio = new Biblio(
-          state.manuscript.bundle,
+          bundle,
           state.library,
           this.cc(),
           state.manuscript.lang

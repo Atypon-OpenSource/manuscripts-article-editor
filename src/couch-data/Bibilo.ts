@@ -36,7 +36,7 @@ export class Biblio implements BiblioTools {
   getLibraryItem: (id: string) => BibliographyItem | undefined
   setLibraryItem: (item: BibliographyItem) => any
   constructor(
-    bundle: Bundle,
+    bundle: Bundle | null,
     library: Map<string, BibliographyItem>,
     collection: Collection<ContainedModel>,
     lang: string
@@ -45,6 +45,10 @@ export class Biblio implements BiblioTools {
     this.getLibraryItem = (id: string) => library.get(id)
     this.setLibraryItem = (item: BibliographyItem) =>
       library.set(item._id, item)
+
+    if (!bundle) {
+      return
+    }
 
     collection
       .getAttachmentAsString(bundle._id, 'csl')
