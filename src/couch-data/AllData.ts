@@ -163,11 +163,12 @@ class RxDBDataBridge {
             this.state.commits,
             this.db
           )
+          this.expect('saveModel')
           this.modelManager
             .getTools()
             .then((modelTools) => {
               this.setState({
-                modelTools,
+                ...modelTools,
               })
             })
             .catch((e) => {
