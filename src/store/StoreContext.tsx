@@ -30,7 +30,7 @@ interface Props {
 }
 
 export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
-  if (store.constructor.name !== 'GenericStore') {
+  if (!(store instanceof GenericStore)) {
     throw new Error('GenericStoreProvider received incorrect store.')
   }
   useEffect(() => {
