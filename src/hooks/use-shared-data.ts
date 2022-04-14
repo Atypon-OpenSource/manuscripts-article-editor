@@ -40,7 +40,9 @@ export const useSharedData = () => {
     userTemplates?: ManuscriptTemplate[]
     userTemplateModels?: ManuscriptModel[]
   }>({})
-  const [getUserTemplates] = useStore((store) => store.getUserTemplates)
+  const [{ getUserTemplates }] = useStore((store) => ({
+    getUserTemplates: store.getUserTemplates,
+  }))
 
   useEffect(() => {
     if (getUserTemplates) {

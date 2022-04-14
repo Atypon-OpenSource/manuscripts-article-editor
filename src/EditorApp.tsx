@@ -52,9 +52,6 @@ const EditorApp: React.FC<Props> = ({
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
-    if (store) {
-      store.unmount()
-    }
     const basicSource = new BasicSource(
       submissionId,
       projectID,
@@ -69,6 +66,8 @@ const EditorApp: React.FC<Props> = ({
       .catch((e) => {
         console.log(e)
       })
+    return () => store?.unmount()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissionId, manuscriptID, projectID])
 

@@ -11,49 +11,10 @@
  */
 import { useLayoutEffect, useState } from 'react'
 
+import deeperEqual from '../lib/deeper-equal'
 import { dispatch, state } from './Store'
 import { useGenericStore } from './StoreContext'
 // import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector';
-
-const deeperEqual = (prev: any, next: any) => {
-  // checking only one level deeper is enough to provide render relevenat equality
-  if (!prev) {
-    return false
-  }
-  switch (prev.constructor.name) {
-    case 'Object':
-      // if (next.constructor.name === 'Object') {
-      // }
-      return prev === next // @TODO implement better check maybe
-    case 'Map': // important for modelMap
-      if (prev == next && prev.size == next.size) {
-        for (const [key, value] of prev) {
-          const nextPeer = next.get(key)
-          if (!nextPeer || nextPeer !== value) {
-            return false
-          }
-        }
-        return true
-      }
-      return false
-    case 'Array':
-      if (Array.isArray(next)) {
-        if (prev.length !== next.length) {
-          return false
-        }
-        for (let i = 0; i < prev.length; i++) {
-          if (prev[i] !== next[i]) {
-            return false
-          }
-        }
-
-        return true
-      }
-      return false
-    default:
-      return prev === next
-  }
-}
 
 export const useStore = <T>(
   selector = (r: state): state | T => r
@@ -77,11 +38,10 @@ export const useStore = <T>(
       if (selector) {
         const selectedState = selector(newStoreState)
         if (!deeperEqual(selectedState, state)) {
-          // @TODO if object or array
-          setState(selectedState)
+          setState(() => selectedState)
         }
       } else {
-        setState(newStoreState)
+        setState(() => newStoreState)
       }
     })
     return () => unsubscribe && unsubscribe()

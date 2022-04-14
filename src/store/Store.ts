@@ -257,6 +257,10 @@ export class GenericStore implements Store {
     if (this.unmountHandler) {
       this.unmountHandler(this.state!)
     }
+    if (this.sources) {
+      this.sources.forEach((source) => source.unmount && source.unmount())
+    }
+    this.sources = []
     this.state = {} as state
     this.queue = new Set()
   }

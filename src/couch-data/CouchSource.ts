@@ -62,6 +62,8 @@ export default class CouchSource implements StoreDataSourceStrategy {
       }
     )
   }
+
+  // unmount = () => {}
   // listen = (unsubscribe: () => void) => {
   //   this.storeUnsubscribe = unsubscribe
   //   // feed updates from the store

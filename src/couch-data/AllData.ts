@@ -63,9 +63,9 @@ interface Props {
   userID: string
 }
 
-type State = Record<string, any>
+export type State = Record<string, any>
 
-const SUBSCRIPTION_TIMEOUT = 20000
+const SUBSCRIPTION_TIMEOUT = 30000
 
 class RxDBDataBridge {
   listeners = new Set<(data: State) => void>()
@@ -147,10 +147,38 @@ class RxDBDataBridge {
         },
       })
 
-      this.dependsOnStateConditionOnce(
-        (state) => !!state.modelMap && state.snapshots && state.commits,
+      this.expect('saveModel')
+      // instead of that we probably need to deep equal updates before applying them (in subscriptions)
+      this.dependsOnStateCondition(
+        (state) => {
+          if (
+            // reload modelManager if one of those changed
+            this.modelManager &&
+            (this.modelManager.snapshots !== state.snapshots ||
+              this.modelManager.commits !== state.commits ||
+              this.modelManager.modelMap !== state.modelMap)
+          ) {
+            return true
+          }
+          if (
+            !!state.modelMap &&
+            state.snapshots &&
+            state.commits &&
+            !this.modelManager
+          ) {
+            return true
+          }
+          return false
+        },
+
         () => {
-          this.modelManager = new ModelManager(
+          /*
+            Note that the model manager will be reloaded on the update of the state and it won't be unloaded properly
+            There 2 reasons for that:
+            - This is transition refactoring: we are not going to use this code at all very soon and it is to be replaced with a different API
+            - There references for that instance are in good in control and with they way things are right now, they are almost completely garbage-collectable after the reload
+          */
+          const modelManager = new ModelManager(
             this.state.modelMap,
             (modelMap) => {
               this.setState({ modelMap })
@@ -163,18 +191,18 @@ class RxDBDataBridge {
             this.state.commits,
             this.db
           )
-          this.expect('saveModel')
-          this.modelManager
+
+          modelManager
             .getTools()
             .then((modelTools) => {
-              this.setState({
-                ...modelTools,
-              })
+              this.modelManager = modelManager
+              this.setState(modelTools)
             })
             .catch((e) => {
               console.log(e)
             })
-        }
+        },
+        false
       )
 
       this.initSyncStateStatus()
@@ -352,14 +380,17 @@ class RxDBDataBridge {
   cc = <T extends Model>(collectionName = `project-${this.projectID}`) =>
     CollectionManager.getCollection<T>(collectionName)
 
-  private dependsOnStateConditionOnce = (
+  private dependsOnStateCondition = (
     condition: (state: State) => boolean,
-    dependant: (state: State) => Subscription | void
+    dependant: (state: State) => Subscription | void,
+    once = true
   ) => {
     const unsubscribe = this.onUpdate((state) => {
       const satisfied = condition(state)
       if (satisfied) {
-        unsubscribe()
+        if (once) {
+          unsubscribe()
+        }
         const maybeSubscription = dependant(state)
         if (maybeSubscription) {
           this.rxSubscriptions.push(maybeSubscription)
@@ -525,6 +556,7 @@ class RxDBDataBridge {
     ]
 
     // subscribing for modelsMap
+    this.expect('modelMap')
     this.cc<Model>()
       .find({
         $and: [
@@ -535,6 +567,9 @@ class RxDBDataBridge {
         ],
       })
       .$.subscribe(async (models) => {
+        if (!models.length) {
+          return
+        }
         const modelMap = await buildModelMap(models)
         this.setState((state) => ({
           ...state,
@@ -570,7 +605,7 @@ class RxDBDataBridge {
         })
       })
 
-    this.dependsOnStateConditionOnce(
+    this.dependsOnStateCondition(
       (state) => state.user && state.collaborators,
       (state) => {
         this.setState({
@@ -587,7 +622,7 @@ class RxDBDataBridge {
       }
     )
 
-    this.dependsOnStateConditionOnce(
+    this.dependsOnStateCondition(
       (state) => state.invitations && state.containerInvitations,
       (state) => {
         this.setState({
@@ -600,7 +635,7 @@ class RxDBDataBridge {
       }
     )
 
-    this.dependsOnStateConditionOnce(
+    this.dependsOnStateCondition(
       (state) => state.globalLibraries && state.globalLibraryCollections,
       (state) => {
         const channels = [
@@ -625,7 +660,7 @@ class RxDBDataBridge {
       }
     )
 
-    this.dependsOnStateConditionOnce(
+    this.dependsOnStateCondition(
       (state) => state.library && state.manuscript && state.modelMap,
       (state) => {
         this.cc()
