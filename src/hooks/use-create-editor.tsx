@@ -19,7 +19,6 @@ import { usePermissions } from '@manuscripts/style-guide'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
-import useFileHandling from 'src/components/projects/lean-workflow/FileHandling'
 
 import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
