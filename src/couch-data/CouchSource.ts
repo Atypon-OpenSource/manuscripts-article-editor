@@ -9,9 +9,9 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import CollectionManager from '../sync/CollectionManager'
 import { builderFn, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
+import CollectionManager from '../sync/CollectionManager'
 import RxDBDataBridge from './AllData'
 import { databaseCreator } from './db'
 import Utilities from './Utilities'

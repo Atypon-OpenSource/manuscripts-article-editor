@@ -32,8 +32,8 @@ import { Commit } from '@manuscripts/track-changes'
 import { BulkCreateError } from '../lib/errors'
 import { ContainedIDs } from '../store'
 import { Collection, isBulkDocsError } from '../sync/Collection'
-import { createAndPushNewProject, createProjectCollection } from './collections'
 import CollectionManager from '../sync/CollectionManager'
+import { createAndPushNewProject, createProjectCollection } from './collections'
 
 export default class Utilities {
   bundle: Bundle | null

@@ -9,11 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import config from '../config'
 import React, { createContext, useContext, useEffect } from 'react'
 
-import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
 import Development from '../components/Development'
+import config from '../config'
+import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
 
 const GenericStoreContext = createContext<GenericStore>(new GenericStore())
 

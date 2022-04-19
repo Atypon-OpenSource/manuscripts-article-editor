@@ -9,16 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { useStore } from '../store'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
 
-import { createToken, createUserProfile } from '../lib/developer'
-import { useModal } from './ModalHookableProvider'
 import { Importer } from '../components/projects/Importer'
-import { useHistory } from 'react-router'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { createToken, createUserProfile } from '../lib/developer'
 import { getCurrentUserId } from '../lib/user'
+import { useStore } from '../store'
+import { useModal } from './ModalHookableProvider'
 import { importManuscript } from './projects/ImportManuscript'
 
 const DropdownAction = styled.div`
