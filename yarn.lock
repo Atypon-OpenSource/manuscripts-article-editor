@@ -2144,7 +2144,7 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.91.6":
+"@manuscripts/manuscript-editor@^0.91.7":
   version "0.91.13"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.13.tgz#c0adcc2f4492efe2f3b44f4199ae67628269326e"
   integrity sha512-21Q7cF0nZEqIPmG6GbSKVHt2fKIzE19RCaduQPH1tf2xx/b4R3sRZSQ5nrSk1Kx+bDfwTLQcq0WwKP6eHrEY/Q==
@@ -2332,10 +2332,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.30.25":
-  version "0.30.25"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.30.25.tgz#256636d5c80242fdb6da31194a8452fc0d42ab13"
-  integrity sha512-88RZwMT1Clcn5FSL9xWLivkteCucug843Gjipok2NF9MEJZg4xEnjUYOQfYDDXtv9+UwxMWRgZBohmdivG3BTg==
+"@manuscripts/style-guide@^0.30.27":
+  version "0.30.27"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.30.27.tgz#d7083173efe8470ff0f1b9b404ae9611dbf7423d"
+  integrity sha512-kWAvvC8Kq+lOLJ6o46he7Jdw665JXBXE/PY1fWyCIVXIIgBzdxUalNpqrpQQCLXpWNovIR95ttQ37PDBKxQ+pw==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
