@@ -170,12 +170,16 @@ export const TrackChangesStyles: React.FC<Props> = ({
     return <TrackChangesOff>{children}</TrackChangesOff>
   }
 
-  if (readOnly) {
-    return <TrackChangesReadOnly>{children}</TrackChangesReadOnly>
-  }
-
   if (rejectOnly) {
     return <TrackChangesRejectOnly>{children}</TrackChangesRejectOnly>
+  }
+
+  if (readOnly) {
+    return (
+      <TrackChangesRejectOnly>
+        <ToDoDots selector={suggestedChangesSelector}>{children}</ToDoDots>
+      </TrackChangesRejectOnly>
+    )
   }
 
   return (
