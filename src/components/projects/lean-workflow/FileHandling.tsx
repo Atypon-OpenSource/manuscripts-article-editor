@@ -21,9 +21,14 @@ import {
 import { useStore } from '../../../store'
 
 const useFileHandling = () => {
-  const [fileManagementErrors, dispatchStore] = useStore(
-    (store) => store.fileManagementErrors || []
-  )
+  const [
+    { fileManagementErrors, manuscript, project },
+    dispatchStore,
+  ] = useStore((store) => ({
+    fileManagementErrors: store.fileManagementErrors || [],
+    manuscript: store.manuscript,
+    project: store.project,
+  }))
 
   const handleDialogError = useCallback(
     (errorMessage: string, errorHeader: string, showDialog: boolean) => {
@@ -71,7 +76,12 @@ const useFileHandling = () => {
     ) => {
       if (designation == 'main-manuscript') {
         return handleSubmissionMutation(
-          setMainManuscript({ submissionId, attachmentId, name }),
+          setMainManuscript({
+            submissionId,
+            attachmentId,
+            name,
+            documentId: `${project._id}#${manuscript._id}`,
+          }),
           'Something went wrong while setting main manuscript.'
         )
       }
@@ -81,11 +91,18 @@ const useFileHandling = () => {
           attachmentId,
           name,
           designation,
+          documentId: `${project._id}#${manuscript._id}`,
         }),
         'Something went wrong while updating attachment designation.'
       )
     },
-    [changeAttachmentDesignation, handleSubmissionMutation, setMainManuscript]
+    [
+      changeAttachmentDesignation,
+      handleSubmissionMutation,
+      setMainManuscript,
+      project._id,
+      manuscript._id,
+    ]
   )
 
   const { uploadAttachment, uploadAttachmentError } = useUploadAttachment()
@@ -134,6 +151,7 @@ const useFileHandling = () => {
           submissionId: submissionId,
           file: file,
           designation: 'sumbission-file',
+          documentId: `${project._id}#${manuscript._id}`,
         }).then((result) => {
           if (!result.data?.uploadAttachment) {
             return null
@@ -147,6 +165,7 @@ const useFileHandling = () => {
               attachmentId,
               name,
               uploadAttachment,
+              documentId: `${project._id}#${manuscript._id}`,
             }),
             'Something went wrong while setting main manuscript.'
           )
@@ -159,6 +178,7 @@ const useFileHandling = () => {
           attachmentId,
           file,
           name,
+          documentId: `${project._id}#${manuscript._id}`,
         }),
         'Something went wrong while replacing attachment.'
       )
@@ -168,6 +188,8 @@ const useFileHandling = () => {
       handleSubmissionMutation,
       setMainManuscript,
       uploadAttachment,
+      project._id,
+      manuscript._id,
     ]
   )
 

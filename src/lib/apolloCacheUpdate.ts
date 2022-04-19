@@ -9,16 +9,26 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
+import config from '../config'
 import { GET_SUBMISSION, SubmissionAttachment } from './lean-workflow-gql'
 
 export const updateSubmissionAttachment = (
   cache: any,
   submissionId: string,
+  documentId: string,
   attachment: SubmissionAttachment
 ) => {
   const cachedSubmission = cache.readQuery({
     query: GET_SUBMISSION,
-    variables: { id: submissionId },
+    variables: config.submission.id
+      ? {
+          id: config.submission.id,
+          type: 'URI',
+        }
+      : {
+          id: documentId,
+          type: 'DOCUMENT_ID',
+        },
   })
   if (cachedSubmission?.submission?.attachments) {
     cache.writeQuery({
@@ -38,11 +48,20 @@ export const updateSubmissionAttachmentDesignation = (
   cache: any,
   submissionId: string,
   attachmentId: string,
-  typeId: string
+  typeId: string,
+  documentId: string
 ) => {
   const cachedSubmission = cache.readQuery({
     query: GET_SUBMISSION,
-    variables: { id: submissionId },
+    variables: config.submission.id
+      ? {
+          id: config.submission.id,
+          type: 'URI',
+        }
+      : {
+          id: documentId,
+          type: 'DOCUMENT_ID',
+        },
   })
   if (cachedSubmission?.submission?.attachments) {
     cache.writeQuery({
@@ -68,11 +87,20 @@ export const updateSubmissionAttachmentDesignation = (
 export const updateMainManuscriptAttachment = <T>(
   cache: any,
   submissionId: string,
+  documentId: string,
   attachment: SubmissionAttachment
 ) => {
   const cachedSubmission = cache.readQuery({
     query: GET_SUBMISSION,
-    variables: { id: submissionId },
+    variables: config.submission.id
+      ? {
+          id: config.submission.id,
+          type: 'URI',
+        }
+      : {
+          id: documentId,
+          type: 'DOCUMENT_ID',
+        },
   })
 
   /**

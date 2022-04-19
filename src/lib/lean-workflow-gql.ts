@@ -24,6 +24,7 @@ import {
 
 interface uploadAttachmentProps {
   submissionId: string
+  documentId: string
   file: File
   designation: string
 }
@@ -33,11 +34,13 @@ interface updateAttachmentProps {
   attachmentId: string
   file: File
   name: string
+  documentId: string
 }
 
 interface setAttachmentProps {
   submissionId: string
   attachmentId: string
+  documentId: string
   name: string
   designation: string
 }
@@ -45,6 +48,7 @@ interface setAttachmentProps {
 interface mainManuscriptProps {
   submissionId: string
   attachmentId: string
+  documentId: string
   name: string
   uploadAttachment?: SubmissionAttachment
 }
@@ -329,6 +333,7 @@ export const useUploadAttachment = () => {
   return {
     uploadAttachment: async ({
       submissionId,
+      documentId,
       file,
       designation, // typeId is designation
     }: uploadAttachmentProps) => {
@@ -346,6 +351,7 @@ export const useUploadAttachment = () => {
             updateSubmissionAttachment(
               cache,
               submissionId,
+              documentId,
               data.uploadAttachment
             )
           }
@@ -361,6 +367,7 @@ export const useUpdateAttachmentDesignation = () => {
   return async ({
     submissionId,
     attachmentId,
+    documentId,
     name,
     designation,
   }: setAttachmentProps) => {
@@ -380,7 +387,8 @@ export const useUpdateAttachmentDesignation = () => {
             cache,
             submissionId,
             attachmentId,
-            designation
+            designation,
+            documentId
           )
         }
       },
@@ -396,6 +404,7 @@ export const useUpdateAttachmentFile = () => {
       submissionId,
       name,
       file,
+      documentId,
     }: updateAttachmentProps) =>
       mutate({
         context: {
@@ -483,6 +492,7 @@ export const useSetMainManuscript = () => {
     setMainManuscript: ({
       submissionId,
       attachmentId,
+      documentId,
       name,
       uploadAttachment,
     }: mainManuscriptProps) =>
@@ -500,6 +510,7 @@ export const useSetMainManuscript = () => {
             updateMainManuscriptAttachment(
               cache,
               submissionId,
+              documentId,
               uploadAttachment
             )
           }
