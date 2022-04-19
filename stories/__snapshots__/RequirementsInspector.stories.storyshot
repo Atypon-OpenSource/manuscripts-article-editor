@@ -8,19 +8,13 @@ exports[`Storyshots Inspector/Requirements validations 1`] = `
   padding: 3rem;
 }
 
-.c1 {
-  margin: 13px 0 9px 17px;
-}
-
 <div
   className="c0"
 >
   <div>
-    <div
-      className="c1"
-    >
-      You need to select a template to display the quality report check
-    </div>
+    <p>
+      Project was not found
+    </p>
   </div>
 </div>
 `;

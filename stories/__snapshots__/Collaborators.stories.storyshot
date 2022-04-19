@@ -6518,6 +6518,45 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
   fill: #6e6e6e;
 }
 
+.c16 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c16::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c16:hover::before {
+  background: #e2e2e2;
+}
+
+.c17 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c17::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c18 {
+  right: -16px;
+}
+
+.c18::before {
+  left: -1px;
+}
+
 .c0 {
   background-color: #fff;
   color: #353535;
@@ -6610,45 +6649,6 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Non-owner 1`] = `
 
 .c5:hover {
   background-color: #f2fbfc;
-}
-
-.c16 {
-  display: block;
-  z-index: 2;
-  overflow: visible;
-  position: absolute;
-}
-
-.c16::before {
-  content: '';
-  position: absolute;
-  -webkit-transition: background-color 200ms ease-in-out 100ms;
-  transition: background-color 200ms ease-in-out 100ms;
-  background: rgb(240,240,240);
-}
-
-.c16:hover::before {
-  background: #e2e2e2;
-}
-
-.c17 {
-  cursor: ew-resize;
-  top: 0;
-  height: 100%;
-  width: 16px;
-}
-
-.c17::before {
-  height: 100%;
-  width: 1px;
-}
-
-.c18 {
-  right: -16px;
-}
-
-.c18::before {
-  left: -1px;
 }
 
 .c23 {
@@ -7153,6 +7153,45 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
   fill: #6e6e6e;
 }
 
+.c21 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c21::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c21:hover::before {
+  background: #e2e2e2;
+}
+
+.c22 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c22::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c23 {
+  right: -16px;
+}
+
+.c23::before {
+  left: -1px;
+}
+
 .c0 {
   background-color: #fff;
   color: #353535;
@@ -7274,45 +7313,6 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
 
 .c9 {
   padding-left: 12px;
-}
-
-.c21 {
-  display: block;
-  z-index: 2;
-  overflow: visible;
-  position: absolute;
-}
-
-.c21::before {
-  content: '';
-  position: absolute;
-  -webkit-transition: background-color 200ms ease-in-out 100ms;
-  transition: background-color 200ms ease-in-out 100ms;
-  background: rgb(240,240,240);
-}
-
-.c21:hover::before {
-  background: #e2e2e2;
-}
-
-.c22 {
-  cursor: ew-resize;
-  top: 0;
-  height: 100%;
-  width: 16px;
-}
-
-.c22::before {
-  height: 100%;
-  width: 1px;
-}
-
-.c23 {
-  right: -16px;
-}
-
-.c23::before {
-  left: -1px;
 }
 
 .c27 {

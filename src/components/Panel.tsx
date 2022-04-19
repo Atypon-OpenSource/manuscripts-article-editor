@@ -10,8 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Resizer, ResizerDirection, ResizerSide } from '@manuscripts/resizer'
-import { RoundIconButton } from '@manuscripts/style-guide'
+import {
+  Resizer,
+  ResizerDirection,
+  ResizerSide,
+  RoundIconButton,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 

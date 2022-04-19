@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Panel combined 1`] = `
-.c0 {
-  background-color: #fff;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-  padding: 3rem;
-}
-
 .c5 {
   position: relative;
   background: none;
@@ -203,6 +196,13 @@ exports[`Storyshots Panel combined 1`] = `
   top: -1px;
 }
 
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
+}
+
 .c12 {
   height: 100%;
   -webkit-flex: 1;
@@ -316,13 +316,6 @@ exports[`Storyshots Panel combined 1`] = `
 `;
 
 exports[`Storyshots Panel row 1`] = `
-.c0 {
-  background-color: #fff;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-  padding: 3rem;
-}
-
 .c5 {
   position: relative;
   background: none;
@@ -481,6 +474,13 @@ exports[`Storyshots Panel row 1`] = `
 
 .c4::before {
   left: -1px;
+}
+
+.c0 {
+  background-color: #fff;
+  color: #353535;
+  font-family: "Lato",sans-serif;
+  padding: 3rem;
 }
 
 .c8 {

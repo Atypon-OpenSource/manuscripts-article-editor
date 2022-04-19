@@ -97,6 +97,45 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
   vertical-align: middle;
 }
 
+.c16 {
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  position: absolute;
+}
+
+.c16::before {
+  content: '';
+  position: absolute;
+  -webkit-transition: background-color 200ms ease-in-out 100ms;
+  transition: background-color 200ms ease-in-out 100ms;
+  background: rgb(240,240,240);
+}
+
+.c16:hover::before {
+  background: #e2e2e2;
+}
+
+.c17 {
+  cursor: ew-resize;
+  top: 0;
+  height: 100%;
+  width: 16px;
+}
+
+.c17::before {
+  height: 100%;
+  width: 1px;
+}
+
+.c18 {
+  right: -16px;
+}
+
+.c18::before {
+  left: -1px;
+}
+
 .c0 {
   background-color: #fff;
   color: #353535;
@@ -207,45 +246,6 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
 
 .c15 {
   padding-left: 12px;
-}
-
-.c16 {
-  display: block;
-  z-index: 2;
-  overflow: visible;
-  position: absolute;
-}
-
-.c16::before {
-  content: '';
-  position: absolute;
-  -webkit-transition: background-color 200ms ease-in-out 100ms;
-  transition: background-color 200ms ease-in-out 100ms;
-  background: rgb(240,240,240);
-}
-
-.c16:hover::before {
-  background: #e2e2e2;
-}
-
-.c17 {
-  cursor: ew-resize;
-  top: 0;
-  height: 100%;
-  width: 16px;
-}
-
-.c17::before {
-  height: 100%;
-  width: 1px;
-}
-
-.c18 {
-  right: -16px;
-}
-
-.c18::before {
-  left: -1px;
 }
 
 .c22 {

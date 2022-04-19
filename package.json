@@ -70,7 +70,7 @@
     "@manuscripts/requirements": "^0.4.11",
     "@manuscripts/resizer": "^0.0.6",
     "@manuscripts/rxdb": "8.2.0-manuscripts1",
-    "@manuscripts/style-guide": "^0.30.27",
+    "@manuscripts/style-guide": "^0.31.00",
     "@manuscripts/sync-client": "^0.9.1",
     "@manuscripts/title-editor": "^0.5.1",
     "@manuscripts/track-changes": "^0.3.3",
