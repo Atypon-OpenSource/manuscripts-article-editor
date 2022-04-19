@@ -32,15 +32,15 @@ const DropdownAction = styled.div`
   }
 `
 
-const DropdownInfo = styled.div`
-  padding: 10px 20px;
-  white-space: nowrap;
-`
+// const DropdownInfo = styled.div`
+//   padding: 10px 20px;
+//   white-space: nowrap;
+// `
 
-const PlainLink = styled.a`
-  color: inherit;
-  text-decoration: none;
-`
+// const PlainLink = styled.a`
+//   color: inherit;
+//   text-decoration: none;
+// `
 
 const Development = () => {
   const [store] = useStore((store) => store)

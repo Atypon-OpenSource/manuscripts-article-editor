@@ -54,7 +54,7 @@ const DeveloperPageContainer: React.FunctionComponent = () => (
 
         <DropdownAction
           onClick={async () => {
-            await createUserProfile(db)
+            // await createUserProfile(store.createUser)
             alert('Created user profile')
             window.location.assign('/projects')
           }}

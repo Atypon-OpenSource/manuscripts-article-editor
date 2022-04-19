@@ -14,7 +14,6 @@ import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Loading, LoadingOverlay } from './components/Loading'
 import { NotificationProvider } from './components/NotificationProvider'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'

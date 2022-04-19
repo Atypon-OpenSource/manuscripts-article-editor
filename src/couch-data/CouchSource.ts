@@ -11,7 +11,6 @@
  */
 import { builderFn, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
-import CollectionManager from '../sync/CollectionManager'
 import RxDBDataBridge from './AllData'
 import { databaseCreator } from './db'
 import Utilities from './Utilities'

@@ -14,11 +14,7 @@ import {
   PopperManager,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-import {
-  getModelsByType,
-  ManuscriptSchema,
-} from '@manuscripts/manuscript-transform'
-import { ExternalFile, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptSchema } from '@manuscripts/manuscript-transform'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
