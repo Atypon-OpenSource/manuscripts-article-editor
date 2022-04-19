@@ -14,11 +14,11 @@ import {
   insertFileAsFigure,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-import { schema } from '@manuscripts/manuscript-transform'
-import { Figure } from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptEditorView, schema } from '@manuscripts/manuscript-transform'
+import { Figure, Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { commands } from '@manuscripts/track-changes'
-import { NodeSelection } from 'prosemirror-state'
+import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
@@ -68,39 +68,23 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
           return
         }
 
-        changeAttachmentDesignation(
-          submissionId,
-          attachment.id,
-          'figure',
-          attachment.name
-        )
-          .then((result) => {
-            if (result?.data?.setAttachmentType === false) {
-              return handleError('Store declined designation change')
-            }
-            const resolvedPos = view.state.doc.resolve(docPos.pos)
-            if (resolvedPos.parent.type === schema.nodes.figure) {
-              const figure = modelMap.get(resolvedPos.parent.attrs.id) as Figure
-              // @ts-ignore
-              figure.externalFileReferences = addExternalFileRef(
-                figure.externalFileReferences,
-                attachment.id
-              )
-              setNodeAttrs(view.state, dispatch, figure._id, {
-                src: attachment.id,
-                externalFileReferences: figure.externalFileReferences,
-              })
-            } else {
-              const transaction = view.state.tr.setSelection(
-                new NodeSelection(resolvedPos)
-              )
-              view.focus()
-              dispatch(transaction)
-              // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-              insertFileAsFigure(attachment, view.state, dispatch)
-            }
-          })
-          .catch(handleError)
+        if (attachment.type.id === 'figure') {
+          addFigure(view, docPos, attachment, modelMap, dispatch)
+        } else {
+          changeAttachmentDesignation(
+            submissionId,
+            attachment.id,
+            'figure',
+            attachment.name
+          )
+            .then((result) => {
+              if (result?.data?.setAttachmentType === false) {
+                return handleError('Store declined designation change')
+              }
+              addFigure(view, docPos, attachment, modelMap, dispatch)
+            })
+            .catch(handleError)
+        }
       }
     },
   })
@@ -152,4 +136,35 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
     </>
   )
 }
+
+const addFigure = (
+  view: ManuscriptEditorView,
+  docPos: { pos: number; inside: number },
+  attachment: SubmissionAttachment,
+  modelMap: Map<string, Model>,
+  dispatch: (tr: Transaction) => void
+) => {
+  const resolvedPos = view.state.doc.resolve(docPos.pos)
+  if (resolvedPos.parent.type === schema.nodes.figure) {
+    const figure = modelMap.get(resolvedPos.parent.attrs.id) as Figure
+    // @ts-ignore
+    figure.externalFileReferences = addExternalFileRef(
+      figure.externalFileReferences,
+      attachment.id
+    )
+    setNodeAttrs(view.state, dispatch, figure._id, {
+      src: attachment.link,
+      externalFileReferences: figure.externalFileReferences,
+    })
+  } else {
+    const transaction = view.state.tr.setSelection(
+      new NodeSelection(resolvedPos)
+    )
+    view.focus()
+    dispatch(transaction)
+    // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
+    insertFileAsFigure(attachment, view.state, dispatch)
+  }
+}
+
 export default EditorElement
