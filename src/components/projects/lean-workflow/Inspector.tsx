@@ -127,116 +127,125 @@ const Inspector: React.FC<Props> = ({
   const commentController = useComments(comments, user, state, editor.doCommand)
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
   return (
-    <Panel
-      name={'inspector'}
-      minSize={400}
-      direction={'row'}
-      side={'start'}
-      hideWhen={'max-width: 900px'}
-      resizerButton={ResizingInspectorButton}
-      forceOpen={!!getUnsavedComment(commentController.items)}
-    >
-      <InspectorLW
-        tabs={tabs}
-        commentTarget={getUnsavedComment(commentController.items) || undefined}
+    <>
+      <Panel
+        name={'inspector'}
+        minSize={400}
+        direction={'row'}
+        side={'start'}
+        hideWhen={'max-width: 900px'}
+        resizerButton={ResizingInspectorButton}
+        forceOpen={!!getUnsavedComment(commentController.items)}
       >
-        {tabs.map((label) => {
-          switch (label) {
-            case 'Content': {
-              return (
-                <ContentTab
-                  selected={selected}
-                  selectedElement={findParentElement(state.selection, modelIds)}
-                  selectedSection={findParentSection(state.selection)}
-                  state={state}
-                  dispatch={dispatch}
-                  hasFocus={view?.hasFocus()}
-                  key="content"
-                />
-              )
-            }
-            case 'Comments': {
-              return (
-                <CommentsTab
-                  commentController={commentController}
-                  selected={selected}
-                  key="comments"
-                />
-              )
-            }
-
-            case 'Quality': {
-              return (
-                <RequirementsInspectorView
-                  key="quality"
-                  result={validation.result}
-                  error={validation.error}
-                />
-              )
-            }
-            case 'History': {
-              return snapshotID ? (
-                <React.Fragment key="history">
-                  {selectedSnapshot && (
-                    <SnapshotsDropdown
-                      snapshots={snapshots || []}
-                      selectedSnapshot={selectedSnapshot}
-                      selectSnapshot={handleSelect}
-                      selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
-                    />
-                  )}
-
-                  <SortByDropdown
-                    sortBy={commitsSortBy}
-                    handleSort={handleSort}
-                  />
-                  <Corrections
-                    corrections={corrections}
-                    editor={editor}
-                    commits={commits}
-                    accept={accept}
-                    reject={reject}
-                  />
-                </React.Fragment>
-              ) : (
-                <h3 key="history">
-                  Tracking is off - create a Snapshot to get started
-                </h3>
-              )
-            }
-
-            case 'Files': {
-              return submissionId ? (
-                <>
-                  {errorDialog && (
-                    <ErrorDialog
-                      isOpen={showErrorDialog}
-                      header={header}
-                      message={message}
-                      handleOk={() => setErrorDialog(false)}
-                    />
-                  )}
-                  <FileManager
-                    submissionId={submissionId}
-                    can={can}
-                    enableDragAndDrop={true}
-                    modelMap={modelMap}
-                    attachments={[] as SubmissionAttachment[]}
-                    handleChangeDesignation={handleChangeAttachmentDesignation}
-                    handleDownload={handleDownloadAttachment}
-                    handleReplace={handleReplaceAttachment}
-                    handleUpload={handleUploadAttachment}
-                  />
-                  {fileManagementErrors.forEach(
-                    (error) => error && <ExceptionDialog errorCode={error} />
-                  )}
-                </>
-              ) : null
-            }
+        <InspectorLW
+          tabs={tabs}
+          commentTarget={
+            getUnsavedComment(commentController.items) || undefined
           }
-        })}
-      </InspectorLW>
-    </Panel>
+        >
+          {tabs.map((label) => {
+            switch (label) {
+              case 'Content': {
+                return (
+                  <ContentTab
+                    selected={selected}
+                    selectedElement={findParentElement(
+                      state.selection,
+                      modelIds
+                    )}
+                    selectedSection={findParentSection(state.selection)}
+                    state={state}
+                    dispatch={dispatch}
+                    hasFocus={view?.hasFocus()}
+                    key="content"
+                  />
+                )
+              }
+              case 'Comments': {
+                return (
+                  <CommentsTab
+                    commentController={commentController}
+                    selected={selected}
+                    key="comments"
+                  />
+                )
+              }
+
+              case 'Quality': {
+                return (
+                  <RequirementsInspectorView
+                    key="quality"
+                    result={validation.result}
+                    error={validation.error}
+                  />
+                )
+              }
+              case 'History': {
+                return snapshotID ? (
+                  <React.Fragment key="history">
+                    {selectedSnapshot && (
+                      <SnapshotsDropdown
+                        snapshots={snapshots || []}
+                        selectedSnapshot={selectedSnapshot}
+                        selectSnapshot={handleSelect}
+                        selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
+                      />
+                    )}
+
+                    <SortByDropdown
+                      sortBy={commitsSortBy}
+                      handleSort={handleSort}
+                    />
+                    <Corrections
+                      corrections={corrections}
+                      editor={editor}
+                      commits={commits}
+                      accept={accept}
+                      reject={reject}
+                    />
+                  </React.Fragment>
+                ) : (
+                  <h3 key="history">
+                    Tracking is off - create a Snapshot to get started
+                  </h3>
+                )
+              }
+
+              case 'Files': {
+                return submissionId ? (
+                  <>
+                    {errorDialog && (
+                      <ErrorDialog
+                        isOpen={showErrorDialog}
+                        header={header}
+                        message={message}
+                        handleOk={() => setErrorDialog(false)}
+                      />
+                    )}
+                    <FileManager
+                      submissionId={submissionId}
+                      can={can}
+                      enableDragAndDrop={true}
+                      modelMap={modelMap}
+                      attachments={[] as SubmissionAttachment[]}
+                      handleChangeDesignation={
+                        handleChangeAttachmentDesignation
+                      }
+                      handleDownload={handleDownloadAttachment}
+                      handleReplace={handleReplaceAttachment}
+                      handleUpload={handleUploadAttachment}
+                    />
+                  </>
+                ) : null
+              }
+            }
+          })}
+        </InspectorLW>
+      </Panel>
+      {fileManagementErrors.forEach(
+        (error) => error && <ExceptionDialog errorCode={error} />
+      )}
+    </>
   )
 }
 

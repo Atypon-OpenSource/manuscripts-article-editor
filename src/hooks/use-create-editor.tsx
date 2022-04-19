@@ -19,6 +19,7 @@ import { usePermissions } from '@manuscripts/style-guide'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
+import useFileHandling from 'src/components/projects/lean-workflow/FileHandling'
 
 import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
@@ -70,21 +71,6 @@ export const useCreateEditor = (permissions: Permissions) => {
 
   const { uploadAttachment } = useUploadAttachment()
 
-  const putAttachment = (file: File, designation = 'supplementary') => {
-    return uploadAttachment({
-      submissionId,
-      file: file,
-      designation: designation,
-    })
-      .then(({ data }) => {
-        return data.uploadAttachment
-      })
-      .catch((e) => {
-        console.error(e)
-        return null
-      })
-  }
-
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
       const model = getModel(id)
@@ -125,7 +111,6 @@ export const useCreateEditor = (permissions: Permissions) => {
     getModel,
     saveModel,
     deleteModel,
-    putAttachment: putAttachment,
     retrySync,
 
     renderReactComponent: (child: ReactNode, container: HTMLElement) => {
@@ -152,7 +137,7 @@ export const useCreateEditor = (permissions: Permissions) => {
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
     uploadAttachment: (designation: string, file: File) =>
-      putAttachment(file, designation),
+      uploadAttachment({ submissionId, file, designation }),
   }
 
   const editor = useEditor<ManuscriptSchema>(

@@ -107,6 +107,7 @@ const UPLOAD_ATTACHMENT = gql`
       typeId: $typeId
       content: $file
     ) {
+      id
       name
       link
       type {
