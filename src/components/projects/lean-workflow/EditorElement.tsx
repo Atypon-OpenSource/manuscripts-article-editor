@@ -10,14 +10,23 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  addExternalFileRef,
+  ExternalFileRef,
+  findParentElement,
+  getMatchingChild,
   insertFileAsFigure,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-import { ManuscriptEditorView, schema } from '@manuscripts/manuscript-transform'
-import { Figure, Model } from '@manuscripts/manuscripts-json-schema'
+import {
+  FigureElementNode,
+  FigureNode,
+  generateID,
+  ManuscriptEditorView,
+  schema,
+} from '@manuscripts/manuscript-transform'
+import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { commands } from '@manuscripts/track-changes'
+import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
@@ -25,7 +34,6 @@ import { useDrop } from 'react-dnd'
 import { useCommits } from '../../../hooks/use-commits'
 import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
-import { useStore } from '../../../store'
 import { SpriteMap } from '../../track/Icons'
 
 interface Props {
@@ -35,26 +43,8 @@ interface Props {
 }
 
 const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
-  const [modelMap] = useStore((store) => store.modelMap)
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
-
-  const handleError = (e: any) => {
-    console.log(e)
-    setError(e)
-  }
-
-  // const {
-  //   handleChangeAttachmentDesignation: changeAttachmentDesignation,
-  // } = useFileHandling()
-  // TODO:: remove this as we are not going to use designation
-  const changeAttachmentDesignation = (
-    submissionId: string,
-    attachmentId: string,
-    designation: string,
-    name: string
-  ) => Promise.resolve({} as any)
-  const [submissionId] = useStore((store) => store.submissionID || '')
 
   const [, drop] = useDrop({
     accept: 'FileSectionItem',
@@ -68,22 +58,60 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
           return
         }
 
-        if (attachment.type.id === 'figure') {
-          addFigure(view, docPos, attachment, modelMap, dispatch)
-        } else {
-          changeAttachmentDesignation(
-            submissionId,
-            attachment.id,
-            'figure',
-            attachment.name
-          )
-            .then((result) => {
-              if (result?.data?.setAttachmentType === false) {
-                return handleError('Store declined designation change')
-              }
-              addFigure(view, docPos, attachment, modelMap, dispatch)
-            })
-            .catch(handleError)
+        const resolvedPos = view.state.doc.resolve(docPos.pos)
+        const attrs: Record<string, unknown> = {
+          src: attachment.link,
+          label: attachment.name,
+          externalFileReferences: [
+            {
+              url: `attachment:${attachment.id}`,
+              kind: 'imageRepresentation',
+              ref: attachment,
+            },
+          ],
+        }
+
+        switch (resolvedPos.parent.type) {
+          case schema.nodes.figure: {
+            const figure = resolvedPos.parent as FigureNode
+            if (isEmptyFigureNode(figure)) {
+              setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
+            } else {
+              addNewFigure(view, dispatch, attrs, resolvedPos.pos + 1)
+            }
+            break
+          }
+          case schema.nodes.figcaption:
+          case schema.nodes.caption:
+          case schema.nodes.caption_title: {
+            addFigureAtFigCaptionPosition(
+              editor,
+              resolvedPos.parent,
+              resolvedPos.pos,
+              attrs,
+              new NodeSelection(resolvedPos),
+              attachment
+            )
+            break
+          }
+          case schema.nodes.figure_element: {
+            addFigureAtFigureElementPosition(
+              editor,
+              resolvedPos.parent,
+              resolvedPos.pos,
+              attrs
+            )
+            break
+          }
+          default: {
+            const transaction = view.state.tr.setSelection(
+              new NodeSelection(resolvedPos)
+            )
+            view.focus()
+            dispatch(transaction)
+            // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
+            insertFileAsFigure(attachment, view.state, dispatch)
+          }
         }
       }
     },
@@ -137,34 +165,136 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
   )
 }
 
-const addFigure = (
-  view: ManuscriptEditorView,
-  docPos: { pos: number; inside: number },
-  attachment: SubmissionAttachment,
-  modelMap: Map<string, Model>,
-  dispatch: (tr: Transaction) => void
+/**
+ *   Will get figureElement node and position of figcaption.
+ *   then check if the current figure empty to update it's external file.
+ *   if not will add a new Figure above figcaption node
+ */
+const addFigureAtFigCaptionPosition = (
+  editor: ReturnType<typeof useEditor>,
+  node: ProsemirrorNode,
+  pos: number,
+  attrs: Record<string, unknown>,
+  nodeSelection: NodeSelection,
+  attachment: SubmissionAttachment
 ) => {
-  const resolvedPos = view.state.doc.resolve(docPos.pos)
-  if (resolvedPos.parent.type === schema.nodes.figure) {
-    const figure = modelMap.get(resolvedPos.parent.attrs.id) as Figure
-    // @ts-ignore
-    figure.externalFileReferences = addExternalFileRef(
-      figure.externalFileReferences,
-      attachment.id
-    )
-    setNodeAttrs(view.state, dispatch, figure._id, {
-      src: attachment.link,
-      externalFileReferences: figure.externalFileReferences,
+  const { view, dispatch } = editor
+  if (!view) {
+    return
+  }
+
+  const getFigureElementWithFigcaptionPos = () => {
+    let figureElement, figcaptionPos
+    if (
+      node.type === schema.nodes.caption ||
+      node.type === schema.nodes.caption_title
+    ) {
+      const figcaptionPos = findParentElement(
+        NodeSelection.create(view.state.doc, pos)
+      )?.start
+      figureElement = figcaptionPos
+        ? findParentElement(NodeSelection.create(view.state.doc, figcaptionPos))
+        : undefined
+    } else {
+      figureElement = findParentElement(
+        NodeSelection.create(view.state.doc, pos)
+      )
+    }
+    if (
+      !figureElement ||
+      figureElement?.node.type !== schema.nodes.figure_element
+    ) {
+      return undefined
+    }
+
+    figureElement.node.forEach((node, pos) => {
+      if (node.type === schema.nodes.figcaption) {
+        figcaptionPos = pos
+      }
     })
+    return figcaptionPos
+      ? {
+          node: figureElement.node as FigureElementNode,
+          pos: figureElement.pos + figcaptionPos,
+        }
+      : undefined
+  }
+
+  const nodeWithPos = getFigureElementWithFigcaptionPos()
+  if (nodeWithPos) {
+    const figure = getMatchingChild(
+      nodeWithPos.node,
+      (node) => node.type === node.type.schema.nodes.figure
+    ) as FigureNode
+    if (isEmptyFigureNode(figure)) {
+      setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
+    } else {
+      addNewFigure(view, dispatch, attrs, nodeWithPos.pos)
+    }
   } else {
-    const transaction = view.state.tr.setSelection(
-      new NodeSelection(resolvedPos)
-    )
+    const transaction = view.state.tr.setSelection(nodeSelection)
     view.focus()
     dispatch(transaction)
-    // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
     insertFileAsFigure(attachment, view.state, dispatch)
   }
+}
+
+/**
+ *  Will update figure external file if it's empty,
+ *  or add a new figure to the figure_element
+ */
+const addFigureAtFigureElementPosition = (
+  editor: ReturnType<typeof useEditor>,
+  node: ProsemirrorNode,
+  pos: number,
+  attrs: Record<string, unknown>
+) => {
+  const { view, dispatch } = editor
+  if (!view) {
+    return
+  }
+
+  let figcaptionPos = 0,
+    figureElementPos = 0
+  node.descendants((node, nodePos) => {
+    if (node.type === schema.nodes.figcaption) {
+      figcaptionPos = nodePos
+      figureElementPos =
+        findParentElement(NodeSelection.create(view.state.doc, pos))?.start || 0
+    }
+  })
+
+  const figure = getMatchingChild(
+    node,
+    (node) => node.type === node.type.schema.nodes.figure
+  ) as FigureNode
+  if (isEmptyFigureNode(figure)) {
+    setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
+  } else {
+    addNewFigure(view, dispatch, attrs, figcaptionPos + figureElementPos)
+  }
+}
+
+const isEmptyFigureNode = (figure: FigureNode) => {
+  const imageExternalFile = figure.attrs.externalFileReferences?.find(
+    (file: ExternalFileRef) => file && file.kind === 'imageRepresentation'
+  ) || { url: '' }
+
+  return imageExternalFile?.url.trim().length < 1
+}
+
+const addNewFigure = (
+  view: ManuscriptEditorView,
+  dispatch: (tr: Transaction) => void,
+  attrs: Record<string, unknown>,
+  pos: number
+) => {
+  const figure = view.state.schema.nodes.figure.createAndFill({
+    ...attrs,
+    id: generateID(ObjectTypes.Figure),
+  }) as FigureNode
+  const tr = view.state.tr.insert(pos, figure)
+  dispatch(tr)
 }
 
 export default EditorElement
