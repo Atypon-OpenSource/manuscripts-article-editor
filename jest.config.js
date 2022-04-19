@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 module.exports = {
-  roots: ['<rootDir>/src'],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!**/*.d.ts',
