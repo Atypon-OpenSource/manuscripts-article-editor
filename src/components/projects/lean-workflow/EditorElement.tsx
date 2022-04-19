@@ -15,7 +15,7 @@ import {
   useEditor,
 } from '@manuscripts/manuscript-editor'
 import { schema } from '@manuscripts/manuscript-transform'
-import { ExternalFile, Figure } from '@manuscripts/manuscripts-json-schema'
+import { Figure } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { commands } from '@manuscripts/track-changes'
 import { NodeSelection } from 'prosemirror-state'
@@ -23,6 +23,7 @@ import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
 import { useCommits } from '../../../hooks/use-commits'
+import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
 import { SpriteMap } from '../../track/Icons'
@@ -47,8 +48,12 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
   //   handleChangeAttachmentDesignation: changeAttachmentDesignation,
   // } = useFileHandling()
   // TODO:: remove this as we are not going to use designation
-  const changeAttachmentDesignation = (s: string, d: string, name: string) =>
-    Promise.resolve({} as any)
+  const changeAttachmentDesignation = (
+    submissionId: string,
+    attachmentId: string,
+    designation: string,
+    name: string
+  ) => Promise.resolve({} as any)
   const [submissionId] = useStore((store) => store.submissionID || '')
 
   const [, drop] = useDrop({
@@ -58,14 +63,16 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
-        const externalFile = item.externalFile as ExternalFile
-        if (!externalFile || !docPos || !docPos.pos) {
+        const attachment = item.externalFile as SubmissionAttachment
+        if (!attachment || !docPos || !docPos.pos) {
           return
         }
+
         changeAttachmentDesignation(
           submissionId,
+          attachment.id,
           'figure',
-          externalFile.filename
+          attachment.name
         )
           .then((result) => {
             if (result?.data?.setAttachmentType === false) {
@@ -77,10 +84,10 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
               // @ts-ignore
               figure.externalFileReferences = addExternalFileRef(
                 figure.externalFileReferences,
-                externalFile.publicUrl
+                attachment.id
               )
               setNodeAttrs(view.state, dispatch, figure._id, {
-                src: externalFile.publicUrl,
+                src: attachment.id,
                 externalFileReferences: figure.externalFileReferences,
               })
             } else {
@@ -90,7 +97,7 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
               view.focus()
               dispatch(transaction)
               // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-              insertFileAsFigure(externalFile, view.state, dispatch)
+              insertFileAsFigure(attachment, view.state, dispatch)
             }
           })
           .catch(handleError)

@@ -51,6 +51,7 @@ export const useCreateEditor = (permissions: Permissions) => {
       deleteModel,
       commitAtLoad,
       submissionId,
+      submission,
     },
   ] = useStore((store) => ({
     doc: store.doc,
@@ -63,9 +64,9 @@ export const useCreateEditor = (permissions: Permissions) => {
     getModel: store.getModel,
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
-    putAttachment: store.putAttachment,
     submissionId: store.submissionID || '',
     commitAtLoad: store.commitAtLoad,
+    submission: store.submission,
   }))
 
   const can = usePermissions()
@@ -80,7 +81,7 @@ export const useCreateEditor = (permissions: Permissions) => {
       designation: designation,
     })
       .then(({ data }) => {
-        return data.uploadAttachment?.link
+        return data.uploadAttachment
       })
       .catch((e) => {
         console.error(e)
@@ -98,11 +99,6 @@ export const useCreateEditor = (permissions: Permissions) => {
     })
     return Promise.resolve()
   }
-
-  const files = getModelsByType<ExternalFile>(
-    modelMap,
-    ObjectTypes.ExternalFile
-  )
 
   const history = useHistory()
 
@@ -153,7 +149,7 @@ export const useCreateEditor = (permissions: Permissions) => {
 
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
-    externalFiles: files,
+    externalFiles: submission?.attachments,
     theme,
     submissionId,
     capabilities: can,
