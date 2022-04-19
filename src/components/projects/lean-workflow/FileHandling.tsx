@@ -112,13 +112,14 @@ const useFileHandling = () => {
       return handleSubmissionMutation(
         uploadAttachment({
           submissionId: submissionId,
+          documentId: `${project._id}#${manuscript._id}`,
           file: file,
           designation: designation,
         }),
         'Something went wrong while uploading attachment.'
       )
     },
-    [uploadAttachment, handleSubmissionMutation]
+    [uploadAttachment, handleSubmissionMutation, project._id, manuscript._id]
   )
 
   const {

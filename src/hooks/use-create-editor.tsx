@@ -136,7 +136,12 @@ export const useCreateEditor = (permissions: Permissions) => {
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
     uploadAttachment: (designation: string, file: File) =>
-      uploadAttachment({ submissionId, file, designation }),
+      uploadAttachment({
+        submissionId,
+        file,
+        designation,
+        documentId: `${project._id}#${manuscript._id}`,
+      }),
   }
 
   const editor = useEditor<ManuscriptSchema>(
