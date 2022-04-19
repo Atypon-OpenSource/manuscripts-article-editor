@@ -124,6 +124,7 @@ export type state = {
     userTemplates: ManuscriptTemplate[]
     userTemplateModels: ManuscriptModel[]
   }>
+  createUser: (profile: Build<UserProfile>) => Promise<void>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

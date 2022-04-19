@@ -19,8 +19,6 @@ import {
 import decode from 'jwt-decode'
 import { v4 as uuid } from 'uuid'
 
-import { Database } from '../components/DatabaseProvider'
-import CollectionManager from '../sync/CollectionManager'
 import tokenHandler from './token'
 import { TokenPayload } from './user'
 
@@ -36,7 +34,9 @@ export const createToken = () => {
   tokenHandler.set(token)
 }
 
-export const createUserProfile = async (db: Database) => {
+export const createUserProfile = async (
+  createUser: (profile: Build<UserProfile>) => Promise<void>
+) => {
   createToken()
 
   const token = tokenHandler.get()
@@ -58,12 +58,5 @@ export const createUserProfile = async (db: Database) => {
     userID,
     bibliographicName,
   }
-
-  const userCollection = await CollectionManager.createCollection<UserProfile>({
-    collection: 'user',
-    channels: [],
-    db,
-  })
-
-  await userCollection.create(profile)
+  await createUser(profile)
 }

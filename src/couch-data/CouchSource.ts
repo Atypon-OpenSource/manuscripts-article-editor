@@ -9,27 +9,38 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import CollectionManager from '../sync/CollectionManager'
 import { builderFn, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import RxDBDataBridge from './AllData'
+import { databaseCreator } from './db'
+import Utilities from './Utilities'
 
 export default class CouchSource implements StoreDataSourceStrategy {
   rxDBDataBridge: RxDBDataBridge
   ready: boolean
   unsubscribeFromData: () => void
   storeUnsubscribe: () => void
+  utilities: Utilities
   build: builderFn = async (state, next) => {
+    const db = await databaseCreator
+
+    this.utilities = new Utilities(db)
+    await this.utilities.init(state.userID || '')
+
     if (state.manuscriptID && state.projectID) {
       this.rxDBDataBridge = new RxDBDataBridge({
         projectID: state.projectID,
         manuscriptID: state.manuscriptID,
         userID: state.userID || '',
+        db,
       })
+      await this.rxDBDataBridge.init()
     }
-    await this.rxDBDataBridge.init()
     this.ready = true
-    const data = await this.rxDBDataBridge.getData()
-    next({ ...data })
+    const data = this.rxDBDataBridge ? await this.rxDBDataBridge.getData() : {}
+    const tools = this.utilities.getTools()
+    next({ ...data, ...tools })
   }
   afterAction: StoreDataSourceStrategy['afterAction'] = (state, setState) => {
     if (
@@ -51,16 +62,18 @@ export default class CouchSource implements StoreDataSourceStrategy {
     }
   }
   updateStore = (setState: stateSetter) => {
-    this.unsubscribeFromData = this.rxDBDataBridge.onUpdate(
-      (couchDataState) => {
-        setState((state) => {
-          return {
-            ...state,
-            ...couchDataState,
-          }
-        })
-      }
-    )
+    if (this.rxDBDataBridge) {
+      this.unsubscribeFromData = this.rxDBDataBridge.onUpdate(
+        (couchDataState) => {
+          setState((state) => {
+            return {
+              ...state,
+              ...couchDataState,
+            }
+          })
+        }
+      )
+    }
   }
 
   // unmount = () => {}

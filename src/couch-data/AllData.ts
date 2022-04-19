@@ -53,7 +53,6 @@ import CollectionManager from '../sync/CollectionManager'
 import reducer from '../sync/syncEvents'
 import { Action, SyncState } from '../sync/types'
 import { Biblio } from './Bibilo'
-import { databaseCreator } from './db'
 import ModelManager from './ModelManager'
 import { TokenData } from './TokenData'
 
@@ -61,6 +60,7 @@ interface Props {
   manuscriptID: string
   projectID: string
   userID: string
+  db: RxDatabase<any>
 }
 
 export type State = Record<string, any>
@@ -91,10 +91,7 @@ class RxDBDataBridge {
     this.userID = props.userID || userData?.userID // needs to be acquired from the token if no token - get user id provided from props (maybe)
     this.userProfileID = userData?.userProfileID // needs to be acquired from the token if no token - get user id provided from props (maybe)
     this.manuscriptID = props.manuscriptID
-  }
-
-  setDB(db: RxDatabase<any>) {
-    this.db = db
+    this.db = props.db
   }
 
   async initCollection(collection: string, channels?: string[]) {
@@ -108,27 +105,10 @@ class RxDBDataBridge {
 
   public async init() {
     try {
-      const db = await databaseCreator
-
-      this.setDB(db)
       await this.initCollection(`project-${this.projectID}`, [
         `${this.projectID}-read`,
         `${this.projectID}-readwrite`,
       ])
-
-      // what to do when no user?
-      // need to return an explicit warning about no user
-      // maybe return an empty object so it will later fail on user presence check
-      if (this.userID) {
-        await this.initCollection('user', [
-          this.userID, // invitations
-          `${this.userID}-readwrite`, // profile
-          `${this.userProfileID}-readwrite`, // profile
-          `${this.userID}-projects`, // projects
-          `${this.userID}-libraries`, // libraries
-          `${this.userID}-library-collections`, // library collections
-        ])
-      }
 
       await this.initCollection(`collaborators`, [
         `${this.projectID}-read`,

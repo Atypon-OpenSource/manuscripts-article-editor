@@ -26,7 +26,7 @@ export const importManuscript = (
   history: History,
   saveNewManuscript: state['saveNewManuscript'],
   user?: UserProfile,
-  handleComplete?: () => void,
+  handleComplete?: (projectID: string, manuscriptID: string) => void,
   possibleProjectID?: string
 ) => async (models: Model[]) => {
   const userID = user ? user.userID : getCurrentUserId()!
@@ -62,10 +62,7 @@ export const importManuscript = (
     newProject || undefined
   )
 
-  // redirect to the manuscript page
-  history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
-
   if (handleComplete) {
-    handleComplete()
+    handleComplete(projectID, manuscript._id)
   }
 }

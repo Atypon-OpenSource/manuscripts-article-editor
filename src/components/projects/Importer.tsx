@@ -22,6 +22,7 @@ import { Manuscript, Model } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { History } from 'history'
 import React from 'react'
+import config from '../../config'
 
 import { loadBundle } from '../../lib/bundles'
 import {
@@ -289,5 +290,7 @@ export const importManuscript = async (
 
   if (redirect) {
     history.push(`/projects/${projectID}/manuscripts/${manuscript._id}`)
+  } else if (config.environment === 'development') {
+    alert(`projectID: ${projectID}; manuscriptID: ${manuscript._id}`)
   }
 }

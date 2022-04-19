@@ -14,8 +14,9 @@ import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Loading } from './components/Loading'
+import { Loading, LoadingOverlay } from './components/Loading'
 import { NotificationProvider } from './components/NotificationProvider'
+import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import CouchSource from './couch-data/CouchSource'
 import { getCurrentUserId } from './lib/user'
@@ -82,7 +83,7 @@ const EditorApp: React.FC<Props> = ({
       </Router>
     </GenericStoreProvider>
   ) : (
-    <Loading>Loading store...</Loading>
+    <ProjectPlaceholder />
   )
 }
 

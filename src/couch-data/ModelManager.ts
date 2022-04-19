@@ -10,26 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  Attachment,
   Build,
   ContainedModel,
   ContainedProps,
   Decoder,
   getModelsByType,
   isManuscriptModel,
-  ManuscriptModel,
   ManuscriptNode,
   ModelAttachment,
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
-  ContainerInvitation,
   Correction,
   Manuscript,
-  ManuscriptTemplate,
   Model,
   ObjectTypes,
-  Project,
   Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
 import { RxDatabase } from '@manuscripts/rxdb'
@@ -39,12 +34,10 @@ import {
   findCommitWithChanges,
 } from '@manuscripts/track-changes'
 
-import { BulkCreateError } from '../lib/errors'
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
-import { ContainedIDs, ContainerIDs } from '../store'
-import { Collection, isBulkDocsError } from '../sync/Collection'
-import { createAndPushNewProject, createProjectCollection } from './collections'
+import { ContainerIDs } from '../store'
+import { Collection } from '../sync/Collection'
 
 type ModelMap = Map<string, Model> // this is duplicated and copied in several places
 
@@ -103,126 +96,6 @@ export default class ModelManager implements ManuscriptModels {
     )
   }
 
-  saveDependenciesForNew = async (
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    collection: Collection<ContainedModel | ManuscriptModel>
-  ) => {
-    const results = await collection.bulkCreate(dependencies)
-    const failures = results.filter(isBulkDocsError)
-    if (failures.length) {
-      throw new BulkCreateError(failures)
-    }
-  }
-
-  getAttachment = async (id: string, attachmentID: string) => {
-    const attachment = await this.collection.getAttachmentAsBlob(
-      id,
-      attachmentID
-    )
-    return attachment
-  }
-  putAttachment = (id: string, attachment: Attachment) => {
-    return this.collection.putAttachment(id, attachment).then(() => undefined)
-  }
-  saveNewManuscript = async (
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    containerID: string,
-    manuscript: Build<Manuscript>,
-    newProject?: Build<Project>
-  ) => {
-    if (newProject) {
-      await createAndPushNewProject(newProject)
-    }
-    const collection = await createProjectCollection(this.db, containerID)
-    await this.saveDependenciesForNew(dependencies, collection)
-    await collection.create(manuscript, { containerID })
-    return Promise.resolve(manuscript)
-  }
-
-  updateManuscriptTemplate = async (
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    containerID: string,
-    manuscript: Manuscript,
-    updatedModels: ManuscriptModel[]
-  ) => {
-    const collection = await createProjectCollection(this.db, containerID)
-    // save the manuscript dependencies
-    const results = await collection.bulkCreate(dependencies)
-    const failures = results.filter(isBulkDocsError)
-
-    if (failures.length) {
-      throw new BulkCreateError(failures)
-    }
-
-    // save the updated models
-    for (const model of updatedModels) {
-      await collection.save(model)
-    }
-
-    // save the manuscript
-    await collection.save(manuscript)
-    return Promise.resolve(manuscript)
-  }
-
-  getUserTemplates = async () => {
-    const userTemplates: ManuscriptTemplate[] = []
-    const userTemplateModels: ManuscriptModel[] = []
-    const promiseEverything = this.userCollection
-      .find({
-        objectType: ObjectTypes.Project,
-        templateContainer: true,
-      })
-      .exec()
-      .then((docs) => docs.map((doc) => doc.toJSON()))
-      .then((projects) =>
-        Promise.all(
-          projects.map(async (project) => {
-            const collection = new Collection({
-              collection: `project-${project._id}`,
-              channels: [`${project._id}-read`, `${project._id}-readwrite`],
-              db: this.db,
-            })
-
-            let retries = 0
-            while (retries <= 1) {
-              try {
-                await collection.initialize(false)
-                await collection.syncOnce('pull')
-                break
-              } catch (e) {
-                retries++
-                console.error(e)
-              }
-            }
-
-            const templates = await collection
-              .find({ objectType: ObjectTypes.ManuscriptTemplate })
-              .exec()
-              .then((docs) =>
-                docs.map((doc) => doc.toJSON() as ManuscriptTemplate)
-              )
-            userTemplates.push(...templates)
-
-            const models = await collection
-              .find({
-                templateID: {
-                  $in: templates.map((template) => template._id),
-                },
-              })
-              .exec()
-              .then((docs) =>
-                docs.map((doc) => doc.toJSON() as ManuscriptModel)
-              )
-            userTemplateModels.push(...models)
-            return
-          })
-        )
-      )
-
-    await promiseEverything
-    return { userTemplates, userTemplateModels }
-  }
-
   getTools = async () => {
     const latestSnaphot = this.snapshots.length ? this.snapshots[0] : null
 
@@ -241,12 +114,6 @@ export default class ModelManager implements ManuscriptModels {
         deleteModel: this.deleteModel,
         saveManuscript: this.saveManuscript,
         getModel: this.getModel,
-        saveNewManuscript: this.saveNewManuscript,
-        putAttachment: this.putAttachment,
-        getAttachment: this.getAttachment,
-        updateManuscriptTemplate: this.updateManuscriptTemplate,
-        getInvitation: this.getInvitation,
-        getUserTemplates: this.getUserTemplates,
       }
     }
 
@@ -293,12 +160,6 @@ export default class ModelManager implements ManuscriptModels {
       deleteModel: this.deleteModel,
       saveManuscript: this.saveManuscript,
       getModel: this.getModel,
-      saveNewManuscript: this.saveNewManuscript,
-      putAttachment: this.putAttachment,
-      getAttachment: this.getAttachment,
-      updateManuscriptTemplate: this.updateManuscriptTemplate,
-      getInvitation: this.getInvitation,
-      getUserTemplates: this.getUserTemplates,
     }
   }
 
@@ -386,28 +247,5 @@ export default class ModelManager implements ManuscriptModels {
     } catch (e) {
       console.log(e)
     }
-  }
-
-  getInvitation = (
-    invitingUserID: string,
-    invitedEmail: string
-  ): Promise<ContainerInvitation> => {
-    return new Promise((resolve) => {
-      const collection = this.userCollection
-
-      const sub = collection
-        .findOne({
-          objectType: ObjectTypes.ContainerInvitation,
-          containerID: this.manuscriptID,
-          invitedUserEmail: invitedEmail,
-          invitingUserID,
-        })
-        .$.subscribe((doc) => {
-          if (doc) {
-            sub.unsubscribe()
-            resolve(doc.toJSON() as ContainerInvitation)
-          }
-        })
-    })
   }
 }
