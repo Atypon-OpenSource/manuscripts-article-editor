@@ -131,8 +131,8 @@ export const useCommits = ({ sortBy, editor }: Args) => {
       changeSummary.insertion.length === 0
     ) {
       changeType = commitToJSON(commit, store.projectID).steps[0].slice
-        .content[0].type
-      if (changeType !== 'figure') {
+        ?.content[0].type
+      if (changeType !== 'figure' && changeType !== 'figure_element') {
         return
       }
     }
@@ -151,6 +151,7 @@ export const useCommits = ({ sortBy, editor }: Args) => {
       insertion:
         changeSummary.insertion ||
         (changeType == 'figure' && 'IMAGE UPDATED') ||
+        (changeType === 'figure_element' && 'Figure Element') ||
         '',
       deletion: changeSummary.deletion || '',
       positionInSnapshot: changeSummary ? changeSummary.ancestorPos : undefined,
