@@ -173,6 +173,15 @@ export const GET_SUBMISSION = gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
+      attachments {
+        id
+        name
+        link
+        type {
+          id
+          label
+        }
+      }
       currentStep {
         type {
           label
@@ -299,15 +308,6 @@ const GET_CURRENT_SUBMISSION_STEP = gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
-      attachments {
-        id
-        name
-        link
-        type {
-          id
-          label
-        }
-      }
       currentStep {
         type {
           id
