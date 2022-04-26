@@ -71,14 +71,18 @@ const ManuscriptPageContainer: React.FC = () => {
   const submissionData = useGetSubmissionAndPerson(manuscriptID, project._id)
 
   useEffect(() => {
-    if (submissionData?.data?.submission?.id && submissionData?.data?.person) {
+    if (
+      submissionData.data &&
+      submissionData.data.submission?.id &&
+      submissionData?.data?.person
+    ) {
       dispatch({
         submission: submissionData.data.submission,
         submissionId: submissionData.data.submission.id as string,
         lwUser: submissionData.data.person as Person,
       })
     }
-  }, [submissionData, dispatch])
+  }, [submissionData.data, dispatch])
 
   const submissionId: string = submissionData?.data?.submission?.id
   const permittedActionsData = useGetPermittedActions(submissionId)

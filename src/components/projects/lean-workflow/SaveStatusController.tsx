@@ -24,7 +24,7 @@ interface Props {
 export const SaveStatusController: React.FC<Props> = ({ isDirty }) => {
   const [{ containerID, syncState }] = useStore((state) => {
     return {
-      containerID: state.containerID,
+      containerID: state.projectID,
       syncState: state.syncState,
     }
   })
