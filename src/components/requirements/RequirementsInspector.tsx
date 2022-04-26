@@ -109,7 +109,8 @@ interface Props {
 
 export const RequirementsInspectorView: React.FC<
   Props & ReturnType<typeof useRequirementsValidation>
-> = ({ error, prototypeId, result }) => {
+> = ({ error, result }) => {
+  const [prototypeId] = useStore((store) => store.manuscript?.prototype)
   if (error) {
     return (
       <>
