@@ -139,7 +139,7 @@ export interface Store {
   state: state | null
   dispatchAction(action: action): void
   reducer?: reducer
-  beforeAction?(
+  beforeAction(
     action: string,
     payload: any,
     store: state,
@@ -159,7 +159,7 @@ export class GenericStore implements Store {
   unmountHandler
   state: state | null
   private sources: StoreDataSourceStrategy[]
-  beforeAction?: (
+  beforeAction: (
     action: string,
     payload: any,
     store: state,
@@ -205,10 +205,15 @@ export class GenericStore implements Store {
     const state = await buildStateFromSources(...sources)
     this.setState({ ...this.state, ...(state as state) })
     // listening to changes before state applied
-    this.beforeAction = (...args) => {
+    this.beforeAction = (action, payload, store, setState) => {
+      // @TODO provide the chance for the data sources to cancel the action optionally
+      // by default the actions are not supposed to be cancelled
       this.sources.map(
-        (source) => source.beforeAction && source.beforeAction(...args)
+        (source) =>
+          source.beforeAction &&
+          source.beforeAction(action, payload, store, setState)
       )
+      return { action, payload }
     }
     this.sources.map(
       (source) => source.updateStore && source.updateStore(this.setState)
@@ -234,24 +239,20 @@ export class GenericStore implements Store {
     }
   }
   dispatchAction({ action = DEFAULT_ACTION, ...payload }) {
-    if (this.beforeAction) {
-      const beforeActionFilter = this.beforeAction(
-        action,
-        payload,
-        this.state!,
-        this.setState
-      )
-      if (beforeActionFilter) {
-        this.setState(
-          this.reducer(
-            beforeActionFilter.payload,
-            this.state!,
-            beforeActionFilter.action || ''
-          )
+    const beforeActionFilter = this.beforeAction(
+      action,
+      payload,
+      this.state!,
+      this.setState
+    )
+    if (beforeActionFilter) {
+      this.setState(
+        this.reducer(
+          beforeActionFilter.payload,
+          this.state!,
+          beforeActionFilter.action || ''
         )
-      }
-    } else {
-      this.setState(this.reducer(payload, this.state!, action))
+      )
     }
   }
   unmount() {
