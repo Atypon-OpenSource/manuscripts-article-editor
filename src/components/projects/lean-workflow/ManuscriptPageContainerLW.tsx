@@ -129,7 +129,7 @@ const ManuscriptPageContainer: React.FC = () => {
   )
 }
 
-const ManuscriptPageView: React.FC = (props) => {
+const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
@@ -183,17 +183,14 @@ const ManuscriptPageView: React.FC = (props) => {
         manuscriptUser={user}
         submissionId={submissionId}
       >
-        {/* // Commented as this is not needed in the LW */}
-        {!config.leanWorkflow.enabled && (
-          <ManuscriptSidebar
-            project={project}
-            manuscript={manuscript}
-            view={view}
-            state={state}
-            permissions={permissions}
-            user={user}
-          />
-        )}
+        <ManuscriptSidebar
+          project={project}
+          manuscript={manuscript}
+          view={view}
+          state={state}
+          permissions={permissions}
+          user={user}
+        />
 
         <PageWrapper>
           <Main>
