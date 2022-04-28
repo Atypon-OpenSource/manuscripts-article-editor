@@ -114,6 +114,8 @@ export default class ModelManager implements ManuscriptModels {
         deleteModel: this.deleteModel,
         saveManuscript: this.saveManuscript,
         getModel: this.getModel,
+        saveCommit: this.saveCommit,
+        saveCorrection: this.saveCorrection,
       }
     }
 
@@ -160,6 +162,8 @@ export default class ModelManager implements ManuscriptModels {
       deleteModel: this.deleteModel,
       saveManuscript: this.saveManuscript,
       getModel: this.getModel,
+      saveCommit: this.saveCommit,
+      saveCorrection: this.saveCorrection,
     }
   }
 
