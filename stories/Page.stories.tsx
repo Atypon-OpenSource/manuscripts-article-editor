@@ -14,16 +14,31 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 
 import { Main, Page } from '../src/components/Page'
+import { GenericStore, GenericStoreProvider } from '../src/store'
 import { project } from './data/projects'
 
+const storeState = {
+  project: project,
+}
+
 storiesOf('Page', module)
-  .add('A page', () => (
-    <Page>
-      <Main style={{ padding: '10px 20px' }}>This is the main content</Main>
-    </Page>
-  ))
-  .add('A page with a project', () => (
-    <Page project={project}>
-      <Main style={{ padding: '10px 20px' }}>This is the main content</Main>
-    </Page>
-  ))
+  .add('A page', () => {
+    const store = new GenericStore(undefined, undefined, { ...storeState })
+    return (
+      <GenericStoreProvider store={store}>
+        <Page>
+          <Main style={{ padding: '10px 20px' }}>This is the main content</Main>
+        </Page>
+      </GenericStoreProvider>
+    )
+  })
+  .add('A page with a project', () => {
+    const store = new GenericStore(undefined, undefined, { ...storeState })
+    return (
+      <GenericStoreProvider store={store}>
+        <Page>
+          <Main style={{ padding: '10px 20px' }}>This is the main content</Main>
+        </Page>
+      </GenericStoreProvider>
+    )
+  })

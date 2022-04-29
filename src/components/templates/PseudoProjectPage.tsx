@@ -71,7 +71,7 @@ const ProjectTitle = styled(SidebarTitle)`
 export const PseudoProjectPage: React.FC = () => (
   <>
     <Container>
-      <Page project={pseudoProject}>
+      <Page>
         <Sidebar data-cy={'pseudo-project'}>
           <SidebarHeader
             title={
