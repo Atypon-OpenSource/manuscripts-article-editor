@@ -19,6 +19,18 @@ import { project } from './data/projects'
 
 const storeState = {
   project: project,
+  tokenData: {
+    getTokenActions: () => {
+      return {
+        delete: () => {
+          return
+        },
+        update: (token: string) => {
+          return
+        },
+      }
+    },
+  },
 }
 
 storiesOf('Page', module)

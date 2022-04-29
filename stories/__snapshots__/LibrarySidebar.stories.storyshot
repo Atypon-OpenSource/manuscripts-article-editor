@@ -267,6 +267,13 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
 }
 
 .c7 {
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border-right: none;
+  font-size: inherit;
+  font-family: inherit;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -344,10 +351,8 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
           <div
             className="c5"
           >
-            <a
-              aria-current={null}
+            <button
               className="c6 c7 c8"
-              href="/projects/undefined/library/project"
               onClick={[Function]}
             >
               <svg
@@ -367,15 +372,13 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
               >
                 Project Library
               </div>
-            </a>
+            </button>
           </div>
           <div
             className="c5"
           >
-            <a
-              aria-current={null}
+            <button
               className="c6 c7 c8"
-              href="/projects/undefined/library/global/MPLibrary:1/MPLibraryCollection:4"
               onClick={[Function]}
             >
               <svg
@@ -395,15 +398,13 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
               >
                 My Library
               </div>
-            </a>
+            </button>
           </div>
           <div
             className="c5"
           >
-            <a
-              aria-current={null}
+            <button
               className="c6 c7 c8"
-              href="/projects/undefined/library/search"
               onClick={[Function]}
             >
               <svg
@@ -423,7 +424,7 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
               >
                 Search Online
               </div>
-            </a>
+            </button>
           </div>
         </div>
         <div
