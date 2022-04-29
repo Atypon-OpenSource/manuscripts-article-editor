@@ -23,7 +23,6 @@ import { LibrarySidebar } from './LibrarySidebar'
 import { ProjectLibrary } from './ProjectLibrary'
 
 export const LibraryPageContainer: React.FC = () => {
-  // const history = useHistory()
   const [
     {
       projectID,

@@ -172,7 +172,6 @@ export const LibrarySidebar: React.FC<{
           return (
             <SectionLink
               key={projectLibraryCollection._id}
-              // to={`/projects/${projectID}/library/project/${projectLibraryCollection._id}`}
               onClick={() => {
                 dispatch({
                   libraryProjectID: projectID,
@@ -271,7 +270,6 @@ export const LibrarySidebar: React.FC<{
                 sourceType: 'search',
               })
             }}
-            // to={`/projects/${projectID}/library/search/${source.id}`}
           >
             {source.name}
           </SectionLink>

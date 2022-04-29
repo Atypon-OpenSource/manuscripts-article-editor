@@ -658,17 +658,10 @@ const LibraryForm: React.FC<{
                               String(option.label)
                             )
 
-                            // @REPLACE-WITH createProjectLibraryCollection(libraryCollection, projectID?)
                             await createProjectLibraryCollection(
                               libraryCollection,
                               projectID
                             )
-                            // await projectLibraryCollectionsCollection.create(
-                            //   libraryCollection,
-                            //   {
-                            //     containerID: projectID,
-                            //   }
-                            // )
 
                             return libraryCollection._id
                           })
