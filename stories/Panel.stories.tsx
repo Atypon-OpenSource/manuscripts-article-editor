@@ -15,39 +15,82 @@ import React from 'react'
 
 import { Main, Page } from '../src/components/Page'
 import Panel from '../src/components/Panel'
+import { GenericStore, GenericStoreProvider } from '../src/store'
+import { project } from './data/projects'
+
+const storeState = {
+  project: project,
+  tokenData: {
+    getTokenActions: () => {
+      return {
+        delete: () => {
+          return
+        },
+        update: (token: string) => {
+          return
+        },
+      }
+    },
+  },
+}
 
 storiesOf('Panel', module)
-  .add('row', () => (
-    <Page>
-      <Panel name={'testStart'} minSize={200} direction={'row'} side={'end'}>
-        <p style={{ paddingRight: 20 }}>This is a panel at the start</p>
-      </Panel>
-      <Main>
-        <p style={{ paddingLeft: 20 }}>This is the main content.</p>
-      </Main>
-      <Panel name={'testEnd'} minSize={200} direction={'row'} side={'start'}>
-        <p style={{ paddingLeft: 20 }}>This is a panel at the end</p>
-      </Panel>
-    </Page>
-  ))
-  .add('combined', () => (
-    <Page>
-      <Panel name={'testStart'} minSize={200} direction={'row'} side={'end'}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+  .add('row', () => {
+    const store = new GenericStore(undefined, undefined, { ...storeState })
+    return (
+      <GenericStoreProvider store={store}>
+        <Page>
           <Panel
-            name={'testColumn'}
+            name={'testStart'}
             minSize={200}
-            direction={'column'}
+            direction={'row'}
             side={'end'}
           >
-            <p>This is a panel</p>
+            <p style={{ paddingRight: 20 }}>This is a panel at the start</p>
           </Panel>
-          <div style={{ paddingTop: 20 }}>This is another section</div>
-        </div>
-      </Panel>
+          <Main>
+            <p style={{ paddingLeft: 20 }}>This is the main content.</p>
+          </Main>
+          <Panel
+            name={'testEnd'}
+            minSize={200}
+            direction={'row'}
+            side={'start'}
+          >
+            <p style={{ paddingLeft: 20 }}>This is a panel at the end</p>
+          </Panel>
+        </Page>
+      </GenericStoreProvider>
+    )
+  })
+  .add('combined', () => {
+    const store = new GenericStore(undefined, undefined, { ...storeState })
+    return (
+      <GenericStoreProvider store={store}>
+        <Page>
+          <Panel
+            name={'testStart'}
+            minSize={200}
+            direction={'row'}
+            side={'end'}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Panel
+                name={'testColumn'}
+                minSize={200}
+                direction={'column'}
+                side={'end'}
+              >
+                <p>This is a panel</p>
+              </Panel>
+              <div style={{ paddingTop: 20 }}>This is another section</div>
+            </div>
+          </Panel>
 
-      <Main>
-        <p style={{ paddingLeft: 20 }}>This is the main content.</p>
-      </Main>
-    </Page>
-  ))
+          <Main>
+            <p style={{ paddingLeft: 20 }}>This is the main content.</p>
+          </Main>
+        </Page>
+      </GenericStoreProvider>
+    )
+  })
