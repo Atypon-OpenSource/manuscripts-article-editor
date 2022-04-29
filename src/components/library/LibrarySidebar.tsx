@@ -57,7 +57,7 @@ const ListTitle = styled.div`
 const SectionLink = styled.button`
   background: transparent;
   cursor: pointer;
-  width: 100%:
+  width: 100%;
   text-align: left;
   border-right: none;
   font-size: inherit;

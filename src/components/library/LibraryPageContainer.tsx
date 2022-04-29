@@ -14,30 +14,12 @@ import { matchLibraryItemByIdentifier } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useState } from 'react'
-import {
-  Redirect,
-  Route,
-  RouteComponentProps,
-  Switch,
-  useHistory,
-} from 'react-router'
 import { useStore } from '../../store'
 import { useDebounce } from '../../hooks/use-debounce'
 import { ExternalSearch } from './ExternalSearch'
 import { GlobalLibrary } from './GlobalLibrary'
 import { LibrarySidebar } from './LibrarySidebar'
 import { ProjectLibrary } from './ProjectLibrary'
-
-// export interface LibraryPageContainerProps {
-//   globalLibraries: Map<string, Library>
-//   globalLibraryCollections: Map<string, LibraryCollection>
-//   globalLibraryItems: Map<string, BibliographyItem>
-//   project: Project
-//   projectLibrary: Map<string, BibliographyItem>
-//   projectLibraryCollection: Collection<BibliographyItem>
-//   projectLibraryCollections: Map<string, LibraryCollection>
-//   user: UserProfile
-// }
 
 export const LibraryPageContainer: React.FC = () => {
   // const history = useHistory()

@@ -430,11 +430,11 @@ class RxDBDataBridge {
         })
         .$.subscribe(this.omniArrayHandler('containerInvitations')),
 
-      this.cc<Library>()
+      this.cc<Library>('user')
         .find({
           objectType: ObjectTypes.Library,
         })
-        .$.subscribe(this.omniMapHandler('globalLibraries')), // @TODO create channels on update and create a new db
+        .$.subscribe(this.omniMapHandler('globalLibraries')),
 
       this.cc<ContributorRole>()
         .find({

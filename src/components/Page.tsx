@@ -27,8 +27,6 @@ import { Chatbox } from './Chatbox'
 import MenuBar from './nav/MenuBar'
 import OfflineIndicator from './OfflineIndicator'
 import { Support } from './Support'
-import CollaboratorsPageContainer from './collaboration/CollaboratorsPageContainer'
-import { ProjectLibrary } from './library/ProjectLibrary'
 import LibraryPageContainer from './library/LibraryPageContainer'
 
 export const Main = styled.main`
@@ -79,6 +77,11 @@ const IconBar = styled.div`
 `
 
 const ViewLink = styled.button`
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
   align-items: center;
   color: ${(props) => props.theme.colors.button.secondary.color.default};
   display: flex;
@@ -183,20 +186,29 @@ export const Page: React.FunctionComponent = ({ children }) => {
 
           <IconBar>
             <Tip title={'Edit ⌥⌘3'} placement={'right'}>
-              <ViewLink onClick={() => setEnabled('')}>
+              <ViewLink
+                className={!enabled ? 'active' : ''}
+                onClick={() => setEnabled('')}
+              >
                 <StyledEditProjectIcon />
               </ViewLink>
             </Tip>
 
             <Tip title={'Library ⌥⌘4'} placement={'right'}>
-              <ViewLink onClick={() => setEnabled(LIBRARY)}>
+              <ViewLink
+                className={enabled === LIBRARY ? 'active' : ''}
+                onClick={() => setEnabled(LIBRARY)}
+              >
                 <ProjectLibraryIcon />
               </ViewLink>
             </Tip>
 
             {config.leanWorkflow.enabled || config.local || (
               <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
-                <ViewLink onClick={() => setEnabled(COLLABORATOR)}>
+                <ViewLink
+                  className={enabled === COLLABORATOR ? 'active' : ''}
+                  onClick={() => setEnabled(COLLABORATOR)}
+                >
                   <ProjectContributorsIcon />
                 </ViewLink>
               </Tip>
