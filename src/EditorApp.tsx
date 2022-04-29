@@ -15,6 +15,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { NotificationProvider } from './components/NotificationProvider'
+import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import CouchSource from './couch-data/CouchSource'
@@ -75,9 +76,11 @@ const EditorApp: React.FC<Props> = ({
     <GenericStoreProvider store={store}>
       <Router>
         <NotificationProvider>
-          <Wrapper>
-            <ManuscriptPageContainer />
-          </Wrapper>
+          <Page>
+            <Wrapper>
+              <ManuscriptPageContainer />
+            </Wrapper>
+          </Page>
         </NotificationProvider>
       </Router>
     </GenericStoreProvider>

@@ -13,13 +13,12 @@
 import { estimateID } from '@manuscripts/library'
 import { crossref } from '@manuscripts/manuscript-editor'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
-import { BibliographyItem, Library } from '@manuscripts/manuscripts-json-schema'
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { filterLibrary } from '../../lib/search-library'
-import { Collection } from '../../sync/Collection'
+import { useStore } from '../../store'
 import { Main } from '../Page'
 import Search, { SearchWrapper } from '../Search'
 import { SearchResults } from './SearchResults'
@@ -28,30 +27,14 @@ const Container = styled.div`
   flex: 1;
 `
 
-export const GlobalLibrary: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    sourceID: string
-    filterID?: string
-  }> & {
-    debouncedQuery?: string
-    globalLibrary?: Library
-    globalLibraryItems: Map<string, BibliographyItem>
-    projectLibrary: Map<string, BibliographyItem>
-    projectLibraryCollection: Collection<BibliographyItem>
-    query?: string
-    setQuery: (query: string) => void
-  }
-> = React.memo(
-  ({
-    debouncedQuery,
-    match,
-    globalLibraryItems,
-    projectLibrary,
-    projectLibraryCollection,
-    query,
-    setQuery,
-  }) => {
+export const GlobalLibrary: React.FC<{
+  debouncedQuery?: string
+  globalLibraryItems: Map<string, BibliographyItem>
+  projectLibrary: Map<string, BibliographyItem>
+  query?: string
+  setQuery: (query: string) => void
+}> = React.memo(
+  ({ debouncedQuery, globalLibraryItems, projectLibrary, query, setQuery }) => {
     const [error, setError] = useState<string>()
     const [fetching, setFetching] = useState<Set<string>>(new Set())
     const [selected, setSelected] = useState<Map<string, BibliographyItem>>()
@@ -60,7 +43,13 @@ export const GlobalLibrary: React.FC<
       total: number
     }>()
 
-    const { projectID, filterID, sourceID } = match.params
+    const [filterID] = useStore<string>((store) => store.filterID || '')
+    const [sourceID] = useStore<string>((store) => store.sourceID || '')
+
+    const [{ projectID, saveBiblioItem }] = useStore((store) => ({
+      projectID: store.projectID,
+      saveBiblioItem: store.saveBiblioItem,
+    }))
 
     useEffect(() => {
       filterLibrary(
@@ -80,11 +69,8 @@ export const GlobalLibrary: React.FC<
     }, [filterID, globalLibraryItems, debouncedQuery, sourceID])
 
     const handleAdd = useCallback(
-      (item: Build<BibliographyItem>) =>
-        projectLibraryCollection.create(item, {
-          containerID: projectID,
-        }),
-      [projectID, projectLibraryCollection]
+      (item: Build<BibliographyItem>) => saveBiblioItem(item, projectID),
+      [projectID, saveBiblioItem]
     )
 
     const handleQueryChange = useCallback(

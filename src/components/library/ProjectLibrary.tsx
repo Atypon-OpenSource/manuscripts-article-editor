@@ -16,41 +16,28 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 
 import { filterLibrary } from '../../lib/search-library'
-import { Collection } from '../../sync/Collection'
+import { useStore } from '../../store'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
 
-export const ProjectLibrary: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    filterID?: string
-  }> & {
-    debouncedQuery?: string
-    projectLibraryCollections: Map<string, LibraryCollection>
-    projectLibraryCollectionsCollection: Collection<LibraryCollection>
-    projectLibrary: Map<string, BibliographyItem>
-    projectLibraryCollection: Collection<BibliographyItem>
-    query?: string
-    setQuery: (query: string) => void
-    selectedItem?: BibliographyItem
-    setSelectedItem: (item?: BibliographyItem) => void
-    user: UserProfile
-  }
-> = React.memo(
+export const ProjectLibrary: React.FC<{
+  debouncedQuery?: string
+  projectLibraryCollections: Map<string, LibraryCollection>
+  projectLibrary: Map<string, BibliographyItem>
+  query?: string
+  setQuery: (query: string) => void
+  selectedItem?: BibliographyItem
+  setSelectedItem: (item?: BibliographyItem) => void
+  user: UserProfile
+}> = React.memo(
   ({
-    match: {
-      params: { projectID, filterID },
-    },
     projectLibraryCollections,
-    projectLibraryCollectionsCollection,
     projectLibrary,
-    projectLibraryCollection,
     user,
     query,
     setQuery,
@@ -58,6 +45,12 @@ export const ProjectLibrary: React.FC<
     setSelectedItem,
   }) => {
     const [filteredItems, setFilteredItems] = useState<BibliographyItem[]>([])
+    const [{ updateBiblioItem, deleteBiblioItem }] = useStore((store) => ({
+      deleteBiblioItem: store.deleteBiblioItem,
+      updateBiblioItem: store.updateBiblioItem,
+    }))
+
+    const [filterID] = useStore<string>((store) => store.libraryFilterID || '')
 
     useEffect(() => {
       filterLibrary(
@@ -84,11 +77,11 @@ export const ProjectLibrary: React.FC<
           item.issued = undefined
         }
 
-        return projectLibraryCollection.update(item._id, item).then(() => {
+        return updateBiblioItem(item).then(() => {
           setSelectedItem(undefined)
         })
       },
-      [projectLibraryCollection, setSelectedItem]
+      [updateBiblioItem, setSelectedItem]
     )
 
     const handleDelete = useCallback(
@@ -97,8 +90,7 @@ export const ProjectLibrary: React.FC<
           return Promise.resolve(false)
         }
 
-        return projectLibraryCollection
-          .delete(item._id)
+        return deleteBiblioItem(item)
           .then(() => {
             // this.setState({
             //   item: null,
@@ -110,7 +102,7 @@ export const ProjectLibrary: React.FC<
             return item._id
           })
       },
-      [projectLibraryCollection, setSelectedItem]
+      [deleteBiblioItem, setSelectedItem]
     )
 
     return (
@@ -141,11 +133,6 @@ export const ProjectLibrary: React.FC<
               item={selectedItem}
               handleSave={handleSave}
               handleDelete={handleDelete}
-              projectID={projectID}
-              projectLibraryCollections={projectLibraryCollections}
-              projectLibraryCollectionsCollection={
-                projectLibraryCollectionsCollection
-              }
               user={user}
             />
           )}

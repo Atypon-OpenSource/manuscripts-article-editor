@@ -14,184 +14,170 @@ import { estimateID } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 
 import config from '../../config'
 import { LibrarySource, sources } from '../../lib/sources'
-import { Collection } from '../../sync/Collection'
+import { useStore } from '../../store'
 import { Main } from '../Page'
 import Search, { SearchWrapper } from '../Search'
 import { SearchResults } from './SearchResults'
 
-export const ExternalSearch: React.FC<
-  RouteComponentProps<{
-    projectID: string
-    sourceID?: string
-  }> & {
-    projectLibrary: Map<string, BibliographyItem>
-    projectLibraryCollection: Collection<BibliographyItem>
-    debouncedQuery?: string
-    query?: string
-    setQuery: (query: string) => void
-  }
-> = React.memo(
-  ({
-    debouncedQuery,
-    match: {
-      params: { projectID, sourceID },
-    },
-    projectLibrary,
-    projectLibraryCollection,
-    query,
-    setQuery,
-  }) => {
-    const [error, setError] = useState<string>()
-    const [searching, setSearching] = useState(false)
-    const [fetching, setFetching] = useState(new Set<string>())
-    const [selected, setSelected] = useState<Map<string, BibliographyItem>>()
-    const [results, setResults] = useState<{
-      items: Array<Build<BibliographyItem>>
-      total: number
-    }>()
-    const [source, setSource] = useState<LibrarySource>()
+export const ExternalSearch: React.FC<{
+  projectLibrary: Map<string, BibliographyItem>
+  debouncedQuery?: string
+  query?: string
+  setQuery: (query: string) => void
+}> = React.memo(({ debouncedQuery, projectLibrary, query, setQuery }) => {
+  const [{ projectID, saveBiblioItem }] = useStore((store) => ({
+    projectID: store.projectID,
+    saveBiblioItem: store.saveBiblioItem,
+  }))
+  const [sourceID] = useStore<string | undefined>(
+    (store) => store.librarySourceID
+  )
+  const [error, setError] = useState<string>()
+  const [searching, setSearching] = useState(false)
+  const [fetching, setFetching] = useState(new Set<string>())
+  const [selected, setSelected] = useState<Map<string, BibliographyItem>>()
+  const [results, setResults] = useState<{
+    items: Array<Build<BibliographyItem>>
+    total: number
+  }>()
+  const [source, setSource] = useState<LibrarySource>()
 
-    useEffect(() => {
-      const source = sources.find((item) => item.id === sourceID)
-      setSource(source)
-    }, [sourceID])
+  useEffect(() => {
+    const source = sources.find((item) => item.id === sourceID)
+    setSource(source)
+  }, [sourceID])
 
-    useEffect(() => {
-      const selected = new Map<string, BibliographyItem>()
+  useEffect(() => {
+    const selected = new Map<string, BibliographyItem>()
 
-      for (const item of projectLibrary.values()) {
-        selected.set(estimateID(item), item)
-      }
+    for (const item of projectLibrary.values()) {
+      selected.set(estimateID(item), item)
+    }
 
-      setSelected(selected)
-    }, [projectLibrary])
+    setSelected(selected)
+  }, [projectLibrary])
 
-    useEffect(() => {
-      setError(undefined)
-      setResults(undefined)
-      setSearching(Boolean(query))
-    }, [query, sourceID])
+  useEffect(() => {
+    setError(undefined)
+    setResults(undefined)
+    setSearching(Boolean(query))
+  }, [query, sourceID])
 
-    useEffect(() => {
-      if (source && debouncedQuery) {
-        source
-          .search(debouncedQuery, 20, config.support.email)
-          .then((result) => {
-            setResults(result)
-          })
-          .catch((error) => {
-            console.error(error)
-            setError('There was an error running this search')
-          })
-          .finally(() => {
-            setSearching(false)
-          })
-          .catch((error) => {
-            console.error(error)
-            setError('There was an error running this search')
-          })
-      }
-    }, [debouncedQuery, source])
-
-    const handleAdd = useCallback(
-      (item: Build<BibliographyItem>) =>
-        projectLibraryCollection.create(item, {
-          containerID: projectID,
-        }),
-      [projectID, projectLibraryCollection]
-    )
-
-    const handleSelect = useCallback(
-      (id: string, item: Build<BibliographyItem>) => {
-        if (!source) {
-          throw new Error('No source defined')
-        }
-
-        if (!selected) {
-          throw new Error('Selected map not built')
-        }
-
-        const estimatedID = estimateID(item as Partial<BibliographyItem>)
-
-        if (selected.has(estimatedID)) {
-          return // already added
-        }
-
-        setFetching((fetching) => {
-          fetching.add(estimatedID)
-          return new Set<string>([...fetching])
+  useEffect(() => {
+    if (source && debouncedQuery) {
+      source
+        .search(debouncedQuery, 20, config.support.email)
+        .then((result) => {
+          setResults(result)
         })
-
-        source
-          .fetch(item as Partial<BibliographyItem>, config.support.email)
-          .then((data) => {
-            const item = buildBibliographyItem(data)
-
-            return handleAdd(item)
-          })
-          .then(() => {
-            window.setTimeout(() => {
-              setFetching((fetching) => {
-                fetching.delete(estimatedID)
-                return new Set<string>([...fetching])
-              })
-            }, 100)
-          })
-          .catch((error: Error) => {
-            console.error('failed to add', error)
-            setError('There was an error saving this item to the library')
-          })
-      },
-      [handleAdd, selected, source]
-    )
-
-    const handleQueryChange = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        setQuery(event.target.value)
-      },
-      [setQuery]
-    )
-
-    if (!source) {
-      return null
+        .catch((error) => {
+          console.error(error)
+          setError('There was an error running this search')
+        })
+        .finally(() => {
+          setSearching(false)
+        })
+        .catch((error) => {
+          console.error(error)
+          setError('There was an error running this search')
+        })
     }
+  }, [debouncedQuery, source])
 
-    if (!selected) {
-      return null
-    }
+  const handleAdd = useCallback(
+    (item: Build<BibliographyItem>) => saveBiblioItem(item, projectID),
+    [projectID, saveBiblioItem]
+  )
 
-    return (
-      <Main>
-        <Container>
-          <SearchWrapper>
-            <Search
-              autoComplete={'off'}
-              autoFocus={true}
-              handleSearchChange={handleQueryChange}
-              placeholder={`Search ${source.name}`}
-              type={'search'}
-              value={query || ''}
-            />
-          </SearchWrapper>
+  const handleSelect = useCallback(
+    (id: string, item: Build<BibliographyItem>) => {
+      if (!source) {
+        throw new Error('No source defined')
+      }
 
-          <SearchResults
-            error={error}
-            fetching={fetching}
-            handleSelect={handleSelect}
-            results={results}
-            searching={searching}
-            selected={selected}
-          />
-        </Container>
-      </Main>
-    )
+      if (!selected) {
+        throw new Error('Selected map not built')
+      }
+
+      const estimatedID = estimateID(item as Partial<BibliographyItem>)
+
+      if (selected.has(estimatedID)) {
+        return // already added
+      }
+
+      setFetching((fetching) => {
+        fetching.add(estimatedID)
+        return new Set<string>([...fetching])
+      })
+
+      source
+        .fetch(item as Partial<BibliographyItem>, config.support.email)
+        .then((data) => {
+          const item = buildBibliographyItem(data)
+
+          return handleAdd(item)
+        })
+        .then(() => {
+          window.setTimeout(() => {
+            setFetching((fetching) => {
+              fetching.delete(estimatedID)
+              return new Set<string>([...fetching])
+            })
+          }, 100)
+        })
+        .catch((error: Error) => {
+          console.error('failed to add', error)
+          setError('There was an error saving this item to the library')
+        })
+    },
+    [handleAdd, selected, source]
+  )
+
+  const handleQueryChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.target.value)
+    },
+    [setQuery]
+  )
+
+  if (!source) {
+    return null
   }
-)
+
+  if (!selected) {
+    return null
+  }
+
+  return (
+    <Main>
+      <Container>
+        <SearchWrapper>
+          <Search
+            autoComplete={'off'}
+            autoFocus={true}
+            handleSearchChange={handleQueryChange}
+            placeholder={`Search ${source.name}`}
+            type={'search'}
+            value={query || ''}
+          />
+        </SearchWrapper>
+
+        <SearchResults
+          error={error}
+          fetching={fetching}
+          handleSelect={handleSelect}
+          results={results}
+          searching={searching}
+          selected={selected}
+        />
+      </Container>
+    </Main>
+  )
+})
 
 const Container = styled.div`
   flex: 1;

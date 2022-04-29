@@ -92,6 +92,8 @@ class RxDBDataBridge {
     this.userProfileID = userData?.userProfileID // needs to be acquired from the token if no token - get user id provided from props (maybe)
     this.manuscriptID = props.manuscriptID
     this.db = props.db
+
+    this.setState({ tokenData: this.tokenData })
   }
 
   async initCollection(collection: string, channels?: string[]) {
@@ -428,11 +430,11 @@ class RxDBDataBridge {
         })
         .$.subscribe(this.omniArrayHandler('containerInvitations')),
 
-      this.cc<Library>()
+      this.cc<Library>('user')
         .find({
           objectType: ObjectTypes.Library,
         })
-        .$.subscribe(this.omniMapHandler('globalLibraries')), // @TODO create channels on update and create a new db
+        .$.subscribe(this.omniMapHandler('globalLibraries')),
 
       this.cc<ContributorRole>()
         .find({

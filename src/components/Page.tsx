@@ -18,18 +18,17 @@ import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Tip } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 import config from '../config'
 import { titleText } from '../lib/title'
-import { TokenActions } from '../store'
+import { useStore } from '../store'
 import { Chatbox } from './Chatbox'
+import LibraryPageContainer from './library/LibraryPageContainer'
 import MenuBar from './nav/MenuBar'
 import OfflineIndicator from './OfflineIndicator'
-import ProjectNavigator from './ProjectNavigator'
 import { Support } from './Support'
 
 export const Main = styled.main`
@@ -50,6 +49,7 @@ const PageContainer = styled.div`
   display: flex;
   height: calc(100vh - 1px); /* allow 1px for the top border */
   box-sizing: border-box;
+  width: 100%;
   color: ${(props) => props.theme.colors.text.primary};
   font-family: ${(props) => props.theme.font.family.sans};
   // border-top: 1px solid ${(props) => props.theme.colors.background.info};
@@ -78,7 +78,12 @@ const IconBar = styled.div`
   }
 `
 
-const ViewLink = styled(NavLink)`
+const ViewLink = styled.button`
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
   align-items: center;
   color: ${(props) => props.theme.colors.button.secondary.color.default};
   display: flex;
@@ -121,83 +126,109 @@ const ProjectContributorsIcon = styled(ContributorsIcon)`
     stroke: currentColor;
   }
 `
+const COLLABORATOR = 'COLLABORATOR'
+const LIBRARY = 'LIBRARY'
 
-interface Props {
-  project?: Project
-  tokenActions?: TokenActions
-}
-
-export const Page: React.FunctionComponent<Props> = ({
+export const Page: React.FunctionComponent<{ project?: Project }> = ({
   children,
-  project,
-  tokenActions,
-}) => (
-  <PageContainer>
-    <Helmet>
-      {project ? (
-        <title>
-          Manuscripts.io:{' '}
-          {project.title ? titleText(project.title) : 'Untitled Project'}
-        </title>
-      ) : (
-        <title>Manuscripts.io</title>
-      )}
-    </Helmet>
+  project: directProject,
+}) => {
+  const [{ storeProject, tokenData }] = useStore((store) => ({
+    storeProject: store.project,
+    tokenData: store.tokenData,
+  }))
 
-    {project && (
-      <ViewsBar>
-        <ProjectNavigator />
+  const [enabled, setEnabled] = useState('')
 
-        {config.leanWorkflow.enabled || config.native || (
-          <>
-            <MenuBar tokenActions={tokenActions!}>
-              <Tip title={'Home'} placement={'right'}>
-                <OfflineIndicator>
-                  <AppIcon width={34} height={34} />
-                </OfflineIndicator>
-              </Tip>
-            </MenuBar>
+  if (!tokenData) {
+    return null
+  }
 
-            <ViewsSeparator />
-          </>
+  const tokenActions = tokenData.getTokenActions()
+
+  const selectContent = (enabled: string, children: React.ReactNode) => {
+    switch (enabled) {
+      // case COLLABORATOR:
+      //   return <CollaboratorsPageContainer />
+      //   break
+      case LIBRARY:
+        return <LibraryPageContainer />
+      default:
+        return children
+    }
+  }
+
+  const project = directProject || storeProject
+
+  return (
+    <PageContainer>
+      <Helmet>
+        {project ? (
+          <title>
+            Manuscripts.io:{' '}
+            {project.title ? titleText(project.title) : 'Untitled Project'}
+          </title>
+        ) : (
+          <title>Manuscripts.io</title>
         )}
+      </Helmet>
 
-        <IconBar>
-          <Tip title={'Edit ⌥⌘3'} placement={'right'}>
-            <ViewLink
-              to={`/projects/${project._id}`}
-              isActive={(match, location) =>
-                /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
-              }
-            >
-              <StyledEditProjectIcon />
-            </ViewLink>
-          </Tip>
+      {project && (
+        <ViewsBar>
+          {/* <ProjectNavigator /> */}
 
-          <Tip title={'Library ⌥⌘4'} placement={'right'}>
-            <ViewLink to={`/projects/${project._id}/library`}>
-              <ProjectLibraryIcon />
-            </ViewLink>
-          </Tip>
+          {config.leanWorkflow.enabled || config.native || (
+            <>
+              <MenuBar tokenActions={tokenActions!}>
+                <Tip title={'Home'} placement={'right'}>
+                  <OfflineIndicator>
+                    <AppIcon width={34} height={34} />
+                  </OfflineIndicator>
+                </Tip>
+              </MenuBar>
 
-          {config.leanWorkflow.enabled || config.local || (
-            <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
+              <ViewsSeparator />
+            </>
+          )}
+
+          <IconBar>
+            <Tip title={'Edit ⌥⌘3'} placement={'right'}>
               <ViewLink
-                to={`/projects/${project._id}/collaborators`}
-                exact={true}
+                className={!enabled ? 'active' : ''}
+                onClick={() => setEnabled('')}
               >
-                <ProjectContributorsIcon data-cy={'collaborators'} />
+                <StyledEditProjectIcon />
               </ViewLink>
             </Tip>
-          )}
-        </IconBar>
 
-        <Support />
-      </ViewsBar>
-    )}
+            <Tip title={'Library ⌥⌘4'} placement={'right'}>
+              <ViewLink
+                className={enabled === LIBRARY ? 'active' : ''}
+                onClick={() => setEnabled(LIBRARY)}
+              >
+                <ProjectLibraryIcon />
+              </ViewLink>
+            </Tip>
 
-    {config.crisp.id && <Chatbox />}
+            {config.leanWorkflow.enabled || config.local || (
+              <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
+                <ViewLink
+                  className={enabled === COLLABORATOR ? 'active' : ''}
+                  onClick={() => setEnabled(COLLABORATOR)}
+                >
+                  <ProjectContributorsIcon />
+                </ViewLink>
+              </Tip>
+            )}
+          </IconBar>
 
-    {children}
-  </PageContainer>
-)
+          <Support />
+        </ViewsBar>
+      )}
+
+      {config.crisp.id && <Chatbox />}
+
+      {selectContent(enabled, children)}
+    </PageContainer>
+  )
+}

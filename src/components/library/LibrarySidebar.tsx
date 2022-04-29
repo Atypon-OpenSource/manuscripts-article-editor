@@ -19,10 +19,10 @@ import {
   LibraryCollection,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { NavLink, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { sources } from '../../lib/sources'
+import { useStore } from '../../store'
 import { AddButton } from '../AddButton'
 import PageSidebar from '../PageSidebar'
 import { SidebarHeader } from '../Sidebar'
@@ -54,7 +54,14 @@ const ListTitle = styled.div`
   flex: 1;
 `
 
-const SectionLink = styled(NavLink)`
+const SectionLink = styled.button`
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border-right: none;
+  font-size: inherit;
+  font-family: inherit;
   align-items: center;
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
@@ -106,11 +113,6 @@ export const LibrarySidebar: React.FC<{
   importItems,
   createBibliographyItem,
 }) => {
-  const { projectID, sourceID, sourceType } = useParams<{
-    projectID: string
-    sourceType: string
-    sourceID?: string
-  }>()
   const globalLibrariesArray = Array.from(globalLibraries.values())
   const globalLibraryCollectionsArray = Array.from(
     globalLibraryCollections.values()
@@ -118,6 +120,11 @@ export const LibrarySidebar: React.FC<{
   const projectLibraryCollectionsArray = Array.from(
     projectLibraryCollections.values()
   )
+
+  const [, dispatch] = useStore()
+  const [projectID] = useStore<string>((store) => store.libraryProjectID)
+  const [sourceID] = useStore<string>((store) => store.librarySourceID)
+  const [sourceType] = useStore<string>((store) => store.sourceType || '')
 
   globalLibraryCollectionsArray.sort(sortByCategoryPriority)
 
@@ -151,7 +158,13 @@ export const LibrarySidebar: React.FC<{
       <Section
         title={'Project Library'}
         open={sourceType === 'project'}
-        location={`/projects/${projectID}/library/project`}
+        onClick={() => {
+          dispatch({
+            libraryProjectID: projectID,
+            libraryFilterID: '',
+            sourceType: 'project',
+          })
+        }}
       >
         {projectLibraryCollectionsArray.map((projectLibraryCollection) => {
           // TODO: count items with this LibraryCollection and only show LibraryCollections with items
@@ -159,7 +172,13 @@ export const LibrarySidebar: React.FC<{
           return (
             <SectionLink
               key={projectLibraryCollection._id}
-              to={`/projects/${projectID}/library/project/${projectLibraryCollection._id}`}
+              onClick={() => {
+                dispatch({
+                  libraryProjectID: projectID,
+                  libraryFilterID: projectLibraryCollection._id,
+                  sourceType: 'project',
+                })
+              }}
             >
               {projectLibraryCollection.name || 'Untitled List'}
             </SectionLink>
@@ -197,12 +216,26 @@ export const LibrarySidebar: React.FC<{
               sourceID === globalLibrary._id &&
               nonDefaultLibraryCollections.length > 0
             }
-            location={`/projects/${projectID}/library/global/${globalLibrary._id}${defaultFilter}`}
+            onClick={() => {
+              dispatch({
+                libraryProjectID: projectID,
+                librarySourceID: globalLibrary._id,
+                libraryFilterID: defaultFilter,
+                sourceType: 'global',
+              })
+            }}
           >
             {nonDefaultLibraryCollections.map((libraryCollection) => (
               <SectionLink
                 key={libraryCollection._id}
-                to={`/projects/${projectID}/library/global/${globalLibrary._id}/${libraryCollection._id}`}
+                onClick={() => {
+                  dispatch({
+                    libraryProjectID: projectID,
+                    librarySourceID: globalLibrary._id,
+                    libraryFilterID: libraryCollection._id,
+                    sourceType: 'global',
+                  })
+                }}
               >
                 <SectionIcon>
                   {sidebarIcon(libraryCollection.category)}
@@ -219,12 +252,24 @@ export const LibrarySidebar: React.FC<{
       <Section
         title={'Search Online'}
         open={sourceType === 'search'}
-        location={`/projects/${projectID}/library/search`}
+        onClick={() => {
+          dispatch({
+            libraryProjectID: projectID,
+            librarySourceID: 'crossref',
+            sourceType: 'search',
+          })
+        }}
       >
         {sources.map((source) => (
           <SectionLink
             key={source.id}
-            to={`/projects/${projectID}/library/search/${source.id}`}
+            onClick={() => {
+              dispatch({
+                libraryProjectID: projectID,
+                librarySourceID: source.id,
+                sourceType: 'search',
+              })
+            }}
           >
             {source.name}
           </SectionLink>
@@ -234,8 +279,6 @@ export const LibrarySidebar: React.FC<{
   )
 }
 
-export const LibrarySidebarWithRouter = LibrarySidebar
-
 const ImportButton: React.FC<{
   importItems: () => void
 }> = ({ importItems }) => (
@@ -244,11 +287,11 @@ const ImportButton: React.FC<{
 
 const Section: React.FC<{
   open: boolean
-  location: string
+  onClick: () => void
   title: string
-}> = ({ children, open, location, title }) => (
+}> = ({ children, open, onClick, title }) => (
   <SectionContainer>
-    <SectionTitleLink to={location} exact={true}>
+    <SectionTitleLink onClick={onClick} className={open ? 'active' : ''}>
       {open ? <TriangleExpanded /> : <TriangleCollapsed />}
       <SectionTitle>{title}</SectionTitle>
     </SectionTitleLink>
