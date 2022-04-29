@@ -16,6 +16,7 @@ import AppIcon from '@manuscripts/assets/react/AppIcon'
 import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
+import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Tip } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -128,9 +129,12 @@ const ProjectContributorsIcon = styled(ContributorsIcon)`
 const COLLABORATOR = 'COLLABORATOR'
 const LIBRARY = 'LIBRARY'
 
-export const Page: React.FunctionComponent = ({ children }) => {
-  const [{ project, tokenData }] = useStore((store) => ({
-    project: store.project,
+export const Page: React.FunctionComponent<{ project?: Project }> = ({
+  children,
+  project: directProject,
+}) => {
+  const [{ storeProject, tokenData }] = useStore((store) => ({
+    storeProject: store.project,
     tokenData: store.tokenData,
   }))
 
@@ -153,6 +157,8 @@ export const Page: React.FunctionComponent = ({ children }) => {
         return children
     }
   }
+
+  const project = directProject || storeProject
 
   return (
     <PageContainer>
