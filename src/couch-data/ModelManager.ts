@@ -20,8 +20,10 @@ import {
   ModelAttachment,
 } from '@manuscripts/manuscript-transform'
 import {
+  BibliographyItem,
   Bundle,
   Correction,
+  LibraryCollection,
   Manuscript,
   Model,
   ObjectTypes,
@@ -96,6 +98,15 @@ export default class ModelManager implements ManuscriptModels {
     )
   }
 
+  createProjectLibraryCollection = async (
+    libraryCollection: Build<LibraryCollection>,
+    projectID?: string
+  ) => {
+    await this.collection.create(libraryCollection, {
+      containerID: projectID,
+    })
+  }
+
   getTools = async () => {
     const latestSnaphot = this.snapshots.length ? this.snapshots[0] : null
 
@@ -116,6 +127,10 @@ export default class ModelManager implements ManuscriptModels {
         getModel: this.getModel,
         saveCommit: this.saveCommit,
         saveCorrection: this.saveCorrection,
+        createProjectLibraryCollection: this.createProjectLibraryCollection,
+        saveBiblioItem: this.saveBiblioItem,
+        deleteBiblioItem: this.deleteBiblioItem,
+        updateBiblioItem: this.updateBiblioItem,
       }
     }
 
@@ -164,7 +179,25 @@ export default class ModelManager implements ManuscriptModels {
       getModel: this.getModel,
       saveCommit: this.saveCommit,
       saveCorrection: this.saveCorrection,
+      createProjectLibraryCollection: this.createProjectLibraryCollection,
+      saveBiblioItem: this.saveBiblioItem,
+      deleteBiblioItem: this.deleteBiblioItem,
+      updateBiblioItem: this.updateBiblioItem,
     }
+  }
+
+  saveBiblioItem = async (item: Build<BibliographyItem>, projectID: string) => {
+    return await this.collection.create(item, {
+      containerID: projectID,
+    })
+  }
+
+  updateBiblioItem = (item: BibliographyItem) => {
+    return this.collection.update(item._id, item)
+  }
+
+  deleteBiblioItem = (item: BibliographyItem) => {
+    return this.collection.delete(item._id)
   }
 
   saveCorrection = (correction: Correction) => {

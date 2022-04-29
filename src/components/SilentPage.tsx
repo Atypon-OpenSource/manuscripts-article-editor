@@ -17,19 +17,19 @@ import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Tip } from '@manuscripts/style-guide'
-import React, { useState } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+
 import config from '../config'
 import { titleText } from '../lib/title'
 import { useStore } from '../store'
 import { Chatbox } from './Chatbox'
 import MenuBar from './nav/MenuBar'
 import OfflineIndicator from './OfflineIndicator'
+import ProjectNavigator from './ProjectNavigator'
 import { Support } from './Support'
-import CollaboratorsPageContainer from './collaboration/CollaboratorsPageContainer'
-import { ProjectLibrary } from './library/ProjectLibrary'
-import LibraryPageContainer from './library/LibraryPageContainer'
 
 export const Main = styled.main`
   height: 100%;
@@ -78,7 +78,7 @@ const IconBar = styled.div`
   }
 `
 
-const ViewLink = styled.button`
+const ViewLink = styled(NavLink)`
   align-items: center;
   color: ${(props) => props.theme.colors.button.secondary.color.default};
   display: flex;
@@ -121,8 +121,6 @@ const ProjectContributorsIcon = styled(ContributorsIcon)`
     stroke: currentColor;
   }
 `
-const COLLABORATOR = 'COLLABORATOR'
-const LIBRARY = 'LIBRARY'
 
 export const Page: React.FunctionComponent = ({ children }) => {
   const [{ project, tokenData }] = useStore((store) => ({
@@ -130,25 +128,12 @@ export const Page: React.FunctionComponent = ({ children }) => {
     tokenData: store.tokenData,
   }))
 
-  const [enabled, setEnabled] = useState('')
-
+  console.log(tokenData)
   if (!tokenData) {
     return null
   }
 
   const tokenActions = tokenData.getTokenActions()
-
-  const selectContent = (enabled: string, children: React.ReactNode) => {
-    switch (enabled) {
-      // case COLLABORATOR:
-      //   return <CollaboratorsPageContainer />
-      //   break
-      case LIBRARY:
-        return <LibraryPageContainer />
-      default:
-        return children
-    }
-  }
 
   return (
     <PageContainer>
@@ -183,21 +168,29 @@ export const Page: React.FunctionComponent = ({ children }) => {
 
           <IconBar>
             <Tip title={'Edit ⌥⌘3'} placement={'right'}>
-              <ViewLink onClick={() => setEnabled('')}>
+              <ViewLink
+                to={`/projects/${project._id}`}
+                isActive={(match, location) =>
+                  /^\/projects\/.+?\/manuscripts\/.+/.test(location.pathname)
+                }
+              >
                 <StyledEditProjectIcon />
               </ViewLink>
             </Tip>
 
             <Tip title={'Library ⌥⌘4'} placement={'right'}>
-              <ViewLink onClick={() => setEnabled(LIBRARY)}>
+              <ViewLink to={`/projects/${project._id}/library`}>
                 <ProjectLibraryIcon />
               </ViewLink>
             </Tip>
 
             {config.leanWorkflow.enabled || config.local || (
               <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
-                <ViewLink onClick={() => setEnabled(COLLABORATOR)}>
-                  <ProjectContributorsIcon />
+                <ViewLink
+                  to={`/projects/${project._id}/collaborators`}
+                  exact={true}
+                >
+                  <ProjectContributorsIcon data-cy={'collaborators'} />
                 </ViewLink>
               </Tip>
             )}
@@ -209,7 +202,7 @@ export const Page: React.FunctionComponent = ({ children }) => {
 
       {config.crisp.id && <Chatbox />}
 
-      {selectContent(enabled, children)}
+      {children}
     </PageContainer>
   )
 }

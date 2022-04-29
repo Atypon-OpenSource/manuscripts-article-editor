@@ -92,6 +92,8 @@ class RxDBDataBridge {
     this.userProfileID = userData?.userProfileID // needs to be acquired from the token if no token - get user id provided from props (maybe)
     this.manuscriptID = props.manuscriptID
     this.db = props.db
+
+    this.setState({ tokenData: this.tokenData })
   }
 
   async initCollection(collection: string, channels?: string[]) {

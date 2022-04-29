@@ -36,10 +36,10 @@ import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { OptionsType } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
+import { useStore } from '../../store'
 import styled from 'styled-components'
 
 import { selectStyles } from '../../lib/select-styles'
-import { Collection } from '../../sync/Collection'
 import { SelectField } from '../SelectField'
 
 const LabelContainer = styled.div`
@@ -385,19 +385,9 @@ const LibraryForm: React.FC<{
   item: BibliographyItem
   handleDelete?: (item: BibliographyItem) => void
   handleSave: (item: BibliographyItem) => void
-  projectID: string
-  projectLibraryCollections: Map<string, LibraryCollection>
-  projectLibraryCollectionsCollection: Collection<LibraryCollection>
+  // projectLibraryCollectionsCollection: Collection<LibraryCollection>
   user: UserProfile
-}> = ({
-  item,
-  handleSave,
-  handleDelete,
-  projectID,
-  projectLibraryCollections,
-  projectLibraryCollectionsCollection,
-  user,
-}) => {
+}> = ({ item, handleSave, handleDelete, user }) => {
   const formRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -405,6 +395,14 @@ const LibraryForm: React.FC<{
       formRef.current.scrollTop = 0
     }
   }, [item])
+
+  const [
+    { createProjectLibraryCollection, projectLibraryCollections, projectID },
+  ] = useStore((store) => ({
+    createProjectLibraryCollection: store.createProjectLibraryCollection,
+    projectLibraryCollections: store.projectLibraryCollections,
+    projectID: store.projectID,
+  }))
 
   return (
     <Formik<LibraryFormValues>
@@ -660,12 +658,17 @@ const LibraryForm: React.FC<{
                               String(option.label)
                             )
 
-                            await projectLibraryCollectionsCollection.create(
+                            // @REPLACE-WITH createProjectLibraryCollection(libraryCollection, projectID?)
+                            await createProjectLibraryCollection(
                               libraryCollection,
-                              {
-                                containerID: projectID,
-                              }
+                              projectID
                             )
+                            // await projectLibraryCollectionsCollection.create(
+                            //   libraryCollection,
+                            //   {
+                            //     containerID: projectID,
+                            //   }
+                            // )
 
                             return libraryCollection._id
                           })

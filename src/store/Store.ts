@@ -19,8 +19,11 @@ import {
   ModelAttachment,
 } from '@manuscripts/manuscript-transform'
 import {
+  BibliographyItem,
   CommentAnnotation,
   ContainerInvitation,
+  Library,
+  LibraryCollection,
   Manuscript,
   ManuscriptNote,
   ManuscriptTemplate,
@@ -125,6 +128,21 @@ export type state = {
     userTemplateModels: ManuscriptModel[]
   }>
   createUser: (profile: Build<UserProfile>) => Promise<void>
+  projectLibraryCollections: Map<string, LibraryCollection>
+  createProjectLibraryCollection: (
+    collection: Build<LibraryCollection>,
+    projectID: string
+  ) => Promise<void>
+  saveBiblioItem: (
+    item: Build<BibliographyItem>,
+    projectID: string
+  ) => Promise<BibliographyItem>
+  updateBiblioItem: (item: BibliographyItem) => Promise<any>
+  deleteBiblioItem: (item: BibliographyItem) => Promise<any>
+  globalLibraries: Map<string, Library>
+  globalLibraryCollections: Map<string, LibraryCollection>
+  globalLibraryItems: Map<string, BibliographyItem>
+  library: Map<string, BibliographyItem>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

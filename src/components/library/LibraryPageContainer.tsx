@@ -12,55 +12,61 @@
 
 import { matchLibraryItemByIdentifier } from '@manuscripts/library'
 import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
-import {
-  BibliographyItem,
-  Library,
-  LibraryCollection,
-  Project,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useState } from 'react'
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router'
-
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  Switch,
+  useHistory,
+} from 'react-router'
+import { useStore } from '../../store'
 import { useDebounce } from '../../hooks/use-debounce'
-import { Collection } from '../../sync/Collection'
 import { ExternalSearch } from './ExternalSearch'
 import { GlobalLibrary } from './GlobalLibrary'
-import { LibrarySidebarWithRouter } from './LibrarySidebar'
+import { LibrarySidebar } from './LibrarySidebar'
 import { ProjectLibrary } from './ProjectLibrary'
 
-export interface LibraryPageContainerProps {
-  globalLibraries: Map<string, Library>
-  globalLibraryCollections: Map<string, LibraryCollection>
-  globalLibraryItems: Map<string, BibliographyItem>
-  project: Project
-  projectLibrary: Map<string, BibliographyItem>
-  projectLibraryCollection: Collection<BibliographyItem>
-  projectLibraryCollections: Map<string, LibraryCollection>
-  projectLibraryCollectionsCollection: Collection<LibraryCollection>
-  user: UserProfile
-}
+// export interface LibraryPageContainerProps {
+//   globalLibraries: Map<string, Library>
+//   globalLibraryCollections: Map<string, LibraryCollection>
+//   globalLibraryItems: Map<string, BibliographyItem>
+//   project: Project
+//   projectLibrary: Map<string, BibliographyItem>
+//   projectLibraryCollection: Collection<BibliographyItem>
+//   projectLibraryCollections: Map<string, LibraryCollection>
+//   user: UserProfile
+// }
 
-export const LibraryPageContainer: React.FC<
-  RouteComponentProps<{
-    projectID: string
-  }> &
-    LibraryPageContainerProps
-> = ({
-  globalLibraries,
-  globalLibraryCollections,
-  globalLibraryItems,
-  history,
-  match: {
-    params: { projectID },
-  },
-  projectLibrary,
-  projectLibraryCollection,
-  projectLibraryCollections,
-  projectLibraryCollectionsCollection,
-  user,
-}) => {
+export const LibraryPageContainer: React.FC = () => {
+  // const history = useHistory()
+  const [
+    {
+      projectID,
+      user,
+      globalLibraries,
+      globalLibraryCollections,
+      globalLibraryItems,
+      projectLibrary,
+      saveBiblioItem,
+      projectLibraryCollections,
+    },
+  ] = useStore((store) => ({
+    projectID: store.projectID,
+    user: store.user,
+    globalLibraries: store.globalLibraries,
+    globalLibraryCollections: store.globalLibraryCollections,
+    globalLibraryItems: store.globalLibraryItems,
+    projectLibrary: store.library, // ???
+    saveBiblioItem: store.saveBiblioItem,
+    projectLibraryCollections: store.projectLibraryCollections,
+  }))
   const [selectedItem, setSelectedItem] = useState<BibliographyItem>() // TODO: item in route?
+
+  const [sourceType, dispatch] = useStore<string>(
+    (store) => store.sourceType || ''
+  )
 
   // TODO: should the query be part of the route?
   const [query, setQuery] = useState<string>()
@@ -80,9 +86,7 @@ export const LibraryPageContainer: React.FC<
         // add the item to the model map so it's definitely available
         projectLibrary.set(item._id, item as BibliographyItem)
         // save the new item
-        const newItem = await projectLibraryCollection.create(item, {
-          containerID: projectID,
-        })
+        const newItem = await saveBiblioItem(item, projectID)
         newItems.push(newItem)
       }
     }
@@ -92,109 +96,66 @@ export const LibraryPageContainer: React.FC<
 
   const createBibliographyItem = useCallback(() => {
     const item = buildBibliographyItem({})
-    projectLibraryCollection
-      .create(item, {
-        containerID: projectID,
-      })
+    saveBiblioItem(item, projectID)
       .then((item) => {
-        history.push(`/projects/${projectID}/library/project`)
+        dispatch({
+          sourceType: 'project',
+        })
         setSelectedItem(item)
       })
       .catch((error) => {
         console.error(error)
       })
-  }, [projectLibraryCollection, projectID, history])
+  }, [saveBiblioItem, projectID, dispatch])
+
+  const switchView = () => {
+    switch (sourceType) {
+      case 'global':
+        return (
+          <GlobalLibrary
+            globalLibraryItems={globalLibraryItems}
+            projectLibrary={projectLibrary}
+            query={query}
+            setQuery={setQuery}
+            debouncedQuery={debouncedQuery}
+          />
+        )
+      case 'search':
+        return (
+          <ExternalSearch
+            projectLibrary={projectLibrary}
+            query={query}
+            setQuery={setQuery}
+            debouncedQuery={debouncedQuery}
+          />
+        )
+      case 'project':
+      default:
+        return (
+          <ProjectLibrary
+            projectLibraryCollections={projectLibraryCollections}
+            projectLibrary={projectLibrary}
+            user={user}
+            query={query}
+            setQuery={setQuery}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+            debouncedQuery={debouncedQuery}
+          />
+        )
+    }
+  }
 
   return (
     <>
-      <LibrarySidebarWithRouter
+      <LibrarySidebar
         projectLibraryCollections={projectLibraryCollections}
         globalLibraries={globalLibraries}
         globalLibraryCollections={globalLibraryCollections}
         importItems={importItems}
         createBibliographyItem={createBibliographyItem}
       />
-
-      <Switch>
-        <Redirect
-          from={'/projects/:projectID/library'}
-          exact={true}
-          to={'/projects/:projectID/library/project'}
-        />
-
-        <Route
-          path={'/projects/:projectID/library/project/:filterID?'}
-          render={(
-            props: RouteComponentProps<{
-              projectID: string
-              filterID?: string
-            }>
-          ) => (
-            <ProjectLibrary
-              projectLibraryCollections={projectLibraryCollections}
-              projectLibraryCollectionsCollection={
-                projectLibraryCollectionsCollection
-              }
-              projectLibrary={projectLibrary}
-              projectLibraryCollection={projectLibraryCollection}
-              user={user}
-              query={query}
-              setQuery={setQuery}
-              selectedItem={selectedItem}
-              setSelectedItem={setSelectedItem}
-              debouncedQuery={debouncedQuery}
-              {...props}
-            />
-          )}
-        />
-
-        <Route
-          path={'/projects/:projectID/library/global/:sourceID/:filterID?'}
-          render={(
-            props: RouteComponentProps<{
-              projectID: string
-              sourceID: string
-              filterID?: string
-            }>
-          ) => (
-            <GlobalLibrary
-              globalLibrary={globalLibraries.get(props.match.params.sourceID)}
-              globalLibraryItems={globalLibraryItems}
-              projectLibrary={projectLibrary}
-              projectLibraryCollection={projectLibraryCollection}
-              query={query}
-              setQuery={setQuery}
-              debouncedQuery={debouncedQuery}
-              {...props}
-            />
-          )}
-        />
-
-        <Redirect
-          from={'/projects/:projectID/library/search'}
-          exact={true}
-          to={'/projects/:projectID/library/search/crossref'}
-        />
-
-        <Route
-          path={'/projects/:projectID/library/search/:sourceID?'}
-          render={(
-            props: RouteComponentProps<{
-              projectID: string
-              sourceID: string
-            }>
-          ) => (
-            <ExternalSearch
-              projectLibrary={projectLibrary}
-              projectLibraryCollection={projectLibraryCollection}
-              query={query}
-              setQuery={setQuery}
-              debouncedQuery={debouncedQuery}
-              {...props}
-            />
-          )}
-        />
-      </Switch>
+      {switchView()}
     </>
   )
 }
