@@ -36,10 +36,10 @@ import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { OptionsType } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
-import { useStore } from '../../store'
 import styled from 'styled-components'
 
 import { selectStyles } from '../../lib/select-styles'
+import { useStore } from '../../store'
 import { SelectField } from '../SelectField'
 
 const LabelContainer = styled.div`

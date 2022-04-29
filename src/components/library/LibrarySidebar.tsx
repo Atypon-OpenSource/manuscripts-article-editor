@@ -19,10 +19,10 @@ import {
   LibraryCollection,
 } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
-import { useStore } from '../../store'
 import styled from 'styled-components'
 
 import { sources } from '../../lib/sources'
+import { useStore } from '../../store'
 import { AddButton } from '../AddButton'
 import PageSidebar from '../PageSidebar'
 import { SidebarHeader } from '../Sidebar'

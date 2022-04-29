@@ -16,9 +16,9 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useStore } from '../../store'
 
 import { filterLibrary } from '../../lib/search-library'
+import { useStore } from '../../store'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'

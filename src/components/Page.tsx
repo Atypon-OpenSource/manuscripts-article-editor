@@ -20,14 +20,15 @@ import { Tip } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
+
 import config from '../config'
 import { titleText } from '../lib/title'
 import { useStore } from '../store'
 import { Chatbox } from './Chatbox'
+import LibraryPageContainer from './library/LibraryPageContainer'
 import MenuBar from './nav/MenuBar'
 import OfflineIndicator from './OfflineIndicator'
 import { Support } from './Support'
-import LibraryPageContainer from './library/LibraryPageContainer'
 
 export const Main = styled.main`
   height: 100%;
