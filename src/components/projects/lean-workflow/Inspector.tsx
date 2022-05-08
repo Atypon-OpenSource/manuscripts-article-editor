@@ -136,12 +136,17 @@ const Inspector: React.FC<Props> = ({
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={!!getUnsavedComment(commentController.items)}
+        forceOpen={
+          !!getUnsavedComment(commentController.items) ||
+          !!commentController.focusedItem
+        }
       >
         <InspectorLW
           tabs={tabs}
           commentTarget={
-            getUnsavedComment(commentController.items) || undefined
+            getUnsavedComment(commentController.items) ||
+            commentController.focusedItem ||
+            undefined
           }
         >
           {tabs.map((label) => {

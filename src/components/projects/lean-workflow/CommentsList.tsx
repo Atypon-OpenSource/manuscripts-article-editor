@@ -97,6 +97,7 @@ export const CommentsList: React.FC<Props> = ({
                   saveComment={saveComment}
                   handleCreateReply={handleCreateReply}
                   isNew={!isSavedComment(comment)}
+                  isSelected={focusedItem === comment.target}
                   can={can}
                   handleRequestSelect={() =>
                     handleRequestSelect(comment.target)
