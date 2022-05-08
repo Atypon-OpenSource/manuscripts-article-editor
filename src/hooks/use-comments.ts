@@ -296,19 +296,14 @@ export const useComments = (
         return
       }
 
-      saveComment({
+      const maybeInsert = insertAnnotationFromComment({
         ...comment,
-        target: uuid(),
         selector: { from, to },
       })
-        .then((comment) => {
-          const maybeInsert = insertAnnotationFromComment(comment)
-          if (!maybeInsert) {
-            return
-          }
-          return doCommand(maybeInsert)
-        })
-        .catch(console.error)
+      if (!maybeInsert) {
+        return
+      }
+      return doCommand(maybeInsert)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
