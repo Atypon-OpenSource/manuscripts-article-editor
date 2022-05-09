@@ -33,7 +33,6 @@ import {
 import { Command } from 'prosemirror-commands'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { useCallback, useEffect, useState } from 'react'
-import { v4 as uuid } from 'uuid'
 
 import { CommentFilter } from '../components/projects/CommentListPatterns'
 import { useStore } from '../store'
@@ -296,19 +295,14 @@ export const useComments = (
         return
       }
 
-      saveComment({
+      const maybeInsert = insertAnnotationFromComment({
         ...comment,
-        target: uuid(),
         selector: { from, to },
       })
-        .then((comment) => {
-          const maybeInsert = insertAnnotationFromComment(comment)
-          if (!maybeInsert) {
-            return
-          }
-          return doCommand(maybeInsert)
-        })
-        .catch(console.error)
+      if (!maybeInsert) {
+        return
+      }
+      return doCommand(maybeInsert)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
