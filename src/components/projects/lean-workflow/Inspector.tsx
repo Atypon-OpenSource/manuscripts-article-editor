@@ -60,6 +60,7 @@ const Inspector: React.FC<Props> = ({
   const [
     {
       snapshots,
+      saveModel,
       modelMap,
       user,
       project,
@@ -74,6 +75,7 @@ const Inspector: React.FC<Props> = ({
     dispatchStore,
   ] = useStore((store) => ({
     snapshots: store.snapshots,
+    saveModel: store.saveModel,
     modelMap: store.modelMap,
     manuscript: store.manuscript,
     user: store.user,
@@ -233,6 +235,7 @@ const Inspector: React.FC<Props> = ({
                       can={can}
                       enableDragAndDrop={true}
                       modelMap={modelMap}
+                      saveModel={saveModel}
                       attachments={
                         submission?.attachments as SubmissionAttachment[]
                       }
