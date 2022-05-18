@@ -10,37 +10,15 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { builderFn, GenericStore, state } from '.'
+let throttled = () => null
+let timeout: number
 
-export type stateSetter = (setState: (currentState: state) => state) => void
-
-export interface StoreDataSourceStrategy {
-  build: builderFn
-  unmount?: () => void
-  afterAction?: (state: state, setState: stateSetter) => void
-  beforeAction?: GenericStore['beforeAction']
-  updateStore?: (setState: stateSetter) => void
-}
-
-export class BasicSource implements StoreDataSourceStrategy {
-  data: { [key: string]: any }
-  constructor(
-    submissionID: string,
-    projectID: string,
-    manuscriptID: string,
-    userID?: string | undefined,
-    authToken?: string | undefined
-  ) {
-    this.data = {
-      submissionID,
-      projectID,
-      manuscriptID,
-      userID,
-      authToken,
-    }
-  }
-
-  build: builderFn = (state, next) => {
-    next({ ...this.data })
+export const saveWithThrottle = (fn: () => any, interval = 10000) => {
+  throttled = fn
+  if (!timeout) {
+    timeout = window.setTimeout(() => {
+      throttled()
+      window.clearTimeout(timeout)
+    }, interval)
   }
 }

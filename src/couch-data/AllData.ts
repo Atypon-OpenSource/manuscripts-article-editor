@@ -54,7 +54,7 @@ import reducer from '../sync/syncEvents'
 import { Action, SyncState } from '../sync/types'
 import { Biblio } from './Bibilo'
 import ModelManager from './ModelManager'
-import { TokenData } from './TokenData'
+import { TokenData } from '../store/TokenData'
 
 interface Props {
   manuscriptID: string

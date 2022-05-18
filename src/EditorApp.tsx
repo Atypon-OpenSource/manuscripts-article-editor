@@ -31,6 +31,7 @@ interface Props {
   submissionId: string
   manuscriptID: string
   projectID: string
+  authToken: string
 }
 
 const Wrapper = styled.div`
@@ -47,6 +48,7 @@ const EditorApp: React.FC<Props> = ({
   submissionId,
   manuscriptID,
   projectID,
+  authToken,
 }) => {
   const userID = getCurrentUserId()
   const [store, setStore] = useState<GenericStore>()
@@ -57,7 +59,8 @@ const EditorApp: React.FC<Props> = ({
       submissionId,
       projectID,
       manuscriptID,
-      userID || ''
+      userID || '',
+      authToken
     )
     const couchSource = new CouchSource()
     createStore([basicSource, couchSource])

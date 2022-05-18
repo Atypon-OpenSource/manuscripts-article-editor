@@ -9,38 +9,38 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { builderFn, stateSetter } from '../store'
+import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
+import Api from './api';
+import buildData from './buildData';
 
-import { builderFn, GenericStore, state } from '.'
-
-export type stateSetter = (setState: (currentState: state) => state) => void
-
-export interface StoreDataSourceStrategy {
-  build: builderFn
-  unmount?: () => void
-  afterAction?: (state: state, setState: stateSetter) => void
-  beforeAction?: GenericStore['beforeAction']
-  updateStore?: (setState: stateSetter) => void
-}
-
-export class BasicSource implements StoreDataSourceStrategy {
-  data: { [key: string]: any }
-  constructor(
-    submissionID: string,
-    projectID: string,
-    manuscriptID: string,
-    userID?: string | undefined,
-    authToken?: string | undefined
-  ) {
-    this.data = {
-      submissionID,
-      projectID,
-      manuscriptID,
-      userID,
-      authToken,
-    }
+export default class PsSource implements StoreDataSourceStrategy {
+  api: Api
+  constructor() {
+    this.api =  new Api();
+    // import api
+    // get user and all the data
+    // build and provide methods such as saveModel, saveManuscript etc. (see ModelManager in couch-data)
+    // conform with the store
   }
 
-  build: builderFn = (state, next) => {
-    next({ ...this.data })
+  build: builderFn = async (state, next) => {
+    if (state.userID && state.authToken) {
+      this.api.setToken(state.authToken);
+    }
+    if (state.manuscriptID && state.projectID) {
+        this.projectData = new ProjectData(this.api, state.projectID, state.manuscriptID);
+        this.data = await buildData(state: data)
+        const await 
+        const utilities = buildUtilities(this.api)
+        const state = this.
+    }
+    next(state)
+  }
+  afterAction: StoreDataSourceStrategy['afterAction'] = (state, setState) => {
+    return
+  }
+  updateStore = (setState: stateSetter) => {
+    return 
   }
 }

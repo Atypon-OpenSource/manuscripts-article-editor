@@ -149,6 +149,7 @@ const config = {
     url: normalizeURL(getURL(process.env.API_BASE_URL, index)),
     headers: {
       'manuscripts-app-id': process.env.API_APPLICATION_ID,
+      'manuscripts-app-secret': process.env.API_APPLICATION_SECRET,
     },
   },
   beacon: {

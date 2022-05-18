@@ -64,6 +64,7 @@ export interface ContainedIDs {
 
 export type state = {
   [key: string]: any
+  authToken?: string
   project: Project
   manuscript: Manuscript
   manuscripts?: Manuscript[]
@@ -76,20 +77,30 @@ export type state = {
   userID?: string | undefined
   userProfileID?: string | undefined
   manuscriptID: string
-  containerID: string
+  containerID: string // @TODO it's the same as projectID - has to be cleaned up
   biblio: BiblioTools
   commitAtLoad?: Commit | null
   invitations?: ContainerInvitation[]
   projectInvitations?: ProjectInvitation[]
   containerInvitations?: ContainerInvitation[]
   projects: Project[]
+  commits: Commit[]
+  modelMap: Map<string, Model>
+  snapshotID: string | null
+  snapshots?: Snapshot[]
+  comments?: CommentAnnotation[]
+  notes?: ManuscriptNote[]
+  tags?: Tag[]
+  collaborators?: Map<string, UserProfile>
+  collaboratorsProfiles?: Map<string, UserProfile>
+  collaboratorsById?: Map<string, UserProfile>
 
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   deleteModel: (id: string) => Promise<string>
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-  bulkCreate: bulkCreate
+  bulkCreate?: bulkCreate
   deleteProject: (projectID: string) => Promise<string>
   updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
   saveNewManuscript: (
@@ -108,16 +119,6 @@ export type state = {
     invitingUserID: string,
     invitedEmail: string
   ) => Promise<ContainerInvitation>
-  commits: Commit[]
-  modelMap: Map<string, Model>
-  snapshotID: string | null
-  snapshots?: Snapshot[]
-  comments?: CommentAnnotation[]
-  notes?: ManuscriptNote[]
-  tags?: Tag[]
-  collaborators?: Map<string, UserProfile>
-  collaboratorsProfiles?: Map<string, UserProfile>
-  collaboratorsById?: Map<string, UserProfile>
   getAttachment?: (
     id: string,
     attachmentID: string
