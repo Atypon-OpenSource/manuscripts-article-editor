@@ -19,8 +19,8 @@ import {
   useApplicationMenus,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-import { Model } from '@manuscripts/manuscripts-json-schema'
-import { usePermissions } from '@manuscripts/style-guide/dist/types'
+// import { Model } from '@manuscripts/manuscripts-json-schema'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
@@ -36,7 +36,7 @@ import { ExportFormat } from '../../../pressroom/exporter'
 import { useStore } from '../../../store'
 import { useModal } from '../../ModalHookableProvider'
 import { Exporter } from '../Exporter'
-import { Importer, importManuscript } from '../Importer'
+// import { Importer, importManuscript } from '../Importer'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;
@@ -68,23 +68,24 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   const { addModal } = useModal()
   const can = usePermissions()
 
-  const openImporter = () => {
-    addModal('importer', ({ handleClose }) => (
-      <Importer
-        handleComplete={handleClose}
-        importManuscript={(models: Model[], redirect = true) =>
-          importManuscript(
-            models,
-            store.project._id,
-            store.bulkCreate,
-            history,
-            store.manuscripts || [],
-            redirect
-          )
-        }
-      />
-    ))
-  }
+  // Commented as may it be actually useful in later development
+  // const openImporter = () => {
+  //   addModal('importer', ({ handleClose }) => (
+  //     <Importer
+  //       handleComplete={handleClose}
+  //       importManuscript={(models: Model[], redirect = true) =>
+  //         importManuscript(
+  //           models,
+  //           store.project._id,
+  //           store.bulkCreate,
+  //           history,
+  //           store.manuscripts || [],
+  //           redirect
+  //         )
+  //       }
+  //     />
+  //   ))
+  // }
   const openExporter = (format: ExportFormat, closeOnSuccess: boolean) => {
     addModal('exporter', ({ handleClose }) => (
       <Exporter
