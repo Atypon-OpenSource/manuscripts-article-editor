@@ -109,6 +109,7 @@ export const ContentTab: React.FC<{
         dispatch={dispatch}
         getTemplate={getTemplate}
         getManuscriptCountRequirements={getManuscriptCountRequirements}
+        leanWorkflow={true}
       />
 
       {(element || section) && config.features.projectManagement && (
