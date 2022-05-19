@@ -134,13 +134,13 @@ const buildUtilities = (
 
     saveWithThrottle(async () => {
       updateState({
-        manuscriptSaved: 'pending',
+        savingProcess: 'pending',
       })
       const result = await bulkPersistentManuscriptSave([
         ...modelMap.values(),
       ] as ManuscriptModel[])
       updateState({
-        manuscriptSaved: result ? 'saved' : 'failed',
+        savingProcess: result ? 'saved' : 'failed',
       })
     })
     return newModel
@@ -233,6 +233,13 @@ const buildUtilities = (
     saveProjectModel(libraryCollection)
   }
 
+  const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
+    for (const value of items) {
+      // @TODO - optimize to save all the models at once or at least throttle
+      saveModel(value)
+    }
+  }
+
   return {
     saveModel,
     deleteModel,
@@ -244,6 +251,7 @@ const buildUtilities = (
     saveBiblioItem,
     deleteBiblioItem,
     updateBiblioItem,
+    bulkUpdate,
   }
 }
 

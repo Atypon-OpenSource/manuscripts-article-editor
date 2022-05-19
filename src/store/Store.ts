@@ -37,7 +37,7 @@ import {
 import { Commit } from '@manuscripts/track-changes'
 
 import { BiblioTools } from '../couch-data/Bibilo'
-import { TokenData } from '../couch-data/TokenData'
+import { TokenData } from './TokenData'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 
 export interface TokenActions {
@@ -64,46 +64,44 @@ export interface ContainedIDs {
 
 export type state = {
   [key: string]: any
-  authToken?: string
-  project: Project
-  manuscript: Manuscript
-  manuscripts?: Manuscript[]
-  doc: ManuscriptNode
-  ancestorDoc: ManuscriptNode
-  user: UserProfile // probably should be optional
-  tokenData: TokenData
-  projectID: string
-  submissionID?: string
-  userID?: string | undefined
-  userProfileID?: string | undefined
-  manuscriptID: string
-  containerID: string // @TODO it's the same as projectID - has to be cleaned up
-  biblio: BiblioTools
-  commitAtLoad?: Commit | null
-  invitations?: ContainerInvitation[]
-  projectInvitations?: ProjectInvitation[]
-  containerInvitations?: ContainerInvitation[]
-  projects: Project[]
-  commits: Commit[]
-  modelMap: Map<string, Model>
-  snapshotID: string | null
-  snapshots?: Snapshot[]
-  comments?: CommentAnnotation[]
-  notes?: ManuscriptNote[]
-  tags?: Tag[]
+  ✅ authToken?: string
+  ✅ project: Project
+  ✅ manuscript: Manuscript
+  ✅ manuscripts?: Manuscript[]
+  ✅ doc: ManuscriptNode
+  ✅ ancestorDoc: ManuscriptNode
+  ✅ user: UserProfile // probably should be optional
+  ✅ tokenData: TokenData
+  ✅ projectID: string
+  ✅ submissionID?: string
+  ✅ userID?: string | undefined
+  ✅ userProfileID?: string | undefined
+  ✅ manuscriptID: string
+  ✅ containerID: string // @TODO it's the same as projectID - has to be cleaned up
+  ✅ commitAtLoad?: Commit | null
+  ❌ invitations?: ContainerInvitation[]
+  ❌ projectInvitations?: ProjectInvitation[]
+  ❌ containerInvitations?: ContainerInvitation[]
+  ✅ projects: Project[]
+  ✅ commits: Commit[]
+  ✅ modelMap: Map<string, Model>
+  ✅ snapshotID: string | null
+  ✅ snapshots?: Snapshot[]
+  ✅ comments?: CommentAnnotation[]
+  ✅ notes?: ManuscriptNote[]
+  ✅ tags?: Tag[]
   collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
 
-  getModel: <T extends Model>(id: string) => T | undefined
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  deleteModel: (id: string) => Promise<string>
-  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-  bulkCreate?: bulkCreate
-  deleteProject: (projectID: string) => Promise<string>
-  updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
-  saveNewManuscript: (
+  ✅  getModel: <T extends Model>(id: string) => T | undefined
+  ✅ saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  ✅  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  ✅ deleteModel: (id: string) => Promise<string>
+  ✅ bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+  ✅ deleteProject: (projectID: string) => Promise<string>
+  ✅ updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+  saveNewManuscript : (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
     containerID: string,
     manuscript: Build<Manuscript>,
@@ -129,17 +127,18 @@ export type state = {
     userTemplateModels: ManuscriptModel[]
   }>
   createUser: (profile: Build<UserProfile>) => Promise<void>
+  ✅ updateBiblioItem: (item: BibliographyItem) => Promise<any>
+  ✅ deleteBiblioItem: (item: BibliographyItem) => Promise<any>
+  biblio: BiblioTools
   projectLibraryCollections: Map<string, LibraryCollection>
   createProjectLibraryCollection: (
     collection: Build<LibraryCollection>,
     projectID: string
   ) => Promise<void>
-  saveBiblioItem: (
+  ✅ saveBiblioItem: (
     item: Build<BibliographyItem>,
     projectID: string
   ) => Promise<BibliographyItem>
-  updateBiblioItem: (item: BibliographyItem) => Promise<any>
-  deleteBiblioItem: (item: BibliographyItem) => Promise<any>
   globalLibraries: Map<string, Library>
   globalLibraryCollections: Map<string, LibraryCollection>
   globalLibraryItems: Map<string, BibliographyItem>
