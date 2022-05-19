@@ -20,6 +20,7 @@ import {
   useEditor,
 } from '@manuscripts/manuscript-editor'
 import { Model } from '@manuscripts/manuscripts-json-schema'
+import { usePermissions } from '@manuscripts/style-guide/dist/types'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
@@ -54,6 +55,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
 }) => {
   const [store] = useStore((store) => ({
     manuscriptID: store.manuscriptID,
+    userID: store.userID,
     modelMap: store.modelMap,
     saveModel: store.saveModel,
     manuscripts: store.manuscripts,
@@ -64,6 +66,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
 
   const history = useHistory()
   const { addModal } = useModal()
+  const can = usePermissions()
 
   const openImporter = () => {
     addModal('importer', ({ handleClose }) => (
@@ -156,16 +159,22 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   const openDialog = (dialog: DialogNames) => setDialog(dialog)
   const { colors, colorScheme } = buildColors(store.modelMap)
   const handleAddColor = addColor(colors, store.saveModel, colorScheme)
-
-  const menu = [
-    projectMenu,
-    ...getMenus(editor, openDialog, config.features.footnotes, contentEditable),
-    helpMenu,
-  ]
-
-  if (!config.production) {
-    menu.push(developMenu)
+  let editorMenu = getMenus(
+    editor,
+    openDialog,
+    config.features.footnotes,
+    contentEditable
+  )
+  if (!can.formatArticle) {
+    editorMenu = editorMenu.filter((menu) => menu.id !== 'format')
   }
+
+  const menu = [projectMenu, ...editorMenu, helpMenu]
+
+  // Comments as may be actually useful in later development
+  // if (!config.production) {
+  //   menu.push(developMenu)
+  // }
 
   const menus = useApplicationMenus(menu)
 

@@ -2332,10 +2332,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.8":
-  version "0.31.8"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.8.tgz#970093c518ee09d83e7e6a78d4a4aeebed2eff4d"
-  integrity sha512-EIP837BIvFAerjoncWjdDkQQNUw8aQfKMnjaggz93Ctho6xu0eE9i7yB0ZH0nxUjLYjPWAGgKQw2PsyhexMokQ==
+"@manuscripts/style-guide@^0.31.9":
+  version "0.31.9"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.9.tgz#973db67ae7452c9551d16d08d68609bae44cd137"
+  integrity sha512-BBmCs9x2kOYwrbjHKR9C37VD7O06nUoFugVKTLO85cfAVPtZrKXh+JHs0tWuVOt0qaKtwiGqzwROTdYnP9M9sA==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
