@@ -122,17 +122,18 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     ],
   }
 
-  const developMenu: MenuSpec = {
-    id: 'develop',
-    label: 'Develop',
-    submenu: [
-      {
-        id: 'import',
-        label: 'Import Manuscript…',
-        run: openImporter,
-      },
-    ],
-  }
+  // Commented as may it be actually useful in later development
+  // const developMenu: MenuSpec = {
+  //   id: 'develop',
+  //   label: 'Develop',
+  //   submenu: [
+  //     {
+  //       id: 'import',
+  //       label: 'Import Manuscript…',
+  //       run: openImporter,
+  //     },
+  //   ],
+  // }
 
   const helpMenu: MenuSpec = {
     id: 'help',
@@ -171,7 +172,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
 
   const menu = [projectMenu, ...editorMenu, helpMenu]
 
-  // Comments as may be actually useful in later development
+  // Commented as may it be actually useful in later development
   // if (!config.production) {
   //   menu.push(developMenu)
   // }
