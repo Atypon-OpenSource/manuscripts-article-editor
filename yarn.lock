@@ -2144,16 +2144,16 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.91.15":
-  version "0.91.15"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.15.tgz#08d499845c8e36235a8bc012beb4dc34a1689bb1"
-  integrity sha512-IpMjJhWPj1TT4W/ZO534tLq/Liulksgwt1HeQTCqHkBanjpmDxfcRoXPIAj+B4DD65Hh1j6xNz63WxufC1MaDQ==
+"@manuscripts/manuscript-editor@^0.91.16":
+  version "0.91.16"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.16.tgz#331e1a5f8f79efe80b5d943bd1f6c143b95afeab"
+  integrity sha512-wkXxMr9gs3tCURwLxFFdfZF6t/dY5vISyT1eYQ7pxPsLgKW2Dippr6/9KWMKT5WPRbIUe6g362TL1Tm1AhdcMw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/comment-editor" "^0.2.1"
-    "@manuscripts/manuscripts-json-schema" "^1.49.3"
+    "@manuscripts/manuscripts-json-schema" "^1.49.11"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
     "@manuscripts/track-changes" "^0.3.3"
@@ -2204,14 +2204,14 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.48.18":
-  version "0.48.20"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.20.tgz#382bc338a22dad998ab8233a4788d06a9252db1f"
-  integrity sha512-wyq/O+ja6fZIJOAWvuiXtm/gbeyCnmPfnCSTrlZ58OFKH6iZPIn8jatH4XZ8uRMAmsUd96o+Fl2I2GYV3/z9Ww==
+"@manuscripts/manuscript-transform@^0.48.23":
+  version "0.48.23"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.23.tgz#ce1e9d51c81f54d8a94bd5d9114d6a619f2df9af"
+  integrity sha512-ISnrjn6L/vizacha9YYtdn19OZBV9V9DekTlsNFs3S/MvseqGYuQKGq5MX723vICN0qlE7kwpeDkckK2JAYxeg==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
-    "@manuscripts/manuscripts-json-schema" "^1.49.9"
+    "@manuscripts/manuscripts-json-schema" "^1.49.11"
     debug "^4.1.1"
     mathjax-full "^3.1.2"
     mime "^2.4.6"
@@ -2224,10 +2224,10 @@
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema-utils/-/manuscripts-json-schema-utils-0.2.1.tgz#4bc99a0afd2dc222b3ddff57da1a692ad0b28458"
   integrity sha512-rgt0FortFCRDVS299wqnx/zZtpEFsWiMEccfqUDWmKhuzHR5cL0Do4BxV3Rd7K3wWQZYenN1CrmV15a3SmUGog==
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.5", "@manuscripts/manuscripts-json-schema@^1.49.9":
-  version "1.49.3"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.3.tgz#44543f94d4405a8e153100efb1b097da45760869"
-  integrity sha512-tZgwGQqHzGXaR7uYeJxKu2yS2QE7qbwNvEdwEH7Ng27wjzz783VxSkL1dm5/9hMkDUmUeQn14RPcX4qz8Vw2Cg==
+"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.11", "@manuscripts/manuscripts-json-schema@^1.49.5":
+  version "1.49.12"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.12.tgz#2fe461dcf3b26169605f5a4980fd0c2891c2672e"
+  integrity sha512-ZHb+VunM/884YNZuXFi4EgalKT8aLFK9v+AwgGQhtoVk4Q/LThYV8TqOrevtCbNk/cydWNynDeTpEB3QxWXZzQ==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
@@ -2332,10 +2332,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.9":
-  version "0.31.9"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.9.tgz#973db67ae7452c9551d16d08d68609bae44cd137"
-  integrity sha512-BBmCs9x2kOYwrbjHKR9C37VD7O06nUoFugVKTLO85cfAVPtZrKXh+JHs0tWuVOt0qaKtwiGqzwROTdYnP9M9sA==
+"@manuscripts/style-guide@^0.31.10":
+  version "0.31.10"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.10.tgz#60c8ba1aaa0d74cbd424efe74276aec618633029"
+  integrity sha512-RjbcX9RWtURE6vliDa45uQGMu74wy8EkHiCgaC0pg8fEE65GmOl5ZRAcRPbGtb0fZC52RIfD+dzbD/XvLx0YAw==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
