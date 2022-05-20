@@ -328,9 +328,6 @@ class RxDBDataBridge {
     this.expect(type)
 
     return async <T extends Model>(docs: RxDocument<T>[]) => {
-      if (type == 'library') {
-        console.log(docs)
-      }
       if (docs) {
         const docsMap = new Map<string, any>()
 
