@@ -328,6 +328,9 @@ class RxDBDataBridge {
     this.expect(type)
 
     return async <T extends Model>(docs: RxDocument<T>[]) => {
+      if (type == 'library') {
+        console.log(docs)
+      }
       if (docs) {
         const docsMap = new Map<string, any>()
 
@@ -642,8 +645,13 @@ class RxDBDataBridge {
       }
     )
 
+    this.expect('biblio')
     this.dependsOnStateCondition(
-      (state) => state.library && state.manuscript && state.modelMap,
+      (state) =>
+        state.library &&
+        state.library.size &&
+        state.manuscript &&
+        state.modelMap,
       (state) => {
         this.cc()
         const bundle = state.manuscript.bundle // TODO: infer bundle from prototype if manuscript.bundle is undefined ?
