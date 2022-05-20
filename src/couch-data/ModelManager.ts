@@ -131,6 +131,7 @@ export default class ModelManager implements ManuscriptModels {
         saveBiblioItem: this.saveBiblioItem,
         deleteBiblioItem: this.deleteBiblioItem,
         updateBiblioItem: this.updateBiblioItem,
+        bulkUpdate: this.bulkUpdate,
       }
     }
 
@@ -183,6 +184,7 @@ export default class ModelManager implements ManuscriptModels {
       saveBiblioItem: this.saveBiblioItem,
       deleteBiblioItem: this.deleteBiblioItem,
       updateBiblioItem: this.updateBiblioItem,
+      bulkUpdate: this.bulkUpdate,
     }
   }
 
