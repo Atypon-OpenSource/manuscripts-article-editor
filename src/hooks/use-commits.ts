@@ -29,6 +29,7 @@ import {
   rebases,
   reset as resetToLastCommit,
 } from '@manuscripts/track-changes'
+import { ReplaceAroundStep } from 'prosemirror-transform'
 import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
@@ -171,14 +172,20 @@ export const useCommits = ({ sortBy, editor }: Args) => {
   useEffect(() => {
     if (
       timeSinceLastSave() > 10000 &&
-      !isCommitContiguousWithSelection(editor.state)
+      (!isCommitContiguousWithSelection(editor.state) ||
+        (isCommitContiguousWithSelection(editor.state) &&
+          hasCommitNewSection(currentCommit)))
     ) {
       freeze()
     }
-  }, [editor.state, freeze, timeSinceLastSave])
+  }, [editor.state, freeze, timeSinceLastSave, currentCommit])
 
   useUnmountEffect(freeze)
   useWindowUnloadEffect(freeze, !!currentCommit.steps.length)
+
+  const hasCommitNewSection = (commit: Commit) =>
+    commit.steps.length &&
+    commit.steps.some((step) => step instanceof ReplaceAroundStep)
 
   const unreject = (correction: Correction) => {
     const unrejectedCorrections = corrections
