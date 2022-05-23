@@ -2144,10 +2144,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.91.17":
-  version "0.91.17"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.17.tgz#4778aae042ef57b2e01c35c1d957254dbc54717f"
-  integrity sha512-Qlcd+i21xW3XmoQvMOwGMJssivXW7kiOF+i0ZM9Rf1wmjXiu6qblmdw83V4PO/pHPnnsyvG5FgByatc5BXoD0g==
+"@manuscripts/manuscript-editor@^0.91.18":
+  version "0.91.18"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.18.tgz#39416a65bbdd342369352a18f51cf15c2673ea9a"
+  integrity sha512-VBzNVgb/P9mRinLORXB0+UK86NLFkW5lBbHWBq/pM5zIHSawN/Muj6ZHPs3j9jV3ukd/yVGbYqar3ar52ATW1w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2204,10 +2204,10 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.48.23":
-  version "0.48.23"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.23.tgz#ce1e9d51c81f54d8a94bd5d9114d6a619f2df9af"
-  integrity sha512-ISnrjn6L/vizacha9YYtdn19OZBV9V9DekTlsNFs3S/MvseqGYuQKGq5MX723vICN0qlE7kwpeDkckK2JAYxeg==
+"@manuscripts/manuscript-transform@^0.48.24":
+  version "0.48.24"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.24.tgz#1aaf278664b5470ceeee3af1f5d853af656db153"
+  integrity sha512-KK2vp729TGpcquTzAjDY4kAGhq5eSSegrlPIFnOzAtC75L07H1lzx8Yd5dac6N4MfkNUhbNv3It98VFjxDCbQw==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
