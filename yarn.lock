@@ -2144,10 +2144,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.91.18":
-  version "0.91.18"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.18.tgz#39416a65bbdd342369352a18f51cf15c2673ea9a"
-  integrity sha512-VBzNVgb/P9mRinLORXB0+UK86NLFkW5lBbHWBq/pM5zIHSawN/Muj6ZHPs3j9jV3ukd/yVGbYqar3ar52ATW1w==
+"@manuscripts/manuscript-editor@^0.91.19":
+  version "0.91.19"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.19.tgz#1ab53c0bd098764639e4f46cfd9a007d2f86f832"
+  integrity sha512-KGt0MoBdZSYjj53teA6en/2/+fbHX/v7DBIQCW7wajKIm2WnC91R1CVjjb/MDBr+SpiKNS5z8uj59MqIUHX7Ew==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
