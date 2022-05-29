@@ -107,19 +107,22 @@ export const updateMainManuscriptAttachment = <T>(
    * setMainManuscript mutation will update old main-manuscript attachment to a document
    */
   const replaceMainManuscriptToDocument = (
-    attachments: SubmissionAttachment[]
-  ) =>
-    attachments.map(
-      (attachment) =>
-        (attachment.type.label === 'main-manuscript' && {
-          ...attachment,
-          type: {
-            ...attachment.type,
-            label: 'document',
-          },
+    attachments: SubmissionAttachment[],
+    attachment: SubmissionAttachment
+  ) => [
+    {
+      ...attachment,
+      type: { id: 'main-manuscript', label: 'main-manuscript' },
+    },
+    ...attachments.map(
+      (a) =>
+        (a.type.id === 'main-manuscript' && {
+          ...a,
+          type: { id: 'document', label: 'document' },
         }) ||
-        attachment
-    )
+        a
+    ),
+  ]
 
   if (cachedSubmission?.submission?.attachments) {
     cache.writeQuery({
@@ -128,12 +131,10 @@ export const updateMainManuscriptAttachment = <T>(
       data: {
         submission: {
           ...cachedSubmission.submission,
-          attachments: [
-            ...replaceMainManuscriptToDocument(
-              cachedSubmission?.submission?.attachments
-            ),
-            attachment,
-          ],
+          attachments: replaceMainManuscriptToDocument(
+            cachedSubmission.submission.attachments,
+            attachment
+          ),
         },
       },
     })
