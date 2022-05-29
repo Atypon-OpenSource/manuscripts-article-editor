@@ -20,10 +20,15 @@ import {
   FigureElementNode,
   FigureNode,
   generateID,
+  getModelsByType,
   ManuscriptEditorView,
   schema,
 } from '@manuscripts/manuscript-transform'
-import { ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import {
+  Model,
+  ObjectTypes,
+  Supplement,
+} from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import { commands } from '@manuscripts/track-changes'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
@@ -34,6 +39,7 @@ import { useDrop } from 'react-dnd'
 import { useCommits } from '../../../hooks/use-commits'
 import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
+import { useStore } from '../../../store'
 import { SpriteMap } from '../../track/Icons'
 
 interface Props {
@@ -45,6 +51,10 @@ interface Props {
 const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
+  const [{ modelMap, deleteModel }] = useStore((store) => ({
+    modelMap: store.modelMap,
+    deleteModel: store.deleteModel,
+  }))
 
   const [, drop] = useDrop({
     accept: 'FileSectionItem',
@@ -79,7 +89,7 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
             } else {
               addNewFigure(view, dispatch, attrs, resolvedPos.pos + 1)
             }
-            break
+            return deleteSupplementFile(deleteModel, modelMap, attachment)
           }
           case schema.nodes.figcaption:
           case schema.nodes.caption:
@@ -92,7 +102,7 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
               new NodeSelection(resolvedPos),
               attachment
             )
-            break
+            return deleteSupplementFile(deleteModel, modelMap, attachment)
           }
           case schema.nodes.figure_element: {
             addFigureAtFigureElementPosition(
@@ -101,7 +111,7 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
               resolvedPos.pos,
               attrs
             )
-            break
+            return deleteSupplementFile(deleteModel, modelMap, attachment)
           }
           default: {
             const transaction = view.state.tr.setSelection(
@@ -111,6 +121,7 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
             dispatch(transaction)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
             insertFileAsFigure(attachment, view.state, dispatch)
+            return deleteSupplementFile(deleteModel, modelMap, attachment)
           }
         }
       }
@@ -295,6 +306,22 @@ const addNewFigure = (
   }) as FigureNode
   const tr = view.state.tr.insert(pos, figure)
   dispatch(tr)
+}
+
+const deleteSupplementFile = (
+  deleteModel: (id: string) => Promise<string>,
+  modelMap: Map<string, Model>,
+  attachment: SubmissionAttachment
+) => {
+  if (attachment.type.id === 'supplementary') {
+    const supplement = getModelsByType<Supplement>(
+      modelMap,
+      ObjectTypes.Supplement
+    ).find((object) => object.href === `attachment:${attachment.id}`)
+    if (supplement) {
+      return deleteModel(supplement._id)
+    }
+  }
 }
 
 export default EditorElement
