@@ -99,8 +99,8 @@ export const ContentTab: React.FC<{
           selectedSection ? (selectedSection.node as SectionNode) : undefined
         }
       />
-      {config.export.literatum && <HeaderImageInspector />}
-      {config.export.literatum && selected && (
+      {config.features.headerImage && <HeaderImageInspector />}
+      {config.features.nodeInspector && selected && (
         <NodeInspector selected={selected} state={state} dispatch={dispatch} />
       )}
       <ManuscriptInspector
