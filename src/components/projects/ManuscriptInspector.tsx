@@ -227,7 +227,7 @@ export const ManuscriptInspector: React.FC<{
 
         <InspectorTabPanels>
           <InspectorTabPanel>
-            {config.features.doi && (
+            {config.features.DOI && (
               <>
                 <Subheading>DOI</Subheading>
 
