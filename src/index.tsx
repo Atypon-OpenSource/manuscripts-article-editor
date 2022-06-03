@@ -28,15 +28,11 @@ import { ThemeProvider } from './theme/ThemeProvider'
 
 export interface ManuscriptEditorAppProps {
   submissionId: string
-  manuscriptID: string
-  projectID: string
   authToken?: string
 }
 
 export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
   submissionId,
-  manuscriptID,
-  projectID,
   authToken,
 }) => {
   useEffect(() => {
@@ -71,8 +67,6 @@ export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
             <Main
               // userID={userID}
               submissionId={submissionId}
-              manuscriptID={manuscriptID}
-              projectID={projectID}
             />
           </React.Suspense>
         </ThemeProvider>

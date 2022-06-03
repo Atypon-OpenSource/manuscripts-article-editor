@@ -24,6 +24,7 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { ApolloError } from 'apollo-client'
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -31,9 +32,10 @@ import config from '../../../config'
 import { useCommits } from '../../../hooks/use-commits'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import {
+  graphQLErrorMessage,
   Person,
+  Submission,
   useGetPermittedActions,
-  useGetSubmissionAndPerson,
 } from '../../../lib/lean-workflow-gql'
 import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
 import { useStore } from '../../../store'
@@ -59,8 +61,11 @@ import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
-const ManuscriptPageContainer: React.FC = () => {
-  const [{ manuscriptID, project, user }, dispatch] = useStore((state) => {
+const ManuscriptPageContainer: React.FC<{
+  submission: Submission
+  person: Person
+}> = ({ submission, person }) => {
+  const [{ project, user }, dispatch] = useStore((state) => {
     return {
       manuscriptID: state.manuscriptID,
       project: state.project,
@@ -68,23 +73,17 @@ const ManuscriptPageContainer: React.FC = () => {
     }
   })
 
-  const submissionData = useGetSubmissionAndPerson(manuscriptID, project._id)
-
   useEffect(() => {
-    if (
-      submissionData.data &&
-      submissionData.data.submission?.id &&
-      submissionData?.data?.person
-    ) {
+    if (submission?.id && person) {
       dispatch({
-        submission: submissionData.data.submission,
-        submissionId: submissionData.data.submission.id as string,
-        lwUser: submissionData.data.person as Person,
+        submission: submission,
+        submissionId: submission.id as string,
+        lwUser: person as Person,
       })
     }
-  }, [submissionData.data, dispatch])
+  }, [submission, person, dispatch])
 
-  const submissionId: string = submissionData?.data?.submission?.id
+  const submissionId: string = submission?.id
   const permittedActionsData = useGetPermittedActions(submissionId)
   const permittedActions = permittedActionsData?.data?.permittedActions
   // lwRole must not be used to calculate permissions in the contenxt of manuscripts app.
@@ -95,7 +94,7 @@ const ManuscriptPageContainer: React.FC = () => {
     permittedActions,
   })
 
-  if (submissionData.loading || permittedActionsData.loading) {
+  if (permittedActionsData.loading) {
     return <ManuscriptPlaceholder />
   }
   // else if (error || !data) {
@@ -110,15 +109,11 @@ const ManuscriptPageContainer: React.FC = () => {
   //   )
   // }
 
-  if (submissionData.error || permittedActionsData.error) {
-    const networkError =
-      submissionData.error?.networkError ||
-      permittedActionsData.error?.networkError
-    const message = networkError
-      ? 'Trouble reaching lean server. Please try again.'
-      : submissionData.error
-      ? 'Request for project submission from server failed.'
-      : 'Request for user permissions from server failed.'
+  if (permittedActionsData.error) {
+    const message = graphQLErrorMessage(
+      permittedActionsData.error as ApolloError,
+      'Request for user permissions from server failed.'
+    )
     return <ReloadDialog message={message} />
   }
 

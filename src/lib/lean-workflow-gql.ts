@@ -173,6 +173,7 @@ export const GET_SUBMISSION = gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
+      documentId
       attachments {
         id
         name
@@ -420,23 +421,15 @@ export const useUpdateAttachmentFile = () => {
   }
 }
 
-export const useGetSubmissionAndPerson = (
-  documentId: string,
-  projectId: string
-) =>
+export const useGetSubmissionAndPerson = (submissionId: string) =>
   useQuery(GET_SUBMISSION, {
     context: {
       clientPurpose: 'leanWorkflowManager',
     },
-    variables: config.submission.id
-      ? {
-          id: config.submission.id,
-          type: 'URI',
-        }
-      : {
-          id: `${projectId}#${documentId}`,
-          type: 'DOCUMENT_ID',
-        },
+    variables: {
+      id: config.submission.id || submissionId,
+      type: 'URI',
+    },
   })
 
 export const useGetCurrentSubmissionStep = (
@@ -577,3 +570,14 @@ export const getErrorCode = (
 ): string | undefined =>
   apolloError?.graphQLErrors.find((error) => error?.extensions?.code)
     ?.extensions?.code.name
+
+export const graphQLErrorMessage = (
+  apolloError: ApolloError,
+  message: string
+) => {
+  return (
+    (apolloError?.networkError &&
+      'Trouble reaching lean server. Please try again.') ||
+    message
+  )
+}

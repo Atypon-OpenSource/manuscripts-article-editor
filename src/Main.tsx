@@ -24,25 +24,19 @@ import { GlobalStyle } from './theme/theme'
 
 interface Props {
   submissionId: string
-  manuscriptID: string
-  projectID: string
 }
 
 // submissionId="13f64873-a9bf-4d88-a44a-2a25f9e49fc3"
 // manuscriptID="MPProject:E1895468-4DFE-4F17-9B06-5212ECD29555"
 // projectID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
 
-const Main: React.FC<Props> = ({ submissionId, manuscriptID, projectID }) => (
+const Main: React.FC<Props> = ({ submissionId }) => (
   <DndProvider backend={HTML5Backend}>
     <GlobalStyle />
     <ServiceWorker />
     <ModalProvider>
       <ApolloProvider client={apolloClient}>
-        <EditorApp
-          submissionId={submissionId}
-          manuscriptID={manuscriptID}
-          projectID={projectID}
-        />
+        <EditorApp submissionId={submissionId} />
       </ApolloProvider>
     </ModalProvider>
   </DndProvider>
