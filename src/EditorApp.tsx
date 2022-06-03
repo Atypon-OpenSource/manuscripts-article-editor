@@ -60,7 +60,7 @@ const EditorApp: React.FC<Props> = ({ submissionId }) => {
     if (!data?.submission?.documentId) {
       return
     }
-    const [projectID, manuscriptID] = data?.submission?.documentId.split('#')
+    const [projectID, manuscriptID] = data.submission.documentId.split('#')
 
     // implement remount for the store if component is retriggered
     const basicSource = new BasicSource(
