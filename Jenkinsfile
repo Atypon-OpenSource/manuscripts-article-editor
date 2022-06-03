@@ -47,10 +47,16 @@ node("cisc && !cisc03") {
     stage("Tests report") {
         junit "junit.xml"
     }
-    
-    stage ("Publish") {
-        withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-            sh ("npx @manuscripts/publish")
+
+    if (VARS.GIT_BRANCH == "origin/main") {
+        stage ("Publish") {
+            withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
+                sh ("cat << EOF >.npmrc
+//registry.npmjs.org/:_authToken=$NPM_TOKEN
+EOF")
+                sh ("npx @manuscripts/publish")
+                sh "rm -f .npmrc"
+            }
         }
     }
 }
