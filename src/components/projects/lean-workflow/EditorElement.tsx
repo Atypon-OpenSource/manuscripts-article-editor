@@ -313,14 +313,12 @@ const deleteSupplementFile = (
   modelMap: Map<string, Model>,
   attachment: SubmissionAttachment
 ) => {
-  if (attachment.type.id === 'supplementary') {
-    const supplement = getModelsByType<Supplement>(
-      modelMap,
-      ObjectTypes.Supplement
-    ).find((object) => object.href === `attachment:${attachment.id}`)
-    if (supplement) {
-      return deleteModel(supplement._id)
-    }
+  const supplement = getModelsByType<Supplement>(
+    modelMap,
+    ObjectTypes.Supplement
+  ).find((object) => object.href === `attachment:${attachment.id}`)
+  if (supplement) {
+    return deleteModel(supplement._id)
   }
 }
 
