@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { ApolloError } from 'apollo-client'
 import React, { useEffect, useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -17,17 +16,10 @@ import styled from 'styled-components'
 
 import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
-import {
-  ManuscriptPlaceholder,
-  ProjectPlaceholder,
-} from './components/Placeholders'
+import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
-import { ReloadDialog } from './components/projects/ReloadDialog'
 import CouchSource from './couch-data/CouchSource'
-import {
-  graphQLErrorMessage,
-  useGetSubmissionAndPerson,
-} from './lib/lean-workflow-gql'
+import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
 import {
   BasicSource,
@@ -38,6 +30,10 @@ import {
 
 interface Props {
   submissionId: string
+  manuscriptID: string
+  projectID: string
+  submission: Submission
+  person: Person
 }
 
 const Wrapper = styled.div`
@@ -50,18 +46,17 @@ const Wrapper = styled.div`
   font-family: Lato, sans-serif;
 `
 
-const EditorApp: React.FC<Props> = ({ submissionId }) => {
-  const { data, loading, error } = useGetSubmissionAndPerson(submissionId)
-
+const EditorApp: React.FC<Props> = ({
+  submissionId,
+  manuscriptID,
+  projectID,
+  submission,
+  person,
+}) => {
   const userID = getCurrentUserId()
   const [store, setStore] = useState<GenericStore>()
 
   useEffect(() => {
-    if (!data?.submission?.documentId) {
-      return
-    }
-    const [projectID, manuscriptID] = data.submission.documentId.split('#')
-
     // implement remount for the store if component is retriggered
     const basicSource = new BasicSource(
       submissionId,
@@ -80,19 +75,7 @@ const EditorApp: React.FC<Props> = ({ submissionId }) => {
     return () => store?.unmount()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [submissionId, data?.submission?.documentId])
-
-  if (loading) {
-    return <ManuscriptPlaceholder />
-  }
-
-  if (error) {
-    const message = graphQLErrorMessage(
-      error as ApolloError,
-      'Request for user permissions from server failed.'
-    )
-    return <ReloadDialog message={message} />
-  }
+  }, [submissionId, manuscriptID, projectID])
 
   return store ? (
     <GenericStoreProvider store={store}>
@@ -101,8 +84,8 @@ const EditorApp: React.FC<Props> = ({ submissionId }) => {
           <Page>
             <Wrapper>
               <ManuscriptPageContainer
-                submission={data.submission}
-                person={data.person}
+                submission={submission}
+                person={person}
               />
             </Wrapper>
           </Page>

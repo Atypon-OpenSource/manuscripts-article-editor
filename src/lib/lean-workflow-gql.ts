@@ -173,7 +173,6 @@ export const GET_SUBMISSION = gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
-      documentId
       attachments {
         id
         name
@@ -268,7 +267,7 @@ const GET_STEP = (stage: string) => gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
-       ${stage}Step {
+      ${stage}Step {
         id
         type {
           id
@@ -283,7 +282,7 @@ const GET_STEP = (stage: string) => gql`
           id
           displayName
         }
-       }
+      }
     }
   }
 `
@@ -421,15 +420,23 @@ export const useUpdateAttachmentFile = () => {
   }
 }
 
-export const useGetSubmissionAndPerson = (submissionId: string) =>
+export const useGetSubmissionAndPerson = (
+  documentId: string,
+  projectId: string
+) =>
   useQuery(GET_SUBMISSION, {
     context: {
       clientPurpose: 'leanWorkflowManager',
     },
-    variables: {
-      id: config.submission.id || submissionId,
-      type: 'URI',
-    },
+    variables: config.submission.id
+      ? {
+          id: config.submission.id,
+          type: 'URI',
+        }
+      : {
+          id: `${projectId}#${documentId}`,
+          type: 'DOCUMENT_ID',
+        },
   })
 
 export const useGetCurrentSubmissionStep = (
