@@ -227,7 +227,7 @@ export const ManuscriptInspector: React.FC<{
 
         <InspectorTabPanels>
           <InspectorTabPanel>
-            {config.export.literatum && (
+            {config.features.DOI && (
               <>
                 <Subheading>DOI</Subheading>
 
@@ -239,7 +239,11 @@ export const ManuscriptInspector: React.FC<{
                     })
                   }}
                 />
+              </>
+            )}
 
+            {config.features.runningTitle && (
+              <>
                 <Subheading>Running title</Subheading>
 
                 <RunningTitleField
@@ -251,53 +255,53 @@ export const ManuscriptInspector: React.FC<{
                     })
                   }}
                 />
+              </>
+            )}
 
-                {!leanWorkflow && (
-                  <>
-                    <Subheading>Publication Date</Subheading>
+            {!leanWorkflow && (
+              <>
+                <Subheading>Publication Date</Subheading>
 
-                    <DateTimeInput
-                      value={manuscript.publicationDate}
-                      handleChange={async (publicationDate) => {
-                        await saveManuscript({
-                          publicationDate,
-                        })
-                      }}
-                    />
+                <DateTimeInput
+                  value={manuscript.publicationDate}
+                  handleChange={async (publicationDate) => {
+                    await saveManuscript({
+                      publicationDate,
+                    })
+                  }}
+                />
 
-                    <Subheading>Paywall</Subheading>
+                <Subheading>Paywall</Subheading>
 
-                    <CheckboxInput
-                      value={manuscript.paywall}
-                      handleChange={async (paywall) => {
-                        await saveManuscript({ paywall })
-                      }}
-                      label={'Publish behind a paywall'}
-                    />
+                <CheckboxInput
+                  value={manuscript.paywall}
+                  handleChange={async (paywall) => {
+                    await saveManuscript({ paywall })
+                  }}
+                  label={'Publish behind a paywall'}
+                />
 
-                    <Subheading>Abstract</Subheading>
+                <Subheading>Abstract</Subheading>
 
-                    <DescriptionInput
-                      value={manuscript.desc}
-                      handleChange={async (desc) => {
-                        await saveManuscript({
-                          desc,
-                        })
-                      }}
-                    />
+                <DescriptionInput
+                  value={manuscript.desc}
+                  handleChange={async (desc) => {
+                    await saveManuscript({
+                      desc,
+                    })
+                  }}
+                />
 
-                    <Subheading>Theme</Subheading>
+                <Subheading>Theme</Subheading>
 
-                    <ThemeInput
-                      value={manuscript.layoutTheme || ''}
-                      handleChange={async (layoutTheme) => {
-                        await saveManuscript({
-                          layoutTheme,
-                        })
-                      }}
-                    />
-                  </>
-                )}
+                <ThemeInput
+                  value={manuscript.layoutTheme || ''}
+                  handleChange={async (layoutTheme) => {
+                    await saveManuscript({
+                      layoutTheme,
+                    })
+                  }}
+                />
               </>
             )}
 

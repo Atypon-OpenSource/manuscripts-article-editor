@@ -187,6 +187,21 @@ The service is configured using environment variables, `.env.example` file place
   <dt>FEATURE_FILE_MANAGEMENT</dt>
   <dd>If set to '1', enables the ability to manage files. Specially made for lean workflow purposes.</dd>
 
+  <dt>FEATURE_HEADER_IMAGE</dt>
+  <dd>If set to '1', enables the ability to manage header image, which is not a part of article body but can be used as a thumbnail or any other decorative element.</dd>
+
+  <dt>FEATURE_FIGURE_ALIGNMENT</dt>
+  <dd>If set to '1', enables the ability to provide metadata about how the figure has to be aligned in HTML or PDF or any other format.</dd>
+
+  <dt>FEATURE_NODE_INSPECTOR</dt>
+  <dd>If set to '1', enables the ability to manage individual nodes.</dd>
+
+  <dt>FEATURE_DOI</dt>
+  <dd>If set to '1', enables the ability to manage DOI of the article.</dd>
+
+  <dt>FEATURE_RUNNING_TITLE</dt>
+  <dd>If set to '1', enables the ability to manage article's running title.</dd>
+
   <dt>FEATURE_PRODUCTION_NOTES</dt>
   <dd>If set to '1', enables the ability to manipulate notes on a manuscript. Specially made for lean workflow purposes.</dd>
 

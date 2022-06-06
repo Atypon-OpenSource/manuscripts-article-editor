@@ -65,7 +65,7 @@ export const FigureLayouts: React.FC<{
         handleChange={setElementSizeFraction}
       />
 
-      {config.export.literatum && (
+      {config.features.figureAlignment && (
         <FigureAlignmentField
           defaultValue={DEFAULT_FIGURE_ALIGNMENT}
           value={figureElement.alignment}

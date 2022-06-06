@@ -48,6 +48,11 @@ interface Config {
     fileManagement: boolean
     commenting: boolean
     switchTemplate: boolean
+    headerImage: boolean
+    nodeInspector: boolean
+    DOI: boolean
+    runningTitle: boolean
+    figureAlignment: boolean
   }
   gateway: {
     url: string
@@ -171,6 +176,11 @@ const config = {
     fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
     commenting: isTrue(process.env.COMMENTING),
     switchTemplate: isTrue(process.env.FEATURE_SWITCH_TEMPLATE),
+    headerImage: isTrue(process.env.FEATURE_HEADER_IMAGE),
+    nodeInspector: isTrue(process.env.FEATURE_NODE_INSPECTOR),
+    DOI: isTrue(process.env.FEATURE_DOI),
+    runningTitle: isTrue(process.env.FEATURE_SWITCH_TEMPLATE),
+    figureAlignment: isTrue(process.env.FEATURE_FIGURE_ALIGNMENT),
   },
   gateway: {
     url: normalizeURL(getURL(process.env.SYNC_GATEWAY_URL, index)),
