@@ -91,6 +91,7 @@ const Inspector: React.FC<Props> = ({
   const {
     handleChangeAttachmentDesignation,
     handleReplaceAttachment,
+    handleUpdateInlineFile,
     handleUploadAttachment,
   } = useFileHandling()
 
@@ -245,6 +246,7 @@ const Inspector: React.FC<Props> = ({
                       handleDownload={handleDownloadAttachment}
                       handleReplace={handleReplaceAttachment}
                       handleUpload={handleUploadAttachment}
+                      handleUpdateInline={handleUpdateInlineFile}
                     />
                   </>
                 ) : null
