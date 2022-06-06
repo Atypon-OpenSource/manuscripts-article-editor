@@ -2198,7 +2198,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
 `;
 
 exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
-.c16 {
+.c22 {
   display: block;
   border: 1px solid #e2e2e2;
   border-radius: 4px;
@@ -2210,16 +2210,41 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   width: 100%;
 }
 
-.c16:focus {
+.c22:focus {
   border-color: #bce7f6;
   background-color: #f2fbfc;
 }
 
-.c16:hover {
+.c22:hover {
   background-color: #f2fbfc;
 }
 
-.c16:invalid {
+.c22:invalid {
+  box-shadow: none;
+}
+
+.c20 {
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px / 1 "Lato",sans-serif;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.c20:focus {
+  border-color: #bce7f6;
+  background-color: #f2fbfc;
+}
+
+.c20:hover {
+  background-color: #f2fbfc;
+}
+
+.c20:invalid {
   box-shadow: none;
 }
 
@@ -2396,18 +2421,23 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   margin: 8px 8px 32px;
 }
 
-.c23 {
+.c28 {
   width: 100px;
   padding: 4px 8px;
   font-size: 1em;
 }
 
-.c17 {
+.c23 {
   padding: 8px;
   font-size: 1em;
 }
 
-.c22 {
+.c21 {
+  padding: 8px;
+  font-size: 1em;
+}
+
+.c27 {
   margin-right: 8px;
 }
 
@@ -2428,7 +2458,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   margin-bottom: 0;
 }
 
-.c19 {
+.c24 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -2436,7 +2466,7 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   color: #6e6e6e;
 }
 
-.c20 {
+.c25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2452,11 +2482,11 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   margin-bottom: 8px;
 }
 
-.c20:last-child {
+.c25:last-child {
   margin-bottom: 0;
 }
 
-.c21 {
+.c26 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2465,6 +2495,67 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.c19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c19 .{
+  margin-right: 8px;
+}
+
+.c16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c17 {
+  height: 24px;
+}
+
+.c17 .react-datetime-picker__wrapper {
+  border: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c17 .react-datetime-picker__clear-button {
+  display: none;
+}
+
+.c17:hover .react-datetime-picker__clear-button {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.c17 .react-datetime-picker__clear-button svg {
+  stroke: #bbb;
 }
 
 <div
@@ -2608,7 +2699,254 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 <div
                   className="c3 c15"
                 >
-                  Keywords
+                  Publication Date
+                </div>
+                <div
+                  className="c16"
+                >
+                  <div
+                    className="react-datetime-picker react-datetime-picker--closed react-datetime-picker--enabled c17"
+                    onFocus={[Function]}
+                  >
+                    <div
+                      className="react-datetime-picker__wrapper"
+                    >
+                      <div
+                        className="react-datetime-picker__inputGroup"
+                        onClick={[Function]}
+                      >
+                        <input
+                          max="275760-09-13T00:00"
+                          min="0001-01-01T00:00"
+                          name="datetime"
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          step={60}
+                          style={
+                            Object {
+                              "position": "absolute",
+                              "visibility": "hidden",
+                              "zIndex": "-999",
+                            }
+                          }
+                          type="datetime-local"
+                          value=""
+                        />
+                        
+                        <input
+                          autoComplete="off"
+                          className="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month"
+                          data-input="true"
+                          inputMode="numeric"
+                          max={12}
+                          min={1}
+                          name="month"
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyPress={[Function]}
+                          onKeyUp={[Function]}
+                          placeholder="--"
+                          required={null}
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          className="react-datetime-picker__inputGroup__divider"
+                        >
+                          /
+                        </span>
+                        <input
+                          autoComplete="off"
+                          autoFocus={false}
+                          className="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day"
+                          data-input="true"
+                          inputMode="numeric"
+                          max={31}
+                          min={1}
+                          name="day"
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyPress={[Function]}
+                          onKeyUp={[Function]}
+                          placeholder="--"
+                          required={null}
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          className="react-datetime-picker__inputGroup__divider"
+                        >
+                          /
+                        </span>
+                        <input
+                          autoComplete="off"
+                          autoFocus={false}
+                          className="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                          data-input="true"
+                          inputMode="numeric"
+                          max={275760}
+                          min={1}
+                          name="year"
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyPress={[Function]}
+                          onKeyUp={[Function]}
+                          placeholder="----"
+                          required={null}
+                          step={1}
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          className="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <input
+                          autoComplete="off"
+                          autoFocus={false}
+                          className="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour"
+                          data-input="true"
+                          inputMode="numeric"
+                          max={12}
+                          min={1}
+                          name="hour12"
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyPress={[Function]}
+                          onKeyUp={[Function]}
+                          placeholder="--"
+                          required={null}
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          className="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <input
+                          autoComplete="off"
+                          autoFocus={false}
+                          className="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                          data-input="true"
+                          inputMode="numeric"
+                          max={59}
+                          min={0}
+                          name="minute"
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyPress={[Function]}
+                          onKeyUp={[Function]}
+                          placeholder="--"
+                          required={null}
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          className="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <select
+                          className="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                          name="amPm"
+                          onChange={[Function]}
+                          required={null}
+                          value=""
+                        >
+                          <option
+                            value=""
+                          >
+                            --
+                          </option>
+                          <option
+                            value="am"
+                          >
+                            AM
+                          </option>
+                          <option
+                            value="pm"
+                          >
+                            PM
+                          </option>
+                        </select>
+                        
+                      </div>
+                      <button
+                        className="react-datetime-picker__clear-button react-datetime-picker__button"
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        type="button"
+                      >
+                        <svg
+                          className="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                          height={19}
+                          stroke="black"
+                          strokeWidth={2}
+                          viewBox="0 0 19 19"
+                          width={19}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line
+                            x1="4"
+                            x2="15"
+                            y1="4"
+                            y2="15"
+                          />
+                          <line
+                            x1="15"
+                            x2="4"
+                            y1="4"
+                            y2="15"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="c3 c15"
+                >
+                  Paywall
+                </div>
+                <div
+                  className="c18"
+                >
+                  <label
+                    className="c19"
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Publish behind a paywall
+                  </label>
+                </div>
+                <div
+                  className="c3 c15"
+                >
+                  Abstract
+                </div>
+                <textarea
+                  className="c20 c21"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rows={5}
+                  value=""
+                />
+                <div
+                  className="c3 c15"
+                >
+                  Theme
                 </div>
                 <div
                   className=" css-1akvy1b-container"
@@ -2716,10 +3054,118 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 <div
                   className="c3 c15"
                 >
+                  Keywords
+                </div>
+                <div
+                  className=" css-1akvy1b-container"
+                  onKeyDown={[Function]}
+                >
+                  <div
+                    className=" css-sttxd2-control"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                  >
+                    <div
+                      className=" css-g1d714-ValueContainer"
+                    >
+                      <div
+                        className=" css-1wa3eu0-placeholder"
+                      >
+                        Select...
+                      </div>
+                      <div
+                        className="css-b8ldur-Input"
+                      >
+                        <div
+                          className=""
+                          style={
+                            Object {
+                              "display": "inline-block",
+                            }
+                          }
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            autoCapitalize="none"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            disabled={false}
+                            id="react-select-5-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            spellCheck="false"
+                            style={
+                              Object {
+                                "background": 0,
+                                "border": 0,
+                                "boxSizing": "content-box",
+                                "color": "inherit",
+                                "fontSize": "inherit",
+                                "label": "input",
+                                "opacity": 1,
+                                "outline": 0,
+                                "padding": 0,
+                                "width": "1px",
+                              }
+                            }
+                            tabIndex="0"
+                            type="text"
+                            value=""
+                          />
+                          <div
+                            style={
+                              Object {
+                                "height": 0,
+                                "left": 0,
+                                "overflow": "scroll",
+                                "position": "absolute",
+                                "top": 0,
+                                "visibility": "hidden",
+                                "whiteSpace": "pre",
+                              }
+                            }
+                          >
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className=" css-1hb7zxy-IndicatorsContainer"
+                    >
+                      <span
+                        className=" css-1okebmr-indicatorSeparator"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className=" css-tlfecz-indicatorContainer"
+                        onMouseDown={[Function]}
+                        onTouchEnd={[Function]}
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className="css-6q0nyr-Svg"
+                          focusable="false"
+                          height={20}
+                          viewBox="0 0 20 20"
+                          width={20}
+                        >
+                          <path
+                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="c3 c15"
+                >
                   Author Instruction URL
                 </div>
                 <input
-                  className="c16 c17"
+                  className="c22 c23"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -2741,12 +3187,12 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   className="c18"
                 >
                   <div
-                    className="c19"
+                    className="c24"
                   >
                     Figure Panel
                   </div>
                   <input
-                    className="c16 c17"
+                    className="c22 c23"
                     onChange={[Function]}
                     placeholder="Figure"
                     type="text"
@@ -2757,12 +3203,12 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   className="c18"
                 >
                   <div
-                    className="c19"
+                    className="c24"
                   >
                     Table
                   </div>
                   <input
-                    className="c16 c17"
+                    className="c22 c23"
                     onChange={[Function]}
                     placeholder="Table"
                     type="text"
@@ -2773,12 +3219,12 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   className="c18"
                 >
                   <div
-                    className="c19"
+                    className="c24"
                   >
                     Equation
                   </div>
                   <input
-                    className="c16 c17"
+                    className="c22 c23"
                     onChange={[Function]}
                     placeholder="Equation"
                     type="text"
@@ -2789,12 +3235,12 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   className="c18"
                 >
                   <div
-                    className="c19"
+                    className="c24"
                   >
                     Listing
                   </div>
                   <input
-                    className="c16 c17"
+                    className="c22 c23"
                     onChange={[Function]}
                     placeholder="Listing"
                     type="text"
@@ -2812,21 +3258,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="c20"
+                  className="c25"
                 >
                   <label
-                    className="c21"
+                    className="c26"
                   >
                     <input
                       checked={false}
-                      className="c22"
+                      className="c27"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Min word count
                   </label>
                   <input
-                    className="c16 c23"
+                    className="c22 c28"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2840,21 +3286,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="c20"
+                  className="c25"
                 >
                   <label
-                    className="c21"
+                    className="c26"
                   >
                     <input
                       checked={false}
-                      className="c22"
+                      className="c27"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Max word count
                   </label>
                   <input
-                    className="c16 c23"
+                    className="c22 c28"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2868,21 +3314,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="c20"
+                  className="c25"
                 >
                   <label
-                    className="c21"
+                    className="c26"
                   >
                     <input
                       checked={false}
-                      className="c22"
+                      className="c27"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Min character count
                   </label>
                   <input
-                    className="c16 c23"
+                    className="c22 c28"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
@@ -2896,21 +3342,21 @@ exports[`Storyshots Inspector/Manuscript Inspector without requirements 1`] = `
                   />
                 </div>
                 <div
-                  className="c20"
+                  className="c25"
                 >
                   <label
-                    className="c21"
+                    className="c26"
                   >
                     <input
                       checked={false}
-                      className="c22"
+                      className="c27"
                       onChange={[Function]}
                       type="checkbox"
                     />
                     Max character count
                   </label>
                   <input
-                    className="c16 c23"
+                    className="c22 c28"
                     disabled={true}
                     min={1}
                     onBlur={[Function]}
