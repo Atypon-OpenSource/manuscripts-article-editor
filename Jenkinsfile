@@ -1,14 +1,6 @@
 node("cisc && !cisc03") {
     stage("Checkout") {
-        VARS = checkout(scm:[$class: 'GitSCM',
-            doGenerateSubmoduleConfigurations: false,
-            submoduleCfg: [],
-            userRemoteConfigs: [
-                [credentialsId: '336d4fc3-f420-4a3e-b96c-0d0f36ad12be',
-                name: 'origin',
-                url: 'git@github.com:Atypon-OpenSource/manuscripts-article-editor.git']
-            ]]
-        )
+        VARS = checkout scm 
         echo "VARS: $VARS"
     }
 
