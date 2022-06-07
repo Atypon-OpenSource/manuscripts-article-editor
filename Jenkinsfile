@@ -43,9 +43,9 @@ node("cisc") {
     if (VARS.GIT_BRANCH == "origin/master") {
         stage ("Publish") {
             withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-                sh ("""cat << EOF >.npmrc \
-//registry.npmjs.org/:_authToken=$NPM_TOKEN \
-EOF""")
+                sh ("""cat << EOF >.npmrc 
+//registry.npmjs.org/:_authToken=$NPM_TOKEN 
+<<EOF""")
                 sh ("npx @manuscripts/publish")
                 sh "rm -f .npmrc"
             }
