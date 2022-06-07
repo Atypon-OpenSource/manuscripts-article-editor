@@ -38,6 +38,7 @@ import { Commit } from '@manuscripts/track-changes'
 
 import { BiblioTools } from '../couch-data/Bibilo'
 import { TokenData } from '../couch-data/TokenData'
+import { Person, Submission } from '../lib/lean-workflow-gql'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 
 export interface TokenActions {
@@ -83,6 +84,8 @@ export type state = {
   projectInvitations?: ProjectInvitation[]
   containerInvitations?: ContainerInvitation[]
   projects: Project[]
+  submission: Submission
+  person: Person
 
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>

@@ -34,7 +34,6 @@ import { useCreateEditor } from '../../../hooks/use-create-editor'
 import {
   graphQLErrorMessage,
   Person,
-  Submission,
   useGetPermittedActions,
 } from '../../../lib/lean-workflow-gql'
 import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
@@ -61,17 +60,18 @@ import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
-const ManuscriptPageContainer: React.FC<{
-  submission: Submission
-  person: Person
-}> = ({ submission, person }) => {
-  const [{ project, user }, dispatch] = useStore((state) => {
-    return {
-      manuscriptID: state.manuscriptID,
-      project: state.project,
-      user: state.user,
+const ManuscriptPageContainer: React.FC = () => {
+  const [{ project, user, submission, person }, dispatch] = useStore(
+    (state) => {
+      return {
+        manuscriptID: state.manuscriptID,
+        project: state.project,
+        user: state.user,
+        submission: state.submission,
+        person: state.person,
+      }
     }
-  })
+  )
 
   useEffect(() => {
     if (submission?.id && person) {

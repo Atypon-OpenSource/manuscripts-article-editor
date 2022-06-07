@@ -62,6 +62,8 @@ const EditorApp: React.FC<Props> = ({
       submissionId,
       projectID,
       manuscriptID,
+      submission,
+      person,
       userID || ''
     )
     const couchSource = new CouchSource()
@@ -83,10 +85,7 @@ const EditorApp: React.FC<Props> = ({
         <NotificationProvider>
           <Page>
             <Wrapper>
-              <ManuscriptPageContainer
-                submission={submission}
-                person={person}
-              />
+              <ManuscriptPageContainer />
             </Wrapper>
           </Page>
         </NotificationProvider>
