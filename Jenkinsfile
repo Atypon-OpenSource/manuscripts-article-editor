@@ -1,4 +1,4 @@
-node("cisc && !cisc03") {
+node("cisc") {
     stage("Checkout") {
         VARS = checkout(scm:[$class: 'GitSCM',
             doGenerateSubmoduleConfigurations: false,
