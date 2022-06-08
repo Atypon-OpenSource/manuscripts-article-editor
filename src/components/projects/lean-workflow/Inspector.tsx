@@ -22,6 +22,8 @@ import {
 } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useState } from 'react'
+import { HistoricalView } from '../../history/HistoricalView'
+import { useModal } from '../../ModalHookableProvider'
 
 import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
 import { useCommits } from '../../../hooks/use-commits'
@@ -40,6 +42,8 @@ import { ContentTab } from './ContentTab'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
 import useFileHandling from './FileHandling'
+import { Snapshot } from '@manuscripts/manuscripts-json-schema'
+import { useSnapshotManager } from '../../../hooks/use-snapshot-manager'
 
 interface Props {
   tabs: string[]
@@ -111,9 +115,32 @@ const Inspector: React.FC<Props> = ({
   const [errorDialog, setErrorDialog] = useState(false)
   const [selectedSnapshot, selectSnapshot] = useState(snapshots && snapshots[0])
 
-  const handleSelect = useCallback((snapshot) => {
+  const { addModal } = useModal()
+
+  const { requestTakeSnapshot } = useSnapshotManager(project)
+
+  const handleSelect = useCallback((snapshot: Snapshot) => {
     selectSnapshot(snapshot)
   }, [])
+
+  const viewHandler = useCallback(() => {
+    if (!selectedSnapshot) {
+      return
+    }
+    addModal('historicalView', ({ handleClose }) => {
+      return (
+        <>
+          <HistoricalView
+            snapshotID={selectedSnapshot._id}
+            project={project}
+            manuscript={manuscript}
+            user={user}
+            handleClose={handleClose}
+          />
+        </>
+      )
+    })
+  }, [project, manuscript, user, addModal, selectedSnapshot])
 
   const handleSort = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -129,6 +156,7 @@ const Inspector: React.FC<Props> = ({
 
   const commentController = useComments(comments, user, state, editor.doCommand)
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
+
   return (
     <>
       <Panel
@@ -155,18 +183,24 @@ const Inspector: React.FC<Props> = ({
             switch (label) {
               case 'Content': {
                 return (
-                  <ContentTab
-                    selected={selected}
-                    selectedElement={findParentElement(
-                      state.selection,
-                      modelIds
-                    )}
-                    selectedSection={findParentSection(state.selection)}
-                    state={state}
-                    dispatch={dispatch}
-                    hasFocus={view?.hasFocus()}
-                    key="content"
-                  />
+                  <>
+                    <button onClick={() => requestTakeSnapshot()}>
+                      Take Snapshot
+                    </button>
+
+                    <ContentTab
+                      selected={selected}
+                      selectedElement={findParentElement(
+                        state.selection,
+                        modelIds
+                      )}
+                      selectedSection={findParentSection(state.selection)}
+                      state={state}
+                      dispatch={dispatch}
+                      hasFocus={view?.hasFocus()}
+                      key="content"
+                    />
+                  </>
                 )
               }
               case 'Comments': {
@@ -196,7 +230,7 @@ const Inspector: React.FC<Props> = ({
                         snapshots={snapshots || []}
                         selectedSnapshot={selectedSnapshot}
                         selectSnapshot={handleSelect}
-                        selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
+                        viewHandler={viewHandler}
                       />
                     )}
 
