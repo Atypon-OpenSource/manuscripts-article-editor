@@ -179,7 +179,7 @@ const config = {
     headerImage: isTrue(process.env.FEATURE_HEADER_IMAGE),
     nodeInspector: isTrue(process.env.FEATURE_NODE_INSPECTOR),
     DOI: isTrue(process.env.FEATURE_DOI),
-    runningTitle: isTrue(process.env.FEATURE_SWITCH_TEMPLATE),
+    runningTitle: isTrue(process.env.FEATURE_RUNNING_TITLE),
     figureAlignment: isTrue(process.env.FEATURE_FIGURE_ALIGNMENT),
   },
   gateway: {
