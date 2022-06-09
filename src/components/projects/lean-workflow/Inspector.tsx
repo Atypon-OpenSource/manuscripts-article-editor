@@ -21,7 +21,6 @@ import {
   SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useState } from 'react'
 
 import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
@@ -42,39 +41,24 @@ import { ContentTab } from './ContentTab'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
 import useFileHandling from './FileHandling'
+import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
 
 interface Props {
   tabs: string[]
-  commits: Commit[]
   editor: ReturnType<typeof useCreateEditor>
-  corrections: ReturnType<typeof useCommits>['corrections']
-  accept: ReturnType<typeof useCommits>['accept']
-  reject: ReturnType<typeof useCommits>['reject']
 }
 const Inspector: React.FC<Props> = ({
   tabs,
-  commits,
   editor,
-  corrections,
-  accept,
-  reject,
 }) => {
   const [
     {
-      snapshots,
       saveModel,
       modelMap,
-      user,
-      project,
-      manuscript,
       submission,
       submissionId,
       fileManagementErrors,
-      commitsSortBy,
-      comments,
-      snapshotID,
     },
-    dispatchStore,
   ] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
@@ -112,32 +96,12 @@ const Inspector: React.FC<Props> = ({
   const can = usePermissions()
 
   const [errorDialog, setErrorDialog] = useState(false)
-  const [selectedSnapshot, selectSnapshot] = useState(snapshots && snapshots[0])
-
-  const handleSelect = useCallback((snapshot: Snapshot) => {
-    selectSnapshot(snapshot)
-  }, [])
-
-  const viewHandler = useOpenHistoricalModal(
-    project,
-    manuscript,
-    user,
-    selectSnapshot
-  )
-
-  const handleSort = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    dispatchStore({
-      commitsSortBy: event.currentTarget.value,
-    })
-  }
 
   const handleDownloadAttachment = useCallback((url: string) => {
     window.location.assign(url)
   }, [])
 
-  const commentController = useComments(comments, user, state, editor.doCommand)
+  // const commentController = useComments(comments, user, state, editor.doCommand)
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
   return (
@@ -149,18 +113,11 @@ const Inspector: React.FC<Props> = ({
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={
-          !!getUnsavedComment(commentController.items) ||
-          !!commentController.focusedItem
-        }
+        forceOpen={undefined}
       >
         <InspectorLW
           tabs={tabs}
-          commentTarget={
-            getUnsavedComment(commentController.items) ||
-            commentController.focusedItem ||
-            undefined
-          }
+          commentTarget={undefined}
         >
           {tabs.map((label) => {
             switch (label) {
@@ -182,15 +139,15 @@ const Inspector: React.FC<Props> = ({
                   </>
                 )
               }
-              case 'Comments': {
-                return (
-                  <CommentsTab
-                    commentController={commentController}
-                    selected={selected}
-                    key="comments"
-                  />
-                )
-              }
+              // case 'Comments': {
+              //   return (
+              //     <CommentsTab
+              //       commentController={commentController}
+              //       selected={selected}
+              //       key="comments"
+              //     />
+              //   )
+              // }
 
               case 'Quality': {
                 return (
@@ -201,34 +158,10 @@ const Inspector: React.FC<Props> = ({
                   />
                 )
               }
-              case 'History': {
-                return snapshotID ? (
-                  <React.Fragment key="history">
-                    {selectedSnapshot && (
-                      <SnapshotsDropdown
-                        snapshots={snapshots || []}
-                        selectedSnapshot={selectedSnapshot}
-                        selectSnapshot={handleSelect}
-                        viewHandler={() => viewHandler(selectedSnapshot)}
-                      />
-                    )}
 
-                    <SortByDropdown
-                      sortBy={commitsSortBy}
-                      handleSort={handleSort}
-                    />
-                    <Corrections
-                      corrections={corrections}
-                      editor={editor}
-                      commits={commits}
-                      accept={accept}
-                      reject={reject}
-                    />
-                  </React.Fragment>
-                ) : (
-                  <h3 key="history">
-                    Tracking is off - create a Snapshot to get started
-                  </h3>
+              case 'Track changes': {
+                return (
+                  <TrackChangesPanel key="track-changes"/>
                 )
               }
 

@@ -2268,6 +2268,11 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
+"@manuscripts/quarterback-types@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@manuscripts/quarterback-types/-/quarterback-types-0.1.0.tgz#2d1cb6bffbd0d29ede892f94a84354a8c3593005"
+  integrity sha512-Tx47FvXfiS8YMMpa/a/oxTnPYuFc44mc+WPaZSPfRo2u+e0ttWj9bzXwjELpDfRHvRQblQoyRz6zmfA74JORdg==
+
 "@manuscripts/requirements@^0.4.11":
   version "0.4.11"
   resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.4.11.tgz#52a018d1a1cf9ef9eaecbf1233ef79e2403ac8e5"
@@ -2370,6 +2375,13 @@
     prosemirror-model "~1.14.0"
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
+
+"@manuscripts/track-changes-plugin@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.0.2.tgz#5092503c63b51c2bdb00a6a533f38c75f5c8f6d5"
+  integrity sha512-zk9ObQrKxcwpChRdgNGU6RksNQpUvgbcHBj+MsyyefN8Olzag+MarFuM1IFyFzPYkyuXHPNmcCL2D0lUBTWWrg==
+  dependencies:
+    debug "^4.3.4"
 
 "@manuscripts/track-changes@^0.3.3":
   version "0.3.3"
@@ -3551,6 +3563,13 @@
   dependencies:
     "@types/lodash" "*"
 
+"@types/lodash.debounce@^4.0.7":
+  version "4.0.7"
+  resolved "https://registry.npmjs.org/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
+  integrity sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash@*", "@types/lodash@^4.14.162":
   version "4.14.168"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
@@ -3760,6 +3779,11 @@
   version "6.9.6"
   resolved "https://registry.npmjs.org/@types/qs/-/qs-6.9.6.tgz#df9c3c8b31a247ec315e6996566be3171df4b3b1"
   integrity sha512-0/HnwIfW4ki2D8L8c9GVcG5I72s9jP5GSLVF0VIXDW00kmIpA6O33G7a8n59Tmh7Nz0WUC3rSb7PTY/sdW2JzA==
+
+"@types/randomcolor@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@types/randomcolor/-/randomcolor-0.5.6.tgz#c1085077c4ae0f6af60e0ad229d14721b9b3b58c"
+  integrity sha512-lKkW8DGUQpZldTrwa+HM5rY+7eTyaHOMTsnj9ewt7AAwXuMPwBmkLlfh8+SXdgOhBW9iNI4x4zRjQ/TQZkdycQ==
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -7503,6 +7527,13 @@ debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   version "4.3.1"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
+  dependencies:
+    ms "2.1.2"
+
+debug@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
+  integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
   dependencies:
     ms "2.1.2"
 
@@ -16412,6 +16443,11 @@ randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   dependencies:
     safe-buffer "^5.1.0"
 
+randomcolor@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.npmjs.org/randomcolor/-/randomcolor-0.6.2.tgz#7a57362ae1a1278439aeed2c15e5deb8ea33f56d"
+  integrity sha512-Mn6TbyYpFgwFuQ8KJKqf3bqqY9O1y37/0jgSK/61PUxV4QfIMv0+K2ioq8DfOjkBslcjwSzRfIDEXfzA9aCx7A==
+
 randomfill@^1.0.3:
   version "1.0.4"
   resolved "https://registry.npmjs.org/randomfill/-/randomfill-1.0.4.tgz#c92196fc86ab42be983f1bf31778224931d61458"
@@ -16748,6 +16784,11 @@ react-hot-loader@^4.13.0:
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.1.0"
     source-map "^0.7.3"
+
+react-icons@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.4.0.tgz#a13a8a20c254854e1ec9aecef28a95cdf24ef703"
+  integrity sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==
 
 react-input-autosize@^2.2.2:
   version "2.2.2"
@@ -19953,6 +19994,11 @@ use-memo-one@^1.1.1:
   resolved "https://registry.npmjs.org/use-memo-one/-/use-memo-one-1.1.2.tgz#0c8203a329f76e040047a35a1197defe342fab20"
   integrity sha512-u2qFKtxLsia/r8qG0ZKkbytbztzRb317XCkT7yP8wxL0tZ/CzK2G+WWie5vWvpyeP7+YoPIwbJoIHJ4Ba4k0oQ==
 
+use-sync-external-store@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.1.0.tgz#3343c3fe7f7e404db70f8c687adf5c1652d34e82"
+  integrity sha512-SEnieB2FPKEVne66NpXPd1Np4R1lTNKfjuy3XdIoPQKYBAFdzbzSZlSn1KJZUiihQLQC5Znot4SBz1EOTBwQAQ==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.npmjs.org/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
@@ -21115,3 +21161,10 @@ zen-observable@^0.8.0:
   version "0.8.15"
   resolved "https://registry.npmjs.org/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
+
+zustand@^4.0.0-rc.1:
+  version "4.0.0-rc.1"
+  resolved "https://registry.npmjs.org/zustand/-/zustand-4.0.0-rc.1.tgz#ec30a3afc03728adec7e1bd7bcc3592176372201"
+  integrity sha512-qgcs7zLqBdHu0PuT3GW4WCIY5SgXdsv30GQMu9Qpp1BA2aS+sNS8l4x0hWuyEhjXkN+701aGWawhKDv6oWJAcw==
+  dependencies:
+    use-sync-external-store "1.1.0"

@@ -82,6 +82,10 @@ interface Config {
     token: string
     disabled: boolean
   }
+  quarterback: {
+    enabled: boolean
+    url: string
+  }
   shackles: {
     enabled: boolean
     url: string
@@ -209,6 +213,10 @@ const config = {
     url: normalizeURL(process.env.JUPYTER_URL),
     token: process.env.JUPYTER_TOKEN,
     disabled: isTrue(process.env.DISABLE_ATTACH_CODE),
+  },
+  quarterback: {
+    enabled: isTrue(process.env.QUARTERBACK_ENABLED),
+    url: normalizeURL(process.env.QUARTERBACK_URL) || '',
   },
   shackles: {
     enabled: isTrue(process.env.SHACKLES_ENABLED),

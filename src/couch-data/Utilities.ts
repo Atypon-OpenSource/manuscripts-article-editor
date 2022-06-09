@@ -50,6 +50,7 @@ export default class Utilities {
   }
 
   init = async (userID: string) => {
+    userID = userID || 'b5ece811-577e-41e3-8d5b-073c4712c042'
     if (userID) {
       await CollectionManager.createCollection({
         collection: 'user',

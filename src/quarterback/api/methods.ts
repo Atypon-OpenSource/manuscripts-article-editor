@@ -1,0 +1,142 @@
+/*!
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ *
+ * The Original Code is manuscripts-frontend.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ *
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ */
+import type { Event } from '@manuscripts/quarterback-types'
+
+import config from '../../config'
+import { useAuthStore } from '../useAuthStore'
+
+const {
+  quarterback: { url: QUARTERBACK_URL },
+} = config
+
+type FetchOptions = {
+  method: string
+  headers: Record<string, string>
+  body?: string
+}
+
+const DEFAULT_HEADERS = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
+}
+
+function getAuthHeader() {
+  const jwt = useAuthStore.getState().jwt
+  return jwt && { Authorization: `Bearer ${jwt.token}` }
+}
+
+export async function wrappedFetch<T>(
+  path: string,
+  options: FetchOptions,
+  defaultError = 'Request failed'
+): Promise<Event<T>> {
+  let resp
+  try {
+    resp = await fetch(`${QUARTERBACK_URL}/${path}`, options)
+  } catch (err) {
+    // Must be a connection error (?)
+    console.error(err)
+    return { ok: false, error: 'Connection error', status: 550 }
+  }
+  let data
+  const contentType = resp.headers.get('Content-Type')
+  if (!contentType || contentType.includes('application/json')) {
+    data = await resp.json()
+  } else if (contentType.includes('application/octet-stream')) {
+    data = await resp.arrayBuffer()
+  }
+  if (!resp.ok) {
+    console.error(data?.message || defaultError)
+    return {
+      ok: false,
+      error: data?.message || defaultError,
+      status: resp.status,
+    }
+  }
+  return { ok: true, data }
+}
+
+export function get<T>(
+  path: string,
+  defaultError?: string,
+  headers: Record<string, string> = DEFAULT_HEADERS
+): Promise<Event<T>> {
+  return wrappedFetch(
+    path,
+    {
+      method: 'GET',
+      headers: {
+        ...headers,
+        ...getAuthHeader(),
+      },
+    },
+    defaultError
+  )
+}
+
+export function post<T>(
+  path: string,
+  payload: any,
+  defaultError?: string,
+  headers: Record<string, string> = DEFAULT_HEADERS
+): Promise<Event<T>> {
+  return wrappedFetch(
+    path,
+    {
+      method: 'POST',
+      headers: {
+        ...headers,
+        ...getAuthHeader(),
+      },
+      body: JSON.stringify(payload),
+    },
+    defaultError
+  )
+}
+
+export function put<T>(
+  path: string,
+  payload: any,
+  defaultError?: string,
+  headers: Record<string, string> = DEFAULT_HEADERS
+): Promise<Event<T>> {
+  return wrappedFetch(
+    path,
+    {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        ...getAuthHeader(),
+      },
+      body: JSON.stringify(payload),
+    },
+    defaultError
+  )
+}
+
+export function del<T>(
+  path: string,
+  defaultError?: string,
+  headers: Record<string, string> = DEFAULT_HEADERS
+): Promise<Event<T>> {
+  return wrappedFetch(
+    path,
+    {
+      method: 'DELETE',
+      headers: {
+        ...headers,
+        ...getAuthHeader(),
+      },
+    },
+    defaultError
+  )
+}
