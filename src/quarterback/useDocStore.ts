@@ -9,10 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Event,
-  ManuscriptDoc,
-} from '@manuscripts/quarterback-types'
+import { ManuscriptDoc } from '@manuscripts/quarterback-types'
 import create from 'zustand'
 import { combine } from 'zustand/middleware'
 
@@ -39,9 +36,7 @@ export const useDocStore = create(
       },
       getDocument: async (manuscriptID: string) => {
         const resp = await docApi.getDocument(manuscriptID)
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set({ quarterbackDoc: resp.data })
         }
         return resp
@@ -52,9 +47,7 @@ export const useDocStore = create(
           project_model_id: projectID,
           doc: {},
         })
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set({
             currentDocument: { manuscriptID, projectID },
             quarterbackDoc: resp.data
@@ -64,9 +57,7 @@ export const useDocStore = create(
       },
       updateDocument: async (id: string, doc: Record<string, any>) => {
         const resp = await docApi.updateDocument(id, { doc })
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set((state) => {
             let { quarterbackDoc } = state
             if (quarterbackDoc) {
@@ -84,9 +75,7 @@ export const useDocStore = create(
       },
       deleteDocument: async (manuscriptId: string) => {
         const resp = await docApi.deleteDocument(manuscriptId)
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set((state) =>
             state.quarterbackDoc?.manuscript_model_id === manuscriptId
               ? { quarterbackDoc: null }

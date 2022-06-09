@@ -80,7 +80,7 @@ export const SnapshotsList = (props: IProps) => {
     values: UpdateSnapshotFormValues
   ): AsyncGenerator<Evt<boolean>, void, unknown> {
     if (!editedSnapId) {
-      yield { e: 'error', error: 'No edited doc' }
+      yield { e: 'error', err: 'No edited doc', code: 500 }
       return
     }
     try {
@@ -88,10 +88,10 @@ export const SnapshotsList = (props: IProps) => {
       if (resp.ok) {
         yield { e: 'ok', data: resp.data }
       } else {
-        yield { e: 'error', error: resp.error }
+        yield { e: 'error', err: resp.err, code: 500 }
       }
     } catch (err: any) {
-      yield { e: 'error', error: err.toString() }
+      yield { e: 'error', err: err.toString(), code: 500 }
     } finally {
       yield { e: 'finally' }
     }

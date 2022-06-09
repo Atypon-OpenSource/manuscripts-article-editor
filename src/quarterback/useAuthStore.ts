@@ -57,17 +57,14 @@ export const useAuthStore = create(
             // @TODO check expiration
             return true
           }
-          const res = await authApi.authenticate({
+          const resp = await authApi.authenticate({
             user,
             token: 'a',
           })
-          if (res.ok) {
-            set({ jwt: res.data.jwt })
-            return true
-          } else {
-            console.error(res.error)
-            return false
+          if (resp.ok) {
+            set({ jwt: resp.data.jwt })
           }
+          return resp.ok
         },
         logout() {
           set({ user: undefined, jwt: undefined })

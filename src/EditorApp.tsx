@@ -29,7 +29,6 @@ import {
   GenericStoreProvider,
 } from './store'
 import { useAuthStore } from './quarterback/useAuthStore'
-import { useCommentStore } from './quarterback/useCommentStore'
 import { useDocStore } from './quarterback/useDocStore'
 import { useSnapshotStore } from './quarterback/useSnapshotStore'
 import config from './config'
@@ -64,7 +63,6 @@ const EditorApp: React.FC<Props> = ({
 
   const [store, setStore] = useState<GenericStore>()
   const { authenticate, setUser } = useAuthStore()
-  const { listComments } = useCommentStore()
   const { createDocument, getDocument, setCurrentDocument } = useDocStore()
   const { init: initSnapshots, setSnapshots } = useSnapshotStore()
   useMemo(() => {
@@ -111,9 +109,8 @@ const EditorApp: React.FC<Props> = ({
     if (found.ok) {
       initSnapshots()
       setSnapshots(found.data.snapshots)
-      listComments(found.data.manuscript_model_id)
       doc = found.data.doc
-    } else if (!found.ok && found.status === 404) {
+    } else if (!found.ok && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
       createDocument(manuscriptID, projectID)
     }

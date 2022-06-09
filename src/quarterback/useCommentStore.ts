@@ -105,9 +105,7 @@ export const useCommentStore = create(
       },
       listComments: async (docId: string) => {
         const resp = await commentApi.listComments(docId)
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set((state) => {
             const { usersMap } = state
             const commentsMap = new Map(
@@ -133,9 +131,7 @@ export const useCommentStore = create(
         user: UserWithColor
       ) => {
         const resp = await commentApi.createComment(payload)
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set((state) => {
             const { commentsMap } = state
             commentsMap.set(resp.data.id, {
@@ -158,9 +154,7 @@ export const useCommentStore = create(
         values: IUpdateCommentRequest
       ) => {
         const resp = await commentApi.updateComment(commentId, values)
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set((state) => {
             const { commentsMap } = state
             const old = commentsMap.get(commentId)
@@ -178,9 +172,7 @@ export const useCommentStore = create(
       },
       deleteComment: async (snapId: string) => {
         const resp = await commentApi.deleteComment(snapId)
-        if (!resp.ok) {
-          console.error(resp.error)
-        } else {
+        if (resp.ok) {
           set((state) => {
             const { commentsMap } = state
             commentsMap.delete(snapId)

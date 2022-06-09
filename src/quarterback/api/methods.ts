@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import type { Event } from '@manuscripts/quarterback-types'
+import type { Maybe } from '@manuscripts/quarterback-types'
 
 import config from '../../config'
 import { useAuthStore } from '../useAuthStore'
@@ -38,14 +38,14 @@ export async function wrappedFetch<T>(
   path: string,
   options: FetchOptions,
   defaultError = 'Request failed'
-): Promise<Event<T>> {
+): Promise<Maybe<T>> {
   let resp
   try {
     resp = await fetch(`${QUARTERBACK_URL}/${path}`, options)
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
-    return { ok: false, error: 'Connection error', status: 550 }
+    return { ok: false, err: 'Connection error', code: 550 }
   }
   let data
   const contentType = resp.headers.get('Content-Type')
@@ -58,8 +58,8 @@ export async function wrappedFetch<T>(
     console.error(data?.message || defaultError)
     return {
       ok: false,
-      error: data?.message || defaultError,
-      status: resp.status,
+      err: data?.message || defaultError,
+      code: resp.status,
     }
   }
   return { ok: true, data }
@@ -69,7 +69,7 @@ export function get<T>(
   path: string,
   defaultError?: string,
   headers: Record<string, string> = DEFAULT_HEADERS
-): Promise<Event<T>> {
+): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {
@@ -88,7 +88,7 @@ export function post<T>(
   payload: any,
   defaultError?: string,
   headers: Record<string, string> = DEFAULT_HEADERS
-): Promise<Event<T>> {
+): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {
@@ -108,7 +108,7 @@ export function put<T>(
   payload: any,
   defaultError?: string,
   headers: Record<string, string> = DEFAULT_HEADERS
-): Promise<Event<T>> {
+): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {
@@ -127,7 +127,7 @@ export function del<T>(
   path: string,
   defaultError?: string,
   headers: Record<string, string> = DEFAULT_HEADERS
-): Promise<Event<T>> {
+): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {

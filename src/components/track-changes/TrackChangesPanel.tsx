@@ -48,7 +48,6 @@ export function TrackChangesPanel() {
       await listComments(docId)
     }
     if (user) {
-      console.log('user', getTrackUser())
       execCmd(trackCommands.setUserID(getTrackUser().id))
     }
     currentDocument && findOrCreateDoc(currentDocument.manuscriptID)

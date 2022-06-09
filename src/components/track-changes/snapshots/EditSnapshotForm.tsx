@@ -44,7 +44,7 @@ export const EditSnapshotForm = (props: IProps) => {
           onCancel(snapshot.id)
           break
         case 'error':
-          setError(evt.error)
+          setError(evt.err)
           break
         case 'finally':
           setLoading(false)
