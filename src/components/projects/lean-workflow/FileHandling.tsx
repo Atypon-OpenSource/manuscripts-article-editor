@@ -126,10 +126,7 @@ const useFileHandling = () => {
     [uploadAttachment, handleSubmissionMutation, project._id, manuscript._id]
   )
 
-  const {
-    updateAttachmentFile,
-    updateAttachmentFileError,
-  } = useUpdateAttachmentFile()
+  const { updateAttachmentFileError } = useUpdateAttachmentFile()
 
   if (updateAttachmentFileError) {
     dispatchStore({
@@ -177,31 +174,17 @@ const useFileHandling = () => {
         })
       }
 
-      if (name === file.name) {
-        return handleSubmissionMutation(
-          updateAttachmentFile({
-            submissionId,
-            attachmentId,
-            file,
-            name,
-            documentId: `${project._id}#${manuscript._id}`,
-          }),
-          'Something went wrong while replacing attachment.'
-        )
-      } else {
-        return handleSubmissionMutation(
-          uploadAttachment({
-            submissionId: submissionId,
-            documentId: `${project._id}#${manuscript._id}`,
-            file: file,
-            designation: typeId,
-          }),
-          'Something went wrong while uploading attachment.'
-        )
-      }
+      return handleSubmissionMutation(
+        uploadAttachment({
+          submissionId: submissionId,
+          documentId: `${project._id}#${manuscript._id}`,
+          file: file,
+          designation: typeId,
+        }),
+        'Something went wrong while uploading attachment.'
+      )
     },
     [
-      updateAttachmentFile,
       handleSubmissionMutation,
       setMainManuscript,
       uploadAttachment,
@@ -213,11 +196,14 @@ const useFileHandling = () => {
   const handleUpdateInlineFile = useCallback(
     (modelId: string, attachment: SubmissionAttachment) => {
       const figureModel = getModel(modelId) as Figure
-      const imageExternalFileIndex =
-        figureModel?.externalFileReferences?.findIndex(
-          (file) => file && file.kind === 'imageRepresentation'
-        ) || -1
-      if (figureModel.externalFileReferences && imageExternalFileIndex > -1) {
+      const imageExternalFileIndex = figureModel?.externalFileReferences?.findIndex(
+        (file) => file && file.kind === 'imageRepresentation'
+      )
+      if (
+        figureModel.externalFileReferences &&
+        typeof imageExternalFileIndex !== 'undefined' &&
+        imageExternalFileIndex > -1
+      ) {
         figureModel.externalFileReferences[
           imageExternalFileIndex
         ].url = `attachment:${attachment.id}`
