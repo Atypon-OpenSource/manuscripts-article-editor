@@ -113,7 +113,6 @@ export const useSnapshotManager = (
   const saveSnapshot = useCallback(
     (data: SnapshotData, name: string) => {
       const snappy = buildSnapshot(data, name)
-      console.log(snappy)
       collection.save(snappy, { containerID: project._id }).catch((e) => {
         console.error('Error saving snapshot', e)
       })

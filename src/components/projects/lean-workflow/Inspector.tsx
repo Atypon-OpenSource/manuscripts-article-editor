@@ -44,6 +44,7 @@ import { ExceptionDialog } from './ExceptionDialog'
 import useFileHandling from './FileHandling'
 import { Snapshot } from '@manuscripts/manuscripts-json-schema'
 import { useSnapshotManager } from '../../../hooks/use-snapshot-manager'
+import styled from 'styled-components'
 
 interface Props {
   tabs: string[]
@@ -95,6 +96,7 @@ const Inspector: React.FC<Props> = ({
   const {
     handleChangeAttachmentDesignation,
     handleReplaceAttachment,
+    handleUpdateInlineFile,
     handleUploadAttachment,
   } = useFileHandling()
 
@@ -116,31 +118,35 @@ const Inspector: React.FC<Props> = ({
   const [selectedSnapshot, selectSnapshot] = useState(snapshots && snapshots[0])
 
   const { addModal } = useModal()
-
   const { requestTakeSnapshot } = useSnapshotManager(project)
-
   const handleSelect = useCallback((snapshot: Snapshot) => {
     selectSnapshot(snapshot)
   }, [])
-
-  const viewHandler = useCallback(() => {
-    if (!selectedSnapshot) {
-      return
-    }
-    addModal('historicalView', ({ handleClose }) => {
-      return (
-        <>
-          <HistoricalView
-            snapshotID={selectedSnapshot._id}
-            project={project}
-            manuscript={manuscript}
-            user={user}
-            handleClose={handleClose}
-          />
-        </>
-      )
-    })
-  }, [project, manuscript, user, addModal, selectedSnapshot])
+  const viewHandler = useCallback(
+    (selectedSnapshot: Snapshot) => {
+      if (!selectedSnapshot || !selectedSnapshot.s3Id) {
+        return
+      }
+      addModal('historicalView', ({ handleClose }) => {
+        return (
+          <HistoricalModal>
+            <HistoricalView
+              snapshotID={selectedSnapshot.s3Id!}
+              project={project}
+              manuscript={manuscript}
+              user={user}
+              handleClose={handleClose}
+              selectSnapshot={(snapshot) => {
+                selectSnapshot(snapshot)
+              }}
+              viewHandler={viewHandler}
+            />
+          </HistoricalModal>
+        )
+      })
+    },
+    [project, manuscript, user, addModal]
+  )
 
   const handleSort = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -230,7 +236,7 @@ const Inspector: React.FC<Props> = ({
                         snapshots={snapshots || []}
                         selectedSnapshot={selectedSnapshot}
                         selectSnapshot={handleSelect}
-                        viewHandler={viewHandler}
+                        viewHandler={() => viewHandler(selectedSnapshot)}
                       />
                     )}
 
@@ -279,6 +285,7 @@ const Inspector: React.FC<Props> = ({
                       handleDownload={handleDownloadAttachment}
                       handleReplace={handleReplaceAttachment}
                       handleUpload={handleUploadAttachment}
+                      handleUpdateInline={handleUpdateInlineFile}
                     />
                   </>
                 ) : null
@@ -293,5 +300,13 @@ const Inspector: React.FC<Props> = ({
     </>
   )
 }
+
+const HistoricalModal = styled.div`
+  position: relative;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: #fff;
+`
 
 export default Inspector

@@ -267,7 +267,7 @@ const GET_STEP = (stage: string) => gql`
   query Submission($id: ID!, $type: SubmissionIDType!) {
     submission(id: $id, type: $type) {
       id
-       ${stage}Step {
+      ${stage}Step {
         id
         type {
           id
@@ -282,7 +282,7 @@ const GET_STEP = (stage: string) => gql`
           id
           displayName
         }
-       }
+      }
     }
   }
 `
@@ -577,3 +577,14 @@ export const getErrorCode = (
 ): string | undefined =>
   apolloError?.graphQLErrors.find((error) => error?.extensions?.code)
     ?.extensions?.code.name
+
+export const graphQLErrorMessage = (
+  apolloError: ApolloError,
+  message: string
+) => {
+  return (
+    (apolloError?.networkError &&
+      'Trouble reaching lean server. Please try again.') ||
+    message
+  )
+}

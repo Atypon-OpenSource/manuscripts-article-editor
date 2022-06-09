@@ -119,15 +119,15 @@ const ViewLink = styled(Link)`
 
 interface SnapshotProps {
   date: number
-  url?: string
   userId?: string
+  onSwitchSnapshot?: () => void
 }
 
 const SnapshotComponent: React.FC<SnapshotProps> = ({
   userId,
   date,
-  url,
   children,
+  onSwitchSnapshot,
 }) => {
   return (
     <SnapshotComponentContainer>
@@ -141,7 +141,17 @@ const SnapshotComponent: React.FC<SnapshotProps> = ({
               <span>New Snapshot</span>
             )}
           </Title>
-          {url && <ViewLink to={url}>View</ViewLink>}
+          {onSwitchSnapshot && (
+            <ViewLink
+              to="#"
+              onClick={(e) => {
+                e.preventDefault()
+                onSwitchSnapshot && onSwitchSnapshot()
+              }}
+            >
+              View
+            </ViewLink>
+          )}
         </TitleLine>
         {children}
       </SnapshotComponentContainerInner>
@@ -160,6 +170,7 @@ interface Props {
   handleTextFieldChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   status?: SaveSnapshotStatus
   currentUserId: string
+  onSwitchSnapshot: (snapshot: Snapshot) => void
 }
 
 export const HistoryPanel: React.FC<Props> = ({
@@ -173,6 +184,7 @@ export const HistoryPanel: React.FC<Props> = ({
   textFieldValue = '',
   status,
   currentUserId,
+  onSwitchSnapshot,
 }) => {
   return (
     <div>
@@ -217,7 +229,7 @@ export const HistoryPanel: React.FC<Props> = ({
             <SnapshotComponent
               date={item.createdAt}
               userId={item.creator}
-              url={`/projects/${project._id}/history/${item.s3Id}/manuscript/${manuscriptID}`}
+              onSwitchSnapshot={() => onSwitchSnapshot(item)}
             >
               <p>{item.name}</p>
             </SnapshotComponent>

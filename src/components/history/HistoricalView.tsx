@@ -14,6 +14,7 @@ import Arrow from '@manuscripts/assets/react/ArrowDownBlack'
 import {
   Manuscript,
   Project,
+  Snapshot,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect } from 'react'
@@ -74,6 +75,8 @@ interface Props {
   manuscript: Manuscript
   snapshotID: string
   handleClose: () => void
+  selectSnapshot: (snapshot: Snapshot) => void
+  viewHandler: (snapshot: Snapshot) => void
 }
 
 export const HistoricalView: React.FC<Props> = ({
@@ -81,6 +84,8 @@ export const HistoricalView: React.FC<Props> = ({
   manuscript,
   snapshotID,
   handleClose,
+  selectSnapshot,
+  viewHandler,
   user,
 }) => {
   const {
@@ -156,6 +161,11 @@ export const HistoricalView: React.FC<Props> = ({
               manuscriptID={manuscript._id}
               snapshotsList={snapshotsList}
               currentUserId=""
+              onSwitchSnapshot={(snapshot: Snapshot) => {
+                handleClose()
+                selectSnapshot(snapshot)
+                viewHandler(snapshot)
+              }}
             />
           </HistoryPanelContainer>
         </InspectorContainer>
