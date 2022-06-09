@@ -126,10 +126,7 @@ const useFileHandling = () => {
     [uploadAttachment, handleSubmissionMutation, project._id, manuscript._id]
   )
 
-  const {
-    updateAttachmentFile,
-    updateAttachmentFileError,
-  } = useUpdateAttachmentFile()
+  const { updateAttachmentFileError } = useUpdateAttachmentFile()
 
   if (updateAttachmentFileError) {
     dispatchStore({
