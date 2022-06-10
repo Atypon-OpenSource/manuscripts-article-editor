@@ -129,7 +129,6 @@ export const useSnapshotManager = (
       setState({
         ...state,
         nameSubmitted: true,
-        textName: 'Lal al Random ' + new Date(),
         status: SaveSnapshotStatus.Submitting,
       })
       const projectModelMap = await getEntireProject()
