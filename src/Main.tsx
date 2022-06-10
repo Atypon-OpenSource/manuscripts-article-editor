@@ -43,16 +43,15 @@ const Main: React.FC<Props> = ({
   <DndProvider backend={HTML5Backend}>
     <GlobalStyle />
     <ServiceWorker />
-
-    <ApolloProvider client={apolloClient}>
-      <EditorApp
-        submissionId={submissionId}
-        manuscriptID={manuscriptID}
-        projectID={projectID}
-        submission={submission}
-        person={person}
-      />
-    </ApolloProvider>
+      <ApolloProvider client={apolloClient}>
+        <EditorApp
+          submissionId={submissionId}
+          manuscriptID={manuscriptID}
+          projectID={projectID}
+          submission={submission}
+          person={person}
+        />
+      </ApolloProvider>
   </DndProvider>
 )
 

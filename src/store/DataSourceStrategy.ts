@@ -37,6 +37,8 @@ export class BasicSource implements StoreDataSourceStrategy {
       submissionID,
       projectID,
       manuscriptID,
+      submission,
+      person,
       userID,
     }
   }
