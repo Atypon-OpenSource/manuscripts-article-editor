@@ -15,8 +15,6 @@ import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-// import { ModalProvider } from './components/ModalProvider'
-import { ModalProvider } from './components/ModalHookableProvider'
 import { ServiceWorker } from './components/ServiceWorker'
 import EditorApp from './EditorApp'
 import { apolloClient } from './lib/apollo'

@@ -170,7 +170,7 @@ interface Props {
   handleTextFieldChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   status?: SaveSnapshotStatus
   currentUserId: string
-  onSwitchSnapshot: (snapshot: Snapshot) => void
+  onSwitchSnapshot?: (snapshot: Snapshot) => void
 }
 
 export const HistoryPanel: React.FC<Props> = ({
@@ -229,7 +229,9 @@ export const HistoryPanel: React.FC<Props> = ({
             <SnapshotComponent
               date={item.createdAt}
               userId={item.creator}
-              onSwitchSnapshot={() => onSwitchSnapshot(item)}
+              onSwitchSnapshot={() =>
+                onSwitchSnapshot && onSwitchSnapshot(item)
+              }
             >
               <p>{item.name}</p>
             </SnapshotComponent>
