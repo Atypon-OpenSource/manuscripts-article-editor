@@ -112,10 +112,11 @@ export const useSnapshotManager = (
 
   const saveSnapshot = useCallback(
     (data: SnapshotData, name: string) => {
-      const snappy = buildSnapshot(data, name)
-      collection.save(snappy, { containerID: project._id }).catch((e) => {
-        console.error('Error saving snapshot', e)
-      })
+      collection
+        .save(buildSnapshot(data, name), { containerID: project._id })
+        .catch((e) => {
+          console.error('Error saving snapshot', e)
+        })
       if (showNotification) {
         showNotification('snapshot', SnapshotSuccessNotification)
       }
@@ -128,7 +129,6 @@ export const useSnapshotManager = (
     try {
       setState({
         ...state,
-        nameSubmitted: true,
         status: SaveSnapshotStatus.Submitting,
       })
       const projectModelMap = await getEntireProject()
