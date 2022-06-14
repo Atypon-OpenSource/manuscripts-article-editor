@@ -30,6 +30,7 @@ import {
 } from './store'
 import { useAuthStore } from './quarterback/useAuthStore'
 import { useDocStore } from './quarterback/useDocStore'
+import { usePouchStore } from './quarterback/usePouchStore'
 import { useSnapshotStore } from './quarterback/useSnapshotStore'
 import config from './config'
 import { schema } from '@manuscripts/manuscript-transform'
@@ -64,6 +65,7 @@ const EditorApp: React.FC<Props> = ({
   const [store, setStore] = useState<GenericStore>()
   const { authenticate, setUser } = useAuthStore()
   const { createDocument, getDocument, setCurrentDocument } = useDocStore()
+  const { init: initPouchStore } = usePouchStore()
   const { init: initSnapshots, setSnapshots } = useSnapshotStore()
   useMemo(() => {
     const user = store?.state?.user
@@ -90,6 +92,10 @@ const EditorApp: React.FC<Props> = ({
         if (doc) {
           store.setState((s) => ({ ...s, doc }))
         }
+        initPouchStore({
+          getModels: () => store.state?.modelMap,
+          saveModel: store.state?.saveModel
+        })
         setStore(store)
       })
       .catch((e) => {

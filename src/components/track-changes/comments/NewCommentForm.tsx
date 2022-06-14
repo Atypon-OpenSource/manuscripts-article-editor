@@ -59,7 +59,7 @@ export const NewCommentForm = (props: IProps) => {
           setBody('')
           setError('')
         } else {
-          setError(resp.error)
+          setError(resp.err)
         }
       })
       .finally(() => {

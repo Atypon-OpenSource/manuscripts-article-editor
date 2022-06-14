@@ -74,7 +74,7 @@ export const Comments = (props: IProps) => {
         setEditedCommentId(undefined)
         setEditedBody('')
       } else {
-        setError(resp.error)
+        setError(resp.err)
       }
     } catch (err: any) {
       setError(err.toString())

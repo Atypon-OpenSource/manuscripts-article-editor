@@ -14,7 +14,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { useEditorStore } from './useEditorStore'
+import { usePouchStore } from '../../quarterback/usePouchStore'
 import { useSnapshotStore } from '../../quarterback/useSnapshotStore'
+import { getDocWithoutTrackContent } from '../../quarterback/getDocWithoutTrackContent'
 
 interface IProps {
   className?: string
@@ -49,6 +51,11 @@ export function ChangesControls(props: IProps) {
     const resp = await saveSnapshot(docToJSON())
     if (resp.ok) {
       execCmd(trackCommands.applyAndRemoveChanges())
+      setTimeout(() => {
+        const state = useEditorStore.getState().editorState
+        if (!state) return
+        usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
+      })
     }
   }
   return (
