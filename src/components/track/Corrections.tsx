@@ -66,7 +66,7 @@ export const Corrections: React.FC<Props> = ({
   const [{ project, user, collaboratorsById }] = useStore((store) => ({
     project: store.project,
     user: store.user,
-    collaboratorsById: store.collaboratorsById
+    collaboratorsById: store.collaboratorsById,
   }))
   const getCommitFromCorrectionId = useCallback(
     (correctionId: string) => {
