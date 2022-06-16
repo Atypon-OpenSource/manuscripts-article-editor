@@ -11,9 +11,14 @@
  */
 
 import Arrow from '@manuscripts/assets/react/ArrowDownBlack'
-import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import {
+  Manuscript,
+  Project,
+  Snapshot,
+  UserProfile,
+} from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect } from 'react'
-import { RouteComponentProps } from 'react-router'
+import { useHistory as useRouterHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -67,19 +72,20 @@ const HistoryPanelContainer = styled.div`
 interface Props {
   project: Project
   user: UserProfile
-}
-
-interface RouteParams {
+  manuscript: Manuscript
   snapshotID: string
-  manuscriptID: string
+  handleClose: () => void
+  selectSnapshot: (snapshot: Snapshot) => void
+  viewHandler: (snapshot: Snapshot) => void
 }
 
-type CombinedProps = Props & RouteComponentProps<RouteParams>
-
-export const HistoricalView: React.FC<CombinedProps> = ({
+export const HistoricalView: React.FC<Props> = ({
   project,
-  match,
-  history: browserHistory,
+  manuscript,
+  snapshotID,
+  handleClose,
+  selectSnapshot,
+  viewHandler,
   user,
 }) => {
   const {
@@ -89,24 +95,14 @@ export const HistoricalView: React.FC<CombinedProps> = ({
     snapshotsList,
   } = useHistory(project._id)
 
+  const browserHistory = useRouterHistory()
+
   useEffect(() => {
     // promise rejection in openSnapshot is handled by setting openSnapshotStatus
-    loadSnapshot(match.params.snapshotID, match.params.manuscriptID)
-  }, [
-    project,
-    match.params.snapshotID,
-    match.params.manuscriptID,
-    loadSnapshot,
-  ])
+    loadSnapshot(snapshotID, manuscript._id)
+  }, [project, snapshotID, manuscript, loadSnapshot])
 
   if (loadSnapshotStatus !== SnapshotStatus.Done || !currentSnapshot) {
-    return null
-  }
-
-  const selectedManuscript = currentSnapshot.manuscripts.find(
-    (manuscript) => match.params.manuscriptID === manuscript._id
-  )
-  if (!selectedManuscript) {
     return null
   }
 
@@ -114,7 +110,7 @@ export const HistoricalView: React.FC<CombinedProps> = ({
     <React.Fragment>
       <HistorySidebar
         project={project}
-        manuscript={selectedManuscript}
+        manuscript={manuscript}
         doc={currentSnapshot.doc}
       />
 
@@ -124,20 +120,24 @@ export const HistoricalView: React.FC<CombinedProps> = ({
             <HistoryEditorBody>
               <BackLinkWrapper>
                 <BackLink
-                  to={`/projects/${project._id}/manuscripts/${selectedManuscript._id}`}
+                  to="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleClose()
+                  }}
                 >
                   <Arrow />
                   <span>Back to Current Version</span>
                 </BackLink>
               </BackLinkWrapper>
               <HistoryMetadata
-                manuscript={selectedManuscript}
+                manuscript={manuscript}
                 modelMap={currentSnapshot.modelMap}
               />
               <HistoricalManuscriptView
                 project={project}
                 browserHistory={browserHistory}
-                manuscript={selectedManuscript}
+                manuscript={manuscript}
                 currentSnapshot={currentSnapshot}
                 user={user}
               />
@@ -158,9 +158,14 @@ export const HistoricalView: React.FC<CombinedProps> = ({
           <HistoryPanelContainer>
             <HistoryPanel
               project={project}
-              manuscriptID={match.params.manuscriptID}
+              manuscriptID={manuscript._id}
               snapshotsList={snapshotsList}
               currentUserId=""
+              onSwitchSnapshot={(snapshot: Snapshot) => {
+                handleClose()
+                selectSnapshot(snapshot)
+                viewHandler(snapshot)
+              }}
             />
           </HistoryPanelContainer>
         </InspectorContainer>

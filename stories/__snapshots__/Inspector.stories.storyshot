@@ -1091,7 +1091,7 @@ exports[`Storyshots Inspector/History basic 1`] = `
                 </span>
                 <a
                   className="c20"
-                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  href="/"
                   onClick={[Function]}
                 >
                   View
@@ -1582,7 +1582,7 @@ exports[`Storyshots Inspector/History error while saving 1`] = `
                 </span>
                 <a
                   className="c23"
-                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  href="/"
                   onClick={[Function]}
                 >
                   View
@@ -1762,7 +1762,7 @@ exports[`Storyshots Inspector/History read only 1`] = `
                 </span>
                 <a
                   className="c9"
-                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  href="/"
                   onClick={[Function]}
                 >
                   View
@@ -2179,7 +2179,7 @@ exports[`Storyshots Inspector/History while saving 1`] = `
                 </span>
                 <a
                   className="c20"
-                  href="/projects/project-1/history/S3KEY/manuscript/MANUSCRIPT"
+                  href="/"
                   onClick={[Function]}
                 >
                   View

@@ -15,6 +15,7 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
+import { Snapshot } from '@manuscripts/manuscripts-json-schema'
 import {
   FileManager,
   SubmissionAttachment,
@@ -28,6 +29,7 @@ import { useCommits } from '../../../hooks/use-commits'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
 import { useStore } from '../../../store'
+import useOpenHistoricalModal from '../../history/HistoricalViewModal'
 import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
@@ -112,9 +114,16 @@ const Inspector: React.FC<Props> = ({
   const [errorDialog, setErrorDialog] = useState(false)
   const [selectedSnapshot, selectSnapshot] = useState(snapshots && snapshots[0])
 
-  const handleSelect = useCallback((snapshot) => {
+  const handleSelect = useCallback((snapshot: Snapshot) => {
     selectSnapshot(snapshot)
   }, [])
+
+  const viewHandler = useOpenHistoricalModal(
+    project,
+    manuscript,
+    user,
+    selectSnapshot
+  )
 
   const handleSort = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -130,6 +139,7 @@ const Inspector: React.FC<Props> = ({
 
   const commentController = useComments(comments, user, state, editor.doCommand)
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
+
   return (
     <>
       <Panel
@@ -156,18 +166,20 @@ const Inspector: React.FC<Props> = ({
             switch (label) {
               case 'Content': {
                 return (
-                  <ContentTab
-                    selected={selected}
-                    selectedElement={findParentElement(
-                      state.selection,
-                      modelIds
-                    )}
-                    selectedSection={findParentSection(state.selection)}
-                    state={state}
-                    dispatch={dispatch}
-                    hasFocus={view?.hasFocus()}
-                    key="content"
-                  />
+                  <>
+                    <ContentTab
+                      selected={selected}
+                      selectedElement={findParentElement(
+                        state.selection,
+                        modelIds
+                      )}
+                      selectedSection={findParentSection(state.selection)}
+                      state={state}
+                      dispatch={dispatch}
+                      hasFocus={view?.hasFocus()}
+                      key="content"
+                    />
+                  </>
                 )
               }
               case 'Comments': {
@@ -197,7 +209,7 @@ const Inspector: React.FC<Props> = ({
                         snapshots={snapshots || []}
                         selectedSnapshot={selectedSnapshot}
                         selectSnapshot={handleSelect}
-                        selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
+                        viewHandler={() => viewHandler(selectedSnapshot)}
                       />
                     )}
 

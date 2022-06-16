@@ -14,6 +14,7 @@ import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { ModalProvider } from './components/ModalHookableProvider'
 import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
@@ -81,15 +82,17 @@ const EditorApp: React.FC<Props> = ({
 
   return store ? (
     <GenericStoreProvider store={store}>
-      <Router>
-        <NotificationProvider>
-          <Page>
-            <Wrapper>
-              <ManuscriptPageContainer />
-            </Wrapper>
-          </Page>
-        </NotificationProvider>
-      </Router>
+      <ModalProvider>
+        <Router>
+          <NotificationProvider>
+            <Page>
+              <Wrapper>
+                <ManuscriptPageContainer />
+              </Wrapper>
+            </Page>
+          </NotificationProvider>
+        </Router>
+      </ModalProvider>
     </GenericStoreProvider>
   ) : (
     <ProjectPlaceholder />
