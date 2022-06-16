@@ -63,10 +63,10 @@ export const Corrections: React.FC<Props> = ({
   accept,
   reject,
 }) => {
-  const [{ project, user, collaborators }] = useStore((store) => ({
+  const [{ project, user, collaboratorsById }] = useStore((store) => ({
     project: store.project,
     user: store.user,
-    collaborators: store.collaborators || new Map(),
+    collaboratorsById: store.collaboratorsById,
   }))
   const getCommitFromCorrectionId = useCallback(
     (correctionId: string) => {
@@ -83,8 +83,8 @@ export const Corrections: React.FC<Props> = ({
   )
 
   const getCollaboratorById = useCallback(
-    (id: string) => collaborators.get(id),
-    [collaborators]
+    (id: string) => collaboratorsById && collaboratorsById.get(id),
+    [collaboratorsById]
   )
 
   const focusCorrection = (correctionId: string) => {
