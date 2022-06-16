@@ -207,6 +207,9 @@ const useFileHandling = () => {
         figureModel.externalFileReferences[
           imageExternalFileIndex
         ].url = `attachment:${attachment.id}`
+        figureModel.externalFileReferences[
+          imageExternalFileIndex
+        ].ref = attachment
         saveModel(figureModel)
       }
     },
