@@ -61,10 +61,10 @@ export const useAuthStore = create(
             user,
             token: 'a',
           })
-          if (resp.ok) {
+          if ('data' in resp) {
             set({ jwt: resp.data.jwt })
           }
-          return resp.ok
+          return 'data' in resp
         },
         logout() {
           set({ user: undefined, jwt: undefined })

@@ -55,7 +55,7 @@ export const NewCommentForm = (props: IProps) => {
         user
       )
       .then((resp) => {
-        if (resp.ok) {
+        if ('data' in resp) {
           setBody('')
           setError('')
         } else {

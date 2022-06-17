@@ -53,7 +53,7 @@ export const SnapshotsList = (props: IProps) => {
       return
     }
     const resp = await snapshotStore.inspectSnapshot(snap.id)
-    if (resp.ok) {
+    if ('data' in resp) {
       hydrateDocFromJSON(resp.data.snapshot as any)
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
     }
@@ -85,10 +85,10 @@ export const SnapshotsList = (props: IProps) => {
     }
     try {
       const resp = await snapshotStore.updateSnapshot(editedSnapId, values)
-      if (resp.ok) {
-        yield { e: 'ok', data: resp.data }
-      } else {
+      if ('err' in resp) {
         yield { e: 'error', err: resp.err, code: 500 }
+      } else {
+        yield { e: 'ok', data: resp.data }
       }
     } catch (err: any) {
       yield { e: 'error', err: err.toString(), code: 500 }

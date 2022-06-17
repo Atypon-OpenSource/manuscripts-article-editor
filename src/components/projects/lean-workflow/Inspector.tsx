@@ -101,7 +101,6 @@ const Inspector: React.FC<Props> = ({
     window.location.assign(url)
   }, [])
 
-  // const commentController = useComments(comments, user, state, editor.doCommand)
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
   return (
@@ -139,15 +138,6 @@ const Inspector: React.FC<Props> = ({
                   </>
                 )
               }
-              // case 'Comments': {
-              //   return (
-              //     <CommentsTab
-              //       commentController={commentController}
-              //       selected={selected}
-              //       key="comments"
-              //     />
-              //   )
-              // }
 
               case 'Quality': {
                 return (

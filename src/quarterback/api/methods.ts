@@ -45,7 +45,7 @@ export async function wrappedFetch<T>(
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
-    return { ok: false, err: 'Connection error', code: 550 }
+    return { err: 'Connection error', code: 550 }
   }
   let data
   const contentType = resp.headers.get('Content-Type')
@@ -57,12 +57,11 @@ export async function wrappedFetch<T>(
   if (!resp.ok) {
     console.error(data?.message || defaultError)
     return {
-      ok: false,
       err: data?.message || defaultError,
       code: resp.status,
     }
   }
-  return { ok: true, data }
+  return { data }
 }
 
 export function get<T>(

@@ -11,6 +11,7 @@
  */
 import {
   CHANGE_STATUS,
+  TrackChangesStatus,
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
@@ -50,6 +51,9 @@ export function TrackChangesPanel() {
     if (user) {
       execCmd(trackCommands.setUserID(getTrackUser().id))
     }
+    if (options.disableTrack) {
+      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.disabled))
+    }
     currentDocument && findOrCreateDoc(currentDocument.manuscriptID)
   }, [])
   useEffect(() => {
@@ -57,6 +61,13 @@ export function TrackChangesPanel() {
     // as well as re-auth quarterback user incase it failed on initial mount
     execCmd(trackCommands.setUserID(options.user.id))
   }, [options])
+  useEffect(() => {
+    if (options.disableTrack) {
+      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.disabled))
+    } else {
+      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
+    }
+  }, [options.disableTrack])
 
   function handleAcceptChange(c: TrackedChange) {
     const ids = [c.id]

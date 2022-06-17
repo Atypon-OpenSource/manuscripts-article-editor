@@ -112,11 +112,11 @@ const EditorApp: React.FC<Props> = ({
     setCurrentDocument(manuscriptID, projectID)
     const found = await getDocument(manuscriptID)
     let doc
-    if (found.ok) {
+    if ('data' in found) {
       initSnapshots()
       setSnapshots(found.data.snapshots)
       doc = found.data.doc
-    } else if (!found.ok && found.code === 404) {
+    } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
       createDocument(manuscriptID, projectID)
     }

@@ -49,7 +49,7 @@ export function ChangesControls(props: IProps) {
   }
   async function handleSnapshot() {
     const resp = await saveSnapshot(docToJSON())
-    if (resp.ok) {
+    if ('data' in resp) {
       execCmd(trackCommands.applyAndRemoveChanges())
       setTimeout(() => {
         const state = useEditorStore.getState().editorState

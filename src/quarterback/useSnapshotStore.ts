@@ -56,10 +56,10 @@ export const useSnapshotStore = create(
         const inspected = get().snapshotsMap.get(id) ?? null
         set({ inspectedSnapshot: inspected })
         if (inspected) {
-          return { ok: true, data: inspected }
+          return { data: inspected }
         }
         const resp = await snapApi.getSnapshot(id)
-        if (resp.ok) {
+        if ('data' in resp) {
           set((state) => ({
             snapshotsMap: state.snapshotsMap.set(id, resp.data),
             inspectedSnapshot: resp.data,
@@ -76,7 +76,7 @@ export const useSnapshotStore = create(
         const { currentDocument } = useDocStore.getState()
         let resp: Maybe<ISaveSnapshotResponse>
         if (!currentDocument) {
-          resp = { ok: false, err: 'No current document', code: 400 }
+          resp = { err: 'No current document', code: 400 }
         } else {
           resp = await snapApi.saveSnapshot({
             docId: currentDocument.manuscriptID,
@@ -84,7 +84,7 @@ export const useSnapshotStore = create(
             name: new Date().toLocaleString('sv'),
           })
         }
-        if (resp.ok) {
+        if ('data' in resp) {
           const {
             data: { snapshot },
           } = resp
@@ -112,7 +112,7 @@ export const useSnapshotStore = create(
         values: IUpdateSnapshotRequest
       ) => {
         const resp = await snapApi.updateSnapshot(snapId, values)
-        if (resp.ok) {
+        if ('data' in resp) {
           set((state) => {
             let { snapshots, snapshotsMap } = state
             const oldSnap = snapshotsMap.get(snapId)
@@ -132,7 +132,7 @@ export const useSnapshotStore = create(
       },
       deleteSnapshot: async (snapId: string) => {
         const resp = await snapApi.deleteSnapshot(snapId)
-        if (resp.ok) {
+        if ('data' in resp) {
           set((state) => {
             let { snapshots, snapshotsMap } = state
             snapshotsMap.delete(snapId)

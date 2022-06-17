@@ -9,11 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  CommentWithUserColor,
-  Event,
-  IUpdateCommentRequest,
-} from '@manuscripts/quarterback-types'
+import { CommentWithUserColor } from '@manuscripts/quarterback-types'
 import { TrackedChange } from '@manuscripts/track-changes-plugin'
 import React, { useCallback, useMemo, useState } from 'react'
 import { FiEdit3, FiTrash } from 'react-icons/fi'
@@ -70,7 +66,7 @@ export const Comments = (props: IProps) => {
     setLoading(true)
     try {
       const resp = await updateComment!(editedCommentId, { body: editedBody })
-      if (resp.ok) {
+      if ('data' in resp) {
         setEditedCommentId(undefined)
         setEditedBody('')
       } else {

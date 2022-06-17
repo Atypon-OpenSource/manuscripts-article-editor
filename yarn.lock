@@ -2268,10 +2268,10 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/quarterback-types@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/@manuscripts/quarterback-types/-/quarterback-types-0.2.0.tgz#011b55bbdebae8c7ce1efc30e5b6287e3ec26914"
-  integrity sha512-d0Kk5dt3opNnJsE7H7p8u1Tpb78Hx+TcorfPSw+BHptxThxWjfpu6S1A/eIyU5e9qvNDt+aRKGaTioXzjO6i2g==
+"@manuscripts/quarterback-types@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/@manuscripts/quarterback-types/-/quarterback-types-0.2.1.tgz#e27e95ddc2c9c76aef19f77e209763a0f34b0825"
+  integrity sha512-87IKzs0aIfpjAnVpcoKYd6WXGMNPEOW76sznPsmz33RbPN9KSffOHfO3DLs0xC3Dt/IgRwQ5TFSymOZuOgJYug==
 
 "@manuscripts/requirements@^0.4.11":
   version "0.4.11"
