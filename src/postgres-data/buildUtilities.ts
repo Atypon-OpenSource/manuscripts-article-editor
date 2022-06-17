@@ -72,11 +72,7 @@ const buildUtilities = (
     )
     if (data.projectID && data.manuscriptID) {
       return api
-        .upsertManuscript(
-          data.projectID,
-          data.manuscriptID,
-          onlyManuscriptModels
-        )
+        .saveManuscript(data.projectID, data.manuscriptID, onlyManuscriptModels)
         .then(() => {
           return true // not sure what will be returned at this point
         })
@@ -152,10 +148,10 @@ const buildUtilities = (
 
   const saveProjectModel = <T extends Model>(model: T | Build<T>) => {
     if (!model) {
-      console.log(new Error().stack)
+      console.log(new Error('No model provided for saving.').stack)
     }
     if (!model._id) {
-      throw new Error('Model ID required')
+      throw new Error('Model ID required.')
     }
     if (!data.modelMap || !data.containerID) {
       throw new Error(
@@ -287,7 +283,8 @@ const buildUtilities = (
     )
   }
 
-  const createUser = (profile: Build<UserProfile>) => {
+  const createUser = async (profile: Build<UserProfile>) => {
+    await saveModel(profile)
     return Promise.resolve()
   }
 

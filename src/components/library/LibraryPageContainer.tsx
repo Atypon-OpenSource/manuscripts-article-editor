@@ -37,9 +37,9 @@ export const LibraryPageContainer: React.FC = () => {
   ] = useStore((store) => ({
     projectID: store.projectID,
     user: store.user,
-    globalLibraries: store.globalLibraries,
-    globalLibraryCollections: store.globalLibraryCollections,
-    globalLibraryItems: store.globalLibraryItems,
+    globalLibraries: store.globalLibraries || new Map(),
+    globalLibraryCollections: store.globalLibraryCollections || new Map(),
+    globalLibraryItems: store.globalLibraryItems || new Map(),
     projectLibrary: store.library, // ???
     saveBiblioItem: store.saveBiblioItem,
     projectLibraryCollections: store.projectLibraryCollections,

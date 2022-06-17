@@ -120,7 +120,7 @@ interface Props {
     oldIndex: number,
     newIndex: number
   ) => void
-  updateAuthor?: (author: Contributor, email: string) => void
+  updateAuthor: (author: Contributor, email: string) => void
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   permissions: Permissions
   allowInvitingAuthors: boolean

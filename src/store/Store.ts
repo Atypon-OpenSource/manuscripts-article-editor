@@ -65,85 +65,85 @@ export interface ContainedIDs {
 
 export type state = {
   [key: string]: any
-  ✅ project: Project
-  ✅ manuscript: Manuscript
-  ✅ manuscripts?: Manuscript[]
-  ✅ doc: ManuscriptNode
-  ✅ ancestorDoc: ManuscriptNode
-  ✅ user: UserProfile // probably should be optional
-  ✅ tokenData: TokenData
-  ✅ projectID: string
-  ✅ submissionID?: string
-  ✅ userID?: string | undefined
-  ✅ userProfileID?: string | undefined
-  ✅ manuscriptID: string
-  ✅ containerID: string // @TODO it's the same as projectID - has to be cleaned up
-  ✅ commitAtLoad?: Commit | null
-  ❌ invitations?: ContainerInvitation[]
-  ❌ projectInvitations?: ProjectInvitation[]
-  ❌ containerInvitations?: ContainerInvitation[]
-  ✅ projects: Project[]
-  ✅ commits: Commit[]
-  ✅ modelMap: Map<string, Model>
-  ✅ snapshotID: string | null
-  ✅ snapshots?: Snapshot[]
-  ✅ comments?: CommentAnnotation[]
-  ✅ notes?: ManuscriptNote[]
-  ✅ tags?: Tag[]
-  ✅ collaborators?: Map<string, UserProfile>
-  ✅ collaboratorsProfiles?: Map<string, UserProfile>
-  ✅ collaboratorsById?: Map<string, UserProfile>
-  ✅ submission: Submission
-  ✅ person: Person
-  ✅ getModel: <T extends Model>(id: string) => T | undefined
-  ✅ saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  ✅ saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  ✅ deleteModel: (id: string) => Promise<string>
-  ✅ bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-  ✅ deleteProject: (projectID: string) => Promise<string>
-  ✅ updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
-  ✅ saveNewManuscript : (
+  project: Project
+  manuscript: Manuscript
+  manuscripts?: Manuscript[]
+  doc: ManuscriptNode
+  ancestorDoc: ManuscriptNode
+  user: UserProfile // probably should be optional
+  tokenData: TokenData
+  projectID: string
+  submissionID?: string
+  userID?: string | undefined
+  userProfileID?: string | undefined
+  manuscriptID: string
+  containerID: string // @TODO it's the same as projectID - has to be cleaned up
+  commitAtLoad?: Commit | null
+  invitations?: ContainerInvitation[]
+  projectInvitations?: ProjectInvitation[]
+  containerInvitations?: ContainerInvitation[]
+  projects: Project[]
+  commits: Commit[]
+  modelMap: Map<string, Model>
+  snapshotID: string | null
+  snapshots?: Snapshot[]
+  comments?: CommentAnnotation[]
+  notes?: ManuscriptNote[]
+  tags?: Tag[]
+  collaborators?: Map<string, UserProfile>
+  collaboratorsProfiles?: Map<string, UserProfile>
+  collaboratorsById?: Map<string, UserProfile>
+  submission: Submission
+  person: Person
+  getModel: <T extends Model>(id: string) => T | undefined
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  deleteModel: (id: string) => Promise<string>
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+  deleteProject: (projectID: string) => Promise<string>
+  updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+  saveNewManuscript: (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
     containerID: string,
     manuscript: Build<Manuscript>,
     newProject?: Build<Project>
   ) => Promise<Build<Manuscript>>
-  updateManuscriptTemplate: ( // <<<<<<<<<<<< THIS ONE
+  updateManuscriptTemplate?: (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
     containerID: string,
     manuscript: Manuscript,
     updatedModels: ManuscriptModel[]
   ) => Promise<Manuscript>
-  ❌ getInvitation?: (
+  getInvitation?: (
     invitingUserID: string,
     invitedEmail: string
   ) => Promise<ContainerInvitation>
-  ❌ getAttachment?: (
+  getAttachment?: (
     id: string,
     attachmentID: string
   ) => Promise<Blob | undefined>
-  ❌ putAttachment?: (id: string, attachment: Attachment) => Promise<void>
-  getUserTemplates?: () => Promise<{ // <<<<<<<<<<<< THIS ONE
+  putAttachment?: (id: string, attachment: Attachment) => Promise<void>
+  getUserTemplates?: () => Promise<{
     userTemplates: ManuscriptTemplate[]
     userTemplateModels: ManuscriptModel[]
   }>
-  createUser: (profile: Build<UserProfile>) => Promise<void>  // <<<<<<<<<<<< THIS ONE
-  ✅ updateBiblioItem: (item: BibliographyItem) => Promise<any>
-  ✅ deleteBiblioItem: (item: BibliographyItem) => Promise<any>
-  ✅ biblio: BiblioTools
-  createProjectLibraryCollection: ( // <<<<<<<<<<<< THIS ONE
+  createUser: (profile: Build<UserProfile>) => Promise<void>
+  updateBiblioItem: (item: BibliographyItem) => Promise<any>
+  deleteBiblioItem: (item: BibliographyItem) => Promise<any>
+  biblio: BiblioTools
+  createProjectLibraryCollection: (
     collection: Build<LibraryCollection>,
     projectID: string
   ) => Promise<void>
-  ✅ saveBiblioItem: (
+  saveBiblioItem: (
     item: Build<BibliographyItem>,
     projectID: string
   ) => Promise<BibliographyItem>
-  ✅ projectLibraryCollections: Map<string, LibraryCollection>
+  projectLibraryCollections: Map<string, LibraryCollection>
   globalLibraries?: Map<string, Library> // From the user
   globalLibraryCollections?: Map<string, LibraryCollection> // From the user
   globalLibraryItems?: Map<string, BibliographyItem> // From the user
-  ✅ library: Map<string, BibliographyItem>
+  library: Map<string, BibliographyItem>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

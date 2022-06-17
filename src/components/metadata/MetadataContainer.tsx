@@ -89,8 +89,7 @@ const MetadataContainer: React.FC<Props> = ({
       deleteModel,
       containerInvitations,
       invitations,
-      // getInvitation,
-    },
+      getInvitation
   ] = useStore((store) => ({
     saveModel: store.saveModel,
     collaboratorsProfiles: store.collaboratorsProfiles,
@@ -101,7 +100,7 @@ const MetadataContainer: React.FC<Props> = ({
     deleteModel: store.deleteModel,
     containerInvitations: store.containerInvitations || [],
     invitations: store.projectInvitations || [],
-    // getInvitation: store.getInvitation,
+    getInvitation: store.getInvitation || (() => null),
   }))
 
   const allInvitations = [
@@ -109,19 +108,19 @@ const MetadataContainer: React.FC<Props> = ({
     ...containerInvitations,
   ].filter((invitation) => invitation.containerID.startsWith('MPProject'))
 
-  // const updateAuthor = (invitingUser: UserProfile) => async (
-  //   author: Contributor,
-  //   invitedEmail: string
-  // ) => {
-  //   const invitation = await getInvitation(invitingUser.userID, invitedEmail)
+  const updateAuthor = (invitingUser: UserProfile) => async (
+    author: Contributor,
+    invitedEmail: string
+  ) => {
+    const invitation = await getInvitation(invitingUser.userID, invitedEmail)
 
-  //   const updatedAuthor: Contributor = await saveModel({
-  //     ...author,
-  //     invitationID: invitation._id,
-  //   })
+    const updatedAuthor: Contributor = await saveModel({
+      ...author,
+      invitationID: invitation._id || '',
+    })
 
-  //   selectAuthor(updatedAuthor)
-  // }
+    selectAuthor(updatedAuthor)
+  }
 
   const toggleExpanded = () => {
     setState((state) => ({ ...state, expanded: !state.expanded }))
@@ -298,8 +297,7 @@ const MetadataContainer: React.FC<Props> = ({
     name: string
   ) => {
     const invitation = await getInvitation(invitingID, invitedEmail)
-
-    await createAuthor(buildAuthorPriority(authors), null, name, invitation._id)
+    await createAuthor(buildAuthorPriority(authors), null, name, invitation?._id)
   }
 
   const buildInvitedAuthorsEmail = (
@@ -394,7 +392,7 @@ const MetadataContainer: React.FC<Props> = ({
       handleInviteCancel={handleInviteCancel}
       handleInvitationSubmit={handleInvitationSubmit(user, allInvitations)}
       handleDrop={handleDrop}
-      // updateAuthor={updateAuthor(user)}
+      updateAuthor={updateAuthor(user)}
       invitationSent={state.invitationSent}
       handleTitleStateChange={handleTitleStateChange}
       permissions={permissions}

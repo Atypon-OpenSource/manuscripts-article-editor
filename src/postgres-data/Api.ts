@@ -159,11 +159,18 @@ export default class Api {
     return data
   }
 
-  createUser = async (
-    profile: Build<UserProfile>,
-    email: string,
-    password: string
+  saveManuscriptData = async (
+    projectID: string,
+    manuscriptID: string,
+    models: Array<Build<ContainedModel>>
   ) => {
+    await this.post(
+      `project/${projectID}/manuscripts/${manuscriptID}/save`,
+      models
+    )
+  }
+
+  createUser = async (email: string, password: string) => {
     // this is fiction - no such thing in the api
     return this.post('/user', { email, password })
   }
