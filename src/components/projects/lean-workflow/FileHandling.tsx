@@ -9,10 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { Figure } from '@manuscripts/manuscripts-json-schema'
 import { useCallback } from 'react'
 
 import {
   getErrorCode,
+  SubmissionAttachment,
   useSetMainManuscript,
   useUpdateAttachmentDesignation,
   useUpdateAttachmentFile,
@@ -22,12 +24,14 @@ import { useStore } from '../../../store'
 
 const useFileHandling = () => {
   const [
-    { fileManagementErrors, manuscript, project },
+    { fileManagementErrors, manuscript, project, getModel, saveModel },
     dispatchStore,
   ] = useStore((store) => ({
     fileManagementErrors: store.fileManagementErrors || [],
     manuscript: store.manuscript,
     project: store.project,
+    getModel: store.getModel,
+    saveModel: store.saveModel,
   }))
 
   const handleDialogError = useCallback(
@@ -122,10 +126,7 @@ const useFileHandling = () => {
     [uploadAttachment, handleSubmissionMutation, project._id, manuscript._id]
   )
 
-  const {
-    updateAttachmentFile,
-    updateAttachmentFileError,
-  } = useUpdateAttachmentFile()
+  const { updateAttachmentFileError } = useUpdateAttachmentFile()
 
   if (updateAttachmentFileError) {
     dispatchStore({
@@ -174,18 +175,16 @@ const useFileHandling = () => {
       }
 
       return handleSubmissionMutation(
-        updateAttachmentFile({
-          submissionId,
-          attachmentId,
-          file,
-          name,
+        uploadAttachment({
+          submissionId: submissionId,
           documentId: `${project._id}#${manuscript._id}`,
+          file: file,
+          designation: typeId,
         }),
-        'Something went wrong while replacing attachment.'
+        'Something went wrong while uploading attachment.'
       )
     },
     [
-      updateAttachmentFile,
       handleSubmissionMutation,
       setMainManuscript,
       uploadAttachment,
@@ -194,8 +193,29 @@ const useFileHandling = () => {
     ]
   )
 
+  const handleUpdateInlineFile = useCallback(
+    (modelId: string, attachment: SubmissionAttachment) => {
+      const figureModel = getModel(modelId) as Figure
+      const imageExternalFileIndex = figureModel?.externalFileReferences?.findIndex(
+        (file) => file && file.kind === 'imageRepresentation'
+      )
+      if (
+        figureModel.externalFileReferences &&
+        typeof imageExternalFileIndex !== 'undefined' &&
+        imageExternalFileIndex > -1
+      ) {
+        figureModel.externalFileReferences[
+          imageExternalFileIndex
+        ].url = `attachment:${attachment.id}`
+        saveModel(figureModel)
+      }
+    },
+    [getModel, saveModel]
+  )
+
   return {
     handleReplaceAttachment,
+    handleUpdateInlineFile,
     handleChangeAttachmentDesignation,
     handleUploadAttachment,
   }

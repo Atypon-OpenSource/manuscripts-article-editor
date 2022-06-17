@@ -19,7 +19,8 @@ import {
   useApplicationMenus,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+// import { Model } from '@manuscripts/manuscripts-json-schema'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
@@ -35,7 +36,7 @@ import { ExportFormat } from '../../../pressroom/exporter'
 import { useStore } from '../../../store'
 import { useModal } from '../../ModalHookableProvider'
 import { Exporter } from '../Exporter'
-import { Importer } from '../Importer'
+// import { Importer } from '../Importer'
 import { importManuscript } from '../ImportManuscript'
 
 export const ApplicationMenuContainer = styled.div`
@@ -55,6 +56,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
 }) => {
   const [store] = useStore((store) => ({
     manuscriptID: store.manuscriptID,
+    userID: store.userID,
     modelMap: store.modelMap,
     saveModel: store.saveModel,
     manuscripts: store.manuscripts,
@@ -65,28 +67,29 @@ export const ApplicationMenusLW: React.FC<Props> = ({
 
   const history = useHistory()
   const { addModal } = useModal()
+  const can = usePermissions()
 
-  const importerHander = importManuscript(
-    history,
-    store.saveNewManuscript,
-    undefined,
-    (projectID, manuscriptID) => {
-      alert(
-        `Imported successfully: projectID: ${projectID}, manuscriptID: ${manuscriptID}.`
-      )
-    }
-  )
+  // const importerHander = importManuscript(
+  //   history,
+  //   store.saveNewManuscript,
+  //   undefined,
+  //   (projectID, manuscriptID) => {
+  //     alert(
+  //       `Imported successfully: projectID: ${projectID}, manuscriptID: ${manuscriptID}.`
+  //     )
+  //   }
+  // )
 
-  const openImporter = () => {
-    addModal('importer', ({ handleClose }) => (
-      <Importer
-        handleComplete={handleClose}
-        importManuscript={(models: Model[], redirect = true) =>
-          importerHander(models)
-        }
-      />
-    ))
-  }
+  // const openImporter = () => {
+  //   addModal('importer', ({ handleClose }) => (
+  //     <Importer
+  //       handleComplete={handleClose}
+  //       importManuscript={(models: Model[], redirect = true) =>
+  //         importerHander(models)
+  //       }
+  //     />
+  //   ))
+  // }
   const openExporter = (format: ExportFormat, closeOnSuccess: boolean) => {
     addModal('exporter', ({ handleClose }) => (
       <Exporter
@@ -124,17 +127,18 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     ],
   }
 
-  const developMenu: MenuSpec = {
-    id: 'develop',
-    label: 'Develop',
-    submenu: [
-      {
-        id: 'import',
-        label: 'Import Manuscript…',
-        run: openImporter,
-      },
-    ],
-  }
+  // Commented as may it be actually useful in later development
+  // const developMenu: MenuSpec = {
+  //   id: 'develop',
+  //   label: 'Develop',
+  //   submenu: [
+  //     {
+  //       id: 'import',
+  //       label: 'Import Manuscript…',
+  //       run: openImporter,
+  //     },
+  //   ],
+  // }
 
   const helpMenu: MenuSpec = {
     id: 'help',
@@ -161,16 +165,22 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   const openDialog = (dialog: DialogNames) => setDialog(dialog)
   const { colors, colorScheme } = buildColors(store.modelMap)
   const handleAddColor = addColor(colors, store.saveModel, colorScheme)
-
-  const menu = [
-    projectMenu,
-    ...getMenus(editor, openDialog, config.features.footnotes, contentEditable),
-    helpMenu,
-  ]
-
-  if (!config.production) {
-    menu.push(developMenu)
+  let editorMenu = getMenus(
+    editor,
+    openDialog,
+    config.features.footnotes,
+    contentEditable
+  )
+  if (!can.formatArticle) {
+    editorMenu = editorMenu.filter((menu) => menu.id !== 'format')
   }
+
+  const menu = [projectMenu, ...editorMenu, helpMenu]
+
+  // Commented as may it be actually useful in later development
+  // if (!config.production) {
+  //   menu.push(developMenu)
+  // }
 
   const menus = useApplicationMenus(menu)
 

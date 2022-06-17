@@ -60,6 +60,7 @@ const Inspector: React.FC<Props> = ({
   const [
     {
       snapshots,
+      saveModel,
       modelMap,
       user,
       project,
@@ -74,6 +75,7 @@ const Inspector: React.FC<Props> = ({
     dispatchStore,
   ] = useStore((store) => ({
     snapshots: store.snapshots,
+    saveModel: store.saveModel,
     modelMap: store.modelMap,
     manuscript: store.manuscript,
     user: store.user,
@@ -89,6 +91,7 @@ const Inspector: React.FC<Props> = ({
   const {
     handleChangeAttachmentDesignation,
     handleReplaceAttachment,
+    handleUpdateInlineFile,
     handleUploadAttachment,
   } = useFileHandling()
 
@@ -136,12 +139,17 @@ const Inspector: React.FC<Props> = ({
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={!!getUnsavedComment(commentController.items)}
+        forceOpen={
+          !!getUnsavedComment(commentController.items) ||
+          !!commentController.focusedItem
+        }
       >
         <InspectorLW
           tabs={tabs}
           commentTarget={
-            getUnsavedComment(commentController.items) || undefined
+            getUnsavedComment(commentController.items) ||
+            commentController.focusedItem ||
+            undefined
           }
         >
           {tabs.map((label) => {
@@ -228,6 +236,7 @@ const Inspector: React.FC<Props> = ({
                       can={can}
                       enableDragAndDrop={true}
                       modelMap={modelMap}
+                      saveModel={saveModel}
                       attachments={
                         submission?.attachments as SubmissionAttachment[]
                       }
@@ -237,6 +246,7 @@ const Inspector: React.FC<Props> = ({
                       handleDownload={handleDownloadAttachment}
                       handleReplace={handleReplaceAttachment}
                       handleUpload={handleUploadAttachment}
+                      handleUpdateInline={handleUpdateInlineFile}
                     />
                   </>
                 ) : null

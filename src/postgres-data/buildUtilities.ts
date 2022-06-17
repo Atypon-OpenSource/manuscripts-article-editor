@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainerIDs, state } from '../store'
+import { ContainedIDs, ContainerIDs, state } from '../store'
 import {
   Build,
   ContainedModel,
@@ -21,14 +21,18 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
+  Bundle,
   Correction,
   LibraryCollection,
   Manuscript,
   Model,
+  Project,
+  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import Api from '../postgres-data/Api'
 import { commitToJSON, Commit } from '@manuscripts/track-changes'
 import { saveWithThrottle } from './savingUtilities'
+import { Biblio } from './Bibilo'
 
 const buildUtilities = (
   data: Partial<state>,
@@ -58,7 +62,7 @@ const buildUtilities = (
     // combine entire project and overwrite?
     const onlyProjectModels = models.filter((model) => !model.manuscriptID)
     if (data.projectID && data.manuscriptID) {
-      api.updateProject(data.projectID, data.manuscriptID, onlyProjectModels)
+      api.saveProject(data.projectID, onlyProjectModels)
     }
   }
 
@@ -167,11 +171,13 @@ const buildUtilities = (
       }),
     })
 
-    saveWithThrottle(() =>
-      bulkPersistentProjectSave([
-        ...data.modelMap.values(),
-      ] as ManuscriptModel[])
-    )
+    saveWithThrottle(() => {
+      if (data.modelMap) {
+        bulkPersistentProjectSave([
+          ...data.modelMap.values(),
+        ] as ManuscriptModel[])
+      }
+    })
   }
 
   const deleteModel = (id: string) => {
@@ -198,6 +204,34 @@ const buildUtilities = (
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const saveNewManuscript = async (
+    // this is only for development purposes, in LW there should be no direct insertion of manuscripts by user
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    containerID: string, // ignoring for now because API doesn't support an compulsory containerID
+    manuscript: Build<Manuscript>,
+    newProject?: Build<Project>
+  ) => {
+    if (newProject) {
+      const project = await api.createProject(newProject.title || 'Untitled')
+      if (project) {
+        const savedManuscript = await api.createNewManuscript(
+          project._id,
+          manuscript._id
+        )
+        dependencies.forEach((dep) => {
+          dep.containerID = project._id
+        })
+        await api.saveProjectData(project._id, dependencies)
+        // await api.saveProject(project._id, [manuscript])
+        return savedManuscript
+      }
+    }
+    // else {
+    // currently not supporting multiple manuscripts in a project
+    // }
+    return Promise.resolve(manuscript)
   }
 
   const saveBiblioItem = async (
@@ -240,10 +274,28 @@ const buildUtilities = (
     }
   }
 
+  let biblioUtils
+
+  if (data.manuscript && data.library) {
+    const bundle = data.manuscript?.bundle // TODO: infer bundle from prototype if manuscript.bundle is undefined ?
+      ? (data?.modelMap?.get(data.manuscript.bundle) as Bundle)
+      : null
+    biblioUtils = new Biblio(
+      bundle,
+      data.library,
+      data.manuscript.primaryLanguageCode || 'eng'
+    )
+  }
+
+  const createUser = (profile: Build<UserProfile>) => {
+    return Promise.resolve()
+  }
+
   return {
     saveModel,
     deleteModel,
     saveManuscript,
+    saveNewManuscript,
     getModel,
     saveCommit,
     saveCorrection,
@@ -252,6 +304,8 @@ const buildUtilities = (
     deleteBiblioItem,
     updateBiblioItem,
     bulkUpdate,
+    createUser,
+    biblio: biblioUtils?.getTools(),
   }
 }
 

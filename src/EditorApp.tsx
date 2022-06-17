@@ -19,6 +19,7 @@ import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import CouchSource from './couch-data/CouchSource'
+import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
 import {
   BasicSource,
@@ -31,7 +32,8 @@ interface Props {
   submissionId: string
   manuscriptID: string
   projectID: string
-  authToken: string
+  submission: Submission
+  person: Person
 }
 
 const Wrapper = styled.div`
@@ -48,7 +50,8 @@ const EditorApp: React.FC<Props> = ({
   submissionId,
   manuscriptID,
   projectID,
-  authToken,
+  submission,
+  person,
 }) => {
   const userID = getCurrentUserId()
   const [store, setStore] = useState<GenericStore>()
@@ -59,8 +62,9 @@ const EditorApp: React.FC<Props> = ({
       submissionId,
       projectID,
       manuscriptID,
-      userID || '',
-      authToken
+      submission,
+      person,
+      userID || ''
     )
     const couchSource = new CouchSource()
     createStore([basicSource, couchSource])

@@ -1,14 +1,6 @@
-node {
+node("cisc") {
     stage("Checkout") {
-        VARS = checkout(scm:[$class: 'GitSCM',
-            doGenerateSubmoduleConfigurations: false,
-            submoduleCfg: [],
-            userRemoteConfigs: [
-                [credentialsId: '336d4fc3-f420-4a3e-b96c-0d0f36ad12be',
-                name: 'origin',
-                url: 'git@github.com:Atypon-OpenSource/manuscripts-article-editor.git']
-            ]]
-        )
+        VARS = checkout scm 
         echo "VARS: $VARS"
     }
 
@@ -47,10 +39,16 @@ node {
     stage("Tests report") {
         junit "junit.xml"
     }
-    
-    stage ("Publish") {
-        withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-            sh ("npx @manuscripts/publish")
+
+    if (VARS.GIT_BRANCH == "origin/master") {
+        stage ("Publish") {
+            withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
+                sh ("""cat << EOF >.npmrc 
+//registry.npmjs.org/:_authToken=$NPM_TOKEN 
+<<EOF""")
+                sh ("npx @manuscripts/publish")
+                sh "rm -f .npmrc"
+            }
         }
     }
 }

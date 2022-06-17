@@ -194,8 +194,8 @@ export const Inspector: React.FC<{
                           : undefined
                       }
                     />
-                    {config.export.literatum && <HeaderImageInspector />}
-                    {config.export.literatum && selected && (
+                    {config.features.headerImage && <HeaderImageInspector />}
+                    {config.features.nodeInspector && selected && (
                       <NodeInspector
                         selected={selected}
                         state={view.state}

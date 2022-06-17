@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Person, Submission } from '../lib/lean-workflow-gql'
 import { builderFn, GenericStore, state } from '.'
 
 export type stateSetter = (setState: (currentState: state) => state) => void
@@ -28,15 +29,17 @@ export class BasicSource implements StoreDataSourceStrategy {
     submissionID: string,
     projectID: string,
     manuscriptID: string,
-    userID?: string | undefined,
-    authToken?: string | undefined
+    submission: Submission,
+    person: Person,
+    userID?: string | undefined
   ) {
     this.data = {
       submissionID,
       projectID,
       manuscriptID,
+      submission,
+      person,
       userID,
-      authToken,
     }
   }
 

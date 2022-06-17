@@ -37,7 +37,8 @@ import {
 import { Commit } from '@manuscripts/track-changes'
 
 import { BiblioTools } from '../couch-data/Bibilo'
-import { TokenData } from './TokenData'
+import { TokenData } from '../couch-data/TokenData'
+import { Person, Submission } from '../lib/lean-workflow-gql'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 
 export interface TokenActions {
@@ -64,7 +65,6 @@ export interface ContainedIDs {
 
 export type state = {
   [key: string]: any
-  ✅ authToken?: string
   ✅ project: Project
   ✅ manuscript: Manuscript
   ✅ manuscripts?: Manuscript[]
@@ -90,48 +90,48 @@ export type state = {
   ✅ comments?: CommentAnnotation[]
   ✅ notes?: ManuscriptNote[]
   ✅ tags?: Tag[]
-  collaborators?: Map<string, UserProfile>
-  collaboratorsProfiles?: Map<string, UserProfile>
-  collaboratorsById?: Map<string, UserProfile>
-
-  ✅  getModel: <T extends Model>(id: string) => T | undefined
+  ✅ collaborators?: Map<string, UserProfile>
+  ✅ collaboratorsProfiles?: Map<string, UserProfile>
+  ✅ collaboratorsById?: Map<string, UserProfile>
+  ✅ submission: Submission
+  ✅ person: Person
+  ✅ getModel: <T extends Model>(id: string) => T | undefined
   ✅ saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  ✅  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  ✅ saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   ✅ deleteModel: (id: string) => Promise<string>
   ✅ bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
   ✅ deleteProject: (projectID: string) => Promise<string>
   ✅ updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
-  saveNewManuscript : (
+  ✅ saveNewManuscript : (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
     containerID: string,
     manuscript: Build<Manuscript>,
     newProject?: Build<Project>
   ) => Promise<Build<Manuscript>>
-  updateManuscriptTemplate: (
+  updateManuscriptTemplate: ( // <<<<<<<<<<<< THIS ONE
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
     containerID: string,
     manuscript: Manuscript,
     updatedModels: ManuscriptModel[]
   ) => Promise<Manuscript>
-  getInvitation: (
+  ❌ getInvitation?: (
     invitingUserID: string,
     invitedEmail: string
   ) => Promise<ContainerInvitation>
-  getAttachment?: (
+  ❌ getAttachment?: (
     id: string,
     attachmentID: string
   ) => Promise<Blob | undefined>
-  putAttachment?: (id: string, attachment: Attachment) => Promise<void>
-  getUserTemplates?: () => Promise<{
+  ❌ putAttachment?: (id: string, attachment: Attachment) => Promise<void>
+  getUserTemplates?: () => Promise<{ // <<<<<<<<<<<< THIS ONE
     userTemplates: ManuscriptTemplate[]
     userTemplateModels: ManuscriptModel[]
   }>
-  createUser: (profile: Build<UserProfile>) => Promise<void>
+  createUser: (profile: Build<UserProfile>) => Promise<void>  // <<<<<<<<<<<< THIS ONE
   ✅ updateBiblioItem: (item: BibliographyItem) => Promise<any>
   ✅ deleteBiblioItem: (item: BibliographyItem) => Promise<any>
-  biblio: BiblioTools
-  projectLibraryCollections: Map<string, LibraryCollection>
-  createProjectLibraryCollection: (
+  ✅ biblio: BiblioTools
+  createProjectLibraryCollection: ( // <<<<<<<<<<<< THIS ONE
     collection: Build<LibraryCollection>,
     projectID: string
   ) => Promise<void>
@@ -139,10 +139,11 @@ export type state = {
     item: Build<BibliographyItem>,
     projectID: string
   ) => Promise<BibliographyItem>
-  globalLibraries: Map<string, Library>
-  globalLibraryCollections: Map<string, LibraryCollection>
-  globalLibraryItems: Map<string, BibliographyItem>
-  library: Map<string, BibliographyItem>
+  ✅ projectLibraryCollections: Map<string, LibraryCollection>
+  globalLibraries?: Map<string, Library> // From the user
+  globalLibraryCollections?: Map<string, LibraryCollection> // From the user
+  globalLibraryItems?: Map<string, BibliographyItem> // From the user
+  ✅ library: Map<string, BibliographyItem>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

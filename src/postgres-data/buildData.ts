@@ -11,9 +11,11 @@
  */
 import Api from './Api'
 import {
+  BibliographyItem,
   CommentAnnotation,
   Commit as CommitJson,
   Correction,
+  LibraryCollection,
   ManuscriptNote,
   Model,
   ObjectTypes,
@@ -109,7 +111,7 @@ const isManuscriptNote = (model: Model) =>
   model.objectType === ObjectTypes.ManuscriptNote
 
 const getProjectData = async (projectID: string, api: Api) => {
-  const project = await api.getProject<Project>(projectID)
+  const project = await api.getProject(projectID)
   if (project) {
     return project
   }
@@ -179,6 +181,31 @@ const getManuscriptData = async (
   return data
 }
 
+const getLibrariesData = async (projectID: string, api: Api) => {
+  const libraries = await api.getProjectModels<Model>(projectID, [
+    'MPLibraryCollection',
+    'BibliographyItem',
+  ])
+  if (libraries) {
+    return libraries.reduce(
+      (acc, item) => {
+        if (item.objectType === ObjectTypes.BibliographyItem) {
+          acc.library.set(item._id, item as BibliographyItem)
+        }
+        if (item.objectType === ObjectTypes.LibraryCollection) {
+          acc.projectLibraryCollections.set(item._id, item as LibraryCollection)
+        }
+        return acc
+      },
+      {
+        projectLibraryCollections: new Map<string, LibraryCollection>(),
+        library: new Map<string, BibliographyItem>(),
+      }
+    )
+  }
+  return null
+}
+
 const getCollaboratorsData = async (
   projectID: string,
   data: Partial<state>,
@@ -189,19 +216,18 @@ const getCollaboratorsData = async (
   if (collaboratorsProfiles) {
     const collaborators = buildDocsMap(collaboratorsProfiles)
     if (data.user) {
-      collabsData.ancestorDoccollaboratorsData = {
-        collaboratorsProfiles: buildCollaboratorProfiles(
-          collaborators,
-          data.user
-        ),
-        collaboratorsById: buildCollaboratorProfiles(
-          collaborators,
-          data.user,
-          '_id'
-        ),
-      }
+      collabsData.collaboratorsProfiles = buildCollaboratorProfiles(
+        collaborators,
+        data.user
+      )
+      collabsData.collaboratorsById = buildCollaboratorProfiles(
+        collaborators,
+        data.user,
+        '_id'
+      )
     }
   }
+  collabsData.collaboratorsProfiles = collaboratorsProfiles // why?
   return collabsData
 }
 
@@ -220,7 +246,11 @@ const getDrivedData = async (
 ) => {
   let storeData: Partial<state>
 
-  const latestSnaphot = data.snapshots.length ? data.snapshots[0] : null
+  if (!data.modelMap || !data.projectID || !data.snapshots || !data.commits) {
+    return null
+  }
+
+  const latestSnaphot = data?.snapshots?.length ? data.snapshots[0] : null
   if (!latestSnaphot) {
     const decoder = new Decoder(data.modelMap, true)
     const doc = decoder.createArticleNode()
@@ -282,6 +312,7 @@ export default async function buildData(
     api
   )
   const projects = await api.getUserProjects()
+  const librariesData = await getLibrariesData(projectID, api)
 
   return {
     projects: projects,
@@ -293,6 +324,7 @@ export default async function buildData(
     ...manuscriptData,
     ...derivedData,
     ...collaboratorsData,
+    ...librariesData,
     tokenData: new TokenData(),
   }
 }

@@ -9,13 +9,17 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   Snapshot,
   Model,
   Project,
   UserCollaborator,
+  UserProfile,
+  Manuscript,
 } from '@manuscripts/manuscripts-json-schema'
 import axios, { AxiosInstance } from 'axios'
+import { ContainedIDs } from '../store'
 import config from '../config'
 
 export default class Api {
@@ -44,8 +48,14 @@ export default class Api {
     }
   }
 
-  post = <T>(path: string, data: unknown) => {
-    return this.instance.post<T>(path, data)
+  post = async <T>(path: string, data: unknown) => {
+    try {
+      const result = await this.instance.post<T>(path, data)
+      return result.data
+    } catch (e) {
+      console.log(e)
+      return null
+    }
   }
 
   delete = <T>(url: string) => {
@@ -60,23 +70,40 @@ export default class Api {
     return this.instance.put<T>(path, data)
   }
 
-  getProject = <T>(projectID: string) => {
-    return this.get<T>(`project/${projectID}`)
+  getProject = (projectID: string) => {
+    return this.get<Project>(`project/${projectID}`)
+  }
+
+  getProjectCollaborators = (projectID: string) => {
+    return this.get(`project/${projectID}/collaborators`)
   }
 
   getUserProjects = () => {
     return this.get<Project[]>(`user/projects`)
   }
 
-  deleteProject = <T>(projectID: string) => {
-    return this.delete<T>(`project/${projectID}`)
+  getProjectModels = <T>(projectID: string, types: string[] = []) => {
+    return this.post<T[]>(`project/${projectID}/load`, { types })
   }
-  addManuscript = <T>(projectID: string, data: unknown) => {
-    return this.post<T>(`project/${projectID}`, data)
+
+  deleteProject = (projectID: string) => {
+    return this.delete<boolean>(`project/${projectID}`) // not sure what exactly it sends over
+  }
+  addManuscript = (projectID: string, data: unknown) => {
+    return this.post<Manuscript>(`project/${projectID}`, data) // will it really return manuscript?
   }
 
   getManuscript = (containerID: string, manuscriptID: string) =>
-    this.get<Model[]>(`/projects/${containerID}/manuscript/${manuscriptID}`)
+    this.get<Model[]>(`/container/${containerID}/${manuscriptID}/load`)
+
+  getManuscriptModels = <T>(
+    containerID: string,
+    manuscriptID: string,
+    types: string[]
+  ) =>
+    this.post<T[]>(`/container/${containerID}/${manuscriptID}/load`, {
+      types,
+    })
 
   getCollaborators = (containerID: string) =>
     this.get<UserCollaborator[]>(`/project/${containerID}/collaborators`)
@@ -99,13 +126,55 @@ export default class Api {
     return this.post(`project/${projectId}/save`, models)
   }
 
-  upsertManuscript = (
-    projectId: string,
-    manuscriptId: string,
-    models: Model[]
-  ) => {
-    return this.post(`project/${projectId}/save/${manuscriptId}`, models) // currently not supported by the api
+  createProject = (title: string) => {
+    return this.post<Project>('project', { title })
   }
+
+  createNewManuscript = (
+    projectID: string,
+    manuscriptID: string,
+    templateID = '' // not going to work for now. Needs to be allowed without templateID for dev purposes.
+  ) => {
+    if (!templateID) {
+      templateID =
+        'MPManuscriptTemplate:www-zotero-org-styles-plos-one-PLOS-ONE-Journal-Publication'
+      console.log(
+        "Applying development templateID as there was no real ID provided on new manuscript creation. This is because API doesn't allow no templateID but it used to be allowed on CouchDB"
+      )
+    }
+    return this.post<Manuscript>(
+      `container/projects/${projectID}/manuscript/${manuscriptID}`,
+      {
+        manuscriptID,
+        templateID,
+      }
+    )
+  }
+
+  saveProjectData = async (
+    projectID: string,
+    data: Array<Build<ContainedModel> & ContainedIDs>
+  ) => {
+    await this.post(`project/${projectID}/save`, data)
+    return data
+  }
+
+  createUser = async (
+    profile: Build<UserProfile>,
+    email: string,
+    password: string
+  ) => {
+    // this is fiction - no such thing in the api
+    return this.post('/user', { email, password })
+  }
+
+  // upsertManuscript = (
+  //   projectId: string,
+  //   manuscriptId: string,
+  //   models: Model[]
+  // ) => {
+  //   return this.post(`project/${projectId}/save/${manuscriptId}`, models) // currently not supported by the api
+  // }
 
   createSnapshot = (containerID: string, snapshot: Snapshot) => {
     return this.post(`snapshot/${containerID}/create`, snapshot)

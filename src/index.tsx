@@ -20,6 +20,7 @@ import React, { useEffect } from 'react'
 
 import { IntlProvider } from './components/IntlHookableProvider'
 import { LoadingPage } from './components/Loading'
+import { Person, Submission } from './lib/lean-workflow-gql'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
 import userID from './lib/user-id'
@@ -30,6 +31,8 @@ export interface ManuscriptEditorAppProps {
   submissionId: string
   manuscriptID: string
   projectID: string
+  submission: Submission
+  person: Person
   authToken?: string
 }
 
@@ -37,6 +40,8 @@ export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
   submissionId,
   manuscriptID,
   projectID,
+  submission,
+  person,
   authToken,
 }) => {
   useEffect(() => {
@@ -74,6 +79,8 @@ export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
               submissionId={submissionId}
               manuscriptID={manuscriptID}
               projectID={projectID}
+              submission={submission}
+              person={person}
             />
           </React.Suspense>
         </ThemeProvider>
