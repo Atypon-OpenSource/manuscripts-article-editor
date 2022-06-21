@@ -169,6 +169,7 @@
     "pouchdb-replication": "^7.0.0",
     "pretty-bytes": "^5.4.1",
     "prop-types": "^15.7.2",
+    "prosemirror-dev-toolkit": "^0.0.11",
     "qs": "^6.5.1",
     "randomcolor": "^0.6.2",
     "raw-loader": "^4.0.2",

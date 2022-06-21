@@ -151,6 +151,18 @@ const ManuscriptPageView: React.FC = () => {
 
   const { state, dispatch, view } = editor
   // useChangeReceiver(editor, saveModel, deleteModel) - not needed under new architecture
+  useEffect(() => {
+    if (view && config.environment === 'development') {
+      import('prosemirror-dev-toolkit')
+        .then(({ applyDevTools }) => applyDevTools(view))
+        .catch((error) => {
+          console.error(
+            'There was an error loading prosemirror-dev-toolkit',
+            error.message
+          )
+        })
+    }
+  }, [view])
 
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
