@@ -26,7 +26,6 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import {
-  trackChangesPluginKey,
   TrackChangesStatus,
 } from '@manuscripts/track-changes-plugin'
 import { ApolloError } from 'apollo-client'
@@ -176,9 +175,8 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   useEffect(() => {
-    setEditorState(state)
-    const trackState = trackChangesPluginKey.getState(state)
-    if (trackState?.status !== TrackChangesStatus.viewSnapshots) {
+    const { trackState } = setEditorState(state)
+    if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
       saveDocument(state)
     }
   }, [state])

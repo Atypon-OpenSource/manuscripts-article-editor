@@ -71,10 +71,12 @@ export const useEditorStore = create(
         set({ editorState: state })
       },
       setEditorState(newState: ManuscriptEditorState) {
-        set({
+        const state = {
           editorState: newState,
           trackState: trackChangesPluginKey.getState(newState),
-        })
+        }
+        set(state)
+        return state
       },
     })
   )

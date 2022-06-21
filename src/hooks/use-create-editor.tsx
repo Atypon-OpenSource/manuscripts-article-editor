@@ -99,7 +99,7 @@ export const useCreateEditor = (permissions: Permissions) => {
       ? [
           trackChangesPlugin({
             userID: getTrackUser().id,
-            debug: true,
+            debug: config.environment === 'development',
           }) as Plugin<any, any>,
         ]
       : [],
