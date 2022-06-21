@@ -25,8 +25,8 @@ import {
 } from 'react-icons/fi'
 import styled from 'styled-components'
 
-import { useEditorStore } from '../useEditorStore'
 import { useSnapshotStore } from '../../../quarterback/useSnapshotStore'
+import { useEditorStore } from '../useEditorStore'
 import { EditSnapshotForm, UpdateSnapshotFormValues } from './EditSnapshotForm'
 
 interface IProps {

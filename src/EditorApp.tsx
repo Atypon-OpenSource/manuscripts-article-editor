@@ -9,6 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { schema } from '@manuscripts/manuscript-transform'
 import React, { useEffect, useMemo, useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -19,21 +20,20 @@ import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
+import config from './config'
 import CouchSource from './couch-data/CouchSource'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
+import { useAuthStore } from './quarterback/useAuthStore'
+import { useDocStore } from './quarterback/useDocStore'
+import { usePouchStore } from './quarterback/usePouchStore'
+import { useSnapshotStore } from './quarterback/useSnapshotStore'
 import {
   BasicSource,
   createStore,
   GenericStore,
   GenericStoreProvider,
 } from './store'
-import { useAuthStore } from './quarterback/useAuthStore'
-import { useDocStore } from './quarterback/useDocStore'
-import { usePouchStore } from './quarterback/usePouchStore'
-import { useSnapshotStore } from './quarterback/useSnapshotStore'
-import config from './config'
-import { schema } from '@manuscripts/manuscript-transform'
 
 interface Props {
   submissionId: string
@@ -87,14 +87,17 @@ const EditorApp: React.FC<Props> = ({
       userID || ''
     )
     const couchSource = new CouchSource()
-    Promise.all([loadDoc(manuscriptID, projectID), createStore([basicSource, couchSource])])
+    Promise.all([
+      loadDoc(manuscriptID, projectID),
+      createStore([basicSource, couchSource]),
+    ])
       .then(([doc, store]) => {
         if (doc) {
           store.setState((s) => ({ ...s, doc }))
         }
         initPouchStore({
           getModels: () => store.state?.modelMap,
-          saveModel: store.state?.saveModel
+          saveModel: store.state?.saveModel,
         })
         setStore(store)
       })
@@ -106,9 +109,13 @@ const EditorApp: React.FC<Props> = ({
   }, [submissionId, manuscriptID, projectID])
 
   async function loadDoc(manuscriptID: string, projectID: string) {
-    if (!config.quarterback.enabled) return undefined
+    if (!config.quarterback.enabled) {
+      return undefined
+    }
     const auth = await authenticate()
-    if (!auth) return undefined
+    if (!auth) {
+      return undefined
+    }
     setCurrentDocument(manuscriptID, projectID)
     const found = await getDocument(manuscriptID)
     let doc
@@ -120,7 +127,11 @@ const EditorApp: React.FC<Props> = ({
       // Create an empty doc that will be replaced with whatever document is currently being edited
       createDocument(manuscriptID, projectID)
     }
-    if (doc !== null && typeof doc === 'object' && Object.keys(doc).length !== 0) {
+    if (
+      doc !== null &&
+      typeof doc === 'object' &&
+      Object.keys(doc).length !== 0
+    ) {
       return schema.nodeFromJSON(doc)
     }
     return undefined

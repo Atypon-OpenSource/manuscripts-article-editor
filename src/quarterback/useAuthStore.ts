@@ -17,7 +17,7 @@ import { combine, persist } from 'zustand/middleware'
 import * as authApi from './api/auth'
 
 interface AuthState {
-  user?: { id: string, name: string; color: string }
+  user?: { id: string; name: string; color: string }
   jwt?: Jwt
 }
 
@@ -43,11 +43,13 @@ export const useAuthStore = create(
         },
         getTrackUser() {
           const { user } = get()
-          return user ?? {
-            id: 'none',
-            name: 'Anonymous',
-            color: '#897172',
-          }
+          return (
+            user ?? {
+              id: 'none',
+              name: 'Anonymous',
+              color: '#897172',
+            }
+          )
         },
         async authenticate() {
           const { user, jwt } = get()

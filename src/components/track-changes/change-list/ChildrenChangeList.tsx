@@ -67,17 +67,26 @@ export function ChildrenChangeList(props: Props) {
               <h4>{changeTitle(c)}</h4>
               <Buttons>
                 {c.attrs.status !== CHANGE_STATUS.accepted && (
-                  <button onClick={() => handleAcceptChange(c)} aria-label="accept-btn">
+                  <button
+                    onClick={() => handleAcceptChange(c)}
+                    aria-label="accept-btn"
+                  >
                     Accept
                   </button>
                 )}
                 {c.attrs.status !== CHANGE_STATUS.rejected && (
-                  <button onClick={() => handleRejectChange(c)} aria-label="reject-btn">
+                  <button
+                    onClick={() => handleRejectChange(c)}
+                    aria-label="reject-btn"
+                  >
                     Reject
                   </button>
                 )}
                 {c.attrs.status !== CHANGE_STATUS.pending && (
-                  <button onClick={() => handleResetChange(c)} aria-label="reset-btn">
+                  <button
+                    onClick={() => handleResetChange(c)}
+                    aria-label="reset-btn"
+                  >
                     Reset
                   </button>
                 )}

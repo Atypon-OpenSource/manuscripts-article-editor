@@ -87,7 +87,7 @@ export const useCommentStore = create(
           usersMap.set(u._id, {
             id: u._id,
             name: u.bibliographicName.given || u.userID,
-            color 
+            color,
           })
         })
         set({ usersMap })

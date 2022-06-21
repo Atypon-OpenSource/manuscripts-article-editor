@@ -9,6 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import '@manuscripts/track-changes-plugin/src/styles.css'
+
 import {
   CHANGE_STATUS,
   TrackChangesStatus,
@@ -18,17 +20,15 @@ import {
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { useAuthStore } from '../../quarterback/useAuthStore'
+import { useCommentStore } from '../../quarterback/useCommentStore'
+import { useDocStore } from '../../quarterback/useDocStore'
 import { ChangeList } from './change-list/ChangeList'
 import { ChangesControls } from './ChangesControls'
 import { SnapshotsList } from './snapshots/SnapshotsList'
 import { TrackOptions } from './TrackOptions'
-import { useAuthStore } from '../../quarterback/useAuthStore'
-import { useCommentStore } from '../../quarterback/useCommentStore'
-import { useDocStore } from '../../quarterback/useDocStore'
 import { useEditorStore } from './useEditorStore'
 import useTrackOptions from './useTrackOptions'
-
-import '@manuscripts/track-changes-plugin/src/styles.css'
 
 export function TrackChangesPanel() {
   const { user, authenticate, getTrackUser } = useAuthStore()

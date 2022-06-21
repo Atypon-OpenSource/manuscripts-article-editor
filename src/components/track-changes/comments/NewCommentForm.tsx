@@ -44,7 +44,7 @@ export const NewCommentForm = (props: IProps) => {
       return
     }
     setLoading(true)
-    commentStore
+    return commentStore
       .createComment(
         {
           body,

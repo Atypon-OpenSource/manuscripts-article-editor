@@ -19,14 +19,17 @@ import {
   ManuscriptToolbar,
   RequirementsProvider,
 } from '@manuscripts/manuscript-editor'
+import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import {
   CapabilitiesProvider,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { trackChangesPluginKey, TrackChangesStatus } from '@manuscripts/track-changes-plugin'
+import {
+  trackChangesPluginKey,
+  TrackChangesStatus,
+} from '@manuscripts/track-changes-plugin'
 import { ApolloError } from 'apollo-client'
-import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import debounce from 'lodash.debounce'
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
@@ -39,10 +42,13 @@ import {
   useGetPermittedActions,
 } from '../../../lib/lean-workflow-gql'
 import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
+import { useCommentStore } from '../../../quarterback/useCommentStore'
+import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
 import MetadataContainer from '../../metadata/MetadataContainer'
 import { Main } from '../../Page'
 import { ManuscriptPlaceholder } from '../../Placeholders'
+import { useEditorStore } from '../../track-changes/useEditorStore'
 import {
   EditorBody,
   EditorContainer,
@@ -60,10 +66,6 @@ import Inspector from './Inspector'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
-
-import { useCommentStore } from '../../../quarterback/useCommentStore'
-import { useDocStore } from '../../../quarterback/useDocStore'
-import { useEditorStore } from '../../track-changes/useEditorStore'
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, submission, person }, dispatch] = useStore(
@@ -138,7 +140,9 @@ const ManuscriptPageView: React.FC = () => {
   const [submissionID] = useStore((store) => store.submissionID || '')
   const [submission] = useStore((store) => store.submission)
   const [manuscriptID] = useStore((store) => store.manuscriptID)
-  const [collaboratorsById] = useStore((store) => store.collaboratorsById || new Map())
+  const [collaboratorsById] = useStore(
+    (store) => store.collaboratorsById || new Map()
+  )
 
   const can = usePermissions()
 
@@ -154,7 +158,8 @@ const ManuscriptPageView: React.FC = () => {
   useMemo(() => setUsers(collaboratorsById), [collaboratorsById])
   useMemo(() => view && initEditor(view), [view])
   const saveDocument = debounce(
-    (state: ManuscriptEditorState) => updateDocument(manuscriptID, state.doc.toJSON()),
+    (state: ManuscriptEditorState) =>
+      updateDocument(manuscriptID, state.doc.toJSON()),
     500
   )
 
@@ -241,15 +246,12 @@ const ManuscriptPageView: React.FC = () => {
                       isAnnotator(project, user?.userID)
                     }
                   />
-                  <EditorElement editor={editor}/>
+                  <EditorElement editor={editor} />
                 </EditorBody>
               </EditorContainerInner>
             </EditorContainer>
           </Main>
-          <Inspector
-            tabs={TABS}
-            editor={editor}
-          />
+          <Inspector tabs={TABS} editor={editor} />
         </PageWrapper>
       </UserProvider>
     </RequirementsProvider>

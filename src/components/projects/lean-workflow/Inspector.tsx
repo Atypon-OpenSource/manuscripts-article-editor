@@ -33,6 +33,7 @@ import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
+import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
 import { Corrections } from '../../track/Corrections'
 import { SortByDropdown } from '../../track/SortByDropdown'
 import { Inspector as InspectorLW } from '../InspectorLW'
@@ -41,24 +42,14 @@ import { ContentTab } from './ContentTab'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
 import useFileHandling from './FileHandling'
-import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
 
 interface Props {
   tabs: string[]
   editor: ReturnType<typeof useCreateEditor>
 }
-const Inspector: React.FC<Props> = ({
-  tabs,
-  editor,
-}) => {
+const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    {
-      saveModel,
-      modelMap,
-      submission,
-      submissionId,
-      fileManagementErrors,
-    },
+    { saveModel, modelMap, submission, submissionId, fileManagementErrors },
   ] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
@@ -114,10 +105,7 @@ const Inspector: React.FC<Props> = ({
         resizerButton={ResizingInspectorButton}
         forceOpen={undefined}
       >
-        <InspectorLW
-          tabs={tabs}
-          commentTarget={undefined}
-        >
+        <InspectorLW tabs={tabs} commentTarget={undefined}>
           {tabs.map((label) => {
             switch (label) {
               case 'Content': {
@@ -150,9 +138,7 @@ const Inspector: React.FC<Props> = ({
               }
 
               case 'Track changes': {
-                return (
-                  <TrackChangesPanel key="track-changes"/>
-                )
+                return <TrackChangesPanel key="track-changes" />
               }
 
               case 'Files': {

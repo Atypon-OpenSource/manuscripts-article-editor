@@ -27,10 +27,10 @@ import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import config from '../config'
 import { useUploadAttachment } from '../lib/lean-workflow-gql'
+import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
-import { useAuthStore } from '../quarterback/useAuthStore'
 
 interface Permissions {
   write: boolean
@@ -95,12 +95,14 @@ export const useCreateEditor = (permissions: Permissions) => {
       tabindex: '2',
     },
     doc,
-    plugins: config.quarterback.enabled ? [
-      trackChangesPlugin({
-        userID: getTrackUser().id,
-        debug: true,
-      }) as Plugin<any, any>
-    ] : [],
+    plugins: config.quarterback.enabled
+      ? [
+          trackChangesPlugin({
+            userID: getTrackUser().id,
+            debug: true,
+          }) as Plugin<any, any>,
+        ]
+      : [],
 
     locale: manuscript.primaryLanguageCode || 'en-GB',
     permissions: permissions,

@@ -50,7 +50,7 @@ export const useDocStore = create(
         if ('data' in resp) {
           set({
             currentDocument: { manuscriptID, projectID },
-            quarterbackDoc: resp.data
+            quarterbackDoc: resp.data,
           })
         }
         return resp
@@ -59,13 +59,13 @@ export const useDocStore = create(
         const resp = await docApi.updateDocument(id, { doc })
         if ('data' in resp) {
           set((state) => {
-            let { quarterbackDoc } = state
+            const { quarterbackDoc } = state
             if (quarterbackDoc) {
               return {
                 quarterbackDoc: {
                   ...quarterbackDoc,
                   doc,
-                }
+                },
               }
             }
             return state

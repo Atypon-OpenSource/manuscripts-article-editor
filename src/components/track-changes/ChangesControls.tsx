@@ -9,14 +9,18 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { ChangeSet, CHANGE_STATUS, trackCommands } from '@manuscripts/track-changes-plugin'
+import {
+  CHANGE_STATUS,
+  ChangeSet,
+  trackCommands,
+} from '@manuscripts/track-changes-plugin'
 import React from 'react'
 import styled from 'styled-components'
 
-import { useEditorStore } from './useEditorStore'
+import { getDocWithoutTrackContent } from '../../quarterback/getDocWithoutTrackContent'
 import { usePouchStore } from '../../quarterback/usePouchStore'
 import { useSnapshotStore } from '../../quarterback/useSnapshotStore'
-import { getDocWithoutTrackContent } from '../../quarterback/getDocWithoutTrackContent'
+import { useEditorStore } from './useEditorStore'
 
 interface IProps {
   className?: string
@@ -53,7 +57,9 @@ export function ChangesControls(props: IProps) {
       execCmd(trackCommands.applyAndRemoveChanges())
       setTimeout(() => {
         const state = useEditorStore.getState().editorState
-        if (!state) return
+        if (!state) {
+          return
+        }
         usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
       })
     }

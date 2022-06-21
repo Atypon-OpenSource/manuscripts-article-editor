@@ -9,23 +9,34 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
+import {
+  ManuscriptEditorState,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-transform'
 import { CHANGE_OPERATION } from '@manuscripts/track-changes-plugin'
-import { ManuscriptNode, ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 
 export function filterUnchangedContent(node: ManuscriptNode) {
   const r: ManuscriptNode[] = []
   node.forEach((child) => {
     const { attrs } = child
     const op: CHANGE_OPERATION | undefined = attrs?.dataTracked?.operation
-    if (child.isText && child.marks.find(m => m.type.name === 'tracked_insert') === undefined) {
-      r.push(child.type.schema.text(child.text || '', child.marks.filter(m => m.type.name !== 'tracked_delete')))
+    if (
+      child.isText &&
+      child.marks.find((m) => m.type.name === 'tracked_insert') === undefined
+    ) {
+      r.push(
+        child.type.schema.text(
+          child.text || '',
+          child.marks.filter((m) => m.type.name !== 'tracked_delete')
+        )
+      )
     } else if (op !== 'insert' && !child.isText) {
       r.push(
         child.type.create(
           { ...attrs, dataTracked: null },
           filterUnchangedContent(child),
           child.marks
-        ),
+        )
       )
     }
   })
@@ -34,9 +45,5 @@ export function filterUnchangedContent(node: ManuscriptNode) {
 
 export function getDocWithoutTrackContent(state: ManuscriptEditorState) {
   const { doc } = state
-  return doc.type.create(
-    doc.attrs,
-    filterUnchangedContent(doc),
-    doc.marks
-  )
+  return doc.type.create(doc.attrs, filterUnchangedContent(doc), doc.marks)
 }

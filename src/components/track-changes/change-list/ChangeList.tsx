@@ -18,8 +18,8 @@ import React, { useCallback } from 'react'
 import { FiChevronDown, FiChevronRight, FiMessageCircle } from 'react-icons/fi'
 import styled from 'styled-components'
 
-import { Comments } from '../comments/Comments'
 import { useCommentStore } from '../../../quarterback/useCommentStore'
+import { Comments } from '../comments/Comments'
 import { ChildrenChangeList } from './ChildrenChangeList'
 
 interface IProps {

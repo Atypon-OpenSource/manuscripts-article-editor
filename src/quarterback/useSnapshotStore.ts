@@ -10,10 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  Maybe,
   ISaveSnapshotResponse,
   IUpdateSnapshotRequest,
   ManuscriptSnapshot,
+  Maybe,
   SnapshotLabel,
 } from '@manuscripts/quarterback-types'
 import create from 'zustand'
@@ -89,7 +89,8 @@ export const useSnapshotStore = create(
             data: { snapshot },
           } = resp
           set((state) => {
-            let { snapshots, snapshotsMap } = state
+            const { snapshotsMap } = state
+            let { snapshots } = state
             snapshotsMap.set(snapshot.id, snapshot)
             snapshots = [
               ...snapshots,
@@ -134,7 +135,8 @@ export const useSnapshotStore = create(
         const resp = await snapApi.deleteSnapshot(snapId)
         if ('data' in resp) {
           set((state) => {
-            let { snapshots, snapshotsMap } = state
+            const { snapshotsMap } = state
+            let { snapshots } = state
             snapshotsMap.delete(snapId)
             snapshots = snapshots.filter((s) => s.id !== snapId)
             return {

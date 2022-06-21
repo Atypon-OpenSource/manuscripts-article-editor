@@ -10,13 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  Model,
-} from '@manuscripts/manuscripts-json-schema'
-import {
   Build,
   encode,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import isEqual from 'lodash-es/isEqual'
 import create from 'zustand'
 import { combine } from 'zustand/middleware'
@@ -65,42 +63,41 @@ interface PouchState {
 }
 
 export const usePouchStore = create(
-  combine(
-    {} as PouchState,
-    (set, get) => ({
-      init(state: PouchState) {
-        set(state)
-      },
-      saveDoc: async (doc: ManuscriptNode): Promise<Maybe<boolean>> => {
-        const { getModels, saveModel } = get()
-        if (!getModels || !saveModel) {
-          return { err: 'usePouchStore not initialized', code: 500 }
-        }
-        const modelMap = getModels()
-        if (!modelMap) return { err: 'modelMap undefined inside usePouchStore', code: 500 }
-        const models = encode(doc)
-        let errored: Model | undefined
-        for (const model of models.values()) {
-          const oldModel = modelMap.get(model._id)
-          try {
-            if (!oldModel) {
-              await saveModel(model)
-            } else if (hasChanged(model, oldModel)) {
-              const nextModel = {
-                ...oldModel,
-                ...model,
-              }
-              await saveModel(nextModel)
+  combine({} as PouchState, (set, get) => ({
+    init(state: PouchState) {
+      set(state)
+    },
+    saveDoc: async (doc: ManuscriptNode): Promise<Maybe<boolean>> => {
+      const { getModels, saveModel } = get()
+      if (!getModels || !saveModel) {
+        return { err: 'usePouchStore not initialized', code: 500 }
+      }
+      const modelMap = getModels()
+      if (!modelMap) {
+        return { err: 'modelMap undefined inside usePouchStore', code: 500 }
+      }
+      const models = encode(doc)
+      let errored: Model | undefined
+      for (const model of models.values()) {
+        const oldModel = modelMap.get(model._id)
+        try {
+          if (!oldModel) {
+            await saveModel(model)
+          } else if (hasChanged(model, oldModel)) {
+            const nextModel = {
+              ...oldModel,
+              ...model,
             }
-          } catch (e) {
-            errored = oldModel
+            await saveModel(nextModel)
           }
+        } catch (e) {
+          errored = oldModel
         }
-        if (errored) {
-          return { err: `Failed to save model: ${errored}`, code: 500 }
-        }
-        return { data: true }
-      },
-    })
-  )
+      }
+      if (errored) {
+        return { err: `Failed to save model: ${errored}`, code: 500 }
+      }
+      return { data: true }
+    },
+  }))
 )
