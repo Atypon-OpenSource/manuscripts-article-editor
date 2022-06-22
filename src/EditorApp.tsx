@@ -74,7 +74,7 @@ const EditorApp: React.FC<Props> = ({
     } else {
       setUser('none', 'Anonymous')
     }
-  }, [store?.state?.user])
+  }, [store?.state?.user, setUser])
 
   useEffect(() => {
     // implement remount for the store if component is retriggered

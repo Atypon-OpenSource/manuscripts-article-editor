@@ -94,25 +94,25 @@ export function TrackOptions(props: Props) {
       <Container>
         <Field className="row">
           <Field>
-            <label htmlFor="userName">User name</label>
+            <label htmlFor="track-options-user-name">User name</label>
             <input
-              id="userName"
+              id="track-options-user-name"
               value={userName}
               onChange={(e) => handleChange('name', e.target.value)}
             />
           </Field>
           <Field>
-            <label htmlFor="userId">User id</label>
+            <label htmlFor="track-options-user-id">User id</label>
             <input
-              id="userId"
+              id="track-options-user-id"
               value={userId}
               onChange={(e) => handleChange('id', e.target.value)}
             />
           </Field>
           <Field>
-            <label htmlFor="userColor">User color</label>
+            <label htmlFor="track-options-user-color">User color</label>
             <input
-              id="userColor"
+              id="track-options-user-color"
               value={userColor}
               onChange={(e) => handleChange('color', e.target.value)}
             />
@@ -127,9 +127,9 @@ export function TrackOptions(props: Props) {
           </Button>
         </Field>
         <Field>
-          <label htmlFor="documentId">Document id</label>
+          <label htmlFor="track-options-document-id">Document id</label>
           <input
-            id="documentId"
+            id="track-options-document-id"
             value={documentId}
             onChange={(e) => handleChange('documentId', e.target.value)}
           />

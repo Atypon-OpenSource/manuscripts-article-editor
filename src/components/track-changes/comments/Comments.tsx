@@ -28,7 +28,7 @@ interface IProps {
 export const Comments = (props: IProps) => {
   const { className, change } = props
   const user = useAuthStore((state) => state.user)
-  const isAdmin = useMemo(() => false, [user])
+  const isAdmin = false // useMemo(() => false, [user])
   const comments = useCommentStore(
     (state) => state.changeComments.get(change.id) || []
   )

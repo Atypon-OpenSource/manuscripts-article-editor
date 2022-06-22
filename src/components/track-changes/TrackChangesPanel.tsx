@@ -55,19 +55,20 @@ export function TrackChangesPanel() {
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.disabled))
     }
     currentDocument && findOrCreateDoc(currentDocument.manuscriptID)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     // check whether track-changes tab is opened, then fetch/create doc if it doesn't exist
     // as well as re-auth quarterback user incase it failed on initial mount
     execCmd(trackCommands.setUserID(options.user.id))
-  }, [options])
+  }, [options, execCmd])
   useEffect(() => {
     if (options.disableTrack) {
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.disabled))
     } else {
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
     }
-  }, [options.disableTrack])
+  }, [options.disableTrack, execCmd])
 
   function handleAcceptChange(c: TrackedChange) {
     const ids = [c.id]

@@ -25,9 +25,7 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import {
-  TrackChangesStatus,
-} from '@manuscripts/track-changes-plugin'
+import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import { ApolloError } from 'apollo-client'
 import debounce from 'lodash.debounce'
 import React, { useEffect, useMemo } from 'react'
@@ -166,8 +164,8 @@ const ManuscriptPageView: React.FC = () => {
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
   const { init: initEditor, setEditorState } = useEditorStore()
-  useMemo(() => setUsers(collaboratorsById), [collaboratorsById])
-  useMemo(() => view && initEditor(view), [view])
+  useMemo(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
+  useMemo(() => view && initEditor(view), [view, initEditor])
   const saveDocument = debounce(
     (state: ManuscriptEditorState) =>
       updateDocument(manuscriptID, state.doc.toJSON()),
@@ -179,6 +177,7 @@ const ManuscriptPageView: React.FC = () => {
     if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
       saveDocument(state)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
   const TABS = [
