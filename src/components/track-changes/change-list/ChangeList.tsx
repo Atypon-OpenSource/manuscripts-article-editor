@@ -135,7 +135,9 @@ export const ChangeList = (props: IProps) => {
   )
 }
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  color: #353535;
+`
 const Header = styled.button`
   align-items: center;
   background: transparent;

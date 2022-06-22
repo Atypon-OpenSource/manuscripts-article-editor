@@ -69,7 +69,7 @@ export function ChangesControls(props: IProps) {
       <button onClick={() => handleAcceptPending()}>Accept pending</button>
       <button onClick={() => handleRejectPending()}>Reject pending</button>
       <button onClick={() => handleReset()}>Reset</button>
-      <button onClick={() => handleSnapshot()}>Snapshot</button>
+      <button onClick={() => handleSnapshot()}>Apply all and snapshot</button>
     </Container>
   )
 }
