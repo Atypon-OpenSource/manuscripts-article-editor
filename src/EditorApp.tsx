@@ -9,7 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { useEffect, useState } from 'react'
+import { schema } from '@manuscripts/manuscript-transform'
+import React, { useEffect, useMemo, useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
@@ -19,9 +20,14 @@ import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
+import config from './config'
 import CouchSource from './couch-data/CouchSource'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
+import { useAuthStore } from './quarterback/useAuthStore'
+import { useDocStore } from './quarterback/useDocStore'
+import { usePouchStore } from './quarterback/usePouchStore'
+import { useSnapshotStore } from './quarterback/useSnapshotStore'
 import {
   BasicSource,
   createStore,
@@ -55,7 +61,20 @@ const EditorApp: React.FC<Props> = ({
   person,
 }) => {
   const userID = getCurrentUserId()
+
   const [store, setStore] = useState<GenericStore>()
+  const { authenticate, setUser } = useAuthStore()
+  const { createDocument, getDocument, setCurrentDocument } = useDocStore()
+  const { init: initPouchStore } = usePouchStore()
+  const { init: initSnapshots, setSnapshots } = useSnapshotStore()
+  useMemo(() => {
+    const user = store?.state?.user
+    if (user) {
+      setUser(user._id, user.bibliographicName.given || user.userID)
+    } else {
+      setUser('none', 'Anonymous')
+    }
+  }, [store?.state?.user, setUser])
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
@@ -68,17 +87,55 @@ const EditorApp: React.FC<Props> = ({
       userID || ''
     )
     const couchSource = new CouchSource()
-    createStore([basicSource, couchSource])
-      .then((store) => {
+    Promise.all([
+      loadDoc(manuscriptID, projectID),
+      createStore([basicSource, couchSource]),
+    ])
+      .then(([doc, store]) => {
+        if (doc) {
+          store.setState((s) => ({ ...s, doc }))
+        }
+        initPouchStore({
+          getModels: () => store.state?.modelMap,
+          saveModel: store.state?.saveModel,
+        })
         setStore(store)
       })
       .catch((e) => {
-        console.log(e)
+        console.error(e)
       })
     return () => store?.unmount()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissionId, manuscriptID, projectID])
+
+  async function loadDoc(manuscriptID: string, projectID: string) {
+    if (!config.quarterback.enabled) {
+      return undefined
+    }
+    const auth = await authenticate()
+    if (!auth) {
+      return undefined
+    }
+    setCurrentDocument(manuscriptID, projectID)
+    const found = await getDocument(manuscriptID)
+    let doc
+    if ('data' in found) {
+      initSnapshots()
+      setSnapshots(found.data.snapshots)
+      doc = found.data.doc
+    } else if ('err' in found && found.code === 404) {
+      // Create an empty doc that will be replaced with whatever document is currently being edited
+      createDocument(manuscriptID, projectID)
+    }
+    if (
+      doc !== null &&
+      typeof doc === 'object' &&
+      Object.keys(doc).length !== 0
+    ) {
+      return schema.nodeFromJSON(doc)
+    }
+    return undefined
+  }
 
   return store ? (
     <GenericStoreProvider store={store}>

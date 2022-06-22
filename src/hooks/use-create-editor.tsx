@@ -16,6 +16,8 @@ import {
 } from '@manuscripts/manuscript-editor'
 import { ManuscriptSchema } from '@manuscripts/manuscript-transform'
 import { usePermissions } from '@manuscripts/style-guide'
+import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
+import { Plugin } from 'prosemirror-state'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
@@ -25,6 +27,7 @@ import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import config from '../config'
 import { useUploadAttachment } from '../lib/lean-workflow-gql'
+import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
@@ -64,6 +67,7 @@ export const useCreateEditor = (permissions: Permissions) => {
     commitAtLoad: store.commitAtLoad,
     submission: store.submission,
   }))
+  const { getTrackUser } = useAuthStore()
 
   const can = usePermissions()
   const popper = useRef<PopperManager>(new PopperManager())
@@ -91,6 +95,14 @@ export const useCreateEditor = (permissions: Permissions) => {
       tabindex: '2',
     },
     doc,
+    plugins: config.quarterback.enabled
+      ? [
+          trackChangesPlugin({
+            userID: getTrackUser().id,
+            debug: config.environment === 'development',
+          }) as Plugin<any, any>,
+        ]
+      : [],
 
     locale: manuscript.primaryLanguageCode || 'en-GB',
     permissions: permissions,

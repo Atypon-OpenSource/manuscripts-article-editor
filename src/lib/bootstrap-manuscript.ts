@@ -27,11 +27,6 @@ import {
   Project,
   // Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
-// import {
-//   Commit,
-//   commitFromJSON,
-//   findCommitWithChanges,
-// } from '@manuscripts/track-changes'
 import isEqual from 'lodash-es/isEqual'
 
 import * as api from '../lib/api'

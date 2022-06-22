@@ -19,17 +19,19 @@ import {
   ManuscriptToolbar,
   RequirementsProvider,
 } from '@manuscripts/manuscript-editor'
+import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import {
   CapabilitiesProvider,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import { ApolloError } from 'apollo-client'
+import debounce from 'lodash.debounce'
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import config from '../../../config'
-import { useCommits } from '../../../hooks/use-commits'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import {
   graphQLErrorMessage,
@@ -37,10 +39,13 @@ import {
   useGetPermittedActions,
 } from '../../../lib/lean-workflow-gql'
 import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
+import { useCommentStore } from '../../../quarterback/useCommentStore'
+import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
 import MetadataContainer from '../../metadata/MetadataContainer'
 import { Main } from '../../Page'
 import { ManuscriptPlaceholder } from '../../Placeholders'
+import { useEditorStore } from '../../track-changes/useEditorStore'
 import {
   EditorBody,
   EditorContainer,
@@ -58,7 +63,6 @@ import Inspector from './Inspector'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
-import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, submission, person }, dispatch] = useStore(
@@ -128,47 +132,64 @@ const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
-  const [snapshotID] = useStore((store) => store.snapshotID)
   const [lwUser] = useStore((store) => store.lwUser)
   const [modelMap] = useStore((store) => store.modelMap)
-  const [submissionID] = useStore((store) => store.submissionID)
+  const [submissionID] = useStore((store) => store.submissionID || '')
   const [submission] = useStore((store) => store.submission)
-
-  const submissionId = submissionID || ''
+  const [manuscriptID] = useStore((store) => store.manuscriptID)
+  const [collaboratorsById] = useStore(
+    (store) => store.collaboratorsById || new Map()
+  )
 
   const can = usePermissions()
 
-  const permissions = { write: !isViewer(project, user.userID) }
+  const permissions = { write: !isViewer(project, user?.userID) }
   const editor = useCreateEditor(permissions)
 
   const { state, dispatch, view } = editor
   // useChangeReceiver(editor, saveModel, deleteModel) - not needed under new architecture
-
-  const [sortBy] = useStore<string>((store) => store.commmitsSortBy || 'Date')
-  const { commits, corrections, accept, reject, isDirty } = useCommits({
-    editor,
-    sortBy,
-  })
-
-  const hasPendingSuggestions = useMemo(() => {
-    for (const { status } of corrections) {
-      const { label } = status
-      if (label === 'proposed') {
-        return true
-      }
+  useEffect(() => {
+    if (view && config.environment === 'development') {
+      import('prosemirror-dev-toolkit')
+        .then(({ applyDevTools }) => applyDevTools(view))
+        .catch((error) => {
+          console.error(
+            'There was an error loading prosemirror-dev-toolkit',
+            error.message
+          )
+        })
     }
-    return false
-  }, [corrections])
+  }, [view])
+
+  const { setUsers } = useCommentStore()
+  const { updateDocument } = useDocStore()
+  const { init: initEditor, setEditorState } = useEditorStore()
+  useMemo(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
+  useMemo(() => view && initEditor(view), [view, initEditor])
+  const saveDocument = debounce(
+    (state: ManuscriptEditorState) =>
+      updateDocument(manuscriptID, state.doc.toJSON()),
+    500
+  )
+
+  useEffect(() => {
+    const { trackState } = setEditorState(state)
+    if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
+      saveDocument(state)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
   const TABS = [
     'Content',
-    (config.features.commenting || config.features.productionNotes) &&
-      'Comments',
+    // (config.features.commenting || config.features.productionNotes) &&
+    // 'Comments',
     config.features.qualityControl && 'Quality',
-    config.shackles.enabled && 'History',
+    // config.shackles.enabled && 'History',
+    config.quarterback.enabled && 'Track changes',
     config.features.fileManagement && 'Files',
   ].filter(Boolean) as Array<
-    'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
+    'Content' | 'Comments' | 'Quality' | 'History' | 'Track changes' | 'Files'
   >
 
   return (
@@ -176,7 +197,7 @@ const ManuscriptPageView: React.FC = () => {
       <UserProvider
         lwUser={lwUser}
         manuscriptUser={user}
-        submissionId={submissionId}
+        submissionId={submissionID}
       >
         <ManuscriptSidebar
           project={project}
@@ -198,11 +219,11 @@ const ManuscriptPageView: React.FC = () => {
                 {submission?.nextStep && (
                   <ManualFlowTransitioning
                     submission={submission}
-                    userRole={getUserRole(project, user.userID)}
+                    userRole={getUserRole(project, user?.userID)}
                     documentId={`${project._id}#${manuscript._id}`}
-                    hasPendingSuggestions={hasPendingSuggestions}
+                    hasPendingSuggestions={false}
                   >
-                    <SaveStatusController isDirty={isDirty} />
+                    <SaveStatusController isDirty={false} />
                   </ManualFlowTransitioning>
                 )}
 
@@ -230,34 +251,16 @@ const ManuscriptPageView: React.FC = () => {
                     allowInvitingAuthors={false}
                     showAuthorEditButton={true}
                     disableEditButton={
-                      isViewer(project, user.userID) ||
-                      isAnnotator(project, user.userID)
+                      isViewer(project, user?.userID) ||
+                      isAnnotator(project, user?.userID)
                     }
                   />
-                  <TrackChangesStyles
-                    enabled={!!snapshotID}
-                    readOnly={!can.handleSuggestion}
-                    rejectOnly={can.rejectOwnSuggestion}
-                    corrections={corrections}
-                  >
-                    <EditorElement
-                      editor={editor}
-                      accept={accept}
-                      reject={reject}
-                    />
-                  </TrackChangesStyles>
+                  <EditorElement editor={editor} />
                 </EditorBody>
               </EditorContainerInner>
             </EditorContainer>
           </Main>
-          <Inspector
-            tabs={TABS}
-            corrections={corrections}
-            commits={commits}
-            editor={editor}
-            accept={accept}
-            reject={reject}
-          />
+          <Inspector tabs={TABS} editor={editor} />
         </PageWrapper>
       </UserProvider>
     </RequirementsProvider>
