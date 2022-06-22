@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import type { TrackOptions } from './TrackOptions'
 

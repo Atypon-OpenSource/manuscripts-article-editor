@@ -209,13 +209,6 @@ const TitleWrapper = styled.div`
     margin-right: 1rem;
   }
 `
-const Buttons = styled.div`
-  display: flex;
-  margin: 0.25rem 0;
-  button + button {
-    margin-left: 0.5rem;
-  }
-`
 const IconButtons = styled.div`
   display: flex;
   margin: 0.25rem 0;

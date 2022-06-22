@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { insertAnnotationFromComment } from '@manuscripts/manuscript-editor'
 import {
   Build,
   buildComment,
@@ -300,7 +299,7 @@ export const useComments = (
         selector: { from, to },
       })
         .then((comment) => {
-          const maybeInsert = insertAnnotationFromComment(comment)
+          const maybeInsert = false // insertAnnotationFromComment(comment)
           if (!maybeInsert) {
             return
           }
