@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import React from 'react'
 import styled from 'styled-components'
 
 export const UserCircle = styled.div<{ color: string; currentUser?: boolean }>`

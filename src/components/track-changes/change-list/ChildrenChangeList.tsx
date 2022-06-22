@@ -30,7 +30,6 @@ interface Props {
 
 export function ChildrenChangeList(props: Props) {
   const {
-    parent,
     changes,
     handleAcceptChange,
     handleRejectChange,

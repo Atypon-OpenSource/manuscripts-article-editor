@@ -11,7 +11,7 @@
  */
 import { CommentWithUserColor } from '@manuscripts/quarterback-types'
 import { TrackedChange } from '@manuscripts/track-changes-plugin'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FiEdit3, FiTrash } from 'react-icons/fi'
 import styled from 'styled-components'
 

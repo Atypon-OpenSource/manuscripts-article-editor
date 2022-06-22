@@ -15,7 +15,6 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import { Snapshot } from '@manuscripts/manuscripts-json-schema'
 import {
   FileManager,
   SubmissionAttachment,
@@ -23,21 +22,14 @@ import {
 } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
 
-import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
-import { useCommits } from '../../../hooks/use-commits'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
 import { useStore } from '../../../store'
-import useOpenHistoricalModal from '../../history/HistoricalViewModal'
-import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
-import { Corrections } from '../../track/Corrections'
-import { SortByDropdown } from '../../track/SortByDropdown'
 import { Inspector as InspectorLW } from '../InspectorLW'
-import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
