@@ -74,7 +74,7 @@ const ProgressMessageSubtitle = styled.div`
 const ProgressMessageContainer: React.FC<{
   delay?: number
   title: string
-  subtitle: string
+  subtitle?: string
 }> = ({ delay = 0, title, subtitle }) => {
   const [delayed, setDelayed] = useState(false)
 
@@ -107,6 +107,19 @@ export const ProjectSyncingPlaceholder: React.FC = () => (
         title={'Syncing project data…'}
         subtitle={'This can take a while the first time.'}
       />
+    </ProgressGroup>
+  </PlaceholderContainer>
+)
+
+export const DataLoadingPlaceholder: React.FC = () => (
+  <PlaceholderContainer>
+    <ProgressGroup>
+      <ProgressIndicator
+        isDeterminate={false}
+        size={IndicatorSize.Medium}
+        symbols={IndicatorKind.Project}
+      />
+      <ProgressMessageContainer title={'Loading...'} />
     </ProgressGroup>
   </PlaceholderContainer>
 )
