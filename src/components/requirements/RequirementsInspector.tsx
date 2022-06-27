@@ -24,6 +24,7 @@ import styled from 'styled-components'
 import config from '../../config'
 import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { useStore } from '../../store'
+import { DataLoadingPlaceholder } from '../Placeholders'
 import { ExceptionDialog } from '../projects/lean-workflow/ExceptionDialog'
 import { RequirementsList } from './RequirementsList'
 
@@ -136,7 +137,7 @@ export const RequirementsInspectorView: React.FC<
   }
 
   if (!result) {
-    return null // TODO
+    return <DataLoadingPlaceholder />
   }
 
   return <RequirementsList validationResult={result} />

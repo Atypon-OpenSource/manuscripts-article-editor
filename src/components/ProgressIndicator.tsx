@@ -24,8 +24,18 @@ export enum IndicatorKind {
 // TODO: Actually provide small sizes in PaintCode project.
 export enum IndicatorSize {
   // Small,
+  Medium,
   Large,
 }
+
+export const indicatorSizeDimensionsMap = new Map<
+  IndicatorSize | undefined,
+  number
+>([
+  [IndicatorSize.Medium, 160],
+  [IndicatorSize.Large, 375],
+  [undefined, 100],
+])
 
 export interface BaseIndicatorProps {
   readonly isDeterminate?: boolean
@@ -130,7 +140,7 @@ export class ProgressIndicator extends React.Component<
 
   public render() {
     // TODO: Actually handle the small size rendering in PaintCode.
-    const dim = this.props.size === IndicatorSize.Large ? 375 : 100
+    const dim = indicatorSizeDimensionsMap.get(this.props.size)
     return <canvas ref={this.canvasRef} width={dim} height={dim} />
   }
 
