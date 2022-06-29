@@ -125,6 +125,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                     key="quality"
                     result={validation.result}
                     error={validation.error}
+                    isBuilding={validation.isBuilding}
                   />
                 )
               }
