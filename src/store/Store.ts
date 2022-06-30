@@ -36,10 +36,10 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { Commit } from '@manuscripts/track-changes'
 
-import { BiblioTools } from '../couch-data/Bibilo'
-import { TokenData } from '../couch-data/TokenData'
 import { Person, Submission } from '../lib/lean-workflow-gql'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
+import { BiblioTools } from './BiblioTools'
+import { TokenData } from './TokenData'
 
 export interface TokenActions {
   delete: () => void

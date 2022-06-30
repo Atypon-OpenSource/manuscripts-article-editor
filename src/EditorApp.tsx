@@ -18,17 +18,17 @@ import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
+import config from './config'
 import CouchSource from './couch-data/CouchSource'
-import PsSource from './postgres-data/PsSource'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
+import PsSource from './postgres-data/PsSource'
 import {
   BasicSource,
   createStore,
   GenericStore,
   GenericStoreProvider,
 } from './store'
-import config from './config'
 
 interface Props {
   submissionId: string

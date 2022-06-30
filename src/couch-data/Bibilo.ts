@@ -18,8 +18,8 @@ import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { BibliographyItem, Bundle } from '@manuscripts/manuscripts-json-schema'
 
 import { filterLibrary } from '../lib/search-library'
-import { Collection } from '../sync/Collection'
 import { BiblioTools } from '../store'
+import { Collection } from '../sync/Collection'
 
 export class Biblio implements BiblioTools {
   citationProvider: CitationProvider

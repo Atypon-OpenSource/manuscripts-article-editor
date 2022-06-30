@@ -14,6 +14,7 @@ import {
   matchLibraryItemByIdentifier as libMatch,
 } from '@manuscripts/library'
 import { BibliographyItem, Bundle } from '@manuscripts/manuscripts-json-schema'
+
 import { filterLibrary } from '../lib/search-library'
 import { BiblioTools } from '../store'
 

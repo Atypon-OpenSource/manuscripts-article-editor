@@ -9,7 +9,14 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import Api from './Api'
+import {
+  Decoder,
+  getModelData,
+  isCommentAnnotation,
+  isManuscript,
+  ManuscriptNode,
+  schema,
+} from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   CommentAnnotation,
@@ -25,22 +32,16 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
-  isManuscript,
-  getModelData,
-  Decoder,
-  ManuscriptNode,
-  schema,
-  isCommentAnnotation,
-} from '@manuscripts/manuscript-transform'
-import { state } from '../store'
-import { getSnapshot } from '../lib/snapshot'
-import {
-  findCommitWithChanges,
   Commit,
   commitFromJSON,
+  findCommitWithChanges,
 } from '@manuscripts/track-changes'
-import { TokenData } from '../store/TokenData'
+
 import { buildCollaboratorProfiles } from '../lib/collaborators'
+import { getSnapshot } from '../lib/snapshot'
+import { state } from '../store'
+import { TokenData } from '../store/TokenData'
+import Api from './Api'
 
 export const buildModelMap = async (
   docs: Model[]
@@ -111,13 +112,14 @@ const isCorrection = (model: Model) =>
 const isManuscriptNote = (model: Model) =>
   model.objectType === ObjectTypes.ManuscriptNote
 
-const getProjectData = async (projectID: string, api: Api) => {
-  const project = await api.getProject(projectID)
-  if (project) {
-    return project
-  }
-  throw new Error("Can't find the project by ID")
-}
+// Project data come along with the manuscript data. We may return to this so it's commented for now.
+// const getProjectData = async (projectID: string, api: Api) => {
+//   const project = await api.getProject(projectID)
+//   if (project) {
+//     return project
+//   }
+//   throw new Error("Can't find the project by ID")
+// }
 
 const buildDocsMap = <T extends Model>(docs: T[]) => {
   const docsMap = new Map<string, any>()
@@ -274,7 +276,7 @@ const getDrivedData = async (
   } else {
     const modelsFromSnapshot = await getSnapshot(
       projectID,
-      latestSnaphot.s3Id
+      latestSnaphot.s3Id!
     ).catch((e) => {
       console.log(e)
       throw new Error('Failed to load snapshot')
@@ -287,7 +289,7 @@ const getDrivedData = async (
     const unrejectedCorrections = (data.corrections as Correction[])
       .filter(
         (cor) =>
-          cor.snapshotID === data.snapshots[0]._id &&
+          cor.snapshotID === data.snapshots![0]._id &&
           cor.status.label !== 'rejected'
       )
       .map((cor) => cor.commitChangeID || '')
@@ -298,7 +300,7 @@ const getDrivedData = async (
     const doc = decoder.createArticleNode() as ManuscriptNode
     const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
     storeData = {
-      snapshotID: data.snapshots[0]._id,
+      snapshotID: data.snapshots![0]._id,
       modelMap: snapshotModelMap,
       commitAtLoad,
       ancestorDoc,

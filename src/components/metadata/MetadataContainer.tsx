@@ -117,7 +117,7 @@ const MetadataContainer: React.FC<Props> = ({
 
     const updatedAuthor: Contributor = await saveModel({
       ...author,
-      invitationID: invitation._id || '',
+      invitationID: invitation?._id || '',
     })
 
     selectAuthor(updatedAuthor)

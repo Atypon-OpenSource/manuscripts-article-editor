@@ -78,6 +78,10 @@ export const updateManuscriptTemplate = async ({
   // collect the models that make up the manuscript
   const dependencies: Array<Build<ContainedModel> & ContainedIDs> = []
 
+  if (!updateManuscriptTemplate) {
+    throw new Error('No update template handler was provided.')
+  }
+
   const addDependency = <T extends Model>(
     model: Build<T>,
     containedIDs: ContainedIDs = { containerID: '' }

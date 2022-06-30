@@ -11,16 +11,17 @@
  */
 import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
 import {
-  Snapshot,
+  Manuscript,
   Model,
   Project,
+  Snapshot,
   UserCollaborator,
   UserProfile,
-  Manuscript,
 } from '@manuscripts/manuscripts-json-schema'
 import axios, { AxiosInstance } from 'axios'
-import { ContainedIDs } from '../store'
+
 import config from '../config'
+import { ContainedIDs } from '../store'
 
 export default class Api {
   instance: AxiosInstance

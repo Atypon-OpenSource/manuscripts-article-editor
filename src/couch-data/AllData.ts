@@ -48,13 +48,13 @@ import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { buildUser } from '../lib/data'
 import { buildInvitations } from '../lib/invitation'
+import { TokenData } from '../store/TokenData'
 import CollectionEffects from '../sync/CollectionEffects'
 import CollectionManager from '../sync/CollectionManager'
 import reducer from '../sync/syncEvents'
 import { Action, SyncState } from '../sync/types'
 import { Biblio } from './Bibilo'
 import ModelManager from './ModelManager'
-import { TokenData } from '../store/TokenData'
 
 interface Props {
   manuscriptID: string

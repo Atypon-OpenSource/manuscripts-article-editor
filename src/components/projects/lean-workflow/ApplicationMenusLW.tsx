@@ -19,7 +19,6 @@ import {
   useApplicationMenus,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-// import { Model } from '@manuscripts/manuscripts-json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
@@ -37,7 +36,7 @@ import { useStore } from '../../../store'
 import { useModal } from '../../ModalHookableProvider'
 import { Exporter } from '../Exporter'
 // import { Importer } from '../Importer'
-import { importManuscript } from '../ImportManuscript'
+// import { importManuscript } from '../ImportManuscript'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;

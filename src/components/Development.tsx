@@ -12,10 +12,10 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { useHistory } from 'react-router'
-import config from '../config'
 import styled from 'styled-components'
 
 import { Importer } from '../components/projects/Importer'
+import config from '../config'
 import { createToken, createUserProfile } from '../lib/developer'
 import { useStore } from '../store'
 import { useModal } from './ModalHookableProvider'

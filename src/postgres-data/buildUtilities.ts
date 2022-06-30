@@ -10,15 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainedIDs, ContainerIDs, state } from '../store'
 import {
   Build,
   ContainedModel,
-  ManuscriptModel,
   ContainedProps,
-  isManuscriptModel,
-  ModelAttachment,
   isManuscript,
+  isManuscriptModel,
+  ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
@@ -30,10 +28,12 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { Commit, commitToJSON } from '@manuscripts/track-changes'
+
 import Api from '../postgres-data/Api'
-import { commitToJSON, Commit } from '@manuscripts/track-changes'
-import { saveWithThrottle } from './savingUtilities'
+import { ContainedIDs, ContainerIDs, state } from '../store'
 import { Biblio } from './Bibilo'
+import { saveWithThrottle } from './savingUtilities'
 
 const buildUtilities = (
   data: Partial<state>,
@@ -152,22 +152,24 @@ const buildUtilities = (
         'State misses important element. Unable to savel a model.'
       )
     }
-    const containedModel = model as T & ContainedProps
-
-    updateState({
-      modelMap: data.modelMap.set(model._id, {
-        ...containedModel,
-        containerID: data.projectID,
-      }),
-    })
+    const containedModel = {
+      ...model,
+      containerID: data.projectID,
+    } as T & ContainedProps
+    const map = data.modelMap // potential time discrepancy bug
 
     saveWithThrottle(() => {
+      updateState({
+        modelMap: map.set(model._id, containedModel),
+      })
       if (data.modelMap) {
         bulkPersistentProjectSave([
           ...data.modelMap.values(),
         ] as ManuscriptModel[])
       }
     })
+
+    return containedModel
   }
 
   const deleteModel = (id: string) => {
@@ -207,16 +209,12 @@ const buildUtilities = (
     if (newProject) {
       const project = await api.createProject(newProject.title || 'Untitled')
       if (project) {
-        const savedManuscript = await api.createNewManuscript(
-          project._id,
-          manuscript._id
-        )
+        await api.createNewManuscript(project._id, manuscript._id)
         dependencies.forEach((dep) => {
           dep.containerID = project._id
         })
         await api.saveProjectData(project._id, dependencies)
-        // await api.saveProject(project._id, [manuscript])
-        return savedManuscript
+        return manuscript
       } else {
         throw new Error('Unable to create new project')
       }
@@ -240,7 +238,7 @@ const buildUtilities = (
   }
 
   const deleteBiblioItem = (item: BibliographyItem) => {
-    return data.modelMap?.delete(item._id) || false
+    return Promise.resolve(data.modelMap?.delete(item._id) || false)
   }
 
   const saveCorrection = (correction: Correction) => {
