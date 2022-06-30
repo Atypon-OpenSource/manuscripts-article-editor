@@ -43,17 +43,14 @@ export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
   if (store) {
     return (
       <GenericStoreContext.Provider value={store}>
-        {store.state?.project && store.state?.user ? (
+        {store.state?.project ? (
           children
         ) : config.environment === 'development' ? (
           <ModalProvider>
             <Development />
           </ModalProvider>
         ) : (
-          <>
-            {!store.state?.project && <p>Project was not found</p>}
-            {!store.state?.user && <p>You need to login first</p>}
-          </>
+          <p>Project was not found</p>
         )}
       </GenericStoreContext.Provider>
     )
