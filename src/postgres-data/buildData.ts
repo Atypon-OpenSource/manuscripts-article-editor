@@ -22,6 +22,7 @@ import {
   Project,
   Snapshot,
   Tag,
+  UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   isManuscript,
@@ -38,8 +39,8 @@ import {
   Commit,
   commitFromJSON,
 } from '@manuscripts/track-changes'
-import { TokenData } from 'src/store/TokenData'
-import { buildCollaboratorProfiles } from 'src/lib/collaborators'
+import { TokenData } from '../store/TokenData'
+import { buildCollaboratorProfiles } from '../lib/collaborators'
 
 export const buildModelMap = async (
   docs: Model[]
@@ -137,6 +138,10 @@ const getManuscriptData = async (
   }
   const data: Partial<state> = {}
   for (const model of models) {
+    if (model.objectType === ObjectTypes.Project) {
+      data.project = model as Project
+      continue
+    }
     if (isManuscript(model)) {
       data.manuscript = model
       continue
@@ -176,7 +181,11 @@ const getManuscriptData = async (
         : ([commit] as Commit[])
     }
   }
+  data.commits = data.commits || []
   data.modelMap = await buildModelMap(models || [])
+
+  console.log('data.modelMap')
+  console.log(data.modelMap)
 
   return data
 }
@@ -209,25 +218,26 @@ const getLibrariesData = async (projectID: string, api: Api) => {
 const getCollaboratorsData = async (
   projectID: string,
   data: Partial<state>,
+  user: UserProfile,
   api: Api
 ) => {
   const collabsData: Partial<state> = {}
   const collaboratorsProfiles = await api.getCollaborators(projectID)
   if (collaboratorsProfiles) {
     const collaborators = buildDocsMap(collaboratorsProfiles)
-    if (data.user) {
+    if (user) {
       collabsData.collaboratorsProfiles = buildCollaboratorProfiles(
         collaborators,
-        data.user
+        user
       )
       collabsData.collaboratorsById = buildCollaboratorProfiles(
         collaborators,
-        data.user,
+        user,
         '_id'
       )
     }
   }
-  collabsData.collaboratorsProfiles = collaboratorsProfiles // why?
+  // collabsData.collaboratorsProfiles = collaboratorsProfiles // why?
   return collabsData
 }
 
@@ -240,13 +250,13 @@ const buildModelMapFromJson = (models: Model[]) => {
 }
 
 const getDrivedData = async (
-  project: Project,
   manuscriptID: string,
+  projectID: string,
   data: Partial<state>
 ) => {
   let storeData: Partial<state>
 
-  if (!data.modelMap || !data.projectID || !data.snapshots || !data.commits) {
+  if (!data.modelMap || !projectID) {
     return null
   }
 
@@ -263,7 +273,7 @@ const getDrivedData = async (
     }
   } else {
     const modelsFromSnapshot = await getSnapshot(
-      data.projectID,
+      projectID,
       latestSnaphot.s3Id
     ).catch((e) => {
       console.log(e)
@@ -283,7 +293,7 @@ const getDrivedData = async (
       .map((cor) => cor.commitChangeID || '')
 
     const commitAtLoad =
-      findCommitWithChanges(data.commits, unrejectedCorrections) || null
+      findCommitWithChanges(data.commits || [], unrejectedCorrections) || null
     const decoder = new Decoder(snapshotModelMap, true)
     const doc = decoder.createArticleNode() as ManuscriptNode
     const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
@@ -303,16 +313,27 @@ export default async function buildData(
   manuscriptID: string,
   api: Api
 ) {
-  const project = await getProjectData(projectID, api)
+  // const project = await getProjectData(projectID, api)
+  const user = await api.getUser()
+  if (!user) {
+    return {}
+  }
+
   const manuscriptData = await getManuscriptData(projectID, manuscriptID, api)
-  const derivedData = await getDrivedData(project, manuscriptID, manuscriptData)
   const collaboratorsData = await getCollaboratorsData(
     projectID,
     manuscriptData,
+    user,
     api
   )
   const projects = await api.getUserProjects()
   const librariesData = await getLibrariesData(projectID, api)
+
+  const derivedData = await getDrivedData(
+    manuscriptID,
+    projectID,
+    manuscriptData
+  )
 
   return {
     projects: projects,
@@ -320,11 +341,13 @@ export default async function buildData(
     /* Wierd array? In lean workflow there is always only one project and a single manuscrit in it.
       These arrays have to be provided for components compatibility that shouldn't be changed as it is possible that it will change
       */
-    project,
-    ...manuscriptData,
+    user,
+    manuscriptID: manuscriptData.manuscript?._id,
+    projectID: manuscriptData.project?._id,
     ...derivedData,
     ...collaboratorsData,
     ...librariesData,
+    ...manuscriptData,
     tokenData: new TokenData(),
   }
 }

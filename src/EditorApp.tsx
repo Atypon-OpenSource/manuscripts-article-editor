@@ -19,6 +19,7 @@ import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import CouchSource from './couch-data/CouchSource'
+import PsSource from './postgres-data/PsSource'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
 import {
@@ -27,6 +28,7 @@ import {
   GenericStore,
   GenericStoreProvider,
 } from './store'
+import config from './config'
 
 interface Props {
   submissionId: string
@@ -34,6 +36,7 @@ interface Props {
   projectID: string
   submission: Submission
   person: Person
+  authToken: string
 }
 
 const Wrapper = styled.div`
@@ -52,6 +55,7 @@ const EditorApp: React.FC<Props> = ({
   projectID,
   submission,
   person,
+  authToken,
 }) => {
   const userID = getCurrentUserId()
   const [store, setStore] = useState<GenericStore>()
@@ -64,10 +68,11 @@ const EditorApp: React.FC<Props> = ({
       manuscriptID,
       submission,
       person,
-      userID || ''
+      userID || '',
+      authToken || ''
     )
-    const couchSource = new CouchSource()
-    createStore([basicSource, couchSource])
+    const mainSource = config.rxdb.enabled ? new CouchSource() : new PsSource()
+    createStore([basicSource, mainSource])
       .then((store) => {
         setStore(store)
       })

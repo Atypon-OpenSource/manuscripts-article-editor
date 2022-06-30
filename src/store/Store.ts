@@ -221,7 +221,7 @@ export class GenericStore implements Store {
   init = async (sources: StoreDataSourceStrategy[]) => {
     this.sources = sources
 
-    const state = await buildStateFromSources(...sources)
+    const state = await buildStateFromSources(sources, this.setState)
     this.setState({ ...this.state, ...(state as state) })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
@@ -234,7 +234,9 @@ export class GenericStore implements Store {
       )
       return { action, payload }
     }
-    this.sources.map(
+    this.sources.forEach(
+      // update store is needed to pass setState function to a registered DataSource strategy. The naming is not very forunate
+      // if you are looking for a way to listen to the data changes in the store from inside data source, use beforeAction
       (source) => source.updateStore && source.updateStore(this.setState)
     )
     // listening to changes after state applied

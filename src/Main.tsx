@@ -27,12 +27,9 @@ interface Props {
   submissionId: string
   manuscriptID: string
   projectID: string
-<<<<<<< HEAD
   authToken: string
-=======
   submission: Submission
   person: Person
->>>>>>> 9f1f18bdb3d83203b5b30c2207a2508eaa5bd026
 }
 
 // submissionId="13f64873-a9bf-4d88-a44a-2a25f9e49fc3"
@@ -43,12 +40,9 @@ const Main: React.FC<Props> = ({
   submissionId,
   manuscriptID,
   projectID,
-<<<<<<< HEAD
   authToken,
-=======
   submission,
   person,
->>>>>>> 9f1f18bdb3d83203b5b30c2207a2508eaa5bd026
 }) => (
   <DndProvider backend={HTML5Backend}>
     <GlobalStyle />
@@ -59,12 +53,9 @@ const Main: React.FC<Props> = ({
           submissionId={submissionId}
           manuscriptID={manuscriptID}
           projectID={projectID}
-<<<<<<< HEAD
           authToken={authToken}
-=======
           submission={submission}
           person={person}
->>>>>>> 9f1f18bdb3d83203b5b30c2207a2508eaa5bd026
         />
       </ApolloProvider>
     </ModalProvider>

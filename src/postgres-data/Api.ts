@@ -40,7 +40,12 @@ export default class Api {
 
   get = async <T>(url: string) => {
     try {
-      const result = await this.instance.get<T>(url)
+      const result = await this.instance.get<T>(url, {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+        data: {},
+      })
       return result.data
     } catch (e) {
       console.log(e)
@@ -71,7 +76,7 @@ export default class Api {
   }
 
   getProject = (projectID: string) => {
-    return this.get<Project>(`project/${projectID}`)
+    return this.post<Project>(`container/${projectID}/load`, { types: [] })
   }
 
   getProjectCollaborators = (projectID: string) => {
@@ -82,8 +87,12 @@ export default class Api {
     return this.get<Project[]>(`user/projects`)
   }
 
+  getUser = () => {
+    return this.get<UserProfile>(`user`)
+  }
+
   getProjectModels = <T>(projectID: string, types: string[] = []) => {
-    return this.post<T[]>(`project/${projectID}/load`, { types })
+    return this.post<T[]>(`container/${projectID}/load`, { types })
   }
 
   deleteProject = (projectID: string) => {
@@ -94,7 +103,9 @@ export default class Api {
   }
 
   getManuscript = (containerID: string, manuscriptID: string) =>
-    this.get<Model[]>(`/container/${containerID}/${manuscriptID}/load`)
+    this.post<Model[]>(`/container/${containerID}/${manuscriptID}/load`, {
+      types: [],
+    })
 
   getManuscriptModels = <T>(
     containerID: string,
@@ -123,7 +134,7 @@ export default class Api {
   }
 
   saveProject = (projectId: string, models: Model[]) => {
-    return this.post(`project/${projectId}/save`, models)
+    return this.post(`project/${projectId}/save`, { data: models })
   }
 
   createProject = (title: string) => {
@@ -155,7 +166,9 @@ export default class Api {
     projectID: string,
     data: Array<Build<ContainedModel> & ContainedIDs>
   ) => {
-    await this.post(`project/${projectID}/save`, data)
+    await this.post(`project/${projectID}/save`, {
+      data,
+    })
     return data
   }
 
@@ -164,10 +177,9 @@ export default class Api {
     manuscriptID: string,
     models: Array<Build<ContainedModel>>
   ) => {
-    await this.post(
-      `project/${projectID}/manuscripts/${manuscriptID}/save`,
-      models
-    )
+    await this.post(`project/${projectID}/manuscripts/${manuscriptID}/save`, {
+      data: models,
+    })
   }
 
   createUser = async (email: string, password: string) => {

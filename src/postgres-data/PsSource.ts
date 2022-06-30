@@ -9,38 +9,42 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { builderFn, stateSetter } from '../store'
+import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
-import Api from './api';
-import buildData from './buildData';
+import Api from './Api'
+import buildData from './buildData'
+import buildUtilities from './buildUtilities'
 
 export default class PsSource implements StoreDataSourceStrategy {
   api: Api
+  data: Partial<state>
+  utilities: ReturnType<typeof buildUtilities>
   constructor() {
-    this.api =  new Api();
+    this.api = new Api()
     // import api
     // get user and all the data
     // build and provide methods such as saveModel, saveManuscript etc. (see ModelManager in couch-data)
     // conform with the store
   }
 
-  build: builderFn = async (state, next) => {
+  updateState = (state: Partial<state>) => {
+    console.error(new Error('Store not yet mounted').stack)
+  }
+
+  build: builderFn = async (state, next, setState) => {
     if (state.userID && state.authToken) {
-      this.api.setToken(state.authToken);
+      this.api.setToken(state.authToken)
     }
     if (state.manuscriptID && state.projectID) {
-        this.projectData = new ProjectData(this.api, state.projectID, state.manuscriptID);
-        this.data = await buildData(state: data)
-        const await 
-        const utilities = buildUtilities(this.api)
-        const state = this.
+      this.data = await buildData(state.projectID, state.manuscriptID, this.api)
+      this.utilities = buildUtilities(this.data, this.api, setState)
     }
-    next(state)
+    next({ ...state, ...this.data, ...this.utilities })
   }
   afterAction: StoreDataSourceStrategy['afterAction'] = (state, setState) => {
     return
   }
   updateStore = (setState: stateSetter) => {
-    return 
+    this.updateState = setState
   }
 }

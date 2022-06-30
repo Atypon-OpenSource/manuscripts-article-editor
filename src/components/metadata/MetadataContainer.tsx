@@ -89,7 +89,8 @@ const MetadataContainer: React.FC<Props> = ({
       deleteModel,
       containerInvitations,
       invitations,
-      getInvitation
+      getInvitation,
+    },
   ] = useStore((store) => ({
     saveModel: store.saveModel,
     collaboratorsProfiles: store.collaboratorsProfiles,
@@ -297,7 +298,12 @@ const MetadataContainer: React.FC<Props> = ({
     name: string
   ) => {
     const invitation = await getInvitation(invitingID, invitedEmail)
-    await createAuthor(buildAuthorPriority(authors), null, name, invitation?._id)
+    await createAuthor(
+      buildAuthorPriority(authors),
+      null,
+      name,
+      invitation?._id
+    )
   }
 
   const buildInvitedAuthorsEmail = (

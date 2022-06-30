@@ -43,8 +43,6 @@ export class Biblio implements BiblioTools {
   filterLibraryItems = (query: string) => filterLibrary(this.library, query)
 
   getCitationProvider = () => {
-    console.log('Attemting to get citation provider:')
-    console.log(new Error().stack)
     return undefined
   }
 

@@ -12,11 +12,11 @@
 import { Model } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import { useHistory } from 'react-router'
+import config from '../config'
 import styled from 'styled-components'
 
 import { Importer } from '../components/projects/Importer'
 import { createToken, createUserProfile } from '../lib/developer'
-import { getCurrentUserId } from '../lib/user'
 import { useStore } from '../store'
 import { useModal } from './ModalHookableProvider'
 import { importManuscript } from './projects/ImportManuscript'
@@ -44,7 +44,6 @@ const DropdownAction = styled.div`
 
 const Development = () => {
   const [store] = useStore((store) => store)
-  const userId = getCurrentUserId()
 
   const { addModal } = useModal()
   const history = useHistory()
@@ -75,7 +74,7 @@ const Development = () => {
     <div>
       <h2>Development</h2>
       <div>
-        {!userId && (
+        {!store.user && config.rxdb.enabled && (
           <>
             <DropdownAction
               onClick={() => {
@@ -96,8 +95,15 @@ const Development = () => {
             </DropdownAction>
           </>
         )}
+        {!store.user && !config.rxdb.enabled && (
+          <>
+            <p>You need to logged in first</p>
+          </>
+        )}
         <br />
-        <button onClick={() => openImporter()}>Import a manuscript</button>
+        {store.user && !store.project && (
+          <button onClick={() => openImporter()}>Import a manuscript</button>
+        )}
       </div>
     </div>
   )

@@ -13,12 +13,13 @@
 let throttled = () => null
 let timeout: number
 
-export const saveWithThrottle = (fn: () => any, interval = 10000) => {
+export const saveWithThrottle = (fn: () => any, interval = 4000) => {
   throttled = fn
   if (!timeout) {
     timeout = window.setTimeout(() => {
       throttled()
       window.clearTimeout(timeout)
+      timeout = 0
     }, interval)
   }
 }

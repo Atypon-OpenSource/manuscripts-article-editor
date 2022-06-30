@@ -10,14 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { state, StoreDataSourceStrategy } from '.'
+import { stateSetter } from './DataSourceStrategy'
 
 export type builderFn = (
   boundState: Partial<state>,
-  next: (resultState: Partial<state>) => void
+  next: (resultState: Partial<state>) => void,
+  setState: stateSetter
 ) => void
 
 export function buildStateFromSources(
-  ...builders: StoreDataSourceStrategy[]
+  builders: StoreDataSourceStrategy[],
+  setState: stateSetter
 ): Partial<state> {
   return new Promise((resolve, reject) => {
     let futureState = {}
@@ -27,13 +30,13 @@ export function buildStateFromSources(
         futureState = { ...futureState, ...resultState }
       }
       if (builders[++i]) {
-        builders[i].build(futureState, next)
+        builders[i].build(futureState, next, setState)
       } else {
         resolve(futureState)
       }
     }
     try {
-      builders[i].build(futureState, next)
+      builders[i].build(futureState, next, setState)
     } catch (e) {
       reject(e)
     }

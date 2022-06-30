@@ -18,6 +18,7 @@ import {
   ContainedProps,
   isManuscriptModel,
   ModelAttachment,
+  isManuscript,
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
@@ -67,12 +68,12 @@ const buildUtilities = (
   }
 
   const bulkPersistentManuscriptSave = (models: ManuscriptModel[]) => {
-    const onlyManuscriptModels = models.filter(
-      (model) => model.manuscriptID === data.manuscriptID
-    )
+    const onlyManuscriptModels = models.filter((model) => {
+      return isManuscript(model) || model.manuscriptID === data.manuscriptID
+    })
     if (data.projectID && data.manuscriptID) {
       return api
-        .saveManuscript(data.projectID, data.manuscriptID, onlyManuscriptModels)
+        .saveProjectData(data.projectID, onlyManuscriptModels)
         .then(() => {
           return true // not sure what will be returned at this point
         })
@@ -87,13 +88,10 @@ const buildUtilities = (
   const saveModel = async <T extends Model>(
     model: T | Build<T> | Partial<T>
   ) => {
-    if (!model) {
-      console.log(new Error().stack)
-    }
     if (!model._id) {
       throw new Error('Model ID required')
     }
-    if (!data.modelMap || !data.manuscriptID || !data.containerID) {
+    if (!data.modelMap || !data.manuscriptID || !data.projectID) {
       throw new Error(
         'State misses important element. Unable to savel a model.'
       )
@@ -103,7 +101,7 @@ const buildUtilities = (
 
     // NOTE: this is needed because the local state is updated before saving
     const containerIDs: ContainerIDs = {
-      containerID: data.containerID,
+      containerID: data.projectID,
     }
 
     if (isManuscriptModel(containedModel)) {
@@ -116,10 +114,6 @@ const buildUtilities = (
     }
 
     const modelMap = data.modelMap.set(containedModel._id, newModel)
-
-    updateState({
-      modelMap,
-    })
 
     // const { attachment, ...containedModeldata } = containedModel as T &
     //   ContainedProps &
@@ -134,6 +128,9 @@ const buildUtilities = (
 
     saveWithThrottle(async () => {
       updateState({
+        modelMap,
+      })
+      updateState({
         savingProcess: 'pending',
       })
       const result = await bulkPersistentManuscriptSave([
@@ -147,13 +144,10 @@ const buildUtilities = (
   }
 
   const saveProjectModel = <T extends Model>(model: T | Build<T>) => {
-    if (!model) {
-      console.log(new Error('No model provided for saving.').stack)
-    }
     if (!model._id) {
       throw new Error('Model ID required.')
     }
-    if (!data.modelMap || !data.containerID) {
+    if (!data.modelMap || !data.projectID) {
       throw new Error(
         'State misses important element. Unable to savel a model.'
       )
@@ -163,7 +157,7 @@ const buildUtilities = (
     updateState({
       modelMap: data.modelMap.set(model._id, {
         ...containedModel,
-        containerID: data.containerID,
+        containerID: data.projectID,
       }),
     })
 
@@ -183,6 +177,7 @@ const buildUtilities = (
     updateState({
       modelMap: data.modelMap,
     })
+    return Promise.resolve(id)
     // will be handled in bulk update
     // return this.collection.delete(id)
   }
@@ -222,6 +217,8 @@ const buildUtilities = (
         await api.saveProjectData(project._id, dependencies)
         // await api.saveProject(project._id, [manuscript])
         return savedManuscript
+      } else {
+        throw new Error('Unable to create new project')
       }
     }
     // else {
