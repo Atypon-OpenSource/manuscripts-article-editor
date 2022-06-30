@@ -24,6 +24,7 @@ import styled from 'styled-components'
 import config from '../../config'
 import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { useStore } from '../../store'
+import { DataLoadingPlaceholder } from '../Placeholders'
 import { ExceptionDialog } from '../projects/lean-workflow/ExceptionDialog'
 import { RequirementsList } from './RequirementsList'
 
@@ -86,10 +87,15 @@ export const RequirementsInspector: React.FC = () => {
 
   const [result, setResult] = useState<AnyValidationResult[]>([])
   const [error, setError] = useState<Error>()
+  const [isBuilding, setIsBuilding] = useState<boolean>(false)
 
   useEffect(() => {
+    setIsBuilding(true)
     buildQualityCheck(modelMap, prototypeId, manuscriptID)
       .then(setResult)
+      .finally(() => {
+        setIsBuilding(false)
+      })
       .catch(setError)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prototypeId, manuscriptID, JSON.stringify([...modelMap.values()])])
@@ -99,18 +105,25 @@ export const RequirementsInspector: React.FC = () => {
       prototypeId={prototypeId}
       result={result}
       error={error}
+      isBuilding={isBuilding}
     />
   )
 }
 
 interface Props {
   prototypeId?: string
+  isBuilding?: boolean
 }
 
 export const RequirementsInspectorView: React.FC<
   Props & ReturnType<typeof useRequirementsValidation>
-> = ({ error, result }) => {
+> = ({ error, result, isBuilding }) => {
   const [prototypeId] = useStore((store) => store.manuscript?.prototype)
+
+  if (isBuilding) {
+    return <DataLoadingPlaceholder />
+  }
+
   if (error) {
     return (
       <>
@@ -136,7 +149,7 @@ export const RequirementsInspectorView: React.FC<
   }
 
   if (!result) {
-    return null // TODO
+    return null
   }
 
   return <RequirementsList validationResult={result} />

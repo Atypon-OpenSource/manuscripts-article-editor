@@ -29,6 +29,7 @@ export const useRequirementsValidation = ({ state }: Args) => {
   }))
   const [error, setError] = useState<Error | null>()
   const [result, setResult] = useState<AnyValidationResult[]>([])
+  const [isBuilding, setIsBuilding] = useState<boolean>(false)
   const prototypeID = manuscript.prototype
 
   // TODO: re-enable once the quality report (RequirementsValidation) is saved
@@ -58,6 +59,7 @@ export const useRequirementsValidation = ({ state }: Args) => {
 
   useIdlePropEffect(
     () => {
+      setIsBuilding(true)
       buildQualityCheck(modelMap, prototypeID, manuscript._id, {
         validateImageFiles: false,
       })
@@ -84,6 +86,9 @@ export const useRequirementsValidation = ({ state }: Args) => {
         //     manuscriptID: manuscript._id,
         //   })
         // })
+        .finally(() => {
+          setIsBuilding(false)
+        })
         .catch((err) => {
           setError(err)
         })
@@ -92,5 +97,5 @@ export const useRequirementsValidation = ({ state }: Args) => {
     1000
   )
 
-  return { result, error }
+  return { result, error, isBuilding }
 }

@@ -17,7 +17,7 @@ import {
   ObjectTypes,
   Snapshot,
 } from '@manuscripts/manuscripts-json-schema'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { getSnapshot } from '../lib/snapshot'
 import { JsonModel } from '../pressroom/importers'
@@ -57,12 +57,9 @@ export const useHistory = (projectID: string): HookValue => {
   const [loadSnapshotStatus, setLoadSnapshotStatus] = useState<SnapshotStatus>(
     SnapshotStatus.Ready
   )
-  const [snapshotsList, setSnapshotsList] = useState<Snapshot[]>([])
-  const [snapshots] = useStore((state) => state.snapshots || [])
-  useEffect(() => {
-    // do we need a useEffect here, will the user store trigger a chain update automatically?
-    setSnapshotsList(snapshots)
-  }, [snapshots])
+  const [snapshotsList] = useStore((state) => {
+    return state.snapshots || []
+  })
   const [current, setCurrent] = useState<HookValue['currentSnapshot']>(null)
 
   const loadSnapshot = useCallback(

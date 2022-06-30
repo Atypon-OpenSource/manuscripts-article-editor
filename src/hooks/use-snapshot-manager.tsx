@@ -88,7 +88,7 @@ const SnapshotSuccessNotification: NotificationComponent = ({
 
 export const useSnapshotManager = (
   project: Project,
-  showNotification: ShowNotification
+  showNotification?: ShowNotification
 ) => {
   const collection = CollectionManager.getCollection(`project-${project._id}`)
 
@@ -117,7 +117,9 @@ export const useSnapshotManager = (
         .catch((e) => {
           console.error('Error saving snapshot', e)
         })
-      showNotification('snapshot', SnapshotSuccessNotification)
+      if (showNotification) {
+        showNotification('snapshot', SnapshotSuccessNotification)
+      }
       setState(getInitialState())
     },
     [collection, showNotification, project]
@@ -125,7 +127,10 @@ export const useSnapshotManager = (
 
   const requestTakeSnapshot = useCallback(async () => {
     try {
-      setState({ ...state, status: SaveSnapshotStatus.Submitting })
+      setState({
+        ...state,
+        status: SaveSnapshotStatus.Submitting,
+      })
       const projectModelMap = await getEntireProject()
       const blob = await exportProject(
         collection.getAttachmentAsBlob,

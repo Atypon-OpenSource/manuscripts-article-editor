@@ -2144,10 +2144,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.91.21":
-  version "0.91.21"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.91.21.tgz#e6dd5654dba0dac6522279e657c4511aba427dfa"
-  integrity sha512-FYlD8J6b3mGcJJhqCbT5huws9gKWp9EcWsH5xELs55y24ZprRr/AQ+WIlV3k+bZAyIl2oL6OmwXJGGaoenhXvw==
+"@manuscripts/manuscript-editor@^0.92.3":
+  version "0.92.3"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.92.3.tgz#acda1f14450081922ad6ea3f1d1c8901b5869b8c"
+  integrity sha512-O1wuGrIwF0EMH2s8Ld0hyKB1eZzKjNgKXxX54ESZX5mjtY9InsSmcvR87gooNl3Ih9OxmcbOPrqpDnN9FuzmEQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2156,7 +2156,7 @@
     "@manuscripts/manuscripts-json-schema" "^1.49.11"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
-    "@manuscripts/track-changes" "^0.3.3"
+    "@manuscripts/track-changes-plugin" "^0.0.4"
     astrocite-eutils "^0.16.4"
     axios "^0.20.0"
     blob-util "^2.0.2"
@@ -2189,25 +2189,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.48.11":
-  version "0.48.11"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.11.tgz#ca616d34073d4b79fd3cdabf95b02e8442d55b91"
-  integrity sha512-AU8rvsAitb7Lqie8Fwjt/68gvwyAicL9wC4Nx7akPIntPAC2ZFS3lip4GxuX5xkqTk31f7anQRzVxL6cjaCiuw==
-  dependencies:
-    "@manuscripts/data" "^0.1.3"
-    "@manuscripts/library" "^0.6.2"
-    "@manuscripts/manuscripts-json-schema" "^1.49.5"
-    debug "^4.1.1"
-    mathjax-full "^3.1.2"
-    mime "^2.4.6"
-    prosemirror-model "~1.14.0"
-    uuid "^8.2.0"
-    w3c-xmlserializer "^2.0.0"
-
-"@manuscripts/manuscript-transform@^0.48.24":
-  version "0.48.24"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.24.tgz#1aaf278664b5470ceeee3af1f5d853af656db153"
-  integrity sha512-KK2vp729TGpcquTzAjDY4kAGhq5eSSegrlPIFnOzAtC75L07H1lzx8Yd5dac6N4MfkNUhbNv3It98VFjxDCbQw==
+"@manuscripts/manuscript-transform@>=0.48.29", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.49.1":
+  version "0.49.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.49.1.tgz#ddef90f6936a164336989f5f2a6af2d539ee69d9"
+  integrity sha512-/WBzzJaLr3wWt3diGKnJT5A5L7UMWS4715k4YHLOocwFiOPGWWDpjZVssC7ggQTigEaQoGmXyfNOywvqzIj8Hw==
   dependencies:
     "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
@@ -2224,7 +2209,7 @@
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema-utils/-/manuscripts-json-schema-utils-0.2.1.tgz#4bc99a0afd2dc222b3ddff57da1a692ad0b28458"
   integrity sha512-rgt0FortFCRDVS299wqnx/zZtpEFsWiMEccfqUDWmKhuzHR5cL0Do4BxV3Rd7K3wWQZYenN1CrmV15a3SmUGog==
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.11", "@manuscripts/manuscripts-json-schema@^1.49.5":
+"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.11", "@manuscripts/manuscripts-json-schema@^1.49.12":
   version "1.49.12"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.12.tgz#2fe461dcf3b26169605f5a4980fd0c2891c2672e"
   integrity sha512-ZHb+VunM/884YNZuXFi4EgalKT8aLFK9v+AwgGQhtoVk4Q/LThYV8TqOrevtCbNk/cydWNynDeTpEB3QxWXZzQ==
@@ -2283,6 +2268,11 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
+"@manuscripts/quarterback-types@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/@manuscripts/quarterback-types/-/quarterback-types-0.2.1.tgz#e27e95ddc2c9c76aef19f77e209763a0f34b0825"
+  integrity sha512-87IKzs0aIfpjAnVpcoKYd6WXGMNPEOW76sznPsmz33RbPN9KSffOHfO3DLs0xC3Dt/IgRwQ5TFSymOZuOgJYug==
+
 "@manuscripts/requirements@^0.4.11":
   version "0.4.11"
   resolved "https://registry.npmjs.org/@manuscripts/requirements/-/requirements-0.4.11.tgz#52a018d1a1cf9ef9eaecbf1233ef79e2403ac8e5"
@@ -2332,10 +2322,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.13":
-  version "0.31.13"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.13.tgz#20fa1b6294b14931918bce803cdd9868349fd9ca"
-  integrity sha512-216uAFD0AtrDItGErsFdfoFNLPeDCqPPjvAv6qEhx5VHcERSN+5DdyQqRzvk7hJmiWQyYdP5eTjqHlzU7lQlSA==
+"@manuscripts/style-guide@^0.31.14":
+  version "0.31.14"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.14.tgz#c1caa83a43e02d6fa393063aeb6c99fd9875fa9f"
+  integrity sha512-mu9bG8bnxXuhhw4h5QiHYSb8cY6+dyQIkNR0C25BzQhaeEMYGS6tJX1RgXJFZMwR8l79DQudHkmvtMCNEaXpIg==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
@@ -2385,6 +2375,13 @@
     prosemirror-model "~1.14.0"
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
+
+"@manuscripts/track-changes-plugin@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.0.4.tgz#4273ac96e160f9648e01a45996c5431557c0cdcd"
+  integrity sha512-n7Bb+dWa3hmKSbiYhHylv6pSfiS9QMSGiTNd7ZGEemximfTABR5C/xhbPTEcGVz5hf4p/HKL/53UEJuOGdSDMw==
+  dependencies:
+    debug "^4.3.4"
 
 "@manuscripts/track-changes@^0.3.3":
   version "0.3.3"
@@ -3566,6 +3563,13 @@
   dependencies:
     "@types/lodash" "*"
 
+"@types/lodash.debounce@^4.0.7":
+  version "4.0.7"
+  resolved "https://registry.npmjs.org/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
+  integrity sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash@*", "@types/lodash@^4.14.162":
   version "4.14.168"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
@@ -3775,6 +3779,11 @@
   version "6.9.6"
   resolved "https://registry.npmjs.org/@types/qs/-/qs-6.9.6.tgz#df9c3c8b31a247ec315e6996566be3171df4b3b1"
   integrity sha512-0/HnwIfW4ki2D8L8c9GVcG5I72s9jP5GSLVF0VIXDW00kmIpA6O33G7a8n59Tmh7Nz0WUC3rSb7PTY/sdW2JzA==
+
+"@types/randomcolor@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@types/randomcolor/-/randomcolor-0.5.6.tgz#c1085077c4ae0f6af60e0ad229d14721b9b3b58c"
+  integrity sha512-lKkW8DGUQpZldTrwa+HM5rY+7eTyaHOMTsnj9ewt7AAwXuMPwBmkLlfh8+SXdgOhBW9iNI4x4zRjQ/TQZkdycQ==
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -7518,6 +7527,13 @@ debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   version "4.3.1"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
+  dependencies:
+    ms "2.1.2"
+
+debug@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
+  integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
   dependencies:
     ms "2.1.2"
 
@@ -14511,6 +14527,11 @@ orderedmap@^1.1.0:
   resolved "https://registry.npmjs.org/orderedmap/-/orderedmap-1.1.1.tgz#c618e77611b3b21d0fe3edc92586265e0059c789"
   integrity sha512-3Ux8um0zXbVacKUkcytc0u3HgC0b0bBLT+I60r2J/En72cI0nZffqrA7Xtf2Hqs27j1g82llR5Mhbd0Z1XW4AQ==
 
+orderedmap@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/orderedmap/-/orderedmap-2.0.0.tgz#12ff5ef6ea9d12d6430b80c701b35475e1c9ff34"
+  integrity sha512-buf4PoAMlh45b8a8gsGy/X6w279TSqkyAS0C0wdTSJwFSU+ljQFJON5I8NfjLHoCXwpSROIo2wr0g33T+kQshQ==
+
 original@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npmjs.org/original/-/original-1.0.2.tgz#e442a61cffe1c5fd20a65f3261c26663b303f25f"
@@ -16054,6 +16075,15 @@ prosemirror-commands@^1.0.0, prosemirror-commands@~1.1.7:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.0.0"
 
+prosemirror-dev-toolkit@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.npmjs.org/prosemirror-dev-toolkit/-/prosemirror-dev-toolkit-0.0.11.tgz#a71f9042371bf39c28d1039252d901d1e220231d"
+  integrity sha512-opNxZ2WlPPrHb6ugZa9y+4H4zpYuHdgyFHMbEO2vmdRPhA+fYJUeQJ1DNJg/guLwF7vJL39DuykJJ5RQGWwFVg==
+  dependencies:
+    html "^1.0.0"
+    prosemirror-model "^1.15.0"
+    svelte-tree-view "^1.3.0"
+
 prosemirror-dev-tools@~3.0.2:
   version "3.0.2"
   resolved "https://registry.npmjs.org/prosemirror-dev-tools/-/prosemirror-dev-tools-3.0.2.tgz#00c4416b0817e3ac862300d1365f79c5c3f21973"
@@ -16148,6 +16178,13 @@ prosemirror-model@>=1.0.0, prosemirror-model@^1.0.0, prosemirror-model@^1.1.0, p
   integrity sha512-+9J7YE2qD2lsRgaI5aF7u6LynBoHxb/8sW1gaMKRAhK+yeQ+motBIaxb2GxRWSadDWMOq5haAImSTBo6jDkv2A==
   dependencies:
     orderedmap "^1.1.0"
+
+prosemirror-model@^1.15.0:
+  version "1.18.1"
+  resolved "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.18.1.tgz#1d5d6b6de7b983ee67a479dc607165fdef3935bd"
+  integrity sha512-IxSVBKAEMjD7s3n8cgtwMlxAXZrC7Mlag7zYsAKDndAqnDScvSmp/UdnRTV/B33lTCVU3CCm7dyAn/rVVD0mcw==
+  dependencies:
+    orderedmap "^2.0.0"
 
 prosemirror-schema-basic@^1.0.0:
   version "1.1.2"
@@ -16426,6 +16463,11 @@ randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   integrity sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==
   dependencies:
     safe-buffer "^5.1.0"
+
+randomcolor@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.npmjs.org/randomcolor/-/randomcolor-0.6.2.tgz#7a57362ae1a1278439aeed2c15e5deb8ea33f56d"
+  integrity sha512-Mn6TbyYpFgwFuQ8KJKqf3bqqY9O1y37/0jgSK/61PUxV4QfIMv0+K2ioq8DfOjkBslcjwSzRfIDEXfzA9aCx7A==
 
 randomfill@^1.0.3:
   version "1.0.4"
@@ -16763,6 +16805,11 @@ react-hot-loader@^4.13.0:
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.1.0"
     source-map "^0.7.3"
+
+react-icons@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.4.0.tgz#a13a8a20c254854e1ec9aecef28a95cdf24ef703"
+  integrity sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==
 
 react-input-autosize@^2.2.2:
   version "2.2.2"
@@ -18934,6 +18981,11 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
+svelte-tree-view@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/svelte-tree-view/-/svelte-tree-view-1.3.0.tgz#defcf0183a85074860774ff6207253a66fa23d12"
+  integrity sha512-9lWqdlw4YbhqoE5LYowGTlDe+KvTntnypzuoT2XSo5ZimJ6qVEbCu8akzuOHO+iGjVYWw6x5hd2nAWNAv4zb6A==
+
 symbol-observable@^1.0.2, symbol-observable@^1.0.4, symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
@@ -19967,6 +20019,11 @@ use-memo-one@^1.1.1:
   version "1.1.2"
   resolved "https://registry.npmjs.org/use-memo-one/-/use-memo-one-1.1.2.tgz#0c8203a329f76e040047a35a1197defe342fab20"
   integrity sha512-u2qFKtxLsia/r8qG0ZKkbytbztzRb317XCkT7yP8wxL0tZ/CzK2G+WWie5vWvpyeP7+YoPIwbJoIHJ4Ba4k0oQ==
+
+use-sync-external-store@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.1.0.tgz#3343c3fe7f7e404db70f8c687adf5c1652d34e82"
+  integrity sha512-SEnieB2FPKEVne66NpXPd1Np4R1lTNKfjuy3XdIoPQKYBAFdzbzSZlSn1KJZUiihQLQC5Znot4SBz1EOTBwQAQ==
 
 use@^3.1.0:
   version "3.1.1"
@@ -21130,3 +21187,10 @@ zen-observable@^0.8.0:
   version "0.8.15"
   resolved "https://registry.npmjs.org/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
+
+zustand@^4.0.0-rc.1:
+  version "4.0.0-rc.1"
+  resolved "https://registry.npmjs.org/zustand/-/zustand-4.0.0-rc.1.tgz#ec30a3afc03728adec7e1bd7bcc3592176372201"
+  integrity sha512-qgcs7zLqBdHu0PuT3GW4WCIY5SgXdsv30GQMu9Qpp1BA2aS+sNS8l4x0hWuyEhjXkN+701aGWawhKDv6oWJAcw==
+  dependencies:
+    use-sync-external-store "1.1.0"

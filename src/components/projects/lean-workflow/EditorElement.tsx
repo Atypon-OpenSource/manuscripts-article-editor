@@ -30,13 +30,11 @@ import {
   Supplement,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
-import { commands } from '@manuscripts/track-changes'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useDrop } from 'react-dnd'
 
-import { useCommits } from '../../../hooks/use-commits'
 import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
@@ -44,11 +42,9 @@ import { SpriteMap } from '../../track/Icons'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
-  accept: ReturnType<typeof useCommits>['accept']
-  reject: ReturnType<typeof useCommits>['reject']
 }
 
-const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
+const EditorElement: React.FC<Props> = ({ editor }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
   const [{ modelMap, deleteModel }] = useStore((store) => ({
@@ -128,30 +124,6 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
     },
   })
 
-  const handleEditorClick = useCallback(
-    (e: React.MouseEvent) => {
-      const button = e.target && (e.target as HTMLElement).closest('button')
-      if (!button) {
-        return
-      }
-      const action = button.getAttribute('data-action')
-      const changeId = button.getAttribute('data-changeid')
-      const uid = button.getAttribute('data-uid')
-      if (!action) {
-        return
-      } else if (action === 'accept') {
-        accept((corr) => corr.commitChangeID === changeId)
-      } else if (action === 'reject') {
-        reject((corr) => corr.commitChangeID === changeId)
-      } else if (action === 'select-comment') {
-        if (!uid) {
-          return
-        }
-        editor.doCommand(commands.focusAnnotation(uid))
-      }
-    },
-    [accept, reject, editor]
-  )
   return (
     <>
       {error && (
@@ -169,7 +141,7 @@ const EditorElement: React.FC<Props> = ({ editor, accept, reject }) => {
       )}
       <SpriteMap color="#353535" />
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
-      <div id="editorDropzone" ref={drop} onClick={handleEditorClick}>
+      <div id="editorDropzone" ref={drop}>
         <div id="editor" ref={onRender}></div>
       </div>
     </>

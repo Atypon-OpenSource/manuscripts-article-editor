@@ -12,6 +12,7 @@
 import React, { createContext, useContext, useEffect } from 'react'
 
 import Development from '../components/Development'
+import { ModalProvider } from '../components/ModalHookableProvider'
 import config from '../config'
 import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
 
@@ -45,7 +46,9 @@ export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
         {store.state?.project && store.state?.user ? (
           children
         ) : config.environment === 'development' ? (
-          <Development />
+          <ModalProvider>
+            <Development />
+          </ModalProvider>
         ) : (
           <>
             {!store.state?.project && <p>Project was not found</p>}

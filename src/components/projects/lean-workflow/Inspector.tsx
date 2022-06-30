@@ -20,22 +20,16 @@ import {
   SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { Commit } from '@manuscripts/track-changes'
 import React, { useCallback, useState } from 'react'
 
-import { getUnsavedComment, useComments } from '../../../hooks/use-comments'
-import { useCommits } from '../../../hooks/use-commits'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
 import { useStore } from '../../../store'
-import { SnapshotsDropdown } from '../../inspector/SnapshotsDropdown'
 import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
-import { Corrections } from '../../track/Corrections'
-import { SortByDropdown } from '../../track/SortByDropdown'
+import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
 import { Inspector as InspectorLW } from '../InspectorLW'
-import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
@@ -43,36 +37,11 @@ import useFileHandling from './FileHandling'
 
 interface Props {
   tabs: string[]
-  commits: Commit[]
   editor: ReturnType<typeof useCreateEditor>
-  corrections: ReturnType<typeof useCommits>['corrections']
-  accept: ReturnType<typeof useCommits>['accept']
-  reject: ReturnType<typeof useCommits>['reject']
 }
-const Inspector: React.FC<Props> = ({
-  tabs,
-  commits,
-  editor,
-  corrections,
-  accept,
-  reject,
-}) => {
+const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    {
-      snapshots,
-      saveModel,
-      modelMap,
-      user,
-      project,
-      manuscript,
-      submission,
-      submissionId,
-      fileManagementErrors,
-      commitsSortBy,
-      comments,
-      snapshotID,
-    },
-    dispatchStore,
+    { saveModel, modelMap, submission, submissionId, fileManagementErrors },
   ] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
@@ -110,26 +79,13 @@ const Inspector: React.FC<Props> = ({
   const can = usePermissions()
 
   const [errorDialog, setErrorDialog] = useState(false)
-  const [selectedSnapshot, selectSnapshot] = useState(snapshots && snapshots[0])
-
-  const handleSelect = useCallback((snapshot) => {
-    selectSnapshot(snapshot)
-  }, [])
-
-  const handleSort = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    dispatchStore({
-      commitsSortBy: event.currentTarget.value,
-    })
-  }
 
   const handleDownloadAttachment = useCallback((url: string) => {
     window.location.assign(url)
   }, [])
 
-  const commentController = useComments(comments, user, state, editor.doCommand)
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
+
   return (
     <>
       <Panel
@@ -139,44 +95,27 @@ const Inspector: React.FC<Props> = ({
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={
-          !!getUnsavedComment(commentController.items) ||
-          !!commentController.focusedItem
-        }
+        forceOpen={undefined}
       >
-        <InspectorLW
-          tabs={tabs}
-          commentTarget={
-            getUnsavedComment(commentController.items) ||
-            commentController.focusedItem ||
-            undefined
-          }
-        >
+        <InspectorLW tabs={tabs} commentTarget={undefined}>
           {tabs.map((label) => {
             switch (label) {
               case 'Content': {
                 return (
-                  <ContentTab
-                    selected={selected}
-                    selectedElement={findParentElement(
-                      state.selection,
-                      modelIds
-                    )}
-                    selectedSection={findParentSection(state.selection)}
-                    state={state}
-                    dispatch={dispatch}
-                    hasFocus={view?.hasFocus()}
-                    key="content"
-                  />
-                )
-              }
-              case 'Comments': {
-                return (
-                  <CommentsTab
-                    commentController={commentController}
-                    selected={selected}
-                    key="comments"
-                  />
+                  <>
+                    <ContentTab
+                      selected={selected}
+                      selectedElement={findParentElement(
+                        state.selection,
+                        modelIds
+                      )}
+                      selectedSection={findParentSection(state.selection)}
+                      state={state}
+                      dispatch={dispatch}
+                      hasFocus={view?.hasFocus()}
+                      key="content"
+                    />
+                  </>
                 )
               }
 
@@ -186,38 +125,13 @@ const Inspector: React.FC<Props> = ({
                     key="quality"
                     result={validation.result}
                     error={validation.error}
+                    isBuilding={validation.isBuilding}
                   />
                 )
               }
-              case 'History': {
-                return snapshotID ? (
-                  <React.Fragment key="history">
-                    {selectedSnapshot && (
-                      <SnapshotsDropdown
-                        snapshots={snapshots || []}
-                        selectedSnapshot={selectedSnapshot}
-                        selectSnapshot={handleSelect}
-                        selectedSnapshotURL={`/projects/${project._id}/history/${selectedSnapshot.s3Id}/manuscript/${manuscript._id}`}
-                      />
-                    )}
 
-                    <SortByDropdown
-                      sortBy={commitsSortBy}
-                      handleSort={handleSort}
-                    />
-                    <Corrections
-                      corrections={corrections}
-                      editor={editor}
-                      commits={commits}
-                      accept={accept}
-                      reject={reject}
-                    />
-                  </React.Fragment>
-                ) : (
-                  <h3 key="history">
-                    Tracking is off - create a Snapshot to get started
-                  </h3>
-                )
+              case 'Track changes': {
+                return <TrackChangesPanel key="track-changes" />
               }
 
               case 'Files': {

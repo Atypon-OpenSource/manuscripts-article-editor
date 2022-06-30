@@ -29,14 +29,14 @@ interface SnapProps {
   snapshots: Array<Snapshot>
   selectSnapshot: (snapshot: Snapshot) => void
   selectedSnapshot: Snapshot
-  selectedSnapshotURL: string
+  viewHandler: () => void
 }
 
 export const SnapshotsDropdown: React.FC<SnapProps> = ({
   snapshots,
   selectSnapshot,
   selectedSnapshot,
-  selectedSnapshotURL,
+  viewHandler,
 }) => {
   const { wrapperRef, toggleOpen, isOpen } = useDropdown()
 
@@ -98,7 +98,9 @@ export const SnapshotsDropdown: React.FC<SnapProps> = ({
           </SnapshotsList>
         )}
       </DropdownContainer>
-      <ViewLink to={selectedSnapshotURL}>View</ViewLink>
+      <ViewLink to={'#'} onClick={viewHandler}>
+        View
+      </ViewLink>
     </SnapshotContainer>
   )
 }
