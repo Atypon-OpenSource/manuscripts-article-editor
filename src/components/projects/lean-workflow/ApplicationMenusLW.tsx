@@ -19,7 +19,6 @@ import {
   useApplicationMenus,
   useEditor,
 } from '@manuscripts/manuscript-editor'
-// import { Model } from '@manuscripts/manuscripts-json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
@@ -36,7 +35,8 @@ import { ExportFormat } from '../../../pressroom/exporter'
 import { useStore } from '../../../store'
 import { useModal } from '../../ModalHookableProvider'
 import { Exporter } from '../Exporter'
-// import { Importer, importManuscript } from '../Importer'
+// import { Importer } from '../Importer'
+// import { importManuscript } from '../ImportManuscript'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;
@@ -60,28 +60,31 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     saveModel: store.saveModel,
     manuscripts: store.manuscripts,
     project: store.project,
-    bulkCreate: store.bulkCreate,
     getAttachment: store.getAttachment,
+    saveNewManuscript: store.saveNewManuscript,
   }))
 
   const history = useHistory()
   const { addModal } = useModal()
   const can = usePermissions()
 
-  // Commented as may it be actually useful in later development
+  // const importerHander = importManuscript(
+  //   history,
+  //   store.saveNewManuscript,
+  //   undefined,
+  //   (projectID, manuscriptID) => {
+  //     alert(
+  //       `Imported successfully: projectID: ${projectID}, manuscriptID: ${manuscriptID}.`
+  //     )
+  //   }
+  // )
+
   // const openImporter = () => {
   //   addModal('importer', ({ handleClose }) => (
   //     <Importer
   //       handleComplete={handleClose}
   //       importManuscript={(models: Model[], redirect = true) =>
-  //         importManuscript(
-  //           models,
-  //           store.project._id,
-  //           store.bulkCreate,
-  //           history,
-  //           store.manuscripts || [],
-  //           redirect
-  //         )
+  //         importerHander(models)
   //       }
   //     />
   //   ))

@@ -25,6 +25,7 @@ interface Props {
   submissionId: string
   manuscriptID: string
   projectID: string
+  authToken: string
   submission: Submission
   person: Person
 }
@@ -37,6 +38,7 @@ const Main: React.FC<Props> = ({
   submissionId,
   manuscriptID,
   projectID,
+  authToken,
   submission,
   person,
 }) => (
@@ -50,6 +52,7 @@ const Main: React.FC<Props> = ({
         projectID={projectID}
         submission={submission}
         person={person}
+        authToken={authToken}
       />
     </ApolloProvider>
   </DndProvider>

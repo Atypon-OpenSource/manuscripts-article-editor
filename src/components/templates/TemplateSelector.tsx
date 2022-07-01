@@ -147,6 +147,9 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   // TODO: refactor most of this to a separate module
   const selectTemplate = useCallback(
     async (item: TemplateData) => {
+      if (!updateTemplate) {
+        throw new Error('No updateTemplate function was provided')
+      }
       if (!data) {
         throw new Error('Data not loaded')
       }

@@ -75,6 +75,7 @@ export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
           >
             <Main
               // userID={userID}
+              authToken={authToken || ''}
               submissionId={submissionId}
               manuscriptID={manuscriptID}
               projectID={projectID}
