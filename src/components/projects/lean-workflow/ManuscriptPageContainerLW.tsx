@@ -183,7 +183,7 @@ const ManuscriptPageView: React.FC = () => {
   const TABS = [
     'Content',
     // (config.features.commenting || config.features.productionNotes) &&
-    // 'Comments',
+    'Comments',
     config.features.qualityControl && 'Quality',
     // config.shackles.enabled && 'History',
     config.quarterback.enabled && 'Track changes',
