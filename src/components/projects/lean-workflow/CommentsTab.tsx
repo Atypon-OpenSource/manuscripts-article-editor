@@ -16,18 +16,17 @@ import {
   ManuscriptNoteList,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React from 'react'
+import { ContentNodeWithPos } from 'prosemirror-utils'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import config from '../../../config'
-import { useComments } from '../../../hooks/use-comments'
 import { useStore } from '../../../store'
-import { CommentsList } from './CommentsList'
+import { CommentList } from './CommentList'
 
 export const CommentsTab: React.FC<{
-  commentController: ReturnType<typeof useComments>
-  selected: Selected | undefined
-}> = ({ commentController, selected }) => {
+  selected?: ContentNodeWithPos | null
+}> = ({ selected }) => {
   const [
     {
       notes,
@@ -47,6 +46,7 @@ export const CommentsTab: React.FC<{
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
   }))
+  const [commentTarget, setCommentTarget] = useState<string | undefined>()
   const createKeyword = (name: string) => saveModel(buildKeyword(name))
 
   const getCollaboratorById = (id: string) =>
@@ -68,14 +68,7 @@ export const CommentsTab: React.FC<{
           title={'Comments'}
           contentStyles={{ margin: '0 25px 24px 0' }}
         >
-          <CommentsList
-            commentController={commentController}
-            createKeyword={createKeyword}
-            getCollaboratorById={getCollaboratorById}
-            getKeyword={getKeyword}
-            listCollaborators={listCollaborators}
-            listKeywords={listKeywords}
-          />
+          <CommentList selected={selected} />
         </InspectorSection>
       )}
       {config.features.productionNotes && (
@@ -87,10 +80,10 @@ export const CommentsTab: React.FC<{
             createKeyword={createKeyword}
             notes={notes || []}
             can={can}
-            currentUserId={user._id}
+            currentUserId={user?._id}
             getKeyword={getKeyword}
             listKeywords={listKeywords}
-            selected={selected || null}
+            selected={(selected as Selected) || null}
             getCollaboratorById={getCollaboratorById}
             listCollaborators={listCollaborators}
             saveModel={saveModel}

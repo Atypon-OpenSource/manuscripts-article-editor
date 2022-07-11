@@ -2116,6 +2116,11 @@
   resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.6.tgz#1d18760049426c2dce611625b2e4d3e54ded3cac"
   integrity sha512-qgrVMGy83ki74fRU3pw0Z42L/mYbntx3G9RYyLrsUl5i1RXdpwauWRV/FDNbMjK9tYXttBI0wsNN2Hb0pktvEg==
 
+"@manuscripts/data@^0.1.7":
+  version "0.1.10"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.10.tgz#b6517ffc4b1ea152bd8e607183bab0fb6e1cc8e8"
+  integrity sha512-ytEesiSyZ7oeaxkca+fw9HtkGvyE7axI8CwFNJ621z14ROOsHzK5JeOC7LEenwtndA2GfuSD2qFnG/guprEA/w==
+
 "@manuscripts/eslint-config@^0.4.2":
   version "0.4.2"
   resolved "https://registry.npmjs.org/@manuscripts/eslint-config/-/eslint-config-0.4.2.tgz#4c4c3dbccba86d3205550864ae971e4b882f793c"
@@ -2144,10 +2149,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.92.3":
-  version "0.92.3"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.92.3.tgz#acda1f14450081922ad6ea3f1d1c8901b5869b8c"
-  integrity sha512-O1wuGrIwF0EMH2s8Ld0hyKB1eZzKjNgKXxX54ESZX5mjtY9InsSmcvR87gooNl3Ih9OxmcbOPrqpDnN9FuzmEQ==
+"@manuscripts/manuscript-editor@^0.92.4":
+  version "0.92.4"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.92.4.tgz#1a2437b9a1615d5e0bf3cc6fa7d9380667e787e1"
+  integrity sha512-FUeTjUOm4gHzieJnOE5CBCAMnnr14NV6XzDVfVSTLUBydYPOEv0rK0t/yFu6L7xUnBUPin5sI+hHLbXpLo5Lqw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2189,12 +2194,27 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@>=0.48.29", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.49.1":
+"@manuscripts/manuscript-transform@>=0.48.29", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1":
   version "0.49.1"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.49.1.tgz#ddef90f6936a164336989f5f2a6af2d539ee69d9"
   integrity sha512-/WBzzJaLr3wWt3diGKnJT5A5L7UMWS4715k4YHLOocwFiOPGWWDpjZVssC7ggQTigEaQoGmXyfNOywvqzIj8Hw==
   dependencies:
     "@manuscripts/data" "^0.1.3"
+    "@manuscripts/library" "^0.6.2"
+    "@manuscripts/manuscripts-json-schema" "^1.49.11"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscript-transform@^0.49.4":
+  version "0.49.4"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.49.4.tgz#5d5fdc97cc2e939808e7ecbc23e8a89853382a04"
+  integrity sha512-kCXkHwdSlevQuzWhYa3RlcojyH0RRda06xiMAVYv6kCFK3QmHKaTPfCUMsmSm6NRdmjPDLyEa7Fdl7KEM8OCbQ==
+  dependencies:
+    "@manuscripts/data" "^0.1.7"
     "@manuscripts/library" "^0.6.2"
     "@manuscripts/manuscripts-json-schema" "^1.49.11"
     debug "^4.1.1"
@@ -2268,10 +2288,10 @@
     prosemirror-view "^1.5.3"
     rfc6902 "^3.0.1"
 
-"@manuscripts/quarterback-types@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/@manuscripts/quarterback-types/-/quarterback-types-0.2.1.tgz#e27e95ddc2c9c76aef19f77e209763a0f34b0825"
-  integrity sha512-87IKzs0aIfpjAnVpcoKYd6WXGMNPEOW76sznPsmz33RbPN9KSffOHfO3DLs0xC3Dt/IgRwQ5TFSymOZuOgJYug==
+"@manuscripts/quarterback-types@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/@manuscripts/quarterback-types/-/quarterback-types-0.2.2.tgz#2019721859d00621c30e7b1ea054a3ee1d1c170f"
+  integrity sha512-uVV919tu3begel33vlNM+XxC6BUJQarwdKsD1bkypJqBy4FSDttc9L7R6/FJPKIOME22ePo7qcKRXhrHHRcorg==
 
 "@manuscripts/requirements@^0.4.11":
   version "0.4.11"
@@ -2380,6 +2400,13 @@
   version "0.0.4"
   resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.0.4.tgz#4273ac96e160f9648e01a45996c5431557c0cdcd"
   integrity sha512-n7Bb+dWa3hmKSbiYhHylv6pSfiS9QMSGiTNd7ZGEemximfTABR5C/xhbPTEcGVz5hf4p/HKL/53UEJuOGdSDMw==
+  dependencies:
+    debug "^4.3.4"
+
+"@manuscripts/track-changes-plugin@^0.1.2":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.1.1.tgz#70b0d124ea70f73b72b102cb5d4c9f66b84b06fe"
+  integrity sha512-9u8eS8A5/MXiid0CoDFllCcab/yY4uGCo+fWT9QxOw3ZnPx38CQ96K2qBltdj74CcxrOBFi2GJYHPOjtgm8t8Q==
   dependencies:
     debug "^4.3.4"
 

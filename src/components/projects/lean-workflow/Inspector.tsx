@@ -20,7 +20,7 @@ import {
   SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
@@ -30,6 +30,7 @@ import { RequirementsInspectorView } from '../../requirements/RequirementsInspec
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
 import { Inspector as InspectorLW } from '../InspectorLW'
+import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
 import { ErrorDialog } from './ErrorDialog'
 import { ExceptionDialog } from './ExceptionDialog'
@@ -75,7 +76,11 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const validation = useRequirementsValidation({
     state,
   })
-  const selected = findParentNodeWithIdValue(state.selection)
+  const selected = useMemo(
+    () => state && findParentNodeWithIdValue(state.selection),
+    [state]
+  )
+
   const can = usePermissions()
 
   const [errorDialog, setErrorDialog] = useState(false)
@@ -117,6 +122,10 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                     />
                   </>
                 )
+              }
+
+              case 'Comments': {
+                return <CommentsTab selected={selected} key="comments" />
               }
 
               case 'Quality': {

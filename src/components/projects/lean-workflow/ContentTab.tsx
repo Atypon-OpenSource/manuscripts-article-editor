@@ -12,10 +12,10 @@
 import {
   ActualManuscriptNode,
   SectionNode,
-  Selected,
 } from '@manuscripts/manuscript-transform'
 import { Section } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
+import { ContentNodeWithPos } from 'prosemirror-utils'
 import React from 'react'
 
 import config from '../../../config'
@@ -30,9 +30,9 @@ import { HeaderImageInspector } from '../HeaderImageInspector'
 import { ManuscriptInspector } from '../ManuscriptInspector'
 
 export const ContentTab: React.FC<{
-  selected?: Selected
-  selectedElement?: Selected
-  selectedSection?: Selected
+  selected?: ContentNodeWithPos
+  selectedElement?: ContentNodeWithPos
+  selectedSection?: ContentNodeWithPos
   state: EditorState
   dispatch: (tr: Transaction) => EditorState
   hasFocus?: boolean
@@ -96,7 +96,9 @@ export const ContentTab: React.FC<{
       <StatisticsInspector
         manuscriptNode={doc as ActualManuscriptNode}
         sectionNode={
-          selectedSection ? (selectedSection.node as SectionNode) : undefined
+          selectedSection
+            ? ((selectedSection.node as unknown) as SectionNode)
+            : undefined
         }
       />
       {config.features.headerImage && <HeaderImageInspector />}
@@ -127,7 +129,9 @@ export const ContentTab: React.FC<{
           key={section._id}
           section={section}
           sectionNode={
-            selectedSection ? (selectedSection.node as SectionNode) : undefined
+            selectedSection
+              ? ((selectedSection.node as unknown) as SectionNode)
+              : undefined
           }
           state={state}
           dispatch={dispatch}

@@ -31,7 +31,11 @@ const DEFAULT_HEADERS = {
 
 function getAuthHeader() {
   const jwt = useAuthStore.getState().jwt
-  return jwt && { Authorization: `Bearer ${jwt.token}` }
+  // @TODO use non-standard authorization header while istio is enabled but not in use.
+  // This means it parses all Authorization headers and fails since the quarterback API issuer
+  // has not been configured with istio.
+  // https://jira.atypon.com/browse/LEAN-1274
+  return jwt && { 'X-Authorization': `Bearer ${jwt.token}` }
 }
 
 export async function wrappedFetch<T>(
