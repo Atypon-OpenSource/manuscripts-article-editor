@@ -2116,6 +2116,11 @@
   resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.6.tgz#1d18760049426c2dce611625b2e4d3e54ded3cac"
   integrity sha512-qgrVMGy83ki74fRU3pw0Z42L/mYbntx3G9RYyLrsUl5i1RXdpwauWRV/FDNbMjK9tYXttBI0wsNN2Hb0pktvEg==
 
+"@manuscripts/data@^0.1.7":
+  version "0.1.10"
+  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.10.tgz#b6517ffc4b1ea152bd8e607183bab0fb6e1cc8e8"
+  integrity sha512-ytEesiSyZ7oeaxkca+fw9HtkGvyE7axI8CwFNJ621z14ROOsHzK5JeOC7LEenwtndA2GfuSD2qFnG/guprEA/w==
+
 "@manuscripts/eslint-config@^0.4.2":
   version "0.4.2"
   resolved "https://registry.npmjs.org/@manuscripts/eslint-config/-/eslint-config-0.4.2.tgz#4c4c3dbccba86d3205550864ae971e4b882f793c"
@@ -2203,6 +2208,11 @@
     prosemirror-model "~1.14.0"
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscripts-json-schema-utils@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema-utils/-/manuscripts-json-schema-utils-0.2.1.tgz#4bc99a0afd2dc222b3ddff57da1a692ad0b28458"
+  integrity sha512-rgt0FortFCRDVS299wqnx/zZtpEFsWiMEccfqUDWmKhuzHR5cL0Do4BxV3Rd7K3wWQZYenN1CrmV15a3SmUGog==
 
 "@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.11", "@manuscripts/manuscripts-json-schema@^1.49.12":
   version "1.49.12"
