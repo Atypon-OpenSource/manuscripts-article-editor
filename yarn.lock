@@ -2403,7 +2403,7 @@
   dependencies:
     debug "^4.3.4"
 
-"@manuscripts/track-changes-plugin@^0.1.2":
+"@manuscripts/track-changes-plugin@^0.1.1":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.1.1.tgz#70b0d124ea70f73b72b102cb5d4c9f66b84b06fe"
   integrity sha512-9u8eS8A5/MXiid0CoDFllCcab/yY4uGCo+fWT9QxOw3ZnPx38CQ96K2qBltdj74CcxrOBFi2GJYHPOjtgm8t8Q==
