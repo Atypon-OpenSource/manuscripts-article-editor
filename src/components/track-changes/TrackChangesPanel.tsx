@@ -13,6 +13,7 @@ import '@manuscripts/track-changes-plugin/src/styles.css'
 
 import {
   CHANGE_STATUS,
+  enableDebug,
   TrackChangesStatus,
   trackCommands,
   TrackedChange,
@@ -51,8 +52,14 @@ export function TrackChangesPanel() {
     if (user) {
       execCmd(trackCommands.setUserID(getTrackUser().id))
     }
-    if (options.disableTrack) {
+    if (options.disableTrack && trackState) {
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.disabled))
+    }
+    if (options.debug && trackState) {
+      enableDebug(true)
+    }
+    if (!trackState) {
+      setOptions((old) => ({ ...old, disableTrack: true }))
     }
     currentDocument && findOrCreateDoc(currentDocument.manuscriptID)
     // eslint-disable-next-line react-hooks/exhaustive-deps

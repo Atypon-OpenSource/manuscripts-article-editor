@@ -119,6 +119,7 @@ export const useCreateEditor = (permissions: Permissions) => {
     modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
+    setCommentTarget: (target?: string) => console.log('commentTarget is: ' + target),
     getModel,
     saveModel,
     deleteModel,
