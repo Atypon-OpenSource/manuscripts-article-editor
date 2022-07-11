@@ -17,16 +17,18 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { ContentNodeWithPos } from 'prosemirror-utils'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import config from '../../../config'
+import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useStore } from '../../../store'
 import { CommentList } from './CommentList'
 
 export const CommentsTab: React.FC<{
   selected?: ContentNodeWithPos | null
-}> = ({ selected }) => {
+  editor: ReturnType<typeof useCreateEditor>
+}> = ({ selected, editor }) => {
   const [
     {
       notes,
@@ -46,7 +48,6 @@ export const CommentsTab: React.FC<{
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
   }))
-  const [commentTarget, setCommentTarget] = useState<string | undefined>()
   const createKeyword = (name: string) => saveModel(buildKeyword(name))
 
   const getCollaboratorById = (id: string) =>
@@ -68,7 +69,7 @@ export const CommentsTab: React.FC<{
           title={'Comments'}
           contentStyles={{ margin: '0 25px 24px 0' }}
         >
-          <CommentList selected={selected} />
+          <CommentList selected={selected} editor={editor} />
         </InspectorSection>
       )}
       {config.features.productionNotes && (
