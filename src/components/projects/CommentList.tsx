@@ -13,7 +13,6 @@
 import {
   deleteHighlightMarkers,
   getHighlightTarget,
-  getHighlightText,
 } from '@manuscripts/manuscript-editor'
 import {
   buildComment,
@@ -95,7 +94,7 @@ export const CommentList: React.FC<Props> = React.memo(
         const highlight = getHighlightTarget(newComment, state)
 
         if (highlight) {
-          newComment.originalText = getHighlightText(highlight, state)
+          newComment.originalText = highlight.text
         }
 
         setNewComment(newComment)
@@ -143,7 +142,7 @@ export const CommentList: React.FC<Props> = React.memo(
           })
           .finally(() => {
             if (target && target.startsWith('MPHighlight:')) {
-              deleteHighlightMarkers(target, state, dispatch)
+              deleteHighlightMarkers(target)(state, dispatch)
             }
 
             if (newComment && newComment._id === id) {
@@ -179,7 +178,7 @@ export const CommentList: React.FC<Props> = React.memo(
         let highlight = null
         try {
           const target = getHighlightTarget(comment, state)
-          highlight = target && getHighlightText(target, state)
+          highlight = target?.text
         } catch (e) {
           highlight = null
         }
