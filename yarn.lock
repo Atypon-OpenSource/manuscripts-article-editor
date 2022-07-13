@@ -2224,11 +2224,6 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema-utils@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema-utils/-/manuscripts-json-schema-utils-0.2.1.tgz#4bc99a0afd2dc222b3ddff57da1a692ad0b28458"
-  integrity sha512-rgt0FortFCRDVS299wqnx/zZtpEFsWiMEccfqUDWmKhuzHR5cL0Do4BxV3Rd7K3wWQZYenN1CrmV15a3SmUGog==
-
 "@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.11", "@manuscripts/manuscripts-json-schema@^1.49.12":
   version "1.49.12"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.12.tgz#2fe461dcf3b26169605f5a4980fd0c2891c2672e"

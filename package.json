@@ -64,7 +64,6 @@
     "@manuscripts/manuscript-editor": "^0.92.4",
     "@manuscripts/manuscript-transform": "^0.49.4",
     "@manuscripts/manuscripts-json-schema": "^1.49.12",
-    "@manuscripts/manuscripts-json-schema-utils": "^0.2.1",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts3",
     "@manuscripts/pouchdb-adapter-idb": "7.0.0-manuscripts2",
     "@manuscripts/quarterback-types": "^0.2.2",
