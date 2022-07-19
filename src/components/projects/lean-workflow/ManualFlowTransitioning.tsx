@@ -98,22 +98,27 @@ export const ManualFlowTransitioning: React.FC<{
       update: (cache, { data }) => {
         if (data?.proceed) {
           setShowComplete(true)
-          const cachedSubmission = cache.readQuery<{ submission: Submission }>({
-            query: GET_SUBMISSION,
-            variables: { id: documentId, type: 'DOCUMENT_ID' },
-          })
-          if (cachedSubmission?.submission.currentStep) {
-            cache.writeQuery({
+          try {
+            const cachedSubmission = cache.readQuery<{
+              submission: Submission
+            }>({
               query: GET_SUBMISSION,
-              variables: { id: data.proceed.id },
-              data: {
-                submission: {
-                  ...cachedSubmission.submission,
-                  ...data.proceed,
-                },
-              },
+              variables: { id: documentId, type: 'DOCUMENT_ID' },
             })
-          }
+            if (cachedSubmission?.submission.currentStep) {
+              cache.writeQuery({
+                query: GET_SUBMISSION,
+                variables: { id: data.proceed.id },
+                data: {
+                  submission: {
+                    ...cachedSubmission.submission,
+                    ...data.proceed,
+                  },
+                },
+              })
+            }
+            // eslint-disable-next-line no-empty
+          } catch (e) {}
         } else {
           setError('Server refused to proceed with your submission')
         }
@@ -166,7 +171,7 @@ export const ManualFlowTransitioning: React.FC<{
       hasPendingSuggestions && !isAnnotator
         ? {
             header: 'The task can not be transitioned to the next step',
-            message: `There are still pending suggestions in the document.         
+            message: `There are still pending suggestions in the document.
             It is not possible to complete the task without having them approved or rejected.`,
             actions: {
               primary: {
