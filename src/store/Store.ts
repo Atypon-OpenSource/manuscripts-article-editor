@@ -34,6 +34,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { FileManagement } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 
 import { BiblioTools } from '../couch-data/Bibilo'
@@ -86,6 +87,7 @@ export type state = {
   projects: Project[]
   submission: Submission
   person: Person
+  fileManagement: FileManagement
 
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
