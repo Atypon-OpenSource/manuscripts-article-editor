@@ -15,12 +15,8 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import {
-  FileManager,
-  SubmissionAttachment,
-  usePermissions,
-} from '@manuscripts/style-guide'
-import React, { useCallback, useMemo, useState } from 'react'
+import { FileManager, usePermissions } from '@manuscripts/style-guide'
+import React, { useMemo } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
