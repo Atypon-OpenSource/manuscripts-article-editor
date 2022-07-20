@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { FileManagement } from '@manuscripts/style-guide'
+
 import { Person, Submission } from '../lib/lean-workflow-gql'
 import { builderFn, GenericStore, state } from '.'
 
@@ -26,6 +28,7 @@ export interface StoreDataSourceStrategy {
 export class BasicSource implements StoreDataSourceStrategy {
   data: { [key: string]: any }
   constructor(
+    fileManagement: FileManagement,
     submissionID: string,
     projectID: string,
     manuscriptID: string,
@@ -35,6 +38,7 @@ export class BasicSource implements StoreDataSourceStrategy {
     authToken?: string | undefined
   ) {
     this.data = {
+      fileManagement,
       submissionID,
       projectID,
       manuscriptID,

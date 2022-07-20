@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { schema } from '@manuscripts/manuscript-transform'
+import { FileManagement } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -37,6 +38,7 @@ import {
 } from './store'
 
 interface Props {
+  fileManagement: FileManagement
   submissionId: string
   manuscriptID: string
   projectID: string
@@ -60,6 +62,7 @@ const EditorApp: React.FC<Props> = ({
   manuscriptID,
   projectID,
   submission,
+  fileManagement,
   person,
   authToken,
 }) => {
@@ -82,6 +85,7 @@ const EditorApp: React.FC<Props> = ({
   useEffect(() => {
     // implement remount for the store if component is retriggered
     const basicSource = new BasicSource(
+      fileManagement,
       submissionId,
       projectID,
       manuscriptID,
