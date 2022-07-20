@@ -25,6 +25,7 @@ import config from './config'
 import CouchSource from './couch-data/CouchSource'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
+import PsSource from './postgres-data/PsSource'
 import { useAuthStore } from './quarterback/useAuthStore'
 import { useDocStore } from './quarterback/useDocStore'
 import { usePouchStore } from './quarterback/usePouchStore'
@@ -43,6 +44,7 @@ interface Props {
   projectID: string
   submission: Submission
   person: Person
+  authToken: string
 }
 
 const Wrapper = styled.div`
@@ -62,6 +64,7 @@ const EditorApp: React.FC<Props> = ({
   submission,
   fileManagement,
   person,
+  authToken,
 }) => {
   const userID = getCurrentUserId()
 
@@ -88,12 +91,13 @@ const EditorApp: React.FC<Props> = ({
       manuscriptID,
       submission,
       person,
-      userID || ''
+      userID || '',
+      authToken || ''
     )
-    const couchSource = new CouchSource()
+    const mainSource = config.rxdb.enabled ? new CouchSource() : new PsSource()
     Promise.all([
       loadDoc(manuscriptID, projectID),
-      createStore([basicSource, couchSource]),
+      createStore([basicSource, mainSource]),
     ])
       .then(([doc, store]) => {
         if (doc) {

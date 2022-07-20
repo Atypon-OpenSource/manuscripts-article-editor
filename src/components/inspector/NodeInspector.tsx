@@ -11,16 +11,21 @@
  */
 
 import { iterateChildren } from '@manuscripts/manuscript-editor'
-import { FigureNode, schema, Selected } from '@manuscripts/manuscript-transform'
+import {
+  FigureNode,
+  ManuscriptNode,
+  schema,
+} from '@manuscripts/manuscript-transform'
 import { Figure } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
+import { ContentNodeWithPos } from 'prosemirror-utils'
 import React from 'react'
 
 import { useStore } from '../../store'
 import { FigureInspector } from './FigureInspector'
 
 export const NodeInspector: React.FC<{
-  selected: Selected
+  selected: ContentNodeWithPos
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
 }> = ({ selected, state, dispatch }) => {
@@ -30,7 +35,7 @@ export const NodeInspector: React.FC<{
     case schema.nodes.figure_element: {
       const figures = []
 
-      for (const child of iterateChildren(selected.node)) {
+      for (const child of iterateChildren(selected.node as ManuscriptNode)) {
         if (child.type === schema.nodes.figure) {
           figures.push(child)
         }
@@ -64,7 +69,7 @@ export const NodeInspector: React.FC<{
         return (
           <FigureInspector
             figure={figure}
-            node={selected.node as FigureNode}
+            node={(selected.node as unknown) as FigureNode}
             saveFigure={saveModel}
             state={state}
             dispatch={dispatch}

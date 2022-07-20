@@ -15,8 +15,12 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import { FileManager, usePermissions } from '@manuscripts/style-guide'
-import React from 'react'
+import {
+  FileManager,
+  SubmissionAttachment,
+  usePermissions,
+} from '@manuscripts/style-guide'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
@@ -26,6 +30,7 @@ import { RequirementsInspectorView } from '../../requirements/RequirementsInspec
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
 import { Inspector as InspectorLW } from '../InspectorLW'
+import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
 
 interface Props {
@@ -55,7 +60,11 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const validation = useRequirementsValidation({
     state,
   })
-  const selected = findParentNodeWithIdValue(state.selection)
+  const selected = useMemo(
+    () => state && findParentNodeWithIdValue(state.selection),
+    [state]
+  )
+
   const can = usePermissions()
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
@@ -90,6 +99,16 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                       key="content"
                     />
                   </>
+                )
+              }
+
+              case 'Comments': {
+                return (
+                  <CommentsTab
+                    selected={selected}
+                    editor={editor}
+                    key="comments"
+                  />
                 )
               }
 

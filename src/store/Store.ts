@@ -37,10 +37,10 @@ import {
 import { FileManagement } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 
-import { BiblioTools } from '../couch-data/Bibilo'
-import { TokenData } from '../couch-data/TokenData'
 import { Person, Submission } from '../lib/lean-workflow-gql'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
+import { BiblioTools } from './BiblioTools'
+import { TokenData } from './TokenData'
 
 export interface TokenActions {
   delete: () => void
@@ -78,41 +78,12 @@ export type state = {
   userID?: string | undefined
   userProfileID?: string | undefined
   manuscriptID: string
-  containerID: string
-  biblio: BiblioTools
+  containerID: string // @TODO it's the same as projectID - has to be cleaned up
   commitAtLoad?: Commit | null
   invitations?: ContainerInvitation[]
   projectInvitations?: ProjectInvitation[]
   containerInvitations?: ContainerInvitation[]
   projects: Project[]
-  submission: Submission
-  person: Person
-  fileManagement: FileManagement
-
-  getModel: <T extends Model>(id: string) => T | undefined
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  deleteModel: (id: string) => Promise<string>
-  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-  bulkCreate: bulkCreate
-  deleteProject: (projectID: string) => Promise<string>
-  updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
-  saveNewManuscript: (
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    containerID: string,
-    manuscript: Build<Manuscript>,
-    newProject?: Build<Project>
-  ) => Promise<Build<Manuscript>>
-  updateManuscriptTemplate: (
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    containerID: string,
-    manuscript: Manuscript,
-    updatedModels: ManuscriptModel[]
-  ) => Promise<Manuscript>
-  getInvitation: (
-    invitingUserID: string,
-    invitedEmail: string
-  ) => Promise<ContainerInvitation>
   commits: Commit[]
   modelMap: Map<string, Model>
   snapshotID: string | null
@@ -123,6 +94,32 @@ export type state = {
   collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
+  submission: Submission
+  person: Person
+  fileManagement: FileManagement
+  getModel: <T extends Model>(id: string) => T | undefined
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
+  deleteModel: (id: string) => Promise<string>
+  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
+  deleteProject: (projectID: string) => Promise<string>
+  updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+  saveNewManuscript: (
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    containerID: string,
+    manuscript: Build<Manuscript>,
+    newProject?: Build<Project>
+  ) => Promise<Build<Manuscript>>
+  updateManuscriptTemplate?: (
+    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
+    containerID: string,
+    manuscript: Manuscript,
+    updatedModels: ManuscriptModel[]
+  ) => Promise<Manuscript>
+  getInvitation?: (
+    invitingUserID: string,
+    invitedEmail: string
+  ) => Promise<ContainerInvitation>
   getAttachment?: (
     id: string,
     attachmentID: string
@@ -133,7 +130,9 @@ export type state = {
     userTemplateModels: ManuscriptModel[]
   }>
   createUser: (profile: Build<UserProfile>) => Promise<void>
-  projectLibraryCollections: Map<string, LibraryCollection>
+  updateBiblioItem: (item: BibliographyItem) => Promise<any>
+  deleteBiblioItem: (item: BibliographyItem) => Promise<any>
+  biblio: BiblioTools
   createProjectLibraryCollection: (
     collection: Build<LibraryCollection>,
     projectID: string
@@ -142,11 +141,10 @@ export type state = {
     item: Build<BibliographyItem>,
     projectID: string
   ) => Promise<BibliographyItem>
-  updateBiblioItem: (item: BibliographyItem) => Promise<any>
-  deleteBiblioItem: (item: BibliographyItem) => Promise<any>
-  globalLibraries: Map<string, Library>
-  globalLibraryCollections: Map<string, LibraryCollection>
-  globalLibraryItems: Map<string, BibliographyItem>
+  projectLibraryCollections: Map<string, LibraryCollection>
+  globalLibraries?: Map<string, Library> // From the user
+  globalLibraryCollections?: Map<string, LibraryCollection> // From the user
+  globalLibraryItems?: Map<string, BibliographyItem> // From the user
   library: Map<string, BibliographyItem>
 }
 export type reducer = (payload: any, store: state, action?: string) => state
@@ -225,7 +223,7 @@ export class GenericStore implements Store {
   init = async (sources: StoreDataSourceStrategy[]) => {
     this.sources = sources
 
-    const state = await buildStateFromSources(...sources)
+    const state = await buildStateFromSources(sources, this.setState)
     this.setState({ ...this.state, ...(state as state) })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
@@ -238,7 +236,9 @@ export class GenericStore implements Store {
       )
       return { action, payload }
     }
-    this.sources.map(
+    this.sources.forEach(
+      // update store is needed to pass setState function to a registered DataSource strategy. The naming is not very forunate
+      // if you are looking for a way to listen to the data changes in the store from inside data source, use beforeAction
       (source) => source.updateStore && source.updateStore(this.setState)
     )
     // listening to changes after state applied

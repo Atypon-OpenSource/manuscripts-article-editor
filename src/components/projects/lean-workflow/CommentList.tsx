@@ -17,12 +17,10 @@ import {
 import {
   buildComment,
   buildContribution,
-  ManuscriptNode,
-  Selected,
+  buildKeyword,
 } from '@manuscripts/manuscript-transform'
 import {
   CommentAnnotation,
-  Keyword,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
@@ -34,56 +32,55 @@ import {
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { EditorState, Transaction } from 'prosemirror-state'
+import { ContentNodeWithPos } from 'prosemirror-utils'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import * as Pattern from './CommentListPatterns'
-import { HighlightedText } from './HighlightedText'
+import { useCreateEditor } from '../../../hooks/use-create-editor'
+import { useStore } from '../../../store'
+import * as Pattern from '../CommentListPatterns'
+import { HighlightedText } from '../HighlightedText'
 
 interface Props {
-  comments: CommentAnnotation[]
-  createKeyword: (name: string) => Promise<Keyword>
-  saveModel: (model: CommentAnnotation) => Promise<CommentAnnotation>
-  deleteModel: (id: string) => Promise<string>
-  doc: ManuscriptNode
-  getCollaborator: (id: string) => UserProfile | undefined
-  getCollaboratorById: (id: string) => UserProfile | undefined
-  getCurrentUser: () => UserProfile
-  getKeyword: (id: string) => Keyword | undefined
-  listCollaborators: () => UserProfile[]
-  listKeywords: () => Keyword[]
-  selected: Selected | null
-  commentTarget?: string
-  setCommentTarget: (commentTarget?: string) => void
-  state: EditorState
-  dispatch: (tr: Transaction) => EditorState | void
-  setCommentFilter: (selectResolved: Pattern.CommentFilter) => void
-  commentFilter: Pattern.CommentFilter
+  selected?: ContentNodeWithPos | null
+  editor: ReturnType<typeof useCreateEditor>
 }
 
 export const CommentList: React.FC<Props> = React.memo(
-  ({
-    comments,
-    deleteModel,
-    doc,
-    getCurrentUser,
-    saveModel,
-    selected,
-    createKeyword,
-    getCollaboratorById,
-    getKeyword,
-    listCollaborators,
-    listKeywords,
-    commentTarget,
-    setCommentTarget,
-    state,
-    dispatch,
-    setCommentFilter,
-    commentFilter,
-  }) => {
-    const [newComment, setNewComment] = useState<CommentAnnotation>()
+  ({ selected, editor }) => {
+    const [
+      {
+        comments = [],
+        doc,
+        user,
+        collaborators,
+        collaboratorsById,
+        keywords,
+        saveModel,
+        deleteModel,
+      },
+    ] = useStore((store) => ({
+      comments: store.comments,
+      doc: store.doc,
+      notes: store.notes,
+      user: store.user,
+      collaborators: store.collaborators || new Map<string, UserProfile>(),
+      collaboratorsById: store.collaboratorsById,
+      keywords: store.keywords,
+      saveModel: store.saveModel,
+      deleteModel: store.deleteModel,
+    }))
+    const { state, view } = editor
 
-    const currentUser = useMemo(() => getCurrentUser(), [getCurrentUser])
+    const [newComment, setNewComment] = useState<CommentAnnotation>()
+    const createKeyword = useCallback(
+      (name: string) => saveModel(buildKeyword(name)),
+      [saveModel]
+    )
+    const currentUser = useMemo(() => user, [user])
+    const [commentTarget, setCommentTarget] = useState<string | undefined>()
+    const [commentFilter, setCommentFilter] = useState<Pattern.CommentFilter>(
+      Pattern.CommentFilter.ALL
+    )
 
     useEffect(() => {
       if (commentTarget && !newComment) {
@@ -91,15 +88,16 @@ export const CommentList: React.FC<Props> = React.memo(
         const contribution = buildContribution(currentUser._id)
         newComment.contributions = [contribution]
 
-        const highlight = getHighlightTarget(newComment, state)
+        const highlight = state && getHighlightTarget(newComment, state)
 
         if (highlight) {
+          // newComment.originalText = getHighlightText(highlight, state)
           newComment.originalText = highlight.text
         }
 
         setNewComment(newComment)
       }
-    }, [commentTarget, getCurrentUser, doc, newComment, state, currentUser])
+    }, [commentTarget, doc, newComment, state, currentUser])
 
     const items = useMemo<Array<[string, CommentData[]]>>(() => {
       const combinedComments = [...comments]
@@ -142,7 +140,7 @@ export const CommentList: React.FC<Props> = React.memo(
           })
           .finally(() => {
             if (target && target.startsWith('MPHighlight:')) {
-              deleteHighlightMarkers(target)(state, dispatch)
+              view && deleteHighlightMarkers(target)(view.state, view.dispatch)
             }
 
             if (newComment && newComment._id === id) {
@@ -150,7 +148,7 @@ export const CommentList: React.FC<Props> = React.memo(
             }
           })
       },
-      [deleteModel, newComment, setCommentTarget, state, dispatch]
+      [deleteModel, newComment, setCommentTarget, view]
     )
 
     const scrollIntoHighlight = (comment: CommentAnnotation) => {
@@ -177,8 +175,8 @@ export const CommentList: React.FC<Props> = React.memo(
       (comment: CommentAnnotation) => {
         let highlight = null
         try {
-          const target = getHighlightTarget(comment, state)
-          highlight = target?.text
+          const target = state && getHighlightTarget(comment, state)
+          highlight = target // && getHighlightText(target, state)
         } catch (e) {
           highlight = null
         }
@@ -225,10 +223,12 @@ export const CommentList: React.FC<Props> = React.memo(
                         comment={comment}
                         createKeyword={createKeyword}
                         deleteComment={deleteComment}
-                        getCollaborator={getCollaboratorById}
-                        getKeyword={getKeyword}
-                        listCollaborators={listCollaborators}
-                        listKeywords={listKeywords}
+                        getCollaborator={(id) => collaboratorsById?.get(id)}
+                        getKeyword={(id) => keywords.get(id)}
+                        listCollaborators={() =>
+                          Array.from(collaborators.values())
+                        }
+                        listKeywords={keywords}
                         saveComment={saveComment}
                         scrollIntoHighlight={scrollIntoHighlight}
                         handleCreateReply={setCommentTarget}
@@ -257,11 +257,13 @@ export const CommentList: React.FC<Props> = React.memo(
                             comment={comment}
                             createKeyword={createKeyword}
                             deleteComment={deleteComment}
-                            getCollaborator={getCollaboratorById}
-                            getKeyword={getKeyword}
+                            getCollaborator={(id) => collaboratorsById?.get(id)}
+                            getKeyword={(key: string) => keywords.get(key)}
                             isReply={true}
-                            listCollaborators={listCollaborators}
-                            listKeywords={listKeywords}
+                            listCollaborators={() =>
+                              Array.from(collaborators.values())
+                            }
+                            listKeywords={keywords}
                             saveComment={saveComment}
                             handleCreateReply={setCommentTarget}
                             can={can}

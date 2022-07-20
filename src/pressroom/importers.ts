@@ -16,7 +16,6 @@ import {
   parseSTSStandard,
 } from '@manuscripts/manuscript-transform'
 import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
-import { cleanItem } from '@manuscripts/manuscripts-json-schema-utils'
 import JSZip from 'jszip'
 import { flatMap } from 'lodash-es'
 import pathParse from 'path-parse'
@@ -26,6 +25,7 @@ import { FileExtensionError } from '../lib/errors'
 import { idRe } from '../lib/id'
 import { updateAttachments, updateIdentifiers } from '../lib/update-identifiers'
 import { ImportManuscriptFormat } from './exporter'
+import { cleanItem } from './ImporterUtils'
 import { importData } from './pressroom'
 
 export interface JsonModel extends Model, ModelAttachment {

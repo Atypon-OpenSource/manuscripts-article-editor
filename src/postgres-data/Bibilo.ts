@@ -11,15 +11,12 @@
  */
 import {
   CitationProvider,
-  loadCitationStyle,
   matchLibraryItemByIdentifier as libMatch,
 } from '@manuscripts/library'
-import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { BibliographyItem, Bundle } from '@manuscripts/manuscripts-json-schema'
 
 import { filterLibrary } from '../lib/search-library'
 import { BiblioTools } from '../store'
-import { Collection } from '../sync/Collection'
 
 export class Biblio implements BiblioTools {
   citationProvider: CitationProvider
@@ -29,7 +26,6 @@ export class Biblio implements BiblioTools {
   constructor(
     bundle: Bundle | null,
     library: Map<string, BibliographyItem>,
-    collection: Collection<ContainedModel>,
     lang: string
   ) {
     this.library = library
@@ -40,31 +36,6 @@ export class Biblio implements BiblioTools {
     if (!bundle) {
       return
     }
-
-    collection
-      .getAttachmentAsString(bundle._id, 'csl')
-      .then(async (citationStyleData) => {
-        if (this.citationProvider && citationStyleData) {
-          this.citationProvider.recreateEngine(citationStyleData, lang)
-        } else {
-          const styles = await loadCitationStyle({
-            bundleID: bundle._id,
-            bundle,
-            citationStyleData,
-          })
-          const provider = new CitationProvider({
-            getLibraryItem: this.getLibraryItem,
-            citationStyle: styles,
-            lang,
-          })
-          this.citationProvider = provider
-        }
-      })
-      .catch((error) => {
-        if (window.Sentry) {
-          window.Sentry.captureException(error)
-        }
-      })
   }
 
   matchLibraryItemByIdentifier = (item: BibliographyItem) =>
@@ -72,7 +43,9 @@ export class Biblio implements BiblioTools {
 
   filterLibraryItems = (query: string) => filterLibrary(this.library, query)
 
-  getCitationProvider = () => this.citationProvider
+  getCitationProvider = () => {
+    return undefined
+  }
 
   getTools = () => {
     return {
