@@ -85,7 +85,6 @@ const EditorApp: React.FC<Props> = ({
   useEffect(() => {
     // implement remount for the store if component is retriggered
     const basicSource = new BasicSource(
-      fileManagement,
       submissionId,
       projectID,
       manuscriptID,
@@ -152,7 +151,7 @@ const EditorApp: React.FC<Props> = ({
           <NotificationProvider>
             <Page>
               <Wrapper>
-                <ManuscriptPageContainer />
+                <ManuscriptPageContainer fileManagement={fileManagement} />
               </Wrapper>
             </Page>
           </NotificationProvider>
