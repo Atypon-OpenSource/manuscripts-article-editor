@@ -21,7 +21,7 @@ function useTrackOptions(storageKey: string, initial?: Partial<TrackOptions>) {
         try {
           persisted = JSON.parse(localStorage.getItem(storageKey) || '')
         } catch (err) {
-          console.error(err)
+          // Most probably the localStorage was just empty, no need to log it
         }
         if (persisted) {
           return {
