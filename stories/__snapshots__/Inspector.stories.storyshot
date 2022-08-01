@@ -5178,6 +5178,51 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                   >
                     Graphical Abstract
                   </option>
+                  <option
+                    value="MPSectionCategory:con"
+                  >
+                    Contributed-by information
+                  </option>
+                  <option
+                    value="MPSectionCategory:deceased"
+                  >
+                    Deceased
+                  </option>
+                  <option
+                    value="MPSectionCategory:equal"
+                  >
+                    Equal
+                  </option>
+                  <option
+                    value="MPSectionCategory:financial-disclosure"
+                  >
+                    Financial Disclosure
+                  </option>
+                  <option
+                    value="MPSectionCategory:present-address"
+                  >
+                    Present Address
+                  </option>
+                  <option
+                    value="MPSectionCategory:presented-at"
+                  >
+                    Presented at
+                  </option>
+                  <option
+                    value="MPSectionCategory:previously-at"
+                  >
+                    Previously at
+                  </option>
+                  <option
+                    value="MPSectionCategory:supplementary-material"
+                  >
+                    Supplementary Material
+                  </option>
+                  <option
+                    value="MPSectionCategory:supported-by"
+                  >
+                    Supported by
+                  </option>
                 </select>
                 <div
                   className="c3 c16"
