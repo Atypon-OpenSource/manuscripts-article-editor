@@ -59,7 +59,7 @@
     "@manuscripts/assets": "^0.6.1",
     "@manuscripts/comment-editor": "^0.2.3",
     "@manuscripts/csl-locales": "^0.0.4",
-    "@manuscripts/data": "^0.1.6",
+    "@manuscripts/data": "^0.1.7",
     "@manuscripts/library": "^0.6.2",
     "@manuscripts/manuscript-editor": "^0.92.3",
     "@manuscripts/manuscript-transform": "^0.49.1",
