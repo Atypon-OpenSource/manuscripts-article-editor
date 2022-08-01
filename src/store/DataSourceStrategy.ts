@@ -31,7 +31,8 @@ export class BasicSource implements StoreDataSourceStrategy {
     manuscriptID: string,
     submission: Submission,
     person: Person,
-    userID?: string | undefined
+    userID?: string | undefined,
+    authToken?: string | undefined
   ) {
     this.data = {
       submissionID,
@@ -40,6 +41,7 @@ export class BasicSource implements StoreDataSourceStrategy {
       submission,
       person,
       userID,
+      authToken,
     }
   }
 

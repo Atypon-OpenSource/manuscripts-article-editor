@@ -22,6 +22,7 @@ import {
 import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import {
   CapabilitiesProvider,
+  FileManagement,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
@@ -64,7 +65,9 @@ import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 
-const ManuscriptPageContainer: React.FC = () => {
+const ManuscriptPageContainer: React.FC<{ fileManagement: FileManagement }> = ({
+  fileManagement,
+}) => {
   const [{ project, user, submission, person }, dispatch] = useStore(
     (state) => {
       return {
@@ -73,6 +76,7 @@ const ManuscriptPageContainer: React.FC = () => {
         user: state.user,
         submission: state.submission,
         person: state.person,
+        tol: state.tokenData,
       }
     }
   )
@@ -123,12 +127,14 @@ const ManuscriptPageContainer: React.FC = () => {
 
   return (
     <CapabilitiesProvider can={can}>
-      <ManuscriptPageView />
+      <ManuscriptPageView fileManagement={fileManagement} />
     </CapabilitiesProvider>
   )
 }
 
-const ManuscriptPageView: React.FC = () => {
+const ManuscriptPageView: React.FC<{ fileManagement: FileManagement }> = ({
+  fileManagement,
+}) => {
   const [manuscript] = useStore((store) => store.manuscript)
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
@@ -183,7 +189,7 @@ const ManuscriptPageView: React.FC = () => {
   const TABS = [
     'Content',
     // (config.features.commenting || config.features.productionNotes) &&
-    // 'Comments',
+    'Comments',
     config.features.qualityControl && 'Quality',
     // config.shackles.enabled && 'History',
     config.quarterback.enabled && 'Track changes',
@@ -260,7 +266,11 @@ const ManuscriptPageView: React.FC = () => {
               </EditorContainerInner>
             </EditorContainer>
           </Main>
-          <Inspector tabs={TABS} editor={editor} />
+          <Inspector
+            tabs={TABS}
+            editor={editor}
+            fileManagement={fileManagement}
+          />
         </PageWrapper>
       </UserProvider>
     </RequirementsProvider>

@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { schema } from '@manuscripts/manuscript-transform'
+import { FileManagement } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -24,6 +25,7 @@ import config from './config'
 import CouchSource from './couch-data/CouchSource'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
+import PsSource from './postgres-data/PsSource'
 import { useAuthStore } from './quarterback/useAuthStore'
 import { useDocStore } from './quarterback/useDocStore'
 import { usePouchStore } from './quarterback/usePouchStore'
@@ -36,11 +38,13 @@ import {
 } from './store'
 
 interface Props {
+  fileManagement: FileManagement
   submissionId: string
   manuscriptID: string
   projectID: string
   submission: Submission
   person: Person
+  authToken: string
 }
 
 const Wrapper = styled.div`
@@ -58,7 +62,9 @@ const EditorApp: React.FC<Props> = ({
   manuscriptID,
   projectID,
   submission,
+  fileManagement,
   person,
+  authToken,
 }) => {
   const userID = getCurrentUserId()
 
@@ -84,12 +90,13 @@ const EditorApp: React.FC<Props> = ({
       manuscriptID,
       submission,
       person,
-      userID || ''
+      userID || '',
+      authToken || ''
     )
-    const couchSource = new CouchSource()
+    const mainSource = config.rxdb.enabled ? new CouchSource() : new PsSource()
     Promise.all([
       loadDoc(manuscriptID, projectID),
-      createStore([basicSource, couchSource]),
+      createStore([basicSource, mainSource]),
     ])
       .then(([doc, store]) => {
         if (doc) {
@@ -144,7 +151,7 @@ const EditorApp: React.FC<Props> = ({
           <NotificationProvider>
             <Page>
               <Wrapper>
-                <ManuscriptPageContainer />
+                <ManuscriptPageContainer fileManagement={fileManagement} />
               </Wrapper>
             </Page>
           </NotificationProvider>

@@ -9,9 +9,15 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-export * from './Store'
-export * from './BiblioTools'
-export * from './StoreContext'
-export * from './useStore'
-export * from './buildStateFromSources'
-export * from './DataSourceStrategy'
+import { CitationProvider } from '@manuscripts/library'
+import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+
+export interface BiblioTools {
+  getCitationProvider: () => CitationProvider | undefined
+  getLibraryItem: (id: string) => BibliographyItem | undefined
+  setLibraryItem: (item: BibliographyItem) => void
+  matchLibraryItemByIdentifier: (
+    item: BibliographyItem
+  ) => BibliographyItem | undefined
+  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
+}

@@ -90,7 +90,7 @@ export const Comments = (props: IProps) => {
           <ListItem key={`${c.id}-${i}`}>
             <CommentAuthor>
               <UserCircle color={c.user.color} currentUser={false}>
-                {c.user.name.charAt(0)}
+                {c.user.name.charAt(0).toUpperCase()}
               </UserCircle>
             </CommentAuthor>
             <Body>

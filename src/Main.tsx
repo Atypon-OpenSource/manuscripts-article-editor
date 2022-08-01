@@ -11,6 +11,7 @@
  */
 
 import { ApolloProvider } from '@apollo/react-hooks'
+import { FileManagement } from '@manuscripts/style-guide'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -22,9 +23,11 @@ import { Person, Submission } from './lib/lean-workflow-gql'
 import { GlobalStyle } from './theme/theme'
 
 interface Props {
+  fileManagement: FileManagement
   submissionId: string
   manuscriptID: string
   projectID: string
+  authToken: string
   submission: Submission
   person: Person
 }
@@ -34,9 +37,11 @@ interface Props {
 // projectID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
 
 const Main: React.FC<Props> = ({
+  fileManagement,
   submissionId,
   manuscriptID,
   projectID,
+  authToken,
   submission,
   person,
 }) => (
@@ -45,11 +50,13 @@ const Main: React.FC<Props> = ({
     <ServiceWorker />
     <ApolloProvider client={apolloClient}>
       <EditorApp
+        fileManagement={fileManagement}
         submissionId={submissionId}
         manuscriptID={manuscriptID}
         projectID={projectID}
         submission={submission}
         person={person}
+        authToken={authToken}
       />
     </ApolloProvider>
   </DndProvider>

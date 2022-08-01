@@ -16,11 +16,11 @@ import {
   findParentSection,
 } from '@manuscripts/manuscript-editor'
 import {
+  FileManagement,
   FileManager,
-  SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useState } from 'react'
+import React, { useMemo } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
@@ -30,19 +30,16 @@ import { RequirementsInspectorView } from '../../requirements/RequirementsInspec
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
 import { Inspector as InspectorLW } from '../InspectorLW'
+import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
-import { ErrorDialog } from './ErrorDialog'
-import { ExceptionDialog } from './ExceptionDialog'
-import useFileHandling from './FileHandling'
 
 interface Props {
   tabs: string[]
   editor: ReturnType<typeof useCreateEditor>
+  fileManagement: FileManagement
 }
-const Inspector: React.FC<Props> = ({ tabs, editor }) => {
-  const [
-    { saveModel, modelMap, submission, submissionId, fileManagementErrors },
-  ] = useStore((store) => ({
+const Inspector: React.FC<Props> = ({ tabs, editor, fileManagement }) => {
+  const [{ saveModel, modelMap, submissionId }] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
     modelMap: store.modelMap,
@@ -52,37 +49,21 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
     submissionId: store.submissionID,
     submission: store.submission,
     snapshotID: store.snapshotID,
-    fileManagementErrors: (store.fileManagementErrors as string[]) || [],
     commitsSortBy: store.commitsSortBy as string,
     comments: store.comments || [],
   }))
 
-  const {
-    handleChangeAttachmentDesignation,
-    handleReplaceAttachment,
-    handleUpdateInlineFile,
-    handleUploadAttachment,
-  } = useFileHandling()
-
   const { state, dispatch, view } = editor
-
-  const [header] = useStore<string>((store) => store.errorDialogHeader || '')
-  const [message] = useStore<string>((store) => store.errorDialogMessage || '')
-  const [showErrorDialog] = useStore<boolean>(
-    (store) => store.showErrorDialog || false
-  )
 
   const validation = useRequirementsValidation({
     state,
   })
-  const selected = findParentNodeWithIdValue(state.selection)
+  const selected = useMemo(
+    () => state && findParentNodeWithIdValue(state.selection),
+    [state]
+  )
+
   const can = usePermissions()
-
-  const [errorDialog, setErrorDialog] = useState(false)
-
-  const handleDownloadAttachment = useCallback((url: string) => {
-    window.location.assign(url)
-  }, [])
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
@@ -119,6 +100,16 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                 )
               }
 
+              case 'Comments': {
+                return (
+                  <CommentsTab
+                    selected={selected}
+                    editor={editor}
+                    key="comments"
+                  />
+                )
+              }
+
               case 'Quality': {
                 return (
                   <RequirementsInspectorView
@@ -136,42 +127,19 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
 
               case 'Files': {
                 return submissionId ? (
-                  <>
-                    {errorDialog && (
-                      <ErrorDialog
-                        isOpen={showErrorDialog}
-                        header={header}
-                        message={message}
-                        handleOk={() => setErrorDialog(false)}
-                      />
-                    )}
-                    <FileManager
-                      submissionId={submissionId}
-                      can={can}
-                      enableDragAndDrop={true}
-                      modelMap={modelMap}
-                      saveModel={saveModel}
-                      attachments={
-                        submission?.attachments as SubmissionAttachment[]
-                      }
-                      handleChangeDesignation={
-                        handleChangeAttachmentDesignation
-                      }
-                      handleDownload={handleDownloadAttachment}
-                      handleReplace={handleReplaceAttachment}
-                      handleUpload={handleUploadAttachment}
-                      handleUpdateInline={handleUpdateInlineFile}
-                    />
-                  </>
+                  <FileManager
+                    can={can}
+                    enableDragAndDrop={true}
+                    modelMap={modelMap}
+                    saveModel={saveModel}
+                    fileManagement={fileManagement}
+                  />
                 ) : null
               }
             }
           })}
         </InspectorLW>
       </Panel>
-      {fileManagementErrors.forEach(
-        (error) => error && <ExceptionDialog errorCode={error} />
-      )}
     </>
   )
 }

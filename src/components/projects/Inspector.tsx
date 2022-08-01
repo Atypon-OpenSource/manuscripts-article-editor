@@ -15,7 +15,6 @@ import {
   ContainedModel,
   ManuscriptEditorView,
   SectionNode,
-  Selected,
 } from '@manuscripts/manuscript-transform'
 import {
   Bundle,
@@ -35,6 +34,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { Transaction } from 'prosemirror-state'
+import { ContentNodeWithPos } from 'prosemirror-utils'
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
@@ -106,8 +106,8 @@ export const Inspector: React.FC<{
   project: Project
   saveModel: SaveModel
   section?: Section
-  selected: Selected | null
-  selectedSection?: Selected
+  selected: ContentNodeWithPos | null
+  selectedSection?: ContentNodeWithPos
   setCommentTarget: () => void
   submission?: Submission
   view: ManuscriptEditorView

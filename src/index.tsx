@@ -15,6 +15,7 @@ import './lib/fonts'
 import './channels'
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
+import { FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
 import React, { useEffect } from 'react'
 
@@ -28,6 +29,7 @@ import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 
 export interface ManuscriptEditorAppProps {
+  fileManagement: FileManagement
   submissionId: string
   manuscriptID: string
   projectID: string
@@ -37,6 +39,7 @@ export interface ManuscriptEditorAppProps {
 }
 
 export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
+  fileManagement,
   submissionId,
   manuscriptID,
   projectID,
@@ -75,6 +78,8 @@ export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
           >
             <Main
               // userID={userID}
+              fileManagement={fileManagement}
+              authToken={authToken || ''}
               submissionId={submissionId}
               manuscriptID={manuscriptID}
               projectID={projectID}

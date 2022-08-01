@@ -9,9 +9,17 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-export * from './Store'
-export * from './BiblioTools'
-export * from './StoreContext'
-export * from './useStore'
-export * from './buildStateFromSources'
-export * from './DataSourceStrategy'
+
+let throttled = () => null
+let timeout: number
+
+export const saveWithThrottle = (fn: () => any, interval = 4000) => {
+  throttled = fn
+  if (!timeout) {
+    timeout = window.setTimeout(() => {
+      throttled()
+      window.clearTimeout(timeout)
+      timeout = 0
+    }, interval)
+  }
+}

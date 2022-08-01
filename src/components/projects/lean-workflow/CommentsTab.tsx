@@ -16,18 +16,19 @@ import {
   ManuscriptNoteList,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { ContentNodeWithPos } from 'prosemirror-utils'
 import React from 'react'
 import styled from 'styled-components'
 
 import config from '../../../config'
-import { useComments } from '../../../hooks/use-comments'
+import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useStore } from '../../../store'
-import { CommentsList } from './CommentsList'
+import { CommentList } from './CommentList'
 
 export const CommentsTab: React.FC<{
-  commentController: ReturnType<typeof useComments>
-  selected: Selected | undefined
-}> = ({ commentController, selected }) => {
+  selected?: ContentNodeWithPos | null
+  editor: ReturnType<typeof useCreateEditor>
+}> = ({ selected, editor }) => {
   const [
     {
       notes,
@@ -68,14 +69,7 @@ export const CommentsTab: React.FC<{
           title={'Comments'}
           contentStyles={{ margin: '0 25px 24px 0' }}
         >
-          <CommentsList
-            commentController={commentController}
-            createKeyword={createKeyword}
-            getCollaboratorById={getCollaboratorById}
-            getKeyword={getKeyword}
-            listCollaborators={listCollaborators}
-            listKeywords={listKeywords}
-          />
+          <CommentList selected={selected} editor={editor} />
         </InspectorSection>
       )}
       {config.features.productionNotes && (
@@ -87,10 +81,10 @@ export const CommentsTab: React.FC<{
             createKeyword={createKeyword}
             notes={notes || []}
             can={can}
-            currentUserId={user._id}
+            currentUserId={user?._id}
             getKeyword={getKeyword}
             listKeywords={listKeywords}
-            selected={selected || null}
+            selected={(selected as Selected) || null}
             getCollaboratorById={getCollaboratorById}
             listCollaborators={listCollaborators}
             saveModel={saveModel}
