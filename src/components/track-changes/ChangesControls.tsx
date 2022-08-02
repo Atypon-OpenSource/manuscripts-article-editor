@@ -52,19 +52,17 @@ export function ChangesControls(props: IProps) {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids))
   }
   async function handleSnapshot() {
-    const state = useEditorStore.getState().editorState
-    usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
-    // const resp = await saveSnapshot(docToJSON())
-    // if ('data' in resp) {
-    //   execCmd(trackCommands.applyAndRemoveChanges())
-    //   setTimeout(() => {
-    //     const state = useEditorStore.getState().editorState
-    //     if (!state) {
-    //       return
-    //     }
-    //     usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
-    //   })
-    // }
+    const resp = await saveSnapshot(docToJSON())
+    if ('data' in resp) {
+      execCmd(trackCommands.applyAndRemoveChanges())
+      setTimeout(() => {
+        const state = useEditorStore.getState().editorState
+        if (!state) {
+          return
+        }
+        usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
+      })
+    }
   }
   return (
     <Container className={className}>
