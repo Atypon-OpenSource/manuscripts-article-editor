@@ -96,6 +96,12 @@ export default class Api {
     return this.post<T[]>(`container/${projectID}/load`, { types })
   }
 
+  deleteModel = (manuscriptID: string, modelID: string) => {
+    return this.delete(
+      `/project/:projectId/manuscripts/${manuscriptID}/model/${modelID}`
+    )
+  }
+
   deleteProject = (projectID: string) => {
     return this.delete<boolean>(`project/${projectID}`) // not sure what exactly it sends over
   }
@@ -178,6 +184,8 @@ export default class Api {
     manuscriptID: string,
     models: Array<Build<ContainedModel>>
   ) => {
+    // this method delete all the previous data from the project, including the project itself (!)
+    // if no project model is present, the current project model will be delete and it will be impossible to load the manuscript anymore.
     await this.post(`project/${projectID}/manuscripts/${manuscriptID}/save`, {
       data: models,
     })

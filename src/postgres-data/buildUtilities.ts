@@ -14,7 +14,6 @@ import {
   Build,
   ContainedModel,
   ContainedProps,
-  isManuscript,
   isManuscriptModel,
   ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
@@ -25,6 +24,7 @@ import {
   LibraryCollection,
   Manuscript,
   Model,
+  ObjectTypes,
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
@@ -68,12 +68,15 @@ const buildUtilities = (
   }
 
   const bulkPersistentManuscriptSave = (models: ManuscriptModel[]) => {
-    const onlyManuscriptModels = models.filter((model) => {
-      return isManuscript(model) || model.manuscriptID === data.manuscriptID
+    // const onlyManuscriptModels = models.filter((model) => {
+    //   return isManuscript(model) || model.manuscriptID === data.manuscriptID
+    // })
+    const clearedModels = models.filter((model) => {
+      return model.objectType !== ObjectTypes.Project
     })
     if (data.projectID && data.manuscriptID) {
       return api
-        .saveProjectData(data.projectID, onlyManuscriptModels)
+        .saveManuscriptData(data.projectID, data.manuscriptID, clearedModels)
         .then(() => {
           return true // not sure what will be returned at this point
         })
@@ -172,16 +175,22 @@ const buildUtilities = (
     return containedModel
   }
 
-  const deleteModel = (id: string) => {
+  const deleteModel = async (id: string) => {
     if (data.modelMap) {
       data.modelMap.delete(id)
+      updateState({
+        modelMap: data.modelMap,
+        savingProcess: 'pending',
+      })
+      const result = await bulkPersistentManuscriptSave([
+        ...data.modelMap.values(),
+      ] as ManuscriptModel[])
+      updateState({
+        savingProcess: result ? 'saved' : 'failed',
+      })
     }
-    updateState({
-      modelMap: data.modelMap,
-    })
-    return Promise.resolve(id)
-    // will be handled in bulk update
-    // return this.collection.delete(id)
+
+    return id
   }
 
   const saveManuscript = async (manuscriptData: Partial<Manuscript>) => {
