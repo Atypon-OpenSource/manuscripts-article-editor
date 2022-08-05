@@ -2149,10 +2149,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.92.7":
-  version "0.92.7"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.92.7.tgz#3a6db3a8d234adb7e9ca2fc029e67e7f47db8569"
-  integrity sha512-LG1N11ToBqSI7L/oGKoeas3OHuY2f6XxvuNbsj05mWyOpx6NIBSU1taFeSXxsU0uAtc84Z7AJX0CE7o5pN/Oug==
+"@manuscripts/manuscript-editor@^0.92.8":
+  version "0.92.8"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.92.8.tgz#e6ede665b388b1af286cee16134e5a1a5b29ae08"
+  integrity sha512-ccVYG88XGog/r7aYg90VTd5L5kzo5YCOJPcqCo62gBosVj13MnDAfZga/mt3K/5WhPSLGddznHLF/KKz2yPUFw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2161,7 +2161,7 @@
     "@manuscripts/manuscripts-json-schema" "^1.49.13"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
-    "@manuscripts/track-changes-plugin" "^0.0.4"
+    "@manuscripts/track-changes-plugin" "^0.3.0"
     astrocite-eutils "^0.16.4"
     axios "^0.20.0"
     blob-util "^2.0.2"
@@ -2376,17 +2376,10 @@
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
 
-"@manuscripts/track-changes-plugin@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.0.4.tgz#4273ac96e160f9648e01a45996c5431557c0cdcd"
-  integrity sha512-n7Bb+dWa3hmKSbiYhHylv6pSfiS9QMSGiTNd7ZGEemximfTABR5C/xhbPTEcGVz5hf4p/HKL/53UEJuOGdSDMw==
-  dependencies:
-    debug "^4.3.4"
-
-"@manuscripts/track-changes-plugin@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.2.0.tgz#3f77a93e392e9fefc1ef208f89652e49567fc9bc"
-  integrity sha512-4cUShW+iCxBH/zjC0zoNUF/v6QQYRuH6c2mUZmH8Pw0137xUI0uCpaQjuk2v6fmrzu4oQL9//JzP+B7CKB+bMw==
+"@manuscripts/track-changes-plugin@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.3.0.tgz#875cc8af75f17369f92813bd78ef6c76b6677029"
+  integrity sha512-5nJR1husPjN4JBk5vNW3B53kYQzdz33TSnbDeNtyDXSDm5+dd0cABdKflwzSgUUGbLOG5+6DEI/nmn6yczr4og==
   dependencies:
     debug "^4.3.4"
 
