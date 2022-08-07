@@ -15,11 +15,7 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import {
-  FileManagement,
-  FileManager,
-  usePermissions,
-} from '@manuscripts/style-guide'
+import { FileManager, usePermissions } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
@@ -36,22 +32,24 @@ import { ContentTab } from './ContentTab'
 interface Props {
   tabs: string[]
   editor: ReturnType<typeof useCreateEditor>
-  fileManagement: FileManagement
 }
-const Inspector: React.FC<Props> = ({ tabs, editor, fileManagement }) => {
-  const [{ saveModel, modelMap, submissionId }] = useStore((store) => ({
-    snapshots: store.snapshots,
-    saveModel: store.saveModel,
-    modelMap: store.modelMap,
-    manuscript: store.manuscript,
-    user: store.user,
-    project: store.project,
-    submissionId: store.submissionID,
-    submission: store.submission,
-    snapshotID: store.snapshotID,
-    commitsSortBy: store.commitsSortBy as string,
-    comments: store.comments || [],
-  }))
+const Inspector: React.FC<Props> = ({ tabs, editor }) => {
+  const [{ saveModel, modelMap, submissionId, fileManagement }] = useStore(
+    (store) => ({
+      snapshots: store.snapshots,
+      saveModel: store.saveModel,
+      modelMap: store.modelMap,
+      manuscript: store.manuscript,
+      user: store.user,
+      project: store.project,
+      submissionId: store.submissionID,
+      submission: store.submission,
+      snapshotID: store.snapshotID,
+      commitsSortBy: store.commitsSortBy as string,
+      comments: store.comments || [],
+      fileManagement: store.fileManagement,
+    })
+  )
 
   const { state, dispatch, view } = editor
 

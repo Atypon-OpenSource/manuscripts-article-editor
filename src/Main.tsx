@@ -20,10 +20,12 @@ import { ServiceWorker } from './components/ServiceWorker'
 import EditorApp from './EditorApp'
 import { apolloClient } from './lib/apollo'
 import { Person, Submission } from './lib/lean-workflow-gql'
+import { ISubject } from './store/StoreObserver'
 import { GlobalStyle } from './theme/theme'
 
 interface Props {
   fileManagement: FileManagement
+  storeObserver: ISubject
   submissionId: string
   manuscriptID: string
   projectID: string
@@ -38,6 +40,7 @@ interface Props {
 
 const Main: React.FC<Props> = ({
   fileManagement,
+  storeObserver,
   submissionId,
   manuscriptID,
   projectID,
@@ -51,6 +54,7 @@ const Main: React.FC<Props> = ({
     <ApolloProvider client={apolloClient}>
       <EditorApp
         fileManagement={fileManagement}
+        storeObserver={storeObserver}
         submissionId={submissionId}
         manuscriptID={manuscriptID}
         projectID={projectID}

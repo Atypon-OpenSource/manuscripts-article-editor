@@ -36,9 +36,11 @@ import {
   GenericStore,
   GenericStoreProvider,
 } from './store'
+import { ISubject } from './store/StoreObserver'
 
 interface Props {
   fileManagement: FileManagement
+  storeObserver: ISubject
   submissionId: string
   manuscriptID: string
   projectID: string
@@ -58,6 +60,7 @@ const Wrapper = styled.div`
 `
 
 const EditorApp: React.FC<Props> = ({
+  storeObserver,
   submissionId,
   manuscriptID,
   projectID,
@@ -86,6 +89,7 @@ const EditorApp: React.FC<Props> = ({
     // implement remount for the store if component is retriggered
     const basicSource = new BasicSource(
       submissionId,
+      fileManagement,
       projectID,
       manuscriptID,
       submission,
@@ -114,6 +118,16 @@ const EditorApp: React.FC<Props> = ({
     return () => store?.unmount()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissionId, manuscriptID, projectID])
+
+  useEffect(() => {
+    if (store && storeObserver) {
+      storeObserver.attach((state) => {
+        if (store.state) {
+          store.setState({ ...store.state, ...state })
+        }
+      })
+    }
+  }, [store, storeObserver])
 
   async function loadDoc(manuscriptID: string, projectID: string) {
     if (!config.quarterback.enabled) {
@@ -151,7 +165,7 @@ const EditorApp: React.FC<Props> = ({
           <NotificationProvider>
             <Page>
               <Wrapper>
-                <ManuscriptPageContainer fileManagement={fileManagement} />
+                <ManuscriptPageContainer />
               </Wrapper>
             </Page>
           </NotificationProvider>

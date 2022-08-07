@@ -34,6 +34,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { FileManagement } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 
 import { Person, Submission } from '../lib/lean-workflow-gql'
@@ -74,6 +75,7 @@ export type state = {
   tokenData: TokenData
   projectID: string
   submissionID?: string
+  fileManagement: FileManagement
   userID?: string | undefined
   userProfileID?: string | undefined
   manuscriptID: string
