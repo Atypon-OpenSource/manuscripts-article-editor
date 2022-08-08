@@ -36,11 +36,11 @@ import {
   GenericStore,
   GenericStoreProvider,
 } from './store'
-import { ISubject } from './store/StoreObserver'
+import { ISubject } from './store/ParentObserver'
 
 interface Props {
   fileManagement: FileManagement
-  storeObserver: ISubject
+  parentObserver: ISubject
   submissionId: string
   manuscriptID: string
   projectID: string
@@ -60,7 +60,7 @@ const Wrapper = styled.div`
 `
 
 const EditorApp: React.FC<Props> = ({
-  storeObserver,
+  parentObserver,
   submissionId,
   manuscriptID,
   projectID,
@@ -100,7 +100,12 @@ const EditorApp: React.FC<Props> = ({
     const mainSource = config.rxdb.enabled ? new CouchSource() : new PsSource()
     Promise.all([
       loadDoc(manuscriptID, projectID),
-      createStore([basicSource, mainSource]),
+      createStore(
+        [basicSource, mainSource],
+        undefined,
+        undefined,
+        parentObserver
+      ),
     ])
       .then(([doc, store]) => {
         if (doc) {
@@ -115,19 +120,12 @@ const EditorApp: React.FC<Props> = ({
       .catch((e) => {
         console.error(e)
       })
-    return () => store?.unmount()
+    return () => {
+      parentObserver?.detach()
+      store?.unmount()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissionId, manuscriptID, projectID])
-
-  useEffect(() => {
-    if (store && storeObserver) {
-      storeObserver.onUpdate((state) => {
-        if (store.state) {
-          store.setState({ ...store.state, ...state })
-        }
-      })
-    }
-  }, [store, storeObserver])
 
   async function loadDoc(manuscriptID: string, projectID: string) {
     if (!config.quarterback.enabled) {

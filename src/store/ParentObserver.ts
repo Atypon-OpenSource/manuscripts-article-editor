@@ -18,7 +18,7 @@ export interface ISubject {
   detach(): void
 }
 
-export class StoreObserver implements ISubject {
+export class ParentObserver implements ISubject {
   private observer: IObserver | undefined = undefined
 
   onUpdate(observer: IObserver) {
