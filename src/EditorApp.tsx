@@ -121,7 +121,7 @@ const EditorApp: React.FC<Props> = ({
 
   useEffect(() => {
     if (store && storeObserver) {
-      storeObserver.attach((state) => {
+      storeObserver.onUpdate((state) => {
         if (store.state) {
           store.setState({ ...store.state, ...state })
         }

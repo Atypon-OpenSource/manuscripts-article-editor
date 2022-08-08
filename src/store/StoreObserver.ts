@@ -13,14 +13,15 @@
 export type IObserver = (state: { [key: string]: unknown }) => void
 
 export interface ISubject {
-  attach(observer: IObserver): void
+  onUpdate(observer: IObserver): void
   update(payload: unknown): void
+  detach(): void
 }
 
 export class StoreObserver implements ISubject {
   private observer: IObserver | undefined = undefined
 
-  attach(observer: IObserver) {
+  onUpdate(observer: IObserver) {
     this.observer = observer
   }
 
@@ -28,5 +29,9 @@ export class StoreObserver implements ISubject {
     if (this.observer) {
       this.observer(payload)
     }
+  }
+
+  detach() {
+    this.observer = undefined
   }
 }
