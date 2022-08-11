@@ -13,21 +13,20 @@ import '@manuscripts/track-changes-plugin/src/styles.css'
 
 import {
   CHANGE_STATUS,
+  ChangeSet,
   enableDebug,
   TrackChangesStatus,
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 
 import { useAuthStore } from '../../quarterback/useAuthStore'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
+import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
+import { SortByDropdown } from '../track/SortByDropdown'
 import { ChangeList } from './change-list/ChangeList'
-import { ChangesControls } from './ChangesControls'
-import { SnapshotsList } from './snapshots/SnapshotsList'
-import { TrackOptions } from './TrackOptions'
 import { useEditorStore } from './useEditorStore'
 import useTrackOptions from './useTrackOptions'
 
@@ -41,9 +40,8 @@ export function TrackChangesPanel() {
     documentId: currentDocument?.manuscriptID || 'undefined',
     user: getTrackUser(),
   })
-  const [showPending, setShowPending] = useState(true)
-  const [showAccepted, setShowAccepted] = useState(true)
-  const [showRejected, setShowRejected] = useState(true)
+  const [sortBy, setSortBy] = useState('Date')
+
   useEffect(() => {
     async function findOrCreateDoc(docId: string) {
       await authenticate()
@@ -77,6 +75,10 @@ export function TrackChangesPanel() {
     }
   }, [options.disableTrack, execCmd])
 
+  function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    setSortBy(event.currentTarget.value)
+  }
+
   function handleAcceptChange(c: TrackedChange) {
     const ids = [c.id]
     if (c.type === 'node-change') {
@@ -105,43 +107,46 @@ export function TrackChangesPanel() {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids))
   }
 
+  function handleAcceptPending() {
+    if (!trackState) {
+      return
+    }
+    const { changeSet } = trackState
+    const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+  }
+
   return (
-    <RightSide>
-      <TrackOptions options={options} setOptions={setOptions} />
-      <h3>Controls</h3>
-      <ChangesControls className="changes-controls" />
-      <SnapshotsList />
+    <>
+      <SnapshotsDropdown />
+      <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
       <ChangeList
         changes={changeSet?.pending || []}
-        isVisible={showPending}
-        title="Pending"
+        title="Suggestions"
+        sortBy={sortBy}
         handleAcceptChange={handleAcceptChange}
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
-        toggleVisibility={() => setShowPending((v) => !v)}
+        handleAcceptPending={
+          changeSet?.pending.length ? handleAcceptPending : undefined
+        }
       />
       <ChangeList
         changes={changeSet?.accepted || []}
-        isVisible={showAccepted}
-        title="Accepted"
+        title="Approved Suggestions"
+        sortBy={sortBy}
         handleAcceptChange={handleAcceptChange}
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
-        toggleVisibility={() => setShowAccepted((v) => !v)}
       />
       <ChangeList
         changes={changeSet?.rejected || []}
-        isVisible={showRejected}
-        title="Rejected"
+        title="Rejected Suggestions"
+        sortBy={sortBy}
         handleAcceptChange={handleAcceptChange}
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
-        toggleVisibility={() => setShowRejected((v) => !v)}
       />
-    </RightSide>
+    </>
   )
 }
-
-const RightSide = styled.div`
-  margin: 1rem;
-`

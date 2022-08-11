@@ -7,52 +7,32 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import {
-  Correction as CorrectionT,
-  Project,
-} from '@manuscripts/manuscripts-json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
-import React, { useCallback, useMemo } from 'react'
+import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
+import React, { useMemo } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
-import { AvatarContainer, CorrectionItem, Time } from './CorrectionItem'
+import { useStore } from '../../store'
 import { Accept, Back, Reject } from './Icons'
+import { AvatarContainer, SuggestionSnippet, Time } from './SuggestionSnippet'
 
 interface Props {
-  project: Project
-  correction: CorrectionT
-  isFocused: boolean
-  getCollaboratorById: (
-    userProfileId: string
-  ) => UserProfileWithAvatar | undefined
-  handleFocus: (correctionID: string) => void
-  handleAccept: (correctionID: string) => void
-  handleReject: (correctionID: string) => void
-  user: UserProfileWithAvatar
+  suggestion: TrackedChange
+  handleAccept: (c: TrackedChange) => void
+  handleReject: (c: TrackedChange) => void
+  handleReset: (c: TrackedChange) => void
 }
 
-export const Correction: React.FC<Props> = ({
-  correction,
-  isFocused,
-  getCollaboratorById,
-  handleFocus,
+export const Suggestion: React.FC<Props> = ({
+  suggestion,
   handleAccept,
   handleReject,
-  project,
-  user,
+  handleReset,
 }) => {
-  const handleClick = useCallback(
-    (e) => {
-      e.preventDefault()
-      handleFocus(correction._id)
-    },
-    [handleFocus, correction]
-  )
+  const [user] = useStore((store) => store.user)
 
   const can = usePermissions()
 
@@ -60,30 +40,32 @@ export const Correction: React.FC<Props> = ({
     if (
       can.handleSuggestion ||
       (can.rejectOwnSuggestion &&
-        correction.status.label === 'proposed' &&
-        correction.status.editorProfileID === user._id)
+        suggestion.attrs.status === CHANGE_STATUS.pending &&
+        suggestion.attrs.authorID === user?._id)
     ) {
       return true
     }
     return false
-  }, [correction, can, user._id])
+  }, [suggestion, can, user?._id])
 
   const isRejected = useMemo(() => {
-    return correction.status.label === 'rejected'
-  }, [correction])
+    return suggestion.attrs.status === CHANGE_STATUS.rejected
+  }, [suggestion])
 
   const isAccepted = useMemo(() => {
-    return correction.status.label === 'accepted'
-  }, [correction])
+    return suggestion.attrs.status === CHANGE_STATUS.accepted
+  }, [suggestion])
 
   return (
-    <Wrapper isFocused={isFocused}>
-      <FocusHandle href="#" onClick={handleClick} isDisabled={isRejected}>
-        <CorrectionItem
-          correction={correction}
-          getCollaboratorById={getCollaboratorById}
-          project={project}
-        />
+    <Wrapper isFocused={false}>
+      <FocusHandle
+        // href="#"
+        // onClick={() => {
+        //   console.log('click')
+        // }}
+        isDisabled={isRejected}
+      >
+        <SuggestionSnippet suggestion={suggestion} />
       </FocusHandle>
 
       <Actions>
@@ -92,7 +74,11 @@ export const Correction: React.FC<Props> = ({
             <Container>
               <Action
                 type="button"
-                onClick={() => handleReject(correction._id)}
+                onClick={() =>
+                  isRejected
+                    ? handleReset(suggestion)
+                    : handleReject(suggestion)
+                }
                 aria-pressed={isRejected}
                 data-tip={true}
                 data-for={isRejected ? 'back' : 'reject'}
@@ -118,7 +104,11 @@ export const Correction: React.FC<Props> = ({
             <Container>
               <Action
                 type="button"
-                onClick={() => handleAccept(correction._id)}
+                onClick={() =>
+                  isAccepted
+                    ? handleReset(suggestion)
+                    : handleAccept(suggestion)
+                }
                 aria-pressed={isAccepted}
                 data-tip={true}
                 data-for={isAccepted ? 'back' : 'accept'}

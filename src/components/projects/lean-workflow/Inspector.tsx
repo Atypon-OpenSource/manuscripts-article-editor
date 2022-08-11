@@ -121,7 +121,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor, fileManagement }) => {
                 )
               }
 
-              case 'Track changes': {
+              case 'History': {
                 return <TrackChangesPanel key="track-changes" />
               }
 
