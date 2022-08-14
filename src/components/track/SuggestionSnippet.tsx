@@ -7,66 +7,89 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import {
-  Correction as CorrectionT,
-  Project,
-} from '@manuscripts/manuscripts-json-schema'
+import { UserProfile } from '@manuscripts/quarterback-types'
 import { Avatar } from '@manuscripts/style-guide'
+import {
+  CHANGE_OPERATION,
+  CHANGE_STATUS,
+  ChangeSet,
+  TrackedChange,
+} from '@manuscripts/track-changes-plugin'
 import React from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { getUserRole } from '../../lib/roles'
+import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'
 
-export const CorrectionItem: React.FC<{
-  correction: CorrectionT
-  getCollaboratorById: (id: string) => UserProfileWithAvatar | undefined
-  project: Project
-}> = ({ correction, getCollaboratorById, project }) => {
-  const user = getCollaboratorById(correction.status.editorProfileID)
-  const timestamp = correction.contributions![0].timestamp
+export const SuggestionSnippet: React.FC<{
+  suggestion: TrackedChange
+}> = ({ suggestion }) => {
+  const [project] = useStore((store) => store.project)
+  const [collaboratorsById] = useStore(
+    (store) => store.collaboratorsById || new Map()
+  )
+
+  const userID =
+    suggestion.attrs.status === CHANGE_STATUS.pending
+      ? suggestion.attrs.authorID
+      : suggestion.attrs.reviewedByID
+  const userProfile = collaboratorsById.get(userID) as UserProfile
+  const timestamp = suggestion.attrs.updatedAt / 1000
+
+  const changeTitle = (c: TrackedChange) => {
+    if (ChangeSet.isTextChange(c)) {
+      return c.text
+    } else if (ChangeSet.isNodeChange(c)) {
+      return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
+        c.attrs.operation
+      }`
+    }
+    return 'Unknown change!'
+  }
+
   return (
     <>
-      <SnippetText isRejected={correction.status.label === 'rejected'}>
-        {correction.insertion}
+      <SnippetText
+        isRejected={suggestion.attrs.status === CHANGE_STATUS.rejected}
+      >
+        {suggestion.attrs.operation === CHANGE_OPERATION.delete ? (
+          <del>{changeTitle(suggestion)}</del>
+        ) : (
+          changeTitle(suggestion)
+        )}
       </SnippetText>
-      {correction.deletion && (
-        <SnippetText isRejected={correction.status.label === 'rejected'}>
-          <del>{correction.deletion}</del>
-        </SnippetText>
-      )}
-      {user ? (
-        <AvatarContainer key={correction._id}>
-          <div data-tip={true} data-for={correction._id}>
-            <Avatar src={user?.avatar} size={22} />
+      {userProfile ? (
+        <AvatarContainer key={suggestion.id}>
+          <div data-tip={true} data-for={suggestion.id}>
+            <Avatar size={22} />
           </div>
           <ReactTooltip
-            id={correction._id}
+            id={suggestion.id}
             place="bottom"
             effect="solid"
             offset={{ top: 4 }}
             className="tooltip"
           >
             <TooltipHeader>
-              {correction.status.label === 'proposed'
+              {suggestion.attrs.status === CHANGE_STATUS.pending
                 ? 'Created by'
-                : correction.status.label === 'accepted'
+                : suggestion.attrs.status === CHANGE_STATUS.accepted
                 ? 'Approved by'
                 : 'Rejected by'}
             </TooltipHeader>
-            <Name>
-              {user.bibliographicName.given +
-                ' ' +
-                user.bibliographicName.family}
-            </Name>
-            {getUserRole(project, user.userID)}
 
-            <Date>
+            <Name>
+              {userProfile.bibliographicName.given +
+                ' ' +
+                userProfile.bibliographicName.family}
+            </Name>
+            {getUserRole(project, userProfile.userID)}
+
+            <DateTime>
               {FormattedDateTime({
                 date: timestamp,
                 options: { year: 'numeric', month: 'numeric', day: 'numeric' },
@@ -76,7 +99,7 @@ export const CorrectionItem: React.FC<{
                 date: timestamp,
                 options: { hour: 'numeric', minute: 'numeric' },
               })}
-            </Date>
+            </DateTime>
           </ReactTooltip>
         </AvatarContainer>
       ) : null}
@@ -115,7 +138,7 @@ const Name = styled.div`
   line-height: ${(props) => props.theme.font.lineHeight.normal};
   font-weight: 700;
 `
-const Date = styled(Text)`
+const DateTime = styled(Text)`
   font-weight: 700;
   margin-top: ${(props) => props.theme.grid.unit * 2}px;
 `

@@ -9,14 +9,17 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Snapshot } from '@manuscripts/manuscripts-json-schema'
+import { SnapshotLabel } from '@manuscripts/quarterback-types'
 import { Avatar, SecondaryButton } from '@manuscripts/style-guide'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import {
+  TrackChangesStatus,
+  trackCommands,
+} from '@manuscripts/track-changes-plugin'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { useDropdown } from '../../hooks/use-dropdown'
-import { avatarURL } from '../../lib/user'
+import { useSnapshotStore } from '../../quarterback/useSnapshotStore'
 import { FormattedDateTime } from '../FormattedDateTime'
 import {
   Dropdown,
@@ -24,21 +27,44 @@ import {
   DropdownContainer,
   DropdownToggle,
 } from '../nav/Dropdown'
+import { useEditorStore } from '../track-changes/useEditorStore'
 
-interface SnapProps {
-  snapshots: Array<Snapshot>
-  selectSnapshot: (snapshot: Snapshot) => void
-  selectedSnapshot: Snapshot
-  viewHandler: () => void
-}
-
-export const SnapshotsDropdown: React.FC<SnapProps> = ({
-  snapshots,
-  selectSnapshot,
-  selectedSnapshot,
-  viewHandler,
-}) => {
+export const SnapshotsDropdown: React.FC = () => {
   const { wrapperRef, toggleOpen, isOpen } = useDropdown()
+  const snapshotStore = useSnapshotStore()
+  const { snapshots, inspectedSnapshot } = snapshotStore
+  const { docToJSON, execCmd, hydrateDocFromJSON } = useEditorStore()
+
+  const sortedSnapshots = snapshots.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  )
+
+  const isBeingInspected = useCallback(
+    (snap: SnapshotLabel) => inspectedSnapshot?.id === snap.id,
+    [inspectedSnapshot]
+  )
+
+  async function handleInspectSnapshot(snap: SnapshotLabel) {
+    if (!inspectedSnapshot) {
+      snapshotStore.setOriginalPmDoc(docToJSON())
+    } else if (isBeingInspected(snap)) {
+      handleResumeEditing()
+      return
+    }
+    const resp = await snapshotStore.inspectSnapshot(snap.id)
+    if ('data' in resp) {
+      hydrateDocFromJSON(resp.data.snapshot as any)
+      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
+    }
+  }
+  function handleResumeEditing() {
+    snapshotStore.resumeEditing()
+    const { originalPmDoc } = snapshotStore
+    if (originalPmDoc) {
+      hydrateDocFromJSON(originalPmDoc)
+    }
+    execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
+  }
 
   return (
     <SnapshotContainer>
@@ -50,46 +76,68 @@ export const SnapshotsDropdown: React.FC<SnapProps> = ({
         >
           <Container>
             <AvatarContainer>
-              <Avatar size={20} src={avatarURL(selectedSnapshot.creator)} />
+              <Avatar size={20} />
             </AvatarContainer>
             <InnerContainer>
               <Text>
-                {selectedSnapshot.name}
-                {selectedSnapshot._id == snapshots[0]._id && ' (Current)'}
+                {inspectedSnapshot ? inspectedSnapshot.name : 'Current'}
                 <DropdownToggle className={isOpen ? 'open' : ''} />
               </Text>
-
-              <Date>
-                <FormattedDateTime date={selectedSnapshot.createdAt} />{' '}
-              </Date>
+              {inspectedSnapshot && (
+                <DateTime>
+                  <FormattedDateTime
+                    date={Math.floor(
+                      new Date(inspectedSnapshot.createdAt).getTime() / 1000
+                    )}
+                  />{' '}
+                </DateTime>
+              )}
             </InnerContainer>
           </Container>
         </DropdownButtonContainer>
         {isOpen && (
           <SnapshotsList top={25} direction={'left'} minWidth={100}>
-            {snapshots.map((snapshot) => {
+            <Element
+              onClick={() => {
+                if (inspectedSnapshot) {
+                  handleResumeEditing()
+                }
+                toggleOpen()
+              }}
+              key={'current'}
+            >
+              <Container>
+                <AvatarContainer>
+                  <Avatar size={20} />
+                </AvatarContainer>
+                <InnerContainer>
+                  <Text>{'Current'}</Text>
+                </InnerContainer>
+              </Container>
+            </Element>
+            {sortedSnapshots.map((snapshot) => {
               return (
                 <Element
                   onClick={() => {
-                    selectSnapshot(snapshot)
+                    handleInspectSnapshot(snapshot)
                     toggleOpen()
                   }}
-                  key={snapshot._id}
-                  disabled={true}
+                  key={snapshot.id}
                 >
                   <Container>
                     <AvatarContainer>
-                      <Avatar size={20} src={avatarURL(snapshot.creator)} />
+                      <Avatar size={20} />
                     </AvatarContainer>
                     <InnerContainer>
-                      <Text>
-                        {snapshot.name}{' '}
-                        {snapshot._id == snapshots[0]._id && ' (Current)'}{' '}
-                      </Text>
+                      <Text>{snapshot.name}</Text>
 
-                      <Date>
-                        <FormattedDateTime date={snapshot.createdAt} />{' '}
-                      </Date>
+                      <DateTime>
+                        <FormattedDateTime
+                          date={Math.floor(
+                            new Date(snapshot.createdAt).getTime() / 1000
+                          )}
+                        />{' '}
+                      </DateTime>
                     </InnerContainer>
                   </Container>
                 </Element>
@@ -98,9 +146,6 @@ export const SnapshotsDropdown: React.FC<SnapProps> = ({
           </SnapshotsList>
         )}
       </DropdownContainer>
-      <ViewLink to={'#'} onClick={viewHandler}>
-        View
-      </ViewLink>
     </SnapshotContainer>
   )
 }
@@ -124,7 +169,8 @@ const SnapshotsList = styled(Dropdown)`
 `
 const Element = styled(SecondaryButton)`
   background: ${(props) => props.theme.colors.background.primary} !important;
-  display: flex;
+  display: inline-block;
+  width: 100%;
   padding: ${(props) => props.theme.grid.unit * 4}px
     ${(props) => props.theme.grid.unit * 6}px;
   white-space: nowrap;
@@ -157,16 +203,8 @@ const Text = styled.div`
   display: flex;
   align-items: center;
 `
-const Date = styled.div`
+const DateTime = styled.div`
   color: ${(props) => props.theme.colors.text.secondary};
   font-size: ${(props) => props.theme.font.size.small};
   line-height: ${(props) => props.theme.font.lineHeight.normal};
-`
-
-const ViewLink = styled(Link)`
-  font-size: ${(props) => props.theme.font.size.medium};
-  line-height: ${(props) => props.theme.font.lineHeight.large};
-  color: ${(props) => props.theme.colors.text.tertiary};
-  text-decoration: none;
-  margin: 0 1em;
 `

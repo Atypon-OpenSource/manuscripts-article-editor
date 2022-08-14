@@ -192,10 +192,10 @@ const ManuscriptPageView: React.FC<{ fileManagement: FileManagement }> = ({
     'Comments',
     config.features.qualityControl && 'Quality',
     // config.shackles.enabled && 'History',
-    config.quarterback.enabled && 'Track changes',
+    config.quarterback.enabled && 'History',
     config.features.fileManagement && 'Files',
   ].filter(Boolean) as Array<
-    'Content' | 'Comments' | 'Quality' | 'History' | 'Track changes' | 'Files'
+    'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
   >
 
   return (
