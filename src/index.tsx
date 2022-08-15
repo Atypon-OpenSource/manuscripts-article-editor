@@ -26,10 +26,14 @@ import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
 import userID from './lib/user-id'
 import Main from './Main'
+import { ISubject } from './store/ParentObserver'
 import { ThemeProvider } from './theme/ThemeProvider'
+
+export * from './store/ParentObserver'
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement
+  parentObserver: ISubject
   submissionId: string
   manuscriptID: string
   projectID: string
@@ -40,6 +44,7 @@ export interface ManuscriptEditorAppProps {
 
 export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
   fileManagement,
+  parentObserver,
   submissionId,
   manuscriptID,
   projectID,
@@ -80,6 +85,7 @@ export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
               // userID={userID}
               fileManagement={fileManagement}
               authToken={authToken || ''}
+              parentObserver={parentObserver}
               submissionId={submissionId}
               manuscriptID={manuscriptID}
               projectID={projectID}

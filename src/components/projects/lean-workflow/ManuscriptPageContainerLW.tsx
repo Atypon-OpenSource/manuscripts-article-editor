@@ -22,7 +22,6 @@ import {
 import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
 import {
   CapabilitiesProvider,
-  FileManagement,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
@@ -65,9 +64,7 @@ import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
 
-const ManuscriptPageContainer: React.FC<{ fileManagement: FileManagement }> = ({
-  fileManagement,
-}) => {
+const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, submission, person }, dispatch] = useStore(
     (state) => {
       return {
@@ -76,7 +73,6 @@ const ManuscriptPageContainer: React.FC<{ fileManagement: FileManagement }> = ({
         user: state.user,
         submission: state.submission,
         person: state.person,
-        tol: state.tokenData,
       }
     }
   )
@@ -127,14 +123,12 @@ const ManuscriptPageContainer: React.FC<{ fileManagement: FileManagement }> = ({
 
   return (
     <CapabilitiesProvider can={can}>
-      <ManuscriptPageView fileManagement={fileManagement} />
+      <ManuscriptPageView />
     </CapabilitiesProvider>
   )
 }
 
-const ManuscriptPageView: React.FC<{ fileManagement: FileManagement }> = ({
-  fileManagement,
-}) => {
+const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
@@ -266,11 +260,7 @@ const ManuscriptPageView: React.FC<{ fileManagement: FileManagement }> = ({
               </EditorContainerInner>
             </EditorContainer>
           </Main>
-          <Inspector
-            tabs={TABS}
-            editor={editor}
-            fileManagement={fileManagement}
-          />
+          <Inspector tabs={TABS} editor={editor} />
         </PageWrapper>
       </UserProvider>
     </RequirementsProvider>
