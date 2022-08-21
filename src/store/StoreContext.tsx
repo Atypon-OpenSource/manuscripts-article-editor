@@ -14,17 +14,24 @@ import React, { createContext, useContext, useEffect } from 'react'
 import Development from '../components/Development'
 import { ModalProvider } from '../components/ModalHookableProvider'
 import config from '../config'
-import { GenericStore, reducer, Store, StoreDataSourceStrategy } from '.'
+import { GenericStore, reducer, state, Store, StoreDataSourceStrategy } from '.'
+import { ISubject } from './ParentObserver'
 
 const GenericStoreContext = createContext<GenericStore>(new GenericStore())
 
 export const createStore = async (
   dataSources: StoreDataSourceStrategy[],
   reducer?: reducer,
-  unmountHandler?: Store['unmountHandler']
+  unmountHandler?: Store['unmountHandler'],
+  parentObserver?: ISubject
 ) => {
   const store = new GenericStore(reducer, unmountHandler)
   await store.init(dataSources)
+
+  parentObserver?.onUpdate((state) =>
+    store.setState({ ...store.state, ...state } as state)
+  )
+
   return store
 }
 

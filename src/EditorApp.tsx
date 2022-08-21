@@ -36,9 +36,11 @@ import {
   GenericStore,
   GenericStoreProvider,
 } from './store'
+import { ISubject } from './store/ParentObserver'
 
 interface Props {
   fileManagement: FileManagement
+  parentObserver: ISubject
   submissionId: string
   manuscriptID: string
   projectID: string
@@ -58,6 +60,7 @@ const Wrapper = styled.div`
 `
 
 const EditorApp: React.FC<Props> = ({
+  parentObserver,
   submissionId,
   manuscriptID,
   projectID,
@@ -86,6 +89,7 @@ const EditorApp: React.FC<Props> = ({
     // implement remount for the store if component is retriggered
     const basicSource = new BasicSource(
       submissionId,
+      fileManagement,
       projectID,
       manuscriptID,
       submission,
@@ -96,7 +100,12 @@ const EditorApp: React.FC<Props> = ({
     const mainSource = config.rxdb.enabled ? new CouchSource() : new PsSource()
     Promise.all([
       loadDoc(manuscriptID, projectID),
-      createStore([basicSource, mainSource]),
+      createStore(
+        [basicSource, mainSource],
+        undefined,
+        undefined,
+        parentObserver
+      ),
     ])
       .then(([doc, store]) => {
         if (doc) {
@@ -111,7 +120,10 @@ const EditorApp: React.FC<Props> = ({
       .catch((e) => {
         console.error(e)
       })
-    return () => store?.unmount()
+    return () => {
+      parentObserver?.detach()
+      store?.unmount()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissionId, manuscriptID, projectID])
 
@@ -151,7 +163,7 @@ const EditorApp: React.FC<Props> = ({
           <NotificationProvider>
             <Page>
               <Wrapper>
-                <ManuscriptPageContainer fileManagement={fileManagement} />
+                <ManuscriptPageContainer />
               </Wrapper>
             </Page>
           </NotificationProvider>
