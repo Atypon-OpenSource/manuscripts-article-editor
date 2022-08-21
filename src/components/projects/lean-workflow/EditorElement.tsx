@@ -39,11 +39,11 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
-import { useEditorStore } from '../../track-changes/useEditorStore'
 
 import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
+import { useEditorStore } from '../../track-changes/useEditorStore'
 import { SpriteMap } from '../../track/Icons'
 
 interface Props {
@@ -131,24 +131,30 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
     },
   })
 
-  function handleAcceptChange(c: TrackedChange) {
-    const ids = [c.id]
-    if (c.type === 'node-change') {
-      c.children.forEach((child) => {
-        ids.push(child.id)
-      })
-    }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
-  }
-  function handleRejectChange(c: TrackedChange) {
-    const ids = [c.id]
-    if (c.type === 'node-change') {
-      c.children.forEach((child) => {
-        ids.push(child.id)
-      })
-    }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
-  }
+  const handleAcceptChange = useCallback(
+    (c: TrackedChange) => {
+      const ids = [c.id]
+      if (c.type === 'node-change') {
+        c.children.forEach((child) => {
+          ids.push(child.id)
+        })
+      }
+      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+    },
+    [execCmd]
+  )
+  const handleRejectChange = useCallback(
+    (c: TrackedChange) => {
+      const ids = [c.id]
+      if (c.type === 'node-change') {
+        c.children.forEach((child) => {
+          ids.push(child.id)
+        })
+      }
+      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
+    },
+    [execCmd]
+  )
   const handleEditorClick = useCallback(
     (e: React.MouseEvent) => {
       const button = e.target && (e.target as HTMLElement).closest('button')
@@ -176,7 +182,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
         }
       }
     },
-    [handleAcceptChange, handleRejectChange]
+    [handleAcceptChange, handleRejectChange, trackState]
   )
 
   return (

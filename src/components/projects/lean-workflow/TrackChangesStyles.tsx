@@ -11,8 +11,9 @@
  */
 
 import React from 'react'
-import { useEditorStore } from '../../track-changes/useEditorStore'
 import styled from 'styled-components'
+
+import { useEditorStore } from '../../track-changes/useEditorStore'
 
 const TrackChangesOn = styled.div`
 
