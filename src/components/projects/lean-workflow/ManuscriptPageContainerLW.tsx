@@ -64,6 +64,7 @@ import Inspector from './Inspector'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
+import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC<{ fileManagement: FileManagement }> = ({
   fileManagement,
@@ -261,7 +262,13 @@ const ManuscriptPageView: React.FC<{ fileManagement: FileManagement }> = ({
                       isAnnotator(project, user?.userID)
                     }
                   />
-                  <EditorElement editor={editor} />
+                  <TrackChangesStyles
+                    enabled={config.quarterback.enabled}
+                    readOnly={!can.handleSuggestion}
+                    rejectOnly={can.rejectOwnSuggestion}
+                  >
+                    <EditorElement editor={editor} />
+                  </TrackChangesStyles>
                 </EditorBody>
               </EditorContainerInner>
             </EditorContainer>
