@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github.com:Atypon-OpenSource/manuscripts-article-editor.git",
@@ -61,7 +61,7 @@
     "@manuscripts/csl-locales": "^0.0.4",
     "@manuscripts/data": "^0.1.7",
     "@manuscripts/library": "^0.6.2",
-    "@manuscripts/manuscript-editor": "^0.92.10",
+    "@manuscripts/manuscript-editor": "^0.93.0",
     "@manuscripts/manuscript-transform": "^0.49.5",
     "@manuscripts/manuscripts-json-schema": "^1.49.13",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts3",
