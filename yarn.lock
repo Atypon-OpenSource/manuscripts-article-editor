@@ -2149,10 +2149,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.92.10":
-  version "0.92.10"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.92.10.tgz#5bc3d65f5c8aa9e74af15a305c8bc9509721b724"
-  integrity sha512-RUvD4xsGdO0UQif8ovotquUgFh40KmnGnncUvpzIz5hgBxcD0ewp5/10Nw8IvkwYk6kcwTq7X7OfL48HOgT1Qg==
+"@manuscripts/manuscript-editor@^0.93.0":
+  version "0.93.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.0.tgz#b808a979bdca5c9330330444c65f5cb0b114f881"
+  integrity sha512-nH7VQOBTnDnSyqwb3vYhtG30gHkcpuSKRBJD7vMazweu8wvkuIddubAkJlOaNkcpuj3pfuOgVTThJNF20ALKSg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2194,7 +2194,22 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@>=0.49.5", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.49.5":
+"@manuscripts/manuscript-transform@>=0.49.6", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1":
+  version "0.52.3"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.52.3.tgz#3214d2c4cf8afe641ba7746fb209809aada138d2"
+  integrity sha512-dKsdGDU7erecT751aoZc/8Bz5KT5tzN1ZdnuVdQBJQC9A8/nFWQ+73zhl9Bv8zDlPF7ZneE83bBCFkm7A073xA==
+  dependencies:
+    "@manuscripts/data" "^0.1.12"
+    "@manuscripts/library" "^0.6.2"
+    "@manuscripts/manuscripts-json-schema" "1.50.1"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscript-transform@^0.49.6":
   version "0.49.6"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.49.6.tgz#ebf5d947fcc133a262047849a87f24f09a4ff1df"
   integrity sha512-bbub4QiwK9Cl9IixPmyBiBZVxC+hG/JdocmpBIEotGKTUi6prH3+Hym6eGiOWMB1ySD8KkwK8w2CrfwkigeMXQ==
@@ -2209,7 +2224,7 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.13":
+"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.50.1", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.13":
   version "1.49.13"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.13.tgz#6dc29d2d2be56d2a406e717e67b487758ff28ecf"
   integrity sha512-YDoWW95clkWLj160IXx//oIaJqGhRReQeDDF6GdR56WbHS1FZRyOa2hdmp6V7UTlmVac/K9CDEbmf5nKKlrcMA==
