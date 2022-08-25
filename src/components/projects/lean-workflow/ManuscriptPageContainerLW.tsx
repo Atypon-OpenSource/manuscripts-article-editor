@@ -12,6 +12,7 @@
 
 import '@manuscripts/manuscript-editor/styles/Editor.css'
 import '@manuscripts/manuscript-editor/styles/LeanWorkflow.css'
+import '@manuscripts/manuscript-editor/styles/track-styles.css'
 import '@manuscripts/manuscript-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
