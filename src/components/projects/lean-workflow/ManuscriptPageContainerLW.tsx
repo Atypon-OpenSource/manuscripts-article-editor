@@ -163,9 +163,18 @@ const ManuscriptPageView: React.FC = () => {
 
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
-  const { init: initEditor, setEditorState } = useEditorStore()
+  const { init: initEditor, setEditorState, trackState } = useEditorStore()
   useMemo(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
   useMemo(() => view && initEditor(view), [view, initEditor])
+
+  const hasPendingSuggestions = useMemo(() => {
+    const { changeSet } = trackState || {}
+    if (changeSet && changeSet.pending.length > 0) {
+      return true
+    }
+    return false
+  }, [trackState])
+
   const saveDocument = debounce(
     (state: ManuscriptEditorState) =>
       updateDocument(manuscriptID, state.doc.toJSON()),
@@ -221,7 +230,7 @@ const ManuscriptPageView: React.FC = () => {
                     submission={submission}
                     userRole={getUserRole(project, user?.userID)}
                     documentId={`${project._id}#${manuscript._id}`}
-                    hasPendingSuggestions={false}
+                    hasPendingSuggestions={hasPendingSuggestions}
                   >
                     <SaveStatusController isDirty={false} />
                   </ManualFlowTransitioning>
