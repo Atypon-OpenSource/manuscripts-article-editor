@@ -169,10 +169,7 @@ const ManuscriptPageView: React.FC = () => {
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackState || {}
-    if (changeSet && changeSet.pending.length > 0) {
-      return true
-    }
-    return false
+    return changeSet && changeSet.pending.length > 0
   }, [trackState])
 
   const saveDocument = debounce(
@@ -230,7 +227,7 @@ const ManuscriptPageView: React.FC = () => {
                     submission={submission}
                     userRole={getUserRole(project, user?.userID)}
                     documentId={`${project._id}#${manuscript._id}`}
-                    hasPendingSuggestions={hasPendingSuggestions}
+                    hasPendingSuggestions={!!hasPendingSuggestions}
                   >
                     <SaveStatusController isDirty={false} />
                   </ManualFlowTransitioning>
