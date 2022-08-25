@@ -2194,7 +2194,7 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@>=0.49.6", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1":
+"@manuscripts/manuscript-transform@>=0.49.5", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1":
   version "0.52.3"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.52.3.tgz#3214d2c4cf8afe641ba7746fb209809aada138d2"
   integrity sha512-dKsdGDU7erecT751aoZc/8Bz5KT5tzN1ZdnuVdQBJQC9A8/nFWQ+73zhl9Bv8zDlPF7ZneE83bBCFkm7A073xA==
@@ -2209,7 +2209,7 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscript-transform@^0.49.6":
+"@manuscripts/manuscript-transform@^0.49.5":
   version "0.49.6"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.49.6.tgz#ebf5d947fcc133a262047849a87f24f09a4ff1df"
   integrity sha512-bbub4QiwK9Cl9IixPmyBiBZVxC+hG/JdocmpBIEotGKTUi6prH3+Hym6eGiOWMB1ySD8KkwK8w2CrfwkigeMXQ==
