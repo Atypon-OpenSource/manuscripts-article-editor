@@ -193,7 +193,6 @@ const ManuscriptPageView: React.FC = () => {
     // (config.features.commenting || config.features.productionNotes) &&
     'Comments',
     config.features.qualityControl && 'Quality',
-    // config.shackles.enabled && 'History',
     config.quarterback.enabled && 'History',
     config.features.fileManagement && 'Files',
   ].filter(Boolean) as Array<
