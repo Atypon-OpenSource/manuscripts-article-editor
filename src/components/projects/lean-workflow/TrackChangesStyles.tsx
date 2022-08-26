@@ -10,35 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Correction } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
 import styled from 'styled-components'
 
-import { trackChangesCssSelector } from '../../../lib/styles'
+import { useEditorStore } from '../../track-changes/useEditorStore'
 
 const TrackChangesOn = styled.div`
-  .track-changes--blame {
-    background-color: rgba(57, 255, 20, 0.5);
-  }
-  .track-changes--blame-uncommitted {
-    background-color: rgba(255, 218, 20, 0.5);
-  }
-
-  .track-changes--blame-point {
-    position: relative;
-    &::after {
-      position: absolute;
-      left: -2.5px;
-      display: inline-block;
-      content: ' ';
-      border: 1px solid rgba(255, 0, 0);
-      transform: rotate(45deg);
-      border-top: none;
-      border-left: none;
-      width: 5px;
-      height: 5px;
-    }
-  }
 
   .track-changes--control {
     display: none;
@@ -63,7 +40,7 @@ const TrackChangesOn = styled.div`
 
   .track-changes--control > button:hover {
     background: ${(props) =>
-      props.theme.colors.button.secondary.background.hover};
+      props.theme.colors.button.default.background.hover} !important;
   }
 
   .track-changes--control > button > svg {
@@ -71,32 +48,6 @@ const TrackChangesOn = styled.div`
     width: 1.2em;
     height: 1.2em;
   }
-
-  .track-changes--annotation-control {
-    display: inline-flex;
-    position: relative;
-    width: 0;
-    height: 0;
-    & > button {
-      position: absolute;
-      top: -2em;
-      background: transparent;
-      display: inline-flex;
-      height: auto;
-      width: auto;
-      padding: 0;
-      border: none;
-      cursor: pointer;
-      & > svg {
-        width: 1.2em;
-        height: 1.2em;
-        display: inline-flex;
-        color: #fffcdb;
-      }
-    }
-    &.track-changes--focused > button > svg {
-      color: #ffeb07;
-    }
   }
 `
 
@@ -113,57 +64,39 @@ const TrackChangesRejectOnly = styled(TrackChangesOn)`
 `
 
 const TrackChangesOff = styled.div`
-  .track-changes--replaced {
-    display: none !important;
-  }
   .track-changes--control {
     display: none !important;
   }
 `
 
-const ToDoDots = styled.div<{ selector: string }>`
-  .track-changes--blame:is(${(props) => props.selector}) {
-    position: relative;
-    &::after {
-      content: ' ';
-      position: absolute;
-      left: 100%;
-      top: -3px;
-      display: block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: ${(props) => props.theme.colors.text.warning};
-    }
-  }
-
-  .track-changes--blame:hover
-    + .track-changes--control:is(${(props) => props.selector}),
-  .track-changes--control:is(${(props) =>
-        props.selector}).track-changes--focused,
+const Actions = styled.div<{ selector: string }>`
+  .pending:hover + .track-changes--control:is(${(props) => props.selector}),
   .track-changes--control:is(${(props) => props.selector}):hover {
     display: inline-flex;
   }
 `
 
 interface Props {
-  corrections: Correction[]
   enabled: boolean
   readOnly: boolean
   rejectOnly: boolean
+}
+
+const trackChangesCssSelector = (ids: string[]) => {
+  return ids.map((id) => `[data-changeid="${id}"]`).join(',\n')
 }
 
 export const TrackChangesStyles: React.FC<Props> = ({
   enabled,
   readOnly,
   rejectOnly,
-  corrections,
   children,
 }) => {
+  const { trackState } = useEditorStore()
+
+  const { changeSet } = trackState || {}
   const suggestedChangesSelector = trackChangesCssSelector(
-    corrections
-      .filter((corr) => corr.status.label === 'proposed')
-      .map((corr) => corr.commitChangeID)
+    changeSet?.pending ? changeSet?.pending.map((change) => change.id) : []
   )
 
   if (!enabled) {
@@ -173,7 +106,7 @@ export const TrackChangesStyles: React.FC<Props> = ({
   if (rejectOnly) {
     return (
       <TrackChangesRejectOnly>
-        <ToDoDots selector={suggestedChangesSelector}>{children}</ToDoDots>
+        <Actions selector={suggestedChangesSelector}>{children}</Actions>
       </TrackChangesRejectOnly>
     )
   }
@@ -184,7 +117,7 @@ export const TrackChangesStyles: React.FC<Props> = ({
 
   return (
     <TrackChangesOn>
-      <ToDoDots selector={suggestedChangesSelector}>{children}</ToDoDots>
+      <Actions selector={suggestedChangesSelector}>{children}</Actions>
     </TrackChangesOn>
   )
 }

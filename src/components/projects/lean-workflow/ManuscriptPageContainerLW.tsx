@@ -12,6 +12,7 @@
 
 import '@manuscripts/manuscript-editor/styles/Editor.css'
 import '@manuscripts/manuscript-editor/styles/LeanWorkflow.css'
+import '@manuscripts/manuscript-editor/styles/track-styles.css'
 import '@manuscripts/manuscript-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
@@ -63,6 +64,7 @@ import Inspector from './Inspector'
 import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
 import { SaveStatusController } from './SaveStatusController'
+import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, submission, person }, dispatch] = useStore(
@@ -191,7 +193,6 @@ const ManuscriptPageView: React.FC = () => {
     // (config.features.commenting || config.features.productionNotes) &&
     'Comments',
     config.features.qualityControl && 'Quality',
-    // config.shackles.enabled && 'History',
     config.quarterback.enabled && 'History',
     config.features.fileManagement && 'Files',
   ].filter(Boolean) as Array<
@@ -261,7 +262,13 @@ const ManuscriptPageView: React.FC = () => {
                       isAnnotator(project, user?.userID)
                     }
                   />
-                  <EditorElement editor={editor} />
+                  <TrackChangesStyles
+                    enabled={config.quarterback.enabled}
+                    readOnly={!can.handleSuggestion}
+                    rejectOnly={can.rejectOwnSuggestion}
+                  >
+                    <EditorElement editor={editor} />
+                  </TrackChangesStyles>
                 </EditorBody>
               </EditorContainerInner>
             </EditorContainer>

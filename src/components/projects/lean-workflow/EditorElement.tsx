@@ -30,14 +30,20 @@ import {
   Supplement,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
+import {
+  CHANGE_STATUS,
+  trackCommands,
+  TrackedChange,
+} from '@manuscripts/track-changes-plugin'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
 import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
+import { useEditorStore } from '../../track-changes/useEditorStore'
 import { SpriteMap } from '../../track/Icons'
 
 interface Props {
@@ -51,6 +57,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
     modelMap: store.modelMap,
     deleteModel: store.deleteModel,
   }))
+  const { execCmd, trackState } = useEditorStore()
 
   const [, drop] = useDrop({
     accept: 'FileSectionItem',
@@ -124,6 +131,58 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
     },
   })
 
+  const handleAcceptChange = useCallback(
+    (c: TrackedChange) => {
+      const ids = [c.id]
+      if (c.type === 'node-change') {
+        c.children.forEach((child) => {
+          ids.push(child.id)
+        })
+      }
+      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+    },
+    [execCmd]
+  )
+  const handleRejectChange = useCallback(
+    (c: TrackedChange) => {
+      const ids = [c.id]
+      if (c.type === 'node-change') {
+        c.children.forEach((child) => {
+          ids.push(child.id)
+        })
+      }
+      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
+    },
+    [execCmd]
+  )
+  const handleEditorClick = useCallback(
+    (e: React.MouseEvent) => {
+      const button = e.target && (e.target as HTMLElement).closest('button')
+      if (!button) {
+        return
+      }
+      if (!trackState) {
+        return
+      }
+      const { changeSet } = trackState
+
+      const action = button.getAttribute('data-action')
+      const changeId = button.getAttribute('data-changeid')
+
+      if (action && changeId) {
+        const change = changeSet.changes.find((c) => c.id == changeId)
+        if (change) {
+          if (action === 'accept') {
+            handleAcceptChange(change)
+          } else if (action === 'reject') {
+            handleRejectChange(change)
+          }
+        }
+      }
+    },
+    [handleAcceptChange, handleRejectChange, trackState]
+  )
+
   return (
     <>
       {error && (
@@ -141,7 +200,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
       )}
       <SpriteMap color="#353535" />
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
-      <div id="editorDropzone" ref={drop}>
+      <div id="editorDropzone" ref={drop} onClick={handleEditorClick}>
         <div id="editor" ref={onRender}></div>
       </div>
     </>
