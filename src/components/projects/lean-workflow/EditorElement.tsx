@@ -169,9 +169,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
       const action = button.getAttribute('data-action')
       const changeId = button.getAttribute('data-changeid')
 
-      if (!action || !changeId) {
-        return
-      } else {
+      if (action && changeId) {
         const change = changeSet.changes.find((c) => c.id == changeId)
         if (change) {
           if (action === 'accept') {
