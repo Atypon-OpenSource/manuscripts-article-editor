@@ -90,6 +90,7 @@ export type state = {
   snapshotID: string | null
   snapshots?: Snapshot[]
   comments?: CommentAnnotation[]
+  commentTarget?: string
   notes?: ManuscriptNote[]
   tags?: Tag[]
   collaborators?: Map<string, UserProfile>
