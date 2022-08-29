@@ -2149,7 +2149,7 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.93.3":
+"@manuscripts/manuscript-editor@^0.93.2":
   version "0.93.3"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.3.tgz#ae3751eaef681c360b62ebadaf9f83876bcd3d3d"
   integrity sha512-RPeH1QR3COrT9zL+XNeEaVMtiL15UnYRLviD2G8Q8V5LSxcjzoaWx5cKWsbW8UqJa7qOg6pf4o1XK3m22FNbTg==
@@ -2322,7 +2322,7 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.19":
+"@manuscripts/style-guide@^0.31.18":
   version "0.31.19"
   resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.19.tgz#c79e023103920db6338e0cf2fb122a9d0f23258a"
   integrity sha512-iVaMIZ3oz2j08Bji3N6qyEhwDAb75zBkAIdOsjB79QqwbARE2snwaPYzgpmJ3sjkeGONdlWyIQaJoboSAaLmgA==
