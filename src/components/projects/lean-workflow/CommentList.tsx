@@ -111,7 +111,6 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     if (newComment) {
       combinedComments.push(newComment)
     }
-    console.log()
     const commentsTreeMap = buildCommentTree(doc, combinedComments)
 
     return Array.from(commentsTreeMap.entries())
