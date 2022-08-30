@@ -39,6 +39,7 @@ import {
   commitFromJSON,
   findCommitWithChanges,
 } from '@manuscripts/track-changes'
+
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { getSnapshot } from '../lib/snapshot'
