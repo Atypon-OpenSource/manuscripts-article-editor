@@ -53,6 +53,7 @@ interface Config {
     DOI: boolean
     runningTitle: boolean
     figureAlignment: boolean
+    requirements: boolean
   }
   gateway: {
     url: string
@@ -186,6 +187,7 @@ const config = {
     DOI: isTrue(process.env.FEATURE_DOI),
     runningTitle: isTrue(process.env.FEATURE_RUNNING_TITLE),
     figureAlignment: isTrue(process.env.FEATURE_FIGURE_ALIGNMENT),
+    requirements: isTrue(process.env.REQUIREMENTS_ENABLED),
   },
   gateway: {
     url: normalizeURL(getURL(process.env.SYNC_GATEWAY_URL, index)),
