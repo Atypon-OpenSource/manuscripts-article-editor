@@ -205,6 +205,9 @@ The service is configured using environment variables, `.env.example` file place
   <dt>FEATURE_PRODUCTION_NOTES</dt>
   <dd>If set to '1', enables the ability to manipulate notes on a manuscript. Specially made for lean workflow purposes.</dd>
 
+  <dt>REQUIREMENTS_ENABLED</dt>
+  <dd>If set to '1', enables the ability to set the requirements for manuscript project.</dd>
+
   <dt>FEATURE_PROJECT_MANAGEMENT</dt>
   <dd>If set to '1', provide project management tools to users. Allow users to tag and track the status of parts of a manuscript, and assign work to collaborators.</dd>
 

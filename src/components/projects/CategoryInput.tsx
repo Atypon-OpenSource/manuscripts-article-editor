@@ -10,7 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { ChangeEvent, useCallback } from 'react'
+import { SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import React, { useCallback, useMemo } from 'react'
+import Select, { OptionProps, OptionsType } from 'react-select'
 import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
@@ -20,6 +22,12 @@ import {
   isUniquePresent,
   sortedSectionCategories,
 } from '../../lib/section-categories'
+import { OptionWrapper } from './TagsInput'
+
+type OptionType = {
+  value: string
+  label: string
+}
 
 export const CategoryInput: React.FC<{
   value: string
@@ -33,32 +41,61 @@ export const CategoryInput: React.FC<{
   )
 
   const handleInputChange = useCallback(
-    (event: ChangeEvent<HTMLSelectElement>) => {
-      handleLocalChange(event.target.value)
+    (newValue: OptionsType<OptionType>) => {
+      // @ts-ignore
+      handleLocalChange(newValue.value)
     },
     [handleLocalChange]
   )
 
+  const OptionComponent: React.FC<OptionProps<OptionType, true>> = ({
+    innerRef,
+    innerProps,
+    data,
+  }) => {
+    return (
+      <OptionWrapper ref={innerRef} {...innerProps}>
+        {data.label}
+      </OptionWrapper>
+    )
+  }
+
+  const options = useMemo(() => {
+    const options: OptionType[] = []
+    sortedSectionCategories.map((cat) => {
+      if (
+        isEditableSectionCategory(cat) &&
+        (!isUniquePresent(cat, existingCatsCounted) || isUnique(currentValue))
+      ) {
+        options.push({ value: cat._id, label: cat.name })
+      }
+    })
+    return options
+  }, [currentValue, existingCatsCounted])
+
+  const selectionValue = useMemo(() => {
+    const cat = sortedSectionCategories.find(
+      (category) => category._id === currentValue
+    ) as SectionCategory
+    return { value: cat._id, label: cat.name }
+  }, [currentValue])
+
   return (
-    <CategorySelector value={currentValue} onChange={handleInputChange}>
-      {sortedSectionCategories
-        .filter((cat) => {
-          return (
-            isEditableSectionCategory(cat) &&
-            (!isUniquePresent(cat, existingCatsCounted) ||
-              isUnique(currentValue))
-          )
-        })
-        .map((sectionCategory) => (
-          <option value={sectionCategory._id} key={sectionCategory._id}>
-            {sectionCategory.name}
-          </option>
-        ))}
-    </CategorySelector>
+    <Container>
+      <Select<OptionType, true>
+        // @ts-ignore
+        value={selectionValue}
+        options={options}
+        maxMenuHeight={100}
+        onChange={handleInputChange}
+        components={{
+          Option: OptionComponent,
+        }}
+      />
+    </Container>
   )
 }
 
-const CategorySelector = styled.select`
-  display: block;
-  width: 100%;
+const Container = styled.div`
+  height: ${(props) => props.theme.grid.unit * 75}px;
 `
