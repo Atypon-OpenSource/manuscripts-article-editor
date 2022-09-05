@@ -38,10 +38,14 @@ export function ChildrenChangeList(props: Props) {
 
   function changeTitle(c: TrackedChange) {
     if (ChangeSet.isTextChange(c)) {
-      return `Text ${c.attrs.operation}`
+      return `Text ${c.dataTracked.operation}`
     } else if (ChangeSet.isNodeChange(c)) {
       return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
-        c.attrs.operation
+        c.dataTracked.operation
+      }`
+    } else if (ChangeSet.isNodeAttrChange(c)) {
+      return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
+        c.dataTracked.operation
       }`
     }
     return 'Unknown change!'
@@ -50,13 +54,15 @@ export function ChildrenChangeList(props: Props) {
     <List indent>
       {changes.map((c: TrackedChange, i: number) => (
         <ListItem key={`${c.id}-${i}`} data-test="change-item">
-          <MarkerBox status={c.attrs.status}>
+          <MarkerBox status={c.dataTracked.status}>
             <span>
-              {c.attrs.status === CHANGE_STATUS.accepted && (
+              {c.dataTracked.status === CHANGE_STATUS.accepted && (
                 <FiCheck size={16} />
               )}
-              {c.attrs.status === CHANGE_STATUS.rejected && <FiX size={16} />}
-              {c.attrs.status === CHANGE_STATUS.pending && (
+              {c.dataTracked.status === CHANGE_STATUS.rejected && (
+                <FiX size={16} />
+              )}
+              {c.dataTracked.status === CHANGE_STATUS.pending && (
                 <BsQuestion size={16} />
               )}
             </span>
@@ -65,7 +71,7 @@ export function ChildrenChangeList(props: Props) {
             <TitleWrapper>
               <h4>{changeTitle(c)}</h4>
               <Buttons>
-                {c.attrs.status !== CHANGE_STATUS.accepted && (
+                {c.dataTracked.status !== CHANGE_STATUS.accepted && (
                   <button
                     onClick={() => handleAcceptChange(c)}
                     aria-label="accept-btn"
@@ -73,7 +79,7 @@ export function ChildrenChangeList(props: Props) {
                     Accept
                   </button>
                 )}
-                {c.attrs.status !== CHANGE_STATUS.rejected && (
+                {c.dataTracked.status !== CHANGE_STATUS.rejected && (
                   <button
                     onClick={() => handleRejectChange(c)}
                     aria-label="reject-btn"
@@ -81,7 +87,7 @@ export function ChildrenChangeList(props: Props) {
                     Reject
                   </button>
                 )}
-                {c.attrs.status !== CHANGE_STATUS.pending && (
+                {c.dataTracked.status !== CHANGE_STATUS.pending && (
                   <button
                     onClick={() => handleResetChange(c)}
                     aria-label="reset-btn"

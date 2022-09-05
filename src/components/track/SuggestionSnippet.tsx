@@ -32,20 +32,24 @@ export const SuggestionSnippet: React.FC<{
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
-
+  const { dataTracked } = suggestion
   const userID =
-    suggestion.attrs.status === CHANGE_STATUS.pending
-      ? suggestion.attrs.authorID
-      : suggestion.attrs.reviewedByID
+    dataTracked.status === CHANGE_STATUS.pending
+      ? dataTracked.authorID
+      : dataTracked.reviewedByID
   const userProfile = collaboratorsById.get(userID) as UserProfile
-  const timestamp = suggestion.attrs.updatedAt / 1000
+  const timestamp = dataTracked.updatedAt / 1000
 
   const changeTitle = (c: TrackedChange) => {
     if (ChangeSet.isTextChange(c)) {
       return c.text
     } else if (ChangeSet.isNodeChange(c)) {
       return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
-        c.attrs.operation
+        c.dataTracked.operation
+      }`
+    } else if (ChangeSet.isNodeAttrChange(c)) {
+      return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
+        c.dataTracked.operation
       }`
     }
     return 'Unknown change!'
@@ -53,10 +57,8 @@ export const SuggestionSnippet: React.FC<{
 
   return (
     <>
-      <SnippetText
-        isRejected={suggestion.attrs.status === CHANGE_STATUS.rejected}
-      >
-        {suggestion.attrs.operation === CHANGE_OPERATION.delete ? (
+      <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>
+        {dataTracked.operation === CHANGE_OPERATION.delete ? (
           <del>{changeTitle(suggestion)}</del>
         ) : (
           changeTitle(suggestion)
@@ -75,9 +77,9 @@ export const SuggestionSnippet: React.FC<{
             className="tooltip"
           >
             <TooltipHeader>
-              {suggestion.attrs.status === CHANGE_STATUS.pending
+              {dataTracked.status === CHANGE_STATUS.pending
                 ? 'Created by'
-                : suggestion.attrs.status === CHANGE_STATUS.accepted
+                : dataTracked.status === CHANGE_STATUS.accepted
                 ? 'Approved by'
                 : 'Rejected by'}
             </TooltipHeader>
