@@ -40,8 +40,8 @@ export const Suggestion: React.FC<Props> = ({
     if (
       can.handleSuggestion ||
       (can.rejectOwnSuggestion &&
-        suggestion.attrs.status === CHANGE_STATUS.pending &&
-        suggestion.attrs.authorID === user?._id)
+        suggestion.dataTracked.status === CHANGE_STATUS.pending &&
+        suggestion.dataTracked.authorID === user?._id)
     ) {
       return true
     }
@@ -49,11 +49,11 @@ export const Suggestion: React.FC<Props> = ({
   }, [suggestion, can, user?._id])
 
   const isRejected = useMemo(() => {
-    return suggestion.attrs.status === CHANGE_STATUS.rejected
+    return suggestion.dataTracked.status === CHANGE_STATUS.rejected
   }, [suggestion])
 
   const isAccepted = useMemo(() => {
-    return suggestion.attrs.status === CHANGE_STATUS.accepted
+    return suggestion.dataTracked.status === CHANGE_STATUS.accepted
   }, [suggestion])
 
   return (

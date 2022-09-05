@@ -262,11 +262,7 @@ const ManuscriptPageView: React.FC = () => {
                       isAnnotator(project, user?.userID)
                     }
                   />
-                  <TrackChangesStyles
-                    enabled={config.quarterback.enabled}
-                    readOnly={!can.handleSuggestion}
-                    rejectOnly={can.rejectOwnSuggestion}
-                  >
+                  <TrackChangesStyles>
                     <EditorElement editor={editor} />
                   </TrackChangesStyles>
                 </EditorBody>

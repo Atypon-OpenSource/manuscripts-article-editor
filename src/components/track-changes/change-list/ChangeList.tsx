@@ -36,7 +36,7 @@ export const ChangeList = (props: IProps) => {
     handleAcceptPending,
   } = props
   const changesByDate = (a: TrackedChange, b: TrackedChange) =>
-    b.attrs.updatedAt - a.attrs.updatedAt
+    b.dataTracked.updatedAt - a.dataTracked.updatedAt
 
   const changesByContext = (a: TrackedChange, b: TrackedChange) =>
     a.from - b.from
