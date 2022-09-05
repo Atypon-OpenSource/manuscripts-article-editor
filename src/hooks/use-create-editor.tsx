@@ -53,6 +53,7 @@ export const useCreateEditor = (permissions: Permissions) => {
       submissionId,
       submission,
     },
+    dispatch,
   ] = useStore((store) => ({
     doc: store.doc,
     ancestorDoc: store.ancestorDoc,
@@ -120,8 +121,7 @@ export const useCreateEditor = (permissions: Permissions) => {
     modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setCommentTarget: (target?: string) =>
-      console.log('commentTarget is: ' + target),
+    setCommentTarget: (target?: string) => dispatch({ commentTarget: target }),
     getModel,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
       // @TODO fix this type
