@@ -14,6 +14,7 @@ import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import Artboard from '@manuscripts/assets/react/Artboard'
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import Highlight from '@manuscripts/assets/react/ToolbarIconHighlight'
+import VerticalEllipsis from '@manuscripts/assets/react/VerticalEllipsis'
 import {
   Build,
   buildKeyword,
@@ -25,7 +26,7 @@ import {
   Manuscript,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
-import { Category, Dialog } from '@manuscripts/style-guide'
+import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
 import React, {
   ChangeEvent,
   useCallback,
@@ -43,6 +44,7 @@ import { selectStyles } from '../../lib/select-styles'
 import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { MediumTextField } from './inputs'
+import { PlusIcon } from './Status/StatusIcons'
 import {
   Container,
   EditingPopper,
@@ -85,37 +87,37 @@ const Separator = styled.div`
   background-color: ${(props) => props.theme.colors.border.tertiary};
   height: 1px;
 `
-// const LabelContainer = styled.div<{ isCreate: boolean }>`
-//   display: flex;
-//   align-items: ${(props) => (props.isCreate && 'center') || 'flex-start'};
-//   ${(props) => !props.isCreate && 'flex-flow: column'};
-// `
-// const KeywordCategory = styled.div`
-//   color: #6e6e6e;
-//   font-size: 10px;
-//   padding: 0 ${(props) => props.theme.grid.unit * 2}px
-//     ${(props) => props.theme.grid.unit}px
-//     ${(props) => props.theme.grid.unit * 2}px;
-// `
-// const EditKeyword = styled(IconButton)<{
-//   focused: boolean
-// }>`
-//   height: ${(props) => props.theme.grid.unit * 4}px;
-//   border: none;
-//   svg {
-//     height: ${(props) => props.theme.grid.unit * 4}px;
-//
-//     g {
-//       fill: none;
-//     }
-//   }
-//   &:hover {
-//     g {
-//       fill: ${(props) => props.theme.colors.brand.medium};
-//     }
-//   }
-//   ${(props) => props.focused && 'g { fill: #1a9bc7 !important; }'};
-// `
+const LabelContainer = styled.div<{ isCreate: boolean }>`
+  display: flex;
+  align-items: ${(props) => (props.isCreate && 'center') || 'flex-start'};
+  ${(props) => !props.isCreate && 'flex-flow: column'};
+`
+const KeywordCategory = styled.div`
+  color: #6e6e6e;
+  font-size: 10px;
+  padding: 0 ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 2}px;
+`
+const EditKeyword = styled(IconButton)<{
+  focused: boolean
+}>`
+  height: ${(props) => props.theme.grid.unit * 4}px;
+  border: none;
+  svg {
+    height: ${(props) => props.theme.grid.unit * 4}px;
+
+    g {
+      fill: none;
+    }
+  }
+  &:hover {
+    g {
+      fill: ${(props) => props.theme.colors.brand.medium};
+    }
+  }
+  ${(props) => props.focused && 'g { fill: #1a9bc7 !important; }'};
+`
 
 const CategoryInput = styled.input`
   border-radius: 6px;
@@ -206,12 +208,12 @@ export const CategorisedKeywordsInput: React.FC<{
     }
   }
 
-  // const getCategoryTitleById = (id: string) => {
-  //   const cat = Object.entries(categories).find(
-  //     ([, keywordsGroup]) => keywordsGroup._id === id
-  //   )
-  //   return cat && cat[0] ? cat[0] : ''
-  // }
+  const getCategoryTitleById = (id: string) => {
+    const cat = Object.entries(categories).find(
+      ([, keywordsGroup]) => keywordsGroup._id === id
+    )
+    return cat && cat[0] ? cat[0] : ''
+  }
 
   const handleClickOutside = useCallback(
     async (event: Event) => {
@@ -239,13 +241,13 @@ export const CategorisedKeywordsInput: React.FC<{
     }
   }, [handleClickOutside, keywordToEdit])
 
-  // const editKeyword = useCallback(
-  //   (event: React.MouseEvent, tag: Keyword) => {
-  //     event.stopPropagation()
-  //     setKeywordToEdit(tag)
-  //   },
-  //   [setKeywordToEdit]
-  // )
+  const editKeyword = useCallback(
+    (event: React.MouseEvent, tag: Keyword) => {
+      event.stopPropagation()
+      setKeywordToEdit(tag)
+    },
+    [setKeywordToEdit]
+  )
 
   const setCatForKeyword = (keyword: Keyword, category: KeywordGroup) => {
     const newKeyword = {
@@ -312,14 +314,28 @@ export const CategorisedKeywordsInput: React.FC<{
     children,
     data,
   }) => {
-    // const category = getCategoryTitleById(data.containedGroup)
+    const isCreate = data.name.startsWith('Create keyword')
+    const category = getCategoryTitleById(data.containedGroup)
     return (
       <OptionWrapper
         focused={keywordToEdit ? data._id === keywordToEdit._id : false}
         ref={innerRef}
         {...innerProps}
       >
-        <OptionLabel>{children}</OptionLabel>
+        <LabelContainer isCreate={isCreate}>
+          {isCreate && <PlusIcon />}
+          <OptionLabel>{children}</OptionLabel>
+          {category && <KeywordCategory>{category}</KeywordCategory>}
+        </LabelContainer>
+        {!isCreate && (
+          <EditKeyword
+            onClick={(event) => editKeyword(event, data)}
+            className="VerticalEllipsis"
+            focused={keywordToEdit ? data._id === keywordToEdit._id : false}
+          >
+            <VerticalEllipsis />
+          </EditKeyword>
+        )}
       </OptionWrapper>
     )
   }
