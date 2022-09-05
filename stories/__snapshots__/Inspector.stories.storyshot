@@ -4633,31 +4633,6 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
 `;
 
 exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
-.c18 {
-  display: block;
-  border: 1px solid #e2e2e2;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font: 400 16px / 1 "Lato",sans-serif;
-  outline: none;
-  padding: 10px 16px;
-  position: relative;
-  width: 100%;
-}
-
-.c18:focus {
-  border-color: #bce7f6;
-  background-color: #f2fbfc;
-}
-
-.c18:hover {
-  background-color: #f2fbfc;
-}
-
-.c18:invalid {
-  box-shadow: none;
-}
-
 .c4 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -4752,31 +4727,16 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
   margin-bottom: 16px;
 }
 
-.c14 {
+.c13 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   overflow-y: auto;
 }
 
-.c15 {
+.c14 {
   font-size: 14px;
   color: #6e6e6e;
-}
-
-.c13.c13 {
-  background: none;
-  padding: 8px;
-  border-bottom-width: 1px;
-}
-
-.c13.c13:focus {
-  outline: none;
-}
-
-.c13.c13[data-selected] {
-  border-bottom-color: #0d79d0;
-  color: #0d79d0;
 }
 
 .c7 {
@@ -4817,13 +4777,13 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
   flex: 1;
 }
 
-.c16 {
+.c15 {
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 12px;
 }
 
-.c16:not(:first-child) {
+.c15:not(:first-child) {
   margin-top: 24px;
 }
 
@@ -4831,66 +4791,13 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
   margin: 8px 8px 32px;
 }
 
-.c24 {
-  width: 100px;
-  padding: 4px 8px;
-  font-size: 1em;
-}
-
-.c23 {
-  margin-right: 8px;
-}
-
-.c17 {
-  display: block;
-  width: 100%;
-}
-
-.c21 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.c21:last-child {
-  margin-bottom: 0;
-}
-
-.c22 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c20 {
-  display: block;
-  width: 100%;
+.c16 {
+  height: 200px;
 }
 
 .c9 {
   color: #353535;
   margin: 4px 0;
-}
-
-.c19 {
-  width: 100%;
-  padding: 4px 8px;
-  font-size: 1em;
 }
 
 <div
@@ -4971,47 +4878,14 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
               data-reach-tab-list=""
               onKeyDown={[Function]}
               role="tablist"
-            >
-              <button
-                aria-controls="tabs--4--panel---1"
-                aria-selected={false}
-                className="c13"
-                data-orientation="horizontal"
-                data-reach-tab=""
-                id="tabs--4--tab---1"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                role="tab"
-                tabIndex={-1}
-                type="button"
-              >
-                General
-              </button>
-              <button
-                aria-controls="tabs--4--panel---1"
-                aria-selected={false}
-                className="c13"
-                data-orientation="horizontal"
-                data-reach-tab=""
-                id="tabs--4--tab---1"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                role="tab"
-                tabIndex={-1}
-                type="button"
-              >
-                Requirements
-              </button>
-            </div>
+            />
             <div
-              className="c14"
+              className="c13"
               data-reach-tab-panels=""
             >
               <div
                 aria-labelledby="tabs--4--tab---1"
-                className="c15"
+                className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--4--panel---1"
@@ -5019,372 +4893,116 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                 tabIndex={-1}
               >
                 <div
-                  className="c3 c16"
+                  className="c3 c15"
                 >
                   Category
                 </div>
-                <select
-                  className="c17"
-                  onChange={[Function]}
-                  value="MPSectionCategory:section"
-                >
-                  <option
-                    value="MPSectionCategory:title-page"
-                  >
-                    Title page
-                  </option>
-                  <option
-                    value="MPSectionCategory:abstract"
-                  >
-                    Abstract
-                  </option>
-                  <option
-                    value="MPSectionCategory:author-summary"
-                  >
-                    Author Summary
-                  </option>
-                  <option
-                    value="MPSectionCategory:introduction"
-                  >
-                    Introduction
-                  </option>
-                  <option
-                    value="MPSectionCategory:review"
-                  >
-                    Review
-                  </option>
-                  <option
-                    value="MPSectionCategory:materials-method"
-                  >
-                    Materials & Methods
-                  </option>
-                  <option
-                    value="MPSectionCategory:results"
-                  >
-                    Results
-                  </option>
-                  <option
-                    value="MPSectionCategory:discussion"
-                  >
-                    Discussion
-                  </option>
-                  <option
-                    value="MPSectionCategory:conclusions"
-                  >
-                    Conclusions
-                  </option>
-                  <option
-                    value="MPSectionCategory:key-messages"
-                  >
-                    Key messages
-                  </option>
-                  <option
-                    value="MPSectionCategory:availability"
-                  >
-                    Availability
-                  </option>
-                  <option
-                    value="MPSectionCategory:acknowledgement"
-                  >
-                    Acknowledgments
-                  </option>
-                  <option
-                    value="MPSectionCategory:dedication"
-                  >
-                    Dedication
-                  </option>
-                  <option
-                    value="MPSectionCategory:blurb"
-                  >
-                    Blurb
-                  </option>
-                  <option
-                    value="MPSectionCategory:abbreviations"
-                  >
-                    Abbreviations
-                  </option>
-                  <option
-                    value="MPSectionCategory:endnotes"
-                  >
-                    Endnotes
-                  </option>
-                  <option
-                    value="MPSectionCategory:appendices"
-                  >
-                    Appendices
-                  </option>
-                  <option
-                    value="MPSectionCategory:ethicalStatement"
-                  >
-                    Ethical Statement
-                  </option>
-                  <option
-                    value="MPSectionCategory:additional-files"
-                  >
-                    Additional Files
-                  </option>
-                  <option
-                    value="MPSectionCategory:author-contributions"
-                  >
-                    Author contributions
-                  </option>
-                  <option
-                    value="MPSectionCategory:author-information"
-                  >
-                    Author Information
-                  </option>
-                  <option
-                    value="MPSectionCategory:bio"
-                  >
-                    Biography
-                  </option>
-                  <option
-                    value="MPSectionCategory:consent"
-                  >
-                    Consent
-                  </option>
-                  <option
-                    value="MPSectionCategory:chapter"
-                  >
-                    Chapter
-                  </option>
-                  <option
-                    value="MPSectionCategory:competing-interests"
-                  >
-                    Competing Interests
-                  </option>
-                  <option
-                    value="MPSectionCategory:section"
-                  >
-                    Section
-                  </option>
-                  <option
-                    value="MPSectionCategory:subsection"
-                  >
-                    Subsection
-                  </option>
-                  <option
-                    value="MPSectionCategory:cover-letter"
-                  >
-                    Cover Letter
-                  </option>
-                  <option
-                    value="MPSectionCategory:review-response-letter"
-                  >
-                    Review Response Letter
-                  </option>
-                  <option
-                    value="MPSectionCategory:abstract-graphical"
-                  >
-                    Graphical Abstract
-                  </option>
-                  <option
-                    value="MPSectionCategory:con"
-                  >
-                    Contributed-by information
-                  </option>
-                  <option
-                    value="MPSectionCategory:deceased"
-                  >
-                    Deceased
-                  </option>
-                  <option
-                    value="MPSectionCategory:equal"
-                  >
-                    Equal
-                  </option>
-                  <option
-                    value="MPSectionCategory:financial-disclosure"
-                  >
-                    Financial Disclosure
-                  </option>
-                  <option
-                    value="MPSectionCategory:present-address"
-                  >
-                    Present Address
-                  </option>
-                  <option
-                    value="MPSectionCategory:presented-at"
-                  >
-                    Presented at
-                  </option>
-                  <option
-                    value="MPSectionCategory:previously-at"
-                  >
-                    Previously at
-                  </option>
-                  <option
-                    value="MPSectionCategory:supplementary-material"
-                  >
-                    Supplementary Material
-                  </option>
-                  <option
-                    value="MPSectionCategory:supported-by"
-                  >
-                    Supported by
-                  </option>
-                </select>
                 <div
-                  className="c3 c16"
+                  className="c16"
                 >
-                  Placeholder
-                </div>
-                <input
-                  className="c18 c19"
-                  onChange={[Function]}
-                />
-                <div
-                  className="c3 c16"
-                >
-                  Page Break
-                </div>
-                <select
-                  className="c20"
-                  onChange={[Function]}
-                  value={0}
-                >
-                  <option
-                    value={0}
+                  <div
+                    className=" css-2b097c-container"
+                    onKeyDown={[Function]}
                   >
-                    None
-                  </option>
-                  <option
-                    value={1}
-                  >
-                    Break before
-                  </option>
-                  <option
-                    value={2}
-                  >
-                    Break after
-                  </option>
-                  <option
-                    value={4}
-                  >
-                    Break before and after
-                  </option>
-                </select>
-              </div>
-              <div
-                aria-labelledby="tabs--4--tab---1"
-                className="c15"
-                data-reach-tab-panel=""
-                hidden={true}
-                id="tabs--4--panel---1"
-                role="tabpanel"
-                tabIndex={-1}
-              >
-                <div
-                  className="c21"
-                >
-                  <label
-                    className="c22"
-                  >
-                    <input
-                      checked={false}
-                      className="c23"
-                      onChange={[Function]}
-                      type="checkbox"
-                    />
-                    Min word count
-                  </label>
-                  <input
-                    className="c18 c24"
-                    disabled={true}
-                    min={1}
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    pattern="[0-9]+"
-                    placeholder="Minimum"
-                    step={1}
-                    type="number"
-                    value=""
-                  />
-                </div>
-                <div
-                  className="c21"
-                >
-                  <label
-                    className="c22"
-                  >
-                    <input
-                      checked={false}
-                      className="c23"
-                      onChange={[Function]}
-                      type="checkbox"
-                    />
-                    Max word count
-                  </label>
-                  <input
-                    className="c18 c24"
-                    disabled={true}
-                    min={1}
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    pattern="[0-9]+"
-                    placeholder="Maximum"
-                    step={1}
-                    type="number"
-                    value=""
-                  />
-                </div>
-                <div
-                  className="c21"
-                >
-                  <label
-                    className="c22"
-                  >
-                    <input
-                      checked={false}
-                      className="c23"
-                      onChange={[Function]}
-                      type="checkbox"
-                    />
-                    Min character count
-                  </label>
-                  <input
-                    className="c18 c24"
-                    disabled={true}
-                    min={1}
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    pattern="[0-9]+"
-                    placeholder="Minimum"
-                    step={1}
-                    type="number"
-                    value=""
-                  />
-                </div>
-                <div
-                  className="c21"
-                >
-                  <label
-                    className="c22"
-                  >
-                    <input
-                      checked={false}
-                      className="c23"
-                      onChange={[Function]}
-                      type="checkbox"
-                    />
-                    Max character count
-                  </label>
-                  <input
-                    className="c18 c24"
-                    disabled={true}
-                    min={1}
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    pattern="[0-9]+"
-                    placeholder="Maximum"
-                    step={1}
-                    type="number"
-                    value=""
-                  />
+                    <div
+                      className=" css-yk16xz-control"
+                      onMouseDown={[Function]}
+                      onTouchEnd={[Function]}
+                    >
+                      <div
+                        className=" css-g1d714-ValueContainer"
+                      >
+                        <div
+                          className=" css-1uccc91-singleValue"
+                        >
+                          Section
+                        </div>
+                        <div
+                          className="css-b8ldur-Input"
+                        >
+                          <div
+                            className=""
+                            style={
+                              Object {
+                                "display": "inline-block",
+                              }
+                            }
+                          >
+                            <input
+                              aria-autocomplete="list"
+                              autoCapitalize="none"
+                              autoComplete="off"
+                              autoCorrect="off"
+                              disabled={false}
+                              id="react-select-6-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              spellCheck="false"
+                              style={
+                                Object {
+                                  "background": 0,
+                                  "border": 0,
+                                  "boxSizing": "content-box",
+                                  "color": "inherit",
+                                  "fontSize": "inherit",
+                                  "label": "input",
+                                  "opacity": 1,
+                                  "outline": 0,
+                                  "padding": 0,
+                                  "width": "1px",
+                                }
+                              }
+                              tabIndex="0"
+                              type="text"
+                              value=""
+                            />
+                            <div
+                              style={
+                                Object {
+                                  "height": 0,
+                                  "left": 0,
+                                  "overflow": "scroll",
+                                  "position": "absolute",
+                                  "top": 0,
+                                  "visibility": "hidden",
+                                  "whiteSpace": "pre",
+                                }
+                              }
+                            >
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className=" css-1hb7zxy-IndicatorsContainer"
+                      >
+                        <span
+                          className=" css-1okebmr-indicatorSeparator"
+                        />
+                        <div
+                          aria-hidden="true"
+                          className=" css-tlfecz-indicatorContainer"
+                          onMouseDown={[Function]}
+                          onTouchEnd={[Function]}
+                        >
+                          <svg
+                            aria-hidden="true"
+                            className="css-6q0nyr-Svg"
+                            focusable="false"
+                            height={20}
+                            viewBox="0 0 20 20"
+                            width={20}
+                          >
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

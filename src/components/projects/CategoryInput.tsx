@@ -97,5 +97,5 @@ export const CategoryInput: React.FC<{
 }
 
 const Container = styled.div`
-  height: ${(props) => props.theme.grid.unit * 75}px;
+  height: ${(props) => props.theme.grid.unit * 50}px;
 `
