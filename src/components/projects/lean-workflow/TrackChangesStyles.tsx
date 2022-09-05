@@ -10,9 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { usePermissions } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import config from '../../../config'
+import { useStore } from '../../../store'
 import { useEditorStore } from '../../track-changes/useEditorStore'
 
 const TrackChangesOn = styled.div`
@@ -76,48 +79,47 @@ const Actions = styled.div<{ selector: string }>`
   }
 `
 
-interface Props {
-  enabled: boolean
-  readOnly: boolean
-  rejectOnly: boolean
-}
-
 const trackChangesCssSelector = (ids: string[]) => {
   return ids.map((id) => `[data-changeid="${id}"]`).join(',\n')
 }
 
-export const TrackChangesStyles: React.FC<Props> = ({
-  enabled,
-  readOnly,
-  rejectOnly,
-  children,
-}) => {
+export const TrackChangesStyles: React.FC = ({ children }) => {
   const { trackState } = useEditorStore()
+  const can = usePermissions()
+  const [user] = useStore((store) => store.user)
 
   const { changeSet } = trackState || {}
   const suggestedChangesSelector = trackChangesCssSelector(
     changeSet?.pending ? changeSet?.pending.map((change) => change.id) : []
   )
 
-  if (!enabled) {
+  const mySuggestedChangesSelector = trackChangesCssSelector(
+    changeSet?.pending
+      ? changeSet?.pending
+          .filter((change) => change.dataTracked.authorID == user?._id)
+          .map((change) => change.id)
+      : []
+  )
+
+  if (!config.quarterback.enabled) {
     return <TrackChangesOff>{children}</TrackChangesOff>
   }
 
-  if (rejectOnly) {
+  if (can.handleSuggestion) {
+    return (
+      <TrackChangesOn>
+        <Actions selector={suggestedChangesSelector}>{children}</Actions>
+      </TrackChangesOn>
+    )
+  }
+
+  if (can.rejectOwnSuggestion) {
     return (
       <TrackChangesRejectOnly>
-        <Actions selector={suggestedChangesSelector}>{children}</Actions>
+        <Actions selector={mySuggestedChangesSelector}>{children}</Actions>
       </TrackChangesRejectOnly>
     )
   }
 
-  if (readOnly) {
-    return <TrackChangesReadOnly>{children}</TrackChangesReadOnly>
-  }
-
-  return (
-    <TrackChangesOn>
-      <Actions selector={suggestedChangesSelector}>{children}</Actions>
-    </TrackChangesOn>
-  )
+  return <TrackChangesReadOnly>{children}</TrackChangesReadOnly>
 }
