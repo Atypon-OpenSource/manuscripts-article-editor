@@ -12,6 +12,7 @@
 import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
+  ManuscriptNote,
   Model,
   Project,
   Snapshot,
@@ -125,6 +126,11 @@ export default class Api {
 
   getCollaborators = (containerID: string) =>
     this.get<UserCollaborator[]>(`/project/${containerID}/collaborators`)
+
+  getProductionNotes = (containerID: string, manuscriptID: string) =>
+    this.get<[{ data: ManuscriptNote; id: string }]>(
+      `/container/projects/${containerID}/manuscripts/${manuscriptID}/notes`
+    )
 
   signUpAndGetToken = async (
     username: string,
