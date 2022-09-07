@@ -19,11 +19,9 @@ import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon
 import { Project } from '@manuscripts/manuscripts-json-schema'
 import { Tip } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
-import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
 import config from '../config'
-import { titleText } from '../lib/title'
 import { useStore } from '../store'
 import { Chatbox } from './Chatbox'
 import LibraryPageContainer from './library/LibraryPageContainer'
@@ -162,17 +160,6 @@ export const Page: React.FunctionComponent<{ project?: Project }> = ({
 
   return (
     <PageContainer>
-      <Helmet>
-        {project ? (
-          <title>
-            Manuscripts.io:{' '}
-            {project.title ? titleText(project.title) : 'Untitled Project'}
-          </title>
-        ) : (
-          <title>Manuscripts.io</title>
-        )}
-      </Helmet>
-
       {project && (
         <ViewsBar>
           {/* <ProjectNavigator /> */}
