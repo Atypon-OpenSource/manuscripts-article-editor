@@ -16,7 +16,7 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useAuthStore } from '../../quarterback/useAuthStore'
 import { useCommentStore } from '../../quarterback/useCommentStore'
@@ -27,30 +27,24 @@ import { SuggestionList } from './suggestion-list/SuggestionList'
 import { useEditorStore } from './useEditorStore'
 
 export function TrackChangesPanel() {
-  const { user, authenticate, getTrackUser } = useAuthStore()
+  const { user, authenticate } = useAuthStore()
   const { execCmd, trackState } = useEditorStore()
   const { listComments } = useCommentStore()
   const { currentDocument } = useDocStore()
   const { changeSet } = trackState || {}
-  const trackUser = useMemo(() => getTrackUser(), [])
   const [sortBy, setSortBy] = useState('Date')
 
   useEffect(() => {
-    async function findOrCreateDoc(docId: string) {
+    async function loginListComments(docId: string) {
       await authenticate()
       await listComments(docId)
     }
-    if (user) {
-      execCmd(trackCommands.setUserID(getTrackUser().id))
-    }
-    currentDocument && findOrCreateDoc(currentDocument.manuscriptID)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  useEffect(() => {
+    currentDocument && loginListComments(currentDocument.manuscriptID)
     // check whether track-changes tab is opened, then fetch/create doc if it doesn't exist
     // as well as re-auth quarterback user incase it failed on initial mount
-    execCmd(trackCommands.setUserID(trackUser.id))
-  }, [trackUser, execCmd])
+    execCmd(trackCommands.setUserID(user.id))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, execCmd])
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSortBy(event.currentTarget.value)

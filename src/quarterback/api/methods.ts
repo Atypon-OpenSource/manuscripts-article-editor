@@ -29,8 +29,16 @@ const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
 }
 
+let debouncedAuth: ReturnType<typeof setTimeout> | undefined
+
 function getAuthHeader() {
   const jwt = useAuthStore.getState().jwt
+  if (!jwt && !debouncedAuth) {
+    useAuthStore.getState().authenticate()
+    debouncedAuth = setTimeout(() => {
+      debouncedAuth = undefined
+    }, 5000)
+  }
   // @TODO use non-standard authorization header while istio is enabled but not in use.
   // This means it parses all Authorization headers and fails since the quarterback API issuer
   // has not been configured with istio.
