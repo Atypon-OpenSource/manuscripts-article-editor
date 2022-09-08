@@ -13,21 +13,18 @@
 import {
   CHANGE_STATUS,
   ChangeSet,
-  enableDebug,
-  TrackChangesStatus,
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { useAuthStore } from '../../quarterback/useAuthStore'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
-import { SortByDropdown } from '../track/SortByDropdown'
-import { ChangeList } from './change-list/ChangeList'
+import { SortByDropdown } from './SortByDropdown'
+import { SuggestionList } from './suggestion-list/SuggestionList'
 import { useEditorStore } from './useEditorStore'
-import useTrackOptions from './useTrackOptions'
 
 export function TrackChangesPanel() {
   const { user, authenticate, getTrackUser } = useAuthStore()
@@ -35,10 +32,7 @@ export function TrackChangesPanel() {
   const { listComments } = useCommentStore()
   const { currentDocument } = useDocStore()
   const { changeSet } = trackState || {}
-  const { options, setOptions } = useTrackOptions('manuscript-track-options', {
-    documentId: currentDocument?.manuscriptID || 'undefined',
-    user: getTrackUser(),
-  })
+  const trackUser = useMemo(() => getTrackUser(), [])
   const [sortBy, setSortBy] = useState('Date')
 
   useEffect(() => {
@@ -49,30 +43,14 @@ export function TrackChangesPanel() {
     if (user) {
       execCmd(trackCommands.setUserID(getTrackUser().id))
     }
-    if (options.disableTrack && trackState) {
-      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.disabled))
-    }
-    if (options.debug && trackState) {
-      enableDebug(true)
-    }
-    if (!trackState) {
-      setOptions((old) => ({ ...old, disableTrack: true }))
-    }
     currentDocument && findOrCreateDoc(currentDocument.manuscriptID)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     // check whether track-changes tab is opened, then fetch/create doc if it doesn't exist
     // as well as re-auth quarterback user incase it failed on initial mount
-    execCmd(trackCommands.setUserID(options.user.id))
-  }, [options, execCmd])
-  useEffect(() => {
-    if (options.disableTrack) {
-      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.disabled))
-    } else {
-      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
-    }
-  }, [options.disableTrack, execCmd])
+    execCmd(trackCommands.setUserID(trackUser.id))
+  }, [trackUser, execCmd])
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSortBy(event.currentTarget.value)
@@ -119,7 +97,7 @@ export function TrackChangesPanel() {
     <>
       <SnapshotsDropdown />
       <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
-      <ChangeList
+      <SuggestionList
         changes={changeSet?.pending || []}
         title="Suggestions"
         sortBy={sortBy}
@@ -130,7 +108,7 @@ export function TrackChangesPanel() {
           changeSet?.pending.length ? handleAcceptPending : undefined
         }
       />
-      <ChangeList
+      <SuggestionList
         changes={changeSet?.accepted || []}
         title="Approved Suggestions"
         sortBy={sortBy}
@@ -138,7 +116,7 @@ export function TrackChangesPanel() {
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
       />
-      <ChangeList
+      <SuggestionList
         changes={changeSet?.rejected || []}
         title="Rejected Suggestions"
         sortBy={sortBy}

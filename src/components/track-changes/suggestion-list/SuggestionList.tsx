@@ -12,8 +12,8 @@
 import { TrackedChange } from '@manuscripts/track-changes-plugin'
 import React from 'react'
 
-import { InspectorSection } from '../../../components/InspectorSection'
-import { Suggestion } from '../../../components/track/Suggestion'
+import { InspectorSection } from '../../InspectorSection'
+import { Suggestion } from './Suggestion'
 
 interface IProps {
   changes: TrackedChange[]
@@ -25,7 +25,7 @@ interface IProps {
   handleAcceptPending?(): void
 }
 
-export const ChangeList = (props: IProps) => {
+export const SuggestionList = (props: IProps) => {
   const {
     changes,
     title,

@@ -21,9 +21,9 @@ import React from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
-import { getUserRole } from '../../lib/roles'
-import { useStore } from '../../store'
-import { FormattedDateTime } from '../FormattedDateTime'
+import { getUserRole } from '../../../lib/roles'
+import { useStore } from '../../../store'
+import { FormattedDateTime } from '../../FormattedDateTime'
 
 export const SuggestionSnippet: React.FC<{
   suggestion: TrackedChange

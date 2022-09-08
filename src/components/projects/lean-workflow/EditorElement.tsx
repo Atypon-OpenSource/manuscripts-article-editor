@@ -44,7 +44,7 @@ import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
 import { useEditorStore } from '../../track-changes/useEditorStore'
-import { SpriteMap } from '../../track/Icons'
+import { SpriteMap } from '../../track-changes/suggestion-list/Icons'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
