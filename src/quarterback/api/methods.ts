@@ -24,19 +24,23 @@ type FetchOptions = {
   body?: string
 }
 
-const DEFAULT_HEADERS = {
+export const DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
 }
 
-let debouncedAuth: ReturnType<typeof setTimeout> | undefined
+let debouncedAuth = false
 
-function getAuthHeader() {
+export function getAuthHeader() {
   const jwt = useAuthStore.getState().jwt
   if (!jwt && !debouncedAuth) {
+    // To ensure that user stays authenticated incase the token expires or something weird like
+    // https://jira.atypon.com/browse/LEAN-1619 happens, we'll run authenticate again each time
+    // quarterback-api is called (basically doc PUTs)
+    debouncedAuth = true
     useAuthStore.getState().authenticate()
-    debouncedAuth = setTimeout(() => {
-      debouncedAuth = undefined
+    setTimeout(() => {
+      debouncedAuth = false
     }, 5000)
   }
   // @TODO use non-standard authorization header while istio is enabled but not in use.
@@ -79,16 +83,13 @@ export async function wrappedFetch<T>(
 export function get<T>(
   path: string,
   defaultError?: string,
-  headers: Record<string, string> = DEFAULT_HEADERS
+  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {
       method: 'GET',
-      headers: {
-        ...headers,
-        ...getAuthHeader(),
-      },
+      headers,
     },
     defaultError
   )
@@ -98,16 +99,13 @@ export function post<T>(
   path: string,
   payload: any,
   defaultError?: string,
-  headers: Record<string, string> = DEFAULT_HEADERS
+  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {
       method: 'POST',
-      headers: {
-        ...headers,
-        ...getAuthHeader(),
-      },
+      headers,
       body: JSON.stringify(payload),
     },
     defaultError
@@ -118,16 +116,13 @@ export function put<T>(
   path: string,
   payload: any,
   defaultError?: string,
-  headers: Record<string, string> = DEFAULT_HEADERS
+  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {
       method: 'PUT',
-      headers: {
-        ...headers,
-        ...getAuthHeader(),
-      },
+      headers,
       body: JSON.stringify(payload),
     },
     defaultError
@@ -137,16 +132,13 @@ export function put<T>(
 export function del<T>(
   path: string,
   defaultError?: string,
-  headers: Record<string, string> = DEFAULT_HEADERS
+  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
     {
       method: 'DELETE',
-      headers: {
-        ...headers,
-        ...getAuthHeader(),
-      },
+      headers,
     },
     defaultError
   )

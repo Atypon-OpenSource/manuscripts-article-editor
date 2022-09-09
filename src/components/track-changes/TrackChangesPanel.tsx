@@ -37,11 +37,10 @@ export function TrackChangesPanel() {
   useEffect(() => {
     async function loginListComments(docId: string) {
       await authenticate()
+      // Comments for individual changes, example in old code & quarterback example. Not in use atm 8.9.2022
       await listComments(docId)
     }
     currentDocument && loginListComments(currentDocument.manuscriptID)
-    // check whether track-changes tab is opened, then fetch/create doc if it doesn't exist
-    // as well as re-auth quarterback user incase it failed on initial mount
     execCmd(trackCommands.setUserID(user.id))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, execCmd])
