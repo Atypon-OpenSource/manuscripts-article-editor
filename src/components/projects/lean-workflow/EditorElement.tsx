@@ -43,8 +43,8 @@ import { useDrop } from 'react-dnd'
 import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
 import { setNodeAttrs } from '../../../lib/node-attrs'
 import { useStore } from '../../../store'
+import { SpriteMap } from '../../track-changes/suggestion-list/Icons'
 import { useEditorStore } from '../../track-changes/useEditorStore'
-import { SpriteMap } from '../../track/Icons'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
