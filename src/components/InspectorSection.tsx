@@ -16,7 +16,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { ExpanderButton } from './metadata/Metadata'
-import ApproveAllButton from './track/ApproveAllButton'
+import ApproveAllButton from './track-changes/ApproveAllButton'
 
 const Section = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};

@@ -16,8 +16,18 @@ import { combine, persist } from 'zustand/middleware'
 
 import * as authApi from './api/auth'
 
+const ANONYMOUS_TRACK_USER: TrackUser = {
+  id: 'anon',
+  name: 'Anonymous',
+  color: '#897172',
+}
+type TrackUser = {
+  id: string
+  name: string
+  color: string
+}
 interface AuthState {
-  user?: { id: string; name: string; color: string }
+  user: TrackUser
   jwt?: Jwt
 }
 
@@ -25,31 +35,22 @@ export const useAuthStore = create(
   persist(
     combine(
       {
-        user: undefined,
+        user: ANONYMOUS_TRACK_USER,
         jwt: undefined,
       } as AuthState,
       (set, get) => ({
-        setUser(id: string, name: string) {
+        setUser(id?: string, name?: string) {
           set({
             user: {
-              id,
-              name,
+              id: id || ANONYMOUS_TRACK_USER.id,
+              name: name || ANONYMOUS_TRACK_USER.name,
               color: randomColor({
                 luminosity: 'dark',
               }),
             },
             jwt: undefined,
           })
-        },
-        getTrackUser() {
-          const { user } = get()
-          return (
-            user ?? {
-              id: 'none',
-              name: 'Anonymous',
-              color: '#897172',
-            }
-          )
+          console.log(`set user ${name} with id ${id}`)
         },
         async authenticate() {
           const { user, jwt } = get()
@@ -60,8 +61,8 @@ export const useAuthStore = create(
             return true
           }
           const resp = await authApi.authenticate({
-            user,
-            token: 'a',
+            user, // UserProfile from manuscripts api
+            token: 'a', // Should be a token retrieved from manuscripts-api
           })
           if ('data' in resp) {
             set({ jwt: resp.data.jwt })
@@ -69,7 +70,7 @@ export const useAuthStore = create(
           return 'data' in resp
         },
         logout() {
-          set({ user: undefined, jwt: undefined })
+          set({ user: ANONYMOUS_TRACK_USER, jwt: undefined })
         },
       })
     ),

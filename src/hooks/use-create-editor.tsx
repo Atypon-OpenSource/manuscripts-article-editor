@@ -53,6 +53,7 @@ export const useCreateEditor = (permissions: Permissions) => {
       submissionId,
       submission,
     },
+    dispatch,
   ] = useStore((store) => ({
     doc: store.doc,
     ancestorDoc: store.ancestorDoc,
@@ -68,7 +69,7 @@ export const useCreateEditor = (permissions: Permissions) => {
     commitAtLoad: store.commitAtLoad,
     submission: store.submission,
   }))
-  const { getTrackUser } = useAuthStore()
+  const { user: trackUser } = useAuthStore()
 
   const can = usePermissions()
   const popper = useRef<PopperManager>(new PopperManager())
@@ -99,12 +100,11 @@ export const useCreateEditor = (permissions: Permissions) => {
     plugins: config.quarterback.enabled
       ? [
           trackChangesPlugin({
-            userID: getTrackUser().id,
+            userID: trackUser.id,
             debug: config.environment === 'development',
           }) as Plugin<any, any>,
         ]
       : [],
-
     locale: manuscript.primaryLanguageCode || 'en-GB',
     permissions: permissions,
     environment: config.environment,
@@ -120,8 +120,7 @@ export const useCreateEditor = (permissions: Permissions) => {
     modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setCommentTarget: (target?: string) =>
-      console.log('commentTarget is: ' + target),
+    setCommentTarget: (target?: string) => dispatch({ commentTarget: target }),
     getModel,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
       // @TODO fix this type

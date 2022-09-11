@@ -34,22 +34,23 @@ interface Props {
   editor: ReturnType<typeof useCreateEditor>
 }
 const Inspector: React.FC<Props> = ({ tabs, editor }) => {
-  const [{ saveModel, modelMap, submissionId, fileManagement }] = useStore(
-    (store) => ({
-      snapshots: store.snapshots,
-      saveModel: store.saveModel,
-      modelMap: store.modelMap,
-      manuscript: store.manuscript,
-      user: store.user,
-      project: store.project,
-      submissionId: store.submissionID,
-      submission: store.submission,
-      snapshotID: store.snapshotID,
-      commitsSortBy: store.commitsSortBy as string,
-      comments: store.comments || [],
-      fileManagement: store.fileManagement,
-    })
-  )
+  const [
+    { saveModel, modelMap, submissionId, fileManagement, commentTarget },
+  ] = useStore((store) => ({
+    snapshots: store.snapshots,
+    saveModel: store.saveModel,
+    modelMap: store.modelMap,
+    manuscript: store.manuscript,
+    user: store.user,
+    project: store.project,
+    submissionId: store.submissionID,
+    submission: store.submission,
+    snapshotID: store.snapshotID,
+    commitsSortBy: store.commitsSortBy as string,
+    comments: store.comments || [],
+    fileManagement: store.fileManagement,
+    commentTarget: store.commentTarget,
+  }))
 
   const { state, dispatch, view } = editor
 
@@ -76,7 +77,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
         resizerButton={ResizingInspectorButton}
         forceOpen={undefined}
       >
-        <InspectorLW tabs={tabs} commentTarget={undefined}>
+        <InspectorLW tabs={tabs} commentTarget={commentTarget}>
           {tabs.map((label) => {
             switch (label) {
               case 'Content': {

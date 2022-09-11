@@ -18,9 +18,12 @@ import {
   schema,
 } from '@manuscripts/manuscript-transform'
 import {
+  Affiliation,
   BibliographyItem,
   CommentAnnotation,
   Commit as CommitJson,
+  Contributor,
+  ContributorRole,
   Correction,
   LibraryCollection,
   ManuscriptNote,
@@ -37,6 +40,7 @@ import {
   findCommitWithChanges,
 } from '@manuscripts/track-changes'
 
+import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { getSnapshot } from '../lib/snapshot'
 import { state } from '../store'
@@ -186,9 +190,6 @@ const getManuscriptData = async (
   data.commits = data.commits || []
   data.modelMap = await buildModelMap(models || [])
 
-  console.log('data.modelMap')
-  console.log(data.modelMap)
-
   return data
 }
 
@@ -307,6 +308,25 @@ const getDrivedData = async (
       doc,
     }
   }
+
+  const affiliationAndContributors: (Contributor | Affiliation)[] = []
+  const contributorRoles: ContributorRole[] = []
+
+  for (const model of data.modelMap?.values()) {
+    if (
+      model.objectType === ObjectTypes.Affiliation ||
+      model.objectType === ObjectTypes.Contributor
+    ) {
+      affiliationAndContributors.push(model as Affiliation) // or Contributor
+    }
+    if (model.objectType === ObjectTypes.ContributorRole) {
+      contributorRoles.push(model as ContributorRole)
+    }
+  }
+  storeData.authorsAndAffiliations = buildAuthorsAndAffiliations(
+    affiliationAndContributors
+  )
+  storeData.contributorRoles = contributorRoles
   return storeData
 }
 
@@ -328,6 +348,7 @@ export default async function buildData(
     user,
     api
   )
+
   const projects = await api.getUserProjects()
   const librariesData = await getLibrariesData(projectID, api)
 

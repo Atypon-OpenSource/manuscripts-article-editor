@@ -81,7 +81,7 @@ const EditorApp: React.FC<Props> = ({
     if (user) {
       setUser(user._id, user.bibliographicName.given || user.userID)
     } else {
-      setUser('none', 'Anonymous')
+      setUser()
     }
   }, [store?.state?.user, setUser])
 
