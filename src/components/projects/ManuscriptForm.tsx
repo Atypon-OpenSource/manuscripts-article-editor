@@ -65,7 +65,7 @@ class ManuscriptForm extends React.Component<Props, State> {
       '@manuscripts/data/dist/shared/bundles.json'
     )
     const { default: localesMetadata } = await import(
-      '@manuscripts/csl-locales/dist/metadata.json'
+      '@manuscripts/data/dist/csl/locales/metadata.json'
     )
 
     const languageNames = localesMetadata['language-names'] as Record<
