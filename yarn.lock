@@ -2126,11 +2126,6 @@
     prosemirror-view "~1.18.2"
     react-select "~3.1.0"
 
-"@manuscripts/csl-locales@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/@manuscripts/csl-locales/-/csl-locales-0.0.4.tgz#28b427cc39349f370e65d26638e88dfa62bb9b9e"
-  integrity sha512-Vw9XPCpDi5rk0GMW0nNpLwhVAD9MSHSzbqjIbL8DyeTbdm5iqtA+4KukF/bX6zamatTR98a+HZqwfJoRblyMcg==
-
 "@manuscripts/csl-locales@^0.0.5":
   version "0.0.5"
   resolved "https://registry.npmjs.org/@manuscripts/csl-locales/-/csl-locales-0.0.5.tgz#5051467f097cac4ee88a30b2741352ace26b38b4"
@@ -2141,7 +2136,7 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.1.tgz#c499e2b2600811792a0e9172df9e6a3ce1df1a4f"
   integrity sha512-DUbNRehtEiX1K3qA3swqRNyxv2fIa4zGYz8MasIkSxrMfrBG7f68FSWtERrorz6OyL4tL2WQ+K5hIt3WrIlg2Q==
 
-"@manuscripts/data@^0.1.12":
+"@manuscripts/data@^0.1.11", "@manuscripts/data@^0.1.12":
   version "0.1.12"
   resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.12.tgz#14ca113e714e4b71586f89f443f8ab4079a9fa84"
   integrity sha512-zS7RuBXhw8YypwjhT18V//rukLq72oZj2/za35zjfZntql6uJi5PtsLm8CCBkGW4jvqAbNg3JO+avFUy8jcsvQ==
@@ -2155,11 +2150,6 @@
   version "0.1.5"
   resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.5.tgz#e0fdbb35d9acb79ae774e056c8b79b75c2f3a003"
   integrity sha512-iTF4CeTncy/jactp+LrQR67Q/tdIVytvJaJ2X6W8tmZyfCcDFVeQadvsbJko+9Y1xDfEdGqEItfJiVOxPYAmWw==
-
-"@manuscripts/data@^0.1.7":
-  version "0.1.10"
-  resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.10.tgz#b6517ffc4b1ea152bd8e607183bab0fb6e1cc8e8"
-  integrity sha512-ytEesiSyZ7oeaxkca+fw9HtkGvyE7axI8CwFNJ621z14ROOsHzK5JeOC7LEenwtndA2GfuSD2qFnG/guprEA/w==
 
 "@manuscripts/eslint-config@^0.4.2":
   version "0.4.2"
@@ -2183,6 +2173,18 @@
     "@manuscripts/csl-locales" "^0.0.5"
     "@manuscripts/csl-styles" "^0.2.1"
     "@manuscripts/data" "^0.1.2"
+    "@manuscripts/manuscript-transform" "^0.42.12"
+    astrocite-bibtex "^0.16.4"
+    astrocite-ris "^0.16.4"
+    citeproc "^2.4.48"
+    fontoxpath "^3.17.2"
+
+"@manuscripts/library@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-0.6.3.tgz#f270f144c7de804bb4d5c4cbe929be8095b5243f"
+  integrity sha512-vj1C612dTIQ5yxAkQg19mYuZ6ISU7HmuG2M2D6KmA7ajdkwB+M3jdV8Xn81mCR3j1SmlZS9PMQD5R++K67brcw==
+  dependencies:
+    "@manuscripts/data" "^0.1.11"
     "@manuscripts/manuscript-transform" "^0.42.12"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
