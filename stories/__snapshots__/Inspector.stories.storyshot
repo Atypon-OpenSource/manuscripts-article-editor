@@ -5114,11 +5114,6 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                     Appendices
                   </option>
                   <option
-                    value="MPSectionCategory:ethicalStatement"
-                  >
-                    Ethical Statement
-                  </option>
-                  <option
                     value="MPSectionCategory:additional-files"
                   >
                     Additional Files
@@ -5222,6 +5217,11 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                     value="MPSectionCategory:supported-by"
                   >
                     Supported by
+                  </option>
+                  <option
+                    value="MPSectionCategory:ethics-statement"
+                  >
+                    Ethics Statement
                   </option>
                 </select>
                 <div
