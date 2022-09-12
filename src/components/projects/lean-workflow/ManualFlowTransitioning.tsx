@@ -20,9 +20,11 @@ import {
   TaskStepDoneIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { trackCommands } from '@manuscripts/track-changes-plugin'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
+import { useEditorStore } from '../../../components/track-changes/useEditorStore'
 import config from '../../../config'
 import { useDropdown } from '../../../hooks/use-dropdown'
 import {
@@ -32,6 +34,9 @@ import {
   useProceed,
 } from '../../../lib/lean-workflow-gql'
 import { ProjectRole } from '../../../lib/roles'
+import { getDocWithoutTrackContent } from '../../../quarterback/getDocWithoutTrackContent'
+import { usePouchStore } from '../../../quarterback/usePouchStore'
+import { useSnapshotStore } from '../../../quarterback/useSnapshotStore'
 import { Loading, LoadingOverlay } from '../../Loading'
 import { Dropdown, DropdownButton, DropdownContainer } from '../../nav/Dropdown'
 import { MediumTextArea } from '../inputs'
@@ -79,6 +84,22 @@ export const ManualFlowTransitioning: React.FC<{
     selectedTransitionIndex,
     setSelectedTransitionIndex,
   ] = useState<number>()
+  const { execCmd, docToJSON } = useEditorStore()
+  const { saveSnapshot } = useSnapshotStore()
+
+  const handleSnapshot = useCallback(async () => {
+    const resp = await saveSnapshot(docToJSON())
+    if ('data' in resp) {
+      execCmd(trackCommands.applyAndRemoveChanges())
+      setTimeout(() => {
+        const state = useEditorStore.getState().editorState
+        if (!state) {
+          return
+        }
+        usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
+      })
+    }
+  }, [docToJSON, execCmd, saveSnapshot])
 
   const continueDialogAction = useCallback(async () => {
     if (!submission || !selectedTransitionIndex) {
@@ -91,7 +112,8 @@ export const ManualFlowTransitioning: React.FC<{
 
     setLoading(true)
 
-    return await submitProceedMutation({
+    await handleSnapshot()
+    await submitProceedMutation({
       submissionId: submission?.id,
       statusId: status.id,
       note: noteValue,
@@ -133,6 +155,7 @@ export const ManualFlowTransitioning: React.FC<{
       setLoading(false)
     })
   }, [
+    handleSnapshot,
     submitProceedMutation,
     setError,
     selectedTransitionIndex,
