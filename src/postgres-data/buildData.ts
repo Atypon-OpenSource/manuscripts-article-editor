@@ -244,15 +244,6 @@ const getCollaboratorsData = async (
   return collabsData
 }
 
-const getProductionNotes = async (
-  projectID: string,
-  manuscriptID: string,
-  api: Api
-) => {
-  const notes = await api.getProductionNotes(projectID, manuscriptID)
-  return notes?.map(({ data }) => data) || []
-}
-
 const buildModelMapFromJson = (models: Model[]) => {
   return new Map(
     models.map((model) => {
@@ -357,7 +348,6 @@ export default async function buildData(
     user,
     api
   )
-  const productionNotes = await getProductionNotes(projectID, manuscriptID, api)
 
   const projects = await api.getUserProjects()
   const librariesData = await getLibrariesData(projectID, api)
@@ -377,7 +367,6 @@ export default async function buildData(
     user,
     manuscriptID: manuscriptData.manuscript?._id,
     projectID: manuscriptData.project?._id,
-    notes: productionNotes,
     ...derivedData,
     ...collaboratorsData,
     ...librariesData,
