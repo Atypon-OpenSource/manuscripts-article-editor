@@ -88,6 +88,27 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     [dispatch]
   )
 
+  const addComment = useCallback(
+    (comment) => dispatch({ comments: [...comments, comment] }),
+    [comments, dispatch]
+  )
+
+  const updateComments = useCallback(
+    (comment) =>
+      dispatch({
+        comments: comments.map((c) => (c._id === comment._id && comment) || c),
+      }),
+    [comments, dispatch]
+  )
+
+  const removeComment = useCallback(
+    (id) =>
+      dispatch({
+        comments: comments.filter((c) => c._id !== id),
+      }),
+    [comments, dispatch]
+  )
+
   useEffect(() => {
     if (commentTarget && !newComment) {
       const newComment = buildComment(commentTarget) as CommentAnnotation
@@ -116,44 +137,72 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     return Array.from(commentsTreeMap.entries())
   }, [comments, newComment, doc])
 
+  const handleSetResolved = useCallback(
+    async (comment) => {
+      const savedComment = await saveModel({
+        ...comment,
+        resolved: !comment.resolved,
+      } as CommentAnnotation)
+      if (savedComment && savedComment._id === comment._id) {
+        updateComments(savedComment)
+      }
+    },
+    [saveModel, updateComments]
+  )
+
   const saveComment = useCallback(
     (comment: CommentAnnotation) => {
       return saveModel(comment).then((comment) => {
         if (newComment && newComment._id === comment._id) {
           setCommentTarget(undefined)
+          setNewComment(undefined)
+          addComment(comment)
+        } else {
+          updateComments(comment)
         }
 
         return comment
       })
     },
-    [newComment, setCommentTarget, saveModel]
+    [saveModel, newComment, setCommentTarget, addComment, updateComments]
   )
 
   const deleteComment = useCallback(
     (id: string, target?: string) => {
+      const highlightId = target || commentTarget
       return deleteModel(id)
         .catch((error: Error) => {
           console.error(error)
         })
         .then(async () => {
-          if (target && target.startsWith('MPHighlight:')) {
-            await deleteModel(target)
+          if (highlightId && highlightId.startsWith('MPHighlight:')) {
+            await deleteModel(highlightId)
           }
+          removeComment(id)
         })
         .catch((error: Error) => {
           console.error(error)
         })
         .finally(() => {
-          if (target && target.startsWith('MPHighlight:')) {
-            view && deleteHighlightMarkers(target)(view.state, view.dispatch)
+          if (highlightId && highlightId.startsWith('MPHighlight:')) {
+            view &&
+              deleteHighlightMarkers(highlightId)(view.state, view.dispatch)
           }
 
           if (newComment && newComment._id === id) {
             setCommentTarget(undefined)
+            setNewComment(undefined)
           }
         })
     },
-    [deleteModel, newComment, setCommentTarget, view]
+    [
+      commentTarget,
+      deleteModel,
+      newComment,
+      removeComment,
+      setCommentTarget,
+      view,
+    ]
   )
 
   const scrollIntoHighlight = (comment: CommentAnnotation) => {
@@ -237,12 +286,7 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
                       handleCreateReply={setCommentTarget}
                       can={can}
                       currentUserId={currentUser._id}
-                      handleSetResolved={async () =>
-                        await saveModel({
-                          ...comment,
-                          resolved: !comment.resolved,
-                        } as CommentAnnotation)
-                      }
+                      handleSetResolved={() => handleSetResolved(comment)}
                       isNew={isNew(comment as CommentAnnotation)}
                     >
                       <HighlightedText
@@ -254,27 +298,25 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
                   </NoteBodyContainer>
 
                   {children.map((comment) => (
-                    <Pattern.Reply key={comment._id}>
-                      <ReplyBodyContainer>
-                        <CommentWrapper
-                          comment={comment}
-                          createKeyword={createKeyword}
-                          deleteComment={deleteComment}
-                          getCollaborator={(id) => collaboratorsById?.get(id)}
-                          getKeyword={(key: string) => keywords.get(key)}
-                          isReply={true}
-                          listCollaborators={() =>
-                            Array.from(collaborators.values())
-                          }
-                          listKeywords={keywords}
-                          saveComment={saveComment}
-                          handleCreateReply={setCommentTarget}
-                          can={can}
-                          currentUserId={currentUser._id}
-                          isNew={isNew(comment as CommentAnnotation)}
-                        />
-                      </ReplyBodyContainer>
-                    </Pattern.Reply>
+                    <ReplyBodyContainer key={comment._id}>
+                      <CommentWrapper
+                        comment={comment}
+                        createKeyword={createKeyword}
+                        deleteComment={deleteComment}
+                        getCollaborator={(id) => collaboratorsById?.get(id)}
+                        getKeyword={(key: string) => keywords.get(key)}
+                        isReply={true}
+                        listCollaborators={() =>
+                          Array.from(collaborators.values())
+                        }
+                        listKeywords={keywords}
+                        saveComment={saveComment}
+                        handleCreateReply={setCommentTarget}
+                        can={can}
+                        currentUserId={currentUser._id}
+                        isNew={isNew(comment as CommentAnnotation)}
+                      />
+                    </ReplyBodyContainer>
                   ))}
                 </Pattern.Thread>
               ))}
