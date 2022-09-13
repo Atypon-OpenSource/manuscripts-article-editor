@@ -86,7 +86,8 @@ export const CategoryInput: React.FC<{
         // @ts-ignore
         value={selectionValue}
         options={options}
-        maxMenuHeight={100}
+        menuPortalTarget={document.body}
+        maxMenuHeight={170}
         onChange={handleInputChange}
         components={{
           Option: OptionComponent,
@@ -97,5 +98,5 @@ export const CategoryInput: React.FC<{
 }
 
 const Container = styled.div`
-  height: ${(props) => props.theme.grid.unit * 50}px;
+  height: ${(props) => props.theme.grid.unit * 160}px;
 `
