@@ -15,7 +15,7 @@ import React, { useMemo } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
-import { useStore } from '../../store'
+import { useStore } from '../../../store'
 import { Accept, Back, Reject } from './Icons'
 import { AvatarContainer, SuggestionSnippet, Time } from './SuggestionSnippet'
 

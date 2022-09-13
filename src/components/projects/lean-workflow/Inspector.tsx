@@ -75,7 +75,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={undefined}
+        forceOpen={commentTarget !== undefined}
       >
         <InspectorLW tabs={tabs} commentTarget={commentTarget}>
           {tabs.map((label) => {

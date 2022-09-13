@@ -14,7 +14,12 @@ import type {
   IAuthenticateResponse,
 } from '@manuscripts/quarterback-types'
 
-import { post } from './methods'
+import { DEFAULT_HEADERS, post } from './methods'
 
 export const authenticate = (payload: IAuthenticateParams) =>
-  post<IAuthenticateResponse>('authenticate', payload, 'Authentication failed')
+  post<IAuthenticateResponse>(
+    'authenticate',
+    payload,
+    'Authentication failed',
+    DEFAULT_HEADERS
+  )

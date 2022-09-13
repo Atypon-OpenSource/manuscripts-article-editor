@@ -4897,6 +4897,285 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
                 >
                   Category
                 </div>
+                <select
+                  className="c17"
+                  onChange={[Function]}
+                  value="MPSectionCategory:section"
+                >
+                  <option
+                    value="MPSectionCategory:title-page"
+                  >
+                    Title page
+                  </option>
+                  <option
+                    value="MPSectionCategory:abstract"
+                  >
+                    Abstract
+                  </option>
+                  <option
+                    value="MPSectionCategory:author-summary"
+                  >
+                    Author Summary
+                  </option>
+                  <option
+                    value="MPSectionCategory:introduction"
+                  >
+                    Introduction
+                  </option>
+                  <option
+                    value="MPSectionCategory:review"
+                  >
+                    Review
+                  </option>
+                  <option
+                    value="MPSectionCategory:materials-method"
+                  >
+                    Materials & Methods
+                  </option>
+                  <option
+                    value="MPSectionCategory:results"
+                  >
+                    Results
+                  </option>
+                  <option
+                    value="MPSectionCategory:discussion"
+                  >
+                    Discussion
+                  </option>
+                  <option
+                    value="MPSectionCategory:conclusions"
+                  >
+                    Conclusions
+                  </option>
+                  <option
+                    value="MPSectionCategory:key-messages"
+                  >
+                    Key messages
+                  </option>
+                  <option
+                    value="MPSectionCategory:availability"
+                  >
+                    Availability
+                  </option>
+                  <option
+                    value="MPSectionCategory:acknowledgement"
+                  >
+                    Acknowledgments
+                  </option>
+                  <option
+                    value="MPSectionCategory:dedication"
+                  >
+                    Dedication
+                  </option>
+                  <option
+                    value="MPSectionCategory:blurb"
+                  >
+                    Blurb
+                  </option>
+                  <option
+                    value="MPSectionCategory:abbreviations"
+                  >
+                    Abbreviations
+                  </option>
+                  <option
+                    value="MPSectionCategory:endnotes"
+                  >
+                    Endnotes
+                  </option>
+                  <option
+                    value="MPSectionCategory:appendices"
+                  >
+                    Appendices
+                  </option>
+                  <option
+                    value="MPSectionCategory:additional-files"
+                  >
+                    Additional Files
+                  </option>
+                  <option
+                    value="MPSectionCategory:author-contributions"
+                  >
+                    Author contributions
+                  </option>
+                  <option
+                    value="MPSectionCategory:author-information"
+                  >
+                    Author Information
+                  </option>
+                  <option
+                    value="MPSectionCategory:bio"
+                  >
+                    Biography
+                  </option>
+                  <option
+                    value="MPSectionCategory:consent"
+                  >
+                    Consent
+                  </option>
+                  <option
+                    value="MPSectionCategory:chapter"
+                  >
+                    Chapter
+                  </option>
+                  <option
+                    value="MPSectionCategory:competing-interests"
+                  >
+                    Competing Interests
+                  </option>
+                  <option
+                    value="MPSectionCategory:section"
+                  >
+                    Section
+                  </option>
+                  <option
+                    value="MPSectionCategory:subsection"
+                  >
+                    Subsection
+                  </option>
+                  <option
+                    value="MPSectionCategory:cover-letter"
+                  >
+                    Cover Letter
+                  </option>
+                  <option
+                    value="MPSectionCategory:review-response-letter"
+                  >
+                    Review Response Letter
+                  </option>
+                  <option
+                    value="MPSectionCategory:abstract-graphical"
+                  >
+                    Graphical Abstract
+                  </option>
+                  <option
+                    value="MPSectionCategory:con"
+                  >
+                    Contributed-by information
+                  </option>
+                  <option
+                    value="MPSectionCategory:deceased"
+                  >
+                    Deceased
+                  </option>
+                  <option
+                    value="MPSectionCategory:equal"
+                  >
+                    Equal
+                  </option>
+                  <option
+                    value="MPSectionCategory:financial-disclosure"
+                  >
+                    Financial Disclosure
+                  </option>
+                  <option
+                    value="MPSectionCategory:present-address"
+                  >
+                    Present Address
+                  </option>
+                  <option
+                    value="MPSectionCategory:presented-at"
+                  >
+                    Presented at
+                  </option>
+                  <option
+                    value="MPSectionCategory:previously-at"
+                  >
+                    Previously at
+                  </option>
+                  <option
+                    value="MPSectionCategory:supplementary-material"
+                  >
+                    Supplementary Material
+                  </option>
+                  <option
+                    value="MPSectionCategory:supported-by"
+                  >
+                    Supported by
+                  </option>
+                  <option
+                    value="MPSectionCategory:ethics-statement"
+                  >
+                    Ethics Statement
+                  </option>
+                </select>
+                <div
+                  className="c3 c16"
+                >
+                  Placeholder
+                </div>
+                <input
+                  className="c18 c19"
+                  onChange={[Function]}
+                />
+                <div
+                  className="c3 c16"
+                >
+                  Page Break
+                </div>
+                <select
+                  className="c20"
+                  onChange={[Function]}
+                  value={0}
+                >
+                  <option
+                    value={0}
+                  >
+                    None
+                  </option>
+                  <option
+                    value={1}
+                  >
+                    Break before
+                  </option>
+                  <option
+                    value={2}
+                  >
+                    Break after
+                  </option>
+                  <option
+                    value={4}
+                  >
+                    Break before and after
+                  </option>
+                </select>
+              </div>
+              <div
+                aria-labelledby="tabs--4--tab---1"
+                className="c15"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--4--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              >
+                <div
+                  className="c21"
+                >
+                  <label
+                    className="c22"
+                  >
+                    <input
+                      checked={false}
+                      className="c23"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    Min word count
+                  </label>
+                  <input
+                    className="c18 c24"
+                    disabled={true}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    pattern="[0-9]+"
+                    placeholder="Minimum"
+                    step={1}
+                    type="number"
+                    value=""
+                  />
+                </div>
                 <div
                   className="c16"
                 >
