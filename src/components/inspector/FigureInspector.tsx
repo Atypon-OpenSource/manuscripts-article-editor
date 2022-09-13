@@ -10,18 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildAttribution, FigureNode } from '@manuscripts/manuscript-transform'
-import { Attribution, Figure } from '@manuscripts/manuscripts-json-schema'
+import { FigureNode } from '@manuscripts/manuscript-transform'
+import { Figure } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React, { useCallback } from 'react'
+import React from 'react'
 
-import { setNodeAttrs } from '../../lib/node-attrs'
 import { InspectorSection, Subheading } from '../InspectorSection'
-import { LicenseInput } from '../projects/LicenseInput'
-import { URLInput } from '../projects/URLInput'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
-
-const isImageUrl = (url: string) => url.endsWith('.jpg') || url.endsWith('.png')
 
 export const FigureInspector: React.FC<{
   figure: Figure
@@ -30,42 +25,43 @@ export const FigureInspector: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
 }> = ({ figure, node, saveFigure, state, dispatch }) => {
-  const attribution = figure.attribution || buildAttribution()
+  // const attribution = figure.attribution || buildAttribution()
 
-  const handleLicenseChange = useCallback(
-    (licenseID: string) => {
-      const data = {
-        ...attribution,
-        licenseID,
-      }
-
-      saveFigure({
-        ...figure,
-        attribution: data as Attribution,
-      })
-    },
-    [saveFigure, figure, attribution]
-  )
+  // const handleLicenseChange = useCallback(
+  //   (licenseID: string) => {
+  //     const data = {
+  //       ...attribution,
+  //       licenseID,
+  //     }
+  //
+  //     saveFigure({
+  //       ...figure,
+  //       attribution: data as Attribution,
+  //     })
+  //   },
+  //   [saveFigure, figure, attribution]
+  // )
 
   return (
     <InspectorSection title={'Figure'}>
       <InspectorField>
+        {/* TODO:: check LEAN-1329 and remove embed url*/}
         <InspectorLabel>Embed URL</InspectorLabel>
 
-        <URLInput
-          value={node.attrs.embedURL}
-          handleChange={(embedURL) => {
-            if (embedURL && isImageUrl(embedURL)) {
-              // TODO: save the image attachment
-              setNodeAttrs(state, dispatch, figure._id, {
-                src: embedURL,
-                embedURL: undefined,
-              })
-            } else {
-              setNodeAttrs(state, dispatch, figure._id, { embedURL })
-            }
-          }}
-        />
+        {/*<URLInput*/}
+        {/*  value={node.attrs.embedURL}*/}
+        {/*  handleChange={(embedURL) => {*/}
+        {/*    if (embedURL && isImageUrl(embedURL)) {*/}
+        {/*      // TODO: save the image attachment*/}
+        {/*      setNodeAttrs(state, dispatch, figure._id, {*/}
+        {/*        src: embedURL,*/}
+        {/*        embedURL: undefined,*/}
+        {/*      })*/}
+        {/*    } else {*/}
+        {/*      setNodeAttrs(state, dispatch, figure._id, { embedURL })*/}
+        {/*    }*/}
+        {/*  }}*/}
+        {/*/>*/}
       </InspectorField>
 
       <Subheading>Attribution</Subheading>
@@ -73,10 +69,10 @@ export const FigureInspector: React.FC<{
       <InspectorField>
         <InspectorLabel>License</InspectorLabel>
 
-        <LicenseInput
-          value={attribution.licenseID}
-          handleChange={handleLicenseChange}
-        />
+        {/*<LicenseInput*/}
+        {/*  value={attribution.licenseID}*/}
+        {/*  handleChange={handleLicenseChange}*/}
+        {/*/>*/}
       </InspectorField>
 
       {/*<InspectorField>
