@@ -2136,7 +2136,7 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.1.tgz#c499e2b2600811792a0e9172df9e6a3ce1df1a4f"
   integrity sha512-DUbNRehtEiX1K3qA3swqRNyxv2fIa4zGYz8MasIkSxrMfrBG7f68FSWtERrorz6OyL4tL2WQ+K5hIt3WrIlg2Q==
 
-"@manuscripts/data@^0.1.11", "@manuscripts/data@^0.1.12":
+"@manuscripts/data@^0.1.11", "@manuscripts/data@^0.1.12", "@manuscripts/data@^0.1.3":
   version "0.1.12"
   resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.12.tgz#14ca113e714e4b71586f89f443f8ab4079a9fa84"
   integrity sha512-zS7RuBXhw8YypwjhT18V//rukLq72oZj2/za35zjfZntql6uJi5PtsLm8CCBkGW4jvqAbNg3JO+avFUy8jcsvQ==
@@ -2191,17 +2191,16 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-
-"@manuscripts/manuscript-editor@^0.93.5":
-  version "0.93.5"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.5.tgz#ebe4bda92f6a7bfe042307322115c2d8bf890123"
-  integrity sha512-LSBh0bflvHNEHb/KPZ6LjX6pERPPEpbpYtyO11ZZdaLnU/Ih4v84A+rqRk6nYGJK+GNQ+CnFn1AJQTkbha8XdA==
+"@manuscripts/manuscript-editor@^0.93.6":
+  version "0.93.6"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.6.tgz#c5d775497b2499f6e44a1dee7fdf0877a37da7bc"
+  integrity sha512-6uHcH8N50bzfqwzPq3fsIurvKNXSH2PJfGI1xUbyJ54eWc/WZiG/ao6PEY031Nye2OtIbPnomsFQYB/hJJ9c+w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/comment-editor" "^0.2.1"
-    "@manuscripts/manuscripts-json-schema" "^1.49.13"
+    "@manuscripts/manuscripts-json-schema" "^1.51.0"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
     "@manuscripts/track-changes-plugin" "^0.3.0"
@@ -2237,14 +2236,29 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@>=0.49.5", "@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.49.5":
-  version "0.49.6"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.49.6.tgz#ebf5d947fcc133a262047849a87f24f09a4ff1df"
-  integrity sha512-bbub4QiwK9Cl9IixPmyBiBZVxC+hG/JdocmpBIEotGKTUi6prH3+Hym6eGiOWMB1ySD8KkwK8w2CrfwkigeMXQ==
+"@manuscripts/manuscript-transform@^0.42.12":
+  version "0.42.13"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.13.tgz#8d196ee5149bd3d6bf7dda0a4e718ccfdb7f9c35"
+  integrity sha512-WTtBEccdR5+BSKe87Ze6bHk4Hkolz2BpHyVbvli6qC+E/ar6T4oBZGFzWOFawZsGyKviBwnvnjpPLlOE5U6b3g==
   dependencies:
-    "@manuscripts/data" "^0.1.12"
+    "@manuscripts/data" "^0.1.3"
+    "@manuscripts/manuscripts-json-schema" "^1.46.7"
+    debug "^4.1.1"
+    lodash.pickby "^4.6.0"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscript-transform@^0.48.1":
+  version "0.48.29"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.29.tgz#b545ce47d7e1837cf6370a0da6d1d105167edd41"
+  integrity sha512-07JLd3UZHVOJ15YUlRtsje/Atr5uDcbLhwKNz+mHFALmggzD8gW6K1lUk1+VTYHerXcGgz20JUcKDYGWovsbaQ==
+  dependencies:
+    "@manuscripts/data" "^0.1.3"
     "@manuscripts/library" "^0.6.2"
-    "@manuscripts/manuscripts-json-schema" "^1.49.13"
+    "@manuscripts/manuscripts-json-schema" "^1.49.11"
     debug "^4.1.1"
     mathjax-full "^3.1.2"
     mime "^2.4.6"
@@ -2252,7 +2266,40 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.13":
+"@manuscripts/manuscript-transform@^0.54.0":
+  version "0.54.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.54.0.tgz#f1ea6fc748f66386e8a97ef8511b8323b5352fa0"
+  integrity sha512-Zyn6NsHhT8IMwm1KJyZdHBBZrmjKJtZXfn2h3RaKlfCrpyjhy+9tlli8WyxA+FsKL1nQivVwAQdbn2z4WKhVeQ==
+  dependencies:
+    "@manuscripts/data" "^0.1.12"
+    "@manuscripts/library" "^0.6.2"
+    "@manuscripts/manuscripts-json-schema" "1.51.0"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscripts-json-schema@1.49.3":
+  version "1.49.3"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.3.tgz#44543f94d4405a8e153100efb1b097da45760869"
+  integrity sha512-tZgwGQqHzGXaR7uYeJxKu2yS2QE7qbwNvEdwEH7Ng27wjzz783VxSkL1dm5/9hMkDUmUeQn14RPcX4qz8Vw2Cg==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
+"@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@^1.46.7", "@manuscripts/manuscripts-json-schema@^1.49.11", "@manuscripts/manuscripts-json-schema@^1.51.0":
+  version "1.51.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.51.0.tgz#6677f4ac81243496b92608c82f1e2d1c56acf22a"
+  integrity sha512-YNrqrX8SScXZ5V/3/2Cyy/3SepOkMX/mn18TdKggh+WNN8n3AtKM31/Qw+2jVcF84w9pZ+RU+wuObr2u+GlSUA==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
+"@manuscripts/manuscripts-json-schema@^1.49.1":
   version "1.49.13"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.13.tgz#6dc29d2d2be56d2a406e717e67b487758ff28ecf"
   integrity sha512-YDoWW95clkWLj160IXx//oIaJqGhRReQeDDF6GdR56WbHS1FZRyOa2hdmp6V7UTlmVac/K9CDEbmf5nKKlrcMA==
@@ -2364,7 +2411,6 @@
     unload "2.1.0"
     url "^0.11.0"
     util "^0.12.0"
-
 
 "@manuscripts/style-guide@^0.31.20":
   version "0.31.20"
@@ -13415,6 +13461,11 @@ lodash.once@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
+
+lodash.pickby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/lodash.pickby/-/lodash.pickby-4.6.0.tgz#7dea21d8c18d7703a27c704c15d3b84a67e33aff"
+  integrity sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==
 
 lodash.sortby@^4.7.0:
   version "4.7.0"

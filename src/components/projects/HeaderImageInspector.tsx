@@ -15,7 +15,6 @@ import React from 'react'
 
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
-import { CreditInput } from './CreditInput'
 import { DescriptionInput } from './DescriptionInput'
 import { ManuscriptHeaderField } from './ManuscriptHeaderField'
 
@@ -63,17 +62,17 @@ export const HeaderImageInspector: React.FC = () => {
             }}
           />
 
-          <Subheading>Credit</Subheading>
+          {/*<Subheading>Credit</Subheading>*/}
 
-          <CreditInput
-            value={headerFigure.credit}
-            handleChange={async (credit) => {
-              await saveModel({
-                ...headerFigure,
-                credit,
-              })
-            }}
-          />
+          {/*<CreditInput*/}
+          {/*  value={headerFigure.credit}*/}
+          {/*  handleChange={async (credit) => {*/}
+          {/*    await saveModel({*/}
+          {/*      ...headerFigure,*/}
+          {/*      credit,*/}
+          {/*    })*/}
+          {/*  }}*/}
+          {/*/>*/}
         </>
       )}
     </InspectorSection>
