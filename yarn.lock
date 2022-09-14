@@ -2191,7 +2191,7 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.93.5":
+"@manuscripts/manuscript-editor@^0.93.6":
   version "0.93.6"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.6.tgz#c5d775497b2499f6e44a1dee7fdf0877a37da7bc"
   integrity sha512-6uHcH8N50bzfqwzPq3fsIurvKNXSH2PJfGI1xUbyJ54eWc/WZiG/ao6PEY031Nye2OtIbPnomsFQYB/hJJ9c+w==
