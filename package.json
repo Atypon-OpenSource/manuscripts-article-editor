@@ -292,7 +292,9 @@
   },
   "peerDependencies": {
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "@manuscripts/manuscript-transform": "^0.54.0",
+    "@manuscripts/manuscripts-json-schema": "^1.51.0"
   },
   "resolutions": {
     "chokidar": "^3.3.1",
