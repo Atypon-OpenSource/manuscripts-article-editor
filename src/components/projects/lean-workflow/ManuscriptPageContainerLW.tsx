@@ -138,7 +138,7 @@ const ManuscriptPageView: React.FC = () => {
   const [modelMap] = useStore((store) => store.modelMap)
   const [submissionID] = useStore((store) => store.submissionID || '')
   const [submission] = useStore((store) => store.submission)
-  const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
+  const [manuscriptID] = useStore((store) => store.manuscriptID)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
@@ -174,10 +174,11 @@ const ManuscriptPageView: React.FC = () => {
     return changeSet && changeSet.pending.length > 0
   }, [trackState])
 
-  const saveDocument = debounce((state: ManuscriptEditorState) => {
-    storeDispatch({ doc: state.doc })
-    updateDocument(manuscriptID, state.doc.toJSON())
-  }, 500)
+  const saveDocument = debounce(
+    (state: ManuscriptEditorState) =>
+      updateDocument(manuscriptID, state.doc.toJSON()),
+    500
+  )
 
   useEffect(() => {
     const { trackState } = setEditorState(state)

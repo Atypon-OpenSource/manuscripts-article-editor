@@ -15,7 +15,6 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import { encode, schema } from '@manuscripts/manuscript-transform'
 import { FileManager, usePermissions } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
@@ -36,7 +35,7 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    { saveModel, modelMap, submissionId, fileManagement, commentTarget, doc },
+    { saveModel, modelMap, submissionId, fileManagement, commentTarget },
   ] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
@@ -50,7 +49,6 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
     commitsSortBy: store.commitsSortBy as string,
     comments: store.comments || [],
     fileManagement: store.fileManagement,
-    doc: store.doc,
     commentTarget: store.commentTarget,
   }))
 
@@ -67,10 +65,6 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const can = usePermissions()
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
-
-  const article = doc.toJSON()
-
-  const models = useMemo(() => encode(schema.nodeFromJSON(article)), [article])
 
   return (
     <>
@@ -135,7 +129,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                   <FileManager
                     can={can}
                     enableDragAndDrop={true}
-                    modelMap={models}
+                    modelMap={modelMap}
                     saveModel={saveModel}
                     fileManagement={fileManagement}
                   />
