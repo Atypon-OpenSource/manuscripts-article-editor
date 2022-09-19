@@ -2191,17 +2191,16 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-
-"@manuscripts/manuscript-editor@^0.93.5":
-  version "0.93.5"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.5.tgz#ebe4bda92f6a7bfe042307322115c2d8bf890123"
-  integrity sha512-LSBh0bflvHNEHb/KPZ6LjX6pERPPEpbpYtyO11ZZdaLnU/Ih4v84A+rqRk6nYGJK+GNQ+CnFn1AJQTkbha8XdA==
+"@manuscripts/manuscript-editor@^0.93.7":
+  version "0.93.7"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.7.tgz#b6309a7beb47e987d6aab8d50b0b17395af3c19d"
+  integrity sha512-Eve+b9TQGHmMuCq3dt31D5aa/DsymdkmNUdl3MGY28olRUz0Su7j6U/0+0FIGs2w+8RhNB4Oq8pugrqLjGJR6A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/comment-editor" "^0.2.1"
-    "@manuscripts/manuscripts-json-schema" "^1.49.13"
+    "@manuscripts/manuscripts-json-schema" "^1.51.0"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
     "@manuscripts/track-changes-plugin" "^0.3.0"
@@ -2252,7 +2251,7 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.13":
+"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.13", "@manuscripts/manuscripts-json-schema@^1.51.0":
   version "1.49.13"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.13.tgz#6dc29d2d2be56d2a406e717e67b487758ff28ecf"
   integrity sha512-YDoWW95clkWLj160IXx//oIaJqGhRReQeDDF6GdR56WbHS1FZRyOa2hdmp6V7UTlmVac/K9CDEbmf5nKKlrcMA==
@@ -2364,7 +2363,6 @@
     unload "2.1.0"
     url "^0.11.0"
     util "^0.12.0"
-
 
 "@manuscripts/style-guide@^0.31.20":
   version "0.31.20"
