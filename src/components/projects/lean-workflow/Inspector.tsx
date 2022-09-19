@@ -15,6 +15,7 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
+import { encode, schema } from '@manuscripts/manuscript-transform'
 import { FileManager, usePermissions } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
@@ -35,11 +36,10 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    { saveModel, modelMap, submissionId, fileManagement, commentTarget },
+    { saveModel, submissionId, fileManagement, commentTarget, doc },
   ] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
-    modelMap: store.modelMap,
     manuscript: store.manuscript,
     user: store.user,
     project: store.project,
@@ -49,6 +49,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
     commitsSortBy: store.commitsSortBy as string,
     comments: store.comments || [],
     fileManagement: store.fileManagement,
+    doc: store.doc,
     commentTarget: store.commentTarget,
   }))
 
@@ -63,6 +64,12 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   )
 
   const can = usePermissions()
+
+  const article = doc.toJSON()
+
+  const modelMap = useMemo(() => encode(schema.nodeFromJSON(article)), [
+    article,
+  ])
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
