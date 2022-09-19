@@ -1,11 +1,15 @@
 node("cisc") {
     stage("Checkout") {
-        VARS = checkout scm 
+        VARS = checkout scm
         echo "VARS: $VARS"
     }
 
     stage("Build") {
         nodejs(nodeJSInstallationName: 'node 12.22.1') {
+           sh (script: "rm -rf node_modules/",
+                                    label: "remove node modules",
+                                    returnStdout: true)
+
             sh (script: "yarn install --frozen-lockfile --non-interactive",
                 label: "yarn install",
                 returnStdout: true)
@@ -23,7 +27,7 @@ node("cisc") {
                 returnStdout: true)
 
             env.ALLOW_MISSING_VARIABLES=1
-            
+
             sh "printenv"
 
             sh (script: "yarn build",
@@ -43,8 +47,8 @@ node("cisc") {
     if (VARS.GIT_BRANCH == "origin/master") {
         stage ("Publish") {
             withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-                sh ("""cat << EOF >.npmrc 
-//registry.npmjs.org/:_authToken=$NPM_TOKEN 
+                sh ("""cat << EOF >.npmrc
+//registry.npmjs.org/:_authToken=$NPM_TOKEN
 <<EOF""")
                 sh ("npx @manuscripts/publish")
                 sh "rm -f .npmrc"
