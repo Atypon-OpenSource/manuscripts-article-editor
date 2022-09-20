@@ -61,18 +61,6 @@ export const HeaderImageInspector: React.FC = () => {
               })
             }}
           />
-
-          {/*<Subheading>Credit</Subheading>*/}
-
-          {/*<CreditInput*/}
-          {/*  value={headerFigure.credit}*/}
-          {/*  handleChange={async (credit) => {*/}
-          {/*    await saveModel({*/}
-          {/*      ...headerFigure,*/}
-          {/*      credit,*/}
-          {/*    })*/}
-          {/*  }}*/}
-          {/*/>*/}
         </>
       )}
     </InspectorSection>
