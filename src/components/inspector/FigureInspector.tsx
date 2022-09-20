@@ -19,6 +19,8 @@ import { InspectorSection } from '../InspectorSection'
 
 // const isImageUrl = (url: string) => url.endsWith('.jpg') || url.endsWith('.png')
 
+/* TODO:: will not remove this component until we decide what to do with the
+      interactive images related to the media alternative  */
 export const FigureInspector: React.FC<{
   figure: Figure
   node: FigureNode
