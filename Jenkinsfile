@@ -6,10 +6,6 @@ node("cisc") {
 
     stage("Build") {
         nodejs(nodeJSInstallationName: 'node 12.22.1') {
-           sh (script: "rm -rf node_modules/",
-                                    label: "remove node modules",
-                                    returnStdout: true)
-
             sh (script: "yarn install --frozen-lockfile --non-interactive",
                 label: "yarn install",
                 returnStdout: true)

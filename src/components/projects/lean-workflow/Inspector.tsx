@@ -65,11 +65,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
 
   const can = usePermissions()
 
-  const article = doc.toJSON()
-
-  const modelMap = useMemo(() => encode(schema.nodeFromJSON(article)), [
-    article,
-  ])
+  const modelMap = encode(schema.nodeFromJSON(doc.toJSON()))
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
