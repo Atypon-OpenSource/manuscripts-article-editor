@@ -1,5 +1,3 @@
-
-
 node("cisc") {
     stage("Checkout") {
         VARS = checkout scm 
