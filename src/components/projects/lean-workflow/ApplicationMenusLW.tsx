@@ -174,7 +174,10 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     editorMenu = editorMenu.filter((menu) => menu.id !== 'format')
   }
 
-  const menu = [projectMenu, ...editorMenu, helpMenu]
+  const menu = [...editorMenu, helpMenu]
+  if (config.features.projectMenu) {
+    menu.unshift(projectMenu)
+  }
 
   // Commented as may it be actually useful in later development
   // if (!config.production) {
