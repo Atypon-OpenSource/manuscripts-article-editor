@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { schema } from '@manuscripts/manuscript-transform'
 import { FileManagement } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 import { hot } from 'react-hot-loader'
@@ -23,13 +22,13 @@ import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
 import config from './config'
 import CouchSource from './couch-data/CouchSource'
+import { useHandleSnapshot } from './hooks/use-handle-snapshot'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
 import { useAuthStore } from './quarterback/useAuthStore'
-import { useDocStore } from './quarterback/useDocStore'
+import { useLoadDoc } from './quarterback/useLoadDoc'
 import { usePouchStore } from './quarterback/usePouchStore'
-import { useSnapshotStore } from './quarterback/useSnapshotStore'
 import {
   BasicSource,
   createStore,
@@ -72,10 +71,9 @@ const EditorApp: React.FC<Props> = ({
   const userID = getCurrentUserId()
 
   const [store, setStore] = useState<GenericStore>()
-  const { authenticate, setUser } = useAuthStore()
-  const { createDocument, getDocument, setCurrentDocument } = useDocStore()
+  const { setUser } = useAuthStore()
   const { init: initPouchStore } = usePouchStore()
-  const { init: initSnapshots, setSnapshots } = useSnapshotStore()
+
   useMemo(() => {
     const user = store?.state?.user
     if (user) {
@@ -84,6 +82,8 @@ const EditorApp: React.FC<Props> = ({
       setUser()
     }
   }, [store?.state?.user, setUser])
+
+  const loadDoc = useLoadDoc()
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
@@ -127,34 +127,13 @@ const EditorApp: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submissionId, manuscriptID, projectID])
 
-  async function loadDoc(manuscriptID: string, projectID: string) {
-    if (!config.quarterback.enabled) {
-      return undefined
+  const handleSnapshot = useHandleSnapshot(!!store)
+
+  useEffect(() => {
+    if (handleSnapshot) {
+      store?.setState((state) => ({ handleSnapshot, ...state }))
     }
-    const auth = await authenticate()
-    if (!auth) {
-      return undefined
-    }
-    setCurrentDocument(manuscriptID, projectID)
-    const found = await getDocument(manuscriptID)
-    let doc
-    if ('data' in found) {
-      initSnapshots()
-      setSnapshots(found.data.snapshots)
-      doc = found.data.doc
-    } else if ('err' in found && found.code === 404) {
-      // Create an empty doc that will be replaced with whatever document is currently being edited
-      createDocument(manuscriptID, projectID)
-    }
-    if (
-      doc !== null &&
-      typeof doc === 'object' &&
-      Object.keys(doc).length !== 0
-    ) {
-      return schema.nodeFromJSON(doc)
-    }
-    return undefined
-  }
+  }, [handleSnapshot, store])
 
   return store ? (
     <GenericStoreProvider store={store}>

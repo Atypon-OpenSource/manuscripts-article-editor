@@ -174,6 +174,10 @@ const ManuscriptPageView: React.FC = () => {
     return changeSet && changeSet.pending.length > 0
   }, [trackState])
 
+  useEffect(() => {
+    storeDispatch({ hasPendingSuggestions })
+  }, [storeDispatch, hasPendingSuggestions])
+
   const saveDocument = debounce((state: ManuscriptEditorState) => {
     storeDispatch({ doc: state.doc })
     updateDocument(manuscriptID, state.doc.toJSON())
@@ -222,16 +226,16 @@ const ManuscriptPageView: React.FC = () => {
                   which will happen on the very last step = 'Published'
                   this should be handled later with are more graceful way but it is not clear at this point how.
               */}
-                {submission?.nextStep && (
+                {/* {submission?.nextStep && (
                   <ManualFlowTransitioning
                     submission={submission}
                     userRole={getUserRole(project, user?.userID)}
                     documentId={`${project._id}#${manuscript._id}`}
                     hasPendingSuggestions={!!hasPendingSuggestions}
                   >
-                    <SaveStatusController isDirty={false} />
+                    <SaveStatusController />
                   </ManualFlowTransitioning>
-                )}
+                )} */}
 
                 <EditorHeader>
                   <ApplicationMenuContainer>

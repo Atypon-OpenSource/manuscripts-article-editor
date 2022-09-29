@@ -42,6 +42,7 @@ import {
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
+import { getUserRole } from '../lib/roles'
 import { getSnapshot } from '../lib/snapshot'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
@@ -342,6 +343,10 @@ export default async function buildData(
   }
 
   const manuscriptData = await getManuscriptData(projectID, manuscriptID, api)
+  const userRole = manuscriptData.project
+    ? getUserRole(manuscriptData.project, user.userID)
+    : null
+
   const collaboratorsData = await getCollaboratorsData(
     projectID,
     manuscriptData,
@@ -367,6 +372,7 @@ export default async function buildData(
     user,
     manuscriptID: manuscriptData.manuscript?._id,
     projectID: manuscriptData.project?._id,
+    userRole,
     ...derivedData,
     ...collaboratorsData,
     ...librariesData,

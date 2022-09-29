@@ -38,6 +38,7 @@ import { FileManagement } from '@manuscripts/style-guide'
 import { Commit } from '@manuscripts/track-changes'
 
 import { Person, Submission } from '../lib/lean-workflow-gql'
+import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { BiblioTools } from './BiblioTools'
 import { TokenData } from './TokenData'
@@ -72,6 +73,7 @@ export type state = {
   doc: ManuscriptNode
   ancestorDoc: ManuscriptNode
   user: UserProfile // probably should be optional
+  userRole: ProjectRole
   tokenData: TokenData
   projectID: string
   submissionID?: string
@@ -89,6 +91,7 @@ export type state = {
   modelMap: Map<string, Model>
   snapshotID: string | null
   snapshots?: Snapshot[]
+  handleSnapshot?: () => Promise<void>
   comments?: CommentAnnotation[]
   commentTarget?: string
   notes?: ManuscriptNote[]
@@ -105,6 +108,7 @@ export type state = {
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
   deleteProject: (projectID: string) => Promise<string>
   updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+  savingProcess?: 'saved' | 'saving' | 'offline'
   saveNewManuscript: (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
     containerID: string,
