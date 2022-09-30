@@ -61,9 +61,7 @@ import {
 } from './ApplicationMenusLW'
 import EditorElement from './EditorElement'
 import Inspector from './Inspector'
-import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
-import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
@@ -137,7 +135,6 @@ const ManuscriptPageView: React.FC = () => {
   const [lwUser] = useStore((store) => store.lwUser)
   const [modelMap] = useStore((store) => store.modelMap)
   const [submissionID] = useStore((store) => store.submissionID || '')
-  const [submission] = useStore((store) => store.submission)
   const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
