@@ -2450,10 +2450,10 @@
   dependencies:
     debug "^4.3.4"
 
-"@manuscripts/track-changes-plugin@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.4.2.tgz#77ecf99d48f597484c73bac9bee30501127148fb"
-  integrity sha512-KzTu/9xfwW6MPP50cApZxMH2JQBFaIsJaVzfABizUfjInz2W9w7fFFR5PM0qSJOq+4pp7/7nFJnizXQ9zGmY0A==
+"@manuscripts/track-changes-plugin@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.4.3.tgz#1d4206dc421d0ca81a8d5b33e227200ba852ce07"
+  integrity sha512-sKhaFv1p3ybuDDK1XFn3TficjUub8IireQ4OJeZ1+79HpnrBMkqKf9LfapMrihxExCpEfDIC+LLTN/tYCsrzkw==
   dependencies:
     debug "^4.3.4"
 

@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "0.2.27",
+  "version": "0.2.29",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github.com:Atypon-OpenSource/manuscripts-article-editor.git",
@@ -73,7 +73,7 @@
     "@manuscripts/sync-client": "^0.9.1",
     "@manuscripts/title-editor": "^0.5.1",
     "@manuscripts/track-changes": "^0.3.3",
-    "@manuscripts/track-changes-plugin": "^0.4.2",
+    "@manuscripts/track-changes-plugin": "^0.4.3",
     "@reach/tabs": "^0.11.2",
     "@sentry/browser": "^5.25.0",
     "@types/apollo-upload-client": "^8.1.3",
