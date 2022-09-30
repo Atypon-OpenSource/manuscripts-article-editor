@@ -453,39 +453,6 @@ export const useGetCurrentSubmissionStep = (
     },
   })
 
-interface proceedProps {
-  submissionId: string
-  statusId: string
-  note: string
-  update: (cache: DataProxy, data: FetchResult<{ proceed: Submission }>) => void
-}
-
-export const useProceed = () => {
-  const [mutate, { error }] = useMutation<{ proceed: Submission }>(PROCEED, {
-    errorPolicy: 'all',
-  })
-  return {
-    submitProceedMutation: ({
-      submissionId,
-      statusId,
-      note,
-      update,
-    }: proceedProps) =>
-      mutate({
-        context: {
-          clientPurpose: 'leanWorkflowManager',
-        },
-        variables: {
-          submissionId,
-          statusId,
-          note,
-        },
-        update,
-      }),
-    mutationError: error,
-  }
-}
-
 export const useSetMainManuscript = () => {
   const [mutate, { error }] = useMutation(SET_MAIN_MANUSCRIPT)
   return {

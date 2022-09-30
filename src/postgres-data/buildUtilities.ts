@@ -134,7 +134,7 @@ const buildUtilities = (
         modelMap,
       })
       updateState({
-        savingProcess: 'pending',
+        savingProcess: 'saving',
       })
       const result = await bulkPersistentManuscriptSave([
         ...modelMap.values(),

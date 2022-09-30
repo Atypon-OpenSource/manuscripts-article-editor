@@ -39,7 +39,7 @@ import {
   Person,
   useGetPermittedActions,
 } from '../../../lib/lean-workflow-gql'
-import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
+import { isAnnotator, isViewer } from '../../../lib/roles'
 import { useCommentStore } from '../../../quarterback/useCommentStore'
 import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
