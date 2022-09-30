@@ -10,9 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { DataProxy } from 'apollo-cache/src/types/DataProxy'
 import { ApolloError } from 'apollo-client'
-import { FetchResult } from 'apollo-link'
 import gql from 'graphql-tag'
 
 import config from '../config'
@@ -214,31 +212,6 @@ export const GET_SUBMISSION = gql`
     }
   }
   ${TransitionsFragment.transitions}
-`
-
-const PROCEED = gql`
-  mutation Proceed($submissionId: ID!, $statusId: ID!, $note: String!) {
-    proceed(submissionId: $submissionId, statusId: $statusId, note: $note) {
-      currentStep {
-        type {
-          label
-          role {
-            label
-          }
-          description
-        }
-      }
-      nextStep {
-        type {
-          label
-          role {
-            label
-          }
-          description
-        }
-      }
-    }
-  }
 `
 
 export const SET_MAIN_MANUSCRIPT = gql`
