@@ -180,7 +180,7 @@ const buildUtilities = (
       data.modelMap.delete(id)
       updateState({
         modelMap: data.modelMap,
-        savingProcess: 'pending',
+        savingProcess: 'saving',
       })
       const result = await bulkPersistentManuscriptSave([
         ...data.modelMap.values(),
