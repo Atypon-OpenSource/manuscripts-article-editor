@@ -55,6 +55,7 @@ storiesOf('Citation', module)
       projectID={'MPProject:1'}
       scheduleUpdate={action('schedule update')}
       selectedText={'foo'}
+      setCommentTarget={action('set comment target')}
       importItems={action('import items')}
       citation={citation}
       updateCitation={action('update citation')}

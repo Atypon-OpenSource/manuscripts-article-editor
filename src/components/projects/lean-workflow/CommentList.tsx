@@ -18,15 +18,19 @@ import {
   buildComment,
   buildContribution,
   buildKeyword,
+  getModelsByType,
 } from '@manuscripts/manuscript-transform'
 import {
   CommentAnnotation,
+  ElementsOrder,
+  ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   buildCommentTree,
   CommentData,
   CommentTarget,
+  CommentType,
   CommentWrapper,
   NoteBodyContainer,
   ReplyBodyContainer,
@@ -36,6 +40,7 @@ import { ContentNodeWithPos } from 'prosemirror-utils'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
+import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
 import * as Pattern from '../CommentListPatterns'
 import { HighlightedText } from '../HighlightedText'
@@ -55,6 +60,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       collaborators,
       collaboratorsById,
       keywords,
+      manuscriptID,
+      modelMap,
       saveModel,
       deleteModel,
     },
@@ -67,6 +74,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     collaborators: store.collaborators || new Map<string, UserProfile>(),
     collaboratorsById: store.collaboratorsById,
     keywords: store.keywords,
+    manuscriptID: store.manuscriptID,
+    modelMap: store.modelMap,
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
     commentTarget: store.commentTarget,
@@ -121,10 +130,67 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       if (highlight) {
         // newComment.originalText = getHighlightText(highlight, state)
         newComment.originalText = highlight.text
-        setNewComment(newComment)
       }
+      setNewComment(newComment)
     }
   }, [commentTarget, doc, newComment, state, currentUser])
+
+  const commentsLabel = useMemo(() => {
+    let labels: { [p: string]: string } = {}
+    let graphicalAbstractFigureId: string | undefined = undefined
+
+    doc.descendants((node) => {
+      if (node.type.name === 'citation') {
+        labels = {
+          ...labels,
+          [node.attrs['rid']]: node.attrs.contents.trim(),
+        }
+      }
+
+      if (node.attrs['category'] === 'MPSectionCategory:abstract-graphical') {
+        node.forEach((node) => {
+          if (node.type.name === 'figure_element') {
+            graphicalAbstractFigureId = node.attrs['id']
+          }
+        })
+      }
+    })
+
+    const getLabels = (
+      label: string,
+      elements: string[],
+      excludedElementId?: string
+    ) =>
+      elements
+        .filter((element) => element !== excludedElementId)
+        .reduce(
+          (prev, element, index) => ({
+            ...prev,
+            [element]: `${label} ${++index}`,
+          }),
+          {}
+        )
+
+    const elementsOrders = getModelsByType<ElementsOrder>(
+      modelMap,
+      ObjectTypes.ElementsOrder
+    )
+    elementsOrders.map(({ elementType, elements }) => {
+      if (
+        elementType === ObjectTypes.TableElement ||
+        elementType === ObjectTypes.FigureElement
+      ) {
+        const label =
+          (elementType === ObjectTypes.FigureElement && 'Figure') || 'Table'
+        labels = {
+          ...labels,
+          ...getLabels(label, elements, graphicalAbstractFigureId),
+        }
+      }
+    })
+
+    return labels
+  }, [doc, modelMap])
 
   const items = useMemo<Array<[string, CommentData[]]>>(() => {
     const combinedComments = [...comments]
@@ -150,6 +216,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     [saveModel, updateComments]
   )
 
+  const { updateDocument } = useDocStore()
+
   const saveComment = useCallback(
     (comment: CommentAnnotation) => {
       return saveModel(comment).then((comment) => {
@@ -157,6 +225,9 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
           setCommentTarget(undefined)
           setNewComment(undefined)
           addComment(comment)
+          if (!comment.target.includes(ObjectTypes.Highlight)) {
+            updateDocument(manuscriptID, doc.toJSON())
+          }
         } else {
           updateComments(comment)
         }
@@ -164,7 +235,16 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
         return comment
       })
     },
-    [saveModel, newComment, setCommentTarget, addComment, updateComments]
+    [
+      saveModel,
+      newComment,
+      setCommentTarget,
+      addComment,
+      updateDocument,
+      manuscriptID,
+      doc,
+      updateComments,
+    ]
   )
 
   const deleteComment = useCallback(
@@ -206,7 +286,9 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
   )
 
   const scrollIntoHighlight = (comment: CommentAnnotation) => {
-    const el = document.querySelector(`[data-reference-id="${comment.target}"]`)
+    const el =
+      document.querySelector(`[data-reference-id="${comment.target}"]`) ||
+      document.querySelector(`[id="${comment.target}"]`)
     if (el) {
       el.scrollIntoView({
         behavior: 'smooth',
@@ -225,6 +307,10 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
 
   const getHighlightTextColor = useCallback(
     (comment: CommentAnnotation) => {
+      if (!comment.target.includes(ObjectTypes.Highlight)) {
+        return '#ffe08b'
+      }
+
       let highlight = null
       try {
         const target = state && getHighlightTarget(comment, state)
@@ -236,6 +322,16 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       return highlight ? '#ffe08b' : '#f9020287'
     },
     [state]
+  )
+
+  const getHighlightComment = useCallback(
+    (comment: CommentType) => {
+      if (commentsLabel[comment.target]) {
+        return { ...comment, originalText: commentsLabel[comment.target] }
+      }
+      return comment
+    },
+    [commentsLabel]
   )
 
   const can = usePermissions()
@@ -290,7 +386,9 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
                       isNew={isNew(comment as CommentAnnotation)}
                     >
                       <HighlightedText
-                        comment={comment as CommentAnnotation}
+                        comment={
+                          getHighlightComment(comment) as CommentAnnotation
+                        }
                         getHighlightTextColor={getHighlightTextColor}
                         onClick={scrollIntoHighlight}
                       />

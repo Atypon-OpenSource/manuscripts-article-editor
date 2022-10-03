@@ -17,8 +17,10 @@ import {
   Citation,
 } from '@manuscripts/manuscripts-json-schema'
 import {
+  AddComment,
   ButtonGroup,
   IconButton,
+  IconTextButton,
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
@@ -77,7 +79,7 @@ const ActionButton = styled(IconButton).attrs({
 const Actions = styled.div`
   margin: ${(props) => props.theme.grid.unit * 4}px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 `
 
@@ -106,6 +108,7 @@ interface Props {
   selectedText: string
   citation: Citation
   updateCitation: (data: Partial<Citation>) => Promise<void>
+  setCommentTarget: (commentTarget?: string) => void
 }
 
 const CitationEditor: React.FC<Props> = ({
@@ -115,6 +118,7 @@ const CitationEditor: React.FC<Props> = ({
   handleClose,
   handleRemove,
   selectedText,
+  setCommentTarget,
   importItems,
   filterLibraryItems,
   citation,
@@ -137,6 +141,11 @@ const CitationEditor: React.FC<Props> = ({
         console.error(error)
       })
   }, [properties, handleClose, updateCitation])
+
+  const addCommentCallback = useCallback(() => setCommentTarget(citation._id), [
+    citation._id,
+    setCommentTarget,
+  ])
 
   if (searching) {
     return (
@@ -211,6 +220,11 @@ const CitationEditor: React.FC<Props> = ({
       </Options>
 
       <Actions>
+        <IconTextButton onClick={addCommentCallback}>
+          <AddComment />
+          <AddCommentButtonText>Add Comment</AddCommentButtonText>
+        </IconTextButton>
+
         <ButtonGroup>
           <SecondaryButton onClick={saveAndClose}>Done</SecondaryButton>
           <PrimaryButton onClick={() => setSearching(true)}>
@@ -223,3 +237,12 @@ const CitationEditor: React.FC<Props> = ({
 }
 
 export default CitationEditor
+
+const AddCommentButtonText = styled.div`
+  display: contents;
+  font-family: ${(props) => props.theme.font.family.sans};
+  font-weight: ${(props) => props.theme.font.weight.normal};
+  font-size: ${(props) => props.theme.font.size.small};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
+  color: ${(props) => props.theme.colors.text.primary};
+`
