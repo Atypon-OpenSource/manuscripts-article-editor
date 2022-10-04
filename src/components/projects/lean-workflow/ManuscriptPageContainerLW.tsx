@@ -219,21 +219,6 @@ const ManuscriptPageView: React.FC = () => {
           <Main>
             <EditorContainer>
               <EditorContainerInner>
-                {/* ManualFlowTransitioning will fail if no nextStep is present,
-                  which will happen on the very last step = 'Published'
-                  this should be handled later with are more graceful way but it is not clear at this point how.
-              */}
-                {/* {submission?.nextStep && (
-                  <ManualFlowTransitioning
-                    submission={submission}
-                    userRole={getUserRole(project, user?.userID)}
-                    documentId={`${project._id}#${manuscript._id}`}
-                    hasPendingSuggestions={!!hasPendingSuggestions}
-                  >
-                    <SaveStatusController />
-                  </ManualFlowTransitioning>
-                )} */}
-
                 <EditorHeader>
                   <ApplicationMenuContainer>
                     <ApplicationMenus
