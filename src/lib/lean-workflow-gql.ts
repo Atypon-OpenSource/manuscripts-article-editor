@@ -10,9 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { DataProxy } from 'apollo-cache/src/types/DataProxy'
 import { ApolloError } from 'apollo-client'
-import { FetchResult } from 'apollo-link'
 import gql from 'graphql-tag'
 
 import config from '../config'
@@ -214,31 +212,6 @@ export const GET_SUBMISSION = gql`
     }
   }
   ${TransitionsFragment.transitions}
-`
-
-const PROCEED = gql`
-  mutation Proceed($submissionId: ID!, $statusId: ID!, $note: String!) {
-    proceed(submissionId: $submissionId, statusId: $statusId, note: $note) {
-      currentStep {
-        type {
-          label
-          role {
-            label
-          }
-          description
-        }
-      }
-      nextStep {
-        type {
-          label
-          role {
-            label
-          }
-          description
-        }
-      }
-    }
-  }
 `
 
 export const SET_MAIN_MANUSCRIPT = gql`
@@ -452,39 +425,6 @@ export const useGetCurrentSubmissionStep = (
       type: 'DOCUMENT_ID',
     },
   })
-
-interface proceedProps {
-  submissionId: string
-  statusId: string
-  note: string
-  update: (cache: DataProxy, data: FetchResult<{ proceed: Submission }>) => void
-}
-
-export const useProceed = () => {
-  const [mutate, { error }] = useMutation<{ proceed: Submission }>(PROCEED, {
-    errorPolicy: 'all',
-  })
-  return {
-    submitProceedMutation: ({
-      submissionId,
-      statusId,
-      note,
-      update,
-    }: proceedProps) =>
-      mutate({
-        context: {
-          clientPurpose: 'leanWorkflowManager',
-        },
-        variables: {
-          submissionId,
-          statusId,
-          note,
-        },
-        update,
-      }),
-    mutationError: error,
-  }
-}
 
 export const useSetMainManuscript = () => {
   const [mutate, { error }] = useMutation(SET_MAIN_MANUSCRIPT)

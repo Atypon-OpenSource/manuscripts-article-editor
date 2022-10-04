@@ -31,6 +31,9 @@ export const createStore = async (
   parentObserver?.onUpdate((state) =>
     store.setState({ ...store.state, ...state } as state)
   )
+  store.subscribe((state) => {
+    parentObserver?.storeObserver(state)
+  })
 
   return store
 }
