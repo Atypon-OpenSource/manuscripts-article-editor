@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { getURL, isTrue, normalizeURL, splitArray } from './lib/config-helpers'
+import { isTrue, normalizeURL, splitArray } from './lib/config-helpers'
 
 interface Config {
   url: string
@@ -53,7 +53,6 @@ interface Config {
     DOI: boolean
     runningTitle: boolean
     figureAlignment: boolean
-    projectMenu: boolean
     requirements: boolean
   }
   gateway: {
@@ -138,13 +137,8 @@ interface Config {
   version: string
 }
 
-// Infer the position of the current page hostname.
-const index = splitArray(process.env.BASE_URL).findIndex((url) =>
-  url.includes(window.location.hostname)
-)
-
 const config = {
-  url: normalizeURL(getURL(process.env.BASE_URL, index)),
+  url: normalizeURL(process.env.BASE_URL),
   environment: process.env.NODE_ENV,
   native: isTrue(process.env.NATIVE),
   // the local config value is for projects loaded by the native app from
@@ -157,7 +151,7 @@ const config = {
     id: process.env.GOOGLE_ANALYTICS_ID,
   },
   api: {
-    url: normalizeURL(getURL(process.env.API_BASE_URL, index)),
+    url: normalizeURL(process.env.API_BASE_URL),
     headers: {
       'manuscripts-app-id': process.env.API_APPLICATION_ID,
       'manuscripts-app-secret': process.env.API_APPLICATION_SECRET,
@@ -188,11 +182,10 @@ const config = {
     DOI: isTrue(process.env.FEATURE_DOI),
     runningTitle: isTrue(process.env.FEATURE_RUNNING_TITLE),
     figureAlignment: isTrue(process.env.FEATURE_FIGURE_ALIGNMENT),
-    projectMenu: isTrue(process.env.FEATURE_PROJECT_MENU),
     requirements: isTrue(process.env.REQUIREMENTS_ENABLED),
   },
   gateway: {
-    url: normalizeURL(getURL(process.env.SYNC_GATEWAY_URL, index)),
+    url: normalizeURL(process.env.SYNC_GATEWAY_URL),
   },
   pressroom: {
     url: normalizeURL(process.env.PRESSROOM_URL),
@@ -236,9 +229,9 @@ const config = {
   },
   leanWorkflow: {
     enabled: isTrue(process.env.LEAN_WORKFLOW),
-    url: normalizeURL(getURL(process.env.LEAN_WORKFLOW_MANAGER_URL, index)),
+    url: normalizeURL(process.env.LEAN_WORKFLOW_MANAGER_URL),
     graphqlEndpoint: process.env.LEAN_WORKFLOW_GRAPHQL_ENDPOINT,
-    dashboardUrl: normalizeURL(getURL(process.env.DASHBOARD_URL, index)),
+    dashboardUrl: normalizeURL(process.env.DASHBOARD_URL),
   },
   iam: {
     url: normalizeURL(process.env.IAM_BASE_URL),
