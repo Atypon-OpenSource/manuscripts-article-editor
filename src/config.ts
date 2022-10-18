@@ -53,6 +53,7 @@ interface Config {
     DOI: boolean
     runningTitle: boolean
     figureAlignment: boolean
+    projectMenu: boolean
     requirements: boolean
   }
   gateway: {
@@ -182,6 +183,7 @@ const config = {
     DOI: isTrue(process.env.FEATURE_DOI),
     runningTitle: isTrue(process.env.FEATURE_RUNNING_TITLE),
     figureAlignment: isTrue(process.env.FEATURE_FIGURE_ALIGNMENT),
+    projectMenu: isTrue(process.env.FEATURE_PROJECT_MENU),
     requirements: isTrue(process.env.REQUIREMENTS_ENABLED),
   },
   gateway: {
