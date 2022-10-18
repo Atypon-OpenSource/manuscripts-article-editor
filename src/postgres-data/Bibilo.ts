@@ -23,6 +23,8 @@ export class Biblio implements BiblioTools {
   library: Map<string, BibliographyItem>
   getLibraryItem: (id: string) => BibliographyItem | undefined
   setLibraryItem: (item: BibliographyItem) => any
+  removeLibraryItem: (id: string) => void
+
   constructor(
     bundle: Bundle | null,
     library: Map<string, BibliographyItem>,
@@ -32,6 +34,7 @@ export class Biblio implements BiblioTools {
     this.getLibraryItem = (id: string) => library.get(id)
     this.setLibraryItem = (item: BibliographyItem) =>
       library.set(item._id, item)
+    this.removeLibraryItem = (id: string) => library.delete(id)
 
     if (!bundle) {
       return
@@ -52,6 +55,7 @@ export class Biblio implements BiblioTools {
       filterLibraryItems: this.filterLibraryItems,
       matchLibraryItemByIdentifier: this.matchLibraryItemByIdentifier,
       setLibraryItem: this.setLibraryItem,
+      removeLibraryItem: this.removeLibraryItem,
       getCitationProvider: this.getCitationProvider,
       getLibraryItem: this.getLibraryItem,
     }

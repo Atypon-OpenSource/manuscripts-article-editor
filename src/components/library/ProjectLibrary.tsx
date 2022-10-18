@@ -15,14 +15,13 @@ import {
   LibraryCollection,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { filterLibrary } from '../../lib/search-library'
 import { useStore } from '../../store'
 import { Main } from '../Page'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
-import LibraryForm from './LibraryForm'
 import { LibraryItems } from './LibraryItems'
 
 export const ProjectLibrary: React.FC<{
@@ -38,17 +37,12 @@ export const ProjectLibrary: React.FC<{
   ({
     projectLibraryCollections,
     projectLibrary,
-    user,
     query,
     setQuery,
     selectedItem,
     setSelectedItem,
   }) => {
     const [filteredItems, setFilteredItems] = useState<BibliographyItem[]>([])
-    const [{ updateBiblioItem, deleteBiblioItem }] = useStore((store) => ({
-      deleteBiblioItem: store.deleteBiblioItem,
-      updateBiblioItem: store.updateBiblioItem,
-    }))
 
     const [filterID] = useStore<string>((store) => store.libraryFilterID || '')
 
@@ -69,41 +63,6 @@ export const ProjectLibrary: React.FC<{
           console.error(error)
         })
     }, [filterID, projectLibrary, query])
-
-    const handleSave = useCallback(
-      (item: BibliographyItem): Promise<void> => {
-        // @ts-ignore https://github.com/jaredpalmer/formik/issues/2180
-        if (item.issued === '') {
-          item.issued = undefined
-        }
-
-        return updateBiblioItem(item).then(() => {
-          setSelectedItem(undefined)
-        })
-      },
-      [updateBiblioItem, setSelectedItem]
-    )
-
-    const handleDelete = useCallback(
-      (item: BibliographyItem): Promise<string | boolean> => {
-        if (!window.confirm('Remove this item from the project library?')) {
-          return Promise.resolve(false)
-        }
-
-        return deleteBiblioItem(item)
-          .then(() => {
-            // this.setState({
-            //   item: null,
-            // })
-            // TODO: change route
-          })
-          .then(() => {
-            setSelectedItem(undefined)
-            return item._id
-          })
-      },
-      [deleteBiblioItem, setSelectedItem]
-    )
 
     return (
       <>
@@ -127,15 +86,16 @@ export const ProjectLibrary: React.FC<{
           minSize={300}
           resizerButton={ResizingInspectorButton}
         >
-          {selectedItem && (
-            <LibraryForm
-              key={selectedItem._id}
-              item={selectedItem}
-              handleSave={handleSave}
-              handleDelete={handleDelete}
-              user={user}
-            />
-          )}
+          {/* TODO:: this will be removed when clearing library */}
+          {/*{selectedItem && (*/}
+          {/*  <LibraryForm*/}
+          {/*    key={selectedItem._id}*/}
+          {/*    item={selectedItem}*/}
+          {/*    handleSave={handleSave}*/}
+          {/*    handleDelete={handleDelete}*/}
+          {/*    user={user}*/}
+          {/*  />*/}
+          {/*)}*/}
         </Panel>
       </>
     )
