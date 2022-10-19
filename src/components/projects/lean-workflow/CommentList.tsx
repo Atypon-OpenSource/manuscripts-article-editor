@@ -13,6 +13,7 @@
 import {
   deleteHighlightMarkers,
   getHighlightTarget,
+  updateCommentAnnotationState,
 } from '@manuscripts/manuscript-editor'
 import {
   buildComment,
@@ -228,16 +229,19 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
           if (!comment.target.includes(ObjectTypes.Highlight)) {
             updateDocument(manuscriptID, doc.toJSON())
           }
+          if (!comment.target.startsWith('MPHighlight:') && view?.state) {
+            updateCommentAnnotationState(view?.state, view?.dispatch)
+          }
         } else {
           updateComments(comment)
         }
-
         return comment
       })
     },
     [
       saveModel,
       newComment,
+      view,
       setCommentTarget,
       addComment,
       updateDocument,
@@ -272,6 +276,9 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
           if (newComment && newComment._id === id) {
             setCommentTarget(undefined)
             setNewComment(undefined)
+          }
+          if (target && !target?.startsWith('MPHighlight:') && view?.state) {
+            updateCommentAnnotationState(view?.state, view?.dispatch)
           }
         })
     },

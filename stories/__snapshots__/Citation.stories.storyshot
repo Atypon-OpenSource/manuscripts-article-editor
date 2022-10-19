@@ -59,42 +59,54 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   margin-left: 4px;
 }
 
-.c17 {
+.c19 {
   color: #353535;
   background-color: #fff;
   border-color: #e2e2e2;
 }
 
-.c17:not([disabled]):hover,
-.c17:not([disabled]):focus {
+.c19:not([disabled]):hover,
+.c19:not([disabled]):focus {
   color: #0d79d0;
   background-color: #fff;
   border-color: #e2e2e2;
 }
 
-.c17:not([disabled]):active {
+.c19:not([disabled]):active {
   color: #0d79d0;
   background-color: #fff;
   border-color: #e2e2e2;
 }
 
-.c18 {
+.c20 {
   color: #fff;
   background-color: #0d79d0;
   border-color: #0d79d0;
 }
 
-.c18:not([disabled]):hover,
-.c18:not([disabled]):focus {
+.c20:not([disabled]):hover,
+.c20:not([disabled]):focus {
   color: #fff;
   background-color: #0b6bb8;
   border-color: #0b6bb8;
 }
 
-.c18:not([disabled]):active {
+.c20:not([disabled]):active {
   color: #fff;
   background-color: #0b6bb8;
   border-color: #0b6bb8;
+}
+
+.c16 {
+  border: none;
+  color: #353535;
+  padding: 0;
+}
+
+.c16 svg {
+  max-height: 18px;
+  max-width: 18px;
+  margin-right: 12px;
 }
 
 .c7 {
@@ -140,7 +152,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   border-color: transparent;
 }
 
-.c16 {
+.c18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -155,7 +167,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   align-items: center;
 }
 
-.c16 button:not(:first-child) {
+.c18 button:not(:first-child) {
   margin-left: 4px;
 }
 
@@ -256,10 +268,10 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -276,6 +288,15 @@ exports[`Storyshots Citation Citation Editor 1`] = `
 
 .c10:focus {
   outline: 1px solid #f2f2f2;
+}
+
+.c17 {
+  display: contents;
+  font-family: "Lato",sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+  color: #353535;
 }
 
 <div
@@ -573,18 +594,75 @@ exports[`Storyshots Citation Citation Editor 1`] = `
       <div
         className="c15"
       >
+        <button
+          className="c6 c16"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="15"
+            viewBox="0 0 20 15"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M7.94841 4.18359C7.98238 3.96069 8 3.7324 8 3.5C8 3.22122 7.97465 2.94836 7.92613 2.68359H13.5C14.8854 2.68359 16.25 3.64298 16.25 5.10026V9.02502L19.1086 12.9954C19.2731 13.2238 19.2958 13.525 19.1675 13.7755C19.0392 14.026 18.7814 14.1836 18.5 14.1836H5.5C4.11463 14.1836 2.75 13.2242 2.75 11.7669V7.93778C2.9939 7.9787 3.24446 8 3.5 8C3.75553 8 4.00609 7.9787 4.25 7.93778V11.7669C4.25 12.1513 4.67537 12.6836 5.5 12.6836H17.0358L14.8913 9.70516C14.7994 9.57751 14.75 9.42421 14.75 9.26693V5.10026C14.75 4.71587 14.3246 4.18359 13.5 4.18359H7.94841Z"
+              fill="#FFBD26"
+              fillRule="evenodd"
+            />
+            <path
+              d="M11.5 7H8.5"
+              stroke="#FFBD26"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeMiterlimit="10"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M12 10H7"
+              stroke="#FFBD26"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeMiterlimit="10"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M3.5 1L3.5 6"
+              stroke="#FFBD26"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeMiterlimit="10"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M6 3.5L1 3.5"
+              stroke="#FFBD26"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeMiterlimit="10"
+              strokeWidth="1.5"
+            />
+          </svg>
+          <div
+            className="c17"
+          >
+            Add Comment
+          </div>
+        </button>
         <div
-          className="c16"
+          className="c18"
         >
           <button
-            className="c6 c17"
+            className="c6 c19"
             onClick={[Function]}
             type="button"
           >
             Done
           </button>
           <button
-            className="c6 c18"
+            className="c6 c20"
             onClick={[Function]}
             type="button"
           >
