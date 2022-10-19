@@ -2387,7 +2387,6 @@
     url "^0.11.0"
     util "^0.12.0"
 
-
 "@manuscripts/style-guide@^0.31.23":
   version "0.31.23"
   resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.23.tgz#231951089ca98b5be3aadb1fb3c7564d0bff0ff3"
