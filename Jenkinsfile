@@ -40,7 +40,6 @@ node("cisc") {
         junit "junit.xml"
     }
 
-//    if (VARS.GIT_BRANCH == "origin/master") {
     stage ("Publish") {
         withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
             sh ("""cat << EOF >.npmrc 
@@ -50,5 +49,4 @@ node("cisc") {
             sh "rm -f .npmrc"
         }
     }
-//    }
 }
