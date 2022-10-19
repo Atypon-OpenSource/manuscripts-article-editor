@@ -39,7 +39,7 @@ import {
   Person,
   useGetPermittedActions,
 } from '../../../lib/lean-workflow-gql'
-import { getUserRole, isAnnotator, isViewer } from '../../../lib/roles'
+import { isAnnotator, isViewer } from '../../../lib/roles'
 import { useCommentStore } from '../../../quarterback/useCommentStore'
 import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
@@ -61,9 +61,7 @@ import {
 } from './ApplicationMenusLW'
 import EditorElement from './EditorElement'
 import Inspector from './Inspector'
-import { ManualFlowTransitioning } from './ManualFlowTransitioning'
 import { UserProvider } from './provider/UserProvider'
-import { SaveStatusController } from './SaveStatusController'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
@@ -137,7 +135,6 @@ const ManuscriptPageView: React.FC = () => {
   const [lwUser] = useStore((store) => store.lwUser)
   const [modelMap] = useStore((store) => store.modelMap)
   const [submissionID] = useStore((store) => store.submissionID || '')
-  const [submission] = useStore((store) => store.submission)
   const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
@@ -173,6 +170,10 @@ const ManuscriptPageView: React.FC = () => {
     const { changeSet } = trackState || {}
     return changeSet && changeSet.pending.length > 0
   }, [trackState])
+
+  useEffect(() => {
+    storeDispatch({ hasPendingSuggestions })
+  }, [storeDispatch, hasPendingSuggestions])
 
   const saveDocument = debounce((state: ManuscriptEditorState) => {
     storeDispatch({ doc: state.doc })
@@ -218,21 +219,6 @@ const ManuscriptPageView: React.FC = () => {
           <Main>
             <EditorContainer>
               <EditorContainerInner>
-                {/* ManualFlowTransitioning will fail if no nextStep is present,
-                  which will happen on the very last step = 'Published'
-                  this should be handled later with are more graceful way but it is not clear at this point how.
-              */}
-                {submission?.nextStep && (
-                  <ManualFlowTransitioning
-                    submission={submission}
-                    userRole={getUserRole(project, user?.userID)}
-                    documentId={`${project._id}#${manuscript._id}`}
-                    hasPendingSuggestions={!!hasPendingSuggestions}
-                  >
-                    <SaveStatusController isDirty={false} />
-                  </ManualFlowTransitioning>
-                )}
-
                 <EditorHeader>
                   <ApplicationMenuContainer>
                     <ApplicationMenus
