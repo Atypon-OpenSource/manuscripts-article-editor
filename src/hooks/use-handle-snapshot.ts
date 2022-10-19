@@ -9,24 +9,32 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { trackCommands } from '@manuscripts/track-changes-plugin'
 
-import { SaveStatus } from '@manuscripts/style-guide'
-import React from 'react'
+import { useEditorStore } from '../components/track-changes/useEditorStore'
+import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
+import { usePouchStore } from '../quarterback/usePouchStore'
+import { useSnapshotStore } from '../quarterback/useSnapshotStore'
 
-import useOnlineState, { OnlineState } from '../../../hooks/use-online-state'
+export const useHandleSnapshot = (storeExists = true) => {
+  const { execCmd, docToJSON } = useEditorStore()
+  const { saveSnapshot } = useSnapshotStore()
 
-interface Props {
-  isSaving: boolean
-}
+  if (!storeExists) {
+    return null
+  }
 
-export const SaveStatusController: React.FC<Props> = ({ isSaving }) => {
-  // const syncState = useSyncState() // couchdb heritage
-  const [onlineState] = useOnlineState()
-
-  const isOffline = onlineState !== OnlineState.Online
-  // const isPushing = selectors.isPushing(containerID, syncState) // couchdb heritage
-
-  const status = isOffline ? 'offline' : isSaving ? 'saving' : 'saved'
-
-  return <SaveStatus status={status} />
+  return async () => {
+    const resp = await saveSnapshot(docToJSON())
+    if ('data' in resp) {
+      execCmd(trackCommands.applyAndRemoveChanges())
+      setTimeout(() => {
+        const state = useEditorStore.getState().editorState
+        if (!state) {
+          return
+        }
+        usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
+      })
+    }
+  }
 }

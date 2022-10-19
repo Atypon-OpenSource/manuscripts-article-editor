@@ -29,7 +29,11 @@ import Main from './Main'
 import { ISubject } from './store/ParentObserver'
 import { ThemeProvider } from './theme/ThemeProvider'
 
+export { ProjectRole } from './lib/roles'
+export type { state } from './store'
 export * from './store/ParentObserver'
+export { SaveStatusController } from './components/projects/lean-workflow/SaveStatusController'
+export { ExceptionDialog } from './components/projects/lean-workflow/ExceptionDialog'
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement
@@ -42,7 +46,7 @@ export interface ManuscriptEditorAppProps {
   authToken?: string
 }
 
-export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
+const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
   fileManagement,
   parentObserver,
   submissionId,
@@ -101,3 +105,12 @@ export const ManuscriptEditorApp: React.FC<ManuscriptEditorAppProps> = ({
     </>
   )
 }
+
+export const ManuscriptEditorApp = React.memo(
+  ManuscriptEditor,
+  (prev, next) => {
+    // Due to complexity of this component rerendering it idly would be a major inconvenience and a performance problem
+    // To update that component from above we introduced the parentObserver that allowes to manipulate the state in a controlled manner
+    return prev.manuscriptID == next.manuscriptID // if props are equal, do not rerender
+  }
+)
