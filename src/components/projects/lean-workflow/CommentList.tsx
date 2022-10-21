@@ -136,16 +136,17 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     }
   }, [commentTarget, doc, newComment, state, currentUser])
 
-  const commentsLabel = useMemo(() => {
-    let labels: { [p: string]: string } = {}
+  /**
+   * This map holds all block elements in the editor(citation, figure, table)
+   * will be used to show the header of the block comment which is the element label
+   */
+  const commentsLabels = useMemo(() => {
+    const labelsMap = new Map<string, string>()
     let graphicalAbstractFigureId: string | undefined = undefined
 
     doc.descendants((node) => {
       if (node.type.name === 'citation') {
-        labels = {
-          ...labels,
-          [node.attrs['rid']]: node.attrs.contents.trim(),
-        }
+        labelsMap.set(node.attrs['rid'], node.attrs.contents.trim())
       }
 
       if (node.attrs['category'] === 'MPSectionCategory:abstract-graphical') {
@@ -157,20 +158,14 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       }
     })
 
-    const getLabels = (
+    const setLabels = (
       label: string,
       elements: string[],
       excludedElementId?: string
     ) =>
       elements
         .filter((element) => element !== excludedElementId)
-        .reduce(
-          (prev, element, index) => ({
-            ...prev,
-            [element]: `${label} ${++index}`,
-          }),
-          {}
-        )
+        .map((element, index) => labelsMap.set(element, `${label} ${++index}`))
 
     const elementsOrders = getModelsByType<ElementsOrder>(
       modelMap,
@@ -183,14 +178,11 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       ) {
         const label =
           (elementType === ObjectTypes.FigureElement && 'Figure') || 'Table'
-        labels = {
-          ...labels,
-          ...getLabels(label, elements, graphicalAbstractFigureId),
-        }
+        setLabels(label, elements, graphicalAbstractFigureId)
       }
     })
 
-    return labels
+    return labelsMap
   }, [doc, modelMap])
 
   const items = useMemo<Array<[string, CommentData[]]>>(() => {
@@ -333,12 +325,12 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
 
   const getHighlightComment = useCallback(
     (comment: CommentType) => {
-      if (commentsLabel[comment.target]) {
-        return { ...comment, originalText: commentsLabel[comment.target] }
+      if (commentsLabels.has(comment.target)) {
+        return { ...comment, originalText: commentsLabels.get(comment.target) }
       }
       return comment
     },
-    [commentsLabel]
+    [commentsLabels]
   )
 
   const can = usePermissions()
