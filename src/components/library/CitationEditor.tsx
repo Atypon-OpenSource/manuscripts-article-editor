@@ -170,7 +170,6 @@ const CitationEditor: React.FC<Props> = ({
     if (selectedItem) {
       await deleteModel(selectedItem._id)
       removeLibraryItem(selectedItem._id)
-      setShowEditModel(false)
     }
   }, [selectedItem, deleteModel, removeLibraryItem])
 
