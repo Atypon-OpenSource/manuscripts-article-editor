@@ -2214,7 +2214,7 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.93.7-LEAN-1016":
+"@manuscripts/manuscript-editor@0.93.7-LEAN-1016":
   version "0.93.7-LEAN-1016"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.7-LEAN-1016.tgz#d7befacd5e9713126d51df40361256709137dd1a"
   integrity sha512-g5+p/Bx/e+iw9bKcskk0PxuYV89msz6xhYlDudcsZrrOjj1NHQNC45QisGGQbyNcB25mLU5Gt9QyGC7hZ5m59w==
