@@ -148,7 +148,6 @@ const CitationEditor: React.FC<Props> = ({
     async (item) => {
       await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
       setLibraryItem(item)
-      setShowEditModel(false)
       updatePopper()
     },
     [saveModel, setLibraryItem, updatePopper]
@@ -183,11 +182,12 @@ const CitationEditor: React.FC<Props> = ({
       title: 'Untitled',
       type: 'article-journal',
     })
-    await saveCallback(item)
+    setSearching(false)
+    setLibraryItem(item as BibliographyItem)
     setSelectedItem(item as BibliographyItem)
     setShowEditModel(true)
-    setSearching(false)
-  }, [saveCallback, setSelectedItem, setShowEditModel])
+    await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
+  }, [setLibraryItem, saveModel])
 
   if (searching) {
     return (
@@ -270,17 +270,18 @@ const CitationEditor: React.FC<Props> = ({
             </CitedItemActionLine>
           </CitedItem>
         ))}
-        <CitationModel
-          editCitation={showEditModel}
-          modelMap={modelMap}
-          saveCallback={saveCallback}
-          selectedItem={selectedItem}
-          deleteCallback={deleteReferenceCallback}
-          setSelectedItem={setSelectedItem}
-          setShowEditModel={setShowEditModel}
-          getReferences={filterLibraryItems}
-        />
       </CitedItems>
+
+      <CitationModel
+        editCitation={showEditModel}
+        modelMap={modelMap}
+        saveCallback={saveCallback}
+        selectedItem={selectedItem}
+        deleteCallback={deleteReferenceCallback}
+        setSelectedItem={setSelectedItem}
+        setShowEditModel={setShowEditModel}
+        getReferences={filterLibraryItems}
+      />
 
       <Actions>
         <ButtonGroup>

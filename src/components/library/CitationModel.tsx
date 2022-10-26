@@ -116,6 +116,30 @@ export const CitationModel: React.FC<{
     }
   }, [editCitation, getReferences, modelMap])
 
+  const modelDeleteCallback = useCallback(() => {
+    deleteCallback()
+    setReferences({
+      referenceCount,
+      references: [
+        ...references.filter(({ _id }) => _id !== selectedItem?._id),
+      ],
+    })
+  }, [deleteCallback, referenceCount, references, selectedItem?._id])
+
+  const modelSaveCallback = useCallback(
+    (item) => {
+      saveCallback(item)
+      setSelectedItem(item)
+      setReferences({
+        referenceCount,
+        references: [
+          ...references.map((ref) => (ref._id === item?._id ? item : ref)),
+        ],
+      })
+    },
+    [referenceCount, references, saveCallback, setSelectedItem]
+  )
+
   const disableDelete =
     ((selectedItem?._id && referenceCount.get(selectedItem._id)) || 0) > 0
 
@@ -144,7 +168,7 @@ export const CitationModel: React.FC<{
           },
           primary: {
             action: () => {
-              saveCallback(formMikRef.current?.values)
+              modelSaveCallback(formMikRef.current?.values)
               setShowPendingChangeDialog(false)
             },
             title: 'Save',
@@ -202,7 +226,7 @@ export const CitationModel: React.FC<{
                 item={selectedItem}
                 formMikRef={formMikRef}
                 disableDelete={disableDelete}
-                deleteCallback={deleteCallback}
+                deleteCallback={modelDeleteCallback}
                 handleCancel={stopEditing}
                 saveCallback={saveCallback}
               />

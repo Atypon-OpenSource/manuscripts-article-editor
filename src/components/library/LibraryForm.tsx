@@ -357,7 +357,10 @@ const LibraryForm: React.FC<{
               message="Are you sure you want to delete this cited item from the references list?"
               actions={{
                 secondary: {
-                  action: () => deleteCallback(),
+                  action: () => {
+                    deleteCallback()
+                    setShowDeleteDialog(false)
+                  },
                   title: 'Delete',
                 },
                 primary: {
