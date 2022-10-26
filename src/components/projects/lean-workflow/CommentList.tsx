@@ -126,13 +126,17 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       newComment.contributions = [contribution]
       newComment.contributions = [contribution]
 
-      const highlight = state && getHighlightTarget(newComment, state)
+      if (newComment.target.startsWith(ObjectTypes.Highlight)) {
+        const highlight = state && getHighlightTarget(newComment, state)
 
-      if (highlight) {
-        // newComment.originalText = getHighlightText(highlight, state)
-        newComment.originalText = highlight.text
+        if (highlight) {
+          // newComment.originalText = getHighlightText(highlight, state)
+          newComment.originalText = highlight.text
+          setNewComment(newComment)
+        }
+      } else {
+        setNewComment(newComment)
       }
-      setNewComment(newComment)
     }
   }, [commentTarget, doc, newComment, state, currentUser])
 
