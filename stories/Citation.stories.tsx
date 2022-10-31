@@ -47,6 +47,11 @@ storiesOf('Citation', module)
   .add('Citation Editor', () => (
     <CitationEditor
       filterLibraryItems={async () => []}
+      setLibraryItem={() => action('set library item')}
+      removeLibraryItem={() => action('remove library item')}
+      modelMap={new Map()}
+      saveModel={action('save model')}
+      deleteModel={action('delete model')}
       handleCancel={action('handle cancel')}
       handleCite={action('handle cite')}
       handleClose={action('handle close')}
@@ -58,6 +63,7 @@ storiesOf('Citation', module)
       importItems={action('import items')}
       citation={citation}
       updateCitation={action('update citation')}
+      updatePopper={action('update popper')}
     />
   ))
   .add('Citation Search Section', () => (

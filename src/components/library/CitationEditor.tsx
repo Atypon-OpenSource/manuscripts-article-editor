@@ -9,27 +9,32 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-
-import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
+import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
+import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { shortLibraryItemMetadata } from '@manuscripts/library'
+import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Citation,
+  Model,
+  ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   ButtonGroup,
+  Category,
+  Dialog,
   IconButton,
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React, { ChangeEvent, useCallback, useState } from 'react'
-import styled from 'styled-components'
+import React, { useCallback, useState } from 'react'
+import styled, { css } from 'styled-components'
 
-import { CitationProperties } from './CitationProperties'
+import { CitationModel } from './CitationModel'
 import { CitationSearch } from './CitationSearch'
 
-const CitedItem = styled.div`
+export const CitedItem = styled.div`
   padding: ${(props) => props.theme.grid.unit * 4}px 0;
 
   &:not(:last-of-type) {
@@ -37,16 +42,22 @@ const CitedItem = styled.div`
   }
 `
 
-const CitedItemTitle = styled(Title)``
+const textOverflow = css`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`
 
-const CitedItemMetadata = styled.div`
+export const CitedItemTitle = styled(Title)<{ withOverflow?: boolean }>`
+  ${(props) => props.withOverflow && textOverflow}
+`
+
+export const CitedItemMetadata = styled.div`
   color: ${(props) => props.theme.colors.text.secondary};
   flex: 1;
   font-weight: ${(props) => props.theme.font.weight.light};
   margin-top: ${(props) => props.theme.grid.unit}px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${textOverflow}
 `
 
 const CitedItemActionLine = styled.div`
@@ -60,6 +71,11 @@ const CitedItemActions = styled.span`
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
+
+  svg.remove-icon {
+    height: ${(props) => props.theme.grid.unit * 4}px;
+    width: ${(props) => props.theme.grid.unit * 4}px;
+  }
 `
 
 const CitedItems = styled.div`
@@ -72,7 +88,15 @@ const CitedItems = styled.div`
 
 const ActionButton = styled(IconButton).attrs({
   size: 24,
-})``
+})`
+  :focus,
+  :hover {
+    path,
+    g {
+      fill: ${(props) => props.theme.colors.brand.medium} !important;
+    }
+  }
+`
 
 const Actions = styled.div`
   margin: ${(props) => props.theme.grid.unit * 4}px;
@@ -81,20 +105,13 @@ const Actions = styled.div`
   align-items: center;
 `
 
-const Options = styled.details`
-  margin: ${(props) => props.theme.grid.unit * 4}px;
-`
-
-const OptionsSummary = styled.summary`
-  cursor: pointer;
-
-  &:focus {
-    outline: 1px solid ${(props) => props.theme.colors.border.tertiary};
-  }
-`
-
 interface Props {
   filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
+  setLibraryItem: (item: BibliographyItem) => void
+  removeLibraryItem: (id: string) => void
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  deleteModel: (id: string) => Promise<string>
+  modelMap: Map<string, Model>
   importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
   handleCancel: () => void
   handleCite: (items: BibliographyItem[], query?: string) => Promise<void>
@@ -106,10 +123,14 @@ interface Props {
   selectedText: string
   citation: Citation
   updateCitation: (data: Partial<Citation>) => Promise<void>
+  updatePopper: () => void
 }
 
 const CitationEditor: React.FC<Props> = ({
   items,
+  modelMap,
+  saveModel,
+  deleteModel,
   handleCancel,
   handleCite,
   handleClose,
@@ -117,26 +138,57 @@ const CitationEditor: React.FC<Props> = ({
   selectedText,
   importItems,
   filterLibraryItems,
-  citation,
-  updateCitation,
+  removeLibraryItem,
+  setLibraryItem,
+  updatePopper,
 }) => {
-  // const [editing, setEditing] = useState<BibliographyItem>()
   const [searching, setSearching] = useState(false)
-  const [optionsOpen, setOptionsOpen] = useState(false)
-  const [properties, setProperties] = useState(citation)
 
-  // if (editing) {
-  //   return <div>TODO…</div>
-  // }
+  const saveCallback = useCallback(
+    async (item) => {
+      await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
+      setLibraryItem(item)
+      setShowEditModel(false)
+      updatePopper()
+    },
+    [saveModel, setLibraryItem, updatePopper]
+  )
 
-  const saveAndClose = useCallback(() => {
-    // TODO: if changed?
-    updateCitation(properties)
-      .then(() => handleClose())
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [properties, handleClose, updateCitation])
+  const [showEditModel, setShowEditModel] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<BibliographyItem>()
+
+  const onCitationEditClick = useCallback(
+    (e) => {
+      const itemId = e.currentTarget.value
+      setSelectedItem(modelMap.get(itemId) as BibliographyItem)
+      setShowEditModel(true)
+    },
+    [modelMap]
+  )
+
+  const deleteReferenceCallback = useCallback(async () => {
+    if (selectedItem) {
+      await deleteModel(selectedItem._id)
+      removeLibraryItem(selectedItem._id)
+      setShowEditModel(false)
+    }
+  }, [selectedItem, deleteModel, removeLibraryItem])
+
+  const [deleteDialog, setDeleteDialog] = useState<{
+    show: boolean
+    id?: string
+  }>({ show: false })
+
+  const addCitationCallback = useCallback(async () => {
+    const item = buildBibliographyItem({
+      title: 'Untitled',
+      type: 'article-journal',
+    })
+    await saveCallback(item)
+    setSelectedItem(item as BibliographyItem)
+    setShowEditModel(true)
+    setSearching(false)
+  }, [saveCallback, setSelectedItem, setShowEditModel])
 
   if (searching) {
     return (
@@ -145,6 +197,7 @@ const CitationEditor: React.FC<Props> = ({
         filterLibraryItems={filterLibraryItems}
         importItems={importItems}
         handleCite={handleCite}
+        addCitation={addCitationCallback}
         handleCancel={() => setSearching(false)}
       />
     )
@@ -157,6 +210,7 @@ const CitationEditor: React.FC<Props> = ({
         filterLibraryItems={filterLibraryItems}
         importItems={importItems}
         handleCite={handleCite}
+        addCitation={addCitationCallback}
         handleCancel={handleCancel}
       />
     )
@@ -164,6 +218,27 @@ const CitationEditor: React.FC<Props> = ({
 
   return (
     <div>
+      <Dialog
+        isOpen={deleteDialog.show}
+        category={Category.confirmation}
+        header="Remove cited item"
+        message="Are you sure you want to remove this cited item? It will still exist in the reference list."
+        actions={{
+          secondary: {
+            action: () => {
+              if (deleteDialog.id) {
+                handleRemove(deleteDialog.id)
+                setDeleteDialog({ show: false })
+              }
+            },
+            title: 'Remove',
+          },
+          primary: {
+            action: () => setDeleteDialog({ show: false }),
+            title: 'Cancel',
+          },
+        }}
+      />
       <CitedItems>
         {items.map((item) => (
           <CitedItem
@@ -181,38 +256,36 @@ const CitationEditor: React.FC<Props> = ({
               </CitedItemMetadata>
 
               <CitedItemActions>
-                <ActionButton
-                  onClick={() => {
-                    if (confirm('Delete this cited item?')) {
-                      handleRemove(item._id)
-                    }
-                  }}
+                <EditCitationButton
+                  value={item._id}
+                  onClick={onCitationEditClick}
                 >
-                  <AnnotationRemove />
+                  <AnnotationEdit color={'#6E6E6E'} />
+                </EditCitationButton>
+                <ActionButton
+                  onClick={() => setDeleteDialog({ show: true, id: item._id })}
+                >
+                  <CloseIconDark className={'remove-icon'} />
                 </ActionButton>
               </CitedItemActions>
             </CitedItemActionLine>
           </CitedItem>
         ))}
-      </CitedItems>
-
-      <Options
-        open={optionsOpen}
-        onToggle={(event: ChangeEvent<HTMLDetailsElement>) =>
-          setOptionsOpen(event.target.open)
-        }
-      >
-        <OptionsSummary>Options</OptionsSummary>
-
-        <CitationProperties
-          properties={properties}
-          setProperties={setProperties}
+        <CitationModel
+          editCitation={showEditModel}
+          modelMap={modelMap}
+          saveCallback={saveCallback}
+          selectedItem={selectedItem}
+          deleteCallback={deleteReferenceCallback}
+          setSelectedItem={setSelectedItem}
+          setShowEditModel={setShowEditModel}
+          getReferences={filterLibraryItems}
         />
-      </Options>
+      </CitedItems>
 
       <Actions>
         <ButtonGroup>
-          <SecondaryButton onClick={saveAndClose}>Done</SecondaryButton>
+          <SecondaryButton onClick={() => handleClose()}>Done</SecondaryButton>
           <PrimaryButton onClick={() => setSearching(true)}>
             Add Citation
           </PrimaryButton>
@@ -223,3 +296,7 @@ const CitationEditor: React.FC<Props> = ({
 }
 
 export default CitationEditor
+
+const EditCitationButton = styled(ActionButton)`
+  margin-right: ${(props) => props.theme.grid.unit * 3}px;
+`
