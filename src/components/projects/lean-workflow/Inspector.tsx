@@ -69,9 +69,9 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
 
   /**
    * Document stored in quarterback will be different from the one we get from api **if we start editing**,
-   * unless we create a snapshot they should be identical.
+   * unless we create a snapshot or complete the task they should be identical.
    *
-   * As a result of that will combine both of them to get  (inline files & supplementary files)
+   * As a result of that will combine both of them to get (inline files & supplementary files)
    */
   const modelMap = new Map<string, Model>([
     ...dbModelMap,
