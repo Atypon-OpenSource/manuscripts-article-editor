@@ -41,15 +41,15 @@ import {
   SidebarHeader,
 } from '../Sidebar'
 import { CitedItemMetadata, CitedItemTitle } from './CitationEditor'
-import LibraryForm, {
+import CitationForm, {
   buildInitialValues,
-  LibraryFormValues,
-} from './LibraryForm'
+  CitationFormValues,
+} from './CitationForm'
 
 export const CitationModel: React.FC<{
   editCitation: boolean
   modelMap: Map<string, Model>
-  saveCallback: (item?: LibraryFormValues) => void
+  saveCallback: (item?: CitationFormValues) => void
   deleteCallback: () => void
   selectedItem?: BibliographyItem
   setSelectedItem: React.Dispatch<React.SetStateAction<BibliographyItem>>
@@ -69,7 +69,7 @@ export const CitationModel: React.FC<{
     setShowEditModel,
   ])
 
-  const formMikRef = useRef<FormikProps<LibraryFormValues>>(null)
+  const formMikRef = useRef<FormikProps<CitationFormValues>>(null)
 
   const [{ referenceCount, references }, setReferences] = useState<{
     referenceCount: Map<string, number>
@@ -222,7 +222,7 @@ export const CitationModel: React.FC<{
           </ReferencesSidebar>
           <ScrollableModalMain>
             {selectedItem && (
-              <LibraryForm
+              <CitationForm
                 item={selectedItem}
                 formMikRef={formMikRef}
                 disableDelete={disableDelete}
