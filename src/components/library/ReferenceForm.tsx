@@ -196,7 +196,7 @@ interface OptionType {
   value: any
 }
 
-export interface CitationFormValues {
+export interface ReferenceFormValues {
   _id: string
   title?: string
   author?: BibliographicName[]
@@ -290,7 +290,7 @@ const AuthorDropDown: React.FC<{
 
 export const buildInitialValues = (
   item: BibliographyItem
-): CitationFormValues => ({
+): ReferenceFormValues => ({
   _id: item._id,
   title: item.title,
   author: item.author,
@@ -311,9 +311,9 @@ export const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
   .map(([value, label]) => ({ value, label }))
   .sort((a, b) => a.label.localeCompare(b.label))
 
-const CitationForm: React.FC<{
+const ReferenceForm: React.FC<{
   item: BibliographyItem
-  formMikRef: React.Ref<FormikProps<CitationFormValues>>
+  formMikRef: React.Ref<FormikProps<ReferenceFormValues>>
   disableDelete: boolean
   deleteCallback: () => void
   handleCancel: () => void
@@ -339,7 +339,7 @@ const CitationForm: React.FC<{
   const deleteClickCallback = useCallback(() => setShowDeleteDialog(true), [])
 
   return (
-    <Formik<CitationFormValues>
+    <Formik<ReferenceFormValues>
       initialValues={buildInitialValues(item)}
       onSubmit={saveCallback}
       innerRef={formMikRef}
@@ -351,8 +351,8 @@ const CitationForm: React.FC<{
             <Dialog
               isOpen={showDeleteDialog}
               category={Category.confirmation}
-              header="Delete Citation"
-              message="Are you sure you want to delete this cited item from the references list?"
+              header="Delete Reference"
+              message="Are you sure you want to delete this reference from the list?"
               actions={{
                 secondary: {
                   action: () => {
@@ -604,7 +604,7 @@ const CitationForm: React.FC<{
   )
 }
 
-export default CitationForm
+export default ReferenceForm
 
 const DeleteButton = styled(IconButton)`
   background-color: ${(props) =>
