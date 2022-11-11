@@ -13,12 +13,13 @@ import { ManuscriptNode } from '@manuscripts/manuscript-transform'
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
+  TrackedAttrs,
 } from '@manuscripts/track-changes-plugin'
 
 const hasPendingOrRejectedChanges = (node: ManuscriptNode) => {
   if (node?.attrs?.dataTracked) {
     const trackedEntries = node.attrs.dataTracked.filter(
-      (data: any) =>
+      (data: Partial<TrackedAttrs>) =>
         (data.status === CHANGE_STATUS.pending ||
           data.status === CHANGE_STATUS.rejected) &&
         (data.operation === CHANGE_OPERATION.delete ||
@@ -35,9 +36,9 @@ export const filterPendingAndRejected = (node: any) => {
   const cleanNode = (parent: any) => {
     if (parent.content) {
       parent.content = parent.content.filter(
-        (child: any) => !hasPendingOrRejectedChanges(child)
+        (child: ManuscriptNode) => !hasPendingOrRejectedChanges(child)
       )
-      parent.content.forEach((child: any) => cleanNode(child))
+      parent.content.forEach((child: ManuscriptNode) => cleanNode(child))
     }
   }
 
