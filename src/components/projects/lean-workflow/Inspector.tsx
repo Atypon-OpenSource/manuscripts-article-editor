@@ -26,6 +26,7 @@ import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
+import { filterPendingAndRejected } from '../../track-changes/utils'
 import { Inspector as InspectorLW } from '../InspectorLW'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
@@ -65,7 +66,9 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
 
   const can = usePermissions()
 
-  const modelMap = encode(schema.nodeFromJSON(doc.toJSON()))
+  const docClean = filterPendingAndRejected(doc.toJSON())
+
+  const modelMap = encode(schema.nodeFromJSON(docClean))
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
