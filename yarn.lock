@@ -2214,10 +2214,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@0.93.8":
-  version "0.93.8"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.8.tgz#1becd8ee5084b99f68fcb960dc1ccb99f98ff00c"
-  integrity sha512-FLSM7NFuutepRMuAIPBg3fkMcsbYaVwE9BUfzLZouqZAjY0H0BOc2XJW6CNl6H9ykwJZlxl2mOAaNkeVF0utXw==
+"@manuscripts/manuscript-editor@^0.93.9":
+  version "0.93.9"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.9.tgz#264a7488204851f308cf6624f29f382c97cdf295"
+  integrity sha512-WqEXYLofock5baREWuGF4s+aUvzzmoCYEp77MmUqPq1zIf4a/87FSIP/CfDYeFo1PATeoZp8NG46qb3dUSATzg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2263,6 +2263,21 @@
   version "0.54.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.54.0.tgz#f1ea6fc748f66386e8a97ef8511b8323b5352fa0"
   integrity sha512-Zyn6NsHhT8IMwm1KJyZdHBBZrmjKJtZXfn2h3RaKlfCrpyjhy+9tlli8WyxA+FsKL1nQivVwAQdbn2z4WKhVeQ==
+  dependencies:
+    "@manuscripts/data" "^0.1.12"
+    "@manuscripts/library" "^0.6.2"
+    "@manuscripts/manuscripts-json-schema" "1.51.0"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscript-transform@^0.56.0":
+  version "0.56.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.56.0.tgz#d4a093f39687f0a8272619cae7aadb4f3788f9f8"
+  integrity sha512-8WL7NBWTwC0mvdEU6eu3JQk8W72o+Le9iXITJRCUVzNNs5SyBfFbsvRxT/YpBWv4X7NQX+xwYL8DSRG5ch5zsg==
   dependencies:
     "@manuscripts/data" "^0.1.12"
     "@manuscripts/library" "^0.6.2"
@@ -2387,10 +2402,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.23":
-  version "0.31.23"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.23.tgz#231951089ca98b5be3aadb1fb3c7564d0bff0ff3"
-  integrity sha512-WadZ3cFgSMmZpuZlc3ovksQWiL+4hgyhYn5vFUMyxdFga9BLtMl/er0dGvSxMokZw70cQLD0gAhMPAuxEJe1mg==
+"@manuscripts/style-guide@^0.31.27":
+  version "0.31.27"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.27.tgz#268bb277523df0aa6fba3aaebe755989f8a028b9"
+  integrity sha512-QtIdvjPBjdsn0O7t1XGhWxTWHCPewXFGxKA0tQAJjoW9LfOhXP0vbejIKN9aqiNUPr4IqQWOYRws5x+6v4QDZA==
   dependencies:
     "@apollo/client" "^3.6.9"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
