@@ -290,8 +290,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
 
   const scrollIntoHighlight = (comment: CommentAnnotation) => {
     const el =
-      document.querySelector(`[data-reference-id="${comment.target}"]`) ||
-      document.querySelector(`[id="${comment.target}"]`)
+      document.querySelector(`[id="${comment.target}"]`) ||
+      document.querySelector(`[data-reference-id="${comment.target}"]`)
     if (el) {
       el.scrollIntoView({
         behavior: 'smooth',
