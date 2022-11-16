@@ -341,7 +341,11 @@ exports[`Storyshots Panel combined 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: calc(100vh - 1px);
+  overflow: hidden;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   box-sizing: border-box;
   width: 100%;
   color: #353535;
@@ -1058,7 +1062,11 @@ exports[`Storyshots Panel row 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: calc(100vh - 1px);
+  overflow: hidden;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   box-sizing: border-box;
   width: 100%;
   color: #353535;
