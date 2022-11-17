@@ -28,7 +28,7 @@ import {
   SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import { CitationModel } from './CitationModel'
@@ -155,12 +155,15 @@ const CitationEditor: React.FC<Props> = ({
 
   const [showEditModel, setShowEditModel] = useState(false)
   const [selectedItem, setSelectedItem] = useState<BibliographyItem>()
+  const referenceIdRef = useRef<string>('')
 
   const onCitationEditClick = useCallback(
     (e) => {
       const itemId = e.currentTarget.value
-      setSelectedItem(modelMap.get(itemId) as BibliographyItem)
+      const reference = modelMap.get(itemId) as BibliographyItem
+      setSelectedItem(reference)
       setShowEditModel(true)
+      referenceIdRef.current = reference._id
     },
     [modelMap]
   )
@@ -169,8 +172,9 @@ const CitationEditor: React.FC<Props> = ({
     if (selectedItem) {
       await deleteModel(selectedItem._id)
       removeLibraryItem(selectedItem._id)
+      setSelectedItem(modelMap.get(referenceIdRef.current) as BibliographyItem)
     }
-  }, [selectedItem, deleteModel, removeLibraryItem])
+  }, [selectedItem, modelMap, deleteModel, removeLibraryItem, referenceIdRef])
 
   const [deleteDialog, setDeleteDialog] = useState<{
     show: boolean

@@ -228,7 +228,7 @@ export const CitationModel: React.FC<{
                 disableDelete={disableDelete}
                 deleteCallback={modelDeleteCallback}
                 handleCancel={stopEditing}
-                saveCallback={saveCallback}
+                saveCallback={modelSaveCallback}
               />
             )}
           </ScrollableModalMain>
@@ -283,7 +283,7 @@ export const Fieldset = styled.fieldset`
 `
 
 const selectedReferenceStyle = css`
-  background: #f2fbfc;
+  background: ${(props) => props.theme.colors.background.info};
   border-top: 1px solid #bce7f6;
   border-bottom: 1px solid #bce7f6;
 `
@@ -298,10 +298,8 @@ const ReferenceButton = styled.div<{ selected: boolean }>`
     fill: #c9c9c9;
   }
 
-  :hover,
-  :active,
-  :focus {
-    ${selectedReferenceStyle}
+  :hover {
+    background: ${(props) => props.theme.colors.background.info};
   }
 
   ${(props) => props.selected && selectedReferenceStyle}
