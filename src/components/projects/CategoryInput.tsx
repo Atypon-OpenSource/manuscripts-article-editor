@@ -10,10 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { SectionCategory } from '@manuscripts/manuscripts-json-schema'
 import React, { useCallback, useMemo } from 'react'
 import Select, { OptionProps, OptionsType } from 'react-select'
-import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
@@ -76,27 +74,20 @@ export const CategoryInput: React.FC<{
   const selectionValue = useMemo(() => {
     const cat = sortedSectionCategories.find(
       (category) => category._id === currentValue
-    ) as SectionCategory
-    return { value: cat._id, label: cat.name }
+    )
+    return cat && { value: cat._id, label: cat.name }
   }, [currentValue])
 
   return (
-    <Container>
-      <Select<OptionType, true>
-        // @ts-ignore
-        value={selectionValue}
-        options={options}
-        menuPortalTarget={document.body}
-        maxMenuHeight={170}
-        onChange={handleInputChange}
-        components={{
-          Option: OptionComponent,
-        }}
-      />
-    </Container>
+    <Select<OptionType, true>
+      // @ts-ignore
+      value={selectionValue}
+      options={options}
+      menuPortalTarget={document.body}
+      onChange={handleInputChange}
+      components={{
+        Option: OptionComponent,
+      }}
+    />
   )
 }
-
-const Container = styled.div`
-  height: ${(props) => props.theme.grid.unit * 160}px;
-`
