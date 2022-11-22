@@ -20,10 +20,12 @@ import {
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
 import {
+  AddComment,
   ButtonGroup,
   Category,
   Dialog,
   IconButton,
+  IconTextButton,
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
@@ -101,7 +103,7 @@ const ActionButton = styled(IconButton).attrs({
 const Actions = styled.div`
   margin: ${(props) => props.theme.grid.unit * 4}px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 `
 
@@ -123,6 +125,7 @@ interface Props {
   selectedText: string
   citation: Citation
   updateCitation: (data: Partial<Citation>) => Promise<void>
+  setCommentTarget: (commentTarget?: string) => void
   updatePopper: () => void
 }
 
@@ -136,6 +139,7 @@ const CitationEditor: React.FC<Props> = ({
   handleClose,
   handleRemove,
   selectedText,
+  setCommentTarget,
   importItems,
   filterLibraryItems,
   removeLibraryItem,
@@ -192,6 +196,11 @@ const CitationEditor: React.FC<Props> = ({
     setShowEditModel(true)
     await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
   }, [setLibraryItem, saveModel])
+
+  const addCommentCallback = useCallback(() => setCommentTarget(citation._id), [
+    citation._id,
+    setCommentTarget,
+  ])
 
   if (searching) {
     return (
@@ -288,6 +297,11 @@ const CitationEditor: React.FC<Props> = ({
       />
 
       <Actions>
+        <IconTextButton onClick={addCommentCallback}>
+          <AddComment />
+          <AddCommentButtonText>Add Comment</AddCommentButtonText>
+        </IconTextButton>
+
         <ButtonGroup>
           <SecondaryButton onClick={() => handleClose()}>Done</SecondaryButton>
           <PrimaryButton onClick={() => setSearching(true)}>
@@ -303,4 +317,13 @@ export default CitationEditor
 
 const EditCitationButton = styled(ActionButton)`
   margin-right: ${(props) => props.theme.grid.unit * 3}px;
+`
+
+const AddCommentButtonText = styled.div`
+  display: contents;
+  font-family: ${(props) => props.theme.font.family.sans};
+  font-weight: ${(props) => props.theme.font.weight.normal};
+  font-size: ${(props) => props.theme.font.size.small};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
+  color: ${(props) => props.theme.colors.text.primary};
 `
