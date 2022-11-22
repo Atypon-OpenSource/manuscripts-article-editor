@@ -2274,6 +2274,21 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
+"@manuscripts/manuscript-transform@^0.56.0":
+  version "0.56.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.56.0.tgz#d4a093f39687f0a8272619cae7aadb4f3788f9f8"
+  integrity sha512-8WL7NBWTwC0mvdEU6eu3JQk8W72o+Le9iXITJRCUVzNNs5SyBfFbsvRxT/YpBWv4X7NQX+xwYL8DSRG5ch5zsg==
+  dependencies:
+    "@manuscripts/data" "^0.1.12"
+    "@manuscripts/library" "^0.6.2"
+    "@manuscripts/manuscripts-json-schema" "1.51.0"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
 "@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.51.0":
   version "1.51.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.51.0.tgz#6677f4ac81243496b92608c82f1e2d1c56acf22a"
@@ -2387,10 +2402,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.23":
-  version "0.31.23"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.23.tgz#231951089ca98b5be3aadb1fb3c7564d0bff0ff3"
-  integrity sha512-WadZ3cFgSMmZpuZlc3ovksQWiL+4hgyhYn5vFUMyxdFga9BLtMl/er0dGvSxMokZw70cQLD0gAhMPAuxEJe1mg==
+"@manuscripts/style-guide@^0.31.27":
+  version "0.31.27"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.27.tgz#268bb277523df0aa6fba3aaebe755989f8a028b9"
+  integrity sha512-QtIdvjPBjdsn0O7t1XGhWxTWHCPewXFGxKA0tQAJjoW9LfOhXP0vbejIKN9aqiNUPr4IqQWOYRws5x+6v4QDZA==
   dependencies:
     "@apollo/client" "^3.6.9"
     "@formatjs/intl-relativetimeformat" "^4.5.9"

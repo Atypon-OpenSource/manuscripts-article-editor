@@ -1,6 +1,6 @@
 node("cisc") {
     stage("Checkout") {
-        VARS = checkout scm 
+        VARS = checkout scm
         echo "VARS: $VARS"
     }
 
@@ -21,7 +21,7 @@ node("cisc") {
             sh (script: "yarn test --ci --coverage --reporters=default --reporters=jest-junit",
                 label: "yarn test",
                 returnStdout: true)
-
+            
             env.ALLOW_MISSING_VARIABLES=1
             
             sh "printenv"
@@ -40,15 +40,13 @@ node("cisc") {
         junit "junit.xml"
     }
 
-    if (params.publish_feature) {
-        stage ("Publish") {
-            withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-                sh ("""cat << EOF >.npmrc 
-//registry.npmjs.org/:_authToken=$NPM_TOKEN 
+    stage ("Publish") {
+        withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
+            sh ("""cat << EOF >.npmrc
+//registry.npmjs.org/:_authToken=$NPM_TOKEN
 <<EOF""")
-                sh ("npx @manuscripts/publish")
-                sh "rm -f .npmrc"
-            }
+            sh ("npx @manuscripts/publish")
+            sh "rm -f .npmrc"
         }
     }
 }
