@@ -36,7 +36,7 @@ import styled, { css } from 'styled-components'
 import { CitationModel } from './CitationModel'
 import { CitationSearch } from './CitationSearch'
 
-export const CitedItem = styled.div`
+const CitedItem = styled.div`
   padding: ${(props) => props.theme.grid.unit * 4}px 0;
 
   &:not(:last-of-type) {
