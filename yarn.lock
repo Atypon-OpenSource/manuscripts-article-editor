@@ -2214,10 +2214,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.93.10":
-  version "0.93.10"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.10.tgz#6a2df075a5a8f0a7e9b28d0bedf7d534f4b9a36a"
-  integrity sha512-uR8O9VHA1PZDXEIEdlfRvOZbagju2yy7hZ1IWIMSSl/kXSBsKtOCiZGp58gXz+lAhZ/pQeDfPc1hQQ8yuhjO3A==
+"@manuscripts/manuscript-editor@^0.93.11":
+  version "0.93.11"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.11.tgz#de0fed8d0dfa5fd2a62fc2672e92aabbcd98d841"
+  integrity sha512-hTrIQAqenmhYV2M9zcrbfAmaezg53Y6O+a+7i9gH0yJaXTAGZ68a8CG65KjvfZBw+BrGqhKGQwaH4HrOWVjkgQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2275,13 +2275,13 @@
     w3c-xmlserializer "^2.0.0"
 
 "@manuscripts/manuscript-transform@^0.56.0":
-  version "0.56.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.56.0.tgz#d4a093f39687f0a8272619cae7aadb4f3788f9f8"
-  integrity sha512-8WL7NBWTwC0mvdEU6eu3JQk8W72o+Le9iXITJRCUVzNNs5SyBfFbsvRxT/YpBWv4X7NQX+xwYL8DSRG5ch5zsg==
+  version "0.56.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.56.1.tgz#efc4255c21194d97c28d912ebe3dfdf59b3bba41"
+  integrity sha512-CtPD/xs4IqZc8CpBm30xAXXCEb9K227dDkcWF9sYEuhsDcLM/FUaZB1V3kFxDuAk+zrwvEGgrLe3j1dzn/OwDQ==
   dependencies:
     "@manuscripts/data" "^0.1.12"
     "@manuscripts/library" "^0.6.2"
-    "@manuscripts/manuscripts-json-schema" "1.51.0"
+    "@manuscripts/manuscripts-json-schema" "1.52.0"
     debug "^4.1.1"
     mathjax-full "^3.1.2"
     mime "^2.4.6"
@@ -2289,7 +2289,7 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.51.0":
+"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@1.52.0", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.51.0":
   version "1.51.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.51.0.tgz#6677f4ac81243496b92608c82f1e2d1c56acf22a"
   integrity sha512-YNrqrX8SScXZ5V/3/2Cyy/3SepOkMX/mn18TdKggh+WNN8n3AtKM31/Qw+2jVcF84w9pZ+RU+wuObr2u+GlSUA==
