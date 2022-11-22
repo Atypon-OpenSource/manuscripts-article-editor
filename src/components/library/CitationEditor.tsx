@@ -142,6 +142,7 @@ const CitationEditor: React.FC<Props> = ({
   setCommentTarget,
   importItems,
   filterLibraryItems,
+  citation,
   removeLibraryItem,
   setLibraryItem,
   updatePopper,
