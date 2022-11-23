@@ -20,10 +20,10 @@ const hasPendingOrRejectedChanges = (node: ManuscriptNode) => {
   if (node?.attrs?.dataTracked) {
     const trackedEntries = node.attrs.dataTracked.filter(
       (data: Partial<TrackedAttrs>) =>
-        (data.status === CHANGE_STATUS.pending ||
+        ((data.status === CHANGE_STATUS.pending ||
           data.status === CHANGE_STATUS.rejected) &&
-        (data.operation === CHANGE_OPERATION.delete ||
-          data.operation === CHANGE_OPERATION.insert)
+          data.operation === CHANGE_OPERATION.insert) ||
+        data.operation === CHANGE_OPERATION.delete
     )
     return !!trackedEntries.length
   }
