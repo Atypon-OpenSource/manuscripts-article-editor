@@ -1,31 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Citation Citation Editor 1`] = `
-.c14 {
-  display: block;
-  border: 1px solid #e2e2e2;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font: 400 16px / 1 "Lato",sans-serif;
-  outline: none;
-  padding: 10px 16px;
-  position: relative;
-  width: 100%;
-}
-
-.c14:focus {
-  border-color: #bce7f6;
-  background-color: #f2fbfc;
-}
-
-.c14:hover {
-  background-color: #f2fbfc;
-}
-
-.c14:invalid {
-  box-shadow: none;
-}
-
 .c6 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -59,51 +34,51 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   margin-left: 4px;
 }
 
-.c19 {
+.c15 {
   color: #353535;
   background-color: #fff;
   border-color: #e2e2e2;
 }
 
-.c19:not([disabled]):hover,
-.c19:not([disabled]):focus {
+.c15:not([disabled]):hover,
+.c15:not([disabled]):focus {
   color: #0d79d0;
   background-color: #fff;
   border-color: #e2e2e2;
 }
 
-.c19:not([disabled]):active {
+.c15:not([disabled]):active {
   color: #0d79d0;
   background-color: #fff;
   border-color: #e2e2e2;
 }
 
-.c20 {
+.c16 {
   color: #fff;
   background-color: #0d79d0;
   border-color: #0d79d0;
 }
 
-.c20:not([disabled]):hover,
-.c20:not([disabled]):focus {
+.c16:not([disabled]):hover,
+.c16:not([disabled]):focus {
   color: #fff;
   background-color: #0b6bb8;
   border-color: #0b6bb8;
 }
 
-.c20:not([disabled]):active {
+.c16:not([disabled]):active {
   color: #fff;
   background-color: #0b6bb8;
   border-color: #0b6bb8;
 }
 
-.c16 {
+.c12 {
   border: none;
   color: #353535;
   padding: 0;
 }
 
-.c16 svg {
+.c12 svg {
   max-height: 18px;
   max-width: 18px;
   margin-right: 12px;
@@ -152,7 +127,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   border-color: transparent;
 }
 
-.c18 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -167,7 +142,7 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   align-items: center;
 }
 
-.c18 button:not(:first-child) {
+.c14 button:not(:first-child) {
   margin-left: 4px;
 }
 
@@ -176,32 +151,6 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   color: #353535;
   font-family: "Lato",sans-serif;
   padding: 3rem;
-}
-
-.c11 {
-  margin: 16px 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c11 .c13 {
-  padding: 2px;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.c12 {
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 50px;
 }
 
 .c2 {
@@ -219,9 +168,9 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   flex: 1;
   font-weight: 300;
   margin-top: 4px;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .c3 {
@@ -254,6 +203,11 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   flex-shrink: 0;
 }
 
+.c5 svg.remove-icon {
+  height: 16px;
+  width: 16px;
+}
+
 .c1 {
   padding: 0 16px;
   font-family: "Lato",sans-serif;
@@ -262,7 +216,14 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   overflow-y: auto;
 }
 
-.c15 {
+.c9:focus path,
+.c9:hover path,
+.c9:focus g,
+.c9:hover g {
+  fill: #1a9bc7 !important;
+}
+
+.c11 {
   margin: 16px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -278,19 +239,11 @@ exports[`Storyshots Citation Citation Editor 1`] = `
   align-items: center;
 }
 
-.c9 {
-  margin: 16px;
-}
-
 .c10 {
-  cursor: pointer;
+  margin-right: 12px;
 }
 
-.c10:focus {
-  outline: 1px solid #f2f2f2;
-}
-
-.c17 {
+.c13 {
   display: contents;
   font-family: "Lato",sans-serif;
   font-weight: 400;
@@ -330,20 +283,57 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
+                className="c6 c7 c8 c9 c10"
+                onClick={[Function]}
+                size={24}
+                type="button"
+                value="MPBibliographyItem:1185136E-B352-46CB-A4A1-F6DDE1457A2D"
+              >
+                <svg
+                  color="#6E6E6E"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </button>
+              <button
+                className="c6 c7 c8 c9"
                 onClick={[Function]}
                 size={24}
                 type="button"
               >
                 <svg
-                  height={20}
-                  viewBox="0 0 20 20"
-                  width={20}
+                  className="remove-icon"
+                  height={26}
+                  viewBox="0 0 26 26"
+                  width={26}
                 >
-                  <path
-                    d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                  <g
                     fill="#6E6E6E"
-                  />
+                    fillRule="evenodd"
+                  >
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="rotate(-45 13 13)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="scale(1 -1) rotate(-45 -18.385 0)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                  </g>
                 </svg>
               </button>
             </span>
@@ -372,20 +362,57 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
+                className="c6 c7 c8 c9 c10"
+                onClick={[Function]}
+                size={24}
+                type="button"
+                value="MPBibliographyItem:152D957F-E002-42F3-AB87-71E4980BDD9F"
+              >
+                <svg
+                  color="#6E6E6E"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </button>
+              <button
+                className="c6 c7 c8 c9"
                 onClick={[Function]}
                 size={24}
                 type="button"
               >
                 <svg
-                  height={20}
-                  viewBox="0 0 20 20"
-                  width={20}
+                  className="remove-icon"
+                  height={26}
+                  viewBox="0 0 26 26"
+                  width={26}
                 >
-                  <path
-                    d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                  <g
                     fill="#6E6E6E"
-                  />
+                    fillRule="evenodd"
+                  >
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="rotate(-45 13 13)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="scale(1 -1) rotate(-45 -18.385 0)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                  </g>
                 </svg>
               </button>
             </span>
@@ -414,20 +441,57 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
+                className="c6 c7 c8 c9 c10"
+                onClick={[Function]}
+                size={24}
+                type="button"
+                value="MPBibliographyItem:7A40557C-5D34-425B-A1A0-2AF963810467"
+              >
+                <svg
+                  color="#6E6E6E"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </button>
+              <button
+                className="c6 c7 c8 c9"
                 onClick={[Function]}
                 size={24}
                 type="button"
               >
                 <svg
-                  height={20}
-                  viewBox="0 0 20 20"
-                  width={20}
+                  className="remove-icon"
+                  height={26}
+                  viewBox="0 0 26 26"
+                  width={26}
                 >
-                  <path
-                    d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                  <g
                     fill="#6E6E6E"
-                  />
+                    fillRule="evenodd"
+                  >
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="rotate(-45 13 13)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="scale(1 -1) rotate(-45 -18.385 0)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                  </g>
                 </svg>
               </button>
             </span>
@@ -456,20 +520,57 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
+                className="c6 c7 c8 c9 c10"
+                onClick={[Function]}
+                size={24}
+                type="button"
+                value="MPBibliographyItem:89329BB0-F1C5-453F-A00D-424A31788513"
+              >
+                <svg
+                  color="#6E6E6E"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </button>
+              <button
+                className="c6 c7 c8 c9"
                 onClick={[Function]}
                 size={24}
                 type="button"
               >
                 <svg
-                  height={20}
-                  viewBox="0 0 20 20"
-                  width={20}
+                  className="remove-icon"
+                  height={26}
+                  viewBox="0 0 26 26"
+                  width={26}
                 >
-                  <path
-                    d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                  <g
                     fill="#6E6E6E"
-                  />
+                    fillRule="evenodd"
+                  >
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="rotate(-45 13 13)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="scale(1 -1) rotate(-45 -18.385 0)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                  </g>
                 </svg>
               </button>
             </span>
@@ -498,104 +599,68 @@ exports[`Storyshots Citation Citation Editor 1`] = `
               className="c5"
             >
               <button
-                className="CitationEditor__ActionButton-sc-18cf38b-6 c6 c7 c8"
+                className="c6 c7 c8 c9 c10"
+                onClick={[Function]}
+                size={24}
+                type="button"
+                value="MPBibliographyItem:DD769750-2BAA-4930-AB69-BB259CE321B3"
+              >
+                <svg
+                  color="#6E6E6E"
+                  height={20}
+                  viewBox="0 0 21 20"
+                  width={21}
+                >
+                  <path
+                    d="M12.706 5.336l2.847 2.862-7.208 7.244-2.847-2.861 7.208-7.245zm5.008-.69l-1.27-1.276a1.256 1.256 0 00-1.78 0l-1.217 1.222 2.848 2.862 1.42-1.426a.98.98 0 000-1.382zM4.008 16.603a.325.325 0 00.392.388l3.173-.774-2.846-2.862-.72 3.248z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              </button>
+              <button
+                className="c6 c7 c8 c9"
                 onClick={[Function]}
                 size={24}
                 type="button"
               >
                 <svg
-                  height={20}
-                  viewBox="0 0 20 20"
-                  width={20}
+                  className="remove-icon"
+                  height={26}
+                  viewBox="0 0 26 26"
+                  width={26}
                 >
-                  <path
-                    d="M15.494 3.375h-3.539c-.025-.21-.241-.375-.504-.375H8.548c-.262 0-.478.165-.503.375H4.506c-.28 0-.506.186-.506.417v.791c0 .23.227.417.506.417h10.988c.28 0 .506-.186.506-.417v-.791c0-.23-.227-.417-.506-.417zM5 6v10.491c0 .281.23.509.513.509h8.974a.51.51 0 00.513-.509V6H5zm3.753 7.874c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563zm3.624 0c0 .31-.253.561-.565.561a.563.563 0 01-.565-.56V8.311c0-.31.253-.561.565-.561.312 0 .565.25.565.56v5.563z"
+                  <g
                     fill="#6E6E6E"
-                  />
+                    fillRule="evenodd"
+                  >
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="rotate(-45 13 13)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                    <rect
+                      height={4}
+                      rx={2}
+                      transform="scale(1 -1) rotate(-45 -18.385 0)"
+                      width={32}
+                      x={-3}
+                      y={11}
+                    />
+                  </g>
                 </svg>
               </button>
             </span>
           </div>
         </div>
       </div>
-      <details
-        className="c9"
-        onToggle={[Function]}
-        open={false}
-      >
-        <summary
-          className="c10"
-        >
-          Options
-        </summary>
-        <div
-          className="c11"
-        >
-          <label
-            className="c12"
-          >
-            Show
-          </label>
-          <select
-            onChange={[Function]}
-            value="show-all"
-          >
-            <option
-              value="show-all"
-            >
-              Authors and year
-            </option>
-            <option
-              value="author-only"
-            >
-              Authors only
-            </option>
-            <option
-              value="suppress-author"
-            >
-              No authors
-            </option>
-            <option
-              value="composite"
-            >
-              Composite
-            </option>
-          </select>
-        </div>
-        <div
-          className="c11"
-        >
-          <label
-            className="c12"
-          >
-            Prefix
-          </label>
-          <input
-            className="c13 c14"
-            onChange={[Function]}
-            type="text"
-          />
-        </div>
-        <div
-          className="c11"
-        >
-          <label
-            className="c12"
-          >
-            Suffix
-          </label>
-          <input
-            className="c13 c14"
-            onChange={[Function]}
-            type="text"
-          />
-        </div>
-      </details>
       <div
-        className="c15"
+        className="c11"
       >
         <button
-          className="c6 c16"
+          className="c6 c12"
           onClick={[Function]}
           type="button"
         >
@@ -646,23 +711,23 @@ exports[`Storyshots Citation Citation Editor 1`] = `
             />
           </svg>
           <div
-            className="c17"
+            className="c13"
           >
             Add Comment
           </div>
         </button>
         <div
-          className="c18"
+          className="c14"
         >
           <button
-            className="c6 c19"
+            className="c6 c15"
             onClick={[Function]}
             type="button"
           >
             Done
           </button>
           <button
-            className="c6 c20"
+            className="c6 c16"
             onClick={[Function]}
             type="button"
           >
