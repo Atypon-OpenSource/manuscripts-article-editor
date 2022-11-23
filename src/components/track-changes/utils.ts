@@ -10,33 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import { ManuscriptNode } from '@manuscripts/manuscript-transform'
-import {
-  CHANGE_OPERATION,
-  CHANGE_STATUS,
-  TrackedAttrs,
-} from '@manuscripts/track-changes-plugin'
 
-const hasPendingOrRejectedChanges = (node: ManuscriptNode) => {
-  if (node?.attrs?.dataTracked) {
-    const trackedEntries = node.attrs.dataTracked.filter(
-      (data: Partial<TrackedAttrs>) =>
-        ((data.status === CHANGE_STATUS.pending ||
-          data.status === CHANGE_STATUS.rejected) &&
-          data.operation === CHANGE_OPERATION.insert) ||
-        data.operation === CHANGE_OPERATION.delete
-    )
-    return !!trackedEntries.length
-  }
-  return false
+const hasTrackingData = (node: ManuscriptNode) => {
+  return !!node?.attrs?.dataTracked
 }
 
-export const filterPendingAndRejected = (node: any) => {
+export const filterNodesWithTrackingData = (node: any) => {
   const cleanDoc = Object.assign({}, node)
 
   const cleanNode = (parent: any) => {
     if (parent.content) {
       parent.content = parent.content.filter(
-        (child: ManuscriptNode) => !hasPendingOrRejectedChanges(child)
+        (child: ManuscriptNode) => !hasTrackingData(child)
       )
       parent.content.forEach((child: ManuscriptNode) => cleanNode(child))
     }
