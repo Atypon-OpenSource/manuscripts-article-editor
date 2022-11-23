@@ -7,18 +7,42 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { CitationProvider } from '@manuscripts/library'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
+import styled from 'styled-components'
 
-export interface BiblioTools {
-  getCitationProvider: () => CitationProvider | undefined
-  getLibraryItem: (id: string) => BibliographyItem | undefined
-  setLibraryItem: (item: BibliographyItem) => void
-  removeLibraryItem: (id: string) => void
-  matchLibraryItemByIdentifier: (
-    item: BibliographyItem
-  ) => BibliographyItem | undefined
-  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
-}
+export const GroupIcon: React.FC<{ numberOfCitations: number }> = ({
+  numberOfCitations,
+}) => (
+  <BadgeIcon
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      width="12"
+      height="12"
+      rx="6"
+      fill={(numberOfCitations > 0 && '#BCE7F6') || '#FE8F1F'}
+    />
+    <text
+      x="6"
+      y="8"
+      fill="#FFF"
+      fontSize="9px"
+      textAnchor="middle"
+      fontWeight="400"
+    >
+      {numberOfCitations}
+    </text>
+  </BadgeIcon>
+)
+
+const BadgeIcon = styled.svg`
+  top: -4px;
+  right: 16px;
+  position: absolute;
+`

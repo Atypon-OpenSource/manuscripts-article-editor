@@ -2879,15 +2879,6 @@ exports[`Storyshots Collaboration/Poppers Add 1`] = `
   padding: 3rem;
 }
 
-.c2 {
-  box-sizing: border-box;
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-  padding: 20px;
-  max-width: 300px;
-}
-
 .c6 {
   color: #6e6e6e;
   font-size: 14px;
@@ -2899,6 +2890,15 @@ exports[`Storyshots Collaboration/Poppers Add 1`] = `
   font-weight: 300;
   margin-bottom: 12px;
   white-space: normal;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
 }
 
 .c3 {
@@ -3329,6 +3329,19 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
   padding: 3rem;
 }
 
+.c6 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c4 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
 .c7 {
   margin: 8px 0 24px;
   background-color: #e2e2e2;
@@ -3342,19 +3355,6 @@ exports[`Storyshots Collaboration/Poppers Invite and Uninvite 1`] = `
   flex: 2;
   padding: 20px;
   max-width: 250px;
-}
-
-.c6 {
-  color: #6e6e6e;
-  font-size: 14px;
-  line-height: 16px;
-  margin: 4px 0 0;
-}
-
-.c4 {
-  font-weight: 300;
-  margin-bottom: 12px;
-  white-space: normal;
 }
 
 .c3 {
@@ -3866,6 +3866,19 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
   padding: 3rem;
 }
 
+.c12 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c10 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
 .c13 {
   margin: 8px 0 24px;
   background-color: #e2e2e2;
@@ -3879,19 +3892,6 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove - only owner 1`] =
   flex: 2;
   padding: 20px;
   max-width: 250px;
-}
-
-.c12 {
-  color: #6e6e6e;
-  font-size: 14px;
-  line-height: 16px;
-  margin: 4px 0 0;
-}
-
-.c10 {
-  font-weight: 300;
-  margin-bottom: 12px;
-  white-space: normal;
 }
 
 .c9 {
@@ -4168,6 +4168,19 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
   padding: 3rem;
 }
 
+.c6 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c4 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
+}
+
 .c7 {
   margin: 8px 0 24px;
   background-color: #e2e2e2;
@@ -4181,19 +4194,6 @@ exports[`Storyshots Collaboration/Poppers Settings and Remove 1`] = `
   flex: 2;
   padding: 20px;
   max-width: 250px;
-}
-
-.c6 {
-  color: #6e6e6e;
-  font-size: 14px;
-  line-height: 16px;
-  margin: 4px 0 0;
-}
-
-.c4 {
-  font-weight: 300;
-  margin-bottom: 12px;
-  white-space: normal;
 }
 
 .c3 {
@@ -4495,45 +4495,6 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
   padding: 3rem;
 }
 
-.c9 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  left: 16px;
-  position: absolute;
-  z-index: 2;
-}
-
-.c10 path {
-  fill: #353535;
-}
-
-.c12 {
-  -webkit-appearance: textfield;
-  padding-left: 44px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #f2fbfc;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -4622,6 +4583,45 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - few have been adde
 }
 
 .c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
   background-color: #f2fbfc;
 }
 
@@ -5134,45 +5134,6 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
   padding: 3rem;
 }
 
-.c9 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  left: 16px;
-  position: absolute;
-  z-index: 2;
-}
-
-.c10 path {
-  fill: #353535;
-}
-
-.c12 {
-  -webkit-appearance: textfield;
-  padding-left: 44px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #f2fbfc;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -5261,6 +5222,45 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator - with invitations 1
 }
 
 .c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
   background-color: #f2fbfc;
 }
 
@@ -5950,45 +5950,6 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
   padding: 3rem;
 }
 
-.c9 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  left: 16px;
-  position: absolute;
-  z-index: 2;
-}
-
-.c10 path {
-  fill: #353535;
-}
-
-.c12 {
-  -webkit-appearance: textfield;
-  padding-left: 44px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #f2fbfc;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -6077,6 +6038,45 @@ exports[`Storyshots Collaboration/Sidebars Add Collaborator 1`] = `
 }
 
 .c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
   background-color: #f2fbfc;
 }
 
@@ -7199,6 +7199,35 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
   padding: 3rem;
 }
 
+.c8 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.c8 svg {
+  max-height: 36px;
+  max-width: 36px;
+}
+
+.c8 svg {
+  margin: 0;
+}
+
+.c8 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c8:focus svg path:first-of-type,
+.c8:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c9 {
+  padding-left: 12px;
+}
+
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -7284,35 +7313,6 @@ exports[`Storyshots Collaboration/Sidebars Collaborators - Owner 1`] = `
 
 .c10:hover {
   background-color: #f2fbfc;
-}
-
-.c8 {
-  font-size: 14px;
-  text-overflow: ellipsis;
-  font-size: 16px;
-}
-
-.c8 svg {
-  max-height: 36px;
-  max-width: 36px;
-}
-
-.c8 svg {
-  margin: 0;
-}
-
-.c8 svg path {
-  -webkit-transition: fill 0.5s;
-  transition: fill 0.5s;
-}
-
-.c8:focus svg path:first-of-type,
-.c8:hover svg path:first-of-type {
-  fill: #f7b314;
-}
-
-.c9 {
-  padding-left: 12px;
 }
 
 .c27 {
@@ -7931,19 +7931,6 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
   padding: 3rem;
 }
 
-.c14 {
-  color: #6e6e6e;
-  font-size: 14px;
-  line-height: 16px;
-  margin: 4px 0 0;
-}
-
-.c12 {
-  font-weight: 300;
-  margin-bottom: 12px;
-  white-space: normal;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -8007,6 +7994,19 @@ exports[`Storyshots Collaboration/Sidebars Invite Collaborators 1`] = `
   user-select: none;
   white-space: nowrap;
   width: 100%;
+}
+
+.c14 {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 4px 0 0;
+}
+
+.c12 {
+  font-weight: 300;
+  margin-bottom: 12px;
+  white-space: normal;
 }
 
 .c17 {
