@@ -27,6 +27,7 @@ import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
+import { filterNodesWithTrackingData } from '../../track-changes/utils'
 import { Inspector as InspectorLW } from '../InspectorLW'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
@@ -73,10 +74,11 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
    *
    * As a result of that will combine both of them to get (inline files & supplementary files)
    */
-  const modelMap = new Map<string, Model>([
-    ...dbModelMap,
-    ...encode(schema.nodeFromJSON(doc.toJSON())),
-  ])
+  const docClean = filterNodesWithTrackingData(doc.toJSON())
+
+  const modelMapClean = encode(schema.nodeFromJSON(docClean))
+
+  const modelMap = new Map<string, Model>([...dbModelMap, ...modelMapClean])
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
