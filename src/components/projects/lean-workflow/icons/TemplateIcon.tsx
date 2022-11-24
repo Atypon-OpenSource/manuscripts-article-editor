@@ -7,18 +7,33 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { CitationProvider } from '@manuscripts/library'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import React from 'react'
 
-export interface BiblioTools {
-  getCitationProvider: () => CitationProvider | undefined
-  getLibraryItem: (id: string) => BibliographyItem | undefined
-  setLibraryItem: (item: BibliographyItem) => void
-  removeLibraryItem: (id: string) => void
-  matchLibraryItemByIdentifier: (
-    item: BibliographyItem
-  ) => BibliographyItem | undefined
-  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
-}
+export const TemplateIcon: React.FC = () => (
+  <svg
+    width="16"
+    height="18"
+    viewBox="0 0 16 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="1.25"
+      y="1.25"
+      width="13.5"
+      height="15.5"
+      rx="1.75"
+      fill="white"
+      stroke="#6E6E6E"
+      strokeWidth="1.5"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M9 6.5C9 6.08579 8.66421 5.75 8.25 5.75H7.25V4.75C7.25 4.33579 6.91421 4 6.5 4C6.08579 4 5.75 4.33579 5.75 4.75V5.75H4.75C4.33579 5.75 4 6.08579 4 6.5C4 6.91421 4.33579 7.25 4.75 7.25H5.75V8.25C5.75 8.66421 6.08579 9 6.5 9C6.91421 9 7.25 8.66421 7.25 8.25V7.25H8.25C8.66421 7.25 9 6.91421 9 6.5Z"
+      fill="#6E6E6E"
+    />
+  </svg>
+)

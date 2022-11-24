@@ -16,6 +16,7 @@ import {
   findParentSection,
 } from '@manuscripts/manuscript-editor'
 import { encode, schema } from '@manuscripts/manuscript-transform'
+import { Model } from '@manuscripts/manuscripts-json-schema'
 import { FileManager, usePermissions } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
@@ -37,10 +38,11 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    { saveModel, submissionId, fileManagement, commentTarget, doc },
+    { saveModel, dbModelMap, submissionId, fileManagement, commentTarget, doc },
   ] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
+    dbModelMap: store.modelMap,
     manuscript: store.manuscript,
     user: store.user,
     project: store.project,
@@ -66,9 +68,17 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
 
   const can = usePermissions()
 
+  /**
+   * Document stored in quarterback will be different from the one we get from api **if we start editing**,
+   * unless we create a snapshot or complete the task they should be identical.
+   *
+   * As a result of that will combine both of them to get (inline files & supplementary files)
+   */
   const docClean = filterNodesWithTrackingData(doc.toJSON())
 
-  const modelMap = encode(schema.nodeFromJSON(docClean))
+  const modelMapClean = encode(schema.nodeFromJSON(docClean))
+
+  const modelMap = new Map<string, Model>([...dbModelMap, ...modelMapClean])
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
