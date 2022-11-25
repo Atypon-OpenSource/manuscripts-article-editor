@@ -15,7 +15,6 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import { encode, schema } from '@manuscripts/manuscript-transform'
 import { FileManager, usePermissions } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
@@ -36,20 +35,18 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    { saveModel, submissionId, fileManagement, commentTarget, doc },
+    {
+      submissionId,
+      fileManagement,
+      commentTarget,
+      saveTrackModel,
+      trackModelMap,
+    },
   ] = useStore((store) => ({
-    snapshots: store.snapshots,
-    saveModel: store.saveModel,
-    manuscript: store.manuscript,
-    user: store.user,
-    project: store.project,
+    saveTrackModel: store.saveTrackModel,
+    trackModelMap: store.trackModelMap,
     submissionId: store.submissionID,
-    submission: store.submission,
-    snapshotID: store.snapshotID,
-    commitsSortBy: store.commitsSortBy as string,
-    comments: store.comments || [],
     fileManagement: store.fileManagement,
-    doc: store.doc,
     commentTarget: store.commentTarget,
   }))
 
@@ -64,10 +61,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   )
 
   const can = usePermissions()
-
-  const modelMap = encode(schema.nodeFromJSON(doc.toJSON()))
-
-  const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
+  const modelIds = trackModelMap ? Array.from(trackModelMap?.keys()) : []
 
   return (
     <>
@@ -132,8 +126,9 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                   <FileManager
                     can={can}
                     enableDragAndDrop={true}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
+                    modelMap={trackModelMap}
+                    // @ts-ignore
+                    saveModel={saveTrackModel}
                     fileManagement={fileManagement}
                   />
                 ) : null

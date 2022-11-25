@@ -55,8 +55,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       collaborators,
       collaboratorsById,
       keywords,
-      saveModel,
-      deleteModel,
+      saveTrackModel,
+      deleteTrackModel,
     },
     dispatch,
   ] = useStore((store) => ({
@@ -68,15 +68,16 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     collaboratorsById: store.collaboratorsById,
     keywords: store.keywords,
     saveModel: store.saveModel,
-    deleteModel: store.deleteModel,
+    saveTrackModel: store.saveTrackModel,
+    deleteTrackModel: store.deleteTrackModel,
     commentTarget: store.commentTarget,
   }))
   const { state, view } = editor
 
   const [newComment, setNewComment] = useState<CommentAnnotation>()
   const createKeyword = useCallback(
-    (name: string) => saveModel(buildKeyword(name)),
-    [saveModel]
+    (name: string) => saveTrackModel(buildKeyword(name)),
+    [saveTrackModel]
   )
   const currentUser = useMemo(() => user, [user])
   const [commentFilter, setCommentFilter] = useState<Pattern.CommentFilter>(
@@ -139,7 +140,7 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
 
   const handleSetResolved = useCallback(
     async (comment) => {
-      const savedComment = await saveModel({
+      const savedComment = await saveTrackModel({
         ...comment,
         resolved: !comment.resolved,
       } as CommentAnnotation)
@@ -147,12 +148,12 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
         updateComments(savedComment)
       }
     },
-    [saveModel, updateComments]
+    [saveTrackModel, updateComments]
   )
 
   const saveComment = useCallback(
     (comment: CommentAnnotation) => {
-      return saveModel(comment).then((comment) => {
+      return saveTrackModel(comment).then((comment) => {
         if (newComment && newComment._id === comment._id) {
           setCommentTarget(undefined)
           setNewComment(undefined)
@@ -164,19 +165,19 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
         return comment
       })
     },
-    [saveModel, newComment, setCommentTarget, addComment, updateComments]
+    [saveTrackModel, newComment, setCommentTarget, addComment, updateComments]
   )
 
   const deleteComment = useCallback(
     (id: string, target?: string) => {
       const highlightId = target || commentTarget
-      return deleteModel(id)
+      return deleteTrackModel(id)
         .catch((error: Error) => {
           console.error(error)
         })
         .then(async () => {
           if (highlightId && highlightId.startsWith('MPHighlight:')) {
-            await deleteModel(highlightId)
+            await deleteTrackModel(highlightId)
           }
           removeComment(id)
         })
@@ -197,7 +198,7 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     },
     [
       commentTarget,
-      deleteModel,
+      deleteTrackModel,
       newComment,
       removeComment,
       setCommentTarget,

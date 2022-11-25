@@ -108,6 +108,17 @@ export type state = {
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
   deleteProject: (projectID: string) => Promise<string>
   updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+
+  // track changes doc state changes
+  saveTrackModel: <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ) => Promise<T>
+  getTrackModel: <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ) => Promise<T>
+  trackModelMap: Map<string, Model>
+  deleteTrackModel: (id: string) => Promise<string>
+
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   saveNewManuscript: (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,

@@ -63,6 +63,7 @@ import EditorElement from './EditorElement'
 import Inspector from './Inspector'
 import { UserProvider } from './provider/UserProvider'
 import { TrackChangesStyles } from './TrackChangesStyles'
+import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, submission, person }, dispatch] = useStore(
@@ -136,6 +137,8 @@ const ManuscriptPageView: React.FC = () => {
   const [modelMap] = useStore((store) => store.modelMap)
   const [submissionID] = useStore((store) => store.submissionID || '')
   const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
+  const [doc] = useStore((store) => store.doc)
+  const [saveModel] = useStore((store) => store.saveModel)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
@@ -146,7 +149,17 @@ const ManuscriptPageView: React.FC = () => {
   const editor = useCreateEditor(permissions)
 
   const { state, dispatch, view } = editor
-  // useChangeReceiver(editor, saveModel, deleteModel) - not needed under new architecture
+
+  const {
+    saveTrackModel,
+    trackModelMap,
+    deleteTrackModel,
+  } = useTrackedModelManagement(doc, view, state, dispatch, saveModel)
+
+  useEffect(() => {
+    storeDispatch({ saveTrackModel, trackModelMap, deleteTrackModel })
+  }, [saveTrackModel, trackModelMap, deleteTrackModel, storeDispatch])
+
   useEffect(() => {
     if (view && config.environment === 'development') {
       import('prosemirror-dev-toolkit')
