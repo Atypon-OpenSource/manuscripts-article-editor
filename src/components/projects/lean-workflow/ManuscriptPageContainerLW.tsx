@@ -139,6 +139,7 @@ const ManuscriptPageView: React.FC = () => {
   const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
+  const [deleteModel] = useStore((store) => store.deleteModel)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
@@ -154,7 +155,14 @@ const ManuscriptPageView: React.FC = () => {
     saveTrackModel,
     trackModelMap,
     deleteTrackModel,
-  } = useTrackedModelManagement(doc, view, state, dispatch, saveModel)
+  } = useTrackedModelManagement(
+    doc,
+    view,
+    state,
+    dispatch,
+    saveModel,
+    deleteModel
+  )
 
   useEffect(() => {
     storeDispatch({ saveTrackModel, trackModelMap, deleteTrackModel })
