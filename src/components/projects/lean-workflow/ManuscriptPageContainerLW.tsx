@@ -34,6 +34,7 @@ import styled from 'styled-components'
 
 import config from '../../../config'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
+import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
 import {
   graphQLErrorMessage,
   Person,
@@ -63,7 +64,6 @@ import EditorElement from './EditorElement'
 import Inspector from './Inspector'
 import { UserProvider } from './provider/UserProvider'
 import { TrackChangesStyles } from './TrackChangesStyles'
-import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, submission, person }, dispatch] = useStore(
