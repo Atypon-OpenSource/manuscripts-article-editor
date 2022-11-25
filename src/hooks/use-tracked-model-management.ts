@@ -23,6 +23,7 @@ import { Model } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
+import { filterNodesWithTrackingData } from '../components/track-changes/utils'
 import { setNodeAttrs } from '../lib/node-attrs'
 import { useStore } from '../store'
 
@@ -34,9 +35,10 @@ const useTrackedModelManagement = (
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
   deleteModel: (id: string) => Promise<string>
 ) => {
-  const modelMap = useMemo(() => encode(schema.nodeFromJSON(doc.toJSON())), [
-    doc,
-  ])
+  const modelMap = useMemo(() => {
+    const docClean = filterNodesWithTrackingData(doc.toJSON())
+    return encode(schema.nodeFromJSON(docClean))
+  }, [doc])
 
   const [, dispatchStore] = useStore()
 

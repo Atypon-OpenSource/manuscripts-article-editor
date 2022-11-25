@@ -13,20 +13,25 @@
 import {
   deleteHighlightMarkers,
   getHighlightTarget,
+  updateCommentAnnotationState,
 } from '@manuscripts/manuscript-editor'
 import {
   buildComment,
   buildContribution,
   buildKeyword,
+  getModelsByType,
 } from '@manuscripts/manuscript-transform'
 import {
   CommentAnnotation,
+  ElementsOrder,
+  ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   buildCommentTree,
   CommentData,
   CommentTarget,
+  CommentType,
   CommentWrapper,
   NoteBodyContainer,
   ReplyBodyContainer,
@@ -36,6 +41,7 @@ import { ContentNodeWithPos } from 'prosemirror-utils'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
+import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
 import * as Pattern from '../CommentListPatterns'
 import { HighlightedText } from '../HighlightedText'
@@ -55,6 +61,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       collaborators,
       collaboratorsById,
       keywords,
+      manuscriptID,
+      modelMap,
       saveTrackModel,
       deleteTrackModel,
     },
@@ -67,7 +75,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     collaborators: store.collaborators || new Map<string, UserProfile>(),
     collaboratorsById: store.collaboratorsById,
     keywords: store.keywords,
-    saveModel: store.saveModel,
+    manuscriptID: store.manuscriptID,
+    modelMap: store.modelMap,
     saveTrackModel: store.saveTrackModel,
     deleteTrackModel: store.deleteTrackModel,
     commentTarget: store.commentTarget,
@@ -117,15 +126,68 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       newComment.contributions = [contribution]
       newComment.contributions = [contribution]
 
-      const highlight = state && getHighlightTarget(newComment, state)
+      if (newComment.target.startsWith(ObjectTypes.Highlight)) {
+        const highlight = state && getHighlightTarget(newComment, state)
 
-      if (highlight) {
-        // newComment.originalText = getHighlightText(highlight, state)
-        newComment.originalText = highlight.text
+        if (highlight) {
+          // newComment.originalText = getHighlightText(highlight, state)
+          newComment.originalText = highlight.text
+          setNewComment(newComment)
+        }
+      } else {
         setNewComment(newComment)
       }
     }
   }, [commentTarget, doc, newComment, state, currentUser])
+
+  /**
+   * This map holds all block elements in the editor(citation, figure, table)
+   * will be used to show the header of the block comment which is the element label
+   */
+  const commentsLabels = useMemo(() => {
+    const labelsMap = new Map<string, string>()
+    let graphicalAbstractFigureId: string | undefined = undefined
+
+    doc.descendants((node) => {
+      if (node.type.name === 'citation') {
+        labelsMap.set(node.attrs['rid'], node.attrs.contents.trim())
+      }
+
+      if (node.attrs['category'] === 'MPSectionCategory:abstract-graphical') {
+        node.forEach((node) => {
+          if (node.type.name === 'figure_element') {
+            graphicalAbstractFigureId = node.attrs['id']
+          }
+        })
+      }
+    })
+
+    const setLabels = (
+      label: string,
+      elements: string[],
+      excludedElementId?: string
+    ) =>
+      elements
+        .filter((element) => element !== excludedElementId)
+        .map((element, index) => labelsMap.set(element, `${label} ${++index}`))
+
+    const elementsOrders = getModelsByType<ElementsOrder>(
+      modelMap,
+      ObjectTypes.ElementsOrder
+    )
+    elementsOrders.map(({ elementType, elements }) => {
+      if (
+        elementType === ObjectTypes.TableElement ||
+        elementType === ObjectTypes.FigureElement
+      ) {
+        const label =
+          (elementType === ObjectTypes.FigureElement && 'Figure') || 'Table'
+        setLabels(label, elements, graphicalAbstractFigureId)
+      }
+    })
+
+    return labelsMap
+  }, [doc, modelMap])
 
   const items = useMemo<Array<[string, CommentData[]]>>(() => {
     const combinedComments = [...comments]
@@ -151,6 +213,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     [saveTrackModel, updateComments]
   )
 
+  const { updateDocument } = useDocStore()
+
   const saveComment = useCallback(
     (comment: CommentAnnotation) => {
       return saveTrackModel(comment).then((comment) => {
@@ -158,14 +222,29 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
           setCommentTarget(undefined)
           setNewComment(undefined)
           addComment(comment)
+          if (!comment.target.includes(ObjectTypes.Highlight)) {
+            updateDocument(manuscriptID, doc.toJSON())
+          }
+          if (!comment.target.startsWith('MPHighlight:') && view?.state) {
+            updateCommentAnnotationState(view?.state, view?.dispatch)
+          }
         } else {
           updateComments(comment)
         }
-
         return comment
       })
     },
-    [saveTrackModel, newComment, setCommentTarget, addComment, updateComments]
+    [
+      saveTrackModel,
+      newComment,
+      view,
+      setCommentTarget,
+      addComment,
+      updateDocument,
+      manuscriptID,
+      doc,
+      updateComments,
+    ]
   )
 
   const deleteComment = useCallback(
@@ -194,6 +273,9 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
             setCommentTarget(undefined)
             setNewComment(undefined)
           }
+          if (target && !target?.startsWith('MPHighlight:') && view?.state) {
+            updateCommentAnnotationState(view?.state, view?.dispatch)
+          }
         })
     },
     [
@@ -207,7 +289,9 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
   )
 
   const scrollIntoHighlight = (comment: CommentAnnotation) => {
-    const el = document.querySelector(`[data-reference-id="${comment.target}"]`)
+    const el =
+      document.querySelector(`[id="${comment.target}"]`) ||
+      document.querySelector(`[data-reference-id="${comment.target}"]`)
     if (el) {
       el.scrollIntoView({
         behavior: 'smooth',
@@ -226,6 +310,10 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
 
   const getHighlightTextColor = useCallback(
     (comment: CommentAnnotation) => {
+      if (!comment.target.includes(ObjectTypes.Highlight)) {
+        return '#ffe08b'
+      }
+
       let highlight = null
       try {
         const target = state && getHighlightTarget(comment, state)
@@ -237,6 +325,16 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       return highlight ? '#ffe08b' : '#f9020287'
     },
     [state]
+  )
+
+  const getHighlightComment = useCallback(
+    (comment: CommentType) => {
+      if (commentsLabels.has(comment.target)) {
+        return { ...comment, originalText: commentsLabels.get(comment.target) }
+      }
+      return comment
+    },
+    [commentsLabels]
   )
 
   const can = usePermissions()
@@ -291,7 +389,9 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
                       isNew={isNew(comment as CommentAnnotation)}
                     >
                       <HighlightedText
-                        comment={comment as CommentAnnotation}
+                        comment={
+                          getHighlightComment(comment) as CommentAnnotation
+                        }
                         getHighlightTextColor={getHighlightTextColor}
                         onClick={scrollIntoHighlight}
                       />

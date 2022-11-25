@@ -16,13 +16,16 @@ import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import {
   ButtonGroup,
+  IconTextButton,
   PrimaryButton,
   SecondaryButton,
   Tip,
+  UploadIcon,
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { TemplateIcon } from '../projects/lean-workflow/icons/TemplateIcon'
 import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import { CitationSearchSection } from './CitationSearchSection'
@@ -54,14 +57,21 @@ const ImportButton: React.FunctionComponent<Props> = ({
   importItems,
   importing,
 }) => (
-  <SecondaryButton onClick={importItems}>
+  <IconTextButton onClick={importItems}>
     <Tip
       title={'Import bibliography data from a BibTeX or RIS file'}
       placement={'top'}
     >
-      {importing ? 'Importing…' : 'Import from File'}
+      {importing ? (
+        'Importing…'
+      ) : (
+        <>
+          <UploadIcon />
+          Import from file
+        </>
+      )}
     </Tip>
-  </SecondaryButton>
+  </IconTextButton>
 )
 
 type SearchInterface = (
@@ -83,6 +93,7 @@ export const CitationSearch: React.FC<{
     query?: string
   ) => Promise<void>
   query: string
+  addCitation: () => void
   handleCancel: () => void
   importItems: (
     items: Array<Build<BibliographyItem>>
@@ -90,6 +101,7 @@ export const CitationSearch: React.FC<{
 }> = ({
   filterLibraryItems,
   handleCite,
+  addCitation,
   importItems: _importItems,
   query: initialQuery,
   handleCancel,
@@ -118,7 +130,7 @@ export const CitationSearch: React.FC<{
     const sources: Source[] = [
       {
         id: 'library',
-        title: 'Library',
+        title: 'Document',
         search: searchLibrary,
       },
     ]
@@ -257,12 +269,16 @@ export const CitationSearch: React.FC<{
         ))}
       </Results>
       <Actions>
-        <ButtonGroup>
+        <AddCitationActions>
           <BibliographyImportButton
             importItems={importItems}
             component={ImportButton}
           />
-        </ButtonGroup>
+          <IconTextButton onClick={addCitation}>
+            <TemplateIcon />
+            Add new
+          </IconTextButton>
+        </AddCitationActions>
 
         <ButtonGroup>
           <SecondaryButton onClick={handleCancel}>Close</SecondaryButton>
@@ -278,3 +294,19 @@ export const CitationSearch: React.FC<{
     </Container>
   )
 }
+
+const AddCitationActions = styled(ButtonGroup)`
+  button {
+    margin-right: ${(props) => props.theme.grid.unit * 8}px;
+  }
+
+  button:hover,
+  button:active {
+    path {
+      stroke: ${(props) => props.theme.colors.brand.medium};
+    }
+    rect {
+      stroke: ${(props) => props.theme.colors.brand.medium};
+    }
+  }
+`

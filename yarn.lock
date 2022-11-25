@@ -2159,7 +2159,7 @@
   resolved "https://registry.npmjs.org/@manuscripts/csl-styles/-/csl-styles-0.2.1.tgz#c499e2b2600811792a0e9172df9e6a3ce1df1a4f"
   integrity sha512-DUbNRehtEiX1K3qA3swqRNyxv2fIa4zGYz8MasIkSxrMfrBG7f68FSWtERrorz6OyL4tL2WQ+K5hIt3WrIlg2Q==
 
-"@manuscripts/data@^0.1.11", "@manuscripts/data@^0.1.12", "@manuscripts/data@^0.1.3":
+"@manuscripts/data@^0.1.11", "@manuscripts/data@^0.1.12":
   version "0.1.12"
   resolved "https://registry.npmjs.org/@manuscripts/data/-/data-0.1.12.tgz#14ca113e714e4b71586f89f443f8ab4079a9fa84"
   integrity sha512-zS7RuBXhw8YypwjhT18V//rukLq72oZj2/za35zjfZntql6uJi5PtsLm8CCBkGW4jvqAbNg3JO+avFUy8jcsvQ==
@@ -2214,10 +2214,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@0.93.8":
-  version "0.93.8"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.8.tgz#1becd8ee5084b99f68fcb960dc1ccb99f98ff00c"
-  integrity sha512-FLSM7NFuutepRMuAIPBg3fkMcsbYaVwE9BUfzLZouqZAjY0H0BOc2XJW6CNl6H9ykwJZlxl2mOAaNkeVF0utXw==
+"@manuscripts/manuscript-editor@^0.93.11":
+  version "0.93.11"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.11.tgz#de0fed8d0dfa5fd2a62fc2672e92aabbcd98d841"
+  integrity sha512-hTrIQAqenmhYV2M9zcrbfAmaezg53Y6O+a+7i9gH0yJaXTAGZ68a8CG65KjvfZBw+BrGqhKGQwaH4HrOWVjkgQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2259,37 +2259,7 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@^0.42.12":
-  version "0.42.13"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.42.13.tgz#8d196ee5149bd3d6bf7dda0a4e718ccfdb7f9c35"
-  integrity sha512-WTtBEccdR5+BSKe87Ze6bHk4Hkolz2BpHyVbvli6qC+E/ar6T4oBZGFzWOFawZsGyKviBwnvnjpPLlOE5U6b3g==
-  dependencies:
-    "@manuscripts/data" "^0.1.3"
-    "@manuscripts/manuscripts-json-schema" "^1.46.7"
-    debug "^4.1.1"
-    lodash.pickby "^4.6.0"
-    mathjax-full "^3.1.2"
-    mime "^2.4.6"
-    prosemirror-model "~1.14.0"
-    uuid "^8.2.0"
-    w3c-xmlserializer "^2.0.0"
-
-"@manuscripts/manuscript-transform@^0.48.1":
-  version "0.48.29"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.48.29.tgz#b545ce47d7e1837cf6370a0da6d1d105167edd41"
-  integrity sha512-07JLd3UZHVOJ15YUlRtsje/Atr5uDcbLhwKNz+mHFALmggzD8gW6K1lUk1+VTYHerXcGgz20JUcKDYGWovsbaQ==
-  dependencies:
-    "@manuscripts/data" "^0.1.3"
-    "@manuscripts/library" "^0.6.2"
-    "@manuscripts/manuscripts-json-schema" "^1.49.11"
-    debug "^4.1.1"
-    mathjax-full "^3.1.2"
-    mime "^2.4.6"
-    prosemirror-model "~1.14.0"
-    uuid "^8.2.0"
-    w3c-xmlserializer "^2.0.0"
-
-"@manuscripts/manuscript-transform@^0.54.0":
+"@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.54.0":
   version "0.54.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.54.0.tgz#f1ea6fc748f66386e8a97ef8511b8323b5352fa0"
   integrity sha512-Zyn6NsHhT8IMwm1KJyZdHBBZrmjKJtZXfn2h3RaKlfCrpyjhy+9tlli8WyxA+FsKL1nQivVwAQdbn2z4WKhVeQ==
@@ -2304,7 +2274,22 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@^1.46.7", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.49.11", "@manuscripts/manuscripts-json-schema@^1.51.0":
+"@manuscripts/manuscript-transform@^0.56.0":
+  version "0.56.1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.56.1.tgz#efc4255c21194d97c28d912ebe3dfdf59b3bba41"
+  integrity sha512-CtPD/xs4IqZc8CpBm30xAXXCEb9K227dDkcWF9sYEuhsDcLM/FUaZB1V3kFxDuAk+zrwvEGgrLe3j1dzn/OwDQ==
+  dependencies:
+    "@manuscripts/data" "^0.1.12"
+    "@manuscripts/library" "^0.6.2"
+    "@manuscripts/manuscripts-json-schema" "1.52.0"
+    debug "^4.1.1"
+    mathjax-full "^3.1.2"
+    mime "^2.4.6"
+    prosemirror-model "~1.14.0"
+    uuid "^8.2.0"
+    w3c-xmlserializer "^2.0.0"
+
+"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@1.52.0", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.51.0":
   version "1.51.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.51.0.tgz#6677f4ac81243496b92608c82f1e2d1c56acf22a"
   integrity sha512-YNrqrX8SScXZ5V/3/2Cyy/3SepOkMX/mn18TdKggh+WNN8n3AtKM31/Qw+2jVcF84w9pZ+RU+wuObr2u+GlSUA==
@@ -2417,10 +2402,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.23":
-  version "0.31.23"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.23.tgz#231951089ca98b5be3aadb1fb3c7564d0bff0ff3"
-  integrity sha512-WadZ3cFgSMmZpuZlc3ovksQWiL+4hgyhYn5vFUMyxdFga9BLtMl/er0dGvSxMokZw70cQLD0gAhMPAuxEJe1mg==
+"@manuscripts/style-guide@^0.31.28":
+  version "0.31.28"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.28.tgz#3e5b41e0e4082964ce431efe408500442446f84d"
+  integrity sha512-Tv3PLvy1aF7Ab+17UoaGkxM/2GqOig4FMrcIgL18xqUJU/tWLnFeFBZFt2DwOGWlIHTWqnNg14yiFR5uq5zvMg==
   dependencies:
     "@apollo/client" "^3.6.9"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -13496,11 +13481,6 @@ lodash.once@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
-
-lodash.pickby@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.npmjs.org/lodash.pickby/-/lodash.pickby-4.6.0.tgz#7dea21d8c18d7703a27c704c15d3b84a67e33aff"
-  integrity sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==
 
 lodash.sortby@^4.7.0:
   version "4.7.0"
