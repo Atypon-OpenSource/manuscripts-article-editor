@@ -236,7 +236,15 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
         return comment
       })
     },
-    [saveModel, newComment, setCommentTarget, addComment, updateComments]
+    [
+      saveModel,
+      newComment,
+      setCommentTarget,
+      addComment,
+      view?.state,
+      view?.dispatch,
+      updateComments,
+    ]
   )
 
   const deleteComment = useCallback(
