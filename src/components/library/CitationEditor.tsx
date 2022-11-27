@@ -12,9 +12,11 @@
 
 import AnnotationRemove from '@manuscripts/assets/react/AnnotationRemove'
 import { shortLibraryItemMetadata } from '@manuscripts/library'
+import { Build, buildComment } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Citation,
+  CommentAnnotation,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   AddComment,
@@ -108,7 +110,7 @@ interface Props {
   selectedText: string
   citation: Citation
   updateCitation: (data: Partial<Citation>) => Promise<void>
-  setCommentTarget: (commentTarget?: string) => void
+  setCommentTarget: (commentTarget: Build<CommentAnnotation>) => void
 }
 
 const CitationEditor: React.FC<Props> = ({
@@ -142,10 +144,10 @@ const CitationEditor: React.FC<Props> = ({
       })
   }, [properties, handleClose, updateCitation])
 
-  const addCommentCallback = useCallback(() => setCommentTarget(citation._id), [
-    citation._id,
-    setCommentTarget,
-  ])
+  const addCommentCallback = useCallback(
+    () => setCommentTarget(buildComment(citation._id)),
+    [citation._id, setCommentTarget]
+  )
 
   if (searching) {
     return (

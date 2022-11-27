@@ -121,6 +121,8 @@ export const useCreateEditor = (permissions: Permissions) => {
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
     setCommentTarget: (target?: string) => dispatch({ commentTarget: target }),
+    setSelectedComment: (commentId?: string) =>
+      dispatch({ selectedComment: commentId }),
     getModel,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
       // @TODO fix this type

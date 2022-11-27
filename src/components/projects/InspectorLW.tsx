@@ -9,6 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { Build } from '@manuscripts/manuscript-transform'
+import { CommentAnnotation } from '@manuscripts/manuscripts-json-schema'
 import React, { useEffect, useState } from 'react'
 
 import {
@@ -22,7 +24,7 @@ import {
 
 export const Inspector: React.FC<{
   tabs: string[]
-  commentTarget?: string
+  commentTarget?: Build<CommentAnnotation>
 }> = ({ tabs, commentTarget, children }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
