@@ -32,7 +32,10 @@ export const HighlightedText: React.FC<{
   getHighlightTextColor: (comment: CommentAnnotation) => string
   onClick?: (comment: CommentAnnotation) => void
 }> = React.memo(({ comment, getHighlightTextColor, onClick }) => {
-  if (!comment.originalText) {
+  if (
+    !comment.originalText ||
+    comment.target.includes(ObjectTypes.ParagraphElement)
+  ) {
     return null
   }
 

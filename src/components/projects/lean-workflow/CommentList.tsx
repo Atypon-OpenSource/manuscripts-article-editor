@@ -14,25 +14,20 @@ import {
   commentScroll,
   deleteHighlightMarkers,
   getHighlightTarget,
-  updateCommentAnnotationState,
 } from '@manuscripts/manuscript-editor'
 import {
   buildComment,
   buildContribution,
   buildKeyword,
-  getModelsByType,
 } from '@manuscripts/manuscript-transform'
 import {
   CommentAnnotation,
-  ElementsOrder,
-  ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   buildCommentTree,
   CommentData,
   CommentTarget,
-  CommentType,
   CommentWrapper,
   NoteBodyContainer,
   ReplyBodyContainer,

@@ -21,12 +21,3 @@ export const normalizeURL = (url: string | undefined) => {
 export const splitArray = (value: string | undefined) => {
   return value ? value.split(/\s*;\s*/) : []
 }
-
-export const getURL = (value: string | undefined, index: number) => {
-  const urls = splitArray(value)
-  // Use the index to decide which site to use.
-  if (index != -1) {
-    return urls[index]
-  }
-  return urls[0]
-}
