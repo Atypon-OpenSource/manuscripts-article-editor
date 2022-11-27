@@ -15,11 +15,12 @@ import { shortLibraryItemMetadata } from '@manuscripts/library'
 import {
   Build,
   buildBibliographyItem,
-  buildComment
+  buildComment,
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
-  Citation, CommentAnnotation,
+  Citation,
+  CommentAnnotation,
   Model,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'

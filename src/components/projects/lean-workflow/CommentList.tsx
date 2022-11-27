@@ -14,20 +14,25 @@ import {
   commentScroll,
   deleteHighlightMarkers,
   getHighlightTarget,
+  updateCommentAnnotationState,
 } from '@manuscripts/manuscript-editor'
 import {
   buildComment,
   buildContribution,
   buildKeyword,
+  getModelsByType,
 } from '@manuscripts/manuscript-transform'
 import {
   CommentAnnotation,
+  ElementsOrder,
+  ObjectTypes,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   buildCommentTree,
   CommentData,
   CommentTarget,
+  CommentType,
   CommentWrapper,
   NoteBodyContainer,
   ReplyBodyContainer,
@@ -435,7 +440,6 @@ const Container = styled(Pattern.Container)`
   .selected_comment {
     border: 1px solid ${(props) => props.theme.colors.border.primary};
     border-left: 4px solid ${(props) => props.theme.colors.border.primary};
-    // TODO:: update to selected
-    background: ${(props) => props.theme.colors.background.primary};
+    background: ${(props) => props.theme.colors.background.selected};
   }
 `
