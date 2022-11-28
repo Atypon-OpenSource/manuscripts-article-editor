@@ -161,7 +161,8 @@ const ManuscriptPageView: React.FC = () => {
     state,
     dispatch,
     saveModel,
-    deleteModel
+    deleteModel,
+    modelMap
   )
 
   useEffect(() => {

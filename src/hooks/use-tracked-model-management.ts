@@ -19,7 +19,7 @@ import {
   ManuscriptSchema,
   schema,
 } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
@@ -33,11 +33,18 @@ const useTrackedModelManagement = (
   state: EditorState<ManuscriptSchema>,
   dispatch: (tr: Transaction<any>) => EditorState<ManuscriptSchema>,
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
-  deleteModel: (id: string) => Promise<string>
+  deleteModel: (id: string) => Promise<string>,
+  finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
     const docClean = filterNodesWithTrackingData(doc.toJSON())
-    return encode(schema.nodeFromJSON(docClean))
+    const modelsFromPM = encode(schema.nodeFromJSON(docClean))
+    finalModelMap.forEach((model) => {
+      if (model.objectType === ObjectTypes.Supplement) {
+        modelsFromPM.set(model._id, model)
+      }
+    })
+    return finalModelMap
   }, [doc])
 
   const [, dispatchStore] = useStore()
