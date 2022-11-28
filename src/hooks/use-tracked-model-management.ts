@@ -45,7 +45,7 @@ const useTrackedModelManagement = (
       }
     })
     return finalModelMap
-  }, [doc])
+  }, [doc, finalModelMap])
 
   const [, dispatchStore] = useStore()
 
