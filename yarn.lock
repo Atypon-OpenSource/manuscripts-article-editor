@@ -2458,10 +2458,10 @@
     prosemirror-state "~1.3.4"
     prosemirror-view "~1.18.2"
 
-"@manuscripts/track-changes-plugin@0.4.4-LEAN-1839-v2", "@manuscripts/track-changes-plugin@^0.4.3":
-  version "0.4.4-LEAN-1839-v2"
-  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.4.4-LEAN-1839-v2.tgz#9af0256602775e506d9e8847c8b216c50276af7c"
-  integrity sha512-DLhQWwlLxnf9SfvznvlfxKZVf+G9Bg1hedaVx8EHGyq3Nn4YWjOSQ7v0d9escm1kw+J/lffOdhy9nVeLG+8uTg==
+"@manuscripts/track-changes-plugin@0.4.4-LEAN-1839-v3", "@manuscripts/track-changes-plugin@^0.4.3":
+  version "0.4.4-LEAN-1839-v3"
+  resolved "https://registry.npmjs.org/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.4.4-LEAN-1839-v3.tgz#38cda7dfbf2a57811207aee9ec4e390936a3d172"
+  integrity sha512-cygSDot0FUU/pzviuG54pSnZhlwts6o08bjEPsEHv2FMFi0T3t4fvybiqS49VmA9HAqJ4Yza/muQuEQEn9ictw==
   dependencies:
     debug "^4.3.4"
 
