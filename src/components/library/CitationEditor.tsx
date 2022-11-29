@@ -224,7 +224,7 @@ const CitationEditor: React.FC<Props> = ({
         importItems={importItems}
         handleCite={handleCite}
         addCitation={addCitationCallback}
-        handleCancel={handleCancel}
+        handleCancel={handleClose}
       />
     )
   }
