@@ -12,6 +12,7 @@
 
 import React, { useCallback, useMemo } from 'react'
 import Select, { OptionProps, OptionsType } from 'react-select'
+import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
@@ -79,15 +80,21 @@ export const CategoryInput: React.FC<{
   }, [currentValue])
 
   return (
-    <Select<OptionType, true>
-      // @ts-ignore
-      value={selectionValue}
-      options={options}
-      menuPortalTarget={document.body}
-      onChange={handleInputChange}
-      components={{
-        Option: OptionComponent,
-      }}
-    />
+    <Container>
+      <Select<OptionType, true>
+        // @ts-ignore
+        value={selectionValue}
+        options={options}
+        menuPortalTarget={document.body}
+        onChange={handleInputChange}
+        components={{
+          Option: OptionComponent,
+        }}
+      />
+    </Container>
   )
 }
+
+const Container = styled.div`
+  height: ${(props) => props.theme.grid.unit * 160}px;
+`
