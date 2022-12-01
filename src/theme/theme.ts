@@ -39,6 +39,7 @@ export const theme: DefaultTheme = {
       info: colors.manuscriptsXLight2,
       success: colors.peppermintGreen,
       warning: colors.butteryYellow,
+      selected: colors.aliceBlue,
     },
     border: {
       error: colors.mandysRed,
