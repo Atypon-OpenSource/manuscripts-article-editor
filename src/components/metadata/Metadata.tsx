@@ -24,6 +24,7 @@ import {
   ModalHeader,
   SecondaryButton,
   StyledModal,
+  KeywordsList,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
@@ -138,6 +139,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       manuscript,
       authorsAndAffiliations,
       contributorRoles,
+      keywords,
       tokenActions,
       project,
       saveModel,
@@ -152,6 +154,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       putAttachment: store.putAttachment,
       project: store.project,
       tokenActions: store.tokenActions,
+      keywords: store.keywords,
     }
   })
 
@@ -270,6 +273,8 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             )}
           </ModalContainer>
         </StyledModal>
+
+        {keywords.length > 0 && <KeywordsList keywords={keywords} />}
       </Header>
     </HeaderContainer>
   )

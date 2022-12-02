@@ -2402,10 +2402,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.28":
-  version "0.31.28"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.28.tgz#3e5b41e0e4082964ce431efe408500442446f84d"
-  integrity sha512-Tv3PLvy1aF7Ab+17UoaGkxM/2GqOig4FMrcIgL18xqUJU/tWLnFeFBZFt2DwOGWlIHTWqnNg14yiFR5uq5zvMg==
+"@manuscripts/style-guide@0.31.28-LEAN-1796":
+  version "0.31.28-LEAN-1796"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.28-LEAN-1796.tgz#36a41e1dd2fd004ca4ea83ea1da031a6cd1e5a40"
+  integrity sha512-DG5UxuR+lWhZQDbS2OfxVH7BcssAXm4mIu6vFHeHpSePJ1G1hnk3j8RZ/MRCnsqSINviXsd5drYSE1mgkCrq9Q==
   dependencies:
     "@apollo/client" "^3.6.9"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
