@@ -25,6 +25,7 @@ import {
   Contributor,
   ContributorRole,
   Correction,
+  Figure,
   LibraryCollection,
   ManuscriptNote,
   Model,
@@ -34,6 +35,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { FileManagement } from '@manuscripts/style-guide'
 import {
   Commit,
   commitFromJSON,
@@ -42,6 +44,7 @@ import {
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
+import { replaceAttachmentsIds } from '../lib/replaceAttachmentsIds'
 import { getUserRole } from '../lib/roles'
 import { getSnapshot } from '../lib/snapshot'
 import { state } from '../store'
@@ -334,7 +337,8 @@ const getDrivedData = async (
 export default async function buildData(
   projectID: string,
   manuscriptID: string,
-  api: Api
+  api: Api,
+  attachments?: ReturnType<FileManagement['getAttachments']>
 ) {
   // const project = await getProjectData(projectID, api)
   const user = await api.getUser()
@@ -356,6 +360,14 @@ export default async function buildData(
 
   const projects = await api.getUserProjects()
   const librariesData = await getLibrariesData(projectID, api)
+
+  // replace attachments with src
+  if (attachments && manuscriptData.modelMap) {
+    manuscriptData.modelMap = replaceAttachmentsIds(
+      manuscriptData.modelMap,
+      attachments
+    )
+  }
 
   const derivedData = await getDrivedData(
     manuscriptID,

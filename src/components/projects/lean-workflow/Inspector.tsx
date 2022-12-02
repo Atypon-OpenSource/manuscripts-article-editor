@@ -22,6 +22,7 @@ import React, { useMemo } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
+import { replaceAttachmentLinks } from '../../../lib/replaceAttachmentsIds'
 import { useStore } from '../../../store'
 import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
@@ -77,8 +78,15 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const docClean = filterNodesWithTrackingData(doc.toJSON())
 
   const modelMapClean = encode(schema.nodeFromJSON(docClean))
+  const modelMapWithAttachmentIds = replaceAttachmentLinks(
+    modelMapClean,
+    fileManagement.getAttachments()
+  )
 
-  const modelMap = new Map<string, Model>([...dbModelMap, ...modelMapClean])
+  const modelMap = new Map<string, Model>([
+    ...dbModelMap,
+    ...modelMapWithAttachmentIds,
+  ])
 
   const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
 
@@ -98,20 +106,18 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
             switch (label) {
               case 'Content': {
                 return (
-                  <>
-                    <ContentTab
-                      selected={selected}
-                      selectedElement={findParentElement(
-                        state.selection,
-                        modelIds
-                      )}
-                      selectedSection={findParentSection(state.selection)}
-                      state={state}
-                      dispatch={dispatch}
-                      hasFocus={view?.hasFocus()}
-                      key="content"
-                    />
-                  </>
+                  <ContentTab
+                    selected={selected}
+                    selectedElement={findParentElement(
+                      state.selection,
+                      modelIds
+                    )}
+                    selectedSection={findParentSection(state.selection)}
+                    state={state}
+                    dispatch={dispatch}
+                    hasFocus={view?.hasFocus()}
+                    key="content"
+                  />
                 )
               }
 
@@ -148,6 +154,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                     modelMap={modelMap}
                     saveModel={saveModel}
                     fileManagement={fileManagement}
+                    key="files"
                   />
                 ) : null
               }
