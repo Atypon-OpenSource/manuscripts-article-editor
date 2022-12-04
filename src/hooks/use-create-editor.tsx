@@ -15,7 +15,7 @@ import {
   useEditor,
 } from '@manuscripts/manuscript-editor'
 import { Build, ManuscriptSchema } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { CommentAnnotation, Model } from '@manuscripts/manuscripts-json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Plugin } from 'prosemirror-state'
@@ -120,7 +120,8 @@ export const useCreateEditor = (permissions: Permissions) => {
     modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setCommentTarget: (target?: string) => dispatch({ commentTarget: target }),
+    setCommentTarget: (target?: CommentAnnotation) =>
+      dispatch({ commentTarget: target }),
     setSelectedComment: (commentId?: string) =>
       dispatch({ selectedComment: commentId }),
     getModel,

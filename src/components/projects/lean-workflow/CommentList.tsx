@@ -56,8 +56,8 @@ const isHighlightComment = (comment: CommentAnnotation) =>
 
 const cleanUpSelectedComment = () => {
   document
-    .querySelectorAll(`.selected_comment`)
-    .forEach((element) => element.classList.remove('selected_comment'))
+    .querySelectorAll(`.selected-comment`)
+    .forEach((element) => element.classList.remove('selected-comment'))
 }
 
 export const CommentList: React.FC<Props> = ({ editor }) => {
@@ -278,7 +278,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   /**
    * check if the selection pointing to a highlight node
    */
-  useMemo(() => {
+  useEffect(() => {
     const numberOfChildren = state.selection.$from.parent.content.childCount
     const nodeIndex = state.selection.$from.index()
 
@@ -437,7 +437,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
 }
 
 const Container = styled(Pattern.Container)`
-  .selected_comment {
+  .selected-comment {
     border: 1px solid ${(props) => props.theme.colors.border.primary};
     border-left: 4px solid ${(props) => props.theme.colors.border.primary};
     background: ${(props) => props.theme.colors.background.selected};

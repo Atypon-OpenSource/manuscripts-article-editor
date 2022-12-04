@@ -130,7 +130,7 @@ interface Props {
   selectedText: string
   citation: Citation
   updateCitation: (data: Partial<Citation>) => Promise<void>
-  setCommentTarget: (commentTarget: Build<CommentAnnotation>) => void
+  setCommentTarget: (commentTarget: CommentAnnotation) => void
   updatePopper: () => void
 }
 
@@ -204,7 +204,7 @@ const CitationEditor: React.FC<Props> = ({
   }, [setLibraryItem, saveModel])
 
   const addCommentCallback = useCallback(
-    () => setCommentTarget(buildComment(citation._id)),
+    () => setCommentTarget(buildComment(citation._id) as CommentAnnotation),
     [citation._id, setCommentTarget]
   )
 
