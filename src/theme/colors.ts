@@ -38,6 +38,7 @@ export const white = '#fff'
 /* BLUES */
 export const jellyBeanBlue = '#2781a1'
 export const aliceBlue = '#f2fbfc'
+export const iceBlue = '#bce7f6'
 
 // export const blueDarker = '#7fb5d5'
 // export const blue = '#d6e8fc'

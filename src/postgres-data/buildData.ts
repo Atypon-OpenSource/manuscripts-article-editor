@@ -25,6 +25,7 @@ import {
   Contributor,
   ContributorRole,
   Correction,
+  Keyword,
   LibraryCollection,
   ManuscriptNote,
   Model,
@@ -33,7 +34,6 @@ import {
   Snapshot,
   Tag,
   UserProfile,
-  Keyword,
 } from '@manuscripts/manuscripts-json-schema'
 import {
   Commit,

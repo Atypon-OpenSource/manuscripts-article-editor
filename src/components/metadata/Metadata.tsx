@@ -20,11 +20,11 @@ import {
   AuthorsContainer,
   CloseButton,
   IconButton,
+  KeywordsList,
   ModalContainer,
   ModalHeader,
   SecondaryButton,
   StyledModal,
-  KeywordsList,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
