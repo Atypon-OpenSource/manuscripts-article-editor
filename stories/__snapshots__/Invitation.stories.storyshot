@@ -242,15 +242,6 @@ exports[`Storyshots Collaboration/Invitation Invite 1`] = `
   padding: 3rem;
 }
 
-.c2 {
-  box-sizing: border-box;
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-  padding: 20px;
-  max-width: 300px;
-}
-
 .c15 {
   color: #6e6e6e;
   font-size: 14px;
@@ -271,6 +262,15 @@ exports[`Storyshots Collaboration/Invitation Invite 1`] = `
 .c12 {
   padding-top: 24px;
   padding-bottom: 24px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
 }
 
 .c3 {
@@ -826,15 +826,6 @@ exports[`Storyshots Collaboration/Invitation Invite: not owner 1`] = `
   padding: 3rem;
 }
 
-.c2 {
-  box-sizing: border-box;
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-  padding: 20px;
-  max-width: 300px;
-}
-
 .c21 {
   color: #6e6e6e;
   font-size: 14px;
@@ -859,6 +850,15 @@ exports[`Storyshots Collaboration/Invitation Invite: not owner 1`] = `
 
 .c9 {
   margin-bottom: 8px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
 }
 
 .c3 {
@@ -1375,15 +1375,6 @@ exports[`Storyshots Collaboration/Invitation Share Link: copied 1`] = `
   padding: 3rem;
 }
 
-.c2 {
-  box-sizing: border-box;
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-  padding: 20px;
-  max-width: 300px;
-}
-
 .c21 {
   color: #6e6e6e;
   font-size: 14px;
@@ -1395,6 +1386,15 @@ exports[`Storyshots Collaboration/Invitation Share Link: copied 1`] = `
   font-weight: 300;
   margin-bottom: 12px;
   white-space: normal;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
 }
 
 .c3 {
@@ -2213,15 +2213,6 @@ exports[`Storyshots Collaboration/Invitation Share Link: loaded 1`] = `
   padding: 3rem;
 }
 
-.c2 {
-  box-sizing: border-box;
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-  padding: 20px;
-  max-width: 300px;
-}
-
 .c17 {
   color: #6e6e6e;
   font-size: 14px;
@@ -2233,6 +2224,15 @@ exports[`Storyshots Collaboration/Invitation Share Link: loaded 1`] = `
   font-weight: 300;
   margin-bottom: 12px;
   white-space: normal;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
 }
 
 .c3 {
@@ -2886,15 +2886,6 @@ exports[`Storyshots Collaboration/Invitation Share Link: not owner 1`] = `
   padding: 3rem;
 }
 
-.c2 {
-  box-sizing: border-box;
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-  padding: 20px;
-  max-width: 300px;
-}
-
 .c18 {
   color: #6e6e6e;
   font-size: 14px;
@@ -2906,6 +2897,15 @@ exports[`Storyshots Collaboration/Invitation Share Link: not owner 1`] = `
   font-weight: 300;
   margin-bottom: 12px;
   white-space: normal;
+}
+
+.c2 {
+  box-sizing: border-box;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  padding: 20px;
+  max-width: 300px;
 }
 
 .c3 {

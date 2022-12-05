@@ -45,12 +45,12 @@ export const Centered = styled(Main)`
 
 const PageContainer = styled.div`
   display: flex;
-  height: calc(100vh - 1px); /* allow 1px for the top border */
+  overflow: hidden;
+  flex-grow: 1;
   box-sizing: border-box;
   width: 100%;
   color: ${(props) => props.theme.colors.text.primary};
   font-family: ${(props) => props.theme.font.family.sans};
-  // border-top: 1px solid ${(props) => props.theme.colors.background.info};
 `
 
 const ViewsBar = styled.div`

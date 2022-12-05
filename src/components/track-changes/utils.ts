@@ -7,18 +7,27 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { CitationProvider } from '@manuscripts/library'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptNode } from '@manuscripts/manuscript-transform'
 
-export interface BiblioTools {
-  getCitationProvider: () => CitationProvider | undefined
-  getLibraryItem: (id: string) => BibliographyItem | undefined
-  setLibraryItem: (item: BibliographyItem) => void
-  removeLibraryItem: (id: string) => void
-  matchLibraryItemByIdentifier: (
-    item: BibliographyItem
-  ) => BibliographyItem | undefined
-  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
+const hasTrackingData = (node: ManuscriptNode) => {
+  return !!node?.attrs?.dataTracked
+}
+
+export const filterNodesWithTrackingData = (node: any) => {
+  const cleanDoc = Object.assign({}, node)
+
+  const cleanNode = (parent: any) => {
+    if (parent.content) {
+      parent.content = parent.content.filter(
+        (child: ManuscriptNode) => !hasTrackingData(child)
+      )
+      parent.content.forEach((child: ManuscriptNode) => cleanNode(child))
+    }
+  }
+
+  cleanNode(cleanDoc)
+
+  return cleanDoc
 }

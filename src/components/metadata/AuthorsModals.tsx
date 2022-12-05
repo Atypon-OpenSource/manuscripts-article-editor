@@ -35,7 +35,7 @@ import AddAuthorsSidebar from './AddAuthorsSidebar'
 import { AuthorFormContainer } from './AuthorFormContainer'
 import AuthorsSidebar from './AuthorsSidebar'
 
-const ScrollableModalMain = styled(StyledModalMain)`
+export const ScrollableModalMain = styled(StyledModalMain)`
   overflow-y: auto;
 `
 
