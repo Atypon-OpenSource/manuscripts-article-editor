@@ -274,7 +274,9 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
           </ModalContainer>
         </StyledModal>
 
-        {keywords.length > 0 && <KeywordsList keywords={keywords} />}
+        {keywords && keywords.length > 0 && (
+          <KeywordsList keywords={keywords} />
+        )}
       </Header>
     </HeaderContainer>
   )
