@@ -388,6 +388,7 @@ const getDrivedData = async (
     affiliationAndContributors
   )
   storeData.contributorRoles = contributorRoles
+  storeData.keywords = keywords
   return storeData
 }
 
