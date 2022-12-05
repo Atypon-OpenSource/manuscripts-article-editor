@@ -329,61 +329,7 @@ const getDrivedData = async (
       keywords.push(model as Keyword)
     }
   }
-  keywords.push({
-    _id: 'MPKeyword:8137D6F4-0A7F-417F-8ABB-8F39CD180044',
-    name: 'DβH',
-    priority: 3,
-    _revisions: { ids: ['0-24f67da3-c14f-4003-9865-2e66db8da733'] },
-    objectType: 'MPKeyword',
-    containerID: 'MPProject:e6752e41-624b-4be7-b603-301213dfbda8',
-    containedGroup: 'MPKeywordGroup:03CCF875-2B4C-4E59-ABD7-1DC46D8095A7',
-    createdAt: 0,
-    updatedAt: 0,
-  })
-  keywords.push({
-    _id: 'MPKeyword:4BAEEAC5-4A32-4F19-9608-7BDD97BDAE56',
-    name: 'schizophrenia',
-    priority: 2,
-    _revisions: { ids: ['0-bea44654-429c-4fd9-8462-5c0e7e5fc0ff'] },
-    objectType: 'MPKeyword',
-    containerID: 'MPProject:e6752e41-624b-4be7-b603-301213dfbda8',
-    containedGroup: 'MPKeywordGroup:03CCF875-2B4C-4E59-ABD7-1DC46D8095A7',
-    createdAt: 0,
-    updatedAt: 0,
-  })
-  keywords.push({
-    _id: 'MPKeyword:E705F02D-32CA-4FF1-81AC-399F9E0B6AF1',
-    name: 'suicide attempters',
-    priority: 1,
-    _revisions: { ids: ['0-612e0675-aab3-4197-b8b9-8ad45692c06e'] },
-    objectType: 'MPKeyword',
-    containerID: 'MPProject:e6752e41-624b-4be7-b603-301213dfbda8',
-    containedGroup: 'MPKeywordGroup:03CCF875-2B4C-4E59-ABD7-1DC46D8095A7',
-    createdAt: 0,
-    updatedAt: 0,
-  })
-  keywords.push({
-    _id: 'MPKeyword:A8200D02-49A0-41B6-9B6D-C2472C5F5322',
-    name: 'polymorphism',
-    priority: 5,
-    _revisions: { ids: ['0-b578cb61-f632-4e5f-b97f-6151b2f31cb0'] },
-    objectType: 'MPKeyword',
-    containerID: 'MPProject:e6752e41-624b-4be7-b603-301213dfbda8',
-    containedGroup: 'MPKeywordGroup:03CCF875-2B4C-4E59-ABD7-1DC46D8095A7',
-    createdAt: 0,
-    updatedAt: 0,
-  })
-  keywords.push({
-    _id: 'MPKeyword:F9561473-BDB9-4603-B09F-2E9ED88B32FF',
-    name: 'attention',
-    priority: 4,
-    _revisions: { ids: ['0-9c370f36-52e2-41f0-a90b-3355ba94a97f'] },
-    objectType: 'MPKeyword',
-    containerID: 'MPProject:e6752e41-624b-4be7-b603-301213dfbda8',
-    containedGroup: 'MPKeywordGroup:03CCF875-2B4C-4E59-ABD7-1DC46D8095A7',
-    createdAt: 0,
-    updatedAt: 0,
-  })
+
   storeData.authorsAndAffiliations = buildAuthorsAndAffiliations(
     affiliationAndContributors
   )
