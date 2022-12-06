@@ -43,7 +43,7 @@ export default class PsSource implements StoreDataSourceStrategy {
         state.projectID,
         state.manuscriptID,
         this.api,
-        attachments
+        this.getAttachments()
       )
       this.utilities = buildUtilities(this.data, this.api, setState)
     }
