@@ -24,6 +24,7 @@ import {
   ModalHeader,
   SecondaryButton,
   StyledModal,
+  usePermissions,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
@@ -31,7 +32,6 @@ import styled from 'styled-components'
 
 import { useSharedData } from '../../hooks/use-shared-data'
 import { useStore } from '../../store'
-import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import AuthorsModalContainer from './AuthorsModalContainer'
@@ -122,7 +122,6 @@ interface Props {
   ) => void
   updateAuthor: (author: Contributor, email: string) => void
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
-  permissions: Permissions
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
@@ -156,6 +155,8 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   })
 
   const { getTemplate } = useSharedData()
+
+  const can = usePermissions()
 
   const handleInvitationSubmit = useCallback(
     (values: InvitationValues) => {
@@ -196,7 +197,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             title={manuscript.title || ''}
             handleChange={props.saveTitle}
             handleStateChange={props.handleTitleStateChange}
-            editable={props.permissions.write}
+            editable={can.editArticle}
           />
           <ExpanderButton
             aria-label={'Toggle expand authors'}
