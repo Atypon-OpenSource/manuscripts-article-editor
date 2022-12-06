@@ -102,7 +102,8 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   )
 
   const setCommentTarget = useCallback(
-    (target) => dispatch({ commentTarget: buildComment(target) }),
+    (targetId?: string) =>
+      dispatch({ commentTarget: targetId && buildComment(targetId) }),
     [dispatch]
   )
 

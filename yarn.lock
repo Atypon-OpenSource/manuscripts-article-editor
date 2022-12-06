@@ -2214,10 +2214,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@0.93.11-LEAN-1748":
-  version "0.93.11-LEAN-1748"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.11-LEAN-1748.tgz#91e5c222ab042c09aef641aed0ce5270001e885e"
-  integrity sha512-BvLwXjQWzr/5XsQUtYmC6vDaYH+mb1vuuekfQ2ni8QfbSJiW7EFo+zOoQ1wHhqIxfkx1Dp0j41jLIiaSjifKjw==
+"@manuscripts/manuscript-editor@0.93.11-LEAN-1748-fix1":
+  version "0.93.11-LEAN-1748-fix1"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.11-LEAN-1748-fix1.tgz#ea7ebf94307b39232b160ec699c4d328abf7884e"
+  integrity sha512-jq6Qr/hE2JYv3JId0v/w4oEuv2p4VRfbVYQdaUfQdQmF+KPmwNIAXF3go4V/WaSlAuMyIXRq+TAWriWlYwBuQQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
