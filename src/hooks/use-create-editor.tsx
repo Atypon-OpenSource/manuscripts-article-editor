@@ -33,10 +33,7 @@ import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
 
-interface Permissions {
-  write: boolean
-}
-export const useCreateEditor = (permissions: Permissions) => {
+export const useCreateEditor = () => {
   const [
     {
       doc,
@@ -106,7 +103,6 @@ export const useCreateEditor = (permissions: Permissions) => {
         ]
       : [],
     locale: manuscript.primaryLanguageCode || 'en-GB',
-    permissions: permissions,
     environment: config.environment,
     history,
     jupyterConfig: config.jupyter,

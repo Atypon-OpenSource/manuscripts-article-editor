@@ -21,6 +21,7 @@ import {
   UserProfileWithAvatar,
 } from '@manuscripts/manuscript-transform'
 import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
+import { usePermissions } from '@manuscripts/style-guide'
 import { Title, TitleField } from '@manuscripts/title-editor'
 import { debounce } from 'lodash-es'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -28,7 +29,6 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useStore } from '../../store'
-import { Permissions } from '../../types/permissions'
 import { AddButton } from '../AddButton'
 import ShareProjectButton from '../collaboration/ShareProjectButton'
 import PageSidebar from '../PageSidebar'
@@ -90,7 +90,6 @@ interface Props {
   view?: ManuscriptEditorView
   state: ReturnType<typeof useEditor>['state']
   user: UserProfileWithAvatar
-  permissions: Permissions
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
@@ -98,7 +97,6 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   state,
   manuscript,
   view,
-  permissions,
   project,
   saveProjectTitle,
   user,
@@ -112,6 +110,8 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   const selected = findParentNodeWithIdValue(state.selection)
 
   const [sortedManuscripts, setSortedManuscripts] = useState<Manuscript[]>()
+
+  const can = usePermissions()
 
   useEffect(() => {
     setSortedManuscripts(manuscripts.sort(lowestPriorityFirst))
@@ -163,7 +163,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
                       id={'project-title-field'}
                       // eslint-disable-next-line jsx-a11y/tabindex-no-positive
                       tabIndex={1}
-                      editable={permissions.write}
+                      editable={can.editArticle}
                       value={project.title || ''}
                       handleChange={debounce(saveProjectTitle, 1000)}
                     />
@@ -186,7 +186,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
         )
       }
       sidebarFooter={
-        permissions.write && openTemplateSelector ? (
+        can.editArticle && openTemplateSelector ? (
           <AddButton
             action={() => openTemplateSelector(false)}
             size={'small'}
@@ -210,7 +210,6 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
               doc={state?.doc || null}
               view={view}
               selected={selected}
-              permissions={permissions}
             />
           ) : (
             <OutlineManuscript project={project} manuscript={item} />
