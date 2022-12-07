@@ -44,7 +44,7 @@ const useTrackedModelManagement = (
         modelsFromPM.set(model._id, model)
       }
     })
-    return finalModelMap
+    return modelsFromPM
   }, [doc, finalModelMap])
 
   const [, dispatchStore] = useStore()
