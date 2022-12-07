@@ -2259,10 +2259,10 @@
     smoothscroll-polyfill "^0.4.4"
     uuid "^8.3.1"
 
-"@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.59.0":
-  version "0.59.0"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.59.0.tgz#cb165d59f5d5538699c8dd285efab8873b4d6251"
-  integrity sha512-xAs2cAxrZZS+VHYXOsN7TftdkoiIVd7r/sPzg0PDZMwZH7K1KTGulWQwjXu/G1lV9NjZSq0vzPv+pWN300xjkw==
+"@manuscripts/manuscript-transform@^0.42.12", "@manuscripts/manuscript-transform@^0.48.1", "@manuscripts/manuscript-transform@^0.61.0":
+  version "0.61.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-transform/-/manuscript-transform-0.61.0.tgz#7f613ef3959e5a8f0067790df1fc8749e251f6fc"
+  integrity sha512-2CSp4Lml8LMATn04WmWw9qf7qKSxas5I60LheXK89j4TEkY6oDKyIXwNk4RYqCpg6aqIGFaORsRJ88O/d699oA==
   dependencies:
     "@manuscripts/data" "^0.1.12"
     "@manuscripts/library" "^0.6.2"
