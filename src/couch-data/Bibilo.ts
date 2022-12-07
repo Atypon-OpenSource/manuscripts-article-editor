@@ -74,11 +74,14 @@ export class Biblio implements BiblioTools {
 
   getCitationProvider = () => this.citationProvider
 
+  removeLibraryItem = () => this.removeLibraryItem
+
   getTools = () => {
     return {
       filterLibraryItems: this.filterLibraryItems,
       matchLibraryItemByIdentifier: this.matchLibraryItemByIdentifier,
       setLibraryItem: this.setLibraryItem,
+      removeLibraryItem: this.removeLibraryItem,
       getCitationProvider: this.getCitationProvider,
       getLibraryItem: this.getLibraryItem,
     }

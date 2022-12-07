@@ -885,45 +885,6 @@ exports[`Storyshots Metadata Add Authors Sidebar - Create author 1`] = `
   padding: 3rem;
 }
 
-.c9 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  left: 16px;
-  position: absolute;
-  z-index: 2;
-}
-
-.c10 path {
-  fill: #353535;
-}
-
-.c12 {
-  -webkit-appearance: textfield;
-  padding-left: 44px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #f2fbfc;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -979,6 +940,45 @@ exports[`Storyshots Metadata Add Authors Sidebar - Create author 1`] = `
   user-select: none;
   white-space: nowrap;
   width: 100%;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
+  background-color: #f2fbfc;
 }
 
 .c8 {
@@ -1277,45 +1277,6 @@ exports[`Storyshots Metadata Add Authors Sidebar - Searching 1`] = `
   padding: 3rem;
 }
 
-.c9 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  left: 16px;
-  position: absolute;
-  z-index: 2;
-}
-
-.c10 path {
-  fill: #353535;
-}
-
-.c12 {
-  -webkit-appearance: textfield;
-  padding-left: 44px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #f2fbfc;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -1421,6 +1382,45 @@ exports[`Storyshots Metadata Add Authors Sidebar - Searching 1`] = `
   user-select: none;
   white-space: nowrap;
   width: 100%;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
+  background-color: #f2fbfc;
 }
 
 .c8 {
@@ -1657,45 +1657,6 @@ exports[`Storyshots Metadata Add Authors Sidebar 1`] = `
   padding: 3rem;
 }
 
-.c9 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  left: 16px;
-  position: absolute;
-  z-index: 2;
-}
-
-.c10 path {
-  fill: #353535;
-}
-
-.c12 {
-  -webkit-appearance: textfield;
-  padding-left: 44px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #f2fbfc;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -1763,6 +1724,45 @@ exports[`Storyshots Metadata Add Authors Sidebar 1`] = `
   user-select: none;
   white-space: nowrap;
   width: 100%;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
+  background-color: #f2fbfc;
 }
 
 .c8 {
@@ -2029,45 +2029,6 @@ exports[`Storyshots Metadata Add Authors Sidebar with suggested users 1`] = `
   padding: 3rem;
 }
 
-.c9 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  left: 16px;
-  position: absolute;
-  z-index: 2;
-}
-
-.c10 path {
-  fill: #353535;
-}
-
-.c12 {
-  -webkit-appearance: textfield;
-  padding-left: 44px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #f2fbfc;
-}
-
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -2160,6 +2121,45 @@ exports[`Storyshots Metadata Add Authors Sidebar with suggested users 1`] = `
 }
 
 .c14:hover {
+  background-color: #f2fbfc;
+}
+
+.c9 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 16px;
+  position: absolute;
+  z-index: 2;
+}
+
+.c10 path {
+  fill: #353535;
+}
+
+.c12 {
+  -webkit-appearance: textfield;
+  padding-left: 44px;
+}
+
+.c12:hover,
+.c12:focus {
   background-color: #f2fbfc;
 }
 
@@ -3827,93 +3827,6 @@ exports[`Storyshots Metadata Authors Modal 1`] = `
   padding: 3rem;
 }
 
-.c2 {
-  box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  height: 100%;
-  padding: 16px 8px;
-  width: 100%;
-  overflow: hidden;
-  background-color: #fafafa;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-  max-width: 40vw;
-  overflow: auto;
-  width: 340px;
-}
-
-.c24 {
-  box-sizing: border-box;
-  max-width: 60vw;
-  width: 480px;
-}
-
-.c1 {
-  -webkit-align-items: stretch;
-  -webkit-box-align: stretch;
-  -ms-flex-align: stretch;
-  align-items: stretch;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  height: 90vh;
-  max-height: 680px;
-}
-
-.c5 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  padding: 0 12px;
-  position: relative;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  overflow-y: auto;
-}
-
-.c3 {
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 0 12px;
-  margin-bottom: 24px;
-}
-
-.c4 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #353535;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  white-space: nowrap;
-  width: 100%;
-}
-
 .c9 {
   font-size: 14px;
   text-overflow: ellipsis;
@@ -4009,6 +3922,93 @@ exports[`Storyshots Metadata Authors Modal 1`] = `
   margin-top: 24px;
   font-weight: 300;
   color: #6e6e6e;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 8px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fafafa;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  max-width: 40vw;
+  overflow: auto;
+  width: 340px;
+}
+
+.c24 {
+  box-sizing: border-box;
+  max-width: 60vw;
+  width: 480px;
+}
+
+.c1 {
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  height: 90vh;
+  max-height: 680px;
+}
+
+.c5 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 12px;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.c3 {
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.c4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .c6 {
@@ -4710,6 +4710,35 @@ exports[`Storyshots Metadata Authors Sidebar 1`] = `
   padding: 3rem;
 }
 
+.c8 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.c8 svg {
+  max-height: 36px;
+  max-width: 36px;
+}
+
+.c8 svg {
+  margin: 0;
+}
+
+.c8 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c8:focus svg path:first-of-type,
+.c8:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c9 {
+  padding-left: 12px;
+}
+
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -4773,35 +4802,6 @@ exports[`Storyshots Metadata Authors Sidebar 1`] = `
   user-select: none;
   white-space: nowrap;
   width: 100%;
-}
-
-.c8 {
-  font-size: 14px;
-  text-overflow: ellipsis;
-  font-size: 16px;
-}
-
-.c8 svg {
-  max-height: 36px;
-  max-width: 36px;
-}
-
-.c8 svg {
-  margin: 0;
-}
-
-.c8 svg path {
-  -webkit-transition: fill 0.5s;
-  transition: fill 0.5s;
-}
-
-.c8:focus svg path:first-of-type,
-.c8:hover svg path:first-of-type {
-  fill: #f7b314;
-}
-
-.c9 {
-  padding-left: 12px;
 }
 
 .c5 {
@@ -5318,6 +5318,35 @@ exports[`Storyshots Metadata Authors Sidebar with decorations 1`] = `
   padding: 3rem;
 }
 
+.c8 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.c8 svg {
+  max-height: 36px;
+  max-width: 36px;
+}
+
+.c8 svg {
+  margin: 0;
+}
+
+.c8 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c8:focus svg path:first-of-type,
+.c8:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c9 {
+  padding-left: 12px;
+}
+
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -5381,35 +5410,6 @@ exports[`Storyshots Metadata Authors Sidebar with decorations 1`] = `
   user-select: none;
   white-space: nowrap;
   width: 100%;
-}
-
-.c8 {
-  font-size: 14px;
-  text-overflow: ellipsis;
-  font-size: 16px;
-}
-
-.c8 svg {
-  max-height: 36px;
-  max-width: 36px;
-}
-
-.c8 svg {
-  margin: 0;
-}
-
-.c8 svg path {
-  -webkit-transition: fill 0.5s;
-  transition: fill 0.5s;
-}
-
-.c8:focus svg path:first-of-type,
-.c8:hover svg path:first-of-type {
-  fill: #f7b314;
-}
-
-.c9 {
-  padding-left: 12px;
 }
 
 .c5 {

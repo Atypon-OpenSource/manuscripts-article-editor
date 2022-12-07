@@ -43,12 +43,7 @@ export const HistorySidebar: React.FC<Props> = ({
         />
       }
     >
-      <ManuscriptOutline
-        manuscript={manuscript}
-        selected={null}
-        doc={doc}
-        permissions={{ write: false }}
-      />
+      <ManuscriptOutline manuscript={manuscript} selected={null} doc={doc} />
     </PageSidebar>
   )
 }
