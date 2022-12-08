@@ -230,7 +230,7 @@ const CitationEditor: React.FC<Props> = ({
         importItems={importItems}
         handleCite={handleCite}
         addCitation={addCitationCallback}
-        handleCancel={handleClose}
+        handleCancel={handleCancel}
       />
     )
   }
