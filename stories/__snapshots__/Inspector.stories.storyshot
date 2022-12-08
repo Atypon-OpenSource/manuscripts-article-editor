@@ -4792,7 +4792,7 @@ exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
 }
 
 .c16 {
-  height: 640px;
+  height: 120px;
 }
 
 .c9 {

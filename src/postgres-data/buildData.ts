@@ -197,7 +197,7 @@ const getManuscriptData = async (
 const getLibrariesData = async (projectID: string, api: Api) => {
   const libraries = await api.getProjectModels<Model>(projectID, [
     'MPLibraryCollection',
-    'BibliographyItem',
+    'MPBibliographyItem',
   ])
   if (libraries) {
     return libraries.reduce(

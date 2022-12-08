@@ -143,6 +143,30 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
   padding: 3rem;
 }
 
+.c14 {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.c14 svg {
+  margin: 0;
+}
+
+.c14 svg path {
+  -webkit-transition: fill 0.5s;
+  transition: fill 0.5s;
+}
+
+.c14:focus svg path:first-of-type,
+.c14:hover svg path:first-of-type {
+  fill: #f7b314;
+}
+
+.c15 {
+  padding-left: 12px;
+}
+
 .c1 {
   box-sizing: border-box;
   display: -webkit-box;
@@ -222,30 +246,6 @@ exports[`Storyshots Library Sidebar Sidebar 1`] = `
   justify-content: space-between;
   padding: 0 12px;
   margin-top: 16px;
-}
-
-.c14 {
-  font-size: 14px;
-  text-overflow: ellipsis;
-  font-size: 14px;
-}
-
-.c14 svg {
-  margin: 0;
-}
-
-.c14 svg path {
-  -webkit-transition: fill 0.5s;
-  transition: fill 0.5s;
-}
-
-.c14:focus svg path:first-of-type,
-.c14:hover svg path:first-of-type {
-  fill: #f7b314;
-}
-
-.c15 {
-  padding-left: 12px;
 }
 
 .c22 {
