@@ -101,13 +101,13 @@ export const useCreateEditor = (permissions: Permissions) => {
       ? [
           trackChangesPlugin({
             userID: trackUser.id,
-            debug: false,
+            debug: config.environment === 'development',
           }) as Plugin<any, any>,
         ]
       : [],
     locale: manuscript.primaryLanguageCode || 'en-GB',
     permissions: permissions,
-    environment: 'production',
+    environment: config.environment,
     history,
     jupyterConfig: config.jupyter,
     popper: popper.current,
