@@ -25,7 +25,6 @@ import {
   Contributor,
   ContributorRole,
   Correction,
-  Figure,
   LibraryCollection,
   ManuscriptNote,
   Model,
@@ -259,7 +258,8 @@ const buildModelMapFromJson = (models: Model[]) => {
 const getDrivedData = async (
   manuscriptID: string,
   projectID: string,
-  data: Partial<state>
+  data: Partial<state>,
+  alternatedModelMap?: Map<string, Model>
 ) => {
   let storeData: Partial<state>
 
@@ -269,7 +269,7 @@ const getDrivedData = async (
 
   const latestSnaphot = data?.snapshots?.length ? data.snapshots[0] : null
   if (!latestSnaphot) {
-    const decoder = new Decoder(data.modelMap, true)
+    const decoder = new Decoder(alternatedModelMap || data.modelMap, true)
     const doc = decoder.createArticleNode()
     const ancestorDoc = decoder.createArticleNode()
     storeData = {
@@ -279,6 +279,7 @@ const getDrivedData = async (
       doc,
     }
   } else {
+    // This is obsolete. Shackles are not used anymore
     const modelsFromSnapshot = await getSnapshot(
       projectID,
       latestSnaphot.s3Id!
@@ -362,8 +363,9 @@ export default async function buildData(
   const librariesData = await getLibrariesData(projectID, api)
 
   // replace attachments with src
+  let noAttachmentsModelMap: Map<string, Model> | undefined = undefined
   if (attachments && manuscriptData.modelMap) {
-    manuscriptData.modelMap = replaceAttachmentsIds(
+    noAttachmentsModelMap = replaceAttachmentsIds(
       manuscriptData.modelMap,
       attachments
     )
@@ -372,7 +374,8 @@ export default async function buildData(
   const derivedData = await getDrivedData(
     manuscriptID,
     projectID,
-    manuscriptData
+    manuscriptData,
+    noAttachmentsModelMap
   )
 
   return {
