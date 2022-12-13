@@ -22,7 +22,7 @@ import React, { useMemo } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useRequirementsValidation } from '../../../hooks/use-requirements-validation'
-import { replaceAttachmentLinks } from '../../../lib/replaceAttachmentsIds'
+import { replaceAttachmentLinks } from '../../../lib/replace-attachments-ids'
 import { useStore } from '../../../store'
 import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'

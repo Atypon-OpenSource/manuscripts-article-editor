@@ -43,7 +43,7 @@ import {
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
-import { replaceAttachmentsIds } from '../lib/replaceAttachmentsIds'
+import { replaceAttachmentsIds } from '../lib/replace-attachments-ids'
 import { getUserRole } from '../lib/roles'
 import { getSnapshot } from '../lib/snapshot'
 import { state } from '../store'
