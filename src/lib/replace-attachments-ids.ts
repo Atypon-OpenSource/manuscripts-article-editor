@@ -23,7 +23,7 @@ export function replaceAttachmentsIds(
 ) {
   const newMap: state['modelMap'] = new Map()
   modelMap.forEach((model) => {
-    const figure = model as Figure
+    const figure = { ...model } as Figure
     if (
       figure.objectType === ObjectTypes.Figure &&
       figure.src?.startsWith(attachmentPrefix)
@@ -34,7 +34,7 @@ export function replaceAttachmentsIds(
         figure.src = attachment.link
       }
     }
-    newMap.set(model._id, model)
+    newMap.set(figure._id, figure)
   })
   return newMap
 }
