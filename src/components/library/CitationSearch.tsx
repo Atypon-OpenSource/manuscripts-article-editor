@@ -126,6 +126,20 @@ export const CitationSearch: React.FC<{
     [filterLibraryItems]
   )
 
+  const [refSearching, setRefSearching] = useState(false)
+
+  const searchingCallback: SearchInterface = useCallback(
+    async (query: string, params: { rows: number }, mailto: string) => {
+      if (params.rows > 3) {
+        setRefSearching(true)
+      }
+      const results = await crossref.search(query, params.rows, mailto)
+      setRefSearching(false)
+      return results
+    },
+    []
+  )
+
   useEffect(() => {
     const sources: Source[] = [
       {
@@ -139,16 +153,12 @@ export const CitationSearch: React.FC<{
       sources.push({
         id: 'crossref',
         title: 'External sources',
-        search: (
-          query: string,
-          params: { rows: number; sort?: string },
-          mailto: string
-        ) => crossref.search(query, params.rows, mailto),
+        search: searchingCallback,
       })
     }
 
     setSources(sources)
-  }, [query, searchLibrary])
+  }, [query, searchLibrary, searchingCallback])
 
   const addToSelection = useCallback(
     (id: string, data: Build<BibliographyItem>) => {
@@ -262,6 +272,7 @@ export const CitationSearch: React.FC<{
             addToSelection={addToSelection}
             selectSource={() => setSelectedSource(source.id)}
             selected={selected}
+            refSearching={refSearching}
             fetching={fetching}
             query={query}
             rows={selectedSource === source.id ? 25 : 3}

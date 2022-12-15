@@ -40,7 +40,8 @@ const MoreButton = styled(SecondaryButton)`
   font-size: inherit;
   text-transform: none;
   text-decoration: underline;
-  margin-left: 42px;
+  border: none;
+  margin-left: ${(props) => props.theme.grid.unit * 4}px;
   color: ${(props) => props.theme.colors.button.default.color.default};
 `
 
@@ -64,6 +65,7 @@ export const CitationSearchSection: React.FC<{
   selectSource: (id: string) => void
   rows: number
   selected: Map<string, Build<BibliographyItem>>
+  refSearching: boolean
   fetching: Set<string>
 }> = ({
   query,
@@ -72,6 +74,7 @@ export const CitationSearchSection: React.FC<{
   selectSource,
   rows,
   selected,
+  refSearching,
   fetching,
 }) => {
   const [trimmedQuery, setTrimmedQuery] = useState(query.trim())
@@ -160,13 +163,25 @@ export const CitationSearchSection: React.FC<{
       )}
 
       {expanded && results && results.total > rows && (
-        <MoreButton
-          onClick={() => selectSource(source.id)}
-          data-cy={'more-button'}
-        >
-          Show more
-        </MoreButton>
+        <>
+          {(refSearching && <SearchingLabel>Searching....</SearchingLabel>) ||
+            (rows < 25 && (
+              <MoreButton
+                onClick={() => selectSource(source.id)}
+                data-cy={'more-button'}
+              >
+                Show more
+              </MoreButton>
+            ))}
+        </>
       )}
     </ResultsSection>
   )
 }
+
+const SearchingLabel = styled.div`
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin: ${(props) => props.theme.grid.unit * 4}px 0
+    ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 7}px;
+`

@@ -133,6 +133,7 @@ export const SearchResults: React.FC<{
   if (searching) {
     return (
       <Results>
+        <SearchingLabel>Searching....</SearchingLabel>
         <ResultPlaceholder />
         <ResultPlaceholder />
         <ResultPlaceholder />
@@ -166,3 +167,8 @@ export const SearchResults: React.FC<{
     </Results>
   )
 }
+
+const SearchingLabel = styled.div`
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin-left: ${(props) => props.theme.grid.unit * 10}px;
+`

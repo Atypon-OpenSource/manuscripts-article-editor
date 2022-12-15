@@ -79,6 +79,7 @@ storiesOf('Citation', module)
       selectSource={action('select source')}
       rows={10}
       selected={new Map()}
+      refSearching={false}
       fetching={new Set()}
     />
   ))
