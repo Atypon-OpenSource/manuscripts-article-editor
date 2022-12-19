@@ -28,13 +28,11 @@ import { buildCollaborators } from '../../lib/collaborators'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
 import { useStore } from '../../store'
-import { Permissions } from '../../types/permissions'
 import { InvitationValues } from '../collaboration/InvitationForm'
 import { Metadata } from './Metadata'
 
 interface Props {
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
-  permissions: Permissions
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
@@ -55,7 +53,6 @@ interface State {
 }
 
 const MetadataContainer: React.FC<Props> = ({
-  permissions,
   allowInvitingAuthors,
   showAuthorEditButton,
   disableEditButton,
@@ -401,7 +398,6 @@ const MetadataContainer: React.FC<Props> = ({
       updateAuthor={updateAuthor(user)}
       invitationSent={state.invitationSent}
       handleTitleStateChange={handleTitleStateChange}
-      permissions={permissions}
       allowInvitingAuthors={allowInvitingAuthors}
       showAuthorEditButton={showAuthorEditButton}
       disableEditButton={disableEditButton}
