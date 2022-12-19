@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  ExternalFileRef,
   findParentElement,
   getMatchingChild,
   insertFileAsFigure,
@@ -317,13 +316,8 @@ const addFigureAtFigureElementPosition = (
   }
 }
 
-const isEmptyFigureNode = (figure: FigureNode) => {
-  const imageExternalFile = figure.attrs.externalFileReferences?.find(
-    (file: ExternalFileRef) => file && file.kind === 'imageRepresentation'
-  ) || { url: '' }
-
-  return imageExternalFile?.url.trim().length < 1
-}
+const isEmptyFigureNode = (figure: FigureNode) =>
+  figure.attrs.src.trim().length < 1
 
 const addNewFigure = (
   view: ManuscriptEditorView,
