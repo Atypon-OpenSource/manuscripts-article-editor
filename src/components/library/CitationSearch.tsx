@@ -22,6 +22,7 @@ import {
   Tip,
   UploadIcon,
 } from '@manuscripts/style-guide'
+import axios, { CancelTokenSource } from 'axios'
 import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -127,6 +128,26 @@ export const CitationSearch: React.FC<{
     [filterLibraryItems]
   )
 
+  const [
+    cancelTokenSource,
+    setCancelTokenSource,
+  ] = useState<CancelTokenSource>()
+
+  const apiSearchCallback = useCallback(
+    (
+      query: string,
+      params: { rows: number; sort?: string },
+      mailto: string
+    ) => {
+      cancelTokenSource?.cancel()
+
+      const sourceToken = axios.CancelToken.source()
+      setCancelTokenSource(sourceToken)
+      return crossref.search(query, params.rows, mailto, sourceToken.token)
+    },
+    [cancelTokenSource]
+  )
+
   useEffect(() => {
     const sources: Source[] = [
       {
@@ -140,16 +161,12 @@ export const CitationSearch: React.FC<{
       sources.push({
         id: 'crossref',
         title: 'External sources',
-        search: (
-          query: string,
-          params: { rows: number; sort?: string },
-          mailto: string
-        ) => crossref.search(query, params.rows, mailto),
+        search: apiSearchCallback,
       })
     }
 
     setSources(sources)
-  }, [query, searchLibrary])
+  }, [apiSearchCallback, query, searchLibrary])
 
   const addToSelection = useCallback(
     (id: string, data: Build<BibliographyItem>) => {

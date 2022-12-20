@@ -14,7 +14,7 @@ import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
@@ -99,8 +99,6 @@ export const CitationSearchSection: React.FC<{
     [query]
   )
 
-  const requests = useMemo<undefined[]>(() => [], [])
-
   useEffect(() => {
     if (!expanded) {
       return
@@ -110,7 +108,6 @@ export const CitationSearchSection: React.FC<{
       return
     }
 
-    requests.push(undefined)
     source
       .search(query, { rows }, config.support.email)
       .then((results) => {
@@ -119,15 +116,8 @@ export const CitationSearchSection: React.FC<{
       .catch((error) => {
         setError(error.message)
       })
-      .finally(() => {
-        requests.pop()
-        setSearching(false)
-      })
-      .catch((error) => {
-        setError(error.message)
-      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, expanded, handleSearchResults, rows, requests])
+  }, [query, expanded, handleSearchResults, rows])
 
   const toggleExpanded = useCallback(() => {
     setExpanded((value) => !value)
@@ -160,25 +150,11 @@ export const CitationSearchSection: React.FC<{
         />
       )}
 
-      {expanded && results && results.total > rows && (
-        <>
-          {(requests.length > 1 && (
-            <SearchingLabel>Searching....</SearchingLabel>
-          )) ||
-            (rows < 25 && (
-              <MoreButton onClick={showMoreCallback} data-cy={'more-button'}>
-                Show more
-              </MoreButton>
-            ))}
-        </>
+      {expanded && results && results.total > rows && rows < 25 && (
+        <MoreButton onClick={showMoreCallback} data-cy={'more-button'}>
+          Show more
+        </MoreButton>
       )}
     </ResultsSection>
   )
 }
-
-const SearchingLabel = styled.div`
-  color: ${(props) => props.theme.colors.text.secondary};
-  margin: ${(props) => props.theme.grid.unit * 4}px 0
-    ${(props) => props.theme.grid.unit * 4}px
-    ${(props) => props.theme.grid.unit * 7}px;
-`
