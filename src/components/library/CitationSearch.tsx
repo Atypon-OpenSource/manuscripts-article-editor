@@ -22,6 +22,7 @@ import {
   Tip,
   UploadIcon,
 } from '@manuscripts/style-guide'
+import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -126,20 +127,6 @@ export const CitationSearch: React.FC<{
     [filterLibraryItems]
   )
 
-  const [refSearching, setRefSearching] = useState(false)
-
-  const searchingCallback: SearchInterface = useCallback(
-    async (query: string, params: { rows: number }, mailto: string) => {
-      if (params.rows > 3) {
-        setRefSearching(true)
-      }
-      const results = await crossref.search(query, params.rows, mailto)
-      setRefSearching(false)
-      return results
-    },
-    []
-  )
-
   useEffect(() => {
     const sources: Source[] = [
       {
@@ -153,12 +140,16 @@ export const CitationSearch: React.FC<{
       sources.push({
         id: 'crossref',
         title: 'External sources',
-        search: searchingCallback,
+        search: (
+          query: string,
+          params: { rows: number; sort?: string },
+          mailto: string
+        ) => crossref.search(query, params.rows, mailto),
       })
     }
 
     setSources(sources)
-  }, [query, searchLibrary, searchingCallback])
+  }, [query, searchLibrary])
 
   const addToSelection = useCallback(
     (id: string, data: Build<BibliographyItem>) => {
@@ -216,9 +207,13 @@ export const CitationSearch: React.FC<{
     return handleCite(items)
   }, [handleCite, selected])
 
-  const handleQuery = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value)
-  }, [])
+  const debouncedCallback = debounce((value) => setQuery(value.trim()), 800)
+
+  const handleQuery = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) =>
+      debouncedCallback(event.target.value),
+    [debouncedCallback]
+  )
 
   const importItems = useCallback(
     (items: Array<Build<BibliographyItem>>) => {
@@ -258,7 +253,6 @@ export const CitationSearch: React.FC<{
           handleSearchChange={handleQuery}
           placeholder={'Search'}
           type={'search'}
-          value={query || ''}
         />
       </SearchWrapper>
 
@@ -272,7 +266,6 @@ export const CitationSearch: React.FC<{
             addToSelection={addToSelection}
             selectSource={() => setSelectedSource(source.id)}
             selected={selected}
-            refSearching={refSearching}
             fetching={fetching}
             query={query}
             rows={selectedSource === source.id ? 25 : 3}

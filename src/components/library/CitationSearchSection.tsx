@@ -14,11 +14,10 @@ import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import { Build } from '@manuscripts/manuscript-transform'
 import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
-import { useDebounce } from '../../hooks/use-debounce'
 import { SearchResults } from './SearchResults'
 
 const ResultsSection = styled.div`
@@ -65,7 +64,6 @@ export const CitationSearchSection: React.FC<{
   selectSource: (id: string) => void
   rows: number
   selected: Map<string, Build<BibliographyItem>>
-  refSearching: boolean
   fetching: Set<string>
 }> = ({
   query,
@@ -74,10 +72,8 @@ export const CitationSearchSection: React.FC<{
   selectSource,
   rows,
   selected,
-  refSearching,
   fetching,
 }) => {
-  const [trimmedQuery, setTrimmedQuery] = useState(query.trim())
   const [error, setError] = useState<string>()
   const [expanded, setExpanded] = useState(true)
   const [searching, setSearching] = useState(false)
@@ -86,59 +82,61 @@ export const CitationSearchSection: React.FC<{
     total: number
   }>()
 
-  const debouncedQuery = useDebounce(trimmedQuery, 500)
-
-  useEffect(() => {
-    setTrimmedQuery(query.trim())
-  }, [query])
-
   useEffect(() => {
     setError(undefined)
     setResults(undefined)
-    setSearching(trimmedQuery !== '')
-  }, [trimmedQuery])
+    setSearching(query !== '')
+  }, [query])
 
   const handleSearchResults = useCallback(
     (searchQuery, results) => {
-      if (searchQuery === trimmedQuery) {
+      if (searchQuery === query) {
         setError(undefined)
         setSearching(false)
         setResults(results)
       }
     },
-    [trimmedQuery]
+    [query]
   )
+
+  const requests = useMemo<undefined[]>(() => [], [])
 
   useEffect(() => {
     if (!expanded) {
       return
     }
 
-    if (source.id !== 'library' && !debouncedQuery) {
+    if (source.id !== 'library' && !query) {
       return
     }
 
-    const initialQuery = debouncedQuery
-
+    requests.push(undefined)
     source
-      .search(initialQuery, { rows }, config.support.email)
+      .search(query, { rows }, config.support.email)
       .then((results) => {
-        handleSearchResults(initialQuery, results)
+        handleSearchResults(query, results)
       })
       .catch((error) => {
         setError(error.message)
       })
       .finally(() => {
+        requests.pop()
         setSearching(false)
       })
       .catch((error) => {
         setError(error.message)
       })
-  }, [debouncedQuery, expanded, handleSearchResults, rows, source])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, expanded, handleSearchResults, rows, requests])
 
   const toggleExpanded = useCallback(() => {
     setExpanded((value) => !value)
   }, [])
+
+  const showMoreCallback = useCallback(() => {
+    selectSource(source.id)
+    setSearching(true)
+  }, [selectSource, source.id])
 
   return (
     <ResultsSection>
@@ -164,12 +162,11 @@ export const CitationSearchSection: React.FC<{
 
       {expanded && results && results.total > rows && (
         <>
-          {(refSearching && <SearchingLabel>Searching....</SearchingLabel>) ||
+          {(requests.length > 1 && (
+            <SearchingLabel>Searching....</SearchingLabel>
+          )) ||
             (rows < 25 && (
-              <MoreButton
-                onClick={() => selectSource(source.id)}
-                data-cy={'more-button'}
-              >
+              <MoreButton onClick={showMoreCallback} data-cy={'more-button'}>
                 Show more
               </MoreButton>
             ))}

@@ -58,7 +58,7 @@ export interface SearchInterface {
   maxLength?: number
   placeholder?: string
   type?: string
-  value: string
+  value?: string
 }
 
 interface State {
