@@ -88,7 +88,6 @@ interface Source {
 
 export const CitationSearch: React.FC<{
   filterLibraryItems: (query: string | null) => Promise<BibliographyItem[]>
-  citedReferencesSet?: Set<string>
   handleCite: (
     items: Array<BibliographyItem | Build<BibliographyItem>>,
     query?: string
@@ -101,7 +100,6 @@ export const CitationSearch: React.FC<{
   ) => Promise<BibliographyItem[]>
 }> = ({
   filterLibraryItems,
-  citedReferencesSet,
   handleCite,
   addCitation,
   importItems: _importItems,
@@ -120,17 +118,12 @@ export const CitationSearch: React.FC<{
 
   const searchLibrary: SearchInterface = useCallback(
     (query: string, params: { rows: number; sort?: string }) => {
-      return filterLibraryItems(query).then((items) => {
-        const references = items.filter(
-          (item) => !citedReferencesSet?.has(item._id)
-        )
-        return {
-          items: references.slice(0, params.rows),
-          total: references.length,
-        }
-      })
+      return filterLibraryItems(query).then((items) => ({
+        items: items.slice(0, params.rows),
+        total: items.length,
+      }))
     },
-    [filterLibraryItems, citedReferencesSet]
+    [filterLibraryItems]
   )
 
   useEffect(() => {

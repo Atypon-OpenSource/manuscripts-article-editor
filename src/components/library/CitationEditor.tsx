@@ -208,12 +208,19 @@ const CitationEditor: React.FC<Props> = ({
     [items]
   )
 
+  const filterLibraryItemsWrapper = useCallback(
+    async (query: string) =>
+      (await filterLibraryItems(query)).filter(
+        (item) => !citedReferencesSet?.has(item._id)
+      ),
+    [citedReferencesSet, filterLibraryItems]
+  )
+
   if (searching) {
     return (
       <CitationSearch
-        citedReferencesSet={citedReferencesSet}
         query={selectedText}
-        filterLibraryItems={filterLibraryItems}
+        filterLibraryItems={filterLibraryItemsWrapper}
         importItems={importItems}
         handleCite={handleCite}
         addCitation={addCitationCallback}
