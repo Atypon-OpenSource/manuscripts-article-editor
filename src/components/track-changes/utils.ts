@@ -14,7 +14,6 @@ import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
   TrackedAttrs,
-  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 
 const hasTrackingData = (node: ManuscriptNode) => {
