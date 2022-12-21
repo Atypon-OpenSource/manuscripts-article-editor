@@ -56,7 +56,7 @@ export const adaptTrackedData = (node: any) => {
         }
         // consider this for future implementation: text changes are in general not to be regarded => meaning always to pass through
         const lastChange = getLastChange(child.attrs.dataTracked)
-        //
+        // this to be able to create a modelMap with models that are relevant but were spawn out of existing and have duplicate ids
         // this will fail with new prosemirror as attributes are read only but it's ok to modify them on an inactive document
         child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
         if (
