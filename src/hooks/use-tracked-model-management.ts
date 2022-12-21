@@ -20,10 +20,15 @@ import {
   schema,
 } from '@manuscripts/manuscript-transform'
 import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
+import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
-import { filterNodesWithTrackingData } from '../components/track-changes/utils'
+import {
+  adaptTrackedData,
+  trackedJoint,
+} from '../components/track-changes/utils'
 import { setNodeAttrs } from '../lib/node-attrs'
 import { useStore } from '../store'
 
@@ -37,7 +42,8 @@ const useTrackedModelManagement = (
   finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
-    const docClean = filterNodesWithTrackingData(doc.toJSON())
+    const docJSONed = doc.toJSON()
+    const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
@@ -48,6 +54,20 @@ const useTrackedModelManagement = (
   }, [doc, finalModelMap])
 
   const [, dispatchStore] = useStore()
+
+  const matchByTrackVersion = (
+    node: ProsemirrorNode<ManuscriptSchema>,
+    realId: string,
+    trackedId: string
+  ) => {
+    if (node.attrs.dataTracked && realId === node.attrs.id) {
+      const matchedTrackedId = (node.attrs.dataTracked as TrackedAttrs[]).find(
+        (tracked) => tracked.id === trackedId
+      )
+      return matchedTrackedId ? true : false
+      // check and identify precise dataTracked version
+    }
+  }
 
   const saveTrackModel = useCallback(
     <T extends Model>(model: T | Build<T> | Partial<T>) => {
@@ -61,9 +81,21 @@ const useTrackedModelManagement = (
 
         let foundInDoc = false
 
+        let dataTrackedId = ''
+        if (model._id?.includes(trackedJoint)) {
+          // when encoding we modify ids of track changes artefacts to avoid duplicate ids in the modelMap
+          // when saving back we need to convert those ids back and also apply the updates on the right nodes
+          const base = model._id.split(trackedJoint)
+          dataTrackedId = base[1]
+          model._id = base[0]
+        }
+
         if (view) {
           doc.descendants((node, pos) => {
-            if (node.attrs.id === model._id) {
+            if (
+              node.attrs.id === model._id ||
+              matchByTrackVersion(node, model._id || '', dataTrackedId)
+            ) {
               const decoder = new Decoder(modelMap, true) // as node ids are unique it will always occur just once (or never) so it's safe to keep in the loop
               const newDoc = decoder.createArticleNode()
               newDoc.descendants((newNode, pos) => {

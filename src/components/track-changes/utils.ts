@@ -10,6 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import { ManuscriptNode } from '@manuscripts/manuscript-transform'
+import {
+  CHANGE_OPERATION,
+  CHANGE_STATUS,
+  TrackedAttrs,
+  TrackedChange,
+} from '@manuscripts/track-changes-plugin'
 
 const hasTrackingData = (node: ManuscriptNode) => {
   return !!node?.attrs?.dataTracked
@@ -23,6 +29,44 @@ export const filterNodesWithTrackingData = (node: any) => {
       parent.content = parent.content.filter(
         (child: ManuscriptNode) => !hasTrackingData(child)
       )
+      parent.content.forEach((child: ManuscriptNode) => cleanNode(child))
+    }
+  }
+
+  cleanNode(cleanDoc)
+
+  return cleanDoc
+}
+
+const getLastChange = (changes: TrackedAttrs[]) => {
+  return [...changes].sort((a, b) => (a.createdAt < b.createdAt ? 1 : 0))[0]
+}
+
+export const trackedJoint = ':dataTracked:'
+
+export const adaptTrackedData = (node: any) => {
+  const cleanDoc = Object.assign({}, node)
+
+  const cleanNode = (parent: any) => {
+    if (parent.content) {
+      parent.content = parent.content.filter((child: ManuscriptNode) => {
+        // pass through all the nodes with no track changes at all
+        if (!child?.attrs?.dataTracked) {
+          return true
+        }
+        // consider this for future implementation: text changes are in general not to be regarded => meaning always to pass through
+        const lastChange = getLastChange(child.attrs.dataTracked)
+        //
+        // this will fail with new prosemirror as attributes are read only but it's ok to modify them on an inactive document
+        child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
+        if (
+          lastChange.status !== CHANGE_STATUS.rejected &&
+          lastChange.operation !== CHANGE_OPERATION.delete
+        ) {
+          return true
+        }
+        return false
+      })
       parent.content.forEach((child: ManuscriptNode) => cleanNode(child))
     }
   }
