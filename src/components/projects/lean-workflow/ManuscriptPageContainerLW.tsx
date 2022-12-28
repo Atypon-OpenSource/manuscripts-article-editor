@@ -39,7 +39,6 @@ import {
   Person,
   useGetPermittedActions,
 } from '../../../lib/lean-workflow-gql'
-import { isAnnotator, isViewer } from '../../../lib/roles'
 import { useCommentStore } from '../../../quarterback/useCommentStore'
 import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
@@ -142,8 +141,7 @@ const ManuscriptPageView: React.FC = () => {
 
   const can = usePermissions()
 
-  const permissions = { write: !isViewer(project, user?.userID) }
-  const editor = useCreateEditor(permissions)
+  const editor = useCreateEditor()
 
   const { state, dispatch, view } = editor
   // useChangeReceiver(editor, saveModel, deleteModel) - not needed under new architecture
@@ -211,7 +209,6 @@ const ManuscriptPageView: React.FC = () => {
           manuscript={manuscript}
           view={view}
           state={state}
-          permissions={permissions}
           user={user}
         />
 
@@ -223,7 +220,7 @@ const ManuscriptPageView: React.FC = () => {
                   <ApplicationMenuContainer>
                     <ApplicationMenus
                       editor={editor}
-                      contentEditable={permissions.write}
+                      contentEditable={can.editArticle}
                     />
                   </ApplicationMenuContainer>
                   {can.seeEditorToolbar && (
@@ -239,13 +236,9 @@ const ManuscriptPageView: React.FC = () => {
                 <EditorBody>
                   <MetadataContainer
                     handleTitleStateChange={() => '' /*FIX THIS*/}
-                    permissions={permissions}
                     allowInvitingAuthors={false}
                     showAuthorEditButton={true}
-                    disableEditButton={
-                      isViewer(project, user?.userID) ||
-                      isAnnotator(project, user?.userID)
-                    }
+                    disableEditButton={!can.editMetadata}
                   />
                   <TrackChangesStyles>
                     <EditorElement editor={editor} />

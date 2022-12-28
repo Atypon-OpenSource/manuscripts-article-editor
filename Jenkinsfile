@@ -1,4 +1,4 @@
-node("cisc") {
+node("cisc && !cisc03") {
     stage("Checkout") {
         VARS = checkout scm 
         echo "VARS: $VARS"
