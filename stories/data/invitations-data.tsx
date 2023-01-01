@@ -11,13 +11,7 @@
  */
 
 import { timestamp } from '@manuscripts/manuscript-transform'
-import {
-  ContainerInvitation,
-  Project,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
-
-import { InvitationData } from '../../src/components/nav/ProjectsButton'
+import { ContainerInvitation } from '@manuscripts/manuscripts-json-schema'
 
 export const invitations: ContainerInvitation[] = [
   {
@@ -71,57 +65,3 @@ export const invitations: ContainerInvitation[] = [
     updatedAt: timestamp(),
   },
 ]
-
-const userProfiles: UserProfile[] = [
-  {
-    _id: 'ID',
-    userID: 'User|pcoutinho@atypon.com',
-    bibliographicName: {
-      _id: '001',
-      objectType: 'MPBibliographicName',
-      given: 'Lionel',
-      family: 'Messi',
-    },
-    objectType: 'MPUserProfile',
-    createdAt: timestamp(),
-    updatedAt: timestamp(),
-  },
-]
-
-const projects: Project[] = [
-  {
-    _id: invitations[0].containerID,
-    objectType: 'MPProject',
-    owners: [],
-    viewers: [],
-    writers: [],
-    title: invitations[0].containerTitle || 'Untitled Project',
-    createdAt: timestamp(),
-    updatedAt: timestamp(),
-  },
-  {
-    _id: invitations[1].containerID,
-    objectType: 'MPProject',
-    owners: [],
-    viewers: [],
-    writers: [],
-    title: invitations[1].containerTitle || 'Untitled Project',
-    createdAt: timestamp(),
-    updatedAt: timestamp(),
-  },
-]
-
-const invitationsData: InvitationData[] = [
-  {
-    invitation: invitations[0],
-    invitingUserProfile: userProfiles[0],
-    container: projects[0],
-  },
-  {
-    invitation: invitations[1],
-    invitingUserProfile: userProfiles[0],
-    container: projects[1],
-  },
-]
-
-export default invitationsData

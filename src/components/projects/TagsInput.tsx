@@ -42,6 +42,7 @@ import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
+import { PlusIcon } from '../../Icons'
 import { buildColors, nextColorPriority } from '../../lib/colors'
 import { selectStyles } from '../../lib/select-styles'
 import { ascendingPriority } from '../../lib/sort'
@@ -50,7 +51,6 @@ import { AnyElement } from '../inspector/ElementStyleInspector'
 import { Popup } from '../nav/Updates'
 import { MediumTextField } from './inputs'
 import { SaveModel } from './ManuscriptInspector'
-import { PlusIcon } from './Status/StatusIcons'
 
 const ColorPopper = styled(Popup)`
   z-index: 10;

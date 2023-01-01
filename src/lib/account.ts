@@ -10,12 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import decode from 'jwt-decode'
-
-import { removeDatabase } from '../couch-data/db'
-import userID from '../lib/user-id'
 import * as api from './api'
-import { TokenPayload } from './user'
 
 export const login = async (email: string, password: string) => {
   // TODO: decide whether to remove the local database at login
@@ -23,18 +18,6 @@ export const login = async (email: string, password: string) => {
   const {
     data: { token, recover },
   } = await api.login(email, password)
-
-  try {
-    const oldUserId = userID.get()
-    const { userId } = decode<TokenPayload>(token)
-
-    if (oldUserId !== userId) {
-      await removeDatabase()
-    }
-  } catch (e) {
-    console.error(e)
-    // TODO: removing the local database failed
-  }
 
   return { token, recover }
 }
@@ -46,14 +29,6 @@ export const logout = async () => {
     console.error(e)
     // TODO: request to the API server failed
   }
-
-  try {
-    await removeDatabase()
-  } catch (e) {
-    console.error(e)
-    // TODO: removing the local database failed
-  }
-
   // TODO: clear localStorage
 }
 

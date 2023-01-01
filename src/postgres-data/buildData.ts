@@ -14,14 +14,11 @@ import {
   getModelData,
   isCommentAnnotation,
   isManuscript,
-  ManuscriptNode,
-  schema,
 } from '@manuscripts/manuscript-transform'
 import {
   Affiliation,
   BibliographyItem,
   CommentAnnotation,
-  Commit as CommitJson,
   Contributor,
   ContributorRole,
   Correction,
@@ -35,17 +32,11 @@ import {
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
 import { SubmissionAttachment } from '@manuscripts/style-guide'
-import {
-  Commit,
-  commitFromJSON,
-  findCommitWithChanges,
-} from '@manuscripts/track-changes'
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { replaceAttachmentsIds } from '../lib/replace-attachments-ids'
 import { getUserRole } from '../lib/roles'
-import { getSnapshot } from '../lib/snapshot'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
 import Api from './Api'
@@ -113,7 +104,6 @@ export const buildModelMap = async (
 
 const isSnapshot = (model: Model) => model.objectType === ObjectTypes.Snapshot
 const isTag = (model: Model) => model.objectType === ObjectTypes.Tag
-const isCommit = (model: Model) => model.objectType === ObjectTypes.Commit
 const isCorrection = (model: Model) =>
   model.objectType === ObjectTypes.Correction
 const isManuscriptNote = (model: Model) =>
@@ -183,12 +173,6 @@ const getManuscriptData = async (
         ? ([...data.comments, model] as CommentAnnotation[])
         : ([model] as CommentAnnotation[])
     }
-    if (isCommit(model)) {
-      const commit = commitFromJSON(model as CommitJson, schema)
-      data.commits = data.commits
-        ? ([...data.commits, model] as Commit[])
-        : ([commit] as Commit[])
-    }
   }
   data.commits = data.commits || []
   data.modelMap = await buildModelMap(models || [])
@@ -247,70 +231,24 @@ const getCollaboratorsData = async (
   return collabsData
 }
 
-const buildModelMapFromJson = (models: Model[]) => {
-  return new Map(
-    models.map((model) => {
-      return [model._id, model]
-    })
-  )
-}
-
 const getDrivedData = async (
   manuscriptID: string,
   projectID: string,
   data: Partial<state>,
   alternatedModelMap?: Map<string, Model>
 ) => {
-  let storeData: Partial<state>
-
   if (!data.modelMap || !projectID) {
     return null
   }
 
-  const latestSnaphot = data?.snapshots?.length ? data.snapshots[0] : null
-  if (!latestSnaphot) {
-    const decoder = new Decoder(alternatedModelMap || data.modelMap, true)
-    const doc = decoder.createArticleNode()
-    const ancestorDoc = decoder.createArticleNode()
-    storeData = {
-      snapshotID: null,
-      commitAtLoad: null,
-      ancestorDoc,
-      doc,
-    }
-  } else {
-    const modelsFromSnapshot = await getSnapshot(
-      projectID,
-      latestSnaphot.s3Id!
-    ).catch((e) => {
-      console.log(e)
-      throw new Error('Failed to load snapshot')
-    })
-    const snapshotModelMap = buildModelMapFromJson(
-      modelsFromSnapshot.filter(
-        (doc: any) => !doc.manuscriptID || doc.manuscriptID === manuscriptID
-      )
-    )
-    const unrejectedCorrections = (data.corrections as Correction[])
-      .filter(
-        (cor) =>
-          cor.snapshotID === data.snapshots![0]._id &&
-          cor.status.label !== 'rejected'
-      )
-      .map((cor) => cor.commitChangeID || '')
-
-    const commitAtLoad =
-      findCommitWithChanges(data.commits || [], unrejectedCorrections) || null
-    const decoder = new Decoder(snapshotModelMap, true)
-    const doc = decoder.createArticleNode() as ManuscriptNode
-    const ancestorDoc = decoder.createArticleNode() as ManuscriptNode
-    storeData = {
-      snapshotID: data.snapshots![0]._id,
-      modelMap: snapshotModelMap,
-      commitAtLoad,
-      ancestorDoc,
-      doc,
-    }
+  const decoder = new Decoder(alternatedModelMap || data.modelMap, true)
+  const doc = decoder.createArticleNode()
+  const ancestorDoc = decoder.createArticleNode()
+  const storeData: Partial<state> = {
+    snapshotID: null,
+    commitAtLoad: null,
+    ancestorDoc,
+    doc,
   }
 
   const affiliationAndContributors: (Contributor | Affiliation)[] = []

@@ -11,40 +11,11 @@
  */
 module.exports = {
   compact: false,
-  env: {
-    development: {
-      plugins: ['react-hot-loader/babel', 'react-intl'],
-    },
-    test: {
-      plugins: [
-        'dynamic-import-node',
-        'require-context-hook',
-        'transform-es2015-modules-commonjs',
-      ],
-    },
-  },
   plugins: [
     'styled-components',
-    '@babel/proposal-class-properties',
-    '@babel/proposal-nullish-coalescing-operator',
-    '@babel/proposal-object-rest-spread',
-    '@babel/proposal-optional-chaining',
-    '@babel/proposal-unicode-property-regex',
-    '@babel/syntax-dynamic-import',
   ],
   presets: [
-    [
-      '@babel/env',
-      {
-        corejs: {
-          version: 3,
-          // proposals: true
-        },
-        useBuiltIns: 'usage',
-        // forceAllTransforms: true,
-      },
-    ],
     '@babel/react',
     '@babel/typescript',
-  ],
+  ]
 }

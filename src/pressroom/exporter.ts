@@ -12,38 +12,28 @@
 
 import { convertBibliographyItemToCSL, fixCSLData } from '@manuscripts/library'
 import {
-  Attachments,
-  convertTeXToMathML,
   Decoder,
   generateAttachmentFilename,
   getModelData,
   getModelsByType,
-  hasObjectType,
   HTMLTransformer,
   isFigure,
   isUserProfile,
   JATSExporter,
-  ModelAttachment,
-  STSExporter,
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Bundle,
   Citation,
-  Equation,
-  InlineMathFragment,
-  Manuscript,
   Model,
   ObjectTypes,
   Project,
-  Submission,
 } from '@manuscripts/manuscripts-json-schema'
 // eslint-disable-next-line import/no-unresolved
 import { Data } from 'csl-json'
 import JSZip from 'jszip'
 
 import { GetAttachment } from '../components/projects/Exporter'
-import config from '../config'
 import { JsonModel, ProjectDump } from './importers'
 import { exportData } from './pressroom'
 
@@ -53,45 +43,6 @@ export const removeEmptyStyles = (model: { [key: string]: any }) => {
       delete model[key]
     }
   })
-}
-
-const isEquation = hasObjectType<Equation>(ObjectTypes.Equation)
-const isInlineMathFragment = hasObjectType<InlineMathFragment>(
-  ObjectTypes.InlineMathFragment
-)
-
-// Convert TeX to MathML for Equation and InlineMathFragment
-
-const augmentEquations = async (modelMap: Map<string, Model>) => {
-  for (const model of modelMap.values()) {
-    if (
-      isEquation(model) &&
-      model.TeXRepresentation &&
-      !model.MathMLStringRepresentation
-    ) {
-      // block equation
-      const mathml = await convertTeXToMathML(model.TeXRepresentation, true)
-
-      if (mathml) {
-        model.MathMLStringRepresentation = mathml
-        modelMap.set(model._id, model)
-      }
-    }
-
-    if (
-      isInlineMathFragment(model) &&
-      model.TeXRepresentation &&
-      !model.MathMLRepresentation
-    ) {
-      // inline equation
-      const mathml = await convertTeXToMathML(model.TeXRepresentation, false)
-
-      if (mathml) {
-        model.MathMLRepresentation = mathml
-        modelMap.set(model._id, model)
-      }
-    }
-  }
 }
 
 export const createProjectDump = (
@@ -110,9 +61,7 @@ export const createProjectDump = (
       )
     })
     .map((data) => {
-      const { _attachments, attachment, src, ...model } = data as Model &
-        ModelAttachment &
-        Attachments
+      const { ...model } = data
 
       removeEmptyStyles(model)
 
@@ -175,10 +124,6 @@ export const buildProjectBundle = async (
 ): Promise<JSZip> => {
   const attachments = await buildAttachments(getAttachment, modelMap)
 
-  if (format === 'docx') {
-    await augmentEquations(modelMap)
-  }
-
   const data = createProjectDump(modelMap, manuscriptID)
 
   const zip = new JSZip()
@@ -191,8 +136,7 @@ export const buildProjectBundle = async (
     if (attachment) {
       switch (format) {
         case 'html':
-        case 'jats':
-        case 'sts': {
+        case 'jats': {
           // add file extension for JATS/HTML export
           const filename = generateAttachmentFilename(
             model._id,
@@ -221,45 +165,23 @@ export const generateDownloadFilename = (title: string) =>
     .replace(/\W/g, '_') // remove non-word characters
     .replace(/_+(.)/g, (match, letter) => letter.toUpperCase()) // convert snake case to camel case
     .replace(/_+$/, '') // remove any trailing underscores
-    .substr(0, 200)
+    .substring(0, 200)
 
-export type ExportManuscriptFormat =
-  | 'docx'
-  | 'epub'
-  | 'pdf'
-  | 'pdf-prince'
-  | 'latex'
-  | 'html'
-  | 'icml'
-  | 'markdown'
-  | 'literatum-do'
-  | 'jats'
-  | 'sts'
-  | 'literatum-bundle'
-  | 'literatum-eeo' // submission-for-review
-  | 'manuproj'
+export type ExportManuscriptFormat = 'pdf' | 'html' | 'jats' | 'manuproj'
 
 export type ImportManuscriptFormat = 'xml' | 'pdf' | 'word' | 'word-arc' | 'zip'
 
-export type ExportBibliographyFormat = 'bibtex' | 'ris' // | 'mods'
+export type ExportBibliographyFormat = 'bibtex' | 'ris'
 
 export type ExportFormat = ExportManuscriptFormat | ExportBibliographyFormat
 
 export const downloadExtension = (format: ExportFormat): string => {
   switch (format) {
-    case 'docx':
-    case 'epub':
     case 'pdf':
     case 'manuproj':
     case 'bibtex':
     case 'ris':
       return `.${format}`
-
-    case 'pdf-prince':
-      return '.pdf'
-
-    // case 'mods':
-    //   return '.xml'
 
     default:
       return '.zip'
@@ -306,24 +228,6 @@ const convertToJATS = async (
   return zip.generateAsync({ type: 'blob' })
 }
 
-const convertToSTS = async (
-  zip: JSZip,
-  modelMap: Map<string, Model>,
-  manuscriptID: string
-) => {
-  zip.remove('index.manuscript-json')
-
-  const decoder = new Decoder(modelMap, true)
-  const doc = decoder.createArticleNode(manuscriptID)
-
-  const transformer = new STSExporter()
-
-  const xml = transformer.serializeToSTS(doc.content, modelMap)
-  zip.file('manuscript.xml', xml)
-
-  return zip.generateAsync({ type: 'blob' })
-}
-
 const addContainersFile = async (zip: JSZip, project: Project) => {
   const container = getModelData(project)
 
@@ -355,13 +259,8 @@ export const exportProject = async (
   modelMap: Map<string, Model>,
   manuscriptID: string | null,
   format: ExportFormat,
-  project?: Project,
-  submission?: Submission
+  project?: Project
 ): Promise<Blob> => {
-  // if (project) {
-  //   modelMap.set(project._id, project)
-  // }
-
   const zip = await buildProjectBundle(
     getAttachment,
     modelMap,
@@ -371,7 +270,6 @@ export const exportProject = async (
 
   switch (format) {
     // export bibliography
-    // case 'mods':
     case 'bibtex':
     case 'ris': {
       const data = prepareBibliography(modelMap)
@@ -403,141 +301,12 @@ export const exportProject = async (
 
       return convertToJATS(zip, modelMap, manuscriptID)
 
-    case 'sts':
-      if (!manuscriptID) {
-        throw new Error('No manuscript selected')
-      }
-
-      return convertToSTS(zip, modelMap, manuscriptID)
-
     case 'html':
       if (!manuscriptID) {
         throw new Error('No manuscript selected')
       }
 
       return convertToHTML(zip, modelMap, manuscriptID)
-
-    // deposit magazine HTML in Literatum
-    case 'literatum-do': {
-      if (!manuscriptID) {
-        throw new Error('No manuscript selected')
-      }
-
-      const { DOI } = modelMap.get(manuscriptID) as Manuscript
-
-      if (!DOI) {
-        window.alert('A DOI is required for Literatum export')
-        throw new Error('A DOI is required for Literatum export')
-      }
-
-      const file = await zip.generateAsync({ type: 'blob' })
-
-      const form = new FormData()
-      form.append('file', file, 'export.manuproj')
-      form.append('manuscriptID', manuscriptID)
-      form.append('doType', 'magazine')
-      form.append('doi', DOI)
-      form.append('deposit', 'true')
-
-      return exportData(form, 'literatum-do')
-    }
-
-    // deposit article WileyML in Literatum
-    case 'literatum-bundle': {
-      if (!manuscriptID) {
-        throw new Error('No manuscript selected')
-      }
-
-      if (!config.submission.group_doi || !config.submission.series_code) {
-        window.alert(
-          'Submission is not correctly configured in this environment'
-        )
-        throw new Error('Submission environment variables must be defined')
-      }
-
-      const { DOI } = modelMap.get(manuscriptID) as Manuscript
-
-      if (!DOI) {
-        window.alert('A DOI is required for Literatum submission')
-        throw new Error('A DOI is required for Literatum submission')
-      }
-
-      const file = await zip.generateAsync({ type: 'blob' })
-
-      const form = new FormData()
-      form.append('file', file, 'export.manuproj')
-      form.append('manuscriptID', manuscriptID)
-      form.append('xmlType', 'wileyml')
-      form.append('doi', DOI)
-      form.append('groupDOI', config.submission.group_doi)
-      form.append('seriesCode', config.submission.series_code)
-      form.append('deposit', 'true')
-
-      return exportData(form, 'literatum-bundle')
-    }
-
-    // submit JATS XML to a journal for review via Literatum EEO
-    case 'literatum-eeo': {
-      if (!manuscriptID) {
-        throw new Error('No manuscript selected')
-      }
-
-      const { DOI } = modelMap.get(manuscriptID) as Manuscript
-
-      if (!DOI) {
-        throw new Error('No DOI was provided')
-      }
-
-      if (!submission) {
-        throw new Error('No submission was provided')
-      }
-
-      if (!submission.journalTitle) {
-        throw new Error('No journal title was provided')
-      }
-
-      const notificationURL = `${config.api.url}/submissions/status/${submission._id}`
-
-      const file = await zip.generateAsync({ type: 'blob' })
-
-      const form = new FormData()
-      form.append('file', file, 'export.manuproj')
-      form.append('manuscriptID', manuscriptID)
-      form.append('doi', DOI)
-      form.append('notificationURL', notificationURL)
-      form.append('journalName', submission.journalTitle)
-      form.append('deposit', 'true')
-
-      return exportData(form, 'literatum-eeo')
-    }
-
-    // export to PDF via Pressroom, using Prince
-    case 'pdf-prince': {
-      if (!manuscriptID) {
-        throw new Error('No manuscript selected')
-      }
-
-      const file = await zip.generateAsync({ type: 'blob' })
-
-      const form = new FormData()
-      form.append('file', file, 'export.manuproj')
-      form.append('engine', 'prince-html')
-
-      const { prototype } = modelMap.get(manuscriptID) as Manuscript
-
-      // TODO: add theme property to template & manuscript?
-      if (prototype) {
-        if (prototype.includes('-nature-')) {
-          form.append('theme', 'nature')
-        } else if (prototype.includes('-plos-one-')) {
-          form.append('theme', 'plos-one')
-        }
-      }
-
-      form.append('manuscriptID', manuscriptID)
-
-      return exportData(form, 'pdf')
-    }
 
     // export via Pressroom
     default: {

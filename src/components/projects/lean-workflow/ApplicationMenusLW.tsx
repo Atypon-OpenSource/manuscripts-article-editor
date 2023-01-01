@@ -25,7 +25,6 @@ import { useHistory } from 'react-router'
 import styled from 'styled-components'
 
 import config from '../../../config'
-import { remaster } from '../../../lib/bootstrap-manuscript'
 import { addColor, buildColors } from '../../../lib/colors'
 import {
   buildExportMenu,
@@ -35,8 +34,6 @@ import { ExportFormat } from '../../../pressroom/exporter'
 import { useStore } from '../../../store'
 import { useModal } from '../../ModalHookableProvider'
 import { Exporter } from '../Exporter'
-// import { Importer } from '../Importer'
-// import { importManuscript } from '../ImportManuscript'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;
@@ -109,35 +106,8 @@ export const ApplicationMenusLW: React.FC<Props> = ({
     submenu: [
       buildExportMenu(openExporter),
       buildExportReferencesMenu(openExporter, editor.state),
-      {
-        role: 'separator',
-      },
-      {
-        id: 'remaster',
-        label: 'Remaster',
-        run: () =>
-          remaster(
-            editor.state,
-            store.modelMap,
-            store.project,
-            store.saveModel
-          ),
-      },
     ],
   }
-
-  // Commented as may it be actually useful in later development
-  // const developMenu: MenuSpec = {
-  //   id: 'develop',
-  //   label: 'Develop',
-  //   submenu: [
-  //     {
-  //       id: 'import',
-  //       label: 'Import Manuscript…',
-  //       run: openImporter,
-  //     },
-  //   ],
-  // }
 
   const helpMenu: MenuSpec = {
     id: 'help',

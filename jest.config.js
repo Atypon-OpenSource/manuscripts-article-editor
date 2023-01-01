@@ -19,7 +19,6 @@ module.exports = {
     '!src/data/*.tsx',
     '!src/lib/fonts.ts',
     '!src/lib/service-worker.ts',
-    '!src/lib/developer.ts',
   ],
   coverageReporters: ['text-summary'],
   coverageThreshold: {

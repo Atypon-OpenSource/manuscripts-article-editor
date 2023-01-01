@@ -14,7 +14,6 @@ import {
   Manuscript,
   Model,
   Project,
-  Submission,
 } from '@manuscripts/manuscripts-json-schema'
 import { Category, Dialog, PrimaryButton } from '@manuscripts/style-guide'
 import { AxiosError } from 'axios'
@@ -31,7 +30,6 @@ import {
 } from '../../pressroom/exporter'
 import { ContactSupportButton } from '../ContactSupportButton'
 import { ProgressModal } from './ProgressModal'
-import { SuccessModal } from './SuccessModal'
 
 export type GetAttachment = (
   id: string,
@@ -46,7 +44,6 @@ interface Props {
   modelMap: Map<string, Model>
   project: Project
   closeOnSuccess?: boolean
-  submission?: Submission
 }
 
 interface State {
@@ -65,14 +62,8 @@ export class Exporter extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const {
-      getAttachment,
-      modelMap,
-      manuscriptID,
-      format,
-      project,
-      submission,
-    } = this.props
+    const { getAttachment, modelMap, manuscriptID, format, project } =
+      this.props
 
     if (!getAttachment) {
       return
@@ -91,8 +82,7 @@ export class Exporter extends React.Component<Props, State> {
         modelMap,
         manuscriptID,
         format,
-        project,
-        submission
+        project
       )
 
       if (this.state.cancelled) {
@@ -105,21 +95,13 @@ export class Exporter extends React.Component<Props, State> {
         label: `success=true&project=${project._id}&format=${format}`,
       })
 
-      if (format === 'literatum-eeo') {
-        const data = JSON.parse(await blob.text())
+      const manuscript = modelMap.get(manuscriptID) as Manuscript
 
-        if (data.queued !== 'true') {
-          throw new Error('Unexpected response')
-        }
-      } else {
-        const manuscript = modelMap.get(manuscriptID) as Manuscript
+      const filename =
+        generateDownloadFilename(manuscript.title || 'Untitled') +
+        downloadExtension(format)
 
-        const filename =
-          generateDownloadFilename(manuscript.title || 'Untitled') +
-          downloadExtension(format)
-
-        saveAs(blob, filename)
-      }
+      saveAs(blob, filename)
 
       if (this.props.closeOnSuccess) {
         this.setState({
@@ -135,10 +117,6 @@ export class Exporter extends React.Component<Props, State> {
     } catch (error) {
       console.error(error)
 
-      if (window.Sentry) {
-        window.Sentry.captureException(error)
-      }
-
       trackEvent({
         category: 'Manuscripts',
         action: 'Export',
@@ -150,7 +128,6 @@ export class Exporter extends React.Component<Props, State> {
   }
 
   public render() {
-    const { format } = this.props
     const { error, status, canCancel } = this.state
 
     if (error) {
@@ -189,41 +166,6 @@ export class Exporter extends React.Component<Props, State> {
 
     if (!status) {
       return null
-    }
-
-    if (status === 'complete') {
-      if (format === 'literatum-do') {
-        return (
-          <SuccessModal
-            status={'Export to Literatum completed successfully'}
-            handleDone={() => {
-              this.props.handleComplete(true)
-            }}
-          />
-        )
-      }
-
-      if (format === 'literatum-bundle') {
-        return (
-          <SuccessModal
-            status={'Submission to Literatum completed successfully'}
-            handleDone={() => {
-              this.props.handleComplete(true)
-            }}
-          />
-        )
-      }
-
-      if (format === 'literatum-eeo') {
-        return (
-          <SuccessModal
-            status={'Submission started successfully'}
-            handleDone={() => {
-              this.props.handleComplete(true)
-            }}
-          />
-        )
-      }
     }
 
     return (

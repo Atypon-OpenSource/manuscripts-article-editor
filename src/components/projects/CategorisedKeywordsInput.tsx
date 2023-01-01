@@ -40,11 +40,11 @@ import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
+import { PlusIcon } from '../../Icons'
 import { selectStyles } from '../../lib/select-styles'
 import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { MediumTextField } from './inputs'
-import { PlusIcon } from './Status/StatusIcons'
 import {
   Container,
   EditingPopper,
@@ -363,8 +363,6 @@ export const CategorisedKeywordsInput: React.FC<{
           options={keywords}
           isOptionDisabled={(option) => {
             const isCreate = option.name.startsWith('Create keyword')
-              ? true
-              : false
             return !isCreate
           }}
           placeholder={'Add new or edit existing...'}

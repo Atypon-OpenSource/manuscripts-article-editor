@@ -13,11 +13,10 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import { ApolloError } from 'apollo-client'
 import gql from 'graphql-tag'
 
-import config from '../config'
 import {
   updateMainManuscriptAttachment,
   updateSubmissionAttachmentDesignation,
-} from '../lib/apolloCacheUpdate'
+} from './apolloCacheUpdate'
 
 interface updateAttachmentProps {
   submissionId: string
@@ -342,15 +341,8 @@ export const useGetSubmissionAndPerson = (
     context: {
       clientPurpose: 'leanWorkflowManager',
     },
-    variables: config.submission.id
-      ? {
-          id: config.submission.id,
-          type: 'URI',
-        }
-      : {
-          id: `${projectId}#${documentId}`,
-          type: 'DOCUMENT_ID',
-        },
+    variables: {
+    }
   })
 
 export const useGetCurrentSubmissionStep = (

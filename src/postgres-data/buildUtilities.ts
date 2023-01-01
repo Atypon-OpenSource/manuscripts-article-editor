@@ -28,7 +28,6 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import { Commit, commitToJSON } from '@manuscripts/track-changes'
 
 import Api from '../postgres-data/Api'
 import { ContainedIDs, ContainerIDs, state } from '../store'
@@ -254,12 +253,6 @@ const buildUtilities = (
     return saveModel(correction)
   }
 
-  const saveCommit = (commit: Commit) => {
-    if (data.containerID) {
-      return saveProjectModel(commitToJSON(commit, data.containerID))
-    }
-  }
-
   const createProjectLibraryCollection = async (
     libraryCollection: Build<LibraryCollection>,
     projectID?: string
@@ -298,7 +291,6 @@ const buildUtilities = (
     saveManuscript,
     saveNewManuscript,
     getModel,
-    saveCommit,
     saveCorrection,
     createProjectLibraryCollection,
     saveBiblioItem,

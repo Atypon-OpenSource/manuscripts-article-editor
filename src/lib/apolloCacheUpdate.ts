@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import config from '../config'
 import { GET_SUBMISSION, SubmissionAttachment } from './lean-workflow-gql'
 
 export const updateSubmissionAttachmentDesignation = (
@@ -21,15 +20,8 @@ export const updateSubmissionAttachmentDesignation = (
 ) => {
   const cachedSubmission = cache.readQuery({
     query: GET_SUBMISSION,
-    variables: config.submission.id
-      ? {
-          id: config.submission.id,
-          type: 'URI',
-        }
-      : {
-          id: documentId,
-          type: 'DOCUMENT_ID',
-        },
+    variables: {
+    }
   })
   if (cachedSubmission?.submission?.attachments) {
     cache.writeQuery({
@@ -60,15 +52,8 @@ export const updateMainManuscriptAttachment = <T>(
 ) => {
   const cachedSubmission = cache.readQuery({
     query: GET_SUBMISSION,
-    variables: config.submission.id
-      ? {
-          id: config.submission.id,
-          type: 'URI',
-        }
-      : {
-          id: documentId,
-          type: 'DOCUMENT_ID',
-        },
+    variables: {
+    }
   })
 
   /**

@@ -73,10 +73,6 @@ export class CitationStyleSelectorModal extends Component<Props, State> {
 
   private listRef = React.createRef<FixedSizeList>()
 
-  private sortPromise: Fuzzysort.CancelablePromise<
-    Fuzzysort.KeysResults<Bundle>
-  >
-
   public componentDidMount() {
     this.setState({
       filteredItems: this.props.items,
@@ -127,24 +123,17 @@ export class CitationStyleSelectorModal extends Component<Props, State> {
       return items
     }
 
-    this.sortPromise = fuzzysort.goAsync<Bundle>(searchText.trim(), items, {
+    const results = fuzzysort.go<Bundle>(searchText.trim(), items, {
       keys: ['csl.title'],
       limit: 250,
-      allowTypo: false,
       threshold: -10000,
     })
-
-    const results = await this.sortPromise
 
     return results.map((result) => result.obj)
   }
 
   private handleSearchChange = async (searchText: string) => {
     this.setState({ searchText })
-
-    if (this.sortPromise) {
-      this.sortPromise.cancel()
-    }
 
     this.setState({
       filteredItems: await this.filterBundles(searchText),

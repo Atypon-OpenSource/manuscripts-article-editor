@@ -13,8 +13,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useCrisp } from '../hooks/use-crisp'
-
 const InlineButton = styled.button`
   display: inline;
   color: ${(props) => props.theme.colors.text.info};
@@ -31,15 +29,5 @@ export const ContactSupportButton: React.FC<{ message?: string }> = ({
   children,
   message,
 }) => {
-  const crisp = useCrisp()
-
-  if (message) {
-    return (
-      <InlineButton onClick={() => crisp.setMessageText(message)}>
-        {children}
-      </InlineButton>
-    )
-  }
-
-  return <InlineButton onClick={crisp.open}>{children}</InlineButton>
+  return <InlineButton>{children}</InlineButton>
 }

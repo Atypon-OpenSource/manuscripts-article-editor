@@ -11,25 +11,8 @@
  */
 
 import config from '../config'
-import { GoogleAnalyticsConfig } from './google-analytics'
+import { GoogleAnalyticsConfig, init } from './google-analytics'
 
 if (config.analytics.id) {
-  import('./google-analytics')
-    .then(({ init }) => {
-      init(config.analytics as GoogleAnalyticsConfig)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-}
-
-if (config.sentry.dsn) {
-  import('@sentry/browser')
-    .then((Sentry) => {
-      Sentry.init(config.sentry)
-      window.Sentry = Sentry
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+  init(config.analytics as GoogleAnalyticsConfig)
 }

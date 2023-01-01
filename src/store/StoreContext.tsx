@@ -11,9 +11,6 @@
  */
 import React, { createContext, useContext, useEffect } from 'react'
 
-import Development from '../components/Development'
-import { ModalProvider } from '../components/ModalHookableProvider'
-import config from '../config'
 import { GenericStore, reducer, state, Store, StoreDataSourceStrategy } from '.'
 import { ISubject } from './ParentObserver'
 
@@ -53,15 +50,7 @@ export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
   if (store) {
     return (
       <GenericStoreContext.Provider value={store}>
-        {store.state?.project ? (
-          children
-        ) : config.environment === 'development' ? (
-          <ModalProvider>
-            <Development />
-          </ModalProvider>
-        ) : (
-          <p>Project was not found</p>
-        )}
+        {store.state?.project ? children : <p>Project was not found</p>}
       </GenericStoreContext.Provider>
     )
   }

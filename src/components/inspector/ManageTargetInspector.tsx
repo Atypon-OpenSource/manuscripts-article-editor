@@ -15,16 +15,11 @@ import {
   Section,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
-import React, { useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import { buildCollaborators } from '../../lib/collaborators'
-import { isDueSoon, isOverdue } from '../../lib/date'
 import { useStore } from '../../store'
 import { InspectorSection } from '../InspectorSection'
-import { AssigneesInput } from '../projects/AssigneesInput'
-import { DeadlineInput } from '../projects/DeadlineInput'
-import { StatusInput } from '../projects/Status'
 import { TagsInput } from '../projects/TagsInput'
 import { AnyElement } from './ElementStyleInspector'
 import { InspectorField, InspectorLabel } from './ManuscriptStyleInspector'
@@ -38,7 +33,7 @@ interface Props {
 
 export const ManageTargetInspector: React.FC<Props> = ({ target }) => {
   const title = target.objectType.replace(/MP|Element/g, '')
-  const [{ project, collaboratorsProfiles }] = useStore((store) => ({
+  const [{ collaboratorsProfiles }] = useStore((store) => ({
     project: store.project,
     collaboratorsProfiles:
       store.collaboratorsProfiles || new Map<string, UserProfile>(),
@@ -52,41 +47,11 @@ export const ManageTargetInspector: React.FC<Props> = ({ target }) => {
     collaborators.set(collaborator.userID, collaborator)
   }
 
-  const projectCollaborators = buildCollaborators(project, collaborators)
-
-  const deadline = target.deadline
-
-  const { overdue, dueSoon } = useMemo(
-    () =>
-      isOverdue(deadline)
-        ? { overdue: true, dueSoon: false }
-        : isDueSoon(deadline)
-        ? { overdue: false, dueSoon: true }
-        : { overdue: false, dueSoon: false },
-    [deadline]
-  )
-
   return (
     <InspectorSection title={`Manage ${title}`}>
       <InspectorField>
-        <Label>Assignees</Label>
-        <AssigneesInput profiles={projectCollaborators} target={target} />
-      </InspectorField>
-      <InspectorField>
-        <Label>Deadline</Label>
-        <DeadlineInput
-          target={target}
-          isOverdue={overdue}
-          isDueSoon={dueSoon}
-        />
-      </InspectorField>
-      <InspectorField>
         <Label>Tags</Label>
         <TagsInput target={target} />
-      </InspectorField>
-      <InspectorField>
-        <Label>Status</Label>
-        <StatusInput target={target} isOverdue={overdue} isDueSoon={dueSoon} />
       </InspectorField>
     </InspectorSection>
   )

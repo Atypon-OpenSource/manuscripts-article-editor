@@ -10,22 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import ChatIcon from '@manuscripts/assets/react/Chat'
 import CommunityIcon from '@manuscripts/assets/react/Community'
 import DocumentationIcon from '@manuscripts/assets/react/Documentation'
 import SupportIcon from '@manuscripts/assets/react/Support'
 import { IconButton } from '@manuscripts/style-guide'
 import { Placement } from 'popper.js'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
-import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 import config from '../config'
 import { useDropdown } from '../hooks/use-dropdown'
 import { Popup } from './nav/Updates'
 
-const Button = styled(IconButton).attrs((props) => ({
+const Button = styled(IconButton).attrs(() => ({
   size: 56,
 }))`
   color: ${(props) => props.theme.colors.text.secondary};
@@ -56,10 +54,6 @@ const linkStyle = css`
   &:hover {
     background: ${(props) => props.theme.colors.background.fifth};
   }
-`
-
-const MenuLink = styled(NavLink)`
-  ${linkStyle}
 `
 
 const ExternalMenuLink = styled.a.attrs({
@@ -110,11 +104,6 @@ const Container = styled.div`
 export const Support: React.FC = React.memo(() => {
   const { wrapperRef, toggleOpen, isOpen } = useDropdown()
 
-  const openChat = useCallback((event: React.MouseEvent) => {
-    event.preventDefault()
-    window.$crisp.push(['do', 'chat:open'])
-  }, [])
-
   return (
     <Manager>
       <div ref={wrapperRef}>
@@ -152,13 +141,6 @@ export const Support: React.FC = React.memo(() => {
                         <DocumentationIcon />
                         <MenuText>Documentation</MenuText>
                       </ExternalMenuLink>
-
-                      {!config.leanWorkflow.enabled && config.crisp.id && (
-                        <MenuLink to={'/chat'} onClick={openChat}>
-                          <ChatIcon width={22} height={23} />
-                          <MenuText>Support</MenuText>
-                        </MenuLink>
-                      )}
                     </Menu>
                   </Popup>
 

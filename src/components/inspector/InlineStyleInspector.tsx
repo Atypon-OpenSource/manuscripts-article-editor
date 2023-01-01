@@ -30,7 +30,7 @@ type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
 type Dispatch = (tr: ManuscriptTransaction) => void
 
 const findMarkOfType = (
-  marks: ManuscriptMark[],
+  marks: readonly ManuscriptMark[],
   markType: ManuscriptMarkType
 ): ManuscriptMark | undefined => {
   for (const mark of marks) {

@@ -48,7 +48,6 @@ import { History } from 'history'
 
 import { ContainedIDs, state } from '../store'
 import { loadBundle } from './bundles'
-import { postWebkitMessage } from './native'
 import { manuscriptCountRequirementFields, Requirement } from './requirements'
 import { SharedData } from './shared-data'
 import { Style } from './styles'
@@ -71,28 +70,6 @@ const buildNewProject = ({
   user: UserProfile
 }): Build<Project> | undefined =>
   projectID ? undefined : buildProject(user.userID)
-
-const sendNewProjectNotification = (projectID: string) => {
-  postWebkitMessage('action', {
-    name: 'assign-project',
-    projectID,
-  })
-}
-
-// const getPriority = async (
-//   newProject: Build<Project> | undefined,
-//   collection: Collection<ContainedModel | ManuscriptModel>
-// ) => {
-//   const docs = await collection
-//     .getCollection()
-//     .find({
-//       objectType: ObjectTypes.Manuscript,
-//     })
-//     .exec()
-
-//   const manuscripts = docs.map((doc) => doc.toJSON()) as Manuscript[]
-//   return newProject ? 1 : await nextManuscriptPriority(manuscripts)
-// }
 
 interface CreateManuscriptProps {
   addContent?: boolean
@@ -325,10 +302,6 @@ export const createManuscript = async ({
 
   // @TODO - move out this side effects
   history.push(`/projects/${containerID}/manuscripts/${manuscript._id}`)
-
-  if (newProject) {
-    sendNewProjectNotification(containerID)
-  }
 }
 
 function* buildCoverLetterRequirements({

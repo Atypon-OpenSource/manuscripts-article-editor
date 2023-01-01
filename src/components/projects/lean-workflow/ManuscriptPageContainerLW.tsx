@@ -28,7 +28,7 @@ import {
 } from '@manuscripts/style-guide'
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import { ApolloError } from 'apollo-client'
-import debounce from 'lodash.debounce'
+import { debounce } from 'lodash'
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 

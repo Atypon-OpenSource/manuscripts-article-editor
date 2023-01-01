@@ -16,10 +16,8 @@ import React from 'react'
 
 import AddCollaboratorButton from '../src/components/collaboration/AddCollaboratorButton'
 import CollaboratorSettingsButton from '../src/components/collaboration/CollaboratorSettingsButton'
-import InvitedCollaboratorSettingsButton from '../src/components/collaboration/InvitedCollaboratorSettingsButton'
 import InviteAuthorButton from '../src/components/metadata/InviteAuthorButton'
 import { authors } from './data/contributors'
-import { invitations } from './data/invitations-data'
 import { people } from './data/people'
 import { project } from './data/projects'
 
@@ -30,18 +28,6 @@ storiesOf('Collaboration/Popper Buttons', module)
       collaborator={people[0]}
       updateUserRole={action('update role')}
       openPopper={action('open popper')}
-      tokenActions={{
-        delete: action('delete token'),
-        update: action('update token'),
-      }}
-    />
-  ))
-  .add('InvitedCollaboratorSettingsButton', () => (
-    <InvitedCollaboratorSettingsButton
-      invitation={invitations[0]}
-      openPopper={action('open popper')}
-      projectInvite={action('project invite')}
-      projectUninvite={action('project uninvite')}
       tokenActions={{
         delete: action('delete token'),
         update: action('update token'),

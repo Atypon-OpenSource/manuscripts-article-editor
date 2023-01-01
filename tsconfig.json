@@ -52,5 +52,5 @@
     "skipLibCheck": true,
     "strictNullChecks": true
   },
-  "include": ["src", "stories", "types", "webpack.*.ts"]
+  "include": ["src", "stories", "types", "webpack.*.ts"],
 }
