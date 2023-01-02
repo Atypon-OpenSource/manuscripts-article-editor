@@ -43,8 +43,8 @@ const getLastChange = (changes: TrackedAttrs[]) => {
 
 export const trackedJoint = ':dataTracked:'
 
-export const adaptTrackedData = (node: any) => {
-  const cleanDoc = Object.assign({}, node)
+export const adaptTrackedData = (docJSONed: unknown) => {
+  const cleanDoc = Object.assign({}, docJSONed)
 
   const cleanNode = (parent: any) => {
     if (parent.content) {
@@ -57,11 +57,11 @@ export const adaptTrackedData = (node: any) => {
         const lastChange = getLastChange(child.attrs.dataTracked)
         // this to be able to create a modelMap with models that are relevant but were spawn out of existing and have duplicate ids
         // this will fail with new prosemirror as attributes are read only but it's ok to modify them on an inactive document
-        child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
         if (
           lastChange.status !== CHANGE_STATUS.rejected &&
           lastChange.operation !== CHANGE_OPERATION.delete
         ) {
+          child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
           return true
         }
         return false
