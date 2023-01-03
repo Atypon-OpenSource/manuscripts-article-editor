@@ -116,13 +116,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
               }
 
               case 'Comments': {
-                return (
-                  <CommentsTab
-                    selected={selected}
-                    editor={editor}
-                    key="comments"
-                  />
-                )
+                return <CommentsTab editor={editor} key="comments" />
               }
 
               case 'Quality': {
