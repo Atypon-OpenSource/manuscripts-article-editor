@@ -293,6 +293,11 @@ export class GenericStore implements Store {
         )
       )
     }
+    // return new Promise((resolve: () => void, reject) => {
+    //   setTimeout(() => {
+    //     resolve()
+    //   }, 5000)
+    // })
   }
   unmount() {
     if (this.unmountHandler) {

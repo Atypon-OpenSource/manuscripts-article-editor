@@ -52,6 +52,7 @@ export const useCreateEditor = () => {
       fileManagement,
     },
     dispatch,
+    getState,
   ] = useStore((store) => ({
     doc: store.doc,
     ancestorDoc: store.ancestorDoc,
@@ -164,10 +165,12 @@ export const useCreateEditor = () => {
             */
           },
         })
+        return result
       }
-      return result
     },
-    getAttachments: () => submission.attachments,
+    getAttachments: () => {
+      return getState().submission.attachments
+    },
   }
 
   const editor = useEditor<ManuscriptSchema>(
