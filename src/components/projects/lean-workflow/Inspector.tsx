@@ -37,6 +37,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
     {
       submissionId,
+      submission,
       fileManagement,
       commentTarget,
       saveTrackModel,
@@ -46,6 +47,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
     saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
     submissionId: store.submissionID,
+    submission: store.submission,
     fileManagement: store.fileManagement,
     commentTarget: store.commentTarget,
   }))
@@ -129,7 +131,10 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                     modelMap={trackModelMap}
                     // @ts-ignore
                     saveModel={saveTrackModel}
-                    fileManagement={fileManagement}
+                    fileManagement={{
+                      ...fileManagement,
+                      getAttachments: () => submission.attachments,
+                    }}
                   />
                 ) : null
               }

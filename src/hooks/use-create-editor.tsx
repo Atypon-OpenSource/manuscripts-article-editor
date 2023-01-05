@@ -27,7 +27,7 @@ import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import config from '../config'
-import { useUploadAttachment } from '../lib/lean-workflow-gql'
+// import { useUploadAttachment } from '../lib/lean-workflow-gql'
 import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
@@ -49,6 +49,7 @@ export const useCreateEditor = () => {
       commitAtLoad,
       submissionId,
       submission,
+      fileManagement,
     },
     dispatch,
   ] = useStore((store) => ({
@@ -65,13 +66,12 @@ export const useCreateEditor = () => {
     submissionId: store.submissionID || '',
     commitAtLoad: store.commitAtLoad,
     submission: store.submission,
+    fileManagement: store.fileManagement,
   }))
   const { user: trackUser } = useAuthStore()
 
   const can = usePermissions()
   const popper = useRef<PopperManager>(new PopperManager())
-
-  const { uploadAttachment } = useUploadAttachment()
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
@@ -148,13 +148,27 @@ export const useCreateEditor = () => {
     capabilities: can,
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
-    uploadAttachment: (designation: string, file: File) =>
-      uploadAttachment({
-        submissionId,
-        file,
-        designation,
-        documentId: `${project._id}#${manuscript._id}`,
-      }),
+    uploadAttachment: async (designation: string, file: File) => {
+      const result = await fileManagement.upload(file, designation)
+      if (typeof result === 'object') {
+        dispatch({
+          submission: {
+            ...submission,
+            attachments: [
+              ...submission.attachments,
+              {
+                ...result,
+              },
+            ],
+            /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
+              Thast should be removed ince exFileRefs are out. ModelId should not be needed anymore
+            */
+          },
+        })
+      }
+      return result
+    },
+    getAttachments: () => submission.attachments,
   }
 
   const editor = useEditor<ManuscriptSchema>(

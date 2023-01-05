@@ -16,16 +16,8 @@ import gql from 'graphql-tag'
 import config from '../config'
 import {
   updateMainManuscriptAttachment,
-  updateSubmissionAttachment,
   updateSubmissionAttachmentDesignation,
 } from '../lib/apolloCacheUpdate'
-
-interface uploadAttachmentProps {
-  submissionId: string
-  documentId: string
-  file: File
-  designation: string
-}
 
 interface updateAttachmentProps {
   submissionId: string
@@ -101,23 +93,6 @@ export interface Person {
     label: string
   }
 }
-
-const UPLOAD_ATTACHMENT = gql`
-  mutation Upload($submissionId: ID!, $file: Upload!, $typeId: ID!) {
-    uploadAttachment(
-      submissionId: $submissionId
-      typeId: $typeId
-      content: $file
-    ) {
-      id
-      name
-      link
-      type {
-        id
-      }
-    }
-  }
-`
 
 export const UPDATE_ATTACHMENT = gql`
   mutation Update(
@@ -300,40 +275,6 @@ const GET_CURRENT_SUBMISSION_STEP = gql`
     }
   }
 `
-
-export const useUploadAttachment = () => {
-  const [mutate, { error }] = useMutation(UPLOAD_ATTACHMENT)
-  return {
-    uploadAttachment: async ({
-      submissionId,
-      documentId,
-      file,
-      designation, // typeId is designation
-    }: uploadAttachmentProps) => {
-      return await mutate({
-        context: {
-          clientPurpose: 'leanWorkflowManager',
-        },
-        variables: {
-          submissionId,
-          file,
-          typeId: designation,
-        },
-        update(cache, { data }) {
-          if (data?.uploadAttachment) {
-            updateSubmissionAttachment(
-              cache,
-              submissionId,
-              documentId,
-              data.uploadAttachment
-            )
-          }
-        },
-      })
-    },
-    uploadAttachmentError: getErrorCode(error),
-  }
-}
 
 export const useUpdateAttachmentDesignation = () => {
   const [mutate] = useMutation(SET_ATTACHMENT_TYPE)
