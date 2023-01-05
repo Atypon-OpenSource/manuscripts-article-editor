@@ -142,7 +142,6 @@ export const useCreateEditor = () => {
 
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
-    externalFiles: submission?.attachments,
     theme,
     submissionId,
     capabilities: can,
