@@ -69,7 +69,7 @@ export const CommentsTab: React.FC<{
           title={'Comments'}
           contentStyles={{ margin: '0 25px 24px 0' }}
         >
-          <CommentList selected={selected} editor={editor} />
+          <CommentList editor={editor} />
         </InspectorSection>
       )}
       {config.features.productionNotes && (

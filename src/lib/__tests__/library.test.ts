@@ -26,6 +26,8 @@ describe('library filtering', () => {
       updatedAt: 1,
       type: 'article',
       title: 'xyz',
+      manuscriptID: 'MPManuscript:1',
+      sessionID: 'foo',
     }
     const y: BibliographyItem = {
       _id: 'MPBibliographyItem:y',
@@ -35,6 +37,8 @@ describe('library filtering', () => {
       updatedAt: 1,
       type: 'article',
       title: 'yuv',
+      manuscriptID: 'MPManuscript:1',
+      sessionID: 'foo',
     }
     map.set('MPBibliographyItem:x', x)
     map.set('MPBibliographyItem:y', y)
