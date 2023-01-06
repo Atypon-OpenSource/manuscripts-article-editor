@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApolloClient } from 'apollo-client'
-import { from } from 'apollo-link'
-import { onError } from 'apollo-link-error'
-import { ServerError } from 'apollo-link-http-common'
+import { ApolloClient, from, InMemoryCache, ServerError } from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
 import { createUploadLink } from 'apollo-upload-client'
 
 import config from '../config'

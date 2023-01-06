@@ -9,8 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { ApolloError } from '@apollo/client'
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { ApolloError } from 'apollo-client'
 import gql from 'graphql-tag'
 
 import {
@@ -341,8 +341,7 @@ export const useGetSubmissionAndPerson = (
     context: {
       clientPurpose: 'leanWorkflowManager',
     },
-    variables: {
-    }
+    variables: {},
   })
 
 export const useGetCurrentSubmissionStep = (

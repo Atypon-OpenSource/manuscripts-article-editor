@@ -16,6 +16,7 @@ import '@manuscripts/manuscript-editor/styles/track-styles.css'
 import '@manuscripts/manuscript-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
+import { ApolloError } from '@apollo/client'
 import {
   ManuscriptToolbar,
   RequirementsProvider,
@@ -27,7 +28,6 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
-import { ApolloError } from 'apollo-client'
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
