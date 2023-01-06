@@ -120,7 +120,13 @@ export const useCreateEditor = () => {
     setCommentTarget: (target?: string) => dispatch({ commentTarget: target }),
     getModel,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
-      // @TODO fix this type
+      /*
+      Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
+      but only if requested in a transaction so it happens only in a couple of cases.
+      This shouldn't be happening with the track-changes enabled. With the way things are currently,
+      we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
+      Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
+      */
       return saveModel(model) as Promise<any>
     },
     deleteModel,
@@ -161,7 +167,7 @@ export const useCreateEditor = () => {
               },
             ],
             /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
-              Thast should be removed ince exFileRefs are out. ModelId should not be needed anymore
+              That (adding modelId) should be removed once exFileRefs are out. ModelId should not be needed anymore then.
             */
           },
         })

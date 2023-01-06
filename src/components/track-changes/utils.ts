@@ -48,7 +48,8 @@ export const adaptTrackedData = (docJSONed: unknown) => {
 
   type Clone = { [key: string | number]: unknown } | []
   function deepCloneAttrs(object: Clone) {
-    const copy: Clone = Array.isArray(object) ? [] : {}
+    const copy: Clone | null =
+      object === null ? null : Array.isArray(object) ? [] : {}
     for (const at in object) {
       const deeperClone =
         typeof object[at] !== 'object'

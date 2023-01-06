@@ -45,6 +45,7 @@ const useTrackedModelManagement = (
     const docJSONed = doc.toJSON()
     const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
+    // adding supplements from final model map as they are meta (not PM presentable)
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
         modelsFromPM.set(model._id, model)
