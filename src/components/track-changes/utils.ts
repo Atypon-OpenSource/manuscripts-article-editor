@@ -46,9 +46,30 @@ export const trackedJoint = ':dataTracked:'
 export const adaptTrackedData = (docJSONed: unknown) => {
   const cleanDoc = Object.assign({}, docJSONed)
 
+  type Clone = { [key: string | number]: unknown } | []
+  function deepCloneAttrs(object: Clone) {
+    const copy: Clone = Array.isArray(object) ? [] : {}
+    for (const at in object) {
+      const deeperClone =
+        typeof object[at] !== 'object'
+          ? object[at]
+          : deepCloneAttrs(object[at] as Clone)
+      if (Array.isArray(object)) {
+        // @ts-ignore
+        copy.push(deeperClone)
+      } else {
+        // @ts-ignore
+        copy[at] = deeperClone
+      }
+    }
+    return copy
+  }
+
   const cleanNode = (parent: any) => {
     if (parent.content) {
+      parent.attrs = deepCloneAttrs(parent.attrs) // Prosemirror's Node.toJSON() references attributes so they have to be cloned to avoid disaster
       parent.content = parent.content.filter((child: ManuscriptNode) => {
+        // the type is wrong. we get JSON and not the doc
         // pass through all the nodes with no track changes at all
         if (!child?.attrs?.dataTracked) {
           return true
