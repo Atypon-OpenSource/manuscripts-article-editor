@@ -46,15 +46,11 @@ export const trackedJoint = ':dataTracked:'
 export const adaptTrackedData = (docJSONed: unknown) => {
   const cleanDoc = Object.assign({}, docJSONed)
 
-  type Clone = { [key: string | number]: unknown } | []
-  function deepCloneAttrs(object: Clone) {
-    const copy: Clone | null =
-      object === null ? null : Array.isArray(object) ? [] : {}
+  function deepCloneAttrs(object: any) {
+    const copy = object === null ? null : Array.isArray(object) ? [] : {}
     for (const at in object) {
       const deeperClone =
-        typeof object[at] !== 'object'
-          ? object[at]
-          : deepCloneAttrs(object[at] as Clone)
+        typeof object[at] !== 'object' ? object[at] : deepCloneAttrs(object[at])
       if (Array.isArray(object)) {
         // @ts-ignore
         copy.push(deeperClone)
