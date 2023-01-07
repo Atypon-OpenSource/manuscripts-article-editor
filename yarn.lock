@@ -2214,10 +2214,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@0.93.12-LEAN-1169-8":
-  version "0.93.12-LEAN-1169-8"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.12-LEAN-1169-8.tgz#bd705127a3a9ff9cdd10989c1908acfe7252c89c"
-  integrity sha512-T291tDLTo7hQBimVZoznOf5FTufmvlDFzVTvtvo/HuUdYOmsw7ZdB0d52T+c2mFqFZ2+iXhVjG0VVDjFoOSwmw==
+"@manuscripts/manuscript-editor@0.93.12-LEAN-1169-9":
+  version "0.93.12-LEAN-1169-9"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.12-LEAN-1169-9.tgz#dad94ea41d268b567bd8bd7ecd1df1836c00c1ef"
+  integrity sha512-Qw8LYpwEUXHQmf5WBOXetG1P6Zgd2c9rMFKo/8ocLgNsorKW+qvVbTLt3R36SUXhh4jlvtwLpaqAiG+hUs4t9A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2402,10 +2402,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@0.31.28-LEAN-1156-4":
-  version "0.31.28-LEAN-1156-4"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.28-LEAN-1156-4.tgz#16b625379d81cf8f22d4fd64d105027935bce4c5"
-  integrity sha512-K5lbqVPlimbrOBGhL4vxQoFSQjqDjnyst9LdhYj+uhogjaKpCRGvbUVH1C5mS+Ry9AmNqllS0+MleWn+bqmRzQ==
+"@manuscripts/style-guide@0.31.28-LEAN-1156-5":
+  version "0.31.28-LEAN-1156-5"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.28-LEAN-1156-5.tgz#877235554bbcb3ad7cd6f02ad8a3e51d3c3f4592"
+  integrity sha512-gKpn4YIyEXFoZ1Gamm39ZVBMKiynr2xxDZLJmFI76IFRXl2ZEKFgtRJ2bgFw6gHk0uX8wGBG6rf3QPpNE6a3zw==
   dependencies:
     "@apollo/client" "^3.6.9"
     "@formatjs/intl-relativetimeformat" "^4.5.9"

@@ -63,8 +63,8 @@ export const adaptTrackedData = (docJSONed: unknown) => {
   }
 
   const cleanNode = (parent: any) => {
+    parent.attrs = deepCloneAttrs(parent.attrs) // Prosemirror's Node.toJSON() references attributes so they have to be cloned to avoid disaster
     if (parent.content) {
-      parent.attrs = deepCloneAttrs(parent.attrs) // Prosemirror's Node.toJSON() references attributes so they have to be cloned to avoid disaster
       parent.content = parent.content.filter((child: ManuscriptNode) => {
         // the type is wrong. we get JSON and not the doc
         // pass through all the nodes with no track changes at all

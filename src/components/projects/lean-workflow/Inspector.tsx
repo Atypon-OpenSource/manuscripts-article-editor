@@ -15,7 +15,11 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import { FileManager, usePermissions } from '@manuscripts/style-guide'
+import {
+  FileManager,
+  SubmissionAttachment,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
@@ -43,6 +47,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
       saveTrackModel,
       trackModelMap,
     },
+    stateDispatch,
   ] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
@@ -135,6 +140,14 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                       ...fileManagement,
                       getAttachments: () => submission.attachments,
                     }}
+                    addAttachmentToState={(attachment: SubmissionAttachment) =>
+                      stateDispatch({
+                        submission: {
+                          ...submission,
+                          attachments: [...submission.attachments, attachment],
+                        },
+                      })
+                    }
                   />
                 ) : null
               }
