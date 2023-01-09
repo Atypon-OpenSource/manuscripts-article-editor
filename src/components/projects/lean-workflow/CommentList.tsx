@@ -203,7 +203,6 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       combinedComments.push(newComment)
     }
     const commentsTreeMap = buildCommentTree(doc, combinedComments)
-    console.log(combinedComments, commentsTreeMap)
     return Array.from(commentsTreeMap.entries())
   }, [comments, newComment, doc])
 
@@ -369,7 +368,6 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
             commentFilter === Pattern.CommentFilter.ALL
               ? commentData
               : commentData.filter((note) => !note.comment.resolved)
-          console.log(selectedNoteData)
           return (
             <CommentTarget key={target} isSelected={false}>
               {selectedNoteData.map(({ comment, children }) => (
