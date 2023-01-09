@@ -226,7 +226,7 @@ export const CitationSearch: React.FC<{
 
   const debouncedCallback = debounce((value) => setQuery(value.trim()), 800)
 
-  const handleQuery = useCallback(
+  const debouncedSetQuery = useCallback(
     (event: ChangeEvent<HTMLInputElement>) =>
       debouncedCallback(event.target.value),
     [debouncedCallback]
@@ -267,7 +267,7 @@ export const CitationSearch: React.FC<{
       <SearchWrapper>
         <Search
           autoComplete={'off'}
-          handleSearchChange={handleQuery}
+          handleSearchChange={debouncedSetQuery}
           placeholder={'Search'}
           defaultValue={initialQuery}
           type={'search'}
