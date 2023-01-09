@@ -77,6 +77,7 @@ export const CitationSearchSection: React.FC<{
   const [error, setError] = useState<string>()
   const [expanded, setExpanded] = useState(true)
   const [searching, setSearching] = useState(false)
+  const [showMoreSearching, setShowMoreSearching] = useState(false)
   const [results, setResults] = useState<{
     items: Array<Build<BibliographyItem>>
     total: number
@@ -85,6 +86,7 @@ export const CitationSearchSection: React.FC<{
   useEffect(() => {
     setError(undefined)
     setResults(undefined)
+    setShowMoreSearching(false)
     setSearching(query !== '')
   }, [query])
 
@@ -93,6 +95,7 @@ export const CitationSearchSection: React.FC<{
       if (searchQuery === query) {
         setError(undefined)
         setSearching(false)
+        setShowMoreSearching(false)
         setResults(results)
       }
     },
@@ -126,6 +129,7 @@ export const CitationSearchSection: React.FC<{
   const showMoreCallback = useCallback(() => {
     selectSource(source.id)
     setSearching(true)
+    setShowMoreSearching(true)
   }, [selectSource, source.id])
 
   return (
@@ -144,12 +148,14 @@ export const CitationSearchSection: React.FC<{
           error={error}
           results={results}
           searching={searching}
+          showMoreSearching={showMoreSearching}
           handleSelect={addToSelection}
           selected={selected}
           fetching={fetching}
         />
       )}
 
+      {showMoreSearching && <SearchingLabel>Searching....</SearchingLabel>}
       {expanded && results && results.total > rows && rows < 25 && (
         <MoreButton onClick={showMoreCallback} data-cy={'more-button'}>
           Show more
@@ -158,3 +164,9 @@ export const CitationSearchSection: React.FC<{
     </ResultsSection>
   )
 }
+
+export const SearchingLabel = styled.div`
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin: ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 5}px;
+`

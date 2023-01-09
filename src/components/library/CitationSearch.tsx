@@ -269,6 +269,7 @@ export const CitationSearch: React.FC<{
           autoComplete={'off'}
           handleSearchChange={handleQuery}
           placeholder={'Search'}
+          defaultValue={initialQuery}
           type={'search'}
         />
       </SearchWrapper>

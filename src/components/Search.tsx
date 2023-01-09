@@ -59,6 +59,7 @@ export interface SearchInterface {
   placeholder?: string
   type?: string
   value?: string
+  defaultValue?: string
 }
 
 interface State {
@@ -81,6 +82,7 @@ class Search extends React.Component<SearchInterface, State> {
       placeholder,
       type,
       value,
+      defaultValue,
     } = this.props
 
     const { isSearchFocused, isSearchHovered } = this.state
@@ -102,6 +104,7 @@ class Search extends React.Component<SearchInterface, State> {
           maxLength={maxLength}
           onChange={handleSearchChange}
           placeholder={placeholder}
+          defaultValue={defaultValue}
           type={type}
           value={value}
         />

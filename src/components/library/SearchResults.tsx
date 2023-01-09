@@ -117,6 +117,7 @@ const chooseStatusIcon = (
 export const SearchResults: React.FC<{
   error?: string
   searching: boolean
+  showMoreSearching?: boolean
   results?: {
     items: Array<Build<BibliographyItem>>
     total: number
@@ -124,13 +125,21 @@ export const SearchResults: React.FC<{
   handleSelect: (id: string, item: Build<BibliographyItem>) => void
   selected: Map<string, Build<BibliographyItem>>
   fetching: Set<string>
-}> = ({ error, searching, results, handleSelect, selected, fetching }) => {
+}> = ({
+  error,
+  searching,
+  showMoreSearching,
+  results,
+  handleSelect,
+  selected,
+  fetching,
+}) => {
   if (error) {
     // TODO: keep results if error while fetching
     return <Error>{error}</Error>
   }
 
-  if (searching) {
+  if (searching && !showMoreSearching) {
     return (
       <Results>
         <SearchingLabel>Searching....</SearchingLabel>
