@@ -100,7 +100,14 @@ const useTrackedModelManagement = (
               const decoder = new Decoder(modelMap, true) // as node ids are unique it will always occur just once (or never) so it's safe to keep in the loop
               const newDoc = decoder.createArticleNode()
               newDoc.descendants((newNode, pos) => {
-                if (newNode.attrs.id === node.attrs.id) {
+                if (
+                  newNode.attrs.id === node.attrs.id ||
+                  matchByTrackVersion(
+                    node,
+                    newNode.attrs.id?.split(trackedJoint)[0] || '',
+                    dataTrackedId
+                  )
+                ) {
                   setNodeAttrs(
                     view.state,
                     view.dispatch,
