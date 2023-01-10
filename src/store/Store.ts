@@ -93,7 +93,7 @@ export type state = {
   snapshots?: Snapshot[]
   handleSnapshot?: () => Promise<void>
   comments?: CommentAnnotation[]
-  commentTarget?: CommentAnnotation
+  comment?: CommentAnnotation
   notes?: ManuscriptNote[]
   tags?: Tag[]
   collaborators?: Map<string, UserProfile>

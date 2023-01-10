@@ -23,18 +23,18 @@ import {
 
 export const Inspector: React.FC<{
   tabs: string[]
-  commentTarget?: CommentAnnotation
-}> = ({ tabs, commentTarget, children }) => {
+  comment?: CommentAnnotation
+}> = ({ tabs, comment, children }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
   useEffect(() => {
-    if (commentTarget) {
+    if (comment) {
       setTabIndex(tabs.findIndex((tab) => tab === 'Comments'))
     }
     //   else if (submission) {
     //     setTabIndex(tabs.findIndex((tab) => tab === 'Submissions'))
     //   }
-  }, [tabs, commentTarget])
+  }, [tabs, comment])
 
   const childrenAsArray = React.Children.toArray(children)
 

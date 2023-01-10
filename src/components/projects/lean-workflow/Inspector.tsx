@@ -38,7 +38,7 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    { saveModel, dbModelMap, submissionId, fileManagement, commentTarget, doc },
+    { saveModel, dbModelMap, submissionId, fileManagement, comment, doc },
   ] = useStore((store) => ({
     snapshots: store.snapshots,
     saveModel: store.saveModel,
@@ -53,7 +53,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
     comments: store.comments || [],
     fileManagement: store.fileManagement,
     doc: store.doc,
-    commentTarget: store.commentTarget,
+    comment: store.comment,
   }))
 
   const { state, dispatch, view } = editor
@@ -91,9 +91,9 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={commentTarget !== undefined}
+        forceOpen={comment !== undefined}
       >
-        <InspectorLW tabs={tabs} commentTarget={commentTarget}>
+        <InspectorLW tabs={tabs} comment={comment}>
           {tabs.map((label) => {
             switch (label) {
               case 'Content': {
