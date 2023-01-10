@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
+import { UserProfileWithAvatar } from '@manuscripts/transform'
 import React, { createContext } from 'react'
 
 import { Person } from '../../../../lib/lean-workflow-gql'

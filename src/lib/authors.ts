@@ -10,12 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { hasObjectType } from '@manuscripts/manuscript-transform'
-import {
-  Affiliation,
-  Contributor,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+import { Affiliation, Contributor, ObjectTypes } from '@manuscripts/json-schema'
+import { hasObjectType } from '@manuscripts/transform'
 
 import { ascendingPriority } from './sort'
 

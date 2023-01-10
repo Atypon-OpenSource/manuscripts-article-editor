@@ -32,7 +32,6 @@ import styled from 'styled-components'
 
 import { ProjectRole } from '../../lib/roles'
 import { TokenActions } from '../../store'
-import { projectInvitationSchema } from '../../validation'
 import { RadioButton } from '../RadioButton'
 
 const SendInvitationButton = styled(PrimaryButton)`
@@ -130,7 +129,6 @@ export class InvitationForm extends React.Component<Props, State> {
         isInitialValid={true}
         validateOnChange={false}
         validateOnBlur={false}
-        validationSchema={projectInvitationSchema}
       >
         {({
           errors,

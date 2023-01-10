@@ -10,12 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  Decoder,
-  getModelData,
-  isCommentAnnotation,
-  isManuscript,
-} from '@manuscripts/manuscript-transform'
-import {
   Affiliation,
   BibliographyItem,
   CommentAnnotation,
@@ -30,7 +24,13 @@ import {
   Snapshot,
   Tag,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import {
+  Decoder,
+  getModelData,
+  isCommentAnnotation,
+  isManuscript,
+} from '@manuscripts/transform'
 import { SubmissionAttachment } from '@manuscripts/style-guide'
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'

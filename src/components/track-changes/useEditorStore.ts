@@ -12,7 +12,7 @@
 import {
   ManuscriptEditorState,
   ManuscriptEditorView,
-} from '@manuscripts/manuscript-transform'
+} from '@manuscripts/transform'
 import {
   trackChangesPluginKey,
   TrackChangesState,

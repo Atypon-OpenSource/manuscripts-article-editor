@@ -14,7 +14,7 @@ import '@manuscripts/style-guide/styles/tip.css'
 
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
-import { Project } from '@manuscripts/manuscripts-json-schema'
+import { Project } from '@manuscripts/json-schema'
 import { Tip } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'

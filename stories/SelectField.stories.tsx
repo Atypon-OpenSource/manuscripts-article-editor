@@ -16,7 +16,6 @@ import { storiesOf } from '@storybook/react'
 import { Field, Form, Formik } from 'formik'
 import React from 'react'
 
-import { ImmediateSelectField } from '../src/components/ImmediateSelectField'
 import { SelectField } from '../src/components/SelectField'
 
 const options = [
@@ -24,35 +23,18 @@ const options = [
   { value: 'fr', label: 'French' },
 ]
 
-storiesOf('SelectField', module)
-  .add('manual submit', () => (
-    <Formik
-      initialValues={{
-        locale: 'en',
-      }}
-      onSubmit={action('submit')}
-    >
-      <Form>
-        <Field name={'locale'} component={SelectField} options={options} />
-        <div style={{ marginTop: 20 }}>
-          <PrimaryButton type="submit">Save</PrimaryButton>
-        </div>
-      </Form>
-    </Formik>
-  ))
-  .add('submit on change', () => (
-    <Formik
-      initialValues={{
-        locale: 'en',
-      }}
-      onSubmit={action('submit')}
-    >
-      <Form>
-        <Field
-          name={'locale'}
-          component={ImmediateSelectField}
-          options={options}
-        />
-      </Form>
-    </Formik>
-  ))
+storiesOf('SelectField', module).add('manual submit', () => (
+  <Formik
+    initialValues={{
+      locale: 'en',
+    }}
+    onSubmit={action('submit')}
+  >
+    <Form>
+      <Field name={'locale'} component={SelectField} options={options} />
+      <div style={{ marginTop: 20 }}>
+        <PrimaryButton type="submit">Save</PrimaryButton>
+      </div>
+    </Form>
+  </Formik>
+))

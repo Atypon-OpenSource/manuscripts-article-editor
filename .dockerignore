@@ -1,7 +1,0 @@
-.*
-!.yarnrc
-*.log
-build/
-dist/
-node_modules/
-storybook-static/

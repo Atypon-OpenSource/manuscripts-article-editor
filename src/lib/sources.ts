@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { crossref, datacite, pubmed } from '@manuscripts/manuscript-editor'
-import { Build } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { crossref, datacite, pubmed } from '@manuscripts/body-editor'
+import { BibliographyItem } from '@manuscripts/json-schema'
+import { Build } from '@manuscripts/transform'
 
 type SearchInterface = (
   query: string,

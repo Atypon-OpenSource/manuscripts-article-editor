@@ -13,18 +13,12 @@
 import {
   deleteHighlightMarkers,
   getHighlightTarget,
-} from '@manuscripts/manuscript-editor'
-import {
-  buildComment,
-  buildContribution,
-  ManuscriptNode,
-  Selected,
-} from '@manuscripts/manuscript-transform'
+} from '@manuscripts/body-editor'
 import {
   CommentAnnotation,
   Keyword,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import {
   buildCommentTree,
   CommentData,
@@ -34,6 +28,12 @@ import {
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
+import {
+  buildComment,
+  buildContribution,
+  ManuscriptNode,
+  Selected,
+} from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 

@@ -13,26 +13,46 @@
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import ContributorDetails from '@manuscripts/assets/react/ContributorDetailsPlaceholder'
-import ContributorSearchPlaceholder from '@manuscripts/assets/react/ContributorSearchPlaceholder'
-import ContributorsPlaceholder from '@manuscripts/assets/react/ContributorsPlaceholder'
 import InvitationPlaceholder from '@manuscripts/assets/react/InvitationPlaceholder'
-import { Project, UserProfile } from '@manuscripts/manuscripts-json-schema'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { isOwner } from '../../lib/roles'
-import { AddButton } from '../AddButton'
-import {
-  AddAuthorsMessage,
-  AddCollaboratorsMessage,
-  AddedAuthorsMessage,
-  AddedCollaboratorsMessage,
-  CheckCollaboratorsSearchMessage,
-  InviteCollaboratorsMessage,
-  SelectAuthorMessage,
-  SelectCollaboratorMessage,
-} from '../Messages'
-import { CollaboratorForm } from './CollaboratorForm'
+const AddAuthorsMessage = () => (
+  <FormattedMessage
+    id={'add_authors'}
+    defaultMessage={
+      'Add authors to your author list from your collaborators, or invite new ones'
+    }
+  />
+)
+const SelectAuthorMessage = () => (
+  <FormattedMessage
+    id={'select_author'}
+    defaultMessage={
+      'Select an author from the list to display their details here.'
+    }
+  />
+)
+
+const AddedAuthorsMessage: React.FunctionComponent<{
+  addedCount: number
+}> = ({ addedCount }) => (
+  <FormattedMessage
+    id={'added_authors'}
+    defaultMessage={`You added {addedCount, number} {addedCount, plural, one {author} other {authors}}`}
+    values={{ addedCount }}
+  />
+)
+
+const InviteCollaboratorsMessage = () => (
+  <FormattedMessage
+    id={'invite_collaborators'}
+    defaultMessage={
+      'You can invite collaborators by sending email to the users you want to add.'
+    }
+  />
+)
 
 const OuterContainer = styled.div`
   display: flex;
@@ -78,113 +98,13 @@ const Message = styled.div`
     max-width: 350px;
   }
 `
-const InfoMessage = styled(Message)`
-  margin-top: 0;
-`
 
 const AddedMessage = styled(Message)`
   margin-top: 2px;
 `
-interface CollaboratorDetailsPageProps {
-  user: UserProfile
-  project: Project
-  collaboratorsCount: number
-  selectedCollaborator: UserProfile | null
-  manageProfile: () => void
-  handleAddCollaborator: () => void
-}
-
-export const CollaboratorDetailsPage: React.FunctionComponent<CollaboratorDetailsPageProps> = ({
-  project,
-  user,
-  collaboratorsCount,
-  handleAddCollaborator,
-  selectedCollaborator,
-  manageProfile,
-}) => (
-  <React.Fragment>
-    {selectedCollaborator ? (
-      <CollaboratorForm
-        collaborator={selectedCollaborator}
-        user={user}
-        manageProfile={manageProfile}
-        affiliations={null}
-      />
-    ) : (
-      <OuterContainer data-cy={'collaborators-page'}>
-        <InnerContainer>
-          {collaboratorsCount > 1 || !isOwner(project, user.userID) ? (
-            <InnerContainer>
-              <Placeholder>
-                <ContributorDetails />
-              </Placeholder>
-
-              <Action>Collaborator Details</Action>
-
-              <Message>
-                <SelectCollaboratorMessage />
-              </Message>
-            </InnerContainer>
-          ) : (
-            <InnerContainer>
-              <Placeholder>
-                <ContributorsPlaceholder />
-              </Placeholder>
-
-              <Action>
-                <AddButton
-                  action={handleAddCollaborator}
-                  title="Add Collaborator"
-                  size={'large'}
-                />
-              </Action>
-
-              <Message>
-                <AddCollaboratorsMessage />
-              </Message>
-            </InnerContainer>
-          )}
-        </InnerContainer>
-      </OuterContainer>
-    )}
-  </React.Fragment>
-)
-
-interface AddCollaboratorsPageProps {
-  addedCollaboratorsCount: number
-}
-
 interface AddAuthorsPageProps {
   addedAuthorsCount: number
 }
-
-export const AddCollaboratorsPage: React.FunctionComponent<AddCollaboratorsPageProps> = ({
-  addedCollaboratorsCount,
-}) => (
-  <OuterContainer>
-    <InnerContainer>
-      <Placeholder>
-        <ContributorsPlaceholder />
-      </Placeholder>
-
-      {addedCollaboratorsCount ? (
-        <React.Fragment>
-          <Action>Add Collaborator</Action>
-
-          <Message>
-            <AddedCollaboratorsMessage addedCount={addedCollaboratorsCount} />
-          </Message>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <InfoMessage>
-            <AddCollaboratorsMessage />
-          </InfoMessage>
-        </React.Fragment>
-      )}
-    </InnerContainer>
-  </OuterContainer>
-)
 
 const IconContainer = styled.div`
   display: flex;
@@ -245,22 +165,6 @@ export const AuthorDetailsPage: React.FunctionComponent = () => (
   </OuterContainer>
 )
 
-export const InviteCollaboratorsPage: React.FunctionComponent = () => (
-  <OuterContainer>
-    <InnerContainer>
-      <Placeholder>
-        <InvitationPlaceholder />
-      </Placeholder>
-
-      <Action>Invite New Collaborator</Action>
-
-      <Message>
-        <InviteCollaboratorsMessage />
-      </Message>
-    </InnerContainer>
-  </OuterContainer>
-)
-
 export const InviteCollaboratorsModal: React.FunctionComponent = () => (
   <OuterContainer>
     <InnerContainer>
@@ -272,28 +176,6 @@ export const InviteCollaboratorsModal: React.FunctionComponent = () => (
 
       <Message>
         <InviteCollaboratorsMessage />
-      </Message>
-    </InnerContainer>
-  </OuterContainer>
-)
-
-interface SearchCollaboratorsPageProps {
-  searchText: string
-}
-
-export const SearchCollaboratorsPage: React.FunctionComponent<SearchCollaboratorsPageProps> = ({
-  searchText,
-}) => (
-  <OuterContainer>
-    <InnerContainer>
-      <Placeholder>
-        <ContributorSearchPlaceholder />
-      </Placeholder>
-
-      <InfoMessage>No matches found</InfoMessage>
-
-      <Message>
-        <CheckCollaboratorsSearchMessage searchText={searchText} />
       </Message>
     </InnerContainer>
   </OuterContainer>

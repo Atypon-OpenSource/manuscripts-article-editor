@@ -23,7 +23,6 @@ import {
   NotificationActions,
   NotificationHead,
   NotificationIcon,
-  NotificationLink,
   NotificationMessage,
   NotificationPrompt,
   NotificationTitle,
@@ -80,9 +79,6 @@ export const createUpdateReadyNotification =
             <NotificationTitle>
               A new version of the app is available on refreshing.
             </NotificationTitle>
-            <NotificationLink href={`${config.discourse.host}/c/updates`}>
-              What&apos;s new?
-            </NotificationLink>
           </NotificationMessage>
         </NotificationHead>
         <NotificationActions>

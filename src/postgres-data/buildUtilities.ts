@@ -11,13 +11,6 @@
  */
 
 import {
-  Build,
-  ContainedModel,
-  ContainedProps,
-  isManuscriptModel,
-  ManuscriptModel,
-} from '@manuscripts/manuscript-transform'
-import {
   BibliographyItem,
   Bundle,
   Correction,
@@ -27,7 +20,14 @@ import {
   ObjectTypes,
   Project,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import {
+  Build,
+  ContainedModel,
+  ContainedProps,
+  isManuscriptModel,
+  ManuscriptModel,
+} from '@manuscripts/transform'
 
 import Api from '../postgres-data/Api'
 import { ContainedIDs, ContainerIDs, state } from '../store'

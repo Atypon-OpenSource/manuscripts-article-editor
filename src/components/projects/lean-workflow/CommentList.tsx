@@ -15,19 +15,13 @@ import {
   deleteHighlightMarkers,
   getHighlightTarget,
   updateCommentAnnotationState,
-} from '@manuscripts/manuscript-editor'
-import {
-  buildComment,
-  buildContribution,
-  buildKeyword,
-  getModelsByType,
-} from '@manuscripts/manuscript-transform'
+} from '@manuscripts/body-editor'
 import {
   CommentAnnotation,
   ElementsOrder,
   ObjectTypes,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import {
   buildCommentTree,
   CommentData,
@@ -38,6 +32,13 @@ import {
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
+import {
+  buildComment,
+  buildContribution,
+  buildKeyword,
+  getModelsByType,
+} from '@manuscripts/transform'
+import { ContentNodeWithPos } from 'prosemirror-utils'
 import { isTextSelection } from '@manuscripts/track-changes'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'

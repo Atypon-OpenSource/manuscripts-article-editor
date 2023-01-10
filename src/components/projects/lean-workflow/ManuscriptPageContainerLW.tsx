@@ -10,24 +10,24 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import '@manuscripts/manuscript-editor/styles/Editor.css'
-import '@manuscripts/manuscript-editor/styles/LeanWorkflow.css'
-import '@manuscripts/manuscript-editor/styles/track-styles.css'
-import '@manuscripts/manuscript-editor/styles/popper.css'
+import '@manuscripts/body-editor/styles/Editor.css'
+import '@manuscripts/body-editor/styles/LeanWorkflow.css'
+import '@manuscripts/body-editor/styles/track-styles.css'
+import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
 import { ApolloError } from '@apollo/client'
 import {
   ManuscriptToolbar,
   RequirementsProvider,
-} from '@manuscripts/manuscript-editor'
-import { ManuscriptEditorState } from '@manuscripts/manuscript-transform'
+} from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
+import { ManuscriptEditorState } from '@manuscripts/transform'
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
@@ -53,6 +53,7 @@ import {
   EditorContainerInner,
   EditorHeader,
 } from '../EditorContainer'
+import Inspector from '../Inspector'
 import ManuscriptSidebar from '../ManuscriptSidebar'
 import { ReloadDialog } from '../ReloadDialog'
 import {
@@ -60,7 +61,6 @@ import {
   ApplicationMenusLW as ApplicationMenus,
 } from './ApplicationMenusLW'
 import EditorElement from './EditorElement'
-import Inspector from './Inspector'
 import { UserProvider } from './provider/UserProvider'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
@@ -101,17 +101,6 @@ const ManuscriptPageContainer: React.FC = () => {
   if (permittedActionsData.loading) {
     return <ManuscriptPlaceholder />
   }
-  // else if (error || !data) {
-  //   return (
-  //     <UserProvider
-  //       lwUser={lwUser}
-  //       manuscriptUser={props.user}
-  //       submissionId={submissionId}
-  //     >
-  //       <ExceptionDialog errorCode={'MANUSCRIPT_ARCHIVE_FETCH_FAILED'} />
-  //     </UserProvider>
-  //   )
-  // }
 
   if (permittedActionsData.error) {
     const message = graphQLErrorMessage(
@@ -225,17 +214,6 @@ const ManuscriptPageView: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
-  const TABS = [
-    'Content',
-    // (config.features.commenting || config.features.productionNotes) &&
-    'Comments',
-    config.features.qualityControl && 'Quality',
-    config.quarterback.enabled && 'History',
-    config.features.fileManagement && 'Files',
-  ].filter(Boolean) as Array<
-    'Content' | 'Comments' | 'Quality' | 'History' | 'Files'
-  >
-
   return (
     <RequirementsProvider modelMap={modelMap}>
       <UserProvider
@@ -286,7 +264,7 @@ const ManuscriptPageView: React.FC = () => {
               </EditorContainerInner>
             </EditorContainer>
           </Main>
-          <Inspector tabs={TABS} editor={editor} />
+          <Inspector editor={editor} />
         </PageWrapper>
       </UserProvider>
     </RequirementsProvider>

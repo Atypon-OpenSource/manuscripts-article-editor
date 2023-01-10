@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Bundle } from '@manuscripts/manuscripts-json-schema'
+import { Bundle } from '@manuscripts/json-schema'
 
 export const loadBundle = async (bundleID?: string): Promise<Bundle[]> => {
   const models: Bundle[] = []

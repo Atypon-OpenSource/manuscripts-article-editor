@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import CommunityIcon from '@manuscripts/assets/react/Community'
 import DocumentationIcon from '@manuscripts/assets/react/Documentation'
 import SupportIcon from '@manuscripts/assets/react/Support'
 import { IconButton } from '@manuscripts/style-guide'
@@ -19,7 +18,6 @@ import React from 'react'
 import { Manager, Popper, Reference } from 'react-popper'
 import styled, { css } from 'styled-components'
 
-import config from '../config'
 import { useDropdown } from '../hooks/use-dropdown'
 import { Popup } from './nav/Updates'
 
@@ -126,15 +124,6 @@ export const Support: React.FC = React.memo(() => {
                 <Container>
                   <Popup>
                     <Menu>
-                      {config.leanWorkflow.enabled || (
-                        <ExternalMenuLink
-                          href={'https://community.manuscripts.io/'}
-                        >
-                          <CommunityIcon />
-                          <MenuText>Community</MenuText>
-                        </ExternalMenuLink>
-                      )}
-
                       <ExternalMenuLink
                         href={'https://support.manuscripts.io/'}
                       >

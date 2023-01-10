@@ -11,14 +11,6 @@
  */
 
 import {
-  Attachment,
-  Build,
-  ContainedModel,
-  ManuscriptModel,
-  ManuscriptNode,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
-import {
   BibliographyItem,
   CommentAnnotation,
   ContainerInvitation,
@@ -33,8 +25,16 @@ import {
   Snapshot,
   Tag,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { FileManagement } from '@manuscripts/style-guide'
+import {
+  Attachment,
+  Build,
+  ContainedModel,
+  ManuscriptModel,
+  ManuscriptNode,
+  ModelAttachment,
+} from '@manuscripts/transform'
 
 import { Person, Submission } from '../lib/lean-workflow-gql'
 import { ProjectRole } from '../lib/roles'

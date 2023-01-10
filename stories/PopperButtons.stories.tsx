@@ -14,37 +14,9 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 
-import AddCollaboratorButton from '../src/components/collaboration/AddCollaboratorButton'
-import CollaboratorSettingsButton from '../src/components/collaboration/CollaboratorSettingsButton'
 import InviteAuthorButton from '../src/components/metadata/InviteAuthorButton'
 import { authors } from './data/contributors'
-import { people } from './data/people'
 import { project } from './data/projects'
-
-storiesOf('Collaboration/Popper Buttons', module)
-  .add('CollaboratorSettingsButton', () => (
-    <CollaboratorSettingsButton
-      project={project}
-      collaborator={people[0]}
-      updateUserRole={action('update role')}
-      openPopper={action('open popper')}
-      tokenActions={{
-        delete: action('delete token'),
-        update: action('update token'),
-      }}
-    />
-  ))
-  .add('AddCollaboratorButton', () => (
-    <AddCollaboratorButton
-      collaborator={people[0]}
-      countAddedCollaborators={action('count collaborators')}
-      addCollaborator={action('add collaborator')}
-      tokenActions={{
-        delete: action('delete token'),
-        update: action('update token'),
-      }}
-    />
-  ))
 
 storiesOf('Metadata/Popper Buttons', module).add('InviteAuthorButton', () => (
   <InviteAuthorButton

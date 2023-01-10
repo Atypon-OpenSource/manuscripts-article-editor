@@ -11,7 +11,7 @@
  */
 
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import { Section, SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { Section, SectionCategory } from '@manuscripts/json-schema'
 
 export const uneditableSectionCategories: string[] = [
   'MPSectionCategory:bibliography',

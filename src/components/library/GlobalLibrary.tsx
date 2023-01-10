@@ -10,10 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { crossref } from '@manuscripts/body-editor'
+import { BibliographyItem } from '@manuscripts/json-schema'
 import { estimateID } from '@manuscripts/library'
-import { crossref } from '@manuscripts/manuscript-editor'
-import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { Build, buildBibliographyItem } from '@manuscripts/transform'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 

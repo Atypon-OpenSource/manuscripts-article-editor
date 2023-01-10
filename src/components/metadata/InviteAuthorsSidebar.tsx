@@ -13,13 +13,8 @@
 import React from 'react'
 
 import { TokenActions } from '../../store'
-import {
-  ModalSidebar,
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-} from '../Sidebar'
-import { InvitationForm, InvitationValues } from './InvitationForm'
+import { ModalSidebar, SidebarContent, SidebarHeader } from '../Sidebar'
+import { InvitationForm, InvitationValues } from './AuthorInvitationForm'
 
 interface Props {
   invitationValues: InvitationValues
@@ -30,7 +25,7 @@ interface Props {
   tokenActions: TokenActions
 }
 
-const InviteCollaboratorsSidebarContents: React.FunctionComponent<Props> = ({
+const InviteAuthorsSidebarContents: React.FunctionComponent<Props> = ({
   invitationValues,
   handleCancel,
   handleSubmit,
@@ -54,37 +49,22 @@ const InviteCollaboratorsSidebarContents: React.FunctionComponent<Props> = ({
   </>
 )
 
-const InviteCollaboratorsSidebar: React.FunctionComponent<Props> = ({
+const InviteAuthorsSidebar: React.FunctionComponent<Props> = ({
   invitationValues,
   handleCancel,
   handleSubmit,
   invitationSent,
-  isModal,
   tokenActions,
 }) => (
-  <>
-    {isModal ? (
-      <ModalSidebar>
-        <InviteCollaboratorsSidebarContents
-          handleCancel={handleCancel}
-          handleSubmit={handleSubmit}
-          invitationSent={invitationSent}
-          invitationValues={invitationValues}
-          tokenActions={tokenActions}
-        />
-      </ModalSidebar>
-    ) : (
-      <Sidebar>
-        <InviteCollaboratorsSidebarContents
-          handleCancel={handleCancel}
-          handleSubmit={handleSubmit}
-          invitationSent={invitationSent}
-          invitationValues={invitationValues}
-          tokenActions={tokenActions}
-        />
-      </Sidebar>
-    )}
-  </>
+  <ModalSidebar>
+    <InviteAuthorsSidebarContents
+      handleCancel={handleCancel}
+      handleSubmit={handleSubmit}
+      invitationSent={invitationSent}
+      invitationValues={invitationValues}
+      tokenActions={tokenActions}
+    />
+  </ModalSidebar>
 )
 
-export default InviteCollaboratorsSidebar
+export default InviteAuthorsSidebar

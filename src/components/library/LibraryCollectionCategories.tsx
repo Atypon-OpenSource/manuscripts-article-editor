@@ -15,7 +15,7 @@ import Paragraph from '@manuscripts/assets/react/Paragraph'
 import Star from '@manuscripts/assets/react/Star'
 import Target from '@manuscripts/assets/react/Target'
 import Time from '@manuscripts/assets/react/Time'
-import { LibraryCollection } from '@manuscripts/manuscripts-json-schema'
+import { LibraryCollection } from '@manuscripts/json-schema'
 import React from 'react'
 
 type LibraryCollectionCategory =

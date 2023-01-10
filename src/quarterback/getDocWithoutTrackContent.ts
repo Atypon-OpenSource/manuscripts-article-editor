@@ -9,11 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ManuscriptEditorState,
-  ManuscriptNode,
-} from '@manuscripts/manuscript-transform'
 import { CHANGE_OPERATION } from '@manuscripts/track-changes-plugin'
+import { ManuscriptEditorState, ManuscriptNode } from '@manuscripts/transform'
 
 export function filterUnchangedContent(node: ManuscriptNode) {
   const r: ManuscriptNode[] = []

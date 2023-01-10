@@ -13,11 +13,11 @@ import {
   ManuscriptsEditor,
   PopperManager,
   useEditor,
-} from '@manuscripts/manuscript-editor'
-import { Build } from '@manuscripts/manuscript-transform'
-import { CommentAnnotation, Model } from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/body-editor'
+import { Model } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
+import { Build } from '@manuscripts/transform'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
@@ -104,7 +104,6 @@ export const useCreateEditor = () => {
     locale: manuscript.primaryLanguageCode || 'en-GB',
     environment: config.environment,
     history,
-    jupyterConfig: config.jupyter,
     popper: popper.current,
     projectID: project._id,
 
