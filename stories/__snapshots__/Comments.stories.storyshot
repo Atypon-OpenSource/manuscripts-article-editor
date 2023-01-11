@@ -594,6 +594,7 @@ exports[`Storyshots Projects/Comments with comments 1`] = `
                         className="c28 reply-button note-actions"
                         data-for="reply-comment-1"
                         data-tip={true}
+                        hidden={true}
                         onClick={[Function]}
                       >
                         <svg

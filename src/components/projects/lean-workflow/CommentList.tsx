@@ -11,6 +11,7 @@
  */
 
 import {
+  commentScroll,
   deleteHighlightMarkers,
   getHighlightTarget,
   updateCommentAnnotationState,
@@ -37,21 +38,29 @@ import {
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { ContentNodeWithPos } from 'prosemirror-utils'
+import { isTextSelection } from '@manuscripts/track-changes'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import styled from 'styled-components'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
-import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
 import * as Pattern from '../CommentListPatterns'
 import { HighlightedText } from '../HighlightedText'
 
 interface Props {
-  selected?: ContentNodeWithPos | null
   editor: ReturnType<typeof useCreateEditor>
 }
 
-export const CommentList: React.FC<Props> = ({ selected, editor }) => {
+const isHighlightComment = (comment: CommentAnnotation) =>
+  comment.selector && comment.selector.from !== comment.selector.to
+
+const cleanUpSelectedComment = () => {
+  document
+    .querySelectorAll(`.selected-comment`)
+    .forEach((element) => element.classList.remove('selected-comment'))
+}
+
+export const CommentList: React.FC<Props> = ({ editor }) => {
   const [
     {
       comments = [],
@@ -61,7 +70,6 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       collaborators,
       collaboratorsById,
       keywords,
-      manuscriptID,
       modelMap,
       saveTrackModel,
       deleteTrackModel,
@@ -94,7 +102,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
   )
 
   const setCommentTarget = useCallback(
-    (target) => dispatch({ commentTarget: target }),
+    (targetId?: string) =>
+      dispatch({ commentTarget: targetId && buildComment(targetId) }),
     [dispatch]
   )
 
@@ -120,22 +129,20 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
   )
 
   useEffect(() => {
-    if (commentTarget && !newComment) {
-      const newComment = buildComment(commentTarget) as CommentAnnotation
+    if (commentTarget && commentTarget.target && !newComment) {
       const contribution = buildContribution(currentUser._id)
-      newComment.contributions = [contribution]
-      newComment.contributions = [contribution]
+      commentTarget.contributions = [contribution]
 
-      if (newComment.target.startsWith(ObjectTypes.Highlight)) {
-        const highlight = state && getHighlightTarget(newComment, state)
+      if (isHighlightComment(commentTarget)) {
+        const highlight = state && getHighlightTarget(commentTarget, state)
 
         if (highlight) {
           // newComment.originalText = getHighlightText(highlight, state)
-          newComment.originalText = highlight.text
-          setNewComment(newComment)
+          commentTarget.originalText = highlight.text
+          setNewComment(commentTarget)
         }
       } else {
-        setNewComment(newComment)
+        setNewComment(commentTarget)
       }
     }
   }, [commentTarget, doc, newComment, state, currentUser])
@@ -196,7 +203,7 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
       combinedComments.push(newComment)
     }
     const commentsTreeMap = buildCommentTree(doc, combinedComments)
-
+    console.log(combinedComments, commentsTreeMap)
     return Array.from(commentsTreeMap.entries())
   }, [comments, newComment, doc])
 
@@ -213,8 +220,6 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     [saveTrackModel, updateComments]
   )
 
-  const { updateDocument } = useDocStore()
-
   const saveComment = useCallback(
     (comment: CommentAnnotation) => {
       return saveTrackModel(comment).then((comment) => {
@@ -222,10 +227,8 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
           setCommentTarget(undefined)
           setNewComment(undefined)
           addComment(comment)
-          if (!comment.target.includes(ObjectTypes.Highlight)) {
-            updateDocument(manuscriptID, doc.toJSON())
-          }
-          if (!comment.target.startsWith('MPHighlight:') && view?.state) {
+
+          if (view?.state && !isHighlightComment(comment)) {
             updateCommentAnnotationState(view?.state, view?.dispatch)
           }
         } else {
@@ -237,68 +240,77 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
     [
       saveTrackModel,
       newComment,
-      view,
       setCommentTarget,
       addComment,
-      updateDocument,
-      manuscriptID,
-      doc,
+      view?.state,
+      view?.dispatch,
       updateComments,
     ]
   )
 
   const deleteComment = useCallback(
-    (id: string, target?: string) => {
-      const highlightId = target || commentTarget
+    (id: string) => {
+      const comment = newComment || (modelMap.get(id) as CommentAnnotation)
       return deleteTrackModel(id)
-        .catch((error: Error) => {
-          console.error(error)
-        })
-        .then(async () => {
-          if (highlightId && highlightId.startsWith('MPHighlight:')) {
-            await deleteTrackModel(highlightId)
-          }
+        .then(() => {
           removeComment(id)
         })
-        .catch((error: Error) => {
-          console.error(error)
-        })
         .finally(() => {
-          if (highlightId && highlightId.startsWith('MPHighlight:')) {
-            view &&
-              deleteHighlightMarkers(highlightId)(view.state, view.dispatch)
+          if (comment.selector?.from !== comment.selector?.to) {
+            view && deleteHighlightMarkers(id)(view.state, view.dispatch)
           }
 
           if (newComment && newComment._id === id) {
             setCommentTarget(undefined)
             setNewComment(undefined)
           }
-          if (target && !target?.startsWith('MPHighlight:') && view?.state) {
+          if (view?.state && !isHighlightComment(comment)) {
             updateCommentAnnotationState(view?.state, view?.dispatch)
           }
+          cleanUpSelectedComment()
+          setSelectedHighlightId(undefined)
         })
     },
-    [
-      commentTarget,
-      deleteTrackModel,
-      newComment,
-      removeComment,
-      setCommentTarget,
-      view,
-    ]
+    [deleteTrackModel, modelMap, newComment, removeComment, setCommentTarget, view]
   )
 
-  const scrollIntoHighlight = (comment: CommentAnnotation) => {
-    const el =
-      document.querySelector(`[id="${comment.target}"]`) ||
-      document.querySelector(`[data-reference-id="${comment.target}"]`)
-    if (el) {
-      el.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest',
-      })
+  const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
+
+  /**
+   * check if the selection pointing to a highlight node
+   */
+  useEffect(() => {
+    const numberOfChildren = state.selection.$from.parent.content.childCount
+    const nodeIndex = state.selection.$from.index()
+
+    if (isTextSelection(state.selection) && numberOfChildren > nodeIndex) {
+      const nodeBeforePos = state.selection.$from.posAtIndex(nodeIndex - 1)
+      const nodeAfterPos = state.selection.$from.posAtIndex(nodeIndex + 1)
+      const nodeBeforeNode = state.doc.nodeAt(nodeBeforePos)
+      const nodeAfterNode = state.doc.nodeAt(nodeAfterPos)
+      if (
+        nodeBeforeNode &&
+        nodeAfterNode &&
+        nodeBeforeNode.type === state.schema.nodes.highlight_marker &&
+        nodeAfterNode.type === state.schema.nodes.highlight_marker
+      ) {
+        setSelectedHighlightId(nodeAfterNode.attrs.id)
+        return
+      }
     }
+    setSelectedHighlightId(undefined)
+  }, [state])
+
+  useEffect(() => {
+    if (selectedHighlightId) {
+      commentScroll(selectedHighlightId, 'inspector', true)
+    }
+  }, [selectedHighlightId])
+
+  const scrollIntoHighlight = (comment: CommentAnnotation) => {
+    const commentId = comment.selector ? comment._id : comment.target
+    commentScroll(commentId, 'editor', isHighlightComment(comment))
+    setSelectedHighlightId(undefined)
   }
 
   const isNew = useCallback(
@@ -310,7 +322,7 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
 
   const getHighlightTextColor = useCallback(
     (comment: CommentAnnotation) => {
-      if (!comment.target.includes(ObjectTypes.Highlight)) {
+      if (!isHighlightComment(comment)) {
         return '#ffe08b'
       }
 
@@ -350,24 +362,21 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
         commentFilter={commentFilter}
         setCommentFilter={setCommentFilter}
       />
-      <Pattern.Container>
+      <Container className={'comments-group'}>
         {items.map(([target, commentData]) => {
           // TODO: move this into a child component?
-          const isSelected =
-            (selected &&
-              (selected.node.attrs.id === target ||
-                selected.node.attrs.rid === target)) ||
-            false
           const selectedNoteData =
             commentFilter === Pattern.CommentFilter.ALL
               ? commentData
               : commentData.filter((note) => !note.comment.resolved)
+          console.log(selectedNoteData)
           return (
-            <CommentTarget key={target} isSelected={isSelected}>
+            <CommentTarget key={target} isSelected={false}>
               {selectedNoteData.map(({ comment, children }) => (
                 <Pattern.Thread key={comment._id}>
                   <NoteBodyContainer
-                    isSelected={isSelected}
+                    id={comment.selector ? comment._id : comment.target}
+                    isSelected={false}
                     isNew={isNew(comment as CommentAnnotation)}
                   >
                     <CommentWrapper
@@ -424,7 +433,15 @@ export const CommentList: React.FC<Props> = ({ selected, editor }) => {
             </CommentTarget>
           )
         })}
-      </Pattern.Container>
+      </Container>
     </React.Fragment>
   )
 }
+
+const Container = styled(Pattern.Container)`
+  .selected-comment {
+    border: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-left: 4px solid ${(props) => props.theme.colors.border.primary};
+    background: ${(props) => props.theme.colors.background.selected};
+  }
+`
