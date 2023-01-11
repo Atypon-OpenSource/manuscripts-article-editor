@@ -27,7 +27,7 @@ import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import config from '../config'
-import { useUploadAttachment } from '../lib/lean-workflow-gql'
+// import { useUploadAttachment } from '../lib/lean-workflow-gql'
 import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
@@ -49,8 +49,10 @@ export const useCreateEditor = () => {
       commitAtLoad,
       submissionId,
       submission,
+      fileManagement,
     },
     dispatch,
+    getState,
   ] = useStore((store) => ({
     doc: store.doc,
     ancestorDoc: store.ancestorDoc,
@@ -65,13 +67,12 @@ export const useCreateEditor = () => {
     submissionId: store.submissionID || '',
     commitAtLoad: store.commitAtLoad,
     submission: store.submission,
+    fileManagement: store.fileManagement,
   }))
   const { user: trackUser } = useAuthStore()
 
   const can = usePermissions()
   const popper = useRef<PopperManager>(new PopperManager())
-
-  const { uploadAttachment } = useUploadAttachment()
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
@@ -122,7 +123,13 @@ export const useCreateEditor = () => {
       dispatch({ selectedComment: commentId }),
     getModel,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
-      // @TODO fix this type
+      /*
+      Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
+      but only if requested in a transaction so it happens only in a couple of cases.
+      This shouldn't be happening with the track-changes enabled. With the way things are currently,
+      we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
+      Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
+      */
       return saveModel(model) as Promise<any>
     },
     deleteModel,
@@ -145,19 +152,34 @@ export const useCreateEditor = () => {
 
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
-    externalFiles: submission?.attachments,
     theme,
     submissionId,
     capabilities: can,
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
-    uploadAttachment: (designation: string, file: File) =>
-      uploadAttachment({
-        submissionId,
-        file,
-        designation,
-        documentId: `${project._id}#${manuscript._id}`,
-      }),
+    uploadAttachment: async (designation: string, file: File) => {
+      const result = await fileManagement.upload(file, designation)
+      if (typeof result === 'object') {
+        dispatch({
+          submission: {
+            ...submission,
+            attachments: [
+              ...submission.attachments,
+              {
+                ...result,
+              },
+            ],
+            /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
+              That (adding modelId) should be removed once exFileRefs are out. ModelId should not be needed anymore then.
+            */
+          },
+        })
+        return result
+      }
+    },
+    getAttachments: () => {
+      return getState().submission.attachments
+    },
   }
 
   const editor = useEditor<ManuscriptSchema>(

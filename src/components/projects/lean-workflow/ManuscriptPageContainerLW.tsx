@@ -34,6 +34,7 @@ import styled from 'styled-components'
 
 import config from '../../../config'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
+import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
 import {
   graphQLErrorMessage,
   Person,
@@ -135,6 +136,9 @@ const ManuscriptPageView: React.FC = () => {
   const [modelMap] = useStore((store) => store.modelMap)
   const [submissionID] = useStore((store) => store.submissionID || '')
   const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
+  const [doc] = useStore((store) => store.doc)
+  const [saveModel] = useStore((store) => store.saveModel)
+  const [deleteModel] = useStore((store) => store.deleteModel)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
@@ -144,7 +148,37 @@ const ManuscriptPageView: React.FC = () => {
   const editor = useCreateEditor()
 
   const { state, dispatch, view } = editor
-  // useChangeReceiver(editor, saveModel, deleteModel) - not needed under new architecture
+
+  const {
+    saveTrackModel,
+    trackModelMap,
+    deleteTrackModel,
+    getTrackModel,
+  } = useTrackedModelManagement(
+    doc,
+    view,
+    state,
+    dispatch,
+    saveModel,
+    deleteModel,
+    modelMap
+  )
+
+  useEffect(() => {
+    storeDispatch({
+      saveTrackModel,
+      trackModelMap,
+      deleteTrackModel,
+      getTrackModel,
+    })
+  }, [
+    saveTrackModel,
+    trackModelMap,
+    deleteTrackModel,
+    storeDispatch,
+    getTrackModel,
+  ])
+
   useEffect(() => {
     if (view && config.environment === 'development') {
       import('prosemirror-dev-toolkit')

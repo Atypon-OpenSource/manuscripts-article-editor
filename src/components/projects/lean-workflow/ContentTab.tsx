@@ -48,7 +48,7 @@ export const ContentTab: React.FC<{
     return {
       manuscript: store.manuscript,
       doc: store.doc,
-      getModel: store.getModel,
+      getModel: store.getTrackModel,
       saveManuscript: store.saveManuscript,
     }
   })

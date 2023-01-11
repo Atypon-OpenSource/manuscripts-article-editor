@@ -108,10 +108,10 @@ export const ManuscriptInspector: React.FC<{
     { manuscript, modelMap, saveManuscript, saveModel, user, project },
   ] = useStore((store) => ({
     manuscript: store.manuscript,
-    modelMap: store.modelMap,
+    modelMap: store.trackModelMap,
     saveManuscript: store.saveManuscript,
-    saveModel: store.saveModel,
-    deleteModel: store.deleteModel,
+    saveModel: store.saveTrackModel,
+    deleteModel: store.deleteTrackModel,
     user: store.user,
     project: store.project,
   }))
