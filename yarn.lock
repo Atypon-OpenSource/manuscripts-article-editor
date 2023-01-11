@@ -2214,16 +2214,16 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@0.93.12-LEAN-1169-9":
-  version "0.93.12-LEAN-1169-9"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.12-LEAN-1169-9.tgz#dad94ea41d268b567bd8bd7ecd1df1836c00c1ef"
-  integrity sha512-Qw8LYpwEUXHQmf5WBOXetG1P6Zgd2c9rMFKo/8ocLgNsorKW+qvVbTLt3R36SUXhh4jlvtwLpaqAiG+hUs4t9A==
+"@manuscripts/manuscript-editor@0.94.0":
+  version "0.94.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.94.0.tgz#05825219d64be447ab0f8c0dfb88dfca4675b1ac"
+  integrity sha512-Zm1xZvElWwNud0Dl+chQvfSooJKdmI9KLTecKXrijaAnLEP3880pLT4QrPzsiMRbRaM+HYlEGfAThHkbef948Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/comment-editor" "^0.2.1"
-    "@manuscripts/manuscripts-json-schema" "^1.51.0"
+    "@manuscripts/manuscripts-json-schema" "^1.53.0"
     "@manuscripts/plugin-persist" "^0.1.2"
     "@manuscripts/title-editor" "^0.5.2"
     "@manuscripts/track-changes-plugin" "^0.4.3"
@@ -2289,7 +2289,7 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@1.52.0", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.51.0":
+"@manuscripts/manuscripts-json-schema@1.49.3", "@manuscripts/manuscripts-json-schema@1.51.0", "@manuscripts/manuscripts-json-schema@1.52.0", "@manuscripts/manuscripts-json-schema@^1.49.1", "@manuscripts/manuscripts-json-schema@^1.51.0", "@manuscripts/manuscripts-json-schema@^1.53.0":
   version "1.51.0"
   resolved "https://registry.npmjs.org/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.51.0.tgz#6677f4ac81243496b92608c82f1e2d1c56acf22a"
   integrity sha512-YNrqrX8SScXZ5V/3/2Cyy/3SepOkMX/mn18TdKggh+WNN8n3AtKM31/Qw+2jVcF84w9pZ+RU+wuObr2u+GlSUA==
@@ -2402,10 +2402,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@0.31.28-LEAN-1156-5":
-  version "0.31.28-LEAN-1156-5"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.28-LEAN-1156-5.tgz#877235554bbcb3ad7cd6f02ad8a3e51d3c3f4592"
-  integrity sha512-gKpn4YIyEXFoZ1Gamm39ZVBMKiynr2xxDZLJmFI76IFRXl2ZEKFgtRJ2bgFw6gHk0uX8wGBG6rf3QPpNE6a3zw==
+"@manuscripts/style-guide@0.32.31":
+  version "0.32.31"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.32.31.tgz#69ccb593616ae07b0ae5d53c30979439eb829064"
+  integrity sha512-GIkHutYrnpJn69kyPLQmRxD2DmAoSzHKTNE/sO74TfQffWebjo1dYhZ1mGYa5VCCv2BhdKdyJNUPCfZ3dcMw3g==
   dependencies:
     "@apollo/client" "^3.6.9"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
