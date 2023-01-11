@@ -4479,12 +4479,12 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               role="tablist"
             >
               <button
-                aria-controls="tabs--5--panel---1"
+                aria-controls="tabs--4--panel---1"
                 aria-selected={false}
                 className="c15"
                 data-orientation="horizontal"
                 data-reach-tab=""
-                id="tabs--5--tab---1"
+                id="tabs--4--tab---1"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -4495,12 +4495,12 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                 Text
               </button>
               <button
-                aria-controls="tabs--5--panel---1"
+                aria-controls="tabs--4--panel---1"
                 aria-selected={false}
                 className="c15"
                 data-orientation="horizontal"
                 data-reach-tab=""
-                id="tabs--5--tab---1"
+                id="tabs--4--tab---1"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -4511,12 +4511,12 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                 Spacing
               </button>
               <button
-                aria-controls="tabs--5--panel---1"
+                aria-controls="tabs--4--panel---1"
                 aria-selected={false}
                 className="c15"
                 data-orientation="horizontal"
                 data-reach-tab=""
-                id="tabs--5--tab---1"
+                id="tabs--4--tab---1"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -4532,11 +4532,11 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
               data-reach-tab-panels=""
             >
               <div
-                aria-labelledby="tabs--5--tab---1"
+                aria-labelledby="tabs--4--tab---1"
                 className="c17"
                 data-reach-tab-panel=""
                 hidden={true}
-                id="tabs--5--panel---1"
+                id="tabs--4--panel---1"
                 role="tabpanel"
                 tabIndex={-1}
               >
@@ -4606,405 +4606,23 @@ exports[`Storyshots Inspector/Paragraph Styles with bundle 1`] = `
                 </div>
               </div>
               <div
-                aria-labelledby="tabs--5--tab---1"
-                className="c17"
-                data-reach-tab-panel=""
-                hidden={true}
-                id="tabs--5--panel---1"
-                role="tabpanel"
-                tabIndex={-1}
-              />
-              <div
-                aria-labelledby="tabs--5--tab---1"
-                className="c17"
-                data-reach-tab-panel=""
-                hidden={true}
-                id="tabs--5--panel---1"
-                role="tabpanel"
-                tabIndex={-1}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Storyshots Inspector/Section Inspector without requirements 1`] = `
-.c4 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  font: 400 16px / 24px "Lato",sans-serif;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  outline: none;
-  padding: 7px 12px;
-  -webkit-transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
-  transition: border 0.1s,color 0.1s,background-color 0.1s,color 0.1s, filter 0.1s;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.c4 svg + span {
-  margin-left: 4px;
-}
-
-.c5 {
-  padding: 0;
-  height: 20px;
-  width: 20px;
-}
-
-.c6 {
-  color: #353535;
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.c6:not([disabled]):hover,
-.c6:not([disabled]):focus {
-  color: #1a9bc7;
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.c6:not([disabled]):active {
-  color: #0d79d0;
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.c0 {
-  background-color: #fff;
-  color: #353535;
-  font-family: "Lato",sans-serif;
-  padding: 3rem;
-}
-
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-
-.c11.c11 {
-  background: none;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  font-size: 14px;
-  color: #353535;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-}
-
-.c12 {
-  margin-bottom: 16px;
-}
-
-.c13 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.c14 {
-  font-size: 14px;
-  color: #6e6e6e;
-}
-
-.c7 {
-  border: none;
-  border-radius: 50%;
-}
-
-.c7:focus:not([disabled]),
-.c7:hover:not([disabled]) {
-  background: #f2fbfc;
-}
-
-.c7 svg circle {
-  stroke: #e2e2e2;
-}
-
-.c1 {
-  border-bottom: 1px solid #f2f2f2;
-  font-size: 14px;
-  margin: 24px 28px 0;
-}
-
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 8px;
-  cursor: pointer;
-}
-
-.c3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #353535;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.c15 {
-  font-size: 14px;
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-
-.c15:not(:first-child) {
-  margin-top: 24px;
-}
-
-.c8 {
-  margin: 8px 8px 32px;
-}
-
-.c16 {
-  height: 120px;
-}
-
-.c9 {
-  color: #353535;
-  margin: 4px 0;
-}
-
-<div
-  className="c0"
->
-  <div>
-    <div
-      style={
-        Object {
-          "width": 500,
-        }
-      }
-    >
-      <div
-        className="c1"
-      >
-        <div
-          className="c2"
-          onClick={[Function]}
-        >
-          <div
-            className="c3"
-          >
-            Section
-          </div>
-          <button
-            aria-label="Toggle expand section"
-            className="c4 c5 c6 c7"
-            onClick={[Function]}
-            size={20}
-            style={
-              Object {
-                "transform": "rotate(0deg)",
-              }
-            }
-            type="button"
-          >
-            <svg
-              height={20}
-              viewBox="0 0 20 20"
-              width={20}
-            >
-              <g
-                fill="none"
-                fillRule="evenodd"
-                transform="matrix(1 0 0 -1 0 20)"
-              >
-                <circle
-                  cx={10}
-                  cy={10}
-                  r={9}
-                  stroke="#E2E2E2"
-                />
-                <path
-                  d="M6.505 10.974l3.548-3 3.652 2.96"
-                  stroke="#6E6E6E"
-                  strokeLinecap="round"
-                  strokeWidth={2}
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          className="c8"
-        >
-          <div
-            className="c9"
-          />
-          <div
-            className="c10"
-            data-orientation="horizontal"
-            data-reach-tabs=""
-          >
-            <div
-              aria-orientation="horizontal"
-              className="c11 c12"
-              data-reach-tab-list=""
-              onKeyDown={[Function]}
-              role="tablist"
-            />
-            <div
-              className="c13"
-              data-reach-tab-panels=""
-            >
-              <div
                 aria-labelledby="tabs--4--tab---1"
-                className="c14"
+                className="c17"
                 data-reach-tab-panel=""
                 hidden={true}
                 id="tabs--4--panel---1"
                 role="tabpanel"
                 tabIndex={-1}
-              >
-                <div
-                  className="c3 c15"
-                >
-                  Category
-                </div>
-                <div
-                  className="c16"
-                >
-                  <div
-                    className=" css-2b097c-container"
-                    onKeyDown={[Function]}
-                  >
-                    <div
-                      className=" css-yk16xz-control"
-                      onMouseDown={[Function]}
-                      onTouchEnd={[Function]}
-                    >
-                      <div
-                        className=" css-g1d714-ValueContainer"
-                      >
-                        <div
-                          className=" css-1uccc91-singleValue"
-                        >
-                          Section
-                        </div>
-                        <div
-                          className="css-b8ldur-Input"
-                        >
-                          <div
-                            className=""
-                            style={
-                              Object {
-                                "display": "inline-block",
-                              }
-                            }
-                          >
-                            <input
-                              aria-autocomplete="list"
-                              autoCapitalize="none"
-                              autoComplete="off"
-                              autoCorrect="off"
-                              disabled={false}
-                              id="react-select-6-input"
-                              onBlur={[Function]}
-                              onChange={[Function]}
-                              onFocus={[Function]}
-                              spellCheck="false"
-                              style={
-                                Object {
-                                  "background": 0,
-                                  "border": 0,
-                                  "boxSizing": "content-box",
-                                  "color": "inherit",
-                                  "fontSize": "inherit",
-                                  "label": "input",
-                                  "opacity": 1,
-                                  "outline": 0,
-                                  "padding": 0,
-                                  "width": "1px",
-                                }
-                              }
-                              tabIndex="0"
-                              type="text"
-                              value=""
-                            />
-                            <div
-                              style={
-                                Object {
-                                  "height": 0,
-                                  "left": 0,
-                                  "overflow": "scroll",
-                                  "position": "absolute",
-                                  "top": 0,
-                                  "visibility": "hidden",
-                                  "whiteSpace": "pre",
-                                }
-                              }
-                            >
-                              
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className=" css-1hb7zxy-IndicatorsContainer"
-                      >
-                        <span
-                          className=" css-1okebmr-indicatorSeparator"
-                        />
-                        <div
-                          aria-hidden="true"
-                          className=" css-tlfecz-indicatorContainer"
-                          onMouseDown={[Function]}
-                          onTouchEnd={[Function]}
-                        >
-                          <svg
-                            aria-hidden="true"
-                            className="css-6q0nyr-Svg"
-                            focusable="false"
-                            height={20}
-                            viewBox="0 0 20 20"
-                            width={20}
-                          >
-                            <path
-                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              />
+              <div
+                aria-labelledby="tabs--4--tab---1"
+                className="c17"
+                data-reach-tab-panel=""
+                hidden={true}
+                id="tabs--4--panel---1"
+                role="tabpanel"
+                tabIndex={-1}
+              />
             </div>
           </div>
         </div>
@@ -5445,12 +5063,12 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               role="tablist"
             >
               <button
-                aria-controls="tabs--6--panel---1"
+                aria-controls="tabs--5--panel---1"
                 aria-selected={false}
                 className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
-                id="tabs--6--tab---1"
+                id="tabs--5--tab---1"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -5461,12 +5079,12 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 Text
               </button>
               <button
-                aria-controls="tabs--6--panel---1"
+                aria-controls="tabs--5--panel---1"
                 aria-selected={false}
                 className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
-                id="tabs--6--tab---1"
+                id="tabs--5--tab---1"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -5477,12 +5095,12 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 Spacing
               </button>
               <button
-                aria-controls="tabs--6--panel---1"
+                aria-controls="tabs--5--panel---1"
                 aria-selected={false}
                 className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
-                id="tabs--6--tab---1"
+                id="tabs--5--tab---1"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -5493,12 +5111,12 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 Numbering
               </button>
               <button
-                aria-controls="tabs--6--panel---1"
+                aria-controls="tabs--5--panel---1"
                 aria-selected={false}
                 className="c12"
                 data-orientation="horizontal"
                 data-reach-tab=""
-                id="tabs--6--tab---1"
+                id="tabs--5--tab---1"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -5514,11 +5132,11 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
               data-reach-tab-panels=""
             >
               <div
-                aria-labelledby="tabs--6--tab---1"
+                aria-labelledby="tabs--5--tab---1"
                 className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
-                id="tabs--6--panel---1"
+                id="tabs--5--panel---1"
                 role="tabpanel"
                 tabIndex={-1}
               >
@@ -5588,11 +5206,11 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 </div>
               </div>
               <div
-                aria-labelledby="tabs--6--tab---1"
+                aria-labelledby="tabs--5--tab---1"
                 className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
-                id="tabs--6--panel---1"
+                id="tabs--5--panel---1"
                 role="tabpanel"
                 tabIndex={-1}
               >
@@ -5933,11 +5551,11 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 </div>
               </div>
               <div
-                aria-labelledby="tabs--6--tab---1"
+                aria-labelledby="tabs--5--tab---1"
                 className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
-                id="tabs--6--panel---1"
+                id="tabs--5--panel---1"
                 role="tabpanel"
                 tabIndex={-1}
               >
@@ -5985,11 +5603,11 @@ exports[`Storyshots Inspector/Section Styles with bundle 1`] = `
                 </div>
               </div>
               <div
-                aria-labelledby="tabs--6--tab---1"
+                aria-labelledby="tabs--5--tab---1"
                 className="c14"
                 data-reach-tab-panel=""
                 hidden={true}
-                id="tabs--6--panel---1"
+                id="tabs--5--panel---1"
                 role="tabpanel"
                 tabIndex={-1}
               >
