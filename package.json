@@ -60,7 +60,7 @@
     "@manuscripts/comment-editor": "^0.2.3",
     "@manuscripts/data": "^0.1.11",
     "@manuscripts/library": "^0.6.3",
-    "@manuscripts/manuscript-editor": "0.93.14-LEAN-2068",
+    "@manuscripts/manuscript-editor": "0.93.14-LEAN-2068-1",
     "@manuscripts/manuscript-transform": "^0.62.0",
     "@manuscripts/manuscripts-json-schema": "^1.53.0",
     "@manuscripts/pouchdb-adapter-http": "7.0.0-manuscripts3",
