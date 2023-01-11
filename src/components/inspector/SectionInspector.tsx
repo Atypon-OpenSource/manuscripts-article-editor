@@ -95,8 +95,8 @@ export const SectionInspector: React.FC<{
   dispatch,
   getSectionCountRequirements,
 }) => {
-  const [modelMap] = useStore((store) => store.modelMap)
-  const [saveModel] = useStore((store) => store.saveModel)
+  const [modelMap] = useStore((store) => store.trackModelMap)
+  const [saveModel] = useStore((store) => store.saveTrackModel)
 
   const existingCatsCounted = useMemo(() => {
     const exisitingCats: { [key: string]: number } = {}

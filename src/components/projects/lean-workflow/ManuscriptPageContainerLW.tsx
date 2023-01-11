@@ -153,6 +153,7 @@ const ManuscriptPageView: React.FC = () => {
     saveTrackModel,
     trackModelMap,
     deleteTrackModel,
+    getTrackModel,
   } = useTrackedModelManagement(
     doc,
     view,
@@ -164,8 +165,19 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   useEffect(() => {
-    storeDispatch({ saveTrackModel, trackModelMap, deleteTrackModel })
-  }, [saveTrackModel, trackModelMap, deleteTrackModel, storeDispatch])
+    storeDispatch({
+      saveTrackModel,
+      trackModelMap,
+      deleteTrackModel,
+      getTrackModel,
+    })
+  }, [
+    saveTrackModel,
+    trackModelMap,
+    deleteTrackModel,
+    storeDispatch,
+    getTrackModel,
+  ])
 
   useEffect(() => {
     if (view && config.environment === 'development') {

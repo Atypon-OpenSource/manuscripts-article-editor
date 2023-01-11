@@ -113,9 +113,7 @@ export type state = {
   saveTrackModel: <T extends Model>(
     model: T | Build<T> | Partial<T>
   ) => Promise<T>
-  getTrackModel: <T extends Model>(
-    model: T | Build<T> | Partial<T>
-  ) => Promise<T>
+  getTrackModel: <T extends Model>(id: string) => T | undefined
   trackModelMap: Map<string, Model>
   deleteTrackModel: (id: string) => Promise<string>
 

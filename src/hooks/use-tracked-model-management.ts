@@ -152,7 +152,16 @@ const useTrackedModelManagement = (
     [dispatch, dispatchStore, deleteModel, doc, modelMap, state] // will loop rerenders probably because of modelMap
   )
 
-  return { saveTrackModel, deleteTrackModel, trackModelMap: modelMap }
+  const getTrackModel = useCallback((id: string) => modelMap.get(id), [
+    modelMap,
+  ])
+
+  return {
+    saveTrackModel,
+    deleteTrackModel,
+    trackModelMap: modelMap,
+    getTrackModel,
+  }
 }
 
 export default useTrackedModelManagement
