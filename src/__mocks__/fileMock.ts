@@ -10,15 +10,4 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildName } from '@manuscripts/style-guide'
-
-describe('buildName', () => {
-  it('buildName', () => {
-    expect(
-      buildName({
-        given: 'Derek',
-        family: 'Dilbert',
-      })
-    ).toEqual('Derek Dilbert')
-  })
-})
+export default 'test-file-stub'

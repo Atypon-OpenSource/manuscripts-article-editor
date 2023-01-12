@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { timestamp } from '@manuscripts/manuscript-transform'
+import { timestamp } from '@manuscripts/transform'
 
 describe('timestamp', () => {
   it('function should divide by 1000', () => {

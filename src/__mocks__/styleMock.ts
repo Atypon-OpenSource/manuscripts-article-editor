@@ -10,7 +10,4 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import client from '../client'
-
-export const feedback = (message: string, title: string) =>
-  client.post('/user/feedback', { message, messagePrivately: true, title })
+export default {}

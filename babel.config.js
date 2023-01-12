@@ -11,11 +11,6 @@
  */
 module.exports = {
   compact: false,
-  plugins: [
-    'styled-components',
-  ],
-  presets: [
-    '@babel/react',
-    '@babel/typescript',
-  ]
+  plugins: ['styled-components'],
+  presets: ['@babel/react', '@babel/typescript', '@babel/preset-env'],
 }
