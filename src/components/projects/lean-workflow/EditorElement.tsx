@@ -317,13 +317,8 @@ const addFigureAtFigureElementPosition = (
   }
 }
 
-const isEmptyFigureNode = (figure: FigureNode) => {
-  const imageExternalFile = figure.attrs.externalFileReferences?.find(
-    (file: ExternalFileRef) => file && file.kind === 'imageRepresentation'
-  ) || { url: '' }
-
-  return imageExternalFile?.url.trim().length < 1
-}
+const isEmptyFigureNode = (figure: FigureNode) =>
+  figure.attrs.src.trim().length < 1
 
 const addNewFigure = (
   view: ManuscriptEditorView,

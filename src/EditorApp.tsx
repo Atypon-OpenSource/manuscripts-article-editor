@@ -108,6 +108,7 @@ const EditorApp: React.FC<Props> = ({
       ),
     ])
       .then(([doc, store]) => {
+        // if no doc found in track changes backend, the one produced from manuscripts backend will be used (store.doc)
         if (doc) {
           store.setState((s) => ({ ...s, doc }))
         }

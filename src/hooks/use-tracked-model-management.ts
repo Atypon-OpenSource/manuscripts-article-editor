@@ -20,10 +20,12 @@ import {
   schema,
 } from '@manuscripts/manuscript-transform'
 import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import { SubmissionAttachment } from '@manuscripts/style-guide'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
+import { replaceAttachmentLinks } from 'src/lib/replace-attachments-ids'
 
 import {
   adaptTrackedData,
@@ -40,6 +42,7 @@ const useTrackedModelManagement = (
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
   deleteModel: (id: string) => Promise<string>,
   finalModelMap: Map<string, Model>
+  attachments: SubmissionAttachment[]
 ) => {
   const modelMap = useMemo(() => {
     const docJSONed = doc.toJSON()
@@ -51,8 +54,8 @@ const useTrackedModelManagement = (
         modelsFromPM.set(model._id, model)
       }
     })
-    return modelsFromPM
-  }, [doc, finalModelMap])
+    return replaceAttachmentLinks(modelsFromPM, attachments)
+  }, [doc, finalModelMap, attachments])
 
   const [, dispatchStore] = useStore()
 

@@ -139,6 +139,7 @@ const ManuscriptPageView: React.FC = () => {
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
+  const [submission] = useStore((store) => store.submission)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
@@ -161,7 +162,8 @@ const ManuscriptPageView: React.FC = () => {
     dispatch,
     saveModel,
     deleteModel,
-    modelMap
+    modelMap,
+    submission.attachments
   )
 
   useEffect(() => {
@@ -180,6 +182,8 @@ const ManuscriptPageView: React.FC = () => {
   ])
 
   useEffect(() => {
+    // Please note that using prosemirror-dev-toolkit may result in incosistent behaviour with from production
+    // for example any dispatch that you pass to the editor props will be replaced with a dispatch from the dev-toolkit
     if (view && config.environment === 'development') {
       import('prosemirror-dev-toolkit')
         .then(({ applyDevTools }) => applyDevTools(view))
@@ -195,8 +199,8 @@ const ManuscriptPageView: React.FC = () => {
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
   const { init: initEditor, setEditorState, trackState } = useEditorStore()
-  useMemo(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
-  useMemo(() => view && initEditor(view), [view, initEditor])
+  useEffect(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
+  useEffect(() => view && initEditor(view), [view, initEditor])
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackState || {}
