@@ -14,7 +14,7 @@ import {
   PopperManager,
   useEditor,
 } from '@manuscripts/body-editor'
-import { Model } from '@manuscripts/json-schema'
+import { CommentAnnotation, Model } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build } from '@manuscripts/transform'

@@ -11,9 +11,11 @@
  */
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
-import { Model } from '@manuscripts/json-schema'
-import { FileManager, usePermissions } from '@manuscripts/style-guide'
-import { encode, schema } from '@manuscripts/transform'
+import {
+  FileManager,
+  SubmissionAttachment,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import config from '../../config'
@@ -32,7 +34,6 @@ import Panel from '../Panel'
 import { RequirementsInspectorView } from '../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
-import { filterNodesWithTrackingData } from '../track-changes/utils'
 import { CommentsTab } from './lean-workflow/CommentsTab'
 import { ContentTab } from './lean-workflow/ContentTab'
 
@@ -40,14 +41,22 @@ interface Props {
   editor: ReturnType<typeof useCreateEditor>
 }
 const Inspector: React.FC<Props> = ({ editor }) => {
-  const [{ saveModel, dbModelMap, fileManagement, commentTarget, doc }] =
-    useStore((store) => ({
-      saveModel: store.saveModel,
-      dbModelMap: store.modelMap,
-      fileManagement: store.fileManagement,
-      doc: store.doc,
-      commentTarget: store.commentTarget,
-    }))
+  const [
+    {
+      submission,
+      fileManagement,
+      commentTarget,
+      saveTrackModel,
+      trackModelMap,
+    },
+    stateDispatch,
+  ] = useStore((store) => ({
+    saveTrackModel: store.saveTrackModel,
+    trackModelMap: store.trackModelMap,
+    submission: store.submission,
+    fileManagement: store.fileManagement,
+    commentTarget: store.commentTarget,
+  }))
 
   const { state, dispatch } = editor
 
@@ -68,18 +77,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   )
 
   const can = usePermissions()
-
-  /**
-   * Document stored in quarterback will be different from the one we get from api **if we start editing**,
-   * unless we create a snapshot or complete the task they should be identical.
-   *
-   * As a result of that will combine both of them to get (inline files & supplementary files)
-   */
-  const docClean = filterNodesWithTrackingData(doc.toJSON())
-
-  const modelMapClean = encode(schema.nodeFromJSON(docClean))
-
-  const modelMap = new Map<string, Model>([...dbModelMap, ...modelMapClean])
 
   return (
     <>
@@ -138,9 +135,20 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                   <FileManager
                     can={can}
                     enableDragAndDrop={true}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    fileManagement={fileManagement}
+                    modelMap={trackModelMap}
+                    saveModel={saveTrackModel}
+                    fileManagement={{
+                      ...fileManagement,
+                      getAttachments: () => submission.attachments,
+                    }}
+                    addAttachmentToState={(attachment: SubmissionAttachment) =>
+                      stateDispatch({
+                        submission: {
+                          ...submission,
+                          attachments: [...submission.attachments, attachment],
+                        },
+                      })
+                    }
                   />
                 </InspectorTabPanel>
               )}

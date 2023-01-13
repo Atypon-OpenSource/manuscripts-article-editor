@@ -171,21 +171,6 @@ const ManuscriptPageView: React.FC = () => {
     getTrackModel,
   ])
 
-  useEffect(() => {
-    // Please note that using prosemirror-dev-toolkit may result in incosistent behaviour with from production
-    // for example any dispatch that you pass to the editor props will be replaced with a dispatch from the dev-toolkit
-    if (view && config.environment === 'development') {
-      import('prosemirror-dev-toolkit')
-        .then(({ applyDevTools }) => applyDevTools(view))
-        .catch((error) => {
-          console.error(
-            'There was an error loading prosemirror-dev-toolkit',
-            error.message
-          )
-        })
-    }
-  }, [view])
-
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
   const { init: initEditor, setEditorState, trackState } = useEditorStore()

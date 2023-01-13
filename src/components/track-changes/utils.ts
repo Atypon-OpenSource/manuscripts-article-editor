@@ -9,12 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptNode } from '@manuscripts/transform'
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
   TrackedAttrs,
 } from '@manuscripts/track-changes-plugin'
+import { ManuscriptNode } from '@manuscripts/transform'
 
 const hasTrackingData = (node: ManuscriptNode) => {
   return !!node?.attrs?.dataTracked
@@ -83,7 +83,9 @@ export const adaptTrackedData = (docJSONed: unknown) => {
           lastChange.status !== CHANGE_STATUS.rejected &&
           lastChange.operation !== CHANGE_OPERATION.delete
         ) {
+          // @ts-ignore
           child.attrs = deepCloneAttrs(child.attrs) || {} // @TODO: needs refactoring, in case when there is a dataTracked attribute, we deep copy attributes 2 times.
+          // @ts-ignore
           child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
           return true
         }

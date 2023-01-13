@@ -11,12 +11,6 @@
  */
 import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
-import { shortLibraryItemMetadata } from '@manuscripts/library'
-import {
-  Build,
-  buildBibliographyItem,
-  buildComment,
-} from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Citation,
@@ -36,7 +30,11 @@ import {
   SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import { Build, buildBibliographyItem } from '@manuscripts/transform'
+import {
+  Build,
+  buildBibliographyItem,
+  buildComment,
+} from '@manuscripts/transform'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 

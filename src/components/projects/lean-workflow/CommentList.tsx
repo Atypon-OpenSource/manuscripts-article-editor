@@ -38,8 +38,6 @@ import {
   buildKeyword,
   getModelsByType,
 } from '@manuscripts/transform'
-import { ContentNodeWithPos } from 'prosemirror-utils'
-import { isTextSelection } from '@manuscripts/track-changes'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
