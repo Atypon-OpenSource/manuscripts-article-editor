@@ -141,7 +141,6 @@ const ManuscriptPageView: React.FC = () => {
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
-  const [submission] = useStore((store) => store.submission)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
