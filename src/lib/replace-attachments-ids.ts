@@ -47,7 +47,7 @@ export function replaceAttachmentLinks(
   modelMap.forEach((model) => {
     const figure = { ...model } as Figure
     if (figure.objectType === ObjectTypes.Figure && figure.src) {
-      const attachment = attachments.find((a) => figure.src === a.link)
+      const attachment = attachments.find((a) => figure.src?.startsWith(a.link))
       if (attachment) {
         figure.src = attachmentPrefix + attachment.id
       }

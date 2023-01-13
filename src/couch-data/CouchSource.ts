@@ -75,13 +75,6 @@ export default class CouchSource implements StoreDataSourceStrategy {
     }
   }
 
-  // This all is soon to be removed. No need to care for types
-  // @ts-ignore
-  constructor(getAttachments: any) {
-    // Only added for compliance. Not supported ATM
-    console.log('Contructing pouch source.')
-  }
-
   // unmount = () => {}
   // listen = (unsubscribe: () => void) => {
   //   this.storeUnsubscribe = unsubscribe

@@ -97,7 +97,9 @@ const EditorApp: React.FC<Props> = ({
       userID || '',
       authToken || ''
     )
-    const mainSource = config.rxdb.enabled ? new CouchSource() : new PsSource()
+    const mainSource = config.rxdb.enabled
+      ? new CouchSource()
+      : new PsSource(submission.attachments)
     Promise.all([
       loadDoc(manuscriptID, projectID),
       createStore(
