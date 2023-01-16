@@ -22,6 +22,8 @@ import {
   Tip,
   UploadIcon,
 } from '@manuscripts/style-guide'
+import axios, { CancelTokenSource } from 'axios'
+import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -126,6 +128,26 @@ export const CitationSearch: React.FC<{
     [filterLibraryItems]
   )
 
+  const [
+    cancelTokenSource,
+    setCancelTokenSource,
+  ] = useState<CancelTokenSource>()
+
+  const apiSearchCallback = useCallback(
+    (
+      query: string,
+      params: { rows: number; sort?: string },
+      mailto: string
+    ) => {
+      cancelTokenSource?.cancel()
+
+      const sourceToken = axios.CancelToken.source()
+      setCancelTokenSource(sourceToken)
+      return crossref.search(query, params.rows, mailto, sourceToken.token)
+    },
+    [cancelTokenSource]
+  )
+
   useEffect(() => {
     const sources: Source[] = [
       {
@@ -139,16 +161,12 @@ export const CitationSearch: React.FC<{
       sources.push({
         id: 'crossref',
         title: 'External sources',
-        search: (
-          query: string,
-          params: { rows: number; sort?: string },
-          mailto: string
-        ) => crossref.search(query, params.rows, mailto),
+        search: apiSearchCallback,
       })
     }
 
     setSources(sources)
-  }, [query, searchLibrary])
+  }, [apiSearchCallback, query, searchLibrary])
 
   const addToSelection = useCallback(
     (id: string, data: Build<BibliographyItem>) => {
@@ -206,9 +224,13 @@ export const CitationSearch: React.FC<{
     return handleCite(items)
   }, [handleCite, selected])
 
-  const handleQuery = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value)
-  }, [])
+  const debouncedCallback = debounce((value) => setQuery(value.trim()), 800)
+
+  const debouncedSetQuery = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) =>
+      debouncedCallback(event.target.value),
+    [debouncedCallback]
+  )
 
   const importItems = useCallback(
     (items: Array<Build<BibliographyItem>>) => {
@@ -245,10 +267,10 @@ export const CitationSearch: React.FC<{
       <SearchWrapper>
         <Search
           autoComplete={'off'}
-          handleSearchChange={handleQuery}
+          handleSearchChange={debouncedSetQuery}
           placeholder={'Search'}
+          defaultValue={initialQuery}
           type={'search'}
-          value={query || ''}
         />
       </SearchWrapper>
 
