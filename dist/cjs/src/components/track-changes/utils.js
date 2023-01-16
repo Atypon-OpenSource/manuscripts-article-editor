@@ -30,9 +30,10 @@ const adaptTrackedData = (docJSONed) => {
         if (typeof object !== 'object' || object === null) {
             return object;
         }
+        console.log(counter);
         if (counter > 2000) {
+            alert('Got it');
             // eslint-disable-next-line
-            debugger;
         }
         const copy = Array.isArray(object) ? [] : {};
         for (const at in object) {
