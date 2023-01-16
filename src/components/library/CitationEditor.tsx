@@ -35,7 +35,7 @@ import {
   SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import { CitationModel } from './CitationModel'
@@ -208,11 +208,24 @@ const CitationEditor: React.FC<Props> = ({
     [citation._id, setCommentTarget]
   )
 
+  const citedReferencesSet = useMemo(
+    () => new Set(items.map((item) => item._id)),
+    [items]
+  )
+
+  const filterLibraryItemsWrapper = useCallback(
+    async (query: string) =>
+      (await filterLibraryItems(query)).filter(
+        (item) => !citedReferencesSet?.has(item._id)
+      ),
+    [citedReferencesSet, filterLibraryItems]
+  )
+
   if (searching) {
     return (
       <CitationSearch
         query={selectedText}
-        filterLibraryItems={filterLibraryItems}
+        filterLibraryItems={filterLibraryItemsWrapper}
         importItems={importItems}
         handleCite={handleCite}
         addCitation={addCitationCallback}
