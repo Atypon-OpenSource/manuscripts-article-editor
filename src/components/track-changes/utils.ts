@@ -43,11 +43,22 @@ const getLastChange = (changes: TrackedAttrs[]) => {
 
 export const trackedJoint = ':dataTracked:'
 
+let counter = 0
+
 export const adaptTrackedData = (docJSONed: unknown) => {
   const cleanDoc = Object.assign({}, docJSONed)
+  counter = 0
 
   function deepCloneAttrs(object: any) {
-    const copy = object === null ? null : Array.isArray(object) ? [] : {}
+    counter += 1
+    if (typeof object !== 'object' || object === null) {
+      return object
+    }
+    if (counter > 1000) {
+      // eslint-disable-next-line
+      debugger
+    }
+    const copy = Array.isArray(object) ? [] : {}
     for (const at in object) {
       const deeperClone =
         typeof object[at] !== 'object' ? object[at] : deepCloneAttrs(object[at])
