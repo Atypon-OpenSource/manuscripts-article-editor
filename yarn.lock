@@ -2214,10 +2214,10 @@
     citeproc "^2.4.48"
     fontoxpath "^3.17.2"
 
-"@manuscripts/manuscript-editor@^0.93.13":
-  version "0.93.13"
-  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.93.13.tgz#008ad359a14e3024e0014a83d63d3a8797a28239"
-  integrity sha512-ZgkYd6zT7VmhszIBmsVC4KPt7RGZ0WjKTfDAoxymPAkuzGmvSYJ6nPSsGR+uToUuHuU/BcD0hkfm/nlTl4xt8A==
+"@manuscripts/manuscript-editor@^0.94.0":
+  version "0.94.0"
+  resolved "https://registry.npmjs.org/@manuscripts/manuscript-editor/-/manuscript-editor-0.94.0.tgz#05825219d64be447ab0f8c0dfb88dfca4675b1ac"
+  integrity sha512-Zm1xZvElWwNud0Dl+chQvfSooJKdmI9KLTecKXrijaAnLEP3880pLT4QrPzsiMRbRaM+HYlEGfAThHkbef948Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@jupyterlab/services" "^3.2.1"
@@ -2387,10 +2387,10 @@
     url "^0.11.0"
     util "^0.12.0"
 
-"@manuscripts/style-guide@^0.31.30":
-  version "0.31.30"
-  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.31.30.tgz#1cf3eb3c3d8a3ac7f9e390ea0c0476781957c26c"
-  integrity sha512-EZw5denb3IrOo4AOZsfOooOueoP8SbhslgS/6GTVY8Am258kpKy6d837joMtGvwUJgEC/2GXo6cpb1negzSqFA==
+"@manuscripts/style-guide@^0.32.31":
+  version "0.32.31"
+  resolved "https://registry.npmjs.org/@manuscripts/style-guide/-/style-guide-0.32.31.tgz#69ccb593616ae07b0ae5d53c30979439eb829064"
+  integrity sha512-GIkHutYrnpJn69kyPLQmRxD2DmAoSzHKTNE/sO74TfQffWebjo1dYhZ1mGYa5VCCv2BhdKdyJNUPCfZ3dcMw3g==
   dependencies:
     "@apollo/client" "^3.6.9"
     "@formatjs/intl-relativetimeformat" "^4.5.9"

@@ -15,9 +15,11 @@ import {
   findParentNodeWithIdValue,
   findParentSection,
 } from '@manuscripts/manuscript-editor'
-import { encode, schema } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
-import { FileManager, usePermissions } from '@manuscripts/style-guide'
+import {
+  FileManager,
+  SubmissionAttachment,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
 import { useCreateEditor } from '../../../hooks/use-create-editor'
@@ -27,7 +29,6 @@ import Panel from '../../Panel'
 import { RequirementsInspectorView } from '../../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../../ResizerButtons'
 import { TrackChangesPanel } from '../../track-changes/TrackChangesPanel'
-import { filterNodesWithTrackingData } from '../../track-changes/utils'
 import { Inspector as InspectorLW } from '../InspectorLW'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
@@ -38,21 +39,21 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   const [
-    { saveModel, dbModelMap, submissionId, fileManagement, commentTarget, doc },
+    {
+      submissionId,
+      submission,
+      fileManagement,
+      commentTarget,
+      saveTrackModel,
+      trackModelMap,
+    },
+    stateDispatch,
   ] = useStore((store) => ({
-    snapshots: store.snapshots,
-    saveModel: store.saveModel,
-    dbModelMap: store.modelMap,
-    manuscript: store.manuscript,
-    user: store.user,
-    project: store.project,
+    saveTrackModel: store.saveTrackModel,
+    trackModelMap: store.trackModelMap,
     submissionId: store.submissionID,
     submission: store.submission,
-    snapshotID: store.snapshotID,
-    commitsSortBy: store.commitsSortBy as string,
-    comments: store.comments || [],
     fileManagement: store.fileManagement,
-    doc: store.doc,
     commentTarget: store.commentTarget,
   }))
 
@@ -67,20 +68,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
   )
 
   const can = usePermissions()
-
-  /**
-   * Document stored in quarterback will be different from the one we get from api **if we start editing**,
-   * unless we create a snapshot or complete the task they should be identical.
-   *
-   * As a result of that will combine both of them to get (inline files & supplementary files)
-   */
-  const docClean = filterNodesWithTrackingData(doc.toJSON())
-
-  const modelMapClean = encode(schema.nodeFromJSON(docClean))
-
-  const modelMap = new Map<string, Model>([...dbModelMap, ...modelMapClean])
-
-  const modelIds = modelMap ? Array.from(modelMap?.keys()) : []
+  const modelIds = trackModelMap ? Array.from(trackModelMap?.keys()) : []
 
   return (
     <>
@@ -116,13 +104,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
               }
 
               case 'Comments': {
-                return (
-                  <CommentsTab
-                    selected={selected}
-                    editor={editor}
-                    key="comments"
-                  />
-                )
+                return <CommentsTab editor={editor} key="comments" />
               }
 
               case 'Quality': {
@@ -145,9 +127,21 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
                   <FileManager
                     can={can}
                     enableDragAndDrop={true}
-                    modelMap={modelMap}
-                    saveModel={saveModel}
-                    fileManagement={fileManagement}
+                    modelMap={trackModelMap}
+                    // @ts-ignore
+                    saveModel={saveTrackModel}
+                    fileManagement={{
+                      ...fileManagement,
+                      getAttachments: () => submission.attachments,
+                    }}
+                    addAttachmentToState={(attachment: SubmissionAttachment) =>
+                      stateDispatch({
+                        submission: {
+                          ...submission,
+                          attachments: [...submission.attachments, attachment],
+                        },
+                      })
+                    }
                   />
                 ) : null
               }

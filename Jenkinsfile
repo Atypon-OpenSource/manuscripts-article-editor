@@ -5,7 +5,7 @@ node("cisc && !cisc03") {
     }
 
     stage("Build") {
-        nodejs(nodeJSInstallationName: 'node 12.22.1') {
+        nodejs(nodeJSInstallationName: 'node_14_16') {
             sh (script: "yarn install --frozen-lockfile --non-interactive",
                 label: "yarn install",
                 returnStdout: true)
@@ -42,12 +42,18 @@ node("cisc && !cisc03") {
 
     if (params.publish_feature) {
         stage ("Publish") {
-            withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-                sh ("""cat << EOF >.npmrc 
+            nodejs(nodeJSInstallationName: 'node_14_16') {
+                withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
+                    sh (script: "npm install npx",
+                        label: "Install npx first",
+                        returnStdout: true)
+
+                    sh ("""cat << EOF >.npmrc 
 //registry.npmjs.org/:_authToken=$NPM_TOKEN 
 <<EOF""")
-                sh ("npx @manuscripts/publish")
-                sh "rm -f .npmrc"
+                    sh ("npx @manuscripts/publish")
+                    sh "rm -f .npmrc"
+                }
             }
         }
     }

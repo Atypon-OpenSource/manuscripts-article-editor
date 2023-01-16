@@ -120,6 +120,7 @@ storiesOf('Inspector', module).add('tabs', () => (
 const storeState = {
   manuscript,
   modelMap,
+  trackModelMap: modelMap,
   saveManuscript: action('save manuscript'),
   saveModel: action('save'),
   deleteModel: action('delete'),

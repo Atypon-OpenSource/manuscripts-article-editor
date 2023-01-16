@@ -18,7 +18,7 @@ import { useGenericStore } from './StoreContext'
 
 export const useStore = <T>(
   selector = (r: state): state | T => r
-): [T, dispatch] => {
+): [T, dispatch, () => state] => {
   const store = useGenericStore()
   const [state, setState] = useState(
     selector ? () => selector(store.state!) : store.state
@@ -48,5 +48,5 @@ export const useStore = <T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // @TODO reconsider disabling exhaustive-deps
   // @ts-ignore
-  return [state, store.dispatchAction]
+  return [state, store.dispatchAction, store.getState]
 }

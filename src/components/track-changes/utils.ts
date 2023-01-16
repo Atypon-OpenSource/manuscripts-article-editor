@@ -10,6 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import { ManuscriptNode } from '@manuscripts/manuscript-transform'
+import {
+  CHANGE_OPERATION,
+  CHANGE_STATUS,
+  TrackedAttrs,
+} from '@manuscripts/track-changes-plugin'
 
 const hasTrackingData = (node: ManuscriptNode) => {
   return !!node?.attrs?.dataTracked
@@ -23,6 +28,65 @@ export const filterNodesWithTrackingData = (node: any) => {
       parent.content = parent.content.filter(
         (child: ManuscriptNode) => !hasTrackingData(child)
       )
+      parent.content.forEach((child: ManuscriptNode) => cleanNode(child))
+    }
+  }
+
+  cleanNode(cleanDoc)
+
+  return cleanDoc
+}
+
+const getLastChange = (changes: TrackedAttrs[]) => {
+  return [...changes].sort((a, b) => (a.createdAt < b.createdAt ? 1 : 0))[0]
+}
+
+export const trackedJoint = ':dataTracked:'
+
+export const adaptTrackedData = (docJSONed: unknown) => {
+  const cleanDoc = Object.assign({}, docJSONed)
+
+  function deepCloneAttrs(object: any) {
+    const copy = object === null ? null : Array.isArray(object) ? [] : {}
+    for (const at in object) {
+      const deeperClone =
+        typeof object[at] !== 'object' ? object[at] : deepCloneAttrs(object[at])
+      if (Array.isArray(object)) {
+        // @ts-ignore
+        copy.push(deeperClone)
+      } else {
+        // @ts-ignore
+        copy[at] = deeperClone
+      }
+    }
+    return copy
+  }
+
+  const cleanNode = (parent: any) => {
+    parent.attrs = deepCloneAttrs(parent.attrs)
+    // Prosemirror's Node.toJSON() references attributes so they have to be cloned to avoid disaster.
+    // It must be before conten check for the nodes like figures
+    if (parent.content) {
+      parent.content = parent.content.filter((child: ManuscriptNode) => {
+        // the type is wrong. we get JSON and not the doc
+        // pass through all the nodes with no track changes at all
+        if (!child?.attrs?.dataTracked) {
+          return true
+        }
+        // consider this for future implementation: text changes are in general not to be regarded => meaning always to pass through
+        const lastChange = getLastChange(child.attrs.dataTracked)
+        // this to be able to create a modelMap with models that are relevant but were spawn out of existing and have duplicate ids
+        // this will fail with new prosemirror as attributes are read only but it's ok to modify them on an inactive document
+        if (
+          lastChange.status !== CHANGE_STATUS.rejected &&
+          lastChange.operation !== CHANGE_OPERATION.delete
+        ) {
+          child.attrs = deepCloneAttrs(child.attrs) || {} // @TODO: needs refactoring, in case when there is a dataTracked attribute, we deep copy attributes 2 times.
+          child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
+          return true
+        }
+        return false
+      })
       parent.content.forEach((child: ManuscriptNode) => cleanNode(child))
     }
   }

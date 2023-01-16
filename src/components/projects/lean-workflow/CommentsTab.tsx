@@ -36,7 +36,7 @@ export const CommentsTab: React.FC<{
       collaborators,
       collaboratorsById,
       keywords,
-      saveModel,
+      saveTrackModel, // saveTrackModel is only to be used for the models that are ProseMirror representable
       deleteModel,
     },
   ] = useStore((store) => ({
@@ -45,10 +45,10 @@ export const CommentsTab: React.FC<{
     collaborators: store.collaborators || new Map(),
     collaboratorsById: store.collaboratorsById,
     keywords: store.keywords,
-    saveModel: store.saveModel,
+    saveTrackModel: store.saveTrackModel,
     deleteModel: store.deleteModel,
   }))
-  const createKeyword = (name: string) => saveModel(buildKeyword(name))
+  const createKeyword = (name: string) => saveTrackModel(buildKeyword(name))
 
   const getCollaboratorById = (id: string) =>
     collaboratorsById && collaboratorsById.get(id)
@@ -69,7 +69,7 @@ export const CommentsTab: React.FC<{
           title={'Comments'}
           contentStyles={{ margin: '0 25px 24px 0' }}
         >
-          <CommentList selected={selected} editor={editor} />
+          <CommentList editor={editor} />
         </InspectorSection>
       )}
       {config.features.productionNotes && (
@@ -87,7 +87,7 @@ export const CommentsTab: React.FC<{
             selected={(selected as Selected) || null}
             getCollaboratorById={getCollaboratorById}
             listCollaborators={listCollaborators}
-            saveModel={saveModel}
+            saveModel={saveTrackModel}
             deleteModel={deleteModel}
             noteSource={'EDITOR'}
           />

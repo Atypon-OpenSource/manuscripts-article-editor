@@ -12,10 +12,15 @@
 import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import { shortLibraryItemMetadata } from '@manuscripts/library'
-import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
+import {
+  Build,
+  buildBibliographyItem,
+  buildComment,
+} from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Citation,
+  CommentAnnotation,
   Model,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
@@ -125,7 +130,7 @@ interface Props {
   selectedText: string
   citation: Citation
   updateCitation: (data: Partial<Citation>) => Promise<void>
-  setCommentTarget: (commentTarget?: string) => void
+  setCommentTarget: (commentTarget: CommentAnnotation) => void
   updatePopper: () => void
 }
 
@@ -198,10 +203,10 @@ const CitationEditor: React.FC<Props> = ({
     await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
   }, [setLibraryItem, saveModel])
 
-  const addCommentCallback = useCallback(() => setCommentTarget(citation._id), [
-    citation._id,
-    setCommentTarget,
-  ])
+  const addCommentCallback = useCallback(
+    () => setCommentTarget(buildComment(citation._id) as CommentAnnotation),
+    [citation._id, setCommentTarget]
+  )
 
   const citedReferencesSet = useMemo(
     () => new Set(items.map((item) => item._id)),

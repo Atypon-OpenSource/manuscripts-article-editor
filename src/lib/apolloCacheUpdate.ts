@@ -12,38 +12,6 @@
 import config from '../config'
 import { GET_SUBMISSION, SubmissionAttachment } from './lean-workflow-gql'
 
-export const updateSubmissionAttachment = (
-  cache: any,
-  submissionId: string,
-  documentId: string,
-  attachment: SubmissionAttachment
-) => {
-  const cachedSubmission = cache.readQuery({
-    query: GET_SUBMISSION,
-    variables: config.submission.id
-      ? {
-          id: config.submission.id,
-          type: 'URI',
-        }
-      : {
-          id: documentId,
-          type: 'DOCUMENT_ID',
-        },
-  })
-  if (cachedSubmission?.submission?.attachments) {
-    cache.writeQuery({
-      query: GET_SUBMISSION,
-      variables: { id: submissionId },
-      data: {
-        submission: {
-          ...cachedSubmission.submission,
-          attachments: [...cachedSubmission.submission.attachments, attachment],
-        },
-      },
-    })
-  }
-}
-
 export const updateSubmissionAttachmentDesignation = (
   cache: any,
   submissionId: string,
