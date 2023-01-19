@@ -73,14 +73,6 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
         const resolvedPos = view.state.doc.resolve(docPos.pos)
         const attrs: Record<string, unknown> = {
           src: attachment.link,
-          label: attachment.name,
-          externalFileReferences: [
-            {
-              url: `attachment:${attachment.id}`,
-              kind: 'imageRepresentation',
-              ref: attachment,
-            },
-          ],
         }
 
         switch (resolvedPos.parent.type) {
