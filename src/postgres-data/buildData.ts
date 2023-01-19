@@ -34,6 +34,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/manuscripts-json-schema'
+import { SubmissionAttachment } from '@manuscripts/style-guide'
 import {
   Commit,
   commitFromJSON,
@@ -42,6 +43,7 @@ import {
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
+import { replaceAttachmentsIds } from '../lib/replace-attachments-ids'
 import { getUserRole } from '../lib/roles'
 import { getSnapshot } from '../lib/snapshot'
 import { state } from '../store'
@@ -256,7 +258,8 @@ const buildModelMapFromJson = (models: Model[]) => {
 const getDrivedData = async (
   manuscriptID: string,
   projectID: string,
-  data: Partial<state>
+  data: Partial<state>,
+  alternatedModelMap?: Map<string, Model>
 ) => {
   let storeData: Partial<state>
 
@@ -266,7 +269,7 @@ const getDrivedData = async (
 
   const latestSnaphot = data?.snapshots?.length ? data.snapshots[0] : null
   if (!latestSnaphot) {
-    const decoder = new Decoder(data.modelMap, true)
+    const decoder = new Decoder(alternatedModelMap || data.modelMap, true)
     const doc = decoder.createArticleNode()
     const ancestorDoc = decoder.createArticleNode()
     storeData = {
@@ -334,7 +337,8 @@ const getDrivedData = async (
 export default async function buildData(
   projectID: string,
   manuscriptID: string,
-  api: Api
+  api: Api,
+  attachments: SubmissionAttachment[]
 ) {
   // const project = await getProjectData(projectID, api)
   const user = await api.getUser()
@@ -357,10 +361,20 @@ export default async function buildData(
   const projects = await api.getUserProjects()
   const librariesData = await getLibrariesData(projectID, api)
 
+  // replace attachments with src
+  let noAttachmentsModelMap: Map<string, Model> | undefined = undefined
+  if (attachments && manuscriptData.modelMap) {
+    noAttachmentsModelMap = replaceAttachmentsIds(
+      manuscriptData.modelMap,
+      attachments
+    )
+  }
+
   const derivedData = await getDrivedData(
     manuscriptID,
     projectID,
-    manuscriptData
+    manuscriptData,
+    noAttachmentsModelMap
   )
 
   return {

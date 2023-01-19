@@ -20,6 +20,7 @@ import {
   schema,
 } from '@manuscripts/manuscript-transform'
 import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import { SubmissionAttachment } from '@manuscripts/style-guide'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
@@ -30,6 +31,10 @@ import {
   trackedJoint,
 } from '../components/track-changes/utils'
 import { setNodeAttrs } from '../lib/node-attrs'
+import {
+  replaceAttachmentLinks,
+  replaceAttachmentsIds,
+} from '../lib/replace-attachments-ids'
 import { useStore } from '../store'
 
 const useTrackedModelManagement = (
@@ -39,7 +44,8 @@ const useTrackedModelManagement = (
   dispatch: (tr: Transaction<any>) => EditorState<ManuscriptSchema>,
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
   deleteModel: (id: string) => Promise<string>,
-  finalModelMap: Map<string, Model>
+  finalModelMap: Map<string, Model>,
+  getAttachments: () => SubmissionAttachment[]
 ) => {
   const modelMap = useMemo(() => {
     const docJSONed = doc.toJSON()
@@ -51,7 +57,8 @@ const useTrackedModelManagement = (
         modelsFromPM.set(model._id, model)
       }
     })
-    return modelsFromPM
+    return replaceAttachmentLinks(modelsFromPM, getAttachments())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc, finalModelMap])
 
   const [, dispatchStore] = useStore()
@@ -91,13 +98,18 @@ const useTrackedModelManagement = (
           model._id = base[0]
         }
 
+        const attachmentLinksModelMap = replaceAttachmentsIds(
+          modelMap,
+          getAttachments()
+        )
+
         if (view) {
           doc.descendants((node, pos) => {
             if (
               node.attrs.id === model._id ||
               matchByTrackVersion(node, model._id || '', dataTrackedId)
             ) {
-              const decoder = new Decoder(modelMap, true) // as node ids are unique it will always occur just once (or never) so it's safe to keep in the loop
+              const decoder = new Decoder(attachmentLinksModelMap, true) // as node ids are unique it will always occur just once (or never) so it's safe to keep in the loop
               const newDoc = decoder.createArticleNode()
               newDoc.descendants((newNode, pos) => {
                 if (
@@ -128,6 +140,7 @@ const useTrackedModelManagement = (
       }
       return Promise.resolve(model)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [modelMap, saveModel, doc, view]
   )
 

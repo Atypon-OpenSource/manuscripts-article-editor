@@ -9,6 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { SubmissionAttachment } from '@manuscripts/style-guide'
+
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import Api from './Api'
@@ -19,8 +21,10 @@ export default class PsSource implements StoreDataSourceStrategy {
   api: Api
   data: Partial<state>
   utilities: ReturnType<typeof buildUtilities>
-  constructor() {
+  attachments: SubmissionAttachment[]
+  constructor(attachments: SubmissionAttachment[]) {
     this.api = new Api()
+    this.attachments = attachments
     // import api
     // get user and all the data
     // build and provide methods such as saveModel, saveManuscript etc. (see ModelManager in couch-data)
@@ -36,7 +40,12 @@ export default class PsSource implements StoreDataSourceStrategy {
       this.api.setToken(state.authToken)
     }
     if (state.manuscriptID && state.projectID) {
-      this.data = await buildData(state.projectID, state.manuscriptID, this.api)
+      this.data = await buildData(
+        state.projectID,
+        state.manuscriptID,
+        this.api,
+        this.attachments
+      )
       this.utilities = buildUtilities(this.data, this.api, setState)
     }
     next({ ...state, ...this.data, ...this.utilities })

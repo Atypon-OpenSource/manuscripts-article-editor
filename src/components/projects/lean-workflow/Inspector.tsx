@@ -86,20 +86,18 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
             switch (label) {
               case 'Content': {
                 return (
-                  <>
-                    <ContentTab
-                      selected={selected}
-                      selectedElement={findParentElement(
-                        state.selection,
-                        modelIds
-                      )}
-                      selectedSection={findParentSection(state.selection)}
-                      state={state}
-                      dispatch={dispatch}
-                      hasFocus={view?.hasFocus()}
-                      key="content"
-                    />
-                  </>
+                  <ContentTab
+                    selected={selected}
+                    selectedElement={findParentElement(
+                      state.selection,
+                      modelIds
+                    )}
+                    selectedSection={findParentSection(state.selection)}
+                    state={state}
+                    dispatch={dispatch}
+                    hasFocus={view?.hasFocus()}
+                    key="content"
+                  />
                 )
               }
 
@@ -125,6 +123,7 @@ const Inspector: React.FC<Props> = ({ tabs, editor }) => {
               case 'Files': {
                 return submissionId ? (
                   <FileManager
+                    key="files"
                     can={can}
                     enableDragAndDrop={true}
                     modelMap={trackModelMap}

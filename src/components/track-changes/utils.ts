@@ -47,10 +47,12 @@ export const adaptTrackedData = (docJSONed: unknown) => {
   const cleanDoc = Object.assign({}, docJSONed)
 
   function deepCloneAttrs(object: any) {
-    const copy = object === null ? null : Array.isArray(object) ? [] : {}
+    if (typeof object !== 'object' || object === null) {
+      return object
+    }
+    const copy = Array.isArray(object) ? [] : {}
     for (const at in object) {
-      const deeperClone =
-        typeof object[at] !== 'object' ? object[at] : deepCloneAttrs(object[at])
+      const deeperClone = deepCloneAttrs(object[at])
       if (Array.isArray(object)) {
         // @ts-ignore
         copy.push(deeperClone)
