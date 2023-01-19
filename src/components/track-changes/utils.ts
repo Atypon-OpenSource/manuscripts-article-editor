@@ -46,22 +46,13 @@ export const trackedJoint = ':dataTracked:'
 export const adaptTrackedData = (docJSONed: unknown) => {
   const cleanDoc = Object.assign({}, docJSONed)
 
-  let counter = 0
-
   function deepCloneAttrs(object: any) {
-    counter += 1
     if (typeof object !== 'object' || object === null) {
       return object
     }
-    console.log(counter)
-    if (counter > 2000) {
-      alert('Got it')
-      // eslint-disable-next-line
-    }
     const copy = Array.isArray(object) ? [] : {}
     for (const at in object) {
-      const deeperClone =
-        typeof object[at] !== 'object' ? object[at] : deepCloneAttrs(object[at])
+      const deeperClone = deepCloneAttrs(object[at])
       if (Array.isArray(object)) {
         // @ts-ignore
         copy.push(deeperClone)
@@ -74,7 +65,6 @@ export const adaptTrackedData = (docJSONed: unknown) => {
   }
 
   const cleanNode = (parent: any) => {
-    counter = 0
     parent.attrs = deepCloneAttrs(parent.attrs)
     // Prosemirror's Node.toJSON() references attributes so they have to be cloned to avoid disaster.
     // It must be before conten check for the nodes like figures
