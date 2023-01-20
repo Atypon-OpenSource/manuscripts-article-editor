@@ -38,6 +38,7 @@ import {
   buildKeyword,
   getModelsByType,
 } from '@manuscripts/transform'
+import { TextSelection } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
@@ -285,10 +286,10 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
    * check if the selection pointing to a highlight node
    */
   useEffect(() => {
-    const numberOfChildren = state.selection.$from.parent.content.childCount
+    const childCount = state.selection.$from.parent.content.childCount
     const nodeIndex = state.selection.$from.index()
 
-    if (isTextSelection(state.selection) && numberOfChildren > nodeIndex) {
+    if (state.selection instanceof TextSelection && childCount > nodeIndex) {
       const nodeBeforePos = state.selection.$from.posAtIndex(nodeIndex - 1)
       const nodeAfterPos = state.selection.$from.posAtIndex(nodeIndex + 1)
       const nodeBeforeNode = state.doc.nodeAt(nodeBeforePos)

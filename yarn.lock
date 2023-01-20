@@ -1784,8 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
   integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
-"@manuscripts/body-editor@../manuscripts-body-editor":
+"@manuscripts/body-editor@^1.0.0":
   version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.0.tgz#346a4f99e0a4bc741c99b3640677b93c219f9bb6"
+  integrity sha512-Ih/56hVXT8cc3gMsa/48Rzb3yjYrQ0TdstYo2ZPqzZEFjlcejnFl5IbBmOTlPFZJT0gnrxyedWObHWzs96Kn3Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1849,8 +1851,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-0.2.2.tgz#2019721859d00621c30e7b1ea054a3ee1d1c170f"
   integrity sha512-uVV919tu3begel33vlNM+XxC6BUJQarwdKsD1bkypJqBy4FSDttc9L7R6/FJPKIOME22ePo7qcKRXhrHHRcorg==
 
-"@manuscripts/requirements@../manuscripts-requirements":
-  version "1.0.1"
+"@manuscripts/requirements@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/requirements/-/requirements-1.0.0.tgz#95596c234c830c89ddd34f3d8e486d936802fb51"
+  integrity sha512-SvzOUaOAx952OMksk0gelwXaRVNCly6iIWtyIcrWqWRHN/xbNoOwaxiNK13xWrKGTqhp94zCSmzoowq+keaJJQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     deep-equal "^2.2.0"
@@ -1859,8 +1863,10 @@
     image-size "^1.0.2"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@../manuscripts-style-guide":
+"@manuscripts/style-guide@^1.0.0":
   version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.0.tgz#8dac4e128101c4d372039091c829008380798306"
+  integrity sha512-mae8T2kB2N8GAKAMl/IwfMY0wacJ1brPtxNLgRPCJiHaFLMmbLjpCojeuAQuPQR1mU4YgQWSYZgaMa5tZOqI9g==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
