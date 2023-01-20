@@ -27,7 +27,6 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
-import { ApolloError } from 'apollo-client'
 import debounce from 'lodash.debounce'
 import React, { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
@@ -35,17 +34,12 @@ import styled from 'styled-components'
 import config from '../../../config'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
-import {
-  graphQLErrorMessage,
-  Person,
-  useGetPermittedActions,
-} from '../../../lib/lean-workflow-gql'
+import { Person } from '../../../lib/lean-workflow-gql'
 import { useCommentStore } from '../../../quarterback/useCommentStore'
 import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
 import MetadataContainer from '../../metadata/MetadataContainer'
 import { Main } from '../../Page'
-import { ManuscriptPlaceholder } from '../../Placeholders'
 import { useEditorStore } from '../../track-changes/useEditorStore'
 import {
   EditorBody,
@@ -54,7 +48,6 @@ import {
   EditorHeader,
 } from '../EditorContainer'
 import ManuscriptSidebar from '../ManuscriptSidebar'
-import { ReloadDialog } from '../ReloadDialog'
 import {
   ApplicationMenuContainer,
   ApplicationMenusLW as ApplicationMenus,
@@ -65,17 +58,19 @@ import { UserProvider } from './provider/UserProvider'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
-  const [{ project, user, submission, person }, dispatch] = useStore(
-    (state) => {
-      return {
-        manuscriptID: state.manuscriptID,
-        project: state.project,
-        user: state.user,
-        submission: state.submission,
-        person: state.person,
-      }
+  const [
+    { project, user, submission, person, permittedActions },
+    dispatch,
+  ] = useStore((state) => {
+    return {
+      manuscriptID: state.manuscriptID,
+      project: state.project,
+      user: state.user,
+      submission: state.submission,
+      permittedActions: state.permittedActions,
+      person: state.person,
     }
-  )
+  })
 
   useEffect(() => {
     if (submission?.id && person) {
@@ -87,9 +82,6 @@ const ManuscriptPageContainer: React.FC = () => {
     }
   }, [submission, person, dispatch])
 
-  const submissionId: string = submission?.id
-  const permittedActionsData = useGetPermittedActions(submissionId)
-  const permittedActions = permittedActionsData?.data?.permittedActions
   // lwRole must not be used to calculate permissions in the contenxt of manuscripts app.
   // lwRole is only for the dashboard
   const can = useCalcPermission({
@@ -98,9 +90,6 @@ const ManuscriptPageContainer: React.FC = () => {
     permittedActions,
   })
 
-  if (permittedActionsData.loading) {
-    return <ManuscriptPlaceholder />
-  }
   // else if (error || !data) {
   //   return (
   //     <UserProvider
@@ -112,14 +101,6 @@ const ManuscriptPageContainer: React.FC = () => {
   //     </UserProvider>
   //   )
   // }
-
-  if (permittedActionsData.error) {
-    const message = graphQLErrorMessage(
-      permittedActionsData.error as ApolloError,
-      'Request for user permissions from server failed.'
-    )
-    return <ReloadDialog message={message} />
-  }
 
   return (
     <CapabilitiesProvider can={can}>
