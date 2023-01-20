@@ -11,24 +11,23 @@
  */
 
 import {
-  buildBibliographicName,
-  buildContributor,
-} from '@manuscripts/manuscript-transform'
-import {
   ContainerInvitation,
   Contributor,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { TitleEditorView } from '@manuscripts/title-editor'
+import {
+  buildBibliographicName,
+  buildContributor,
+} from '@manuscripts/transform'
 import React, { useState } from 'react'
 
 import { projectInvite } from '../../lib/api'
 import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
-import { buildCollaborators } from '../../lib/collaborators'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
 import { useStore } from '../../store'
-import { InvitationValues } from '../collaboration/InvitationForm'
+import { InvitationValues } from './AuthorInvitationForm'
 import { Metadata } from './Metadata'
 
 interface Props {
@@ -80,7 +79,6 @@ const MetadataContainer: React.FC<Props> = ({
       saveModel,
       collaboratorsProfiles,
       user,
-      project,
       manuscript,
       saveManuscript,
       deleteModel,
@@ -106,19 +104,18 @@ const MetadataContainer: React.FC<Props> = ({
     ...containerInvitations,
   ].filter((invitation) => invitation.containerID.startsWith('MPProject'))
 
-  const updateAuthor = (invitingUser: UserProfile) => async (
-    author: Contributor,
-    invitedEmail: string
-  ) => {
-    const invitation = await getInvitation(invitingUser.userID, invitedEmail)
+  const updateAuthor =
+    (invitingUser: UserProfile) =>
+    async (author: Contributor, invitedEmail: string) => {
+      const invitation = await getInvitation(invitingUser.userID, invitedEmail)
 
-    const updatedAuthor: Contributor = await saveModel({
-      ...author,
-      invitationID: invitation?._id || '',
-    })
+      const updatedAuthor: Contributor = await saveModel({
+        ...author,
+        invitationID: invitation?._id || '',
+      })
 
-    selectAuthor(updatedAuthor)
-  }
+      selectAuthor(updatedAuthor)
+    }
 
   const toggleExpanded = () => {
     setState((state) => ({ ...state, expanded: !state.expanded }))
@@ -210,19 +207,6 @@ const MetadataContainer: React.FC<Props> = ({
     }
   }
 
-  const startAddingAuthors = (
-    collaborators: UserProfile[],
-    invitations: ContainerInvitation[]
-  ) => (authors: Contributor[]) => {
-    setState((state) => ({
-      ...state,
-      addingAuthors: true,
-      invitationSent: false,
-    }))
-
-    buildNonAuthors(authors, collaborators, invitations)
-  }
-
   const handleAddingDoneCancel = () =>
     setState((state) => ({
       ...state,
@@ -249,44 +233,40 @@ const MetadataContainer: React.FC<Props> = ({
   const handleInviteCancel = () =>
     setState((state) => ({ ...state, isInvite: false, invitationSent: false }))
 
-  const handleInvitationSubmit = (
-    invitingUser: UserProfile,
-    invitations: ContainerInvitation[]
-  ) => async (
-    authors: Contributor[],
-    values: InvitationValues
-  ): Promise<void> => {
-    const { email, name, role } = values
+  const handleInvitationSubmit =
+    (invitingUser: UserProfile, invitations: ContainerInvitation[]) =>
+    async (authors: Contributor[], values: InvitationValues): Promise<void> => {
+      const { email, name, role } = values
 
-    const projectID = manuscript.containerID
-    const invitingID = invitingUser.userID
+      const projectID = manuscript.containerID
+      const invitingID = invitingUser.userID
 
-    const alreadyInvited = invitations.some(
-      (invitation) =>
-        invitation.containerID === projectID &&
-        invitation.invitedUserEmail === email
-    )
+      const alreadyInvited = invitations.some(
+        (invitation) =>
+          invitation.containerID === projectID &&
+          invitation.invitedUserEmail === email
+      )
 
-    await projectInvite(projectID, [{ email, name }], role)
+      await projectInvite(projectID, [{ email, name }], role)
 
-    if (!alreadyInvited) {
-      await createInvitedAuthor(authors, email, invitingID, name)
+      if (!alreadyInvited) {
+        await createInvitedAuthor(authors, email, invitingID, name)
+      }
+
+      setState((state) => ({
+        ...state,
+        isInvite: false,
+        invitationSent: true,
+        addingAuthors: false,
+        numberOfAddedAuthors: 0,
+      }))
+
+      trackEvent({
+        category: 'Invitations',
+        action: 'Send',
+        label: `projectID=${projectID}`,
+      })
     }
-
-    setState((state) => ({
-      ...state,
-      isInvite: false,
-      invitationSent: true,
-      addingAuthors: false,
-      numberOfAddedAuthors: 0,
-    }))
-
-    trackEvent({
-      category: 'Invitations',
-      action: 'Send',
-      label: `projectID=${projectID}`,
-    })
-  }
 
   const createInvitedAuthor = async (
     authors: Contributor[],
@@ -301,43 +281,6 @@ const MetadataContainer: React.FC<Props> = ({
       name,
       invitation?._id
     )
-  }
-
-  const buildInvitedAuthorsEmail = (
-    authorInvitationIDs: string[],
-    invitations: ContainerInvitation[]
-  ) => {
-    const invitedAuthorsEmail: string[] = []
-    for (const invitation of invitations) {
-      if (authorInvitationIDs.includes(invitation._id)) {
-        invitedAuthorsEmail.push(invitation.invitedUserEmail)
-      }
-    }
-    return invitedAuthorsEmail
-  }
-
-  const buildNonAuthors = (
-    authors: Contributor[],
-    collaborators: UserProfile[],
-    invitations: ContainerInvitation[]
-  ) => {
-    const userIDs: string[] = authors.map((author) => author.userID as string)
-    const invitationsID: string[] = authors.map(
-      (author) => author.invitationID!
-    )
-
-    const invitedAuthorsEmail: string[] = buildInvitedAuthorsEmail(
-      invitationsID,
-      invitations
-    )
-
-    const nonAuthors: UserProfile[] = collaborators.filter(
-      (person) =>
-        !userIDs.includes(person.userID) &&
-        !invitedAuthorsEmail.includes(person.email as string)
-    )
-
-    setState((state) => ({ ...state, nonAuthors }))
   }
 
   const handleDrop = (
@@ -381,10 +324,6 @@ const MetadataContainer: React.FC<Props> = ({
       toggleExpanded={toggleExpanded}
       expanded={state.expanded}
       addingAuthors={state.addingAuthors}
-      openAddAuthors={startAddingAuthors(
-        buildCollaborators(project, collaboratorsProfiles),
-        allInvitations
-      )}
       numberOfAddedAuthors={state.numberOfAddedAuthors}
       nonAuthors={state.nonAuthors}
       addedAuthors={state.addedAuthors}

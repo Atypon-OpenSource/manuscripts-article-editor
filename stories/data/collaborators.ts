@@ -10,10 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  ObjectTypes,
-  UserCollaborator,
-} from '@manuscripts/manuscripts-json-schema'
+import { ObjectTypes, UserCollaborator } from '@manuscripts/json-schema'
 
 import { people } from './people'
 

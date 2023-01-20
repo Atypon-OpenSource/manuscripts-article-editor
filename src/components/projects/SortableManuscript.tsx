@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Manuscript } from '@manuscripts/manuscripts-json-schema'
+import { Manuscript } from '@manuscripts/json-schema'
 import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import styled from 'styled-components'

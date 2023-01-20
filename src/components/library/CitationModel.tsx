@@ -10,14 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
-import { shortLibraryItemMetadata } from '@manuscripts/library'
-import { getModelsByType } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Citation,
   Model,
   ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { shortLibraryItemMetadata } from '@manuscripts/library'
 import {
   Category,
   CloseButton,
@@ -26,6 +25,7 @@ import {
   ModalHeader,
   StyledModal,
 } from '@manuscripts/style-guide'
+import { getModelsByType } from '@manuscripts/transform'
 import { FormikProps } from 'formik'
 import { isEqual } from 'lodash-es'
 import React, { useCallback, useEffect, useRef, useState } from 'react'

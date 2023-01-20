@@ -11,11 +11,8 @@
  */
 
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
+import { BibliographyItem, LibraryCollection } from '@manuscripts/json-schema'
 import { fullLibraryItemMetadata } from '@manuscripts/library'
-import {
-  BibliographyItem,
-  LibraryCollection,
-} from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
@@ -167,9 +164,8 @@ export const LibraryItems: React.FC<{
               {item.keywordIDs && (
                 <Collections>
                   {item.keywordIDs.map((keywordID) => {
-                    const libraryCollection = projectLibraryCollections.get(
-                      keywordID
-                    )
+                    const libraryCollection =
+                      projectLibraryCollections.get(keywordID)
 
                     if (!libraryCollection) {
                       return null

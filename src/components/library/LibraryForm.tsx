@@ -12,18 +12,13 @@
 
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
-import { bibliographyItemTypes } from '@manuscripts/library'
-import {
-  buildBibliographicDate,
-  buildBibliographicName,
-  buildLibraryCollection,
-} from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
   BibliographyItem,
   LibraryCollection,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { bibliographyItemTypes } from '@manuscripts/library'
 import {
   ButtonGroup,
   IconButton,
@@ -32,6 +27,11 @@ import {
   TextField,
 } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
+import {
+  buildBibliographicDate,
+  buildBibliographicName,
+  buildLibraryCollection,
+} from '@manuscripts/transform'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { OptionsType } from 'react-select'

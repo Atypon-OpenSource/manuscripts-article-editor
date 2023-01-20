@@ -10,14 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Model } from '@manuscripts/manuscripts-json-schema'
-import { RxDocument } from '@manuscripts/rxdb'
-
-export const newestFirst = (a: RxDocument<Model>, b: RxDocument<Model>) =>
-  Number(b.createdAt) - Number(a.createdAt)
-
-export const oldestFirst = (a: RxDocument<Model>, b: RxDocument<Model>) =>
-  Number(a.createdAt) - Number(b.createdAt)
+import { Model } from '@manuscripts/json-schema'
 
 type ModelWithPriority = Model & { priority?: number }
 

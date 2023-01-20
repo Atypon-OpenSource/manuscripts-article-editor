@@ -10,11 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { RequirementsProvider } from '@manuscripts/manuscript-editor'
-import {
-  ContainedModel,
-  hasObjectType,
-} from '@manuscripts/manuscript-transform'
+import { RequirementsProvider } from '@manuscripts/body-editor'
 import {
   Manuscript,
   MaximumManuscriptCharacterCountRequirement,
@@ -28,7 +24,8 @@ import {
   Model,
   ObjectTypes,
   Section,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { ContainedModel, hasObjectType } from '@manuscripts/transform'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 
@@ -36,65 +33,69 @@ import { RequirementsInspector } from '../src/components/requirements/Requiremen
 import { GenericStore, GenericStoreProvider } from '../src/store'
 import { modelMap } from './data/doc'
 
-const maximumManuscriptWordCountRequirement: MaximumManuscriptWordCountRequirement = {
-  _id: 'MaximumManuscriptWordCountRequirement:1',
-  containerID: 'MPProject:1',
-  manuscriptID: 'MPManuscript:1',
-  objectType: 'MPMaximumManuscriptWordCountRequirement',
-  createdAt: 0,
-  updatedAt: 0,
-  sessionID: 'foo',
-  severity: 0,
-  count: 1000,
-}
+const maximumManuscriptWordCountRequirement: MaximumManuscriptWordCountRequirement =
+  {
+    _id: 'MaximumManuscriptWordCountRequirement:1',
+    containerID: 'MPProject:1',
+    manuscriptID: 'MPManuscript:1',
+    objectType: 'MPMaximumManuscriptWordCountRequirement',
+    createdAt: 0,
+    updatedAt: 0,
+    sessionID: 'foo',
+    severity: 0,
+    count: 1000,
+  }
 modelMap.set(
   maximumManuscriptWordCountRequirement._id,
   maximumManuscriptWordCountRequirement
 )
 
-const minimumManuscriptWordCountRequirement: MinimumManuscriptWordCountRequirement = {
-  _id: 'MinimumManuscriptWordCountRequirement:1',
-  containerID: 'MPProject:1',
-  manuscriptID: 'MPManuscript:1',
-  objectType: 'MPMinimumManuscriptWordCountRequirement',
-  createdAt: 0,
-  updatedAt: 0,
-  sessionID: 'foo',
-  severity: 0,
-  count: 100,
-}
+const minimumManuscriptWordCountRequirement: MinimumManuscriptWordCountRequirement =
+  {
+    _id: 'MinimumManuscriptWordCountRequirement:1',
+    containerID: 'MPProject:1',
+    manuscriptID: 'MPManuscript:1',
+    objectType: 'MPMinimumManuscriptWordCountRequirement',
+    createdAt: 0,
+    updatedAt: 0,
+    sessionID: 'foo',
+    severity: 0,
+    count: 100,
+  }
 modelMap.set(
   minimumManuscriptWordCountRequirement._id,
   minimumManuscriptWordCountRequirement
 )
 
-const maximumManuscriptCharacterCountRequirement: MaximumManuscriptCharacterCountRequirement = {
-  _id: 'MaximumManuscriptCharacterCountRequirement:1',
-  containerID: 'MPProject:1',
-  manuscriptID: 'MPManuscript:1',
-  objectType: 'MPMaximumManuscriptCharacterCountRequirement',
-  createdAt: 0,
-  updatedAt: 0,
-  sessionID: 'foo',
-  severity: 0,
-  count: 10000,
-}
+const maximumManuscriptCharacterCountRequirement: MaximumManuscriptCharacterCountRequirement =
+  {
+    _id: 'MaximumManuscriptCharacterCountRequirement:1',
+    containerID: 'MPProject:1',
+    manuscriptID: 'MPManuscript:1',
+    objectType: 'MPMaximumManuscriptCharacterCountRequirement',
+    createdAt: 0,
+    updatedAt: 0,
+    sessionID: 'foo',
+    severity: 0,
+    count: 10000,
+  }
 modelMap.set(
   maximumManuscriptCharacterCountRequirement._id,
   maximumManuscriptCharacterCountRequirement
 )
 
-const minimumManuscriptCharacterCountRequirement: MinimumManuscriptCharacterCountRequirement = {
-  _id: 'MinimumManuscriptCharacterCountRequirement:1',
-  containerID: 'MPProject:1',
-  manuscriptID: 'MPManuscript:1',
-  objectType: 'MPMinimumManuscriptCharacterCountRequirement',
-  createdAt: 0,
-  updatedAt: 0,
-  sessionID: 'foo',
-  severity: 0,
-  count: 1000,
-}
+const minimumManuscriptCharacterCountRequirement: MinimumManuscriptCharacterCountRequirement =
+  {
+    _id: 'MinimumManuscriptCharacterCountRequirement:1',
+    containerID: 'MPProject:1',
+    manuscriptID: 'MPManuscript:1',
+    objectType: 'MPMinimumManuscriptCharacterCountRequirement',
+    createdAt: 0,
+    updatedAt: 0,
+    sessionID: 'foo',
+    severity: 0,
+    count: 1000,
+  }
 modelMap.set(
   minimumManuscriptCharacterCountRequirement._id,
   minimumManuscriptCharacterCountRequirement
@@ -132,33 +133,35 @@ modelMap.set(
   minimumSectionWordCountRequirement
 )
 
-const maximumSectionCharacterCountRequirement: MaximumSectionCharacterCountRequirement = {
-  _id: 'MaximumSectionCharacterCountRequirement:1',
-  containerID: 'MPProject:1',
-  manuscriptID: 'MPManuscript:1',
-  objectType: 'MPMaximumSectionCharacterCountRequirement',
-  createdAt: 0,
-  updatedAt: 0,
-  sessionID: 'foo',
-  severity: 0,
-  count: 10000,
-}
+const maximumSectionCharacterCountRequirement: MaximumSectionCharacterCountRequirement =
+  {
+    _id: 'MaximumSectionCharacterCountRequirement:1',
+    containerID: 'MPProject:1',
+    manuscriptID: 'MPManuscript:1',
+    objectType: 'MPMaximumSectionCharacterCountRequirement',
+    createdAt: 0,
+    updatedAt: 0,
+    sessionID: 'foo',
+    severity: 0,
+    count: 10000,
+  }
 modelMap.set(
   maximumSectionCharacterCountRequirement._id,
   maximumSectionCharacterCountRequirement
 )
 
-const minimumSectionCharacterCountRequirement: MinimumSectionCharacterCountRequirement = {
-  _id: 'MinimumSectionCharacterCountRequirement:1',
-  containerID: 'MPProject:1',
-  manuscriptID: 'MPManuscript:1',
-  objectType: 'MPMinimumSectionCharacterCountRequirement',
-  createdAt: 0,
-  updatedAt: 0,
-  sessionID: 'foo',
-  severity: 0,
-  count: 1000,
-}
+const minimumSectionCharacterCountRequirement: MinimumSectionCharacterCountRequirement =
+  {
+    _id: 'MinimumSectionCharacterCountRequirement:1',
+    containerID: 'MPProject:1',
+    manuscriptID: 'MPManuscript:1',
+    objectType: 'MPMinimumSectionCharacterCountRequirement',
+    createdAt: 0,
+    updatedAt: 0,
+    sessionID: 'foo',
+    severity: 0,
+    count: 1000,
+  }
 modelMap.set(
   minimumSectionCharacterCountRequirement._id,
   minimumSectionCharacterCountRequirement

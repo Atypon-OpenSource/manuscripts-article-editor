@@ -11,14 +11,6 @@
  */
 
 import {
-  Attachment,
-  Build,
-  ContainedModel,
-  ManuscriptModel,
-  ManuscriptNode,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
-import {
   BibliographyItem,
   CommentAnnotation,
   ContainerInvitation,
@@ -33,9 +25,16 @@ import {
   Snapshot,
   Tag,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { FileManagement } from '@manuscripts/style-guide'
-import { Commit } from '@manuscripts/track-changes'
+import {
+  Attachment,
+  Build,
+  ContainedModel,
+  ManuscriptModel,
+  ManuscriptNode,
+  ModelAttachment,
+} from '@manuscripts/transform'
 
 import { Person, Submission } from '../lib/lean-workflow-gql'
 import { ProjectRole } from '../lib/roles'
@@ -82,12 +81,10 @@ export type state = {
   userProfileID?: string | undefined
   manuscriptID: string
   containerID: string // @TODO it's the same as projectID - has to be cleaned up
-  commitAtLoad?: Commit | null
   invitations?: ContainerInvitation[]
   projectInvitations?: ProjectInvitation[]
   containerInvitations?: ContainerInvitation[]
   projects: Project[]
-  commits: Commit[]
   modelMap: Map<string, Model>
   snapshotID: string | null
   snapshots?: Snapshot[]

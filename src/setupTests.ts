@@ -10,12 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import registerRequireContextHook from 'babel-plugin-require-context-hook/register'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { v4 as uuid } from 'uuid'
-
-registerRequireContextHook()
 
 configure({ adapter: new Adapter() })
 

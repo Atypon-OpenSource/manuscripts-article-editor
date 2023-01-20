@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ObjectTypes, Section } from '@manuscripts/manuscripts-json-schema'
+import { ObjectTypes, Section } from '@manuscripts/json-schema'
 
 import { chooseSectionCategory } from '../section-categories'
 

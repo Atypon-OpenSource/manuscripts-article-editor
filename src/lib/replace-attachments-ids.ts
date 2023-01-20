@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Figure, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+import { Figure, ObjectTypes } from '@manuscripts/json-schema'
 import { FileManagement } from '@manuscripts/style-guide'
 
 import { state } from '../store'

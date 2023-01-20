@@ -13,12 +13,11 @@ import {
   ManuscriptsEditor,
   PopperManager,
   useEditor,
-} from '@manuscripts/manuscript-editor'
-import { Build, ManuscriptSchema } from '@manuscripts/manuscript-transform'
-import { CommentAnnotation, Model } from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/body-editor'
+import { CommentAnnotation, Model } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
-import { Plugin } from 'prosemirror-state'
+import { Build } from '@manuscripts/transform'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
@@ -27,7 +26,6 @@ import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import config from '../config'
-// import { useUploadAttachment } from '../lib/lean-workflow-gql'
 import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
@@ -100,13 +98,12 @@ export const useCreateEditor = () => {
           trackChangesPlugin({
             userID: trackUser.id,
             debug: config.environment === 'development',
-          }) as Plugin<any, any>,
+          }),
         ]
       : [],
     locale: manuscript.primaryLanguageCode || 'en-GB',
     environment: config.environment,
     history,
-    jupyterConfig: config.jupyter,
     popper: popper.current,
     projectID: project._id,
 
@@ -182,7 +179,7 @@ export const useCreateEditor = () => {
     },
   }
 
-  const editor = useEditor<ManuscriptSchema>(
+  const editor = useEditor(
     ManuscriptsEditor.createState(editorProps),
     ManuscriptsEditor.createView(editorProps)
   )

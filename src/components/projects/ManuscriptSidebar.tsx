@@ -15,64 +15,17 @@ import {
   ManuscriptOutline,
   OutlineManuscript,
   useEditor,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/body-editor'
+import { Manuscript, Project } from '@manuscripts/json-schema'
 import {
   ManuscriptEditorView,
   UserProfileWithAvatar,
-} from '@manuscripts/manuscript-transform'
-import { Manuscript, Project } from '@manuscripts/manuscripts-json-schema'
-import { usePermissions } from '@manuscripts/style-guide'
-import { Title, TitleField } from '@manuscripts/title-editor'
-import { debounce } from 'lodash-es'
+} from '@manuscripts/transform'
 import React, { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
 
-import config from '../../config'
 import { useStore } from '../../store'
-import { AddButton } from '../AddButton'
-import ShareProjectButton from '../collaboration/ShareProjectButton'
 import PageSidebar from '../PageSidebar'
-import { SidebarHeader } from '../Sidebar'
 import { SortableManuscript } from './SortableManuscript'
-
-const CustomizedSidebarHeader = styled.div`
-  align-items: flex-start;
-  display: flex;
-`
-
-const ProjectTitle = styled.div`
-  flex: 1;
-  overflow: hidden;
-  padding-right: ${(props) => props.theme.grid.unit}px;
-  font-size: 24px;
-  line-height: 32px;
-  user-select: text;
-
-  & .ProseMirror {
-    cursor: text;
-
-    &:not(.ProseMirror-focused) {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-
-    &.empty-node::before {
-      position: absolute;
-      color: ${(props) => props.theme.colors.text.muted};
-      cursor: text;
-      content: 'Untitled Project';
-      pointer-events: none;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    &.empty-node:hover::before {
-      color: ${(props) => props.theme.colors.text.secondary};
-    }
-  }
-`
 
 const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
   if (a.priority === b.priority) {
@@ -93,25 +46,19 @@ interface Props {
 }
 
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
-  openTemplateSelector,
   state,
   manuscript,
   view,
   project,
-  saveProjectTitle,
-  user,
 }) => {
-  const [{ manuscripts, tokenActions, saveModel }] = useStore((store) => ({
+  const [{ manuscripts, saveModel }] = useStore((store) => ({
     manuscripts: store.manuscripts || [],
     saveModel: store.saveModel,
-    tokenActions: store.tokenActions,
   }))
 
   const selected = findParentNodeWithIdValue(state.selection)
 
   const [sortedManuscripts, setSortedManuscripts] = useState<Manuscript[]>()
-
-  const can = usePermissions()
 
   useEffect(() => {
     setSortedManuscripts(manuscripts.sort(lowestPriorityFirst))
@@ -150,52 +97,8 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       minSize={260}
       name={'sidebar'}
       side={'end'}
-      sidebarTitle={
-        config.leanWorkflow.enabled ? (
-          <></>
-        ) : (
-          <SidebarHeader
-            title={
-              <CustomizedSidebarHeader>
-                <ProjectTitle>
-                  {saveProjectTitle ? (
-                    <TitleField
-                      id={'project-title-field'}
-                      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-                      tabIndex={1}
-                      editable={can.editArticle}
-                      value={project.title || ''}
-                      handleChange={debounce(saveProjectTitle, 1000)}
-                    />
-                  ) : (
-                    <Title
-                      id="project-title"
-                      editable={false}
-                      value={project.title || ''}
-                    />
-                  )}
-                </ProjectTitle>
-                <ShareProjectButton
-                  project={project}
-                  user={user}
-                  tokenActions={tokenActions}
-                />
-              </CustomizedSidebarHeader>
-            }
-          />
-        )
-      }
-      sidebarFooter={
-        can.editArticle && openTemplateSelector ? (
-          <AddButton
-            action={() => openTemplateSelector(false)}
-            size={'small'}
-            title={'New Manuscript'}
-          />
-        ) : (
-          <></>
-        )
-      }
+      sidebarTitle={''}
+      sidebarFooter={''}
     >
       {sortedManuscripts.map((item, index) => (
         <SortableManuscript
