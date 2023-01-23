@@ -21,6 +21,7 @@ import { Build } from '@manuscripts/transform'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
+import { ReferencesEditor } from '../components/library/ReferencesEditor'
 
 import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
@@ -142,6 +143,7 @@ export const useCreateEditor = () => {
     },
     unmountReactComponent: ReactDOM.unmountComponentAtNode,
     components: {
+      ReferencesEditor,
       ReferencesViewer,
       CitationEditor,
       CitationViewer,
