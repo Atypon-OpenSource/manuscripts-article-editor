@@ -32,7 +32,6 @@ import { ThemeProvider } from './theme/ThemeProvider'
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export * from './store/ParentObserver'
-export { getUserRole } from './lib/roles'
 export { SaveStatusController } from './components/projects/lean-workflow/SaveStatusController'
 export { ExceptionDialog } from './components/projects/lean-workflow/ExceptionDialog'
 
