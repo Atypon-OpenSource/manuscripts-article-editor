@@ -16,7 +16,6 @@ import '@manuscripts/body-editor/styles/track-styles.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
-import { ApolloError } from '@apollo/client'
 import {
   ManuscriptToolbar,
   RequirementsProvider,
@@ -35,17 +34,12 @@ import styled from 'styled-components'
 import config from '../../../config'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
-import {
-  graphQLErrorMessage,
-  Person,
-  useGetPermittedActions,
-} from '../../../lib/lean-workflow-gql'
+import { Person } from '../../../lib/lean-workflow-gql'
 import { useCommentStore } from '../../../quarterback/useCommentStore'
 import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
 import MetadataContainer from '../../metadata/MetadataContainer'
 import { Main } from '../../Page'
-import { ManuscriptPlaceholder } from '../../Placeholders'
 import { useEditorStore } from '../../track-changes/useEditorStore'
 import {
   EditorBody,
@@ -55,7 +49,6 @@ import {
 } from '../EditorContainer'
 import Inspector from '../Inspector'
 import ManuscriptSidebar from '../ManuscriptSidebar'
-import { ReloadDialog } from '../ReloadDialog'
 import {
   ApplicationMenuContainer,
   ApplicationMenusLW as ApplicationMenus,
@@ -65,19 +58,17 @@ import { UserProvider } from './provider/UserProvider'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
-  const [
-    { project, user, submission, person, permittedActions },
-    dispatch,
-  ] = useStore((state) => {
-    return {
-      manuscriptID: state.manuscriptID,
-      project: state.project,
-      user: state.user,
-      submission: state.submission,
-      permittedActions: state.permittedActions,
-      person: state.person,
-    }
-  })
+  const [{ project, user, submission, person, permittedActions }, dispatch] =
+    useStore((state) => {
+      return {
+        manuscriptID: state.manuscriptID,
+        project: state.project,
+        user: state.user,
+        submission: state.submission,
+        permittedActions: state.permittedActions,
+        person: state.person,
+      }
+    })
 
   useEffect(() => {
     if (submission?.id && person) {
@@ -127,21 +118,17 @@ const ManuscriptPageView: React.FC = () => {
 
   const { state, dispatch, view } = editor
 
-  const {
-    saveTrackModel,
-    trackModelMap,
-    deleteTrackModel,
-    getTrackModel,
-  } = useTrackedModelManagement(
-    doc,
-    view,
-    state,
-    dispatch,
-    saveModel,
-    deleteModel,
-    modelMap,
-    () => getState().submission.attachments
-  )
+  const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
+    useTrackedModelManagement(
+      doc,
+      view,
+      state,
+      dispatch,
+      saveModel,
+      deleteModel,
+      modelMap,
+      () => getState().submission.attachments
+    )
 
   useEffect(() => {
     storeDispatch({
