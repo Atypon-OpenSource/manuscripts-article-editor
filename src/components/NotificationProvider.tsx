@@ -13,14 +13,10 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-// import { useHistory, useLocation, useParams } from 'react-router-dom'
-import config from '../config'
-import SyncNotificationManager from '../sync/SyncNotificationManager'
 import { Notifications } from './Notifications'
 
-export type NotificationComponent<
-  P = Record<string, unknown>
-> = React.ComponentType<NotificationProps & P>
+export type NotificationComponent<P = Record<string, unknown>> =
+  React.ComponentType<NotificationProps & P>
 
 export type ShowNotification = (
   id: string,
@@ -89,12 +85,7 @@ export const NotificationProvider: React.FC = ({ children }) => {
   // const location = useLocation()
 
   const renderNotifications = () => {
-    const notifications = config.rxdb.enabled
-      ? state.notifications.concat({
-          id: 'sync',
-          notification: SyncNotificationManager,
-        })
-      : state.notifications
+    const notifications = state.notifications
 
     if (!notifications.length) {
       return null

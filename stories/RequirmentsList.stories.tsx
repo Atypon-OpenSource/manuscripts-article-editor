@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainedModel } from '@manuscripts/manuscript-transform'
 import { AnyValidationResult } from '@manuscripts/requirements'
+import { ContainedModel } from '@manuscripts/transform'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 

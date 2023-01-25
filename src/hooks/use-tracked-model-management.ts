@@ -10,18 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Model, ObjectTypes } from '@manuscripts/json-schema'
+import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   Decoder,
   encode,
   ManuscriptEditorView,
   ManuscriptNode,
-  ManuscriptSchema,
   schema,
-} from '@manuscripts/manuscript-transform'
-import { Model, ObjectTypes } from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/transform'
 import { SubmissionAttachment } from '@manuscripts/style-guide'
-import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
@@ -40,8 +39,8 @@ import { useStore } from '../store'
 const useTrackedModelManagement = (
   doc: ManuscriptNode,
   view: ManuscriptEditorView | undefined,
-  state: EditorState<ManuscriptSchema>,
-  dispatch: (tr: Transaction<any>) => EditorState<ManuscriptSchema>,
+  state: EditorState,
+  dispatch: (tr: Transaction) => EditorState,
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
   deleteModel: (id: string) => Promise<string>,
   finalModelMap: Map<string, Model>,
@@ -64,7 +63,7 @@ const useTrackedModelManagement = (
   const [, dispatchStore] = useStore()
 
   const matchByTrackVersion = (
-    node: ProsemirrorNode<ManuscriptSchema>,
+    node: ProsemirrorNode,
     realId: string,
     trackedId: string
   ) => {
@@ -72,7 +71,7 @@ const useTrackedModelManagement = (
       const matchedTrackedId = (node.attrs.dataTracked as TrackedAttrs[]).find(
         (tracked) => tracked.id === trackedId
       )
-      return matchedTrackedId ? true : false
+      return !!matchedTrackedId
       // check and identify precise dataTracked version
     }
   }
@@ -165,9 +164,10 @@ const useTrackedModelManagement = (
     [dispatch, dispatchStore, deleteModel, doc, modelMap, state] // will loop rerenders probably because of modelMap
   )
 
-  const getTrackModel = useCallback((id: string) => modelMap.get(id), [
-    modelMap,
-  ])
+  const getTrackModel = useCallback(
+    (id: string) => modelMap.get(id),
+    [modelMap]
+  )
 
   return {
     saveTrackModel,

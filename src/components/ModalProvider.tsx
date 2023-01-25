@@ -28,14 +28,6 @@ export const ModalContext = React.createContext<ModalProps>({
   addModal: () => '',
 })
 
-export const withModal = <Props extends ModalProps>(
-  Component: React.ComponentType<Props>
-): React.ComponentType<Omit<Props, keyof ModalProps>> => (props: Props) => (
-  <ModalContext.Consumer>
-    {(value) => <Component {...props} {...value} />}
-  </ModalContext.Consumer>
-)
-
 interface State {
   modals: Array<{ id: string; modal: ModalComponent }>
 }

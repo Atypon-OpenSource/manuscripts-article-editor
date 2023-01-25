@@ -15,14 +15,13 @@ import {
   ContainerInvitation,
   Contributor,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import {
   AuthorsContainer,
   CloseButton,
   IconButton,
   ModalContainer,
   ModalHeader,
-  SecondaryButton,
   StyledModal,
   usePermissions,
 } from '@manuscripts/style-guide'
@@ -30,10 +29,9 @@ import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useSharedData } from '../../hooks/use-shared-data'
 import { useStore } from '../../store'
-import { InvitationValues } from '../collaboration/InvitationForm'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
+import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
 import { HeaderFigure } from './HeaderFigure'
@@ -107,7 +105,6 @@ interface Props {
   isInvite: boolean
   invitationValues: InvitationValues
   invitationSent: boolean
-  openAddAuthors: (authors: Contributor[]) => void
   handleAddingDoneCancel: () => void
   handleInvite: (searchText: string) => void
   handleInviteCancel: () => void
@@ -154,8 +151,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     }
   })
 
-  const { getTemplate } = useSharedData()
-
   const can = usePermissions()
 
   const handleInvitationSubmit = useCallback(
@@ -170,19 +165,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     },
     [authorsAndAffiliations, props]
   )
-
-  const openAddAuthors = useCallback(() => {
-    if (!authorsAndAffiliations) {
-      return
-    }
-    props.openAddAuthors(authorsAndAffiliations.authors)
-  }, [authorsAndAffiliations, props])
-
-  const authorInstructionsURL = manuscript.authorInstructionsURL
-    ? manuscript.authorInstructionsURL
-    : manuscript.prototype
-    ? getTemplate(manuscript.prototype)?.authorInstructionsURL
-    : undefined
 
   if (!authorsAndAffiliations || !contributorRoles) {
     return null
@@ -208,19 +190,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             <ArrowDownBlue />
           </ExpanderButton>
         </TitleContainer>
-
-        {authorInstructionsURL && (
-          <SecondaryButton
-            mini={true}
-            onClick={() => window.open(authorInstructionsURL, '_blank')}
-          >
-            <span role={'img'} aria-label={'Link'}>
-              {' '}
-              🔗
-            </span>{' '}
-            Author Instructions
-          </SecondaryButton>
-        )}
 
         {props.expanded && (
           <AuthorsContainer
@@ -261,7 +230,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
                 authors={authorsAndAffiliations.authors}
                 authorAffiliations={authorsAndAffiliations.authorAffiliations}
                 affiliations={authorsAndAffiliations.affiliations}
-                openAddAuthors={openAddAuthors}
                 project={project}
                 manuscript={manuscript}
                 tokenActions={tokenActions}

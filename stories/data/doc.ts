@@ -11,8 +11,8 @@
  */
 
 import projectDump from '@manuscripts/examples/data/project-dump-2.json'
-import { Decoder } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Model } from '@manuscripts/json-schema'
+import { Decoder } from '@manuscripts/transform'
 
 export const modelMap = new Map()
 

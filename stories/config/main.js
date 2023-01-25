@@ -10,6 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 module.exports = {
+  core: {
+    builder: 'webpack5',
+  },
   stories: ['../**/*.stories.tsx'],
   addons: ['@storybook/addon-actions', '@storybook/addon-links'],
+  features: {
+    babelModeV7: true
+  }
 }

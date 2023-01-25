@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Contributor, UserProfile } from '@manuscripts/json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import React from 'react'
 

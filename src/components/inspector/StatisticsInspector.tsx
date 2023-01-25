@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Statistics } from '@manuscripts/manuscript-editor'
-import {
-  ActualManuscriptNode,
-  SectionNode,
-} from '@manuscripts/manuscript-transform'
+import { Statistics } from '@manuscripts/body-editor'
+import { ManuscriptNode, SectionNode } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -29,22 +26,22 @@ const InspectorSubsection = styled.div`
 `
 
 export const StatisticsInspector: React.FC<{
-  manuscriptNode: ActualManuscriptNode
-  sectionNode?: SectionNode
-}> = ({ manuscriptNode, sectionNode }) => {
+  manuscript: ManuscriptNode
+  section?: SectionNode
+}> = ({ manuscript, section }) => {
   return (
     <InspectorSection title={'Statistics'}>
       <InspectorSubsection>
         <Subheading>Manuscript</Subheading>
 
-        <Statistics node={manuscriptNode} />
+        <Statistics node={manuscript} />
       </InspectorSubsection>
 
-      {sectionNode && (
+      {section && (
         <InspectorSubsection>
           <Subheading>Section</Subheading>
 
-          <Statistics node={sectionNode} />
+          <Statistics node={section} />
         </InspectorSubsection>
       )}
     </InspectorSection>

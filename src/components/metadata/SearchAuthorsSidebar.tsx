@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfileWithAvatar } from '@manuscripts/manuscript-transform'
-import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Contributor, UserProfile } from '@manuscripts/json-schema'
 import { Avatar } from '@manuscripts/style-guide'
+import { UserProfileWithAvatar } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 

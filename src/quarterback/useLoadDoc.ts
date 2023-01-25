@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { schema } from '@manuscripts/manuscript-transform'
+import { schema } from '@manuscripts/transform'
 
 import config from '../config'
 import { useAuthStore } from './useAuthStore'

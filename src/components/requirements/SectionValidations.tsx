@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   CountValidationResult,
   Model,
@@ -18,8 +17,9 @@ import {
   SectionCategory,
   SectionCategoryValidationResult,
   SectionTitleValidationResult,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { AnyValidationResult } from '@manuscripts/requirements'
+import { Build, ContainedModel } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 

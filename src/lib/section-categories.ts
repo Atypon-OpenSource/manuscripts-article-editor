@@ -11,12 +11,7 @@
  */
 
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import {
-  Model,
-  Section,
-  SectionCategory,
-} from '@manuscripts/manuscripts-json-schema'
-import { isParagraphElement } from '@manuscripts/sync-client'
+import { Section, SectionCategory } from '@manuscripts/json-schema'
 
 export const uneditableSectionCategories: string[] = [
   'MPSectionCategory:bibliography',
@@ -50,36 +45,13 @@ export const chooseSectionCategory = (section: Section): string => {
     : 'MPSectionCategory:subsection'
 }
 
-export const findFirstParagraph = (
-  section: Section,
-  modelMap: Map<string, Model>
-) => {
-  if (section.elementIDs) {
-    const [firstElementId] = section.elementIDs
-
-    if (firstElementId) {
-      const firstElement = modelMap.get(firstElementId)
-
-      if (firstElement && isParagraphElement(firstElement)) {
-        return firstElement
-      }
-    }
-  }
-}
-
 export const isUnique = (categoryId: string) => {
-  if (uniqueSectionCategories.includes(categoryId)) {
-    return true
-  }
-  return false
+  return uniqueSectionCategories.includes(categoryId)
 }
 
 export const isUniquePresent = (
   cat: SectionCategory,
   existingCats: { [key: string]: number }
 ) => {
-  if (isUnique(cat._id) && Object.keys(existingCats).includes(cat._id)) {
-    return true
-  }
-  return false
+  return isUnique(cat._id) && Object.keys(existingCats).includes(cat._id);
 }

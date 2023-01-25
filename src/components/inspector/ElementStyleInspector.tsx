@@ -11,33 +11,15 @@
  */
 
 import {
-  hasObjectType,
-  ManuscriptEditorView,
-} from '@manuscripts/manuscript-transform'
-import {
   BibliographyElement,
   FigureElement,
   KeywordsElement,
   ListElement,
-  Manuscript,
-  Model,
-  ObjectTypes,
   ParagraphElement,
   QuoteElement,
   TableElement,
   TOCElement,
-} from '@manuscripts/manuscripts-json-schema'
-import React from 'react'
-
-import { FigureLayoutInspector } from './FigureLayoutInspector'
-import { FigureStyleInspector } from './FigureStyleInspector'
-import {
-  hasParagraphStyle,
-  ParagraphStyleInspector,
-} from './ParagraphStyleInspector'
-import { TableStyleInspector } from './TableStyleInspector'
-
-type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
+} from '@manuscripts/json-schema'
 
 export type AnyElement =
   | ParagraphElement
@@ -48,42 +30,3 @@ export type AnyElement =
   | KeywordsElement
   | TOCElement
   | QuoteElement
-
-export interface ElementStyleInspectorProps {
-  element: AnyElement
-  manuscript: Manuscript
-  modelMap: Map<string, Model>
-  saveModel: SaveModel
-  deleteModel: (id: string) => Promise<string>
-  view: ManuscriptEditorView
-}
-
-const isFigureElement = hasObjectType<FigureElement>(ObjectTypes.FigureElement)
-const isTableElement = hasObjectType<TableElement>(ObjectTypes.TableElement)
-
-export const ElementStyleInspector: React.FC<ElementStyleInspectorProps> = (
-  props
-) => {
-  const { element } = props
-
-  if (isFigureElement(element)) {
-    return (
-      <>
-        <FigureLayoutInspector {...props} element={element} />
-        <FigureStyleInspector {...props} element={element} />
-      </>
-    )
-  }
-
-  return (
-    <>
-      {hasParagraphStyle(element) && (
-        <ParagraphStyleInspector {...props} element={element} />
-      )}
-
-      {isTableElement(element) && (
-        <TableStyleInspector {...props} element={element} />
-      )}
-    </>
-  )
-}

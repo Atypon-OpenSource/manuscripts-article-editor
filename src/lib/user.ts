@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
 import decode from 'jwt-decode'
 
-import config from '../config'
-import { PROFILE_IMAGE_ATTACHMENT } from './data'
 import tokenHandler from './token'
 
 export interface TokenPayload {
@@ -33,21 +30,4 @@ export const getCurrentUserId = () => {
   const { userId } = decode<TokenPayload>(token)
 
   return userId.replace('|', '_')
-}
-
-export const avatarURL = (user?: UserProfile | string | null): string => {
-  if (!user) {
-    return ''
-  }
-
-  if (typeof user === 'string') {
-    return [
-      config.gateway.url,
-      config.buckets.projects,
-      user,
-      PROFILE_IMAGE_ATTACHMENT,
-    ].join('/')
-  }
-
-  return avatarURL(user._id)
 }

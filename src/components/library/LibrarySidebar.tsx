@@ -12,12 +12,12 @@
 
 import TriangleCollapsed from '@manuscripts/assets/react/TriangleCollapsed'
 import TriangleExpanded from '@manuscripts/assets/react/TriangleExpanded'
-import { Build } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Library,
   LibraryCollection,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { Build } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 

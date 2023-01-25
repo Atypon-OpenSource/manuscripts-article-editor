@@ -14,7 +14,18 @@ import {
   getMatchingChild,
   insertFileAsFigure,
   useEditor,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/body-editor'
+import {
+  Model,
+  ObjectTypes,
+  Supplement,
+} from '@manuscripts/json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
+import {
+  CHANGE_STATUS,
+  trackCommands,
+  TrackedChange,
+} from '@manuscripts/track-changes-plugin'
 import {
   FigureElementNode,
   FigureNode,
@@ -22,18 +33,7 @@ import {
   getModelsByType,
   ManuscriptEditorView,
   schema,
-} from '@manuscripts/manuscript-transform'
-import {
-  Model,
-  ObjectTypes,
-  Supplement,
-} from '@manuscripts/manuscripts-json-schema'
-import { Category, Dialog } from '@manuscripts/style-guide'
-import {
-  CHANGE_STATUS,
-  trackCommands,
-  TrackedChange,
-} from '@manuscripts/track-changes-plugin'
+} from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'

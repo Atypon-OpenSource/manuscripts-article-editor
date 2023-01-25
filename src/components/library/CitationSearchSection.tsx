@@ -11,9 +11,9 @@
  */
 
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
-import { Build } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { BibliographyItem } from '@manuscripts/json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
+import { Build } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
