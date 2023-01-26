@@ -270,14 +270,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
           setSelectedHighlightId(undefined)
         })
     },
-    [
-      deleteTrackModel,
-      modelMap,
-      newComment,
-      removeComment,
-      setComment,
-      view,
-    ]
+    [deleteTrackModel, modelMap, newComment, removeComment, setComment, view]
   )
 
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
@@ -426,7 +419,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                         }
                         listKeywords={keywords}
                         saveComment={saveComment}
-                        handleCreateReply={setComment}
+                        handleCreateReply={setCommentTarget}
                         can={can}
                         currentUserId={currentUser._id}
                         isNew={isNew(comment as CommentAnnotation)}

@@ -42,20 +42,14 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ editor }) => {
   const [
-    {
-      submission,
-      fileManagement,
-      commentTarget,
-      saveTrackModel,
-      trackModelMap,
-    },
+    { submission, fileManagement, comment, saveTrackModel, trackModelMap },
     stateDispatch,
   ] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
     submission: store.submission,
     fileManagement: store.fileManagement,
-    commentTarget: store.commentTarget,
+    comment: store.comment,
   }))
 
   const { state, dispatch } = editor
@@ -63,10 +57,10 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
   useEffect(() => {
-    if (commentTarget) {
+    if (comment) {
       setTabIndex(1)
     }
-  }, [commentTarget])
+  }, [comment])
 
   const validation = useRequirementsValidation({
     state,
@@ -87,7 +81,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={commentTarget !== undefined}
+        forceOpen={comment !== undefined}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
