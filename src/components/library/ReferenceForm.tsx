@@ -13,15 +13,11 @@
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import Trashcan from '@manuscripts/assets/react/AnnotationRemove'
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import { bibliographyItemTypes } from '@manuscripts/library'
-import {
-  buildBibliographicDate,
-  buildBibliographicName,
-} from '@manuscripts/manuscript-transform'
 import {
   BibliographicName,
   BibliographyItem,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { bibliographyItemTypes } from '@manuscripts/library'
 import {
   ButtonGroup,
   Category,
@@ -32,6 +28,10 @@ import {
   TextField,
 } from '@manuscripts/style-guide'
 import { TitleField } from '@manuscripts/title-editor'
+import {
+  buildBibliographicDate,
+  buildBibliographicName,
+} from '@manuscripts/transform'
 import {
   Field,
   FieldArray,

@@ -12,7 +12,6 @@
 
 import { AxiosRequestConfig } from 'axios'
 
-import config from '../config'
 import tokenHandler from './token'
 
 const anonymousRoutes = ['/auth/login', '/registration/signup']
@@ -32,10 +31,3 @@ export const authorizationInterceptor = (config: AxiosRequestConfig) => {
   return config
 }
 
-export const loginAgain = () => {
-  window.localStorage.removeItem('token')
-
-  window.location.assign(
-    config.connect.enabled ? '/login#redirect=login' : '/login'
-  )
-}

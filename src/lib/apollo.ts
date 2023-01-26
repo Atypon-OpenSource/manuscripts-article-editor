@@ -10,71 +10,16 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import * as AbsintheSocket from '@absinthe/socket'
-import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApolloClient } from 'apollo-client'
-import { DocumentNode, from, split } from 'apollo-link'
-import { setContext } from 'apollo-link-context'
-import { onError } from 'apollo-link-error'
-import { HttpLink } from 'apollo-link-http'
-import { ServerError } from 'apollo-link-http-common'
+import { ApolloClient, from, InMemoryCache, ServerError } from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
 import { createUploadLink } from 'apollo-upload-client'
-import { getMainDefinition } from 'apollo-utilities'
-import { Socket as PhoenixSocket } from 'phoenix'
 
 import config from '../config'
-import tokenHandler from './token'
-
-// TODO: fetch temporary token from manuscripts-api
-
-const httpLink = new HttpLink({
-  uri: config.beacon.http,
-})
-
-const wsLink = createAbsintheSocketLink(
-  AbsintheSocket.create(
-    new PhoenixSocket(config.beacon.ws, {
-      params: {
-        Authorization: tokenHandler.get(),
-      },
-    })
-  )
-)
-
-const authLink = setContext((_, { headers }) => ({
-  headers: {
-    ...headers,
-    Authorization: `Bearer ${tokenHandler.get()}`,
-  },
-}))
 
 const filesServerLink = createUploadLink({
   uri: `${config.leanWorkflow.url}${config.leanWorkflow.graphqlEndpoint}`,
   credentials: 'include',
 })
-
-const hasSubscription = ({ query }: { query: DocumentNode }) => {
-  const definition = getMainDefinition(query)
-
-  return (
-    definition.kind === 'OperationDefinition' &&
-    definition.operation === 'subscription'
-  )
-}
-
-const beaconOrFiles = (operation: any) => {
-  const context = operation.getContext()
-  if (
-    config.leanWorkflow &&
-    config.leanWorkflow.url &&
-    context &&
-    context.clientPurpose == 'leanWorkflowManager'
-  ) {
-    return false
-  }
-  return true
-}
 
 const errorLink = onError(({ networkError, operation }) => {
   if (networkError) {
@@ -92,12 +37,5 @@ const errorLink = onError(({ networkError, operation }) => {
 })
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: from([
-    errorLink,
-    split(
-      hasSubscription,
-      wsLink,
-      split(beaconOrFiles, authLink.concat(httpLink), filesServerLink)
-    ),
-  ]),
+  link: from([errorLink, filesServerLink]),
 })

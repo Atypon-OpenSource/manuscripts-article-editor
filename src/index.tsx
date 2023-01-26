@@ -86,7 +86,6 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
             }
           >
             <Main
-              // userID={userID}
               fileManagement={fileManagement}
               authToken={authToken || ''}
               parentObserver={parentObserver}

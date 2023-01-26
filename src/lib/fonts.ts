@@ -10,6 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import 'typeface-lato'
-import 'typeface-pt-sans'
-import 'typeface-pt-serif'
+import '@fontsource/lato'
+import '@fontsource/pt-sans'
+import '@fontsource/pt-serif'

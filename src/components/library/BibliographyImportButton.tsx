@@ -12,14 +12,14 @@
 
 import AttentionRed from '@manuscripts/assets/react/AttentionRed'
 import Check from '@manuscripts/assets/react/Check'
+import { BibliographyItem } from '@manuscripts/json-schema'
 import { parseBibliography } from '@manuscripts/library'
-import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
+import { Build, buildBibliographyItem } from '@manuscripts/transform'
 import pathParse from 'path-parse'
 import React, { useCallback, useContext, useState } from 'react'
 
-import { openFilePicker } from '../../pressroom/importers'
+import { FileExtensionError } from '../../lib/errors'
 import { ContactSupportButton } from '../ContactSupportButton'
 import {
   NotificationComponent,
@@ -69,6 +69,54 @@ const createCitationImportSuccessNotification = (
     </NotificationActions>
   </NotificationPrompt>
 )
+
+const openFilePicker = (
+  acceptedExtensions: string[],
+  multiple = false
+): Promise<File[]> =>
+  new Promise((resolve, reject) => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = acceptedExtensions.join(',')
+    input.multiple = multiple
+
+    const handleFocus = () => {
+      window.removeEventListener('focus', handleFocus)
+
+      // This event is fired before the input's change event,
+      // and before the input's FileList has been populated,
+      // so a delay is needed.
+      window.setTimeout(() => {
+        if (!input.files || !input.files.length) {
+          resolve([])
+        }
+      }, 1000)
+    }
+
+    // window "focus" event, fired even if the file picker is cancelled.
+    window.addEventListener('focus', handleFocus)
+
+    input.addEventListener('change', () => {
+      if (input.files && input.files.length) {
+        for (const file of input.files) {
+          const { ext } = pathParse(file.name)
+          const extension = ext.toLowerCase()
+
+          if (!acceptedExtensions.includes(extension)) {
+            const error = new FileExtensionError(extension, acceptedExtensions)
+            reject(error)
+            return
+          }
+        }
+
+        resolve(Array.from(input.files))
+      } else {
+        resolve([])
+      }
+    })
+
+    input.click()
+  })
 
 interface Props {
   importItems: () => void

@@ -16,24 +16,24 @@ import {
   ContributorRole,
   Project,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
 import { AffiliationMap } from '../../lib/authors'
 import { TokenActions, useStore } from '../../store'
+import { ModalBody, StyledModalMain } from '../Sidebar'
+import AddAuthorsSidebar from './AddAuthorsSidebar'
+import { AuthorFormContainer } from './AuthorFormContainer'
+import { InvitationValues } from './AuthorInvitationForm'
 import {
   AddAuthorsPage,
   AuthorDetailsPage,
   InviteCollaboratorsModal,
-} from '../collaboration/CollaboratorsPage'
-import { InvitationValues } from '../collaboration/InvitationForm'
-import InviteCollaboratorsSidebar from '../collaboration/InviteCollaboratorsSidebar'
-import { ModalBody, StyledModalMain } from '../Sidebar'
-import AddAuthorsSidebar from './AddAuthorsSidebar'
-import { AuthorFormContainer } from './AuthorFormContainer'
+} from './AuthorsPage'
 import AuthorsSidebar from './AuthorsSidebar'
+import InviteAuthorsSidebar from './InviteAuthorsSidebar'
 
 export const ScrollableModalMain = styled(StyledModalMain)`
   overflow-y: auto;
@@ -217,12 +217,11 @@ export const InviteAuthorsModal: React.FunctionComponent<InviteAuthorsProps> = (
   const [tokenActions] = useStore((store) => store.tokenActions)
   return (
     <ModalBody>
-      <InviteCollaboratorsSidebar
+      <InviteAuthorsSidebar
         invitationValues={invitationValues}
         handleCancel={handleInviteCancel}
         handleSubmit={handleInvitationSubmit}
         invitationSent={invitationSent}
-        isModal={true}
         tokenActions={tokenActions}
       />
       <StyledModalMain>

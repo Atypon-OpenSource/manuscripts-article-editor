@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Affiliation, Contributor } from '@manuscripts/json-schema'
 import {
   Build,
   buildAffiliation,
   buildBibliographicName,
   buildContributor,
-} from '@manuscripts/manuscript-transform'
-import { Affiliation, Contributor } from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/transform'
 
 import {
   buildAuthorPriority,

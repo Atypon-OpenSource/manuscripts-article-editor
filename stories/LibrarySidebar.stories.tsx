@@ -13,7 +13,7 @@
 import {
   Library,
   LibraryCollection,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { createBrowserHistory } from 'history'

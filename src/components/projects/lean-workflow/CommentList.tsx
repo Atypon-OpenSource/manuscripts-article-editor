@@ -15,19 +15,13 @@ import {
   deleteHighlightMarkers,
   getHighlightTarget,
   updateCommentAnnotationState,
-} from '@manuscripts/manuscript-editor'
-import {
-  buildComment,
-  buildContribution,
-  buildKeyword,
-  getModelsByType,
-} from '@manuscripts/manuscript-transform'
+} from '@manuscripts/body-editor'
 import {
   CommentAnnotation,
   ElementsOrder,
   ObjectTypes,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import {
   buildCommentTree,
   CommentData,
@@ -38,7 +32,13 @@ import {
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { isTextSelection } from '@manuscripts/track-changes'
+import {
+  buildComment,
+  buildContribution,
+  buildKeyword,
+  getModelsByType,
+} from '@manuscripts/transform'
+import { TextSelection } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
@@ -71,8 +71,8 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       collaboratorsById,
       keywords,
       modelMap,
-      saveModel,
-      deleteModel,
+      saveTrackModel,
+      deleteTrackModel,
     },
     dispatch,
   ] = useStore((store) => ({
@@ -85,16 +85,16 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     keywords: store.keywords,
     manuscriptID: store.manuscriptID,
     modelMap: store.modelMap,
-    saveModel: store.saveModel,
-    deleteModel: store.deleteModel,
+    saveTrackModel: store.saveTrackModel,
+    deleteTrackModel: store.deleteTrackModel,
     comment: store.comment,
   }))
   const { state, view } = editor
 
   const [newComment, setNewComment] = useState<CommentAnnotation>()
   const createKeyword = useCallback(
-    (name: string) => saveModel(buildKeyword(name)),
-    [saveModel]
+    (name: string) => saveTrackModel(buildKeyword(name)),
+    [saveTrackModel]
   )
   const currentUser = useMemo(() => user, [user])
   const [commentFilter, setCommentFilter] = useState<Pattern.CommentFilter>(
@@ -203,13 +203,12 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       combinedComments.push(newComment)
     }
     const commentsTreeMap = buildCommentTree(doc, combinedComments)
-    console.log(combinedComments, commentsTreeMap)
     return Array.from(commentsTreeMap.entries())
   }, [comments, newComment, doc])
 
   const handleSetResolved = useCallback(
     async (comment) => {
-      const savedComment = await saveModel({
+      const savedComment = await saveTrackModel({
         ...comment,
         resolved: !comment.resolved,
       } as CommentAnnotation)
@@ -217,12 +216,12 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
         updateComments(savedComment)
       }
     },
-    [saveModel, updateComments]
+    [saveTrackModel, updateComments]
   )
 
   const saveComment = useCallback(
     (comment: CommentAnnotation) => {
-      return saveModel(comment).then((comment) => {
+      return saveTrackModel(comment).then((comment) => {
         if (newComment && newComment._id === comment._id) {
           setComment(undefined)
           setNewComment(undefined)
@@ -238,7 +237,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       })
     },
     [
-      saveModel,
+      saveTrackModel,
       newComment,
       setComment,
       addComment,
@@ -251,7 +250,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   const deleteComment = useCallback(
     (id: string) => {
       const comment = newComment || (modelMap.get(id) as CommentAnnotation)
-      return deleteModel(id)
+      return deleteTrackModel(id)
         .then(() => {
           removeComment(id)
         })
@@ -271,7 +270,14 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
           setSelectedHighlightId(undefined)
         })
     },
-    [deleteModel, modelMap, newComment, removeComment, setComment, view]
+    [
+      deleteTrackModel,
+      modelMap,
+      newComment,
+      removeComment,
+      setComment,
+      view,
+    ]
   )
 
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
@@ -280,10 +286,10 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
    * check if the selection pointing to a highlight node
    */
   useEffect(() => {
-    const numberOfChildren = state.selection.$from.parent.content.childCount
+    const childCount = state.selection.$from.parent.content.childCount
     const nodeIndex = state.selection.$from.index()
 
-    if (isTextSelection(state.selection) && numberOfChildren > nodeIndex) {
+    if (state.selection instanceof TextSelection && childCount > nodeIndex) {
       const nodeBeforePos = state.selection.$from.posAtIndex(nodeIndex - 1)
       const nodeAfterPos = state.selection.$from.posAtIndex(nodeIndex + 1)
       const nodeBeforeNode = state.doc.nodeAt(nodeBeforePos)
@@ -369,7 +375,6 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
             commentFilter === Pattern.CommentFilter.ALL
               ? commentData
               : commentData.filter((note) => !note.comment.resolved)
-          console.log(selectedNoteData)
           return (
             <CommentTarget key={target} isSelected={false}>
               {selectedNoteData.map(({ comment, children }) => (

@@ -9,70 +9,21 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { insertSectionLabel } from '@manuscripts/manuscript-editor'
-import {
-  Build,
-  generateID,
-  isSectionLabelNode,
-  SectionNode,
-} from '@manuscripts/manuscript-transform'
-import {
-  CountRequirement,
-  MaximumSectionCharacterCountRequirement,
-  MaximumSectionWordCountRequirement,
-  MinimumSectionCharacterCountRequirement,
-  MinimumSectionWordCountRequirement,
-  ObjectTypes,
-  Section,
-} from '@manuscripts/manuscripts-json-schema'
+import { insertSectionLabel } from '@manuscripts/body-editor'
+import { Section } from '@manuscripts/json-schema'
 import { Title } from '@manuscripts/title-editor'
+import { isSectionLabelNode, SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
-import { SectionCountRequirementMaps } from '../../lib/requirements'
 import {
   chooseSectionCategory,
   isEditableSectionCategoryID,
 } from '../../lib/section-categories'
 import { useStore } from '../../store'
-import {
-  InspectorPanelTabList,
-  InspectorTab,
-  InspectorTabPanel,
-  InspectorTabPanels,
-  InspectorTabs,
-} from '../Inspector'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CategoryInput } from '../projects/CategoryInput'
-import { CountInput } from '../projects/CountInput'
-
-type Buildable<T> = T | Build<T>
-
-export interface SectionCountRequirements {
-  minWordCount: Buildable<MinimumSectionWordCountRequirement>
-  maxWordCount: Buildable<MaximumSectionWordCountRequirement>
-  minCharCount: Buildable<MinimumSectionCharacterCountRequirement>
-  maxCharacterCount: Buildable<MaximumSectionCharacterCountRequirement>
-}
-
-const buildCountRequirement = <T extends CountRequirement>(
-  objectType: ObjectTypes,
-  count?: number,
-  ignored?: boolean,
-  severity = 0
-): Build<T> => {
-  const item = {
-    _id: generateID(objectType),
-    objectType,
-    count,
-    ignored,
-    severity,
-  }
-
-  return item as Build<T>
-}
 
 export const SectionInspector: React.FC<{
   dispatchNodeAttrs: (
@@ -84,19 +35,8 @@ export const SectionInspector: React.FC<{
   sectionNode?: SectionNode
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
-  getSectionCountRequirements: (
-    templateID: string
-  ) => SectionCountRequirementMaps
-}> = ({
-  dispatchNodeAttrs,
-  section,
-  sectionNode,
-  state,
-  dispatch,
-  getSectionCountRequirements,
-}) => {
-  const [modelMap] = useStore((store) => store.modelMap)
-  const [saveModel] = useStore((store) => store.saveModel)
+}> = ({ dispatchNodeAttrs, section, sectionNode, state, dispatch }) => {
+  const [modelMap] = useStore((store) => store.trackModelMap)
 
   const existingCatsCounted = useMemo(() => {
     const exisitingCats: { [key: string]: number } = {}
@@ -159,202 +99,49 @@ export const SectionInspector: React.FC<{
     [section, dispatchNodeAttrs, state, dispatch, sectionNode]
   )
 
-  // requirements
-
-  const getOrBuildRequirement = <T extends CountRequirement>(
-    objectType: ObjectTypes,
-    manuscriptID: string,
-    category?: string,
-    id?: string
-  ): T | Build<T> => {
-    if (id && modelMap.has(id)) {
-      return modelMap.get(id) as T
-    }
-
-    // infer requirement from the manuscript prototype
-    let count = undefined
-    if (manuscriptID && category) {
-      const manuscript = modelMap.get(manuscriptID)
-      count = manuscript?.prototype
-        ? getSectionCountRequirements(manuscript?.prototype)[category]?.get(
-            objectType
-          )
-        : undefined
-    }
-
-    return buildCountRequirement<T>(objectType, count, count ? false : true)
-  }
-
-  const requirements: SectionCountRequirements = {
-    minWordCount: getOrBuildRequirement<MinimumSectionWordCountRequirement>(
-      ObjectTypes.MinimumSectionWordCountRequirement,
-      section.manuscriptID,
-      section.category,
-      section.minWordCountRequirement
-    ),
-    maxWordCount: getOrBuildRequirement<MaximumSectionWordCountRequirement>(
-      ObjectTypes.MaximumSectionWordCountRequirement,
-      section.manuscriptID,
-      section.category,
-      section.maxWordCountRequirement
-    ),
-    minCharCount: getOrBuildRequirement<MinimumSectionCharacterCountRequirement>(
-      ObjectTypes.MinimumSectionCharacterCountRequirement,
-      section.manuscriptID,
-      section.category,
-      section.minCharacterCountRequirement
-    ),
-    maxCharacterCount: getOrBuildRequirement<MaximumSectionCharacterCountRequirement>(
-      ObjectTypes.MaximumSectionCharacterCountRequirement,
-      section.manuscriptID,
-      section.category,
-      section.maxCharacterCountRequirement
-    ),
-  }
-
   const currentSectionCategory = chooseSectionCategory(section)
   return (
     <InspectorSection title={'Section'}>
       {section.title && <StyledTitle value={section.title} />}
 
-      <InspectorTabs>
-        <InspectorPanelTabList>
-          {config.features.requirements && <InspectorTab>General</InspectorTab>}
-          {config.features.requirements && (
-            <InspectorTab>Requirements</InspectorTab>
-          )}
-        </InspectorPanelTabList>
+      {sectionNode && 'titleSuppressed' in sectionNode.attrs && (
+        <div>
+          <label>
+            <input
+              type={'checkbox'}
+              checked={!titleSuppressed}
+              onChange={updateTitleSuppressed}
+            />{' '}
+            Title is shown
+          </label>
+        </div>
+      )}
+      {sectionNode && 'generatedLabel' in sectionNode.attrs && (
+        <div>
+          <label>
+            <input
+              type={'checkbox'}
+              checked={!sectionNode.attrs.generatedLabel}
+              onChange={updateGeneratedLabel}
+            />{' '}
+            Use custom label
+          </label>
+        </div>
+      )}
 
-        <InspectorTabPanels>
-          <InspectorTabPanel>
-            {sectionNode && 'titleSuppressed' in sectionNode.attrs && (
-              <div>
-                <label>
-                  <input
-                    type={'checkbox'}
-                    checked={!titleSuppressed}
-                    onChange={updateTitleSuppressed}
-                  />{' '}
-                  Title is shown
-                </label>
-              </div>
-            )}
-            {sectionNode && 'generatedLabel' in sectionNode.attrs && (
-              <div>
-                <label>
-                  <input
-                    type={'checkbox'}
-                    checked={sectionNode.attrs.generatedLabel === false}
-                    onChange={updateGeneratedLabel}
-                  />{' '}
-                  Use custom label
-                </label>
-              </div>
-            )}
+      {isEditableSectionCategoryID(currentSectionCategory) && (
+        <>
+          <Subheading>Category</Subheading>
 
-            {isEditableSectionCategoryID(currentSectionCategory) && (
-              <>
-                <Subheading>Category</Subheading>
-
-                <CategoryInput
-                  value={currentSectionCategory}
-                  existingCatsCounted={existingCatsCounted}
-                  handleChange={(category: string) => {
-                    dispatchNodeAttrs(section._id, { category })
-                  }}
-                />
-              </>
-            )}
-          </InspectorTabPanel>
-          {config.features.requirements && (
-            <InspectorTabPanel>
-              <CountInput
-                label={'Min word count'}
-                placeholder={'Minimum'}
-                value={requirements.minWordCount}
-                handleChange={async (
-                  requirement: Buildable<MinimumSectionWordCountRequirement>
-                ) => {
-                  await saveModel<MinimumSectionWordCountRequirement>(
-                    requirement as MinimumSectionWordCountRequirement
-                  )
-
-                  if (requirement._id !== section.minWordCountRequirement) {
-                    await saveModel<Section>({
-                      ...section,
-                      minWordCountRequirement: requirement._id,
-                    })
-                  }
-                }}
-              />
-
-              <CountInput
-                label={'Max word count'}
-                placeholder={'Maximum'}
-                value={requirements.maxWordCount}
-                handleChange={async (
-                  requirement: Buildable<MaximumSectionWordCountRequirement>
-                ) => {
-                  await saveModel<MaximumSectionWordCountRequirement>(
-                    requirement as MaximumSectionWordCountRequirement
-                  )
-
-                  if (requirement._id !== section.maxWordCountRequirement) {
-                    await saveModel<Section>({
-                      ...section,
-                      maxWordCountRequirement: requirement._id,
-                    })
-                  }
-                }}
-              />
-
-              <CountInput
-                label={'Min character count'}
-                placeholder={'Minimum'}
-                value={requirements.minCharCount}
-                handleChange={async (
-                  requirement: Buildable<MinimumSectionCharacterCountRequirement>
-                ) => {
-                  await saveModel<MinimumSectionCharacterCountRequirement>(
-                    requirement as MinimumSectionCharacterCountRequirement
-                  )
-
-                  if (
-                    requirement._id !== section.minCharacterCountRequirement
-                  ) {
-                    await saveModel<Section>({
-                      ...section,
-                      minCharacterCountRequirement: requirement._id,
-                    })
-                  }
-                }}
-              />
-
-              <CountInput
-                label={'Max character count'}
-                placeholder={'Maximum'}
-                value={requirements.maxCharacterCount}
-                handleChange={async (
-                  requirement: Buildable<MaximumSectionCharacterCountRequirement>
-                ) => {
-                  await saveModel<MaximumSectionCharacterCountRequirement>(
-                    requirement as MaximumSectionCharacterCountRequirement
-                  )
-
-                  if (
-                    requirement._id !== section.maxCharacterCountRequirement
-                  ) {
-                    await saveModel<Section>({
-                      ...section,
-                      maxCharacterCountRequirement: requirement._id,
-                    })
-                  }
-                }}
-              />
-            </InspectorTabPanel>
-          )}
-        </InspectorTabPanels>
-      </InspectorTabs>
+          <CategoryInput
+            value={currentSectionCategory}
+            existingCatsCounted={existingCatsCounted}
+            handleChange={(category: string) => {
+              dispatchNodeAttrs(section._id, { category })
+            }}
+          />
+        </>
+      )}
     </InspectorSection>
   )
 }

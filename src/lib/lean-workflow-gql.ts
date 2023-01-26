@@ -9,23 +9,14 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { ApolloError } from '@apollo/client'
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { ApolloError } from 'apollo-client'
 import gql from 'graphql-tag'
 
-import config from '../config'
 import {
   updateMainManuscriptAttachment,
-  updateSubmissionAttachment,
   updateSubmissionAttachmentDesignation,
-} from '../lib/apolloCacheUpdate'
-
-interface uploadAttachmentProps {
-  submissionId: string
-  documentId: string
-  file: File
-  designation: string
-}
+} from './apolloCacheUpdate'
 
 interface updateAttachmentProps {
   submissionId: string
@@ -101,23 +92,6 @@ export interface Person {
     label: string
   }
 }
-
-const UPLOAD_ATTACHMENT = gql`
-  mutation Upload($submissionId: ID!, $file: Upload!, $typeId: ID!) {
-    uploadAttachment(
-      submissionId: $submissionId
-      typeId: $typeId
-      content: $file
-    ) {
-      id
-      name
-      link
-      type {
-        id
-      }
-    }
-  }
-`
 
 export const UPDATE_ATTACHMENT = gql`
   mutation Update(
@@ -301,40 +275,6 @@ const GET_CURRENT_SUBMISSION_STEP = gql`
   }
 `
 
-export const useUploadAttachment = () => {
-  const [mutate, { error }] = useMutation(UPLOAD_ATTACHMENT)
-  return {
-    uploadAttachment: async ({
-      submissionId,
-      documentId,
-      file,
-      designation, // typeId is designation
-    }: uploadAttachmentProps) => {
-      return await mutate({
-        context: {
-          clientPurpose: 'leanWorkflowManager',
-        },
-        variables: {
-          submissionId,
-          file,
-          typeId: designation,
-        },
-        update(cache, { data }) {
-          if (data?.uploadAttachment) {
-            updateSubmissionAttachment(
-              cache,
-              submissionId,
-              documentId,
-              data.uploadAttachment
-            )
-          }
-        },
-      })
-    },
-    uploadAttachmentError: getErrorCode(error),
-  }
-}
-
 export const useUpdateAttachmentDesignation = () => {
   const [mutate] = useMutation(SET_ATTACHMENT_TYPE)
   return async ({
@@ -401,15 +341,7 @@ export const useGetSubmissionAndPerson = (
     context: {
       clientPurpose: 'leanWorkflowManager',
     },
-    variables: config.submission.id
-      ? {
-          id: config.submission.id,
-          type: 'URI',
-        }
-      : {
-          id: `${projectId}#${documentId}`,
-          type: 'DOCUMENT_ID',
-        },
+    variables: {},
   })
 
 export const useGetCurrentSubmissionStep = (

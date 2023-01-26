@@ -12,21 +12,15 @@
 
 import '@manuscripts/style-guide/styles/tip.css'
 
-import AppIcon from '@manuscripts/assets/react/AppIcon'
-import ContributorsIcon from '@manuscripts/assets/react/ContributorsIcon'
 import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
-import { Project } from '@manuscripts/manuscripts-json-schema'
+import { Project } from '@manuscripts/json-schema'
 import { Tip } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import config from '../config'
 import { useStore } from '../store'
-import { Chatbox } from './Chatbox'
 import LibraryPageContainer from './library/LibraryPageContainer'
-import MenuBar from './nav/MenuBar'
-import OfflineIndicator from './OfflineIndicator'
 import { Support } from './Support'
 
 export const Main = styled.main`
@@ -98,11 +92,6 @@ const ViewLink = styled.button`
   }
 `
 
-const ViewsSeparator = styled.div`
-  border: 1px solid ${(props) => props.theme.colors.border.secondary};
-  width: ${(props) => props.theme.grid.unit * 7}px;
-`
-
 const StyledEditProjectIcon = styled(EditProjectIcon)`
   g {
     stroke: currentColor;
@@ -115,16 +104,6 @@ const ProjectLibraryIcon = styled(ReferenceLibraryIcon)`
   }
 `
 
-const ProjectContributorsIcon = styled(ContributorsIcon)`
-  path {
-    stroke: currentColor;
-  }
-
-  circle {
-    stroke: currentColor;
-  }
-`
-const COLLABORATOR = 'COLLABORATOR'
 const LIBRARY = 'LIBRARY'
 
 export const Page: React.FunctionComponent<{ project?: Project }> = ({
@@ -141,8 +120,6 @@ export const Page: React.FunctionComponent<{ project?: Project }> = ({
   if (!tokenData) {
     return null
   }
-
-  const tokenActions = tokenData.getTokenActions()
 
   const selectContent = (enabled: string, children: React.ReactNode) => {
     switch (enabled) {
@@ -162,22 +139,6 @@ export const Page: React.FunctionComponent<{ project?: Project }> = ({
     <PageContainer>
       {project && (
         <ViewsBar>
-          {/* <ProjectNavigator /> */}
-
-          {config.leanWorkflow.enabled || config.native || (
-            <>
-              <MenuBar tokenActions={tokenActions!}>
-                <Tip title={'Home'} placement={'right'}>
-                  <OfflineIndicator>
-                    <AppIcon width={34} height={34} />
-                  </OfflineIndicator>
-                </Tip>
-              </MenuBar>
-
-              <ViewsSeparator />
-            </>
-          )}
-
           <IconBar>
             <Tip title={'Edit ⌥⌘3'} placement={'right'}>
               <ViewLink
@@ -196,24 +157,11 @@ export const Page: React.FunctionComponent<{ project?: Project }> = ({
                 <ProjectLibraryIcon />
               </ViewLink>
             </Tip>
-
-            {config.leanWorkflow.enabled || config.local || (
-              <Tip title={'Collaborators ⌥⌘5'} placement={'right'}>
-                <ViewLink
-                  className={enabled === COLLABORATOR ? 'active' : ''}
-                  onClick={() => setEnabled(COLLABORATOR)}
-                >
-                  <ProjectContributorsIcon />
-                </ViewLink>
-              </Tip>
-            )}
           </IconBar>
 
           <Support />
         </ViewsBar>
       )}
-
-      {config.crisp.id && <Chatbox />}
 
       {selectContent(enabled, children)}
     </PageContainer>

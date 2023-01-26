@@ -11,19 +11,14 @@
  */
 import AnnotationEdit from '@manuscripts/assets/react/AnnotationEdit'
 import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
-import { shortLibraryItemMetadata } from '@manuscripts/library'
-import {
-  Build,
-  buildBibliographyItem,
-  buildComment,
-} from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Citation,
   CommentAnnotation,
   Model,
   ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { shortLibraryItemMetadata } from '@manuscripts/library'
 import {
   AddComment,
   ButtonGroup,
@@ -35,7 +30,12 @@ import {
   SecondaryButton,
 } from '@manuscripts/style-guide'
 import { Title } from '@manuscripts/title-editor'
-import React, { useCallback, useRef, useState } from 'react'
+import {
+  Build,
+  buildBibliographyItem,
+  buildComment,
+} from '@manuscripts/transform'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import { CitationModel } from './CitationModel'
@@ -208,11 +208,24 @@ const CitationEditor: React.FC<Props> = ({
     [citation._id, setComment]
   )
 
+  const citedReferencesSet = useMemo(
+    () => new Set(items.map((item) => item._id)),
+    [items]
+  )
+
+  const filterLibraryItemsWrapper = useCallback(
+    async (query: string) =>
+      (await filterLibraryItems(query)).filter(
+        (item) => !citedReferencesSet?.has(item._id)
+      ),
+    [citedReferencesSet, filterLibraryItems]
+  )
+
   if (searching) {
     return (
       <CitationSearch
         query={selectedText}
-        filterLibraryItems={filterLibraryItems}
+        filterLibraryItems={filterLibraryItemsWrapper}
         importItems={importItems}
         handleCite={handleCite}
         addCitation={addCitationCallback}

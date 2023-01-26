@@ -10,18 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ContainedModel, isFigure } from '@manuscripts/manuscript-transform'
-import { Model } from '@manuscripts/manuscripts-json-schema'
+import { Model } from '@manuscripts/json-schema'
 import {
   AnyValidationResult,
   createTemplateValidator,
   validationOptions,
 } from '@manuscripts/requirements'
+import { ContainedModel, isFigure } from '@manuscripts/transform'
 import toBuffer from 'blob-to-buffer'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
 import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { useStore } from '../../store'
 import { DataLoadingPlaceholder } from '../Placeholders'
@@ -128,9 +127,7 @@ export const RequirementsInspectorView: React.FC<
     return (
       <>
         <ErrorMessage> {error?.message}</ErrorMessage>
-        {config.leanWorkflow.enabled && (
-          <ExceptionDialog errorCode={'QR_SERVICE_UNAVAILABLE'} />
-        )}
+        <ExceptionDialog errorCode={'QR_SERVICE_UNAVAILABLE'} />
       </>
     )
   }
@@ -141,9 +138,7 @@ export const RequirementsInspectorView: React.FC<
         <AlertMessage>
           You need to select a template to display the quality report check
         </AlertMessage>
-        {config.leanWorkflow.enabled && (
-          <ExceptionDialog errorCode={'QR_PROFILE_NOT_FOUND'} />
-        )}
+        <ExceptionDialog errorCode={'QR_PROFILE_NOT_FOUND'} />
       </>
     )
   }

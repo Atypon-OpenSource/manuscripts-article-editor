@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { hasObjectType } from '@manuscripts/manuscript-transform'
+import { hasObjectType } from '@manuscripts/transform'
 import {
   AuxiliaryObjectReferenceStyle,
   Border,
@@ -26,7 +26,7 @@ import {
   PageLayout,
   ParagraphStyle,
   TableStyle,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 // eslint-disable-next-line import/no-unresolved
 import { Property } from 'csstype'
 import { range } from 'lodash-es'

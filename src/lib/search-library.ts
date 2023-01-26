@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { BibliographyItem } from '@manuscripts/json-schema'
 import fuzzysort from 'fuzzysort'
 
 const hasFilter = (filters: Set<string>, keywordIDs?: string[]) => {
@@ -62,19 +62,11 @@ interface SearchableBibliographyItem extends BibliographyItem {
   authors?: string
 }
 
-let sortPromise: Fuzzysort.CancelablePromise<
-  Fuzzysort.KeysResults<BibliographyItem>
->
-
 export const filterLibrary = async (
   library?: Map<string, BibliographyItem>,
   query?: string,
   filters?: Set<string>
 ): Promise<BibliographyItem[]> => {
-  if (sortPromise) {
-    sortPromise.cancel()
-  }
-
   if (!library) {
     return []
   }
@@ -99,14 +91,11 @@ export const filterLibrary = async (
 
   const preparedItems = filteredItems.map(prepareBibliographyItem)
 
-  sortPromise = fuzzysort.goAsync<BibliographyItem>(query, preparedItems, {
+  const results = fuzzysort.go<BibliographyItem>(query, preparedItems, {
     keys: ['title', 'authors'],
     limit: 100,
-    allowTypo: false,
     threshold: -1000,
   })
-
-  const results = await sortPromise
 
   const output = results.map((result) => result.obj)
 

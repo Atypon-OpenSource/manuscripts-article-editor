@@ -14,13 +14,13 @@ import {
   buildColor,
   getByPrototype,
   hasObjectType,
-} from '@manuscripts/manuscript-transform'
+} from '@manuscripts/transform'
 import {
   Color,
   ColorScheme,
   Model,
   ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 
 import { SaveModel } from '../components/inspector/StyleFields'
 

@@ -9,13 +9,13 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { buildKeyword, Selected } from '@manuscripts/manuscript-transform'
-import { Keyword, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Keyword, UserProfile } from '@manuscripts/json-schema'
 import {
   InspectorSection,
   ManuscriptNoteList,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { buildKeyword, Selected } from '@manuscripts/transform'
 import { ContentNodeWithPos } from 'prosemirror-utils'
 import React from 'react'
 import styled from 'styled-components'
@@ -36,7 +36,7 @@ export const CommentsTab: React.FC<{
       collaborators,
       collaboratorsById,
       keywords,
-      saveModel,
+      saveTrackModel, // saveTrackModel is only to be used for the models that are ProseMirror representable
       deleteModel,
     },
   ] = useStore((store) => ({
@@ -45,10 +45,10 @@ export const CommentsTab: React.FC<{
     collaborators: store.collaborators || new Map(),
     collaboratorsById: store.collaboratorsById,
     keywords: store.keywords,
-    saveModel: store.saveModel,
+    saveTrackModel: store.saveTrackModel,
     deleteModel: store.deleteModel,
   }))
-  const createKeyword = (name: string) => saveModel(buildKeyword(name))
+  const createKeyword = (name: string) => saveTrackModel(buildKeyword(name))
 
   const getCollaboratorById = (id: string) =>
     collaboratorsById && collaboratorsById.get(id)
@@ -87,7 +87,7 @@ export const CommentsTab: React.FC<{
             selected={(selected as Selected) || null}
             getCollaboratorById={getCollaboratorById}
             listCollaborators={listCollaborators}
-            saveModel={saveModel}
+            saveModel={saveTrackModel}
             deleteModel={deleteModel}
             noteSource={'EDITOR'}
           />

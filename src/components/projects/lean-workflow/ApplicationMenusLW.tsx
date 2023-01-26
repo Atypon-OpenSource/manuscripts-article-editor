@@ -18,25 +18,15 @@ import {
   MenuSpec,
   useApplicationMenus,
   useEditor,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 
 import config from '../../../config'
-import { remaster } from '../../../lib/bootstrap-manuscript'
 import { addColor, buildColors } from '../../../lib/colors'
-import {
-  buildExportMenu,
-  buildExportReferencesMenu,
-} from '../../../lib/project-menu'
-import { ExportFormat } from '../../../pressroom/exporter'
 import { useStore } from '../../../store'
-import { useModal } from '../../ModalHookableProvider'
-import { Exporter } from '../Exporter'
-// import { Importer } from '../Importer'
-// import { importManuscript } from '../ImportManuscript'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;
@@ -65,79 +55,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   }))
 
   const history = useHistory()
-  const { addModal } = useModal()
   const can = usePermissions()
-
-  // const importerHander = importManuscript(
-  //   history,
-  //   store.saveNewManuscript,
-  //   undefined,
-  //   (projectID, manuscriptID) => {
-  //     alert(
-  //       `Imported successfully: projectID: ${projectID}, manuscriptID: ${manuscriptID}.`
-  //     )
-  //   }
-  // )
-
-  // const openImporter = () => {
-  //   addModal('importer', ({ handleClose }) => (
-  //     <Importer
-  //       handleComplete={handleClose}
-  //       importManuscript={(models: Model[], redirect = true) =>
-  //         importerHander(models)
-  //       }
-  //     />
-  //   ))
-  // }
-  const openExporter = (format: ExportFormat, closeOnSuccess: boolean) => {
-    addModal('exporter', ({ handleClose }) => (
-      <Exporter
-        format={format}
-        getAttachment={store.getAttachment}
-        handleComplete={handleClose}
-        modelMap={store.modelMap}
-        manuscriptID={store.manuscriptID}
-        project={store.project}
-        closeOnSuccess={closeOnSuccess}
-      />
-    ))
-  }
-
-  const projectMenu: MenuSpec = {
-    id: 'project',
-    label: 'Project',
-    submenu: [
-      buildExportMenu(openExporter),
-      buildExportReferencesMenu(openExporter, editor.state),
-      {
-        role: 'separator',
-      },
-      {
-        id: 'remaster',
-        label: 'Remaster',
-        run: () =>
-          remaster(
-            editor.state,
-            store.modelMap,
-            store.project,
-            store.saveModel
-          ),
-      },
-    ],
-  }
-
-  // Commented as may it be actually useful in later development
-  // const developMenu: MenuSpec = {
-  //   id: 'develop',
-  //   label: 'Develop',
-  //   submenu: [
-  //     {
-  //       id: 'import',
-  //       label: 'Import Manuscript…',
-  //       run: openImporter,
-  //     },
-  //   ],
-  // }
 
   const helpMenu: MenuSpec = {
     id: 'help',
@@ -175,14 +93,6 @@ export const ApplicationMenusLW: React.FC<Props> = ({
   }
 
   const menu = [...editorMenu, helpMenu]
-  if (config.features.projectMenu) {
-    menu.unshift(projectMenu)
-  }
-
-  // Commented as may it be actually useful in later development
-  // if (!config.production) {
-  //   menu.push(developMenu)
-  // }
 
   const menus = useApplicationMenus(menu)
 

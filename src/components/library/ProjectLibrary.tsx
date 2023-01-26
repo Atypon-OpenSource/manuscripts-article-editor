@@ -14,7 +14,7 @@ import {
   BibliographyItem,
   LibraryCollection,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { filterLibrary } from '../../lib/search-library'

@@ -16,17 +16,13 @@ import CloseIconDark from '@manuscripts/assets/react/CloseIconDark'
 import Highlight from '@manuscripts/assets/react/ToolbarIconHighlight'
 import VerticalEllipsis from '@manuscripts/assets/react/VerticalEllipsis'
 import {
-  Build,
-  buildKeyword,
-  buildKeywordGroup,
-} from '@manuscripts/manuscript-transform'
-import {
   Keyword,
   KeywordGroup,
   Manuscript,
   Section,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { Category, Dialog, IconButton } from '@manuscripts/style-guide'
+import { Build, buildKeyword, buildKeywordGroup } from '@manuscripts/transform'
 import React, {
   ChangeEvent,
   useCallback,
@@ -40,11 +36,11 @@ import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
+import { PlusIcon } from '../../Icons'
 import { selectStyles } from '../../lib/select-styles'
 import { useStore } from '../../store'
 import { AnyElement } from '../inspector/ElementStyleInspector'
 import { MediumTextField } from './inputs'
-import { PlusIcon } from './Status/StatusIcons'
 import {
   Container,
   EditingPopper,
@@ -363,8 +359,6 @@ export const CategorisedKeywordsInput: React.FC<{
           options={keywords}
           isOptionDisabled={(option) => {
             const isCreate = option.name.startsWith('Create keyword')
-              ? true
-              : false
             return !isCreate
           }}
           placeholder={'Add new or edit existing...'}

@@ -10,22 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { BulkDocsError } from '../sync/types'
-
 class CustomError extends Error {
   constructor(message: string) {
     super(message)
     this.name = this.constructor.name
-  }
-}
-
-export class BulkCreateError extends CustomError {
-  public failures: BulkDocsError[]
-
-  constructor(failures: BulkDocsError[]) {
-    super('')
-    Object.setPrototypeOf(this, new.target.prototype)
-    this.failures = failures
   }
 }
 

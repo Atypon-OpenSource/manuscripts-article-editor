@@ -10,35 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  FigureStyle,
-  Model,
-  ParagraphStyle,
-  TableStyle,
-} from '@manuscripts/manuscripts-json-schema'
-import styled from 'styled-components'
+import { Model } from '@manuscripts/json-schema'
 
 export type SaveModel = <T extends Model>(model: Partial<T>) => Promise<T>
-
-export type SaveFigureStyle = (style: FigureStyle) => void
-export type SaveParagraphStyle = (style: ParagraphStyle) => void
-export type SaveTableStyle = (style: TableStyle) => void
 
 // TODO: use nullish coalescing instead
 export const valueOrDefault = <T extends number | string | boolean>(
   value: T | undefined,
   defaultValue: T
 ): T => (value === undefined ? defaultValue : value)
-
-export const BlockFields = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-`
-
-export const BlockField = styled.label`
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
-`
