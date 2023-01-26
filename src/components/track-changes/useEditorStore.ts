@@ -18,7 +18,7 @@ import {
   TrackChangesState,
 } from '@manuscripts/track-changes-plugin'
 import { Command, EditorState } from 'prosemirror-state'
-import create from 'zustand'
+import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 interface EmptySnapshotState {
@@ -54,6 +54,8 @@ export const useEditorStore = create(
       },
       state: () => getState(get()),
       execCmd(cmd: Command) {
+        const stuff = get()
+        console.log('pausing on me')
         const { view } = getState(get())
         cmd(view.state, view.dispatch)
       },

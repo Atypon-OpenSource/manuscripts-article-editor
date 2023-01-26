@@ -101,9 +101,9 @@ export const TrackChangesStyles: React.FC = ({ children }) => {
       : []
   )
 
-  if (!config.quarterback.enabled) {
-    return <TrackChangesOff>{children}</TrackChangesOff>
-  }
+  // if (!config.quarterback.enabled) {
+  //   return <TrackChangesOff>{children}</TrackChangesOff>
+  // }
 
   if (can.handleSuggestion) {
     return (

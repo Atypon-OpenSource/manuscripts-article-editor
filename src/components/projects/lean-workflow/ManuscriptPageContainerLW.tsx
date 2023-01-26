@@ -29,7 +29,7 @@ import {
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorState } from '@manuscripts/transform'
 import { debounce } from 'lodash'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import config from '../../../config'
@@ -140,21 +140,17 @@ const ManuscriptPageView: React.FC = () => {
 
   const { state, dispatch, view } = editor
 
-  const {
-    saveTrackModel,
-    trackModelMap,
-    deleteTrackModel,
-    getTrackModel,
-  } = useTrackedModelManagement(
-    doc,
-    view,
-    state,
-    dispatch,
-    saveModel,
-    deleteModel,
-    modelMap,
-    () => getState().submission.attachments
-  )
+  const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
+    useTrackedModelManagement(
+      doc,
+      view,
+      state,
+      dispatch,
+      saveModel,
+      deleteModel,
+      modelMap,
+      () => getState().submission.attachments
+    )
 
   useEffect(() => {
     storeDispatch({
@@ -173,9 +169,19 @@ const ManuscriptPageView: React.FC = () => {
 
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
-  const { init: initEditor, setEditorState, trackState } = useEditorStore()
+  const {
+    init: initEditor,
+    setEditorState,
+    trackState,
+    view: storeView,
+  } = useEditorStore()
   useEffect(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
-  useEffect(() => view && initEditor(view), [view, initEditor])
+
+  useLayoutEffect(() => view && initEditor(view), [view, initEditor])
+  // // === OR ===
+  // if (view && !storeView) {
+  //   initEditor(view)
+  // }
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackState || {}

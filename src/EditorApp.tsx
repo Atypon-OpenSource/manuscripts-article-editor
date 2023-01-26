@@ -72,6 +72,8 @@ const EditorApp: React.FC<Props> = ({
   const { setUser } = useAuthStore()
   const { init: initPouchStore } = usePouchStore()
 
+  console.log('USER EDITOR APP RERENDERED')
+
   useMemo(() => {
     const user = store?.state?.user
     if (user) {

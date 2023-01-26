@@ -16,7 +16,7 @@ import {
   ResizerSide,
   RoundIconButton,
 } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import layout, { Pane } from '../lib/layout'
@@ -60,80 +60,65 @@ interface PanelStyle {
   height: number | string
 }
 
-class Panel extends React.Component<PanelProps, PanelState> {
-  public state: PanelState = {
+const Panel: React.FC<PanelProps> = (props) => {
+  const [state, setState] = useState<PanelState>({
     originalSize: null,
     size: null,
     collapsed: false,
     hidden: false,
-  }
+  })
 
-  private hideWhenQuery?: MediaQueryList
+  const forceOpen = useRef<boolean>()
 
-  public componentDidMount() {
-    if (this.props.hideWhen) {
-      this.hideWhenQuery = window.matchMedia(
-        `screen and (${this.props.hideWhen})`
+  const hideWhenQuery = useRef<MediaQueryList>()
+
+  useLayoutEffect(() => {
+    if (forceOpen.current !== props.forceOpen) {
+      updateState(layout.get(props.name), props.forceOpen)
+      forceOpen.current = props.forceOpen
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.forceOpen, props.name])
+
+  useEffect(() => {
+    if (props.hideWhen) {
+      hideWhenQuery.current = window.matchMedia(
+        `screen and (${props.hideWhen})`
       )
 
-      this.hideWhenQuery.addListener(this.handleHideWhenChange)
+      hideWhenQuery.current.addListener(handleHideWhenChange)
 
-      this.setState({
-        hidden: this.hideWhenQuery.matches,
+      setState((state) => {
+        return { ...state, hidden: !hideWhenQuery.current?.matches }
       })
     }
+    updateState(layout.get(props.name))
 
-    this.updateState(layout.get(this.props.name))
-  }
-
-  public componentWillReceiveProps(nextProps: PanelProps) {
-    if (nextProps.forceOpen !== this.props.forceOpen) {
-      this.updateState(layout.get(this.props.name), nextProps.forceOpen)
+    return () => {
+      if (hideWhenQuery.current) {
+        hideWhenQuery.current.removeListener(handleHideWhenChange)
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function updateState(data: Pane, forceOpen = false) {
+    const { minSize } = props
+    const { hidden } = state
+
+    const size = Math.max(minSize || 0, data.size)
+
+    const collapsed = !forceOpen && (data.collapsed || hidden)
+
+    setState((state) => ({
+      ...state,
+      originalSize: size,
+      size: collapsed ? 0 : size,
+      collapsed,
+    }))
   }
 
-  public componentWillUnmount() {
-    if (this.hideWhenQuery) {
-      this.hideWhenQuery.removeListener(this.handleHideWhenChange)
-    }
-  }
-
-  public render() {
-    const { children, direction, resizerButton, side } = this.props
-    const { collapsed, hidden, size, originalSize } = this.state
-
-    if (size === null || originalSize === null) {
-      return null
-    }
-
-    const style = this.buildStyle(direction, size)
-
-    const resizer = hidden ? null : (
-      <Resizer
-        collapsed={collapsed}
-        direction={direction}
-        side={side}
-        onResize={this.handleResize}
-        onResizeEnd={this.handleResizeEnd}
-        onResizeButton={this.handleResizeButton}
-        buttonInner={resizerButton}
-      />
-    )
-
-    return side === 'start' ? (
-      <div style={style}>
-        {resizer}
-        {!collapsed && children}
-      </div>
-    ) : (
-      <div style={style}>
-        {!collapsed && children}
-        {resizer}
-      </div>
-    )
-  }
-
-  private buildStyle = (direction: string | null, size: number): PanelStyle => {
+  function buildStyle(direction: string | null, size: number): PanelStyle {
     return {
       position: 'relative',
       width: direction === 'row' ? size : '100%',
@@ -141,56 +126,202 @@ class Panel extends React.Component<PanelProps, PanelState> {
     }
   }
 
-  private handleHideWhenChange = (event: MediaQueryListEvent) => {
-    this.setState({ hidden: event.matches })
-    this.updateState(layout.get(this.props.name))
+  function handleHideWhenChange(event: MediaQueryListEvent) {
+    setState((state) => ({ ...state, hidden: event.matches }))
+    updateState(layout.get(props.name))
   }
 
-  private handleResize = (resizeDelta: number) => {
-    const { originalSize } = this.state as InitializedPanelState
+  function handleResize(resizeDelta: number) {
+    const { originalSize } = state as InitializedPanelState
 
-    this.setState({
+    setState((state) => ({
+      ...state,
       size: originalSize + resizeDelta,
-    })
+    }))
   }
 
-  private handleResizeEnd = (resizeDelta: number) => {
-    const { originalSize } = this.state as InitializedPanelState
+  function handleResizeEnd(resizeDelta: number) {
+    const { originalSize } = state as InitializedPanelState
 
-    const { name } = this.props
+    const { name } = props
 
     const data = layout.get(name)
     data.size = resizeDelta < -originalSize ? 0 : originalSize + resizeDelta
     data.collapsed = data.size === 0
     layout.set(name, data)
 
-    this.updateState(data)
+    updateState(data)
   }
 
-  private handleResizeButton = () => {
-    const { name } = this.props
+  function handleResizeButton() {
+    const { name } = props
 
     const data = layout.get(name)
     data.collapsed = !data.collapsed
     layout.set(name, data)
 
-    this.updateState(data)
+    updateState(data)
   }
 
-  private updateState(data: Pane, forceOpen = false) {
-    const { minSize } = this.props
-    const { hidden } = this.state
+  const { children, direction, resizerButton, side } = props
+  const { collapsed, hidden, size, originalSize } = state
 
-    const size = Math.max(minSize || 0, data.size)
-
-    const collapsed = !forceOpen && (data.collapsed || hidden)
-
-    this.setState({
-      originalSize: size,
-      size: collapsed ? 0 : size,
-      collapsed,
-    })
+  if (size === null || originalSize === null) {
+    return null
   }
+
+  const style = buildStyle(direction, size)
+
+  const resizer = hidden ? null : (
+    <Resizer
+      collapsed={collapsed}
+      direction={direction}
+      side={side}
+      onResize={handleResize}
+      onResizeEnd={handleResizeEnd}
+      onResizeButton={handleResizeButton}
+      buttonInner={resizerButton}
+    />
+  )
+
+  return side === 'start' ? (
+    <div style={style}>
+      {resizer}
+      {!collapsed && children}
+    </div>
+  ) : (
+    <div style={style}>
+      {!collapsed && children}
+      {resizer}
+    </div>
+  )
 }
+
+// class PanelOld extends React.Component<PanelProps, PanelState> {
+//   public state: PanelState = {
+//     originalSize: null,
+//     size: null,
+//     collapsed: false,
+//     hidden: false,
+//   }
+
+//   private hideWhenQuery?: MediaQueryList
+
+//   public componentDidMount() {
+//     if (this.props.hideWhen) {
+//       this.hideWhenQuery = window.matchMedia(
+//         `screen and (${this.props.hideWhen})`
+//       )
+
+//       this.hideWhenQuery.addListener(this.handleHideWhenChange)
+
+//       this.setState({
+//         hidden: this.hideWhenQuery.matches,
+//       })
+//     }
+
+//     this.updateState(layout.get(this.props.name))
+//   }
+
+//   public componentWillUnmount() {
+//     if (this.hideWhenQuery) {
+//       this.hideWhenQuery.removeListener(this.handleHideWhenChange)
+//     }
+//   }
+
+//   public render() {
+//     const { children, direction, resizerButton, side } = this.props
+//     const { collapsed, hidden, size, originalSize } = this.state
+
+//     if (size === null || originalSize === null) {
+//       return null
+//     }
+
+//     const style = this.buildStyle(direction, size)
+
+//     const resizer = hidden ? null : (
+//       <Resizer
+//         collapsed={collapsed}
+//         direction={direction}
+//         side={side}
+//         onResize={this.handleResize}
+//         onResizeEnd={this.handleResizeEnd}
+//         onResizeButton={this.handleResizeButton}
+//         buttonInner={resizerButton}
+//       />
+//     )
+
+//     return side === 'start' ? (
+//       <div style={style}>
+//         {resizer}
+//         {!collapsed && children}
+//       </div>
+//     ) : (
+//       <div style={style}>
+//         {!collapsed && children}
+//         {resizer}
+//       </div>
+//     )
+//   }
+
+//   private buildStyle = (direction: string | null, size: number): PanelStyle => {
+//     return {
+//       position: 'relative',
+//       width: direction === 'row' ? size : '100%',
+//       height: direction === 'row' ? '100%' : size,
+//     }
+//   }
+
+//   private handleHideWhenChange = (event: MediaQueryListEvent) => {
+//     this.setState({ hidden: event.matches })
+//     this.updateState(layout.get(this.props.name))
+//   }
+
+//   private handleResize = (resizeDelta: number) => {
+//     const { originalSize } = this.state as InitializedPanelState
+
+//     this.setState({
+//       size: originalSize + resizeDelta,
+//     })
+//   }
+
+//   private handleResizeEnd = (resizeDelta: number) => {
+//     const { originalSize } = this.state as InitializedPanelState
+
+//     const { name } = this.props
+
+//     const data = layout.get(name)
+//     data.size = resizeDelta < -originalSize ? 0 : originalSize + resizeDelta
+//     data.collapsed = data.size === 0
+//     layout.set(name, data)
+
+//     this.updateState(data)
+//   }
+
+//   private handleResizeButton = () => {
+//     const { name } = this.props
+
+//     const data = layout.get(name)
+//     data.collapsed = !data.collapsed
+//     layout.set(name, data)
+
+//     this.updateState(data)
+//   }
+
+//   private updateState(data: Pane, forceOpen = false) {
+//     const { minSize } = this.props
+//     const { hidden } = this.state
+
+//     const size = Math.max(minSize || 0, data.size)
+
+//     const collapsed = !forceOpen && (data.collapsed || hidden)
+
+//     this.setState({
+//       originalSize: size,
+//       size: collapsed ? 0 : size,
+//       collapsed,
+//     })
+//   }
+// }
 
 export default Panel
