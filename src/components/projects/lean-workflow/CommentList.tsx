@@ -419,7 +419,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                         }
                         listKeywords={keywords}
                         saveComment={saveComment}
-                        handleCreateReply={setCommentTarget}
+                        handleCreateReply={setComment}
                         can={can}
                         currentUserId={currentUser._id}
                         isNew={isNew(comment as CommentAnnotation)}
