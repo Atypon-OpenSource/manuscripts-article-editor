@@ -28,7 +28,7 @@ import { useEditorStore } from './useEditorStore'
 
 export function TrackChangesPanel() {
   const { user, authenticate } = useAuthStore()
-  const { execCmd, trackState } = useEditorStore()
+  const { execCmd, view, trackState } = useEditorStore()
   const { listComments } = useCommentStore()
   const { currentDocument } = useDocStore()
   const { changeSet } = trackState || {}
@@ -41,9 +41,9 @@ export function TrackChangesPanel() {
       await listComments(docId)
     }
     currentDocument && loginListComments(currentDocument.manuscriptID)
-    execCmd(trackCommands.setUserID(user.id))
+    view && execCmd(trackCommands.setUserID(user.id))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, execCmd])
+  }, [user, execCmd, view])
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSortBy(event.currentTarget.value)
