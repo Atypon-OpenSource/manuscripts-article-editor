@@ -185,7 +185,7 @@ const Panel: React.FC<PanelProps> = (props) => {
   )
 
   return side === 'start' ? (
-    <div className="iam-here-dude" style={style}>
+    <div style={style}>
       {resizer}
       {!collapsed && children}
     </div>
