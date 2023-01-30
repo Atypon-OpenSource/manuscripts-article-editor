@@ -169,19 +169,12 @@ const ManuscriptPageView: React.FC = () => {
 
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
-  const {
-    init: initEditor,
-    setEditorState,
-    trackState,
-    view: storeView,
-  } = useEditorStore()
-  useEffect(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
-
+  const { init: initEditor, setEditorState, trackState } = useEditorStore()
+  useLayoutEffect(
+    () => setUsers(collaboratorsById),
+    [collaboratorsById, setUsers]
+  )
   useLayoutEffect(() => view && initEditor(view), [view, initEditor])
-  // // === OR ===
-  // if (view && !storeView) {
-  //   initEditor(view)
-  // }
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackState || {}

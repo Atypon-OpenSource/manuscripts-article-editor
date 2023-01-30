@@ -119,11 +119,11 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                   />
                 </InspectorTabPanel>
               )}
-              {/* {config.quarterback.enabled && (
+              {config.quarterback.enabled && (
                 <InspectorTabPanel key="History">
                   <TrackChangesPanel key="track-changes" />
                 </InspectorTabPanel>
-              )} */}
+              )}
               {config.features.fileManagement && (
                 <InspectorTabPanel key="Files">
                   <FileManager

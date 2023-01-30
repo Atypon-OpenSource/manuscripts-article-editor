@@ -54,8 +54,6 @@ export const useEditorStore = create(
       },
       state: () => getState(get()),
       execCmd(cmd: Command) {
-        const stuff = get()
-        console.log('pausing on me')
         const { view } = getState(get())
         cmd(view.state, view.dispatch)
       },
