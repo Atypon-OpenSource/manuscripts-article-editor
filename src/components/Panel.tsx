@@ -88,8 +88,10 @@ const Panel: React.FC<PanelProps> = (props) => {
 
       hideWhenQuery.current.addListener(handleHideWhenChange)
 
+      console.log(hideWhenQuery.current?.matches)
+
       setState((state) => {
-        return { ...state, hidden: !hideWhenQuery.current?.matches }
+        return { ...state, hidden: !!hideWhenQuery.current?.matches }
       })
     }
     updateState(layout.get(props.name))
@@ -185,7 +187,7 @@ const Panel: React.FC<PanelProps> = (props) => {
   )
 
   return side === 'start' ? (
-    <div style={style}>
+    <div className="iam-here-dude" style={style}>
       {resizer}
       {!collapsed && children}
     </div>
@@ -196,132 +198,5 @@ const Panel: React.FC<PanelProps> = (props) => {
     </div>
   )
 }
-
-// class PanelOld extends React.Component<PanelProps, PanelState> {
-//   public state: PanelState = {
-//     originalSize: null,
-//     size: null,
-//     collapsed: false,
-//     hidden: false,
-//   }
-
-//   private hideWhenQuery?: MediaQueryList
-
-//   public componentDidMount() {
-//     if (this.props.hideWhen) {
-//       this.hideWhenQuery = window.matchMedia(
-//         `screen and (${this.props.hideWhen})`
-//       )
-
-//       this.hideWhenQuery.addListener(this.handleHideWhenChange)
-
-//       this.setState({
-//         hidden: this.hideWhenQuery.matches,
-//       })
-//     }
-
-//     this.updateState(layout.get(this.props.name))
-//   }
-
-//   public componentWillUnmount() {
-//     if (this.hideWhenQuery) {
-//       this.hideWhenQuery.removeListener(this.handleHideWhenChange)
-//     }
-//   }
-
-//   public render() {
-//     const { children, direction, resizerButton, side } = this.props
-//     const { collapsed, hidden, size, originalSize } = this.state
-
-//     if (size === null || originalSize === null) {
-//       return null
-//     }
-
-//     const style = this.buildStyle(direction, size)
-
-//     const resizer = hidden ? null : (
-//       <Resizer
-//         collapsed={collapsed}
-//         direction={direction}
-//         side={side}
-//         onResize={this.handleResize}
-//         onResizeEnd={this.handleResizeEnd}
-//         onResizeButton={this.handleResizeButton}
-//         buttonInner={resizerButton}
-//       />
-//     )
-
-//     return side === 'start' ? (
-//       <div style={style}>
-//         {resizer}
-//         {!collapsed && children}
-//       </div>
-//     ) : (
-//       <div style={style}>
-//         {!collapsed && children}
-//         {resizer}
-//       </div>
-//     )
-//   }
-
-//   private buildStyle = (direction: string | null, size: number): PanelStyle => {
-//     return {
-//       position: 'relative',
-//       width: direction === 'row' ? size : '100%',
-//       height: direction === 'row' ? '100%' : size,
-//     }
-//   }
-
-//   private handleHideWhenChange = (event: MediaQueryListEvent) => {
-//     this.setState({ hidden: event.matches })
-//     this.updateState(layout.get(this.props.name))
-//   }
-
-//   private handleResize = (resizeDelta: number) => {
-//     const { originalSize } = this.state as InitializedPanelState
-
-//     this.setState({
-//       size: originalSize + resizeDelta,
-//     })
-//   }
-
-//   private handleResizeEnd = (resizeDelta: number) => {
-//     const { originalSize } = this.state as InitializedPanelState
-
-//     const { name } = this.props
-
-//     const data = layout.get(name)
-//     data.size = resizeDelta < -originalSize ? 0 : originalSize + resizeDelta
-//     data.collapsed = data.size === 0
-//     layout.set(name, data)
-
-//     this.updateState(data)
-//   }
-
-//   private handleResizeButton = () => {
-//     const { name } = this.props
-
-//     const data = layout.get(name)
-//     data.collapsed = !data.collapsed
-//     layout.set(name, data)
-
-//     this.updateState(data)
-//   }
-
-//   private updateState(data: Pane, forceOpen = false) {
-//     const { minSize } = this.props
-//     const { hidden } = this.state
-
-//     const size = Math.max(minSize || 0, data.size)
-
-//     const collapsed = !forceOpen && (data.collapsed || hidden)
-
-//     this.setState({
-//       originalSize: size,
-//       size: collapsed ? 0 : size,
-//       collapsed,
-//     })
-//   }
-// }
 
 export default Panel
