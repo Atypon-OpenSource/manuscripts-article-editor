@@ -34,9 +34,8 @@ interface State {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const ModalProvider: React.FC = ({ children }) => {
-  const [modalsSetter, setModalsSetter] = useState<
-    (id: string, modal: ModalComponent) => void
-  >()
+  const [modalsSetter, setModalsSetter] =
+    useState<(id: string, modal: ModalComponent) => void>()
 
   const addModal: AddModal = (id, modal) => {
     modalsSetter && modalsSetter(id, modal)

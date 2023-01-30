@@ -10,10 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  Library,
-  LibraryCollection,
-} from '@manuscripts/json-schema'
+import { Library, LibraryCollection } from '@manuscripts/json-schema'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { createBrowserHistory } from 'history'

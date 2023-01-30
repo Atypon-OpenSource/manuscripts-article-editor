@@ -13,7 +13,7 @@
 import { debounce } from 'lodash-es'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export const useSyncedData = <T extends unknown>(
+export const useSyncedData = <T>(
   propValue: T,
   handleChange: (value: T) => void,
   wait = 1000

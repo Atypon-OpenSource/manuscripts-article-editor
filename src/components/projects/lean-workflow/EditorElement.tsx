@@ -15,11 +15,7 @@ import {
   insertFileAsFigure,
   useEditor,
 } from '@manuscripts/body-editor'
-import {
-  Model,
-  ObjectTypes,
-  Supplement,
-} from '@manuscripts/json-schema'
+import { Model, ObjectTypes, Supplement } from '@manuscripts/json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import {
   CHANGE_STATUS,

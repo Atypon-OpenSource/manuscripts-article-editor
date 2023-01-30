@@ -208,7 +208,9 @@ interface InviteAuthorsProps {
   invitationSent: boolean
 }
 
-export const InviteAuthorsModal: React.FunctionComponent<InviteAuthorsProps> = ({
+export const InviteAuthorsModal: React.FunctionComponent<
+  InviteAuthorsProps
+> = ({
   invitationValues,
   handleInviteCancel,
   handleInvitationSubmit,
