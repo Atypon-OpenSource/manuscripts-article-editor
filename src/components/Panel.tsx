@@ -88,8 +88,6 @@ const Panel: React.FC<PanelProps> = (props) => {
 
       hideWhenQuery.current.addListener(handleHideWhenChange)
 
-      console.log(hideWhenQuery.current?.matches)
-
       setState((state) => {
         return { ...state, hidden: !!hideWhenQuery.current?.matches }
       })
