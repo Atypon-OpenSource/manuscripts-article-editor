@@ -114,8 +114,7 @@ export const useCreateEditor = () => {
     modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setCommentTarget: (target?: CommentAnnotation) =>
-      dispatch({ commentTarget: target }),
+    setComment: (comment?: CommentAnnotation) => dispatch({ comment }),
     setSelectedComment: (commentId?: string) =>
       dispatch({ selectedComment: commentId }),
     getModel,
