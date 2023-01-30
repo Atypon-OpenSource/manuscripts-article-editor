@@ -90,7 +90,6 @@ const ProgressMessageContainer: React.FC<{
   )
 }
 
-
 export const DataLoadingPlaceholder: React.FC = () => (
   <PlaceholderContainer>
     <ProgressGroup>

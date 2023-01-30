@@ -12,7 +12,7 @@
 import { Model } from '@manuscripts/json-schema'
 import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 import isEqual from 'lodash-es/isEqual'
-import create from 'zustand'
+import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 // import { state } from '../store'

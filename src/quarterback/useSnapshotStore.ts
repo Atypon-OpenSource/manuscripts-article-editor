@@ -16,7 +16,7 @@ import {
   Maybe,
   SnapshotLabel,
 } from '@manuscripts/quarterback-types'
-import create from 'zustand'
+import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 import * as snapApi from './api/snapshot'
