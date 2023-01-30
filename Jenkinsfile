@@ -18,7 +18,7 @@ node("cisc && !cisc03") {
                 label: "yarn lint",
                 returnStdout: true)
 
-            sh (script: "yarn test --ci --coverage --reporters=default --reporters=jest-junit",
+            sh (script: "yarn test --ci --reporters=default --reporters=jest-junit",
                 label: "yarn test",
                 returnStdout: true)
 
