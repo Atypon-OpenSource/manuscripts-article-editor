@@ -42,7 +42,7 @@ node("cisc && !cisc03") {
 
     if (params.publish_feature) {
         stage ("Publish") {
-            nodejs(nodeJSInstallationName: 'node_14_16') {
+            nodejs(nodeJSInstallationName: 'node_14_17') {
                 withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
                     sh (script: "npm install npx",
                         label: "Install npx first",
