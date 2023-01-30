@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
   integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
-"@manuscripts/body-editor@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.0.tgz#346a4f99e0a4bc741c99b3640677b93c219f9bb6"
-  integrity sha512-Ih/56hVXT8cc3gMsa/48Rzb3yjYrQ0TdstYo2ZPqzZEFjlcejnFl5IbBmOTlPFZJT0gnrxyedWObHWzs96Kn3Q==
+"@manuscripts/body-editor@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.2.tgz#e66dac628b0583180d2bdbe81598961dddaac5d3"
+  integrity sha512-sOvzlZ/v/I4s2g9E/auq+wbprEQ57+rjawF3o4S+y/lQOSCiluXWh04tLNQFnXxqPSz5Y9mHFhmkWF4dVvCePQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"

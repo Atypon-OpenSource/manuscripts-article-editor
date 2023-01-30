@@ -1,11 +1,11 @@
 node("cisc && !cisc03") {
     stage("Checkout") {
-        VARS = checkout scm 
+        VARS = checkout scm
         echo "VARS: $VARS"
     }
 
     stage("Build") {
-        nodejs(nodeJSInstallationName: 'node_14_16') {
+        nodejs(nodeJSInstallationName: 'node_16_14_2') {
             sh (script: "yarn install --frozen-lockfile --non-interactive",
                 label: "yarn install",
                 returnStdout: true)
@@ -23,7 +23,7 @@ node("cisc && !cisc03") {
                 returnStdout: true)
 
             env.ALLOW_MISSING_VARIABLES=1
-            
+
             sh "printenv"
 
             sh (script: "yarn build",
@@ -42,14 +42,14 @@ node("cisc && !cisc03") {
 
     if (params.publish_feature) {
         stage ("Publish") {
-            nodejs(nodeJSInstallationName: 'node_14_17') {
+            nodejs(nodeJSInstallationName: 'node_16_14_2') {
                 withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
                     sh (script: "npm install npx",
                         label: "Install npx first",
                         returnStdout: true)
 
-                    sh ("""cat << EOF >.npmrc 
-//registry.npmjs.org/:_authToken=$NPM_TOKEN 
+                    sh ("""cat << EOF >.npmrc
+//registry.npmjs.org/:_authToken=$NPM_TOKEN
 <<EOF""")
                     sh ("npx @manuscripts/publish")
                     sh "rm -f .npmrc"
