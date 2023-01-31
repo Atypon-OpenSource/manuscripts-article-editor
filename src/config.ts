@@ -58,18 +58,15 @@ const config = {
     id: process.env.GOOGLE_ANALYTICS_ID,
   },
   api: {
-    url: normalizeURL(process.env.API_BASE_URL),
-    headers: {
-      'manuscripts-app-id': process.env.API_APPLICATION_ID,
-      'manuscripts-app-secret': process.env.API_APPLICATION_SECRET,
-    },
+    url: normalizeURL(process.env.MANUSCRIPTS_API_URL),
+    headers: {},
   },
   features: {
     productionNotes: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
     qualityControl: isTrue(process.env.FEATURE_QUALITY_CONTROL),
-    footnotes: isTrue(process.env.FOOTNOTES_ENABLED),
+    footnotes: isTrue(process.env.FEATURE_FOOTNOTES),
     fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
-    commenting: isTrue(process.env.COMMENTING),
+    commenting: isTrue(process.env.FEATURE_COMMENTS),
     DOI: isTrue(process.env.FEATURE_DOI),
     runningTitle: isTrue(process.env.FEATURE_RUNNING_TITLE),
   },
@@ -81,7 +78,7 @@ const config = {
     url: normalizeURL(process.env.QUARTERBACK_URL) || '',
   },
   leanWorkflow: {
-    url: normalizeURL(process.env.LEAN_WORKFLOW_MANAGER_URL),
+    url: normalizeURL(process.env.LEAN_WORKFLOW_URL),
     graphqlEndpoint: process.env.LEAN_WORKFLOW_GRAPHQL_ENDPOINT,
   },
   keywordsCategories: isTrue(process.env.FEATURE_KEYWORDS_CATEGORIES),
