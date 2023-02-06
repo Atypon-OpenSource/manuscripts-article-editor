@@ -65,4 +65,3 @@ storiesOf('Notification', module).add('ServiceWorker', () => (
     {...routeProps}
   />
 ))
-

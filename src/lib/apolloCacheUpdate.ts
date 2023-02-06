@@ -21,7 +21,9 @@ export const updateSubmissionAttachmentDesignation = (
   const cachedSubmission = cache.readQuery({
     query: GET_SUBMISSION,
     variables: {
-    }
+      id: documentId,
+      type: 'DOCUMENT_ID',
+    },
   })
   if (cachedSubmission?.submission?.attachments) {
     cache.writeQuery({
@@ -53,7 +55,9 @@ export const updateMainManuscriptAttachment = <T>(
   const cachedSubmission = cache.readQuery({
     query: GET_SUBMISSION,
     variables: {
-    }
+      id: documentId,
+      type: 'DOCUMENT_ID',
+    },
   })
 
   /**

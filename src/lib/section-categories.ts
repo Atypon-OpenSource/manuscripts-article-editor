@@ -31,9 +31,9 @@ export const isEditableSectionCategoryID = (id: string) =>
 export const isEditableSectionCategory = (sectionCategory: SectionCategory) =>
   isEditableSectionCategoryID(sectionCategory._id)
 
-export const sortedSectionCategories = (sectionCategories as SectionCategory[]).sort(
-  (a, b) => a.priority - b.priority
-)
+export const sortedSectionCategories = (
+  sectionCategories as SectionCategory[]
+).sort((a, b) => a.priority - b.priority)
 
 export const chooseSectionCategory = (section: Section): string => {
   if (section.category) {
@@ -53,5 +53,5 @@ export const isUniquePresent = (
   cat: SectionCategory,
   existingCats: { [key: string]: number }
 ) => {
-  return isUnique(cat._id) && Object.keys(existingCats).includes(cat._id);
+  return isUnique(cat._id) && Object.keys(existingCats).includes(cat._id)
 }

@@ -11,7 +11,7 @@
  */
 import { Jwt } from '@manuscripts/quarterback-types'
 import randomColor from 'randomcolor'
-import create from 'zustand'
+import { create } from 'zustand'
 import { combine, persist } from 'zustand/middleware'
 
 import * as authApi from './api/auth'

@@ -9,8 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { CitationProvider } from '@manuscripts/library'
 import { BibliographyItem } from '@manuscripts/json-schema'
+import { CitationProvider } from '@manuscripts/library'
 
 export interface BiblioTools {
   getCitationProvider: () => CitationProvider | undefined

@@ -64,7 +64,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   const [
     {
       comments = [],
-      commentTarget,
+      comment,
       doc,
       user,
       collaborators,
@@ -87,7 +87,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     modelMap: store.modelMap,
     saveTrackModel: store.saveTrackModel,
     deleteTrackModel: store.deleteTrackModel,
-    commentTarget: store.commentTarget,
+    comment: store.comment,
   }))
   const { state, view } = editor
 
@@ -101,9 +101,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     Pattern.CommentFilter.ALL
   )
 
-  const setCommentTarget = useCallback(
+  const setComment = useCallback(
     (targetId?: string) =>
-      dispatch({ commentTarget: targetId && buildComment(targetId) }),
+      dispatch({ comment: targetId && buildComment(targetId) }),
     [dispatch]
   )
 
@@ -129,23 +129,23 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   )
 
   useEffect(() => {
-    if (commentTarget && commentTarget.target && !newComment) {
+    if (comment && comment.target && !newComment) {
       const contribution = buildContribution(currentUser._id)
-      commentTarget.contributions = [contribution]
+      comment.contributions = [contribution]
 
-      if (isHighlightComment(commentTarget)) {
-        const highlight = state && getHighlightTarget(commentTarget, state)
+      if (isHighlightComment(comment)) {
+        const highlight = state && getHighlightTarget(comment, state)
 
         if (highlight) {
           // newComment.originalText = getHighlightText(highlight, state)
-          commentTarget.originalText = highlight.text
-          setNewComment(commentTarget)
+          comment.originalText = highlight.text
+          setNewComment(comment)
         }
       } else {
-        setNewComment(commentTarget)
+        setNewComment(comment)
       }
     }
-  }, [commentTarget, doc, newComment, state, currentUser])
+  }, [comment, doc, newComment, state, currentUser])
 
   /**
    * This map holds all block elements in the editor(citation, figure, table)
@@ -223,7 +223,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     (comment: CommentAnnotation) => {
       return saveTrackModel(comment).then((comment) => {
         if (newComment && newComment._id === comment._id) {
-          setCommentTarget(undefined)
+          setComment(undefined)
           setNewComment(undefined)
           addComment(comment)
 
@@ -239,7 +239,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     [
       saveTrackModel,
       newComment,
-      setCommentTarget,
+      setComment,
       addComment,
       view?.state,
       view?.dispatch,
@@ -260,7 +260,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
           }
 
           if (newComment && newComment._id === id) {
-            setCommentTarget(undefined)
+            setComment(undefined)
             setNewComment(undefined)
           }
           if (view?.state && !isHighlightComment(comment)) {
@@ -270,14 +270,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
           setSelectedHighlightId(undefined)
         })
     },
-    [
-      deleteTrackModel,
-      modelMap,
-      newComment,
-      removeComment,
-      setCommentTarget,
-      view,
-    ]
+    [deleteTrackModel, modelMap, newComment, removeComment, setComment, view]
   )
 
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
@@ -396,7 +389,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                       listKeywords={keywords}
                       saveComment={saveComment}
                       scrollIntoHighlight={scrollIntoHighlight}
-                      handleCreateReply={setCommentTarget}
+                      handleCreateReply={setComment}
                       can={can}
                       currentUserId={currentUser._id}
                       handleSetResolved={() => handleSetResolved(comment)}
@@ -426,7 +419,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                         }
                         listKeywords={keywords}
                         saveComment={saveComment}
-                        handleCreateReply={setCommentTarget}
+                        handleCreateReply={setComment}
                         can={can}
                         currentUserId={currentUser._id}
                         isNew={isNew(comment as CommentAnnotation)}

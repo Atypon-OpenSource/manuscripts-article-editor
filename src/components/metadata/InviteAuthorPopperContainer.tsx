@@ -19,8 +19,8 @@ import styled from 'styled-components'
 import { projectInvite } from '../../lib/api'
 import { trackEvent } from '../../lib/tracking'
 import { TokenActions } from '../../store'
-import { InvitationForm, InvitationValues } from './AuthorInvitationForm'
 import { CustomUpPopper, PopperBody } from '../Popper'
+import { InvitationForm, InvitationValues } from './AuthorInvitationForm'
 
 interface Props {
   popperProps: PopperChildrenProps

@@ -11,6 +11,7 @@
  */
 
 import { Model, ObjectTypes } from '@manuscripts/json-schema'
+import { SubmissionAttachment } from '@manuscripts/style-guide'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
   Build,
@@ -20,7 +21,6 @@ import {
   ManuscriptNode,
   schema,
 } from '@manuscripts/transform'
-import { SubmissionAttachment } from '@manuscripts/style-guide'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'

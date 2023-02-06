@@ -46,7 +46,6 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/'],
   testRegex: '/__tests__/.*\\.test\\.tsx?$',
   testEnvironment: 'jsdom',
-  testURL: 'https://localhost',
   transform: {
     '^.+\\.(j|t)sx?$': 'babel-jest',
   },

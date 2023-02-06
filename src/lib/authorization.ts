@@ -30,4 +30,3 @@ export const authorizationInterceptor = (config: AxiosRequestConfig) => {
 
   return config
 }
-
