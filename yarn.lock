@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
   integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
-"@manuscripts/body-editor@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.2.tgz#e66dac628b0583180d2bdbe81598961dddaac5d3"
-  integrity sha512-sOvzlZ/v/I4s2g9E/auq+wbprEQ57+rjawF3o4S+y/lQOSCiluXWh04tLNQFnXxqPSz5Y9mHFhmkWF4dVvCePQ==
+"@manuscripts/body-editor@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.3.tgz#0acd1372921b9994e73886a4757468b15219a899"
+  integrity sha512-/UCBX09UK6RPeLwAShaHaziASMzHazsgyY6BSTBQNYHjrsbjFecusekYtUBZ3Zw1x6ezzB+v7lRnPvnGSLCd5A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1863,10 +1863,10 @@
     image-size "^1.0.2"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.0.tgz#8dac4e128101c4d372039091c829008380798306"
-  integrity sha512-mae8T2kB2N8GAKAMl/IwfMY0wacJ1brPtxNLgRPCJiHaFLMmbLjpCojeuAQuPQR1mU4YgQWSYZgaMa5tZOqI9g==
+"@manuscripts/style-guide@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.1.tgz#e956e412ebcb65b868e0c89af86157411efcc43c"
+  integrity sha512-hfdgLwRUfPHoIf0weIm9Ej02IGrPW0oiX/p940xp1RUDftUZhO7L3kXGtVA7pduITJwQjCQuNDdbJPUvusBlrg==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
@@ -8660,7 +8660,7 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-husky@^8.0.2:
+husky@^8.0.0:
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.3.tgz#4936d7212e46d1dea28fef29bb3a108872cd9184"
   integrity sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==
