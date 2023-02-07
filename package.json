@@ -30,8 +30,7 @@
     "storybook": "NODE_OPTIONS=--max_old_space_size=6096 start-storybook --config-dir stories/config --port 6006",
     "build-storybook": "NODE_OPTIONS=--max_old_space_size=6096 build-storybook --config-dir stories/config",
     "preversion": "npm-run-all --parallel typecheck lint",
-    "version": "ALLOW_MISSING_VARIABLES=1 yarn build",
-    "prepare": "husky install"
+    "version": "ALLOW_MISSING_VARIABLES=1 yarn build"
   },
   "dependencies": {
     "@fontsource/lato": "^4.5.10",
@@ -154,7 +153,7 @@
     "favicons": "^7.0.2",
     "form-data": "^4.0.0",
     "formik": "^2.2.9",
-    "husky": "^8.0.0",
+    "husky": "^8.0.2",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
     "jest-enzyme": "^7.1.2",
