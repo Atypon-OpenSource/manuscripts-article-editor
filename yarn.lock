@@ -1788,6 +1788,7 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.3.tgz#0acd1372921b9994e73886a4757468b15219a899"
   integrity sha512-/UCBX09UK6RPeLwAShaHaziASMzHazsgyY6BSTBQNYHjrsbjFecusekYtUBZ3Zw1x6ezzB+v7lRnPvnGSLCd5A==
+
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
