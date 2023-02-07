@@ -5,7 +5,7 @@ node("cisc") {
     }
 
     stage("Build") {
-        nodejs(nodeJSInstallationName: 'node_14_16') {
+        nodejs(nodeJSInstallationName: 'node_16_14_2') {
             sh (script: "yarn install --frozen-lockfile --non-interactive",
                 label: "yarn install",
                 returnStdout: true)
@@ -21,9 +21,9 @@ node("cisc") {
             sh (script: "yarn test --ci --coverage --reporters=default --reporters=jest-junit",
                 label: "yarn test",
                 returnStdout: true)
-            
+
             env.ALLOW_MISSING_VARIABLES=1
-            
+
             sh "printenv"
 
             sh (script: "yarn build",
@@ -43,7 +43,7 @@ node("cisc") {
     stage ("Publish") {
         nodejs(nodeJSInstallationName: 'node_14_16') {
             withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-            
+
                 sh (script: "npm install npx",
                     label: "Install npx first",
                     returnStdout: true)
