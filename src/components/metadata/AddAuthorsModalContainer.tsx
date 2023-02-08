@@ -46,12 +46,8 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      isCreateAuthorOpen,
-      searchResults,
-      searchText,
-      searchingAuthors,
-    } = this.state
+    const { isCreateAuthorOpen, searchResults, searchText, searchingAuthors } =
+      this.state
 
     const {
       numberOfAddedAuthors,

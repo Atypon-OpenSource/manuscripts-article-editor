@@ -26,35 +26,31 @@ import {
   NotificationTitle,
 } from './Notifications'
 
-export const createNotification = ({
-  id,
-  message,
-}: {
-  id: string
-  message: string
-}): NotificationComponent => (props) => (
-  <NotificationPrompt>
-    <NotificationHead>
-      <NotificationIcon />
-      <NotificationMessage>
-        <NotificationTitle>{message}</NotificationTitle>
-      </NotificationMessage>
-    </NotificationHead>
-    <NotificationActions>
-      <SecondaryButton onClick={props.removeNotification}>
-        Dismiss
-      </SecondaryButton>
-    </NotificationActions>
-  </NotificationPrompt>
-)
+export const createNotification =
+  ({ id, message }: { id: string; message: string }): NotificationComponent =>
+  (props) =>
+    (
+      <NotificationPrompt>
+        <NotificationHead>
+          <NotificationIcon />
+          <NotificationMessage>
+            <NotificationTitle>{message}</NotificationTitle>
+          </NotificationMessage>
+        </NotificationHead>
+        <NotificationActions>
+          <SecondaryButton onClick={props.removeNotification}>
+            Dismiss
+          </SecondaryButton>
+        </NotificationActions>
+      </NotificationPrompt>
+    )
 
 export const Notification: React.FC<{
   message: string
   id: string
 }> = ({ children, message, id }) => {
-  const { removeNotification, showNotification } = useContext(
-    NotificationContext
-  )
+  const { removeNotification, showNotification } =
+    useContext(NotificationContext)
 
   useEffect(() => {
     showNotification(id, createNotification({ id, message }))

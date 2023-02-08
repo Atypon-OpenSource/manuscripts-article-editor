@@ -13,10 +13,7 @@
 import AddAuthor from '@manuscripts/assets/react/AddAuthor'
 import Trashcan from '@manuscripts/assets/react/AnnotationRemove'
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import {
-  BibliographicName,
-  BibliographyItem,
-} from '@manuscripts/json-schema'
+import { BibliographicName, BibliographyItem } from '@manuscripts/json-schema'
 import { bibliographyItemTypes } from '@manuscripts/library'
 import {
   ButtonGroup,

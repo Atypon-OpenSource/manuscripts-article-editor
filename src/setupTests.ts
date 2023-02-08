@@ -16,7 +16,7 @@ import { v4 as uuid } from 'uuid'
 
 configure({ adapter: new Adapter() })
 
-process.env.API_BASE_URL = 'https://127.0.0.1/'
+process.env.MANUSCRIPTS_API_URL = 'https://127.0.0.1/'
 
 const supportedCommands: string[] = []
 

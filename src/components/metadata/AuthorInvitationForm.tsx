@@ -92,12 +92,8 @@ export class InvitationForm extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      allowSubmit,
-      handleSubmit,
-      invitationValues,
-      tokenActions,
-    } = this.props
+    const { allowSubmit, handleSubmit, invitationValues, tokenActions } =
+      this.props
 
     const { invitationSent } = this.state
     return (

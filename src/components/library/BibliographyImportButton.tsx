@@ -36,39 +36,45 @@ import { CitationImportSuccessMessage } from './Messages'
 
 const CITATION_IMPORT_NOTIFICATION_ID = 'citation-import'
 
-const createCitationImportErrorNotification = (
-  title: string | JSX.Element
-): NotificationComponent => ({ removeNotification }) => (
-  <NotificationPrompt>
-    <NotificationHead>
-      <AttentionRed />
-      <NotificationMessage>
-        <NotificationTitle>{title}</NotificationTitle>
-      </NotificationMessage>
-    </NotificationHead>
-    <NotificationActions>
-      <SecondaryButton onClick={removeNotification}>Dismiss</SecondaryButton>
-    </NotificationActions>
-  </NotificationPrompt>
-)
+const createCitationImportErrorNotification =
+  (title: string | JSX.Element): NotificationComponent =>
+  ({ removeNotification }) =>
+    (
+      <NotificationPrompt>
+        <NotificationHead>
+          <AttentionRed />
+          <NotificationMessage>
+            <NotificationTitle>{title}</NotificationTitle>
+          </NotificationMessage>
+        </NotificationHead>
+        <NotificationActions>
+          <SecondaryButton onClick={removeNotification}>
+            Dismiss
+          </SecondaryButton>
+        </NotificationActions>
+      </NotificationPrompt>
+    )
 
-const createCitationImportSuccessNotification = (
-  count: number
-): NotificationComponent => ({ removeNotification }) => (
-  <NotificationPrompt>
-    <NotificationHead>
-      <Check color={'green'} />
-      <NotificationMessage>
-        <NotificationTitle>
-          <CitationImportSuccessMessage count={count} />
-        </NotificationTitle>
-      </NotificationMessage>
-    </NotificationHead>
-    <NotificationActions>
-      <SecondaryButton onClick={removeNotification}>Dismiss</SecondaryButton>
-    </NotificationActions>
-  </NotificationPrompt>
-)
+const createCitationImportSuccessNotification =
+  (count: number): NotificationComponent =>
+  ({ removeNotification }) =>
+    (
+      <NotificationPrompt>
+        <NotificationHead>
+          <Check color={'green'} />
+          <NotificationMessage>
+            <NotificationTitle>
+              <CitationImportSuccessMessage count={count} />
+            </NotificationTitle>
+          </NotificationMessage>
+        </NotificationHead>
+        <NotificationActions>
+          <SecondaryButton onClick={removeNotification}>
+            Dismiss
+          </SecondaryButton>
+        </NotificationActions>
+      </NotificationPrompt>
+    )
 
 const openFilePicker = (
   acceptedExtensions: string[],

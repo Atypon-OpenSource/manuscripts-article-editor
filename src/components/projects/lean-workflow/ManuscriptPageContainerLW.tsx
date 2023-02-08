@@ -28,7 +28,7 @@ import {
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorState } from '@manuscripts/transform'
 import { debounce } from 'lodash'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import config from '../../../config'
@@ -148,8 +148,11 @@ const ManuscriptPageView: React.FC = () => {
   const { setUsers } = useCommentStore()
   const { updateDocument } = useDocStore()
   const { init: initEditor, setEditorState, trackState } = useEditorStore()
-  useEffect(() => setUsers(collaboratorsById), [collaboratorsById, setUsers])
-  useEffect(() => view && initEditor(view), [view, initEditor])
+  useLayoutEffect(
+    () => setUsers(collaboratorsById),
+    [collaboratorsById, setUsers]
+  )
+  useLayoutEffect(() => view && initEditor(view), [view, initEditor])
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackState || {}

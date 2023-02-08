@@ -25,13 +25,13 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
+import { SubmissionAttachment } from '@manuscripts/style-guide'
 import {
   Decoder,
   getModelData,
   isCommentAnnotation,
   isManuscript,
 } from '@manuscripts/transform'
-import { SubmissionAttachment } from '@manuscripts/style-guide'
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
@@ -254,6 +254,7 @@ const getDrivedData = async (
   const affiliationAndContributors: (Contributor | Affiliation)[] = []
   const contributorRoles: ContributorRole[] = []
 
+  // eslint-disable-next-line no-unsafe-optional-chaining
   for (const model of data.modelMap?.values()) {
     if (
       model.objectType === ObjectTypes.Affiliation ||

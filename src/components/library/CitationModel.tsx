@@ -65,9 +65,10 @@ export const CitationModel: React.FC<{
   deleteCallback,
   getReferences,
 }) => {
-  const stopEditing = useCallback(() => setShowEditModel(false), [
-    setShowEditModel,
-  ])
+  const stopEditing = useCallback(
+    () => setShowEditModel(false),
+    [setShowEditModel]
+  )
 
   const formMikRef = useRef<FormikProps<ReferenceFormValues>>(null)
 
