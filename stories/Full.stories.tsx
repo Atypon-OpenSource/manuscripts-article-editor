@@ -31,6 +31,7 @@ storiesOf('Full', module).add('default', () => (
       },
     }}
     parentObserver={new ParentObserver()}
+    permittedActions={[]}
     submissionId={'sdfsdf'}
     manuscriptID={'MPManuscript:B3BB2CD8-F944-47C3-9F01-1996DBD417EE'}
     projectID={'MPProject:ADC69637-C321-4158-8E24-F92068D4727D'}
