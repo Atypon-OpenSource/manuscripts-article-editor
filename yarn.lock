@@ -1784,11 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
   integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
-"@manuscripts/body-editor@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.3.tgz#0acd1372921b9994e73886a4757468b15219a899"
-  integrity sha512-/UCBX09UK6RPeLwAShaHaziASMzHazsgyY6BSTBQNYHjrsbjFecusekYtUBZ3Zw1x6ezzB+v7lRnPvnGSLCd5A==
-
+"@manuscripts/body-editor@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.4.tgz#7d9c88e96e982e64e61f7a60dfa1f87052342dff"
+  integrity sha512-w/RoldT/2Bwn3oquv6cYY5LWpVtuIWvv0mlVfRX4tr44Zu0zRszqg/a7VpgB1KY2JugkzAbVwUYXlePoULPCIQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -16633,4 +16632,3 @@ zwitch@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/zwitch/-/zwitch-2.0.4.tgz#c827d4b0acb76fc3e685a4c6ec2902d51070e9d7"
   integrity sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==
-
