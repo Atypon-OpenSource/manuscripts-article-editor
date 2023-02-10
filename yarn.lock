@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
   integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
-"@manuscripts/body-editor@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.4.tgz#7d9c88e96e982e64e61f7a60dfa1f87052342dff"
-  integrity sha512-w/RoldT/2Bwn3oquv6cYY5LWpVtuIWvv0mlVfRX4tr44Zu0zRszqg/a7VpgB1KY2JugkzAbVwUYXlePoULPCIQ==
+"@manuscripts/body-editor@^1.0.4-LEAN-2099":
+  version "1.0.4-LEAN-2099"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.4-LEAN-2099.tgz#02842fe8df0eeb25c39ee88bfa49f4a50d3be16b"
+  integrity sha512-X5Ap+dTrCfKCbDrVkIeHM1DzUV1jDj7g7XShbwXf82Zota0PFyXDIN5lUOAtUMJj0OGYk3YobNhvFwbri3fMYg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1863,10 +1863,10 @@
     image-size "^1.0.2"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.1.tgz#e956e412ebcb65b868e0c89af86157411efcc43c"
-  integrity sha512-hfdgLwRUfPHoIf0weIm9Ej02IGrPW0oiX/p940xp1RUDftUZhO7L3kXGtVA7pduITJwQjCQuNDdbJPUvusBlrg==
+"@manuscripts/style-guide@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.2.tgz#35bddf76773a4d2fcd34bce9a6b90dd0bf4348a0"
+  integrity sha512-UhxR/eBHAOponOL+lAL+hA5+MxKywT4cEfCkIyLNhqsdN7PCw9uPLs29QJHLfRJN/R2VUqCJB5cvwUNUspbqSw==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
@@ -1881,10 +1881,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/title-editor/-/title-editor-1.0.0.tgz#714d34ce7ebf2f4fec2d15c12f181dcccea3f554"
   integrity sha512-FHN+/TD5XDbCxXcrbZ2ZtwCYZZKX1czbdvwPTGLWSW1eTQfJVPXM4Tte6Ul1bjbI5HHk7b9suzKvGCqxdc/GYQ==
 
-"@manuscripts/track-changes-plugin@^0.4.5":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.4.6.tgz#14b57aa664774439f449179b79b39c0c25f94e66"
-  integrity sha512-9qSp2L0QHehPjpg7OJYuuH5DgWh7jqZh/az9xeICZxO//qbHvjp2hXaUlVzV1OXWAZ5ZRjK+LRmCgjNHy4u5ug==
+"@manuscripts/track-changes-plugin@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.0.0.tgz#aeddc919b26042d6876ce7968b2c9ce986c81f1e"
+  integrity sha512-oXPdVY6GhkA9dCEm/k4dduem0jPH+iPjpe6RMq/AafzrL9Zrj8y5GaLM+STB8PJJQ3BIRc15woHmk87emN8AyA==
   dependencies:
     debug "^4.3.4"
 
