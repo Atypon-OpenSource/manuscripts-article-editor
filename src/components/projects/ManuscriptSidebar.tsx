@@ -21,6 +21,7 @@ import {
   ManuscriptEditorView,
   UserProfileWithAvatar,
 } from '@manuscripts/transform'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { useStore } from '../../store'
@@ -57,6 +58,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   }))
 
   const selected = findParentNodeWithIdValue(state.selection)
+  const can = usePermissions()
 
   const [sortedManuscripts, setSortedManuscripts] = useState<Manuscript[]>()
 
@@ -113,6 +115,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
               doc={state?.doc || null}
               view={view}
               selected={selected}
+              capabilities={can}
             />
           ) : (
             <OutlineManuscript project={project} manuscript={item} />
