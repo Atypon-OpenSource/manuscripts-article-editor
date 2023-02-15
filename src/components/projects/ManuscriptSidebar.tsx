@@ -17,11 +17,11 @@ import {
   useEditor,
 } from '@manuscripts/body-editor'
 import { Manuscript, Project } from '@manuscripts/json-schema'
+import { usePermissions } from '@manuscripts/style-guide'
 import {
   ManuscriptEditorView,
   UserProfileWithAvatar,
 } from '@manuscripts/transform'
-import { usePermissions } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { useStore } from '../../store'
