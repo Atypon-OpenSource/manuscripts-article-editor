@@ -31,6 +31,7 @@ interface Props {
   projectID: string
   authToken: string
   submission: Submission
+  permittedActions: string[]
   person: Person
 }
 
@@ -46,6 +47,7 @@ const Main: React.FC<Props> = ({
   projectID,
   authToken,
   submission,
+  permittedActions,
   person,
 }) => (
   <DndProvider backend={HTML5Backend}>
@@ -59,6 +61,7 @@ const Main: React.FC<Props> = ({
         manuscriptID={manuscriptID}
         projectID={projectID}
         submission={submission}
+        permittedActions={permittedActions}
         person={person}
         authToken={authToken}
       />

@@ -97,6 +97,7 @@ export type state = {
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
   submission: Submission
+  permittedActions: string[]
   person: Person
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
