@@ -583,7 +583,7 @@ const ReferenceForm: React.FC<{
                   <Label htmlFor={'supplement'}>Supplement</Label>
                 </LabelContainer>
 
-                <Field name={'Supplement'}>
+                <Field name={'supplement'}>
                   {(props: FieldProps) => (
                     <FormTextField
                       type={'supplement'}
