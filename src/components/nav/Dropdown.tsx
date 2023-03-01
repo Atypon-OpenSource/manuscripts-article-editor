@@ -12,12 +12,7 @@
 
 import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
 import { SecondaryButton } from '@manuscripts/style-guide'
-import { Title } from '@manuscripts/title-editor'
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import styled, { css } from 'styled-components'
-
-import { Badge } from '../Badge'
+import styled from 'styled-components'
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -48,67 +43,6 @@ export const Dropdown = styled.div<{
   z-index: 10;
 `
 
-export const PlaceholderTitle = styled(Title)`
-  color: ${(props) => props.theme.colors.text.secondary};
-`
-
-export const InvitedBy = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: ${(props) => props.theme.font.size.normal};
-  letter-spacing: -0.3px;
-  color: ${(props) => props.theme.colors.text.secondary};
-  clear: both;
-  margin-top: ${(props) => props.theme.grid.unit * 2}px;
-`
-
-const commonStyles = css<{ disabled?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  padding: ${(props) => props.theme.grid.unit * 3}px
-    ${(props) => props.theme.grid.unit * 3}px;
-  align-items: center;
-  text-decoration: none;
-  white-space: nowrap;
-  color: ${(props) =>
-    props.disabled
-      ? props.theme.colors.text.secondary
-      : props.theme.colors.text.primary};
-  pointer-events: ${(props) => (props.disabled ? 'none' : 'unset')};
-
-  &:hover,
-  &:hover ${PlaceholderTitle} {
-    background: ${(props) => props.theme.colors.background.fifth};
-  }
-`
-
-export const DropdownLink = styled(NavLink)`
-  ${commonStyles};
-`
-
-export const DropdownElement = styled.div`
-  ${commonStyles};
-
-  cursor: pointer;
-
-  &:hover .user-icon-path {
-    fill: ${(props) => props.theme.colors.text.onDark};
-  }
-`
-
-export const DropdownSeparator = styled.div`
-  height: 1px;
-  width: 100%;
-  opacity: 0.23;
-  background-color: ${(props) => props.theme.colors.border.primary};
-`
-
-export const DropdownButtonText = styled.div`
-  align-items: center;
-  display: flex;
-  margin-right: ${(props) => props.theme.grid.unit}px;
-`
-
 interface DropdownProps {
   isOpen: boolean
 }
@@ -126,23 +60,6 @@ export const DropdownToggle = styled(ArrowDownUp)`
   }
 `
 
-export const NotificationsBadge = styled(Badge)<DropdownProps>`
-  background-color: ${(props) =>
-    props.isOpen
-      ? props.theme.colors.background.success
-      : props.theme.colors.brand.default};
-  color: ${(props) =>
-    props.isOpen
-      ? props.theme.colors.text.success
-      : props.theme.colors.text.onDark};
-  font-family: ${(props) => props.theme.font.family.sans};
-  font-size: 9px;
-  margin-left: 4px;
-  max-height: 10px;
-  min-width: 10px;
-  min-height: 10px;
-`
-
 export const DropdownButtonContainer = styled(SecondaryButton).attrs(
   (props: DropdownProps) => ({
     selected: props.isOpen,
@@ -153,38 +70,3 @@ export const DropdownButtonContainer = styled(SecondaryButton).attrs(
     stroke: currentColor;
   }
 `
-
-interface DropdownButtonProps {
-  as?: React.FunctionComponent<any>
-  disabled?: boolean
-  isOpen: boolean
-  notificationsCount?: number
-  onClick?: React.MouseEventHandler
-  removeChevron?: boolean
-}
-
-export const DropdownButton: React.FunctionComponent<DropdownButtonProps> = ({
-  as,
-  children,
-  disabled,
-  isOpen,
-  notificationsCount,
-  onClick,
-  removeChevron,
-}) => (
-  <DropdownButtonContainer
-    as={as}
-    disabled={disabled}
-    onClick={onClick}
-    isOpen={isOpen}
-    className={'dropdown-toggle'}
-  >
-    <DropdownButtonText>{children}</DropdownButtonText>
-    {!!notificationsCount && (
-      <NotificationsBadge isOpen={isOpen}>
-        {notificationsCount}
-      </NotificationsBadge>
-    )}
-    {!removeChevron && <DropdownToggle className={isOpen ? 'open' : ''} />}
-  </DropdownButtonContainer>
-)

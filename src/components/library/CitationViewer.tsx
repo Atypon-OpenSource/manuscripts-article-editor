@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { BibliographyItem } from '@manuscripts/json-schema'
 import { shortLibraryItemMetadata } from '@manuscripts/library'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'

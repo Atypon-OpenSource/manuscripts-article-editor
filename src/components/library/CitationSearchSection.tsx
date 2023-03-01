@@ -11,14 +11,13 @@
  */
 
 import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
-import { Build } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
+import { BibliographyItem } from '@manuscripts/json-schema'
 import { SecondaryButton } from '@manuscripts/style-guide'
+import { Build } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
-import { useDebounce } from '../../hooks/use-debounce'
 import { SearchResults } from './SearchResults'
 
 const ResultsSection = styled.div`
@@ -40,7 +39,8 @@ const MoreButton = styled(SecondaryButton)`
   font-size: inherit;
   text-transform: none;
   text-decoration: underline;
-  margin-left: 42px;
+  border: none;
+  margin-left: ${(props) => props.theme.grid.unit * 4}px;
   color: ${(props) => props.theme.colors.button.default.color.default};
 `
 
@@ -74,36 +74,32 @@ export const CitationSearchSection: React.FC<{
   selected,
   fetching,
 }) => {
-  const [trimmedQuery, setTrimmedQuery] = useState(query.trim())
   const [error, setError] = useState<string>()
   const [expanded, setExpanded] = useState(true)
   const [searching, setSearching] = useState(false)
+  const [showMoreSearching, setShowMoreSearching] = useState(false)
   const [results, setResults] = useState<{
     items: Array<Build<BibliographyItem>>
     total: number
   }>()
 
-  const debouncedQuery = useDebounce(trimmedQuery, 500)
-
-  useEffect(() => {
-    setTrimmedQuery(query.trim())
-  }, [query])
-
   useEffect(() => {
     setError(undefined)
     setResults(undefined)
-    setSearching(trimmedQuery !== '')
-  }, [trimmedQuery])
+    setShowMoreSearching(false)
+    setSearching(query !== '')
+  }, [query])
 
   const handleSearchResults = useCallback(
     (searchQuery, results) => {
-      if (searchQuery === trimmedQuery) {
+      if (searchQuery === query) {
         setError(undefined)
         setSearching(false)
+        setShowMoreSearching(false)
         setResults(results)
       }
     },
-    [trimmedQuery]
+    [query]
   )
 
   useEffect(() => {
@@ -111,31 +107,30 @@ export const CitationSearchSection: React.FC<{
       return
     }
 
-    if (source.id !== 'library' && !debouncedQuery) {
+    if (source.id !== 'library' && !query) {
       return
     }
 
-    const initialQuery = debouncedQuery
-
     source
-      .search(initialQuery, { rows }, config.support.email)
+      .search(query, { rows }, config.support.email)
       .then((results) => {
-        handleSearchResults(initialQuery, results)
+        handleSearchResults(query, results)
       })
       .catch((error) => {
         setError(error.message)
       })
-      .finally(() => {
-        setSearching(false)
-      })
-      .catch((error) => {
-        setError(error.message)
-      })
-  }, [debouncedQuery, expanded, handleSearchResults, rows, source])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, expanded, handleSearchResults, rows])
 
   const toggleExpanded = useCallback(() => {
     setExpanded((value) => !value)
   }, [])
+
+  const showMoreCallback = useCallback(() => {
+    selectSource(source.id)
+    setSearching(true)
+    setShowMoreSearching(true)
+  }, [selectSource, source.id])
 
   return (
     <ResultsSection>
@@ -153,20 +148,25 @@ export const CitationSearchSection: React.FC<{
           error={error}
           results={results}
           searching={searching}
+          showMoreSearching={showMoreSearching}
           handleSelect={addToSelection}
           selected={selected}
           fetching={fetching}
         />
       )}
 
-      {expanded && results && results.total > rows && (
-        <MoreButton
-          onClick={() => selectSource(source.id)}
-          data-cy={'more-button'}
-        >
+      {showMoreSearching && <SearchingLabel>Searching....</SearchingLabel>}
+      {expanded && results && results.total > rows && rows < 25 && (
+        <MoreButton onClick={showMoreCallback} data-cy={'more-button'}>
           Show more
         </MoreButton>
       )}
     </ResultsSection>
   )
 }
+
+export const SearchingLabel = styled.div`
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin: ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 5}px;
+`

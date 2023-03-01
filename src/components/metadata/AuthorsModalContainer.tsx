@@ -11,13 +11,6 @@
  */
 
 import {
-  Build,
-  buildAffiliation,
-  buildBibliographicName,
-  buildContributor,
-  buildContributorRole,
-} from '@manuscripts/manuscript-transform'
-import {
   Affiliation,
   ContainerInvitation,
   Contributor,
@@ -27,12 +20,18 @@ import {
   ObjectTypes,
   Project,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
+import {
+  Build,
+  buildAffiliation,
+  buildBibliographicName,
+  buildContributor,
+  buildContributorRole,
+} from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
 import { AffiliationMap } from '../../lib/authors'
 import { TokenActions } from '../../store'
 import { AuthorsModal } from './AuthorsModals'
@@ -60,7 +59,6 @@ interface Props {
   updateAuthor: (author: Contributor, email: string) => void
   selectAuthor: (data: Contributor) => void
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  openAddAuthors: () => void
   handleDrop: (
     authors: Contributor[],
     oldIndex: number,
@@ -97,7 +95,6 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       affiliations,
       selectAuthor,
       project,
-      openAddAuthors,
       tokenActions,
       updateAuthor,
       contributorRoles,
@@ -119,11 +116,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         getSidebarItemDecorator={this.getSidebarItemDecorator}
         handleDrop={this.handleDrop}
         handleSaveAuthor={this.handleSaveAuthor}
-        openAddAuthors={
-          config.local || config.leanWorkflow.enabled
-            ? this.createEmptyAuthor
-            : openAddAuthors
-        }
+        openAddAuthors={this.createEmptyAuthor}
         selectAuthor={selectAuthor}
         isRejected={this.isRejected}
         removeAuthor={this.removeAuthor}

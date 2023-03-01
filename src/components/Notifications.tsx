@@ -51,20 +51,22 @@ export const Notifications: React.FC<Props> = ({
       }}
     >
       {({
-        id,
-        notification: Notification,
-      }: {
-        id: string
-        notification: NotificationComponent
-      }) => (props) => (
-        <div style={props}>
-          <Notification
-            key={id}
-            removeNotification={() => removeNotification(id)}
-            {...rest}
-          />
-        </div>
-      )}
+          id,
+          notification: Notification,
+        }: {
+          id: string
+          notification: NotificationComponent
+        }) =>
+        (props) =>
+          (
+            <div style={props}>
+              <Notification
+                key={id}
+                removeNotification={() => removeNotification(id)}
+                {...rest}
+              />
+            </div>
+          )}
     </Transition>
   </Container>
 )

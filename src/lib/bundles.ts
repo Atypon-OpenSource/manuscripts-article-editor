@@ -10,44 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { loadCitationStyle } from '@manuscripts/library'
-import {
-  Build,
-  createNewBundle,
-  createParentBundle,
-  DEFAULT_BUNDLE,
-} from '@manuscripts/manuscript-transform'
-import { Bundle } from '@manuscripts/manuscripts-json-schema'
-import { RxAttachmentCreator } from '@manuscripts/rxdb'
-
-import { importSharedData } from './shared-data'
-
-const attachBundleStyle = async (
-  bundle: Build<Bundle & { attachment?: RxAttachmentCreator }>
-) => {
-  if (bundle.csl?.cslIdentifier) {
-    bundle.attachment = {
-      id: 'csl',
-      type: 'application/vnd.citationstyles.style+xml',
-      data: await loadCitationStyle({ bundle } as { bundle: Bundle }),
-    }
-  }
-}
+import { Bundle } from '@manuscripts/json-schema'
 
 export const loadBundle = async (bundleID?: string): Promise<Bundle[]> => {
   const models: Bundle[] = []
-
-  const bundles = await importSharedData<Bundle>('bundles')
-
-  const bundle = createNewBundle(bundleID || DEFAULT_BUNDLE, bundles)
-  await attachBundleStyle(bundle)
-  models.push(bundle)
-
-  const parentBundle = createParentBundle(bundle, bundles)
-  if (parentBundle) {
-    await attachBundleStyle(parentBundle)
-    models.push(parentBundle)
-  }
-
   return models
 }

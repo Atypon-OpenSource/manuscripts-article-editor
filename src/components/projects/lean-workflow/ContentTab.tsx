@@ -9,63 +9,38 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ActualManuscriptNode,
-  SectionNode,
-} from '@manuscripts/manuscript-transform'
-import { Section } from '@manuscripts/manuscripts-json-schema'
+import { findParentSection } from '@manuscripts/body-editor'
+import { Section } from '@manuscripts/json-schema'
+import { SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import { ContentNodeWithPos } from 'prosemirror-utils'
 import React from 'react'
 
-import config from '../../../config'
-import { useSharedData } from '../../../hooks/use-shared-data'
 import { useStore } from '../../../store'
-import { AnyElement } from '../../inspector/ElementStyleInspector'
-import { ManageTargetInspector } from '../../inspector/ManageTargetInspector'
-import { NodeInspector } from '../../inspector/NodeInspector'
 import { SectionInspector } from '../../inspector/SectionInspector'
 import { StatisticsInspector } from '../../inspector/StatisticsInspector'
-import { HeaderImageInspector } from '../HeaderImageInspector'
 import { ManuscriptInspector } from '../ManuscriptInspector'
 
 export const ContentTab: React.FC<{
-  selected?: ContentNodeWithPos
-  selectedElement?: ContentNodeWithPos
-  selectedSection?: ContentNodeWithPos
   state: EditorState
   dispatch: (tr: Transaction) => EditorState
-  hasFocus?: boolean
-}> = ({
-  selected,
-  selectedSection,
-  selectedElement,
-  dispatch,
-  hasFocus,
-  state,
-}) => {
+}> = ({ dispatch, state }) => {
   const [{ manuscript, doc, getModel }] = useStore((store) => {
     return {
       manuscript: store.manuscript,
       doc: store.doc,
-      getModel: store.getModel,
+      getModel: store.getTrackModel,
       saveManuscript: store.saveManuscript,
     }
   })
 
-  const section = selectedSection
-    ? getModel<Section>(selectedSection.node.attrs.id)
-    : undefined
-
-  const element = selectedElement
-    ? getModel<AnyElement>(selectedElement.node.attrs.id)
-    : undefined
-
-  const {
-    getTemplate,
-    getManuscriptCountRequirements,
-    getSectionCountRequirements,
-  } = useSharedData()
+  let sectionNode
+  let section
+  if (state.selection) {
+    sectionNode = findParentSection(state.selection)?.node as SectionNode
+    if (sectionNode) {
+      section = getModel<Section>(sectionNode.attrs.id)
+    }
+  }
 
   const dispatchNodeAttrs = (
     id: string,
@@ -93,50 +68,22 @@ export const ContentTab: React.FC<{
 
   return (
     <div>
-      <StatisticsInspector
-        manuscriptNode={doc as ActualManuscriptNode}
-        sectionNode={
-          selectedSection
-            ? ((selectedSection.node as unknown) as SectionNode)
-            : undefined
-        }
-      />
-      {config.features.headerImage && <HeaderImageInspector />}
-      {config.features.nodeInspector && selected && (
-        <NodeInspector selected={selected} state={state} dispatch={dispatch} />
-      )}
+      <StatisticsInspector manuscript={doc} section={sectionNode} />
+
       <ManuscriptInspector
         key={manuscript._id}
         state={state}
         dispatch={dispatch}
-        getTemplate={getTemplate}
-        getManuscriptCountRequirements={getManuscriptCountRequirements}
-        leanWorkflow={true}
       />
-
-      {(element || section) && config.features.projectManagement && (
-        <ManageTargetInspector
-          target={
-            !hasFocus
-              ? manuscript
-              : ((element || section) as AnyElement | Section)
-          }
-        />
-      )}
 
       {section && (
         <SectionInspector
           key={section._id}
           section={section}
-          sectionNode={
-            selectedSection
-              ? ((selectedSection.node as unknown) as SectionNode)
-              : undefined
-          }
+          sectionNode={sectionNode}
           state={state}
           dispatch={dispatch}
           dispatchNodeAttrs={dispatchNodeAttrs}
-          getSectionCountRequirements={getSectionCountRequirements}
         />
       )}
     </div>

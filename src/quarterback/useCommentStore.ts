@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { UserProfile } from '@manuscripts/json-schema'
 import {
   CommentWithUserColor,
   ICreateCommentRequest,
@@ -17,7 +17,7 @@ import {
   UserWithColor,
 } from '@manuscripts/quarterback-types'
 import randomColor from 'randomcolor'
-import create from 'zustand'
+import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 import * as commentApi from './api/comment'

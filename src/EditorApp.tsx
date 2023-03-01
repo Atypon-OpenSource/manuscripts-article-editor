@@ -20,8 +20,6 @@ import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/lean-workflow/ManuscriptPageContainerLW'
-import config from './config'
-import CouchSource from './couch-data/CouchSource'
 import { useHandleSnapshot } from './hooks/use-handle-snapshot'
 import { Person, Submission } from './lib/lean-workflow-gql'
 import { getCurrentUserId } from './lib/user'
@@ -44,6 +42,7 @@ interface Props {
   manuscriptID: string
   projectID: string
   submission: Submission
+  permittedActions: string[]
   person: Person
   authToken: string
 }
@@ -64,6 +63,7 @@ const EditorApp: React.FC<Props> = ({
   manuscriptID,
   projectID,
   submission,
+  permittedActions,
   fileManagement,
   person,
   authToken,
@@ -93,11 +93,12 @@ const EditorApp: React.FC<Props> = ({
       projectID,
       manuscriptID,
       submission,
+      permittedActions,
       person,
       userID || '',
       authToken || ''
     )
-    const mainSource = config.rxdb.enabled ? new CouchSource() : new PsSource()
+    const mainSource = new PsSource(submission.attachments)
     Promise.all([
       loadDoc(manuscriptID, projectID),
       createStore(
@@ -108,6 +109,7 @@ const EditorApp: React.FC<Props> = ({
       ),
     ])
       .then(([doc, store]) => {
+        // if no doc found in track changes backend, the one produced from manuscripts backend will be used (store.doc)
         if (doc) {
           store.setState((s) => ({ ...s, doc }))
         }

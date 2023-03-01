@@ -10,37 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
 import {
-  ActualManuscriptNode,
-  ContainedModel,
-  ManuscriptEditorView,
-  SectionNode,
-} from '@manuscripts/manuscript-transform'
-import {
-  Bundle,
-  CommentAnnotation,
-  Keyword,
-  Manuscript,
-  ManuscriptNote,
-  Project,
-  Section,
-  Submission,
-  Tag,
-  UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
-import {
-  InspectorSection,
-  ManuscriptNoteList,
+  FileManager,
+  SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { Transaction } from 'prosemirror-state'
-import { ContentNodeWithPos } from 'prosemirror-utils'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import config from '../../config'
-import { useSharedData } from '../../hooks/use-shared-data'
-import { canWrite } from '../../lib/roles'
-import { getCurrentUserId } from '../../lib/user'
+import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { useStore } from '../../store'
 import {
   InspectorContainer,
@@ -50,328 +30,128 @@ import {
   InspectorTabs,
   PaddedInspectorTabPanels,
 } from '../Inspector'
-import {
-  AnyElement,
-  ElementStyleInspector,
-} from '../inspector/ElementStyleInspector'
-import { HistoryPanelContainer } from '../inspector/History'
-import { InlineStyleInspector } from '../inspector/InlineStyleInspector'
-import { ManageTargetInspector } from '../inspector/ManageTargetInspector'
-import { ManuscriptStyleInspector } from '../inspector/ManuscriptStyleInspector'
-import { NodeInspector } from '../inspector/NodeInspector'
-import { SectionInspector } from '../inspector/SectionInspector'
-import { SectionStyleInspector } from '../inspector/SectionStyleInspector'
-import { StatisticsInspector } from '../inspector/StatisticsInspector'
-import { SubmissionsInspector } from '../inspector/SubmissionsInspector'
-import { RequirementsInspector } from '../requirements/RequirementsInspector'
-import { CommentList } from './CommentList'
-import { CommentFilter } from './CommentListPatterns'
-import { HeaderImageInspector } from './HeaderImageInspector'
-import { ManuscriptInspector, SaveModel } from './ManuscriptInspector'
+import Panel from '../Panel'
+import { RequirementsInspectorView } from '../requirements/RequirementsInspector'
+import { ResizingInspectorButton } from '../ResizerButtons'
+import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
+import { CommentsTab } from './lean-workflow/CommentsTab'
+import { ContentTab } from './lean-workflow/ContentTab'
 
-const TABS = [
-  'Content',
-  'Style',
-  (config.features.commenting || config.features.productionNotes) && 'Comments',
-  config.features.qualityControl && 'Quality',
-  config.shackles.enabled && 'History',
-  config.export.to_review && 'Submissions',
-].filter(Boolean) as Array<
-  'Content' | 'Style' | 'Comments' | 'Quality' | 'History' | 'Submissions'
->
+interface Props {
+  editor: ReturnType<typeof useCreateEditor>
+}
+const Inspector: React.FC<Props> = ({ editor }) => {
+  const [
+    { submission, fileManagement, comment, saveTrackModel, trackModelMap },
+    stateDispatch,
+  ] = useStore((store) => ({
+    saveTrackModel: store.saveTrackModel,
+    trackModelMap: store.trackModelMap,
+    submission: store.submission,
+    fileManagement: store.fileManagement,
+    comment: store.comment,
+  }))
 
-export const Inspector: React.FC<{
-  bundle?: Bundle
-  comments?: CommentAnnotation[]
-  commentTarget?: string
-  createKeyword: (name: string) => Promise<Keyword>
-  dispatchNodeAttrs: (
-    id: string,
-    attrs: Record<string, unknown>,
-    nodispatch?: boolean
-  ) => Transaction | undefined
-  dispatchUpdate: () => void
-  doc: ActualManuscriptNode
-  element?: AnyElement
-  getCollaborator: (id: string) => UserProfile | undefined
-  getCollaboratorById: (id: string) => UserProfile | undefined
-  getCurrentUser: () => UserProfile
-  getKeyword: (id: string) => Keyword | undefined
-  listCollaborators: () => UserProfile[]
-  listKeywords: () => Keyword[]
-  notes?: ManuscriptNote[]
-  noteTarget?: string
-  openCitationStyleSelector: () => void
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  project: Project
-  saveModel: SaveModel
-  section?: Section
-  selected: ContentNodeWithPos | null
-  selectedSection?: ContentNodeWithPos
-  setCommentTarget: () => void
-  submission?: Submission
-  view: ManuscriptEditorView
-  tags: Tag[]
-  manageManuscript: boolean
-  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-  openTemplateSelector: (newProject: boolean, switchTemplate?: boolean) => void
-}> = ({
-  bundle,
-  comments,
-  commentTarget,
-  createKeyword,
-  dispatchNodeAttrs,
-  dispatchUpdate,
-  doc,
-  element,
-  getCollaborator,
-  getCollaboratorById,
-  getCurrentUser,
-  getKeyword,
-  listCollaborators,
-  listKeywords,
-  notes,
-  openCitationStyleSelector,
-  section,
-  selected,
-  selectedSection,
-  setCommentTarget,
-  submission,
-  view,
-  manageManuscript,
-  openTemplateSelector,
-}) => {
+  const { state, dispatch } = editor
+
   const [tabIndex, setTabIndex] = useState(0)
-  const [commentFilter, setCommentFilter] = useState<CommentFilter>(
-    CommentFilter.UNRESOLVED
-  )
-
-  const [modelMap] = useStore((s) => s.modelMap)
-  const [manuscript] = useStore((s) => s.manuscript)
-  const [project] = useStore((s) => s.project)
-  const [saveModel] = useStore((s) => s.saveModel)
-  const [deleteModel] = useStore((s) => s.deleteModel)
-
-  const {
-    getTemplate,
-    getManuscriptCountRequirements,
-    getSectionCountRequirements,
-  } = useSharedData()
 
   useEffect(() => {
-    if (commentTarget) {
-      setTabIndex(TABS.findIndex((tab) => tab === 'Comments'))
-    } else if (submission) {
-      setTabIndex(TABS.findIndex((tab) => tab === 'Submissions'))
+    if (comment) {
+      setTabIndex(1)
     }
-  }, [commentTarget, submission])
+  }, [comment])
+
+  const validation = useRequirementsValidation({
+    state,
+  })
+  const selection = useMemo(
+    () => state && findParentNodeWithIdValue(state.selection),
+    [state]
+  )
 
   const can = usePermissions()
 
   return (
-    <InspectorContainer>
-      <InspectorTabs index={tabIndex} onChange={setTabIndex}>
-        <InspectorTabList>
-          {TABS.map((label, i) => (
-            <InspectorTab key={i}>{label}</InspectorTab>
-          ))}
-        </InspectorTabList>
-        <PaddedInspectorTabPanels>
-          {TABS.map((label) => {
-            if (label !== TABS[tabIndex]) {
-              return <InspectorTabPanel key={label}></InspectorTabPanel>
-            }
-
-            switch (label) {
-              case 'Content': {
-                return (
-                  <InspectorTabPanel key={label}>
-                    <StatisticsInspector
-                      manuscriptNode={doc}
-                      sectionNode={
-                        selectedSection
-                          ? (selectedSection.node as SectionNode)
-                          : undefined
-                      }
-                    />
-                    {config.features.headerImage && <HeaderImageInspector />}
-                    {config.features.nodeInspector && selected && (
-                      <NodeInspector
-                        selected={selected}
-                        state={view.state}
-                        dispatch={view.dispatch}
-                      />
-                    )}
-                    <ManuscriptInspector
-                      key={manuscript._id}
-                      state={view.state}
-                      dispatch={view.dispatch}
-                      openTemplateSelector={openTemplateSelector}
-                      getTemplate={getTemplate}
-                      getManuscriptCountRequirements={
-                        getManuscriptCountRequirements
-                      }
-                      canWrite={canWrite(project, getCurrentUserId()!)}
-                      leanWorkflow={false}
-                    />
-
-                    {(element || section) &&
-                      config.features.projectManagement && (
-                        <ManageTargetInspector
-                          target={
-                            manageManuscript
-                              ? manuscript
-                              : ((element || section) as AnyElement | Section)
-                          }
-                        />
-                      )}
-
-                    {section && (
-                      <SectionInspector
-                        key={section._id}
-                        section={section}
-                        state={view.state}
-                        dispatch={view.dispatch}
-                        sectionNode={
-                          selectedSection
-                            ? (selectedSection.node as SectionNode)
-                            : undefined
-                        }
-                        dispatchNodeAttrs={dispatchNodeAttrs}
-                        getSectionCountRequirements={
-                          getSectionCountRequirements
-                        }
-                      />
-                    )}
-                  </InspectorTabPanel>
-                )
-              }
-
-              case 'Style': {
-                return (
-                  <InspectorTabPanel key={label}>
-                    <ManuscriptStyleInspector
-                      bundle={bundle}
-                      openCitationStyleSelector={openCitationStyleSelector}
-                    />
-                    {element && (
-                      <ElementStyleInspector
-                        manuscript={manuscript}
-                        element={element}
-                        modelMap={modelMap}
-                        saveModel={saveModel}
-                        deleteModel={deleteModel}
-                        view={view}
-                      />
-                    )}
-                    {section && (
-                      <SectionStyleInspector
-                        section={section}
-                        modelMap={modelMap}
-                        saveModel={saveModel}
-                        dispatchUpdate={dispatchUpdate}
-                      />
-                    )}
-                    <InlineStyleInspector
-                      modelMap={modelMap}
-                      saveModel={saveModel}
-                      deleteModel={deleteModel}
-                      view={view}
-                    />
-                  </InspectorTabPanel>
-                )
-              }
-
-              case 'Comments': {
-                return (
-                  <InspectorTabPanel key={label} style={{ marginTop: '16px' }}>
-                    {config.features.commenting && (
-                      <InspectorSection
-                        title={'Comments'}
-                        contentStyles={{ margin: '0 25px 24px 0' }}
-                      >
-                        <CommentList
-                          comments={comments || []}
-                          doc={doc}
-                          getCurrentUser={getCurrentUser}
-                          selected={selected}
-                          createKeyword={createKeyword}
-                          deleteModel={deleteModel}
-                          getCollaborator={getCollaborator}
-                          getCollaboratorById={getCollaboratorById}
-                          getKeyword={getKeyword}
-                          listCollaborators={listCollaborators}
-                          listKeywords={listKeywords}
-                          saveModel={saveModel}
-                          commentTarget={commentTarget}
-                          setCommentTarget={setCommentTarget}
-                          state={view.state}
-                          dispatch={view.dispatch}
-                          key={commentTarget}
-                          setCommentFilter={setCommentFilter}
-                          commentFilter={commentFilter}
-                        />
-                      </InspectorSection>
-                    )}
-                    {config.features.productionNotes && (
-                      <InspectorSection
-                        title={'Notes'}
-                        contentStyles={{ margin: '0 25px 24px 0' }}
-                      >
-                        <ManuscriptNoteList
-                          createKeyword={createKeyword}
-                          notes={notes || []}
-                          currentUserId={getCurrentUser()._id}
-                          getKeyword={getKeyword}
-                          can={can}
-                          listKeywords={listKeywords}
-                          selected={selected}
-                          getCollaboratorById={getCollaboratorById}
-                          listCollaborators={listCollaborators}
-                          saveModel={saveModel}
-                          deleteModel={deleteModel}
-                          noteSource={'EDITOR'}
-                        />
-                      </InspectorSection>
-                    )}
-                  </InspectorTabPanel>
-                )
-              }
-
-              case 'Quality': {
-                return (
-                  <InspectorTabPanel key="Quality">
-                    <RequirementsInspector />
-                  </InspectorTabPanel>
-                )
-              }
-
-              case 'History': {
-                return (
-                  <InspectorTabPanel key="History">
-                    <HistoryPanelContainer
-                      project={project}
-                      manuscriptID={manuscript._id}
-                      getCurrentUser={getCurrentUser}
-                    />
-                  </InspectorTabPanel>
-                )
-              }
-
-              case 'Submissions': {
-                return (
-                  <InspectorTabPanel key="Submissions">
-                    <SubmissionsInspector modelMap={modelMap} />
-                  </InspectorTabPanel>
-                )
-              }
-              default: {
-                return null
-              }
-            }
-          })}
-        </PaddedInspectorTabPanels>
-      </InspectorTabs>
-    </InspectorContainer>
+    <>
+      <Panel
+        name={'inspector'}
+        minSize={400}
+        direction={'row'}
+        side={'start'}
+        hideWhen={'max-width: 900px'}
+        resizerButton={ResizingInspectorButton}
+        forceOpen={comment !== undefined}
+      >
+        <InspectorContainer>
+          <InspectorTabs index={tabIndex} onChange={setTabIndex}>
+            <InspectorTabList>
+              <InspectorTab>Content</InspectorTab>
+              <InspectorTab>Comments</InspectorTab>
+              {config.features.qualityControl && (
+                <InspectorTab>Quality</InspectorTab>
+              )}
+              {config.quarterback.enabled && (
+                <InspectorTab>History</InspectorTab>
+              )}
+              {config.features.fileManagement && (
+                <InspectorTab>Files</InspectorTab>
+              )}
+            </InspectorTabList>
+            <PaddedInspectorTabPanels>
+              <InspectorTabPanel key="Content">
+                <ContentTab state={state} dispatch={dispatch} key="content" />
+              </InspectorTabPanel>
+              <InspectorTabPanel key="Comments">
+                <CommentsTab
+                  selected={selection}
+                  editor={editor}
+                  key="comments"
+                />
+              </InspectorTabPanel>
+              {config.features.qualityControl && (
+                <InspectorTabPanel key="Quality">
+                  <RequirementsInspectorView
+                    result={validation.result}
+                    error={validation.error}
+                    isBuilding={validation.isBuilding}
+                    key="quality"
+                  />
+                </InspectorTabPanel>
+              )}
+              {config.quarterback.enabled && (
+                <InspectorTabPanel key="History">
+                  <TrackChangesPanel key="track-changes" />
+                </InspectorTabPanel>
+              )}
+              {config.features.fileManagement && (
+                <InspectorTabPanel key="Files">
+                  <FileManager
+                    can={can}
+                    enableDragAndDrop={true}
+                    modelMap={trackModelMap}
+                    saveModel={saveTrackModel}
+                    fileManagement={{
+                      ...fileManagement,
+                      getAttachments: () => submission.attachments,
+                    }}
+                    addAttachmentToState={(attachment: SubmissionAttachment) =>
+                      stateDispatch({
+                        submission: {
+                          ...submission,
+                          attachments: [...submission.attachments, attachment],
+                        },
+                      })
+                    }
+                  />
+                </InspectorTabPanel>
+              )}
+            </PaddedInspectorTabPanels>
+          </InspectorTabs>
+        </InspectorContainer>
+      </Panel>
+    </>
   )
 }
+
+export default Inspector

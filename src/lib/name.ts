@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { BibliographicName } from '@manuscripts/manuscripts-json-schema'
+import { BibliographicName } from '@manuscripts/json-schema'
 
 export const initials = (name: BibliographicName): string =>
   name.given

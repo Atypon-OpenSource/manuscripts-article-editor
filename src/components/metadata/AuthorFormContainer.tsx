@@ -15,7 +15,7 @@ import {
   Contributor,
   ContributorRole,
   Project,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import {
   AffiliationsEditor,
   AlertMessage,

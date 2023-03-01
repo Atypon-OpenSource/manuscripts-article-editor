@@ -11,16 +11,16 @@
  */
 
 import {
-  buildColor,
-  getByPrototype,
-  hasObjectType,
-} from '@manuscripts/manuscript-transform'
-import {
   Color,
   ColorScheme,
   Model,
   ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import {
+  buildColor,
+  getByPrototype,
+  hasObjectType,
+} from '@manuscripts/transform'
 
 import { SaveModel } from '../components/inspector/StyleFields'
 
@@ -63,26 +63,24 @@ export const buildColors = (
   return { colors, colorScheme }
 }
 
-export const addColor = (
-  colors: Color[],
-  saveModel: SaveModel,
-  colorScheme?: ColorScheme
-) => async (hex: string) => {
-  const color = buildColor(hex, nextColorPriority(colors)) as Color
+export const addColor =
+  (colors: Color[], saveModel: SaveModel, colorScheme?: ColorScheme) =>
+  async (hex: string) => {
+    const color = buildColor(hex, nextColorPriority(colors)) as Color
 
-  await saveModel<Color>({
-    ...color,
-    prototype: color._id,
-  })
+    await saveModel<Color>({
+      ...color,
+      prototype: color._id,
+    })
 
-  if (!colorScheme) {
+    if (!colorScheme) {
+      return color
+    }
+
+    await saveModel<ColorScheme>({
+      ...colorScheme,
+      colors: [...(colorScheme.colors || []), color._id],
+    })
+
     return color
   }
-
-  await saveModel<ColorScheme>({
-    ...colorScheme,
-    colors: [...(colorScheme.colors || []), color._id],
-  })
-
-  return color
-}

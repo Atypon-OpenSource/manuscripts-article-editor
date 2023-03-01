@@ -82,13 +82,16 @@ export const IntlContext = React.createContext<IntlProviderContext>(
   {} as IntlProviderContext
 )
 
-export const withIntl = <Props extends IntlProps>(
-  Component: React.ComponentType<Props>
-): React.ComponentType<Omit<Props, keyof IntlProps>> => (props: Props) => (
-  <IntlContext.Consumer>
-    {(value) => <Component {...props} intl={value} />}
-  </IntlContext.Consumer>
-)
+export const withIntl =
+  <Props extends IntlProps>(
+    Component: React.ComponentType<Props>
+  ): React.ComponentType<Omit<Props, keyof IntlProps>> =>
+  (props: Props) =>
+    (
+      <IntlContext.Consumer>
+        {(value) => <Component {...props} intl={value} />}
+      </IntlContext.Consumer>
+    )
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 class IntlProvider extends React.Component<{}, State> {

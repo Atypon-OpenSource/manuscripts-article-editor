@@ -10,12 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  ExternalFileRef,
   findParentElement,
   getMatchingChild,
   insertFileAsFigure,
   useEditor,
-} from '@manuscripts/manuscript-editor'
+} from '@manuscripts/body-editor'
+import { Model, ObjectTypes, Supplement } from '@manuscripts/json-schema'
+import { Category, Dialog } from '@manuscripts/style-guide'
+import {
+  CHANGE_STATUS,
+  trackCommands,
+  TrackedChange,
+} from '@manuscripts/track-changes-plugin'
 import {
   FigureElementNode,
   FigureNode,
@@ -23,18 +29,7 @@ import {
   getModelsByType,
   ManuscriptEditorView,
   schema,
-} from '@manuscripts/manuscript-transform'
-import {
-  Model,
-  ObjectTypes,
-  Supplement,
-} from '@manuscripts/manuscripts-json-schema'
-import { Category, Dialog } from '@manuscripts/style-guide'
-import {
-  CHANGE_STATUS,
-  trackCommands,
-  TrackedChange,
-} from '@manuscripts/track-changes-plugin'
+} from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
@@ -74,14 +69,6 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
         const resolvedPos = view.state.doc.resolve(docPos.pos)
         const attrs: Record<string, unknown> = {
           src: attachment.link,
-          label: attachment.name,
-          externalFileReferences: [
-            {
-              url: `attachment:${attachment.id}`,
-              kind: 'imageRepresentation',
-              ref: attachment,
-            },
-          ],
         }
 
         switch (resolvedPos.parent.type) {
@@ -317,13 +304,8 @@ const addFigureAtFigureElementPosition = (
   }
 }
 
-const isEmptyFigureNode = (figure: FigureNode) => {
-  const imageExternalFile = figure.attrs.externalFileReferences?.find(
-    (file: ExternalFileRef) => file && file.kind === 'imageRepresentation'
-  ) || { url: '' }
-
-  return imageExternalFile?.url.trim().length < 1
-}
+const isEmptyFigureNode = (figure: FigureNode) =>
+  figure.attrs.src.trim().length < 1
 
 const addNewFigure = (
   view: ManuscriptEditorView,

@@ -11,4 +11,5 @@
  */
 
 // Allow ids that start with `MP` and have at least a UUID after the colon
-export const idRe = /^MP[A-Za-z]+:[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-4[A-Fa-f0-9]{3}-[89aAbB][A-Fa-f0-9]{3}-[A-Fa-f0-9]{12}/
+export const idRe =
+  /^MP[A-Za-z]+:[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-4[A-Fa-f0-9]{3}-[89aAbB][A-Fa-f0-9]{3}-[A-Fa-f0-9]{12}/

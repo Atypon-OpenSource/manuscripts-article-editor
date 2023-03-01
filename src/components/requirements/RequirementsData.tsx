@@ -9,16 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-import { ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   Model,
   ObjectTypes,
   RequirementsValidation,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import {
   AnyValidationResult,
   runManuscriptFixes,
 } from '@manuscripts/requirements'
+import { ContainedModel } from '@manuscripts/transform'
 import { isEqual } from 'lodash-es'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'

@@ -88,7 +88,7 @@ export class ProgressIndicator extends React.Component<
   }
 
   private readonly canvasRef: React.RefObject<HTMLCanvasElement>
-  private tickHandle: number | null
+  private tickHandle: any
 
   public constructor(props: IndicatorProps) {
     super(props)

@@ -10,10 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { crossref } from '@manuscripts/body-editor'
+import { BibliographyItem } from '@manuscripts/json-schema'
 import { estimateID } from '@manuscripts/library'
-import { crossref } from '@manuscripts/manuscript-editor'
-import { Build, buildBibliographyItem } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import {
   ButtonGroup,
   IconTextButton,
@@ -22,6 +21,9 @@ import {
   Tip,
   UploadIcon,
 } from '@manuscripts/style-guide'
+import { Build, buildBibliographyItem } from '@manuscripts/transform'
+import axios, { CancelTokenSource } from 'axios'
+import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -126,6 +128,24 @@ export const CitationSearch: React.FC<{
     [filterLibraryItems]
   )
 
+  const [cancelTokenSource, setCancelTokenSource] =
+    useState<CancelTokenSource>()
+
+  const apiSearchCallback = useCallback(
+    (
+      query: string,
+      params: { rows: number; sort?: string },
+      mailto: string
+    ) => {
+      cancelTokenSource?.cancel()
+
+      const sourceToken = axios.CancelToken.source()
+      setCancelTokenSource(sourceToken)
+      return crossref.search(query, params.rows, mailto, sourceToken.token)
+    },
+    [cancelTokenSource]
+  )
+
   useEffect(() => {
     const sources: Source[] = [
       {
@@ -139,29 +159,21 @@ export const CitationSearch: React.FC<{
       sources.push({
         id: 'crossref',
         title: 'External sources',
-        search: (
-          query: string,
-          params: { rows: number; sort?: string },
-          mailto: string
-        ) => crossref.search(query, params.rows, mailto),
+        search: apiSearchCallback,
       })
     }
 
     setSources(sources)
-  }, [query, searchLibrary])
+  }, [apiSearchCallback, query, searchLibrary])
 
   const addToSelection = useCallback(
     (id: string, data: Build<BibliographyItem>) => {
       if (selected.has(id)) {
         selected.delete(id) // remove item
-        setSelected(
-          new Map<string, Build<BibliographyItem>>([...selected])
-        )
+        setSelected(new Map<string, Build<BibliographyItem>>([...selected]))
       } else if (data._id) {
         selected.set(id, data) // re-use existing data model
-        setSelected(
-          new Map<string, Build<BibliographyItem>>([...selected])
-        )
+        setSelected(new Map<string, Build<BibliographyItem>>([...selected]))
       } else {
         setFetching((fetching) => {
           fetching.add(id)
@@ -206,9 +218,13 @@ export const CitationSearch: React.FC<{
     return handleCite(items)
   }, [handleCite, selected])
 
-  const handleQuery = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value)
-  }, [])
+  const debouncedCallback = debounce((value) => setQuery(value.trim()), 800)
+
+  const debouncedSetQuery = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) =>
+      debouncedCallback(event.target.value),
+    [debouncedCallback]
+  )
 
   const importItems = useCallback(
     (items: Array<Build<BibliographyItem>>) => {
@@ -245,10 +261,10 @@ export const CitationSearch: React.FC<{
       <SearchWrapper>
         <Search
           autoComplete={'off'}
-          handleSearchChange={handleQuery}
+          handleSearchChange={debouncedSetQuery}
           placeholder={'Search'}
+          defaultValue={initialQuery}
           type={'search'}
-          value={query || ''}
         />
       </SearchWrapper>
 

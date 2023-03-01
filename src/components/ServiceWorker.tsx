@@ -23,7 +23,6 @@ import {
   NotificationActions,
   NotificationHead,
   NotificationIcon,
-  NotificationLink,
   NotificationMessage,
   NotificationPrompt,
   NotificationTitle,
@@ -35,13 +34,6 @@ export const ServiceWorker: React.FC = ({ children }) => {
     const { showNotification } = useContext(NotificationContext)
 
     const wb = new Workbox('/service-worker.js')
-
-    // Show a notification the first time the ServiceWorker is activated
-    // wb.addEventListener('activated', event => {
-    //   if (!event.isUpdate) {
-    //     showNotification('sw-active', OfflineReadyNotification)
-    //   }
-    // })
 
     // Show a notification when a new version is waiting to take control
     wb.addEventListener('waiting', () => {
@@ -68,46 +60,32 @@ export const ServiceWorker: React.FC = ({ children }) => {
   return <>{children}</>
 }
 
-// export const OfflineReadyNotification: NotificationComponent = props => (
-//   <NotificationPrompt>
-//     <NotificationHead>
-//       <NotificationIcon />
-//       <NotificationMessage>
-//         <NotificationTitle>Offline editing is now available!</NotificationTitle>
-//       </NotificationMessage>
-//     </NotificationHead>
-//     <NotificationActions>
-//       <PrimaryButton onClick={props.removeNotification}>Awesome!</PrimaryButton>
-//     </NotificationActions>
-//   </NotificationPrompt>
-// )
-
 interface CreateUpdateReadyNotificationProps {
   handleAccept: MouseEventHandler
   id: string
 }
 
-export const createUpdateReadyNotification = ({
-  handleAccept,
-  id,
-}: CreateUpdateReadyNotificationProps): NotificationComponent => (props) => (
-  <NotificationPrompt>
-    <NotificationHead>
-      <NotificationIcon />
-      <NotificationMessage>
-        <NotificationTitle>
-          A new version of the app is available on refreshing.
-        </NotificationTitle>
-        <NotificationLink href={`${config.discourse.host}/c/updates`}>
-          What&apos;s new?
-        </NotificationLink>
-      </NotificationMessage>
-    </NotificationHead>
-    <NotificationActions>
-      <SecondaryButton onClick={props.removeNotification}>
-        Dismiss
-      </SecondaryButton>
-      <PrimaryButton onClick={handleAccept}>Refresh</PrimaryButton>
-    </NotificationActions>
-  </NotificationPrompt>
-)
+export const createUpdateReadyNotification =
+  ({
+    handleAccept,
+    id,
+  }: CreateUpdateReadyNotificationProps): NotificationComponent =>
+  (props) =>
+    (
+      <NotificationPrompt>
+        <NotificationHead>
+          <NotificationIcon />
+          <NotificationMessage>
+            <NotificationTitle>
+              A new version of the app is available on refreshing.
+            </NotificationTitle>
+          </NotificationMessage>
+        </NotificationHead>
+        <NotificationActions>
+          <SecondaryButton onClick={props.removeNotification}>
+            Dismiss
+          </SecondaryButton>
+          <PrimaryButton onClick={handleAccept}>Refresh</PrimaryButton>
+        </NotificationActions>
+      </NotificationPrompt>
+    )

@@ -10,12 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { hasObjectType } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
   Citation,
   ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { hasObjectType } from '@manuscripts/transform'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -60,7 +60,7 @@ storiesOf('Citation', module)
       projectID={'MPProject:1'}
       scheduleUpdate={action('schedule update')}
       selectedText={'foo'}
-      setCommentTarget={action('set comment target')}
+      setComment={action('set new comment')}
       importItems={action('import items')}
       citation={citation}
       updateCitation={action('update citation')}

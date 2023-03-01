@@ -16,10 +16,6 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 
-import {
-  AddAuthorsPage,
-  AuthorDetailsPage,
-} from '../src/components/collaboration/CollaboratorsPage'
 import AddAuthorButton from '../src/components/metadata/AddAuthorButton'
 import AddAuthorsSidebar from '../src/components/metadata/AddAuthorsSidebar'
 import { AuthorFormContainer } from '../src/components/metadata/AuthorFormContainer'
@@ -291,6 +287,3 @@ storiesOf('Metadata', module)
       createAuthor={action('create author')}
     />
   ))
-
-  .add('Add Authors Page', () => <AddAuthorsPage addedAuthorsCount={3} />)
-  .add('Author Details Page ', () => <AuthorDetailsPage />)

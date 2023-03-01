@@ -11,14 +11,6 @@
  */
 
 import {
-  Attachment,
-  Build,
-  ContainedModel,
-  ManuscriptModel,
-  ManuscriptNode,
-  ModelAttachment,
-} from '@manuscripts/manuscript-transform'
-import {
   BibliographyItem,
   CommentAnnotation,
   ContainerInvitation,
@@ -33,9 +25,16 @@ import {
   Snapshot,
   Tag,
   UserProfile,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
 import { FileManagement } from '@manuscripts/style-guide'
-import { Commit } from '@manuscripts/track-changes'
+import {
+  Attachment,
+  Build,
+  ContainedModel,
+  ManuscriptModel,
+  ManuscriptNode,
+  ModelAttachment,
+} from '@manuscripts/transform'
 
 import { Person, Submission } from '../lib/lean-workflow-gql'
 import { ProjectRole } from '../lib/roles'
@@ -82,24 +81,23 @@ export type state = {
   userProfileID?: string | undefined
   manuscriptID: string
   containerID: string // @TODO it's the same as projectID - has to be cleaned up
-  commitAtLoad?: Commit | null
   invitations?: ContainerInvitation[]
   projectInvitations?: ProjectInvitation[]
   containerInvitations?: ContainerInvitation[]
   projects: Project[]
-  commits: Commit[]
   modelMap: Map<string, Model>
   snapshotID: string | null
   snapshots?: Snapshot[]
   handleSnapshot?: () => Promise<void>
   comments?: CommentAnnotation[]
-  commentTarget?: string
+  comment?: CommentAnnotation
   notes?: ManuscriptNote[]
   tags?: Tag[]
   collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
   submission: Submission
+  permittedActions: string[]
   person: Person
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
@@ -108,6 +106,15 @@ export type state = {
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
   deleteProject: (projectID: string) => Promise<string>
   updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+
+  // track changes doc state changes
+  saveTrackModel: <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ) => Promise<T>
+  getTrackModel: <T extends Model>(id: string) => T | undefined
+  trackModelMap: Map<string, Model>
+  deleteTrackModel: (id: string) => Promise<string>
+
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   saveNewManuscript: (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
@@ -282,6 +289,11 @@ export class GenericStore implements Store {
         )
       )
     }
+    // return new Promise((resolve: () => void, reject) => {
+    //   setTimeout(() => {
+    //     resolve()
+    //   }, 5000)
+    // })
   }
   unmount() {
     if (this.unmountHandler) {

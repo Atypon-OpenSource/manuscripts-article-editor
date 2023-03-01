@@ -10,16 +10,15 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  ManuscriptEditorState,
-  ManuscriptEditorView,
-} from '@manuscripts/manuscript-transform'
-import {
   trackChangesPluginKey,
   TrackChangesState,
 } from '@manuscripts/track-changes-plugin'
-import { Command } from 'prosemirror-commands'
-import { EditorState } from 'prosemirror-state'
-import create from 'zustand'
+import {
+  ManuscriptEditorState,
+  ManuscriptEditorView,
+} from '@manuscripts/transform'
+import { Command, EditorState } from 'prosemirror-state'
+import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 interface EmptySnapshotState {

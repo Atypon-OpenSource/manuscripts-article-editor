@@ -12,10 +12,10 @@
 
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AddIcon from '@manuscripts/assets/react/AddIcon'
+import { BibliographyItem } from '@manuscripts/json-schema'
 import { estimateID, shortLibraryItemMetadata } from '@manuscripts/library'
-import { Build } from '@manuscripts/manuscript-transform'
-import { BibliographyItem } from '@manuscripts/manuscripts-json-schema'
 import { Title } from '@manuscripts/title-editor'
+import { Build } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -117,6 +117,7 @@ const chooseStatusIcon = (
 export const SearchResults: React.FC<{
   error?: string
   searching: boolean
+  showMoreSearching?: boolean
   results?: {
     items: Array<Build<BibliographyItem>>
     total: number
@@ -124,15 +125,24 @@ export const SearchResults: React.FC<{
   handleSelect: (id: string, item: Build<BibliographyItem>) => void
   selected: Map<string, Build<BibliographyItem>>
   fetching: Set<string>
-}> = ({ error, searching, results, handleSelect, selected, fetching }) => {
+}> = ({
+  error,
+  searching,
+  showMoreSearching,
+  results,
+  handleSelect,
+  selected,
+  fetching,
+}) => {
   if (error) {
     // TODO: keep results if error while fetching
     return <Error>{error}</Error>
   }
 
-  if (searching) {
+  if (searching && !showMoreSearching) {
     return (
       <Results>
+        <SearchingLabel>Searching....</SearchingLabel>
         <ResultPlaceholder />
         <ResultPlaceholder />
         <ResultPlaceholder />
@@ -166,3 +176,8 @@ export const SearchResults: React.FC<{
     </Results>
   )
 }
+
+const SearchingLabel = styled.div`
+  color: ${(props) => props.theme.colors.text.secondary};
+  margin-left: ${(props) => props.theme.grid.unit * 10}px;
+`

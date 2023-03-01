@@ -17,9 +17,9 @@ import styled, { css } from 'styled-components'
 
 import { ResizerButton, ResizerButtonInnerProps } from './Panel'
 
-export const ResizingOutlinerButton: React.FunctionComponent<ResizerButtonInnerProps> = ({
-  ...props
-}) => (
+export const ResizingOutlinerButton: React.FunctionComponent<
+  ResizerButtonInnerProps
+> = ({ ...props }) => (
   <ResizerButton {...props}>
     <OutlineViewHandle />
   </ResizerButton>
@@ -31,9 +31,9 @@ const collapsedStyling = css`
   border-bottom-right-radius: 0;
 `
 
-const UnstyledResizingInspectorButton: React.FunctionComponent<ResizerButtonInnerProps> = ({
-  ...props
-}) => (
+const UnstyledResizingInspectorButton: React.FunctionComponent<
+  ResizerButtonInnerProps
+> = ({ ...props }) => (
   <ResizerButton {...props}>
     <InspectorHandle />
   </ResizerButton>

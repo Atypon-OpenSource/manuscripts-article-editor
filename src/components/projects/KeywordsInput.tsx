@@ -10,12 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { buildKeywordsContents } from '@manuscripts/manuscript-editor'
-import {
-  buildManuscriptKeyword,
-  ManuscriptNode,
-} from '@manuscripts/manuscript-transform'
-import { ManuscriptKeyword } from '@manuscripts/manuscripts-json-schema'
+import { buildKeywordsContents } from '@manuscripts/body-editor'
+import { ManuscriptKeyword } from '@manuscripts/json-schema'
+import { buildManuscriptKeyword, ManuscriptNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 import CreatableSelect from 'react-select/creatable'

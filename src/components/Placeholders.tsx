@@ -10,13 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import aphorisms from '@manuscripts/data/dist/shared/aphorisms.json'
-import { sample } from 'lodash-es'
 import React, { useEffect, useState } from 'react'
-import { animated, useTransition } from 'react-spring'
 import styled from 'styled-components'
 
-import { Aphorism, AphorismView } from './Aphorism'
 import {
   IndicatorKind,
   IndicatorSize,
@@ -94,23 +90,6 @@ const ProgressMessageContainer: React.FC<{
   )
 }
 
-export const ProjectSyncingPlaceholder: React.FC = () => (
-  <PlaceholderContainer>
-    <ProgressGroup>
-      <ProgressIndicator
-        isDeterminate={false}
-        size={IndicatorSize.Large}
-        symbols={IndicatorKind.Project}
-      />
-      <ProgressMessageContainer
-        delay={5000}
-        title={'Syncing project data…'}
-        subtitle={'This can take a while the first time.'}
-      />
-    </ProgressGroup>
-  </PlaceholderContainer>
-)
-
 export const DataLoadingPlaceholder: React.FC = () => (
   <PlaceholderContainer>
     <ProgressGroup>
@@ -123,61 +102,3 @@ export const DataLoadingPlaceholder: React.FC = () => (
     </ProgressGroup>
   </PlaceholderContainer>
 )
-
-const FixedPlaceholderContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: ${(props) => props.theme.colors.background.primary};
-  opacity: 1;
-  z-index: 10;
-`
-
-const AnimatedFixedPlaceholderContainer = animated(FixedPlaceholderContainer)
-
-export const ProjectAphorismPlaceholder: React.FC<{
-  duration: number
-}> = ({ duration }) => {
-  const [aphorism] = useState(sample(aphorisms) as Aphorism)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const handle = window.setTimeout(() => {
-      setLoading(false)
-    }, duration)
-
-    return () => {
-      window.clearTimeout(handle)
-    }
-  })
-
-  const transitions = useTransition(loading, null, {
-    from: { opacity: 1 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  })
-
-  return (
-    <>
-      {transitions.map(
-        ({ item, key, props }) =>
-          item && (
-            <AnimatedFixedPlaceholderContainer key={key} style={props}>
-              <ProgressIndicator
-                isDeterminate={false}
-                size={IndicatorSize.Large}
-                symbols={IndicatorKind.Project}
-              />
-              <AphorismView aphorism={aphorism} />
-            </AnimatedFixedPlaceholderContainer>
-          )
-      )}
-    </>
-  )
-}

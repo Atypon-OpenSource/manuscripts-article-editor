@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 const webpack = require('webpack')
-const WorkerPlugin = require('worker-plugin')
 
 module.exports = ({ config, mode }) => {
   console.log(mode)
@@ -58,8 +57,6 @@ module.exports = ({ config, mode }) => {
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/)
   )
 
-  config.plugins.push(new WorkerPlugin())
-
   config.resolve.extensions.push('.ts', '.tsx')
 
   config.resolve.alias = {
@@ -75,9 +72,11 @@ module.exports = ({ config, mode }) => {
     ignored: /node_modules\/(?!@manuscripts\/)/,
   }
 
-  config.node = {
-    fs: 'empty',
-    path: 'empty',
+  config.resolve.fallback = {
+    fs: false,
+    path: false,
+    stream: false,
+    crypto: false
   }
   return config
 }

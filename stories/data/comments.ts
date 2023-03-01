@@ -10,10 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  CommentAnnotation,
-  ObjectTypes,
-} from '@manuscripts/manuscripts-json-schema'
+import { CommentAnnotation, ObjectTypes } from '@manuscripts/json-schema'
 
 export const comments: CommentAnnotation[] = [
   {

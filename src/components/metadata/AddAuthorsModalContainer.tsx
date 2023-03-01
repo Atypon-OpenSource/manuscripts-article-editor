@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Contributor, UserProfile } from '@manuscripts/manuscripts-json-schema'
+import { Contributor, UserProfile } from '@manuscripts/json-schema'
 import React from 'react'
 
 import { AddAuthorsModal } from './AuthorsModals'
@@ -46,12 +46,8 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      isCreateAuthorOpen,
-      searchResults,
-      searchText,
-      searchingAuthors,
-    } = this.state
+    const { isCreateAuthorOpen, searchResults, searchText, searchingAuthors } =
+      this.state
 
     const {
       numberOfAddedAuthors,
