@@ -24,10 +24,11 @@ pipeline {
             when {
                 expression { params.PUBLISH == true }
             }
+            environment {
+                NPM_TOKEN = credentials('NPM_TOKEN_MANUSCRIPTS_OSS')
+            }
             steps {
-                withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-                    sh 'npx @manuscripts/publish'
-                }
+                sh 'npx @manuscripts/publish'
             }
         }
     }
