@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
   integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
-"@manuscripts/body-editor@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.8.tgz#a5a1e0920f13e271bee80f884f20f5e5fc280995"
-  integrity sha512-mfSvb9YITv+3LnH1V7Su+QlZWSSjZLKgD/iyXbtwEEaOYwavOSs7HpIltj4BrZYTz5Ctul3xUcCvfSSuePKxhA==
+"@manuscripts/body-editor@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.9.tgz#5d25443758ded9ce03d335835c3fa05b9bb3babd"
+  integrity sha512-i8BwLicKM19x8h00TAbzB+JB4MbU7YpduQH4rMLAA4CQAhfG6jMhveN9tpVFLLy1u6s2w2AyAs8FWoi0rxhtWA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1881,10 +1881,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/title-editor/-/title-editor-1.0.0.tgz#714d34ce7ebf2f4fec2d15c12f181dcccea3f554"
   integrity sha512-FHN+/TD5XDbCxXcrbZ2ZtwCYZZKX1czbdvwPTGLWSW1eTQfJVPXM4Tte6Ul1bjbI5HHk7b9suzKvGCqxdc/GYQ==
 
-"@manuscripts/track-changes-plugin@^0.4.5":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.4.6.tgz#14b57aa664774439f449179b79b39c0c25f94e66"
-  integrity sha512-9qSp2L0QHehPjpg7OJYuuH5DgWh7jqZh/az9xeICZxO//qbHvjp2hXaUlVzV1OXWAZ5ZRjK+LRmCgjNHy4u5ug==
+"@manuscripts/track-changes-plugin@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.0.0.tgz#aeddc919b26042d6876ce7968b2c9ce986c81f1e"
+  integrity sha512-oXPdVY6GhkA9dCEm/k4dduem0jPH+iPjpe6RMq/AafzrL9Zrj8y5GaLM+STB8PJJQ3BIRc15woHmk87emN8AyA==
   dependencies:
     debug "^4.3.4"
 
@@ -4540,9 +4540,9 @@ axe-core@^4.6.2:
   integrity sha512-/BQzOX780JhsxDnPpH4ZiyrJAzcd8AfzFPkv+89veFSr1rcMjuq2JDCwypKaPeB6ljHp9KjXhPpjgCvQlWYuqg==
 
 axios@^0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.2.tgz#21297d5084b2aeeb422f5d38e7be4fbb82239017"
-  integrity sha512-87otirqUw3e8CzHTMO+/9kh/FSgXt/eVDvipijwDtEuwbkySWZ9SBm6VEubmJ/kLKEoLQV/POhxXFb66bfekfg==
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
 
