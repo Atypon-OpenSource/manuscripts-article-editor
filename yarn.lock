@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
   integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
 
-"@manuscripts/body-editor@^1.0.9-LEAN-2070":
-  version "1.0.9-LEAN-2070"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.9-LEAN-2070.tgz#40e50a83abb0d51bebf136f648c8d7cae720ad12"
-  integrity sha512-ZCVEbNK/3xNl0g4xLGkSEbzgWx/+KOoniYwqhB/zPIrokjAT0NfvH+JGaRyNsAtdKRiNQWqZtxtepl/pPG8ByA==
+"@manuscripts/body-editor@^1.0.10-LEAN-2070-v2":
+  version "1.0.10-LEAN-2070-v2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.10-LEAN-2070-v2.tgz#7fc0f2830a0c530b7e1a7a1ec543209ab3a425fe"
+  integrity sha512-2n7TKzXPxq/7Lqn274TxXhA0Kw2/ph3dNmSDBtWk2AAQo3DXEz6cHWyt9fX9sswz3uuYgd5b0IlOGljtDp/rQA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1851,10 +1851,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-0.2.2.tgz#2019721859d00621c30e7b1ea054a3ee1d1c170f"
   integrity sha512-uVV919tu3begel33vlNM+XxC6BUJQarwdKsD1bkypJqBy4FSDttc9L7R6/FJPKIOME22ePo7qcKRXhrHHRcorg==
 
-"@manuscripts/requirements@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/requirements/-/requirements-1.0.1.tgz#c2068982d8e9f5db0ec6c815b5b60de7f5bc6afb"
-  integrity sha512-L0+/GW4wvx+ah2DNA8tUtFMsr7LKNnCZCVhnYvs68oYMRLpDkvH9ysjo5U339YmD6UOhUZfIZrEsrrXt0NMGIA==
+"@manuscripts/requirements@^1.0.1-LEAN-2261":
+  version "1.0.1-LEAN-2261"
+  resolved "https://registry.yarnpkg.com/@manuscripts/requirements/-/requirements-1.0.1-LEAN-2261.tgz#23239920343dee3fa34832de2e3bbcf01587aa0d"
+  integrity sha512-8hG1HbD9w6032+Gx/Cl8cumuLsaT+eCvVmqYy0UagU1Gw9qGmtwKPDkqDkoZNgbd5IL0n7myLoGLvWrA70FQLw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     deep-equal "^2.2.0"
