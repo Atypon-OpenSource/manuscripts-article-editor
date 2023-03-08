@@ -42,6 +42,7 @@ interface Props {
   manuscriptID: string
   projectID: string
   submission: Submission
+  permittedActions: string[]
   person: Person
   authToken: string
 }
@@ -62,6 +63,7 @@ const EditorApp: React.FC<Props> = ({
   manuscriptID,
   projectID,
   submission,
+  permittedActions,
   fileManagement,
   person,
   authToken,
@@ -91,6 +93,7 @@ const EditorApp: React.FC<Props> = ({
       projectID,
       manuscriptID,
       submission,
+      permittedActions,
       person,
       userID || '',
       authToken || ''

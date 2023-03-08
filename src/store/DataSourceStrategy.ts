@@ -33,6 +33,7 @@ export class BasicSource implements StoreDataSourceStrategy {
     projectID: string,
     manuscriptID: string,
     submission: Submission,
+    permittedActions: string[],
     person: Person,
     userID?: string | undefined,
     authToken?: string | undefined
@@ -43,6 +44,7 @@ export class BasicSource implements StoreDataSourceStrategy {
       projectID,
       manuscriptID,
       submission,
+      permittedActions,
       person,
       userID,
       authToken,
