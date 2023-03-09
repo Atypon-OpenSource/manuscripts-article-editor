@@ -1779,15 +1779,15 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@manuscripts/assets@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.1.tgz#c1d1c88b3e3c030177b8bbff0f6d6e352a045992"
-  integrity sha512-neLPcFNE8XcstDR1bj85xlAcB9IpBMOk0oaRzXxD/HeO8N63eqcOCzTMiGz239t+wk4oRnqAHzPbRQTYngdC2A==
+"@manuscripts/assets@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
+  integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.8.tgz#a5a1e0920f13e271bee80f884f20f5e5fc280995"
-  integrity sha512-mfSvb9YITv+3LnH1V7Su+QlZWSSjZLKgD/iyXbtwEEaOYwavOSs7HpIltj4BrZYTz5Ctul3xUcCvfSSuePKxhA==
+"@manuscripts/body-editor@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.12.tgz#290307e502d9a6a6c9368a303a188af02721a2ae"
+  integrity sha512-iSjlt/7umDUP54TPolJPQong+u20o4EGK26abvlvB9/PInCa/ntqzlJugGCrO8PzEyQ5UoA5Iqe+vTsQjMbekQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1851,10 +1851,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-0.2.2.tgz#2019721859d00621c30e7b1ea054a3ee1d1c170f"
   integrity sha512-uVV919tu3begel33vlNM+XxC6BUJQarwdKsD1bkypJqBy4FSDttc9L7R6/FJPKIOME22ePo7qcKRXhrHHRcorg==
 
-"@manuscripts/requirements@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/requirements/-/requirements-1.0.1.tgz#c2068982d8e9f5db0ec6c815b5b60de7f5bc6afb"
-  integrity sha512-L0+/GW4wvx+ah2DNA8tUtFMsr7LKNnCZCVhnYvs68oYMRLpDkvH9ysjo5U339YmD6UOhUZfIZrEsrrXt0NMGIA==
+"@manuscripts/requirements@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/requirements/-/requirements-1.0.2.tgz#698584f85f4a6f22be531e63d39a18a9447a5b80"
+  integrity sha512-0YJaorQjX5OLBLX9YazBQIGHJa9efjWh+gDUzOEUKq4i3PjXmGXHNKqKXIGxnB6HBrKbSRye1G7h3/aKlkHkSA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     deep-equal "^2.2.0"
@@ -1863,10 +1863,10 @@
     image-size "^1.0.2"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.3.tgz#2925b32b693350985cee4896e996156c818a8fbf"
-  integrity sha512-EL1U16Xa9UUR6lUKSmc0TM30n5nrfjjzcWUIlafQOsn3bnG96WBMjMeGZQRgl9a1pcelVglpntTJL6g78AMv2Q==
+"@manuscripts/style-guide@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.4.tgz#a1edb3ba0817cccb82e159959915fa612a4b86b1"
+  integrity sha512-lo2GgQHcpHceq93V+ow0am75l3QmnDIFtpakGEyrzAxnUYitNW3vb21lcrnKHrV28g+6q59xZ2ujG7TL7wpAPw==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
@@ -1881,17 +1881,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/title-editor/-/title-editor-1.0.0.tgz#714d34ce7ebf2f4fec2d15c12f181dcccea3f554"
   integrity sha512-FHN+/TD5XDbCxXcrbZ2ZtwCYZZKX1czbdvwPTGLWSW1eTQfJVPXM4Tte6Ul1bjbI5HHk7b9suzKvGCqxdc/GYQ==
 
-"@manuscripts/track-changes-plugin@^0.4.5":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-0.4.6.tgz#14b57aa664774439f449179b79b39c0c25f94e66"
-  integrity sha512-9qSp2L0QHehPjpg7OJYuuH5DgWh7jqZh/az9xeICZxO//qbHvjp2hXaUlVzV1OXWAZ5ZRjK+LRmCgjNHy4u5ug==
+"@manuscripts/track-changes-plugin@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.0.0.tgz#aeddc919b26042d6876ce7968b2c9ce986c81f1e"
+  integrity sha512-oXPdVY6GhkA9dCEm/k4dduem0jPH+iPjpe6RMq/AafzrL9Zrj8y5GaLM+STB8PJJQ3BIRc15woHmk87emN8AyA==
   dependencies:
     debug "^4.3.4"
 
-"@manuscripts/transform@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.0.1.tgz#1eccad9924beef97a5b6ae9e944ca9704f09b2a7"
-  integrity sha512-cI89dy3vY2+81TjiHRE6cxK4EDJbI21np0ueUeZGK+8wA4/8+QVh0pj1qdt+ZCiSV2XYh7epXQV9WAwajTYQ1g==
+"@manuscripts/transform@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.1.tgz#2d343a82d94d330690c6d64e94d88f2c32648f87"
+  integrity sha512-FzKE+eWUYpy9PYzLAnPMd3N9bL1+ujJviddps7Irvo5o4/T0izFSGHzWs3BifHG5SaOVS5qR6tYZKI2f06TZdA==
   dependencies:
     debug "^4.3.4"
     mathjax-full "^3.2.2"
