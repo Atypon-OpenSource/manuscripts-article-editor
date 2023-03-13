@@ -208,6 +208,7 @@ export interface ReferenceFormValues {
   URL?: string
   issue?: string | number
   volume?: string | number
+  supplement?: string | number
   page?: string | number
 }
 
@@ -299,6 +300,7 @@ export const buildInitialValues = (
   URL: item.URL,
   issue: item.issue ? String(item.issue) : undefined,
   volume: item.volume ? String(item.volume) : undefined,
+  supplement: item.supplement ? String(item.supplement) : undefined,
   page: item.page ? String(item.page) : undefined,
 })
 
