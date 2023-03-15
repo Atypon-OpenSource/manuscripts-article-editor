@@ -73,7 +73,7 @@ const TrackChangesOff = styled.div`
 `
 
 const Actions = styled.div<{ selector: string }>`
-  .pending:hover + .track-changes--control:is(${(props) => props.selector}),
+  .pending:hover .track-changes--control:is(${(props) => props.selector}),
   .track-changes--control:is(${(props) => props.selector}):hover {
     display: inline-flex;
   }

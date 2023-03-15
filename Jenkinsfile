@@ -1,59 +1,34 @@
-node("cisc && !cisc03") {
-    stage("Checkout") {
-        VARS = checkout scm
-        echo "VARS: $VARS"
-    }
-
-    stage("Build") {
-        nodejs(nodeJSInstallationName: 'node_16_14_2') {
-            sh (script: "yarn install --frozen-lockfile --non-interactive",
-                label: "yarn install",
-                returnStdout: true)
-
-            sh (script: "yarn typecheck",
-                label: "yarn typecheck",
-                returnStdout: true)
-
-            sh (script: "yarn lint",
-                label: "yarn lint",
-                returnStdout: true)
-
-            sh (script: "yarn test --ci --reporters=default --reporters=jest-junit",
-                label: "yarn test",
-                returnStdout: true)
-
-            env.ALLOW_MISSING_VARIABLES=1
-
-            sh "printenv"
-
-            sh (script: "yarn build",
-                label: "yarn build",
-                returnStdout: true)
-
-            // sh (script: "yarn bundlesize",
-            //     label: "yarn bundlesize",
-            //     returnStdout: true)
+pipeline {
+    agent {
+        docker {
+            image 'node:18'
+            args '--userns=host \
+                  -v /home/ci/.cache/yarn:/.cache/yarn \
+                  -v /home/ci/.npm:/.npm'
         }
     }
-
-    stage("Tests report") {
-        junit "junit.xml"
+    parameters {
+        booleanParam(name: 'PUBLISH', defaultValue: false)
     }
-
-    if (params.publish_feature) {
-        stage ("Publish") {
-            nodejs(nodeJSInstallationName: 'node_16_14_2') {
-                withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-                    sh (script: "npm install npx",
-                        label: "Install npx first",
-                        returnStdout: true)
-
-                    sh ("""cat << EOF >.npmrc
-//registry.npmjs.org/:_authToken=$NPM_TOKEN
-<<EOF""")
-                    sh ("npx @manuscripts/publish")
-                    sh "rm -f .npmrc"
-                }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'yarn install --non-interactive --frozen-lockfile'
+                sh 'yarn typecheck'
+                sh 'yarn lint'
+                sh 'yarn test'
+                sh 'yarn build'
+            }
+        }
+        stage ('Publish') {
+            when {
+                expression { params.PUBLISH == true }
+            }
+            environment {
+                NPM_TOKEN = credentials('NPM_TOKEN_MANUSCRIPTS_OSS')
+            }
+            steps {
+                sh 'npx @manuscripts/publish'
             }
         }
     }
