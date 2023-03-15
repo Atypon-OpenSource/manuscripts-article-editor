@@ -356,6 +356,7 @@ interface LibraryFormValues {
   issue?: string | number
   volume?: string | number
   page?: string | number
+  supplement?: string | number
 }
 
 const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
@@ -371,6 +372,7 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   issue: item.issue ? String(item.issue) : undefined,
   volume: item.volume ? String(item.volume) : undefined,
   page: item.page ? String(item.page) : undefined,
+  supplement: item.supplement ? String(item.supplement) : undefined,
 })
 
 const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
@@ -628,6 +630,18 @@ const LibraryForm: React.FC<{
                     pattern={'(https://doi.org/)?10..+'}
                     {...props.field}
                   />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'supplement'}>Supplement</Label>
+              </LabelContainer>
+
+              <Field name={'supplement'}>
+                {(props: FieldProps) => (
+                  <FormTextField id={'supplement'} {...props.field} />
                 )}
               </Field>
             </FormField>
