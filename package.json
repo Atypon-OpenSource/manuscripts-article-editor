@@ -37,7 +37,7 @@
     "@fontsource/pt-sans": "^4.5.11",
     "@fontsource/pt-serif": "^4.5.11",
     "autotrack": "^2.4.1",
-    "axios": "^0.21.2",
+    "axios": "^1.2.2",
     "blob-to-buffer": "^1.2.9",
     "broadcast-channel": "2.1.12",
     "concurrently": "^7.6.0",
