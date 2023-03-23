@@ -118,17 +118,23 @@ const ManuscriptPageView: React.FC = () => {
 
   const { state, dispatch, view } = editor
 
-  const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
-    useTrackedModelManagement(
-      doc,
-      view,
-      state,
-      dispatch,
-      saveModel,
-      deleteModel,
-      modelMap,
-      () => getState().submission.attachments
-    )
+  const {
+    saveTrackModel,
+    trackModelMap,
+    deleteTrackModel,
+    getTrackModel,
+    saveCommentNode,
+    deleteCommentNode,
+  } = useTrackedModelManagement(
+    doc,
+    view,
+    state,
+    dispatch,
+    saveModel,
+    deleteModel,
+    modelMap,
+    () => getState().submission.attachments
+  )
 
   useEffect(() => {
     storeDispatch({
@@ -136,6 +142,8 @@ const ManuscriptPageView: React.FC = () => {
       trackModelMap,
       deleteTrackModel,
       getTrackModel,
+      saveCommentNode,
+      deleteCommentNode,
     })
   }, [
     saveTrackModel,
@@ -143,6 +151,8 @@ const ManuscriptPageView: React.FC = () => {
     deleteTrackModel,
     storeDispatch,
     getTrackModel,
+    saveCommentNode,
+    deleteCommentNode,
   ])
 
   const { setUsers } = useCommentStore()

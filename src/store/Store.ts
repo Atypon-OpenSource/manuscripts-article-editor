@@ -114,6 +114,8 @@ export type state = {
   getTrackModel: <T extends Model>(id: string) => T | undefined
   trackModelMap: Map<string, Model>
   deleteTrackModel: (id: string) => Promise<string>
+  saveCommentNode: (comment: CommentAnnotation) => CommentAnnotation
+  deleteCommentNode: (comment: CommentAnnotation) => string
 
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   saveNewManuscript: (

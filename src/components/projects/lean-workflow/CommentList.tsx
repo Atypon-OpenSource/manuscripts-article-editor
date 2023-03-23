@@ -63,7 +63,6 @@ const cleanUpSelectedComment = () => {
 export const CommentList: React.FC<Props> = ({ editor }) => {
   const [
     {
-      comments = [],
       comment,
       doc,
       user,
@@ -72,11 +71,12 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       keywords,
       modelMap,
       saveTrackModel,
-      deleteTrackModel,
+      trackModelMap,
+      saveCommentNode,
+      deleteCommentNode,
     },
     dispatch,
   ] = useStore((store) => ({
-    comments: store.comments,
     doc: store.doc,
     notes: store.notes,
     user: store.user,
@@ -86,12 +86,24 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     manuscriptID: store.manuscriptID,
     modelMap: store.modelMap,
     saveTrackModel: store.saveTrackModel,
-    deleteTrackModel: store.deleteTrackModel,
+    trackModelMap: store.trackModelMap,
+    saveCommentNode: store.saveCommentNode,
+    deleteCommentNode: store.deleteCommentNode,
     comment: store.comment,
   }))
   const { state, view } = editor
 
   const [newComment, setNewComment] = useState<CommentAnnotation>()
+
+  const comments = useMemo(
+    () =>
+      getModelsByType<CommentAnnotation>(
+        trackModelMap,
+        ObjectTypes.CommentAnnotation
+      ),
+    [trackModelMap]
+  )
+
   const createKeyword = useCallback(
     (name: string) => saveTrackModel(buildKeyword(name)),
     [saveTrackModel]
@@ -208,7 +220,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
 
   const handleSetResolved = useCallback(
     async (comment) => {
-      const savedComment = await saveTrackModel({
+      const savedComment = saveCommentNode({
         ...comment,
         resolved: !comment.resolved,
       } as CommentAnnotation)
@@ -216,28 +228,27 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
         updateComments(savedComment)
       }
     },
-    [saveTrackModel, updateComments]
+    [saveCommentNode, updateComments]
   )
 
   const saveComment = useCallback(
-    (comment: CommentAnnotation) => {
-      return saveTrackModel(comment).then((comment) => {
-        if (newComment && newComment._id === comment._id) {
-          setComment(undefined)
-          setNewComment(undefined)
-          addComment(comment)
+    async (comment: CommentAnnotation) => {
+      saveCommentNode(comment)
+      if (newComment && newComment._id === comment._id) {
+        setComment(undefined)
+        setNewComment(undefined)
+        addComment(comment)
 
-          if (view?.state && !isHighlightComment(comment)) {
-            updateCommentAnnotationState(view?.state, view?.dispatch)
-          }
-        } else {
-          updateComments(comment)
+        if (view?.state && !isHighlightComment(comment)) {
+          updateCommentAnnotationState(view?.state, view?.dispatch)
         }
-        return comment
-      })
+      } else {
+        updateComments(comment)
+      }
+      return comment
     },
     [
-      saveTrackModel,
+      saveCommentNode,
       newComment,
       setComment,
       addComment,
@@ -248,29 +259,33 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   )
 
   const deleteComment = useCallback(
-    (id: string) => {
-      const comment = newComment || (modelMap.get(id) as CommentAnnotation)
-      return deleteTrackModel(id)
-        .then(() => {
-          removeComment(id)
-        })
-        .finally(() => {
-          if (comment.selector?.from !== comment.selector?.to) {
-            view && deleteHighlightMarkers(id)(view.state, view.dispatch)
-          }
+    async (id: string) => {
+      const comment = newComment || (trackModelMap.get(id) as CommentAnnotation)
+      deleteCommentNode(comment)
+      removeComment(id)
 
-          if (newComment && newComment._id === id) {
-            setComment(undefined)
-            setNewComment(undefined)
-          }
-          if (view?.state && !isHighlightComment(comment)) {
-            updateCommentAnnotationState(view?.state, view?.dispatch)
-          }
-          cleanUpSelectedComment()
-          setSelectedHighlightId(undefined)
-        })
+      if (comment.selector?.from !== comment.selector?.to) {
+        view && deleteHighlightMarkers(id)(view.state, view.dispatch)
+      }
+
+      if (newComment && newComment._id === id) {
+        setComment(undefined)
+        setNewComment(undefined)
+      }
+      if (view?.state && !isHighlightComment(comment)) {
+        updateCommentAnnotationState(view?.state, view?.dispatch)
+      }
+      cleanUpSelectedComment()
+      setSelectedHighlightId(undefined)
     },
-    [deleteTrackModel, modelMap, newComment, removeComment, setComment, view]
+    [
+      deleteCommentNode,
+      trackModelMap,
+      newComment,
+      removeComment,
+      setComment,
+      view,
+    ]
   )
 
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
