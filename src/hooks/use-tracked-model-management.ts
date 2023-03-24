@@ -79,7 +79,7 @@ const useTrackedModelManagement = (
   const saveCommentNode = useCallback(
     (comment: CommentAnnotation) => {
       if (!view) {
-        return comment
+        throw Error('View not available')
       }
 
       const documentComment = {
@@ -132,7 +132,7 @@ const useTrackedModelManagement = (
         }
       })
 
-      return comment
+      return Promise.resolve(comment as Model)
     },
     [doc, modelMap, state, view]
   )
@@ -140,7 +140,7 @@ const useTrackedModelManagement = (
   const deleteCommentNode = useCallback(
     (comment: CommentAnnotation) => {
       if (!view) {
-        return comment._id
+        throw Error('View not available')
       }
 
       const { tr } = state
@@ -171,13 +171,17 @@ const useTrackedModelManagement = (
           return false
         }
       })
-      return comment._id
+      return Promise.resolve(comment._id)
     },
     [doc, state, view]
   )
 
   const saveTrackModel = useCallback(
     <T extends Model>(model: T | Build<T> | Partial<T>) => {
+      if (model.objectType === ObjectTypes.CommentAnnotation) {
+        return saveCommentNode(model as unknown as CommentAnnotation)
+      }
+
       if (model._id) {
         const currentModel = modelMap.get(model._id!)
         if (currentModel) {
@@ -245,6 +249,10 @@ const useTrackedModelManagement = (
 
   const deleteTrackModel = useCallback(
     (id: string) => {
+      if (modelMap.get('id')?.objectType === ObjectTypes.CommentAnnotation) {
+        return deleteCommentNode(modelMap.get('id') as CommentAnnotation)
+      }
+
       if (modelMap.has(id)) {
         modelMap.delete(id)
         doc.descendants((node, pos) => {
@@ -261,7 +269,15 @@ const useTrackedModelManagement = (
 
       return Promise.resolve(id)
     },
-    [dispatch, dispatchStore, deleteModel, doc, modelMap, state] // will loop rerenders probably because of modelMap
+    [
+      modelMap,
+      deleteCommentNode,
+      doc,
+      state,
+      dispatch,
+      dispatchStore,
+      deleteModel,
+    ] // will loop rerenders probably because of modelMap
   )
 
   const getTrackModel = useCallback(
@@ -272,8 +288,6 @@ const useTrackedModelManagement = (
   return {
     saveTrackModel,
     deleteTrackModel,
-    saveCommentNode,
-    deleteCommentNode,
     trackModelMap: modelMap,
     getTrackModel,
   }

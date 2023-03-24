@@ -70,10 +70,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       collaboratorsById,
       keywords,
       modelMap,
-      saveTrackModel,
       trackModelMap,
-      saveCommentNode,
-      deleteCommentNode,
+      saveTrackModel,
+      deleteTrackModel,
     },
     dispatch,
   ] = useStore((store) => ({
@@ -85,10 +84,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     keywords: store.keywords,
     manuscriptID: store.manuscriptID,
     modelMap: store.modelMap,
-    saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
-    saveCommentNode: store.saveCommentNode,
-    deleteCommentNode: store.deleteCommentNode,
+    saveTrackModel: store.saveTrackModel,
+    deleteTrackModel: store.deleteTrackModel,
     comment: store.comment,
   }))
   const { state, view } = editor
@@ -220,7 +218,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
 
   const handleSetResolved = useCallback(
     async (comment) => {
-      const savedComment = saveCommentNode({
+      const savedComment = await saveTrackModel({
         ...comment,
         resolved: !comment.resolved,
       } as CommentAnnotation)
@@ -228,27 +226,28 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
         updateComments(savedComment)
       }
     },
-    [saveCommentNode, updateComments]
+    [saveTrackModel, updateComments]
   )
 
   const saveComment = useCallback(
-    async (comment: CommentAnnotation) => {
-      saveCommentNode(comment)
-      if (newComment && newComment._id === comment._id) {
-        setComment(undefined)
-        setNewComment(undefined)
-        addComment(comment)
+    (comment: CommentAnnotation) => {
+      return saveTrackModel(comment).then((comment) => {
+        if (newComment && newComment._id === comment._id) {
+          setComment(undefined)
+          setNewComment(undefined)
+          addComment(comment)
 
-        if (view?.state && !isHighlightComment(comment)) {
-          updateCommentAnnotationState(view?.state, view?.dispatch)
+          if (view?.state && !isHighlightComment(comment)) {
+            updateCommentAnnotationState(view?.state, view?.dispatch)
+          }
+        } else {
+          updateComments(comment)
         }
-      } else {
-        updateComments(comment)
-      }
-      return comment
+        return comment
+      })
     },
     [
-      saveCommentNode,
+      saveTrackModel,
       newComment,
       setComment,
       addComment,
@@ -259,33 +258,29 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   )
 
   const deleteComment = useCallback(
-    async (id: string) => {
-      const comment = newComment || (trackModelMap.get(id) as CommentAnnotation)
-      deleteCommentNode(comment)
-      removeComment(id)
+    (id: string) => {
+      const comment = newComment || (modelMap.get(id) as CommentAnnotation)
+      return deleteTrackModel(id)
+        .then(() => {
+          removeComment(id)
+        })
+        .finally(() => {
+          if (comment.selector?.from !== comment.selector?.to) {
+            view && deleteHighlightMarkers(id)(view.state, view.dispatch)
+          }
 
-      if (comment.selector?.from !== comment.selector?.to) {
-        view && deleteHighlightMarkers(id)(view.state, view.dispatch)
-      }
-
-      if (newComment && newComment._id === id) {
-        setComment(undefined)
-        setNewComment(undefined)
-      }
-      if (view?.state && !isHighlightComment(comment)) {
-        updateCommentAnnotationState(view?.state, view?.dispatch)
-      }
-      cleanUpSelectedComment()
-      setSelectedHighlightId(undefined)
+          if (newComment && newComment._id === id) {
+            setComment(undefined)
+            setNewComment(undefined)
+          }
+          if (view?.state && !isHighlightComment(comment)) {
+            updateCommentAnnotationState(view?.state, view?.dispatch)
+          }
+          cleanUpSelectedComment()
+          setSelectedHighlightId(undefined)
+        })
     },
-    [
-      deleteCommentNode,
-      trackModelMap,
-      newComment,
-      removeComment,
-      setComment,
-      view,
-    ]
+    [deleteTrackModel, modelMap, newComment, removeComment, setComment, view]
   )
 
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
