@@ -132,6 +132,25 @@ const buildUtilities = (
       updateState({
         modelMap,
       })
+      if (
+        model.objectType === ObjectTypes.Contributor ||
+        model.objectType === ObjectTypes.Affiliation
+      ) {
+        const authorsAndAffiliations = data.authorsAndAffiliations
+        const authors = data.authorsAndAffiliations.authors.map(
+          (author: { _id: string }) =>
+            author._id == model._id ? model : author
+        )
+        const authorAffiliations =
+          authorsAndAffiliations.authorAffiliations.get(model._id)
+        if (authorAffiliations?.length) {
+          authorAffiliations[0].data = model
+        }
+        authorsAndAffiliations.authors = authors
+        updateState({
+          authorsAndAffiliations,
+        })
+      }
       updateState({
         savingProcess: 'saving',
       })
