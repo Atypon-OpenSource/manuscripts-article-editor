@@ -77,7 +77,7 @@ export default class Api {
   }
 
   getProject = (projectID: string) => {
-    return this.post<Project>(`container/${projectID}/load`, { types: [] })
+    return this.post<Project>(`project/${projectID}/load`, { types: [] })
   }
 
   getProjectCollaborators = (projectID: string) => {
@@ -93,7 +93,7 @@ export default class Api {
   }
 
   getProjectModels = <T>(projectID: string, types: string[] = []) => {
-    return this.post<T[]>(`container/${projectID}/load`, { types })
+    return this.post<T[]>(`project/${projectID}/load`, { types })
   }
 
   deleteModel = (manuscriptID: string, modelID: string) => {
@@ -110,7 +110,7 @@ export default class Api {
   }
 
   getManuscript = (containerID: string, manuscriptID: string) =>
-    this.post<Model[]>(`/container/${containerID}/${manuscriptID}/load`, {
+    this.post<Model[]>(`/project/${containerID}/${manuscriptID}/load`, {
       types: [],
     })
 
@@ -119,7 +119,7 @@ export default class Api {
     manuscriptID: string,
     types: string[]
   ) =>
-    this.post<T[]>(`/container/${containerID}/${manuscriptID}/load`, {
+    this.post<T[]>(`/project/${containerID}/${manuscriptID}/load`, {
       types,
     })
 
@@ -161,7 +161,7 @@ export default class Api {
       )
     }
     return this.post<Manuscript>(
-      `container/projects/${projectID}/manuscript/${manuscriptID}`,
+      `project/projects/${projectID}/manuscript/${manuscriptID}`,
       {
         manuscriptID,
         templateID,
