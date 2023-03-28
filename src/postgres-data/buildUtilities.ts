@@ -132,6 +132,7 @@ const buildUtilities = (
       updateState({
         modelMap,
       })
+
       if (
         model.objectType === ObjectTypes.Contributor ||
         model.objectType === ObjectTypes.Affiliation
@@ -141,12 +142,12 @@ const buildUtilities = (
           (author: { _id: string }) =>
             author._id == model._id ? model : author
         )
-        const authorAffiliations =
-          authorsAndAffiliations.authorAffiliations.get(model._id)
-        if (authorAffiliations?.length) {
-          authorAffiliations[0].data = model
-        }
+
         authorsAndAffiliations.authors = authors
+        if (authorsAndAffiliations.affiliations.get(model._id)) {
+          authorsAndAffiliations.affiliations.set(model._id, model)
+        }
+
         updateState({
           authorsAndAffiliations,
         })
