@@ -35,6 +35,7 @@ export * from './store/ParentObserver'
 export { getUserRole } from './lib/roles'
 export { SaveStatusController } from './components/projects/lean-workflow/SaveStatusController'
 export { ExceptionDialog } from './components/projects/lean-workflow/ExceptionDialog'
+export { default as Api } from './postgres-data/Api'
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement
