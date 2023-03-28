@@ -104,7 +104,7 @@ const useTrackedModelManagement = (
           if (node.attrs.id === comment.target && !isHighlightComment) {
             tr.setNodeMarkup(pos, undefined, {
               ...node.attrs,
-              comments: [...node.attrs.comments, comment._id],
+              comments: [...(node.attrs.comments || []), comment._id],
             })
           }
           if (node.type === schema.nodes.comment_list) {
@@ -249,8 +249,8 @@ const useTrackedModelManagement = (
 
   const deleteTrackModel = useCallback(
     (id: string) => {
-      if (modelMap.get('id')?.objectType === ObjectTypes.CommentAnnotation) {
-        return deleteCommentNode(modelMap.get('id') as CommentAnnotation)
+      if (modelMap.get(id)?.objectType === ObjectTypes.CommentAnnotation) {
+        return deleteCommentNode(modelMap.get(id) as CommentAnnotation)
       }
 
       if (modelMap.has(id)) {

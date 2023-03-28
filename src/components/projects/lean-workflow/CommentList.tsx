@@ -259,7 +259,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
 
   const deleteComment = useCallback(
     (id: string) => {
-      const comment = newComment || (modelMap.get(id) as CommentAnnotation)
+      const comment = newComment || (trackModelMap.get(id) as CommentAnnotation)
       return deleteTrackModel(id)
         .then(() => {
           removeComment(id)
@@ -280,7 +280,14 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
           setSelectedHighlightId(undefined)
         })
     },
-    [deleteTrackModel, modelMap, newComment, removeComment, setComment, view]
+    [
+      deleteTrackModel,
+      trackModelMap,
+      newComment,
+      removeComment,
+      setComment,
+      view,
+    ]
   )
 
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
