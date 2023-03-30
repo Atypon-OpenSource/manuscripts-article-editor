@@ -17,7 +17,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../store'
-import LibraryPageContainer from './library/LibraryPageContainer'
 
 export const Main = styled.main`
   height: 100%;
@@ -43,8 +42,6 @@ const PageContainer = styled.div`
   font-family: ${(props) => props.theme.font.family.sans};
 `
 
-const LIBRARY = 'LIBRARY'
-
 export const Page: React.FunctionComponent<{ project?: Project }> = ({
   children,
   project: directProject,
@@ -58,17 +55,5 @@ export const Page: React.FunctionComponent<{ project?: Project }> = ({
     return null
   }
 
-  const selectContent = (enabled: string, children: React.ReactNode) => {
-    switch (enabled) {
-      // case COLLABORATOR:
-      //   return <CollaboratorsPageContainer />
-      //   break
-      case LIBRARY:
-        return <LibraryPageContainer />
-      default:
-        return children
-    }
-  }
-
-  return <PageContainer>{selectContent('', children)}</PageContainer>
+  return <PageContainer>{children}</PageContainer>
 }
