@@ -99,6 +99,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
       authorsAndAffiliations: store.authorsAndAffiliations,
     }
   })
+
   const handleSaveAuthorSate: (values: AuthorValues) => Promise<void> = async (
     values: AuthorValues
   ) => {
@@ -112,6 +113,49 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
     authorsAndAffiliations.authors = authors
     dispatch({ authorsAndAffiliations: authorsAndAffiliations })
   }
+
+  const removeAuthorSate: (values: Contributor) => Promise<void> = async (
+    values: Contributor
+  ) => {
+    removeAuthor({
+      ...values,
+    })
+    const authors = authorsAndAffiliations.authors.filter(
+      (author: { _id: string }) => author._id !== values._id
+    )
+
+    authorsAndAffiliations.authors = authors
+    dispatch({ authorsAndAffiliations: authorsAndAffiliations })
+  }
+
+  const handleUpdateAffiliation: (
+    affiliation: Affiliation
+  ) => Promise<void> = async (affiliation: Affiliation) => {
+    updateAffiliation({
+      ...affiliation,
+    })
+    authorsAndAffiliations.affiliations.set(affiliation._id, affiliation)
+    if (selectedAuthor != null) {
+      const authorAffiliation = authorsAndAffiliations.authorAffiliations.get(
+        selectedAuthor._id
+      )
+      if (authorAffiliation != null) {
+        const updatedAuthorAffiliation = authorAffiliation.map(
+          (authorAffiliation: { data: Affiliation; _id: string }) => {
+            return authorAffiliation.data._id == affiliation._id
+              ? { ...authorAffiliation, data: affiliation }
+              : authorAffiliation
+          }
+        )
+        authorsAndAffiliations.authorAffiliations.set(
+          selectedAuthor._id,
+          updatedAuthorAffiliation
+        )
+      }
+    }
+    dispatch({ authorsAndAffiliations: authorsAndAffiliations })
+  }
+
   return (
     <ModalBody>
       <AuthorsSidebar
@@ -136,10 +180,10 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
             handleSave={handleSaveAuthorSate}
             addAuthorAffiliation={addAuthorAffiliation}
             removeAuthorAffiliation={removeAuthorAffiliation}
-            updateAffiliation={updateAffiliation}
+            updateAffiliation={handleUpdateAffiliation}
             isRemoveAuthorOpen={isRemoveAuthorOpen}
             handleRemoveAuthor={handleRemoveAuthor}
-            removeAuthor={removeAuthor}
+            removeAuthor={removeAuthorSate}
             isRejected={isRejected}
             project={project}
             updateAuthor={updateAuthor}
