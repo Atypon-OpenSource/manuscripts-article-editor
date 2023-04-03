@@ -44,12 +44,12 @@ module.exports = {
   setupFiles: ['./src/setupTests.ts', 'jsdom-worker'],
   setupFilesAfterEnv: ['<rootDir>/node_modules/jest-enzyme/lib/index.js'],
   testPathIgnorePatterns: ['/node_modules/'],
-  testRegex: '/__tests__/.*\\.test\\.tsx?$',
+  testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(j|t)sx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!(lodash-es|@manuscripts|pdfjs-dist)/)',
+    '<rootDir>/node_modules/(?!(lodash-es|@manuscripts|pdfjs-dist|pretty-bytes)/)',
   ],
 }
