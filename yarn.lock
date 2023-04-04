@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.0.20":
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.20.tgz#9253475d30687f2b61d1c6ee259949e12b698630"
-  integrity sha512-uTSLBxPcGJOezgBF07A2q14N87pANosl7zQ/j4A815JCrXsVur05mal5BPgAUpF3s9r2ipea7hWzBbBj/nP29w==
+"@manuscripts/body-editor@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.21.tgz#2d9442303642b83fb1663c9196d5a42d91917276"
+  integrity sha512-ZKzGjHhJ/gkoCAqwz5xZ1i3DOMLuPEmk6sszos5jfOFdK1GvvvUM4XWM1H8teKpZ+Ael5u1P4T0ZADCm9DeYbg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1863,10 +1863,10 @@
     image-size "^1.0.2"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.4.tgz#a1edb3ba0817cccb82e159959915fa612a4b86b1"
-  integrity sha512-lo2GgQHcpHceq93V+ow0am75l3QmnDIFtpakGEyrzAxnUYitNW3vb21lcrnKHrV28g+6q59xZ2ujG7TL7wpAPw==
+"@manuscripts/style-guide@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.6.tgz#68fb8a73ddb3bf498bb3207a462c8f855feebcc2"
+  integrity sha512-MGCMZks4pLK2rxXMfgFTu1yddqJNemvzv1L9uWWK4eRjb7Vq64LKpjoRYReskXz1wwq2rTgg1mNoPuvPmkLMQA==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
