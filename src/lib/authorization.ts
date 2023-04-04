@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { AxiosRequestConfig } from 'axios'
+import { InternalAxiosRequestConfig } from 'axios'
 
 import tokenHandler from './token'
 
@@ -19,12 +19,14 @@ const anonymousRoutes = ['/auth/login', '/registration/signup']
 const isAuthenticatedRoute = (url?: string) =>
   url ? !anonymousRoutes.includes(url) : true
 
-export const authorizationInterceptor = (config: AxiosRequestConfig) => {
+export const authorizationInterceptor = (
+  config: InternalAxiosRequestConfig
+) => {
   if (isAuthenticatedRoute(config.url)) {
     const token = tokenHandler.get()
 
     if (token) {
-      config.headers.authorization = 'Bearer ' + token
+      config.headers?.common.setAuthorization('Bearer ' + token)
     }
   }
 
