@@ -1784,10 +1784,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.0.19-LEAN-1991":
-  version "1.0.19-LEAN-1991"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.19-LEAN-1991.tgz#4580a07f87104f1ddc78b4b4e41f3d74902549e2"
-  integrity sha512-180wofKya75ozP2DzyfffL0u2/svaIL50QmLObqTs5ihM2YW5YP8E+pLuLahLfK8aQ9FqIR27pT4z3jD7NjGgA==
+"@manuscripts/body-editor@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.0.21.tgz#2d9442303642b83fb1663c9196d5a42d91917276"
+  integrity sha512-ZKzGjHhJ/gkoCAqwz5xZ1i3DOMLuPEmk6sszos5jfOFdK1GvvvUM4XWM1H8teKpZ+Ael5u1P4T0ZADCm9DeYbg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     astrocite-eutils "^0.16.4"
@@ -1863,10 +1863,10 @@
     image-size "^1.0.2"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.0.5-LEAN-1991":
-  version "1.0.5-LEAN-1991"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.5-LEAN-1991.tgz#8a1d4dff9886a09339853bf0d81375d3eff143a6"
-  integrity sha512-Cew7DyeE8VD3eptIAmMKmFYRLn4mGUpVUn7TjJWuF+2BxWv3xq3KhAo7Py5aOWfOLcc81vwvogJvegr2pRZ8Ew==
+"@manuscripts/style-guide@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.6.tgz#68fb8a73ddb3bf498bb3207a462c8f855feebcc2"
+  integrity sha512-MGCMZks4pLK2rxXMfgFTu1yddqJNemvzv1L9uWWK4eRjb7Vq64LKpjoRYReskXz1wwq2rTgg1mNoPuvPmkLMQA==
   dependencies:
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
@@ -4538,13 +4538,6 @@ axe-core@^4.6.2:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.6.3.tgz#fc0db6fdb65cc7a80ccf85286d91d64ababa3ece"
   integrity sha512-/BQzOX780JhsxDnPpH4ZiyrJAzcd8AfzFPkv+89veFSr1rcMjuq2JDCwypKaPeB6ljHp9KjXhPpjgCvQlWYuqg==
-
-axios@^0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.2.tgz#21297d5084b2aeeb422f5d38e7be4fbb82239017"
-  integrity sha512-87otirqUw3e8CzHTMO+/9kh/FSgXt/eVDvipijwDtEuwbkySWZ9SBm6VEubmJ/kLKEoLQV/POhxXFb66bfekfg==
-  dependencies:
-    follow-redirects "^1.14.0"
 
 axios@^1.2.2:
   version "1.2.6"
@@ -7742,7 +7735,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-follow-redirects@^1.14.0, follow-redirects@^1.15.0:
+follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
