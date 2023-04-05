@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "1.0.4",
+  "version": "1.0.24",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -50,7 +50,7 @@
     "@manuscripts/transform": "^1.1.2",
     "@reach/tabs": "^0.11.2",
     "autotrack": "^2.4.1",
-    "axios": "^0.20.0",
+    "axios": "^1.2.2",
     "blob-to-buffer": "^1.2.9",
     "broadcast-channel": "2.1.12",
     "fuzzysort": "^2.0.4",
@@ -174,7 +174,7 @@
   "peerDependencies": {
     "@apollo/client": "^3.7.3",
     "@apollo/react-hooks": "^4.0.0",
-    "@manuscripts/assets": "^0.6.1",
+    "@manuscripts/assets": "^0.6.2",
     "@manuscripts/json-schema": "^1.0.0",
     "@manuscripts/library": "^1.0.2",
     "@manuscripts/quarterback-types": "^0.2.2",

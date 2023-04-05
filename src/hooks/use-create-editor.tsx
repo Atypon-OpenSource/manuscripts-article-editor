@@ -24,6 +24,7 @@ import { useHistory } from 'react-router'
 
 import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
+import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import config from '../config'
 import { useAuthStore } from '../quarterback/useAuthStore'
@@ -141,6 +142,7 @@ export const useCreateEditor = () => {
     },
     unmountReactComponent: ReactDOM.unmountComponentAtNode,
     components: {
+      ReferencesEditor,
       ReferencesViewer,
       CitationEditor,
       CitationViewer,
