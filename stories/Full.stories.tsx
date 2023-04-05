@@ -26,9 +26,6 @@ storiesOf('Full', module).add('default', () => (
       replace: () => {
         return Promise.resolve(true)
       },
-      changeDesignation: () => {
-        return Promise.resolve(true)
-      },
     }}
     parentObserver={new ParentObserver()}
     permittedActions={[]}
