@@ -94,12 +94,14 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   createContributorRole,
   allowInvitingAuthors,
 }) => {
-  const [{ authorsAndAffiliations }, dispatch] = useStore((store) => {
-    return {
-      authorsAndAffiliations: store.authorsAndAffiliations,
-    }
-  })
-
+  const [{ authorsAndAffiliations, storedContributorRoles }, dispatch] =
+    useStore((store) => {
+      return {
+        authorsAndAffiliations: store.authorsAndAffiliations,
+        storedContributorRoles: store.contributorRoles,
+      }
+    })
+  // handle save author state
   const handleSaveAuthorSate: (values: AuthorValues) => Promise<void> = async (
     values: AuthorValues
   ) => {
@@ -113,7 +115,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
     authorsAndAffiliations.authors = authors
     dispatch({ authorsAndAffiliations: authorsAndAffiliations })
   }
-
+  // handle remove author state
   const removeAuthorSate: (values: Contributor) => Promise<void> = async (
     values: Contributor
   ) => {
@@ -127,7 +129,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
     authorsAndAffiliations.authors = authors
     dispatch({ authorsAndAffiliations: authorsAndAffiliations })
   }
-
+  // handle update author Affiliations
   const handleUpdateAffiliation: (
     affiliation: Affiliation
   ) => Promise<void> = async (affiliation: Affiliation) => {
@@ -154,6 +156,16 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
       }
     }
     dispatch({ authorsAndAffiliations: authorsAndAffiliations })
+  }
+  // handle ceate contributor role
+  const handleCreateContributorRole = async (name: string) => {
+    const contributorRole = await createContributorRole(name)
+
+    storedContributorRoles.push(contributorRole)
+
+    dispatch({ storedContributorRoles: storedContributorRoles })
+
+    return contributorRole
   }
 
   return (
@@ -190,7 +202,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
             getAuthorName={getAuthorName}
             tokenActions={tokenActions}
             contributorRoles={contributorRoles}
-            createContributorRole={createContributorRole}
+            createContributorRole={handleCreateContributorRole}
             allowInvitingAuthors={allowInvitingAuthors}
           />
         ) : (
