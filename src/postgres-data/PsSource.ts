@@ -11,6 +11,7 @@
  */
 import { SubmissionAttachment } from '@manuscripts/style-guide'
 
+import deeperEqual from '../lib/deeper-equal'
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import Api from './Api'
@@ -56,7 +57,7 @@ export default class PsSource implements StoreDataSourceStrategy {
     setState
   ) => {
     //  please check if that's equality check is good enough
-    if (state.modelMap !== prev.modelMap) {
+    if (deeperEqual(state.modelMap, prev.modelMap)) {
       setState((state) => ({
         ...state,
         ...getDrivedData(state.projectID, state),
