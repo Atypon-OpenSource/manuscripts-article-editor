@@ -161,7 +161,7 @@ export const BibliographyImportButton: React.FC<{
           return
         }
 
-        const { ext } = pathParse(file.name)
+        const ext = file.type.split('/').pop() || ''
         const items = await parseBibliography(text, ext)
 
         if (!items || !items.length) {
