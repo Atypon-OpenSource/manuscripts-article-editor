@@ -182,7 +182,8 @@ export const useCreateEditor = () => {
 
   const editor = useEditor(
     ManuscriptsEditor.createState(editorProps),
-    ManuscriptsEditor.createView(editorProps)
+    ManuscriptsEditor.createView(editorProps),
+    editorProps
   )
 
   return editor
