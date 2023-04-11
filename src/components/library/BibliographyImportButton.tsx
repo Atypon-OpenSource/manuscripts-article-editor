@@ -16,7 +16,6 @@ import { BibliographyItem } from '@manuscripts/json-schema'
 import { parseBibliography } from '@manuscripts/library'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import { Build, buildBibliographyItem } from '@manuscripts/transform'
-import pathParse from 'path-parse'
 import React, { useCallback, useContext, useState } from 'react'
 
 import { FileExtensionError } from '../../lib/errors'
@@ -105,7 +104,7 @@ const openFilePicker = (
     input.addEventListener('change', () => {
       if (input.files && input.files.length) {
         for (const file of input.files) {
-          const { ext } = pathParse(file.name)
+          const ext = file.type.split('/').pop() || ''
           const extension = ext.toLowerCase()
 
           if (!acceptedExtensions.includes(extension)) {
