@@ -11,12 +11,12 @@
  */
 
 // https://github.com/pubkey/broadcast-channel#clear-tmp-folder
-import BroadcastChannel from 'broadcast-channel'
+import { clearNodeFolder } from 'broadcast-channel'
 
 // This is used for testing, and is allowed to fail if the folder doesn't exist
 export const clearChannelFolder = async () => {
   try {
-    await BroadcastChannel.clearNodeFolder({
+    await clearNodeFolder({
       type: 'node',
     })
   } catch (error) {
