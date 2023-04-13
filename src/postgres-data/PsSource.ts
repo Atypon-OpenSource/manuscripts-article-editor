@@ -11,10 +11,11 @@
  */
 import { SubmissionAttachment } from '@manuscripts/style-guide'
 
+import deeperEqual from '../lib/deeper-equal'
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import Api from './Api'
-import buildData from './buildData'
+import buildData, { getDrivedData } from './buildData'
 import buildUtilities from './buildUtilities'
 
 export default class PsSource implements StoreDataSourceStrategy {
@@ -50,7 +51,18 @@ export default class PsSource implements StoreDataSourceStrategy {
     }
     next({ ...state, ...this.data, ...this.utilities })
   }
-  afterAction: StoreDataSourceStrategy['afterAction'] = (state, setState) => {
+  afterAction: StoreDataSourceStrategy['afterAction'] = (
+    state,
+    prev,
+    setState
+  ) => {
+    //  please check if that's equality check is good enough
+    if (!deeperEqual(state.modelMap, prev.modelMap)) {
+      setState((state) => ({
+        ...state,
+        ...getDrivedData(state.projectID, state),
+      }))
+    }
     return
   }
   updateStore = (setState: stateSetter) => {

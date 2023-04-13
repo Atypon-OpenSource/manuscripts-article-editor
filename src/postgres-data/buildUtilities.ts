@@ -115,7 +115,8 @@ const buildUtilities = (
       ...containerIDs,
     }
 
-    const modelMap = data.modelMap.set(containedModel._id, newModel)
+    const modelMap = new Map(data.modelMap)
+    modelMap.set(containedModel._id, newModel)
 
     // const { attachment, ...containedModeldata } = containedModel as T &
     //   ContainedProps &

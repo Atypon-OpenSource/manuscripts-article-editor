@@ -93,125 +93,49 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   contributorRoles,
   createContributorRole,
   allowInvitingAuthors,
-}) => {
-  const [{ authorsAndAffiliations, storedContributorRoles }, dispatch] =
-    useStore((store) => {
-      return {
-        authorsAndAffiliations: store.authorsAndAffiliations,
-        storedContributorRoles: store.contributorRoles,
-      }
-    })
-  // handle save author state
-  const handleSaveAuthorSate: (values: AuthorValues) => Promise<void> = async (
-    values: AuthorValues
-  ) => {
-    await handleSaveAuthor({
-      ...values,
-    })
-    const authors = authorsAndAffiliations.authors.map(
-      (author: { _id: string }) => (author._id == values._id ? values : author)
-    )
-
-    authorsAndAffiliations.authors = authors
-    dispatch({ authorsAndAffiliations: authorsAndAffiliations })
-  }
-  // handle remove author state
-  const removeAuthorSate: (values: Contributor) => Promise<void> = async (
-    values: Contributor
-  ) => {
-    removeAuthor({
-      ...values,
-    })
-    const authors = authorsAndAffiliations.authors.filter(
-      (author: { _id: string }) => author._id !== values._id
-    )
-
-    authorsAndAffiliations.authors = authors
-    dispatch({ authorsAndAffiliations: authorsAndAffiliations })
-  }
-  // handle update author Affiliations
-  const handleUpdateAffiliation: (
-    affiliation: Affiliation
-  ) => Promise<void> = async (affiliation: Affiliation) => {
-    updateAffiliation({
-      ...affiliation,
-    })
-    authorsAndAffiliations.affiliations.set(affiliation._id, affiliation)
-    if (selectedAuthor != null) {
-      const authorAffiliation = authorsAndAffiliations.authorAffiliations.get(
-        selectedAuthor._id
-      )
-      if (authorAffiliation != null) {
-        const updatedAuthorAffiliation = authorAffiliation.map(
-          (authorAffiliation: { data: Affiliation; _id: string }) => {
-            return authorAffiliation.data._id == affiliation._id
-              ? { ...authorAffiliation, data: affiliation }
-              : authorAffiliation
+}) => (
+  <ModalBody>
+    <AuthorsSidebar
+      authors={authors}
+      authorAffiliations={authorAffiliations}
+      selectAuthor={selectAuthor}
+      selectedAuthor={selectedAuthor}
+      openAddAuthors={openAddAuthors}
+      handleDrop={handleDrop}
+      getSidebarItemDecorator={getSidebarItemDecorator}
+      invitationSent={invitationSent}
+      handleDismiss={handleDismiss}
+    />
+    <ScrollableModalMain>
+      {selectedAuthor ? (
+        <AuthorFormContainer
+          author={selectedAuthor}
+          affiliations={affiliations}
+          authorAffiliations={
+            authorAffiliations.get(selectedAuthor._id) as AuthorAffiliation[]
           }
-        )
-        authorsAndAffiliations.authorAffiliations.set(
-          selectedAuthor._id,
-          updatedAuthorAffiliation
-        )
-      }
-    }
-    dispatch({ authorsAndAffiliations: authorsAndAffiliations })
-  }
-  // handle ceate contributor role
-  const handleCreateContributorRole = async (name: string) => {
-    const contributorRole = await createContributorRole(name)
-
-    storedContributorRoles.push(contributorRole)
-
-    dispatch({ storedContributorRoles: storedContributorRoles })
-
-    return contributorRole
-  }
-
-  return (
-    <ModalBody>
-      <AuthorsSidebar
-        authors={authors}
-        authorAffiliations={authorAffiliations}
-        selectAuthor={selectAuthor}
-        selectedAuthor={selectedAuthor}
-        openAddAuthors={openAddAuthors}
-        handleDrop={handleDrop}
-        getSidebarItemDecorator={getSidebarItemDecorator}
-        invitationSent={invitationSent}
-        handleDismiss={handleDismiss}
-      />
-      <ScrollableModalMain>
-        {selectedAuthor ? (
-          <AuthorFormContainer
-            author={selectedAuthor}
-            affiliations={affiliations}
-            authorAffiliations={
-              authorAffiliations.get(selectedAuthor._id) as AuthorAffiliation[]
-            }
-            handleSave={handleSaveAuthorSate}
-            addAuthorAffiliation={addAuthorAffiliation}
-            removeAuthorAffiliation={removeAuthorAffiliation}
-            updateAffiliation={handleUpdateAffiliation}
-            isRemoveAuthorOpen={isRemoveAuthorOpen}
-            handleRemoveAuthor={handleRemoveAuthor}
-            removeAuthor={removeAuthorSate}
-            isRejected={isRejected}
-            project={project}
-            updateAuthor={updateAuthor}
-            getAuthorName={getAuthorName}
-            tokenActions={tokenActions}
-            contributorRoles={contributorRoles}
-            createContributorRole={handleCreateContributorRole}
-            allowInvitingAuthors={allowInvitingAuthors}
-          />
-        ) : (
-          <AuthorDetailsPage />
-        )}
-      </ScrollableModalMain>
-    </ModalBody>
-  )
-}
+          handleSave={handleSaveAuthor}
+          addAuthorAffiliation={addAuthorAffiliation}
+          removeAuthorAffiliation={removeAuthorAffiliation}
+          updateAffiliation={updateAffiliation}
+          isRemoveAuthorOpen={isRemoveAuthorOpen}
+          handleRemoveAuthor={handleRemoveAuthor}
+          removeAuthor={removeAuthor}
+          isRejected={isRejected}
+          project={project}
+          updateAuthor={updateAuthor}
+          getAuthorName={getAuthorName}
+          tokenActions={tokenActions}
+          contributorRoles={contributorRoles}
+          createContributorRole={createContributorRole}
+          allowInvitingAuthors={allowInvitingAuthors}
+        />
+      ) : (
+        <AuthorDetailsPage />
+      )}
+    </ScrollableModalMain>
+  </ModalBody>
+)
 
 interface AddAuthorsProps {
   nonAuthors: UserProfile[]
