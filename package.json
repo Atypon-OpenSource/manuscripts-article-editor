@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "1.0.26-LEAN-2063-v7",
+  "version": "1.0.26-LEAN-2063-v8",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -37,7 +37,7 @@
     "@fontsource/pt-sans": "^4.5.11",
     "@fontsource/pt-serif": "^4.5.11",
     "@manuscripts/assets": "^0.6.1",
-    "@manuscripts/body-editor": "^1.1.2-LEAN-2063-v7",
+    "@manuscripts/body-editor": "^1.1.2-LEAN-2063-v8",
     "@manuscripts/comment-editor": "^1.0.1",
     "@manuscripts/data": "^0.1.11",
     "@manuscripts/json-schema": "^1.0.0",
