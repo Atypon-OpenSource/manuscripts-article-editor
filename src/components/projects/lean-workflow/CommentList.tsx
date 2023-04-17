@@ -63,7 +63,6 @@ const cleanUpSelectedComment = () => {
 export const CommentList: React.FC<Props> = ({ editor }) => {
   const [
     {
-      comments = [],
       comment,
       doc,
       user,
@@ -71,12 +70,12 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       collaboratorsById,
       keywords,
       modelMap,
+      trackModelMap,
       saveTrackModel,
       deleteTrackModel,
     },
     dispatch,
   ] = useStore((store) => ({
-    comments: store.comments,
     doc: store.doc,
     notes: store.notes,
     user: store.user,
@@ -85,6 +84,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     keywords: store.keywords,
     manuscriptID: store.manuscriptID,
     modelMap: store.modelMap,
+    trackModelMap: store.trackModelMap,
     saveTrackModel: store.saveTrackModel,
     deleteTrackModel: store.deleteTrackModel,
     comment: store.comment,
@@ -92,6 +92,16 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   const { state, view } = editor
 
   const [newComment, setNewComment] = useState<CommentAnnotation>()
+
+  const comments = useMemo(
+    () =>
+      getModelsByType<CommentAnnotation>(
+        trackModelMap,
+        ObjectTypes.CommentAnnotation
+      ),
+    [trackModelMap]
+  )
+
   const createKeyword = useCallback(
     (name: string) => saveTrackModel(buildKeyword(name)),
     [saveTrackModel]
@@ -249,7 +259,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
 
   const deleteComment = useCallback(
     (id: string) => {
-      const comment = newComment || (modelMap.get(id) as CommentAnnotation)
+      const comment = newComment || (trackModelMap.get(id) as CommentAnnotation)
       return deleteTrackModel(id)
         .then(() => {
           removeComment(id)
@@ -270,7 +280,14 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
           setSelectedHighlightId(undefined)
         })
     },
-    [deleteTrackModel, modelMap, newComment, removeComment, setComment, view]
+    [
+      deleteTrackModel,
+      trackModelMap,
+      newComment,
+      removeComment,
+      setComment,
+      view,
+    ]
   )
 
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
