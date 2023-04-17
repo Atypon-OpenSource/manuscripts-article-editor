@@ -1903,20 +1903,20 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.1.0-hot-loader":
-  version "1.1.0-hot-loader"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.0-hot-loader.tgz#fd157c124470b164d393d2629fd70b6ebdc3bd1e"
-  integrity sha512-KB1Fliremk0zkzjl00+MFIbZFTxXfCPKqC758fjqslZPXwrc47xnUs9WOvPWltu6NvnbQOlW810WOtmXjnSNeA==
+"@manuscripts/body-editor@1.1.0-hot-loader-2":
+  version "1.1.0-hot-loader-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.0-hot-loader-2.tgz#4c2664422ab0f60dff294122ac29a91ed8e3a911"
+  integrity sha512-cslx4ORzuBZL63aribMNN6Qj02tB4k09xZ3zFH2X0TQVTUqhFcD+fY6A9Bjy6G6Q/eNPmLIUXlU7lTvlhOsTnw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^1.0.0"
-    "@manuscripts/library" "^1.0.2"
+    "@manuscripts/library" "1.0.2-vite-support"
     "@manuscripts/style-guide" "^1.0.7"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.2.0"
-    "@manuscripts/transform" "^1.1.2"
+    "@manuscripts/transform" "1.1.4-vite-support"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1997,10 +1997,10 @@
     deepmerge "^4.2.2"
     js-beautify "^1.14.7"
 
-"@manuscripts/library@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.0.2.tgz#8a12aa6c1e63fe14b267deddd064d7ea8d378f42"
-  integrity sha512-dEMV7IcoSx8wmlmFZIpV6HrK3ujoya11NWavXJ4DP+KLbR2ajBBYoHZUNgKugKcIqsLh8dPmBeGXC9rZ61xw+w==
+"@manuscripts/library@1.0.2-vite-support":
+  version "1.0.2-vite-support"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.0.2-vite-support.tgz#f7e816781c961161571e4ceac68c451e0093ae75"
+  integrity sha512-twqN5YgN3ds+qFvlNtLrT0ouoNLyV/o+CIOx6ss4E7+NKZUrutgF4H8qfFiPh7bbkFfhWy/QFMYpM8xf2FQjnA==
   dependencies:
     "@manuscripts/data" "^0.1.12"
     "@manuscripts/json-schema" "^1.0.0"
@@ -2106,6 +2106,20 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@1.1.4-vite-support":
+  version "1.1.4-vite-support"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.4-vite-support.tgz#d649888d911db012eb042fea15a9c3cdf872fedb"
+  integrity sha512-NPQqZzDJr4wF5rbp9MAoiwW/pR7aQWXRg6td/qQqA8TAQMj6lWQHuR0lShctlK7JRwI/hcDZZ+eJVBYW6hxEBg==
+  dependencies:
+    "@manuscripts/json-schema" "^1.0.0"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@^1.1.1":
   version "1.1.1"
