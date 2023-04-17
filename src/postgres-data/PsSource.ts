@@ -56,7 +56,6 @@ export default class PsSource implements StoreDataSourceStrategy {
     prev,
     setState
   ) => {
-    //  please check if that's equality check is good enough
     if (!deeperEqual(state.modelMap, prev.modelMap)) {
       setState((state) => ({
         ...state,
