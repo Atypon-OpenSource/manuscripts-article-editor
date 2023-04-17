@@ -18,6 +18,7 @@ import { CommentAnnotation, Model } from '@manuscripts/json-schema'
 import { getLWCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build } from '@manuscripts/transform'
+import { memoize } from 'lodash'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
@@ -69,6 +70,10 @@ export const useCreateEditor = () => {
     fileManagement: store.fileManagement,
   }))
   const { user: trackUser } = useAuthStore()
+
+  const getCapabilities = memoize((project, user, permittedActions) =>
+    getLWCapabilities(project, user, undefined, permittedActions)
+  )
 
   const popper = useRef<PopperManager>(new PopperManager())
 
@@ -153,13 +158,7 @@ export const useCreateEditor = () => {
     submissionId,
     getCapabilities: () => {
       const state = getState()
-
-      return getLWCapabilities(
-        state.project,
-        state.user,
-        undefined,
-        state.permittedActions
-      )
+      return getCapabilities(state.project, state.user, state.permittedActions)
     },
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
