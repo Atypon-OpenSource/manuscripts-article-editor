@@ -175,11 +175,6 @@ const ManuscriptPageView: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
-  useEffect(() => {
-    storeDispatch({ updateEditorProps: editor.updateEditorProps })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeDispatch])
-
   return (
     <RequirementsProvider modelMap={modelMap}>
       <UserProvider

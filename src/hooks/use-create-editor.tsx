@@ -15,7 +15,7 @@ import {
   useEditor,
 } from '@manuscripts/body-editor'
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
-import { usePermissions } from '@manuscripts/style-guide'
+import { getLWCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build } from '@manuscripts/transform'
 import React, { ReactChild, ReactNode, useRef } from 'react'
@@ -70,7 +70,6 @@ export const useCreateEditor = () => {
   }))
   const { user: trackUser } = useAuthStore()
 
-  const can = usePermissions()
   const popper = useRef<PopperManager>(new PopperManager())
 
   const retrySync = (componentIDs: string[]) => {
@@ -152,7 +151,16 @@ export const useCreateEditor = () => {
     commit: commitAtLoad || null,
     theme,
     submissionId,
-    capabilities: can,
+    getCapabilities: () => {
+      const state = getState()
+
+      return getLWCapabilities(
+        state.project,
+        state.user,
+        undefined,
+        state.permittedActions
+      )
+    },
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
     uploadAttachment: async (designation: string, file: File) => {
@@ -182,8 +190,7 @@ export const useCreateEditor = () => {
 
   const editor = useEditor(
     ManuscriptsEditor.createState(editorProps),
-    ManuscriptsEditor.createView(editorProps),
-    editorProps
+    ManuscriptsEditor.createView(editorProps)
   )
 
   return editor

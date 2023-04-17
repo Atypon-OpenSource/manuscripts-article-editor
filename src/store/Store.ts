@@ -128,7 +128,6 @@ export type state = {
     manuscript: Manuscript,
     updatedModels: ManuscriptModel[]
   ) => Promise<Manuscript>
-  updateEditorProps: (updatedProps: unknown) => void
   getInvitation?: (
     invitingUserID: string,
     invitedEmail: string
