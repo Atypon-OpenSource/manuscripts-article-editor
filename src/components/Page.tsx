@@ -12,16 +12,11 @@
 
 import '@manuscripts/style-guide/styles/tip.css'
 
-import EditProjectIcon from '@manuscripts/assets/react/EditProjectIcon'
-import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { Project } from '@manuscripts/json-schema'
-import { Tip } from '@manuscripts/style-guide'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../store'
-import LibraryPageContainer from './library/LibraryPageContainer'
-import { Support } from './Support'
 
 export const Main = styled.main`
   height: 100%;
@@ -47,123 +42,18 @@ const PageContainer = styled.div`
   font-family: ${(props) => props.theme.font.family.sans};
 `
 
-const ViewsBar = styled.div`
-  align-items: center;
-  background-color: ${(props) => props.theme.colors.border.tertiary};
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  width: 56px;
-`
-
-const IconBar = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  width: 100%;
-
-  div {
-    margin: ${(props) => props.theme.grid.unit * 5}px 0 0;
-    text-align: center;
-    width: 56px;
-  }
-`
-
-const ViewLink = styled.button`
-  background: transparent;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  border: none;
-  align-items: center;
-  color: ${(props) => props.theme.colors.button.secondary.color.default};
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: ${(props) => props.theme.grid.unit * 8}px;
-
-  &:hover {
-    color: ${(props) => props.theme.colors.brand.medium};
-  }
-  &.active {
-    color: ${(props) => props.theme.colors.brand.medium};
-    background: ${(props) => props.theme.colors.brand.xlight};
-  }
-`
-
-const StyledEditProjectIcon = styled(EditProjectIcon)`
-  g {
-    stroke: currentColor;
-  }
-`
-
-const ProjectLibraryIcon = styled(ReferenceLibraryIcon)`
-  path {
-    stroke: currentColor;
-  }
-`
-
-const LIBRARY = 'LIBRARY'
-
 export const Page: React.FunctionComponent<{ project?: Project }> = ({
   children,
   project: directProject,
 }) => {
-  const [{ storeProject, tokenData }] = useStore((store) => ({
+  const [{ tokenData }] = useStore((store) => ({
     storeProject: store.project,
     tokenData: store.tokenData,
   }))
-
-  const [enabled, setEnabled] = useState('')
 
   if (!tokenData) {
     return null
   }
 
-  const selectContent = (enabled: string, children: React.ReactNode) => {
-    switch (enabled) {
-      // case COLLABORATOR:
-      //   return <CollaboratorsPageContainer />
-      //   break
-      case LIBRARY:
-        return <LibraryPageContainer />
-      default:
-        return children
-    }
-  }
-
-  const project = directProject || storeProject
-
-  return (
-    <PageContainer>
-      {project && (
-        <ViewsBar>
-          <IconBar>
-            <Tip title={'Edit ⌥⌘3'} placement={'right'}>
-              <ViewLink
-                className={!enabled ? 'active' : ''}
-                onClick={() => setEnabled('')}
-              >
-                <StyledEditProjectIcon />
-              </ViewLink>
-            </Tip>
-
-            <Tip title={'Library ⌥⌘4'} placement={'right'}>
-              <ViewLink
-                className={enabled === LIBRARY ? 'active' : ''}
-                onClick={() => setEnabled(LIBRARY)}
-              >
-                <ProjectLibraryIcon />
-              </ViewLink>
-            </Tip>
-          </IconBar>
-
-          <Support />
-        </ViewsBar>
-      )}
-
-      {selectContent(enabled, children)}
-    </PageContainer>
-  )
+  return <PageContainer>{children}</PageContainer>
 }
