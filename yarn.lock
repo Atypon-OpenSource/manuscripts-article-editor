@@ -1903,20 +1903,20 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.1.0-hot-loader-3":
-  version "1.1.0-hot-loader-3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.0-hot-loader-3.tgz#b6e1b329df19d7657a5e86806ada3caded3e911f"
-  integrity sha512-kFJ1/8PxhQhTevV3Ls37GSSuhQMTFdciFEZo+TxPKna78vv9cuUWOIvel7KxPyQEOULw1lCgwZr97sikxD2vtw==
+"@manuscripts/body-editor@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.3.tgz#21ee5420da4e1bc2d0f7ee94166dce0fbfe3b346"
+  integrity sha512-nXwVhMmMGL86e0AUXwMGv4vI4ddg7ujHw5zcl3anfsT+vlPe//cgXF5Wifv5G01csPSOaeyr2VUuFS7KmsUgig==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.1"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^1.0.0"
-    "@manuscripts/library" "1.0.2-vite-support-2"
+    "@manuscripts/library" "^1.0.3"
     "@manuscripts/style-guide" "^1.0.7"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.2.0"
-    "@manuscripts/transform" "1.1.4"
+    "@manuscripts/transform" "^1.1.4"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1997,10 +1997,10 @@
     deepmerge "^4.2.2"
     js-beautify "^1.14.7"
 
-"@manuscripts/library@1.0.2-vite-support-2":
-  version "1.0.2-vite-support-2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.0.2-vite-support-2.tgz#59e8bc994a999bc1cceb8bd20c291306b4de606d"
-  integrity sha512-biBLa1t/mNeCdHjl6FDC2cMfTAoFjNY15fx2hI0iHZRVJdnYsd3JoOkHxUbsP8Uzb2Fw1CTK+53fad9pUrHLxw==
+"@manuscripts/library@1.0.3", "@manuscripts/library@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.0.3.tgz#b985314e59072d17b18242c7e7b406ee91b10650"
+  integrity sha512-j2V8jUfsfx63SStgQa55j4rlg+8O9Zu0VZsZjIA5LD36Us4HbW6faZZzZwjbknwh5CktPgW1XSSEvl0MtQw6qw==
   dependencies:
     "@manuscripts/data" "^0.1.12"
     "@manuscripts/json-schema" "^1.0.0"
@@ -2120,7 +2120,7 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.1.4":
+"@manuscripts/transform@1.1.4", "@manuscripts/transform@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.4.tgz#3754516c90fdc6c769298577e4a599381f5d3ae8"
   integrity sha512-cdR0poIcMipsib9RBOPvo6OWB86rYvVGKEjC/5PZ0M7tIUggk4eKSw+lw3Q0eS6e3pKusj/7fWAQgTyB7Dhd3Q==
