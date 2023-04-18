@@ -66,7 +66,7 @@ Deploy the files to S3 with `scripts/deploy.sh`.
 1. `cp .env.example .env`. The variables listed in `.env.example` have appropriate default values for running in a mode where the backend API server is running locally (this is optional, and you can complete local development tasks in the absence of the backend services). See steps below under "Running the backend API in Docker" for steps to launch the API server locally.
 2. Run `docker volume create --name=yarn-cache` to create a yarn cache for the backend services that you will launch in the next step. This step is only needed once.
 3. `docker-compose up jupyter` to start the services needed for development.
-4. `yarn start` to start the app in development mode (using `webpack-dev-server` and `react-hot-loader`).
+4. `yarn start` to start the app in development mode (using `webpack-dev-server`).
 5. To avoid signing up an account, open `http://localhost:8080/developer` to create a dummy user profile. Now you're good to go.
 
 ## Running the backend API in Docker
