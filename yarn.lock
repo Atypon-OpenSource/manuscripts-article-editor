@@ -1997,20 +1997,6 @@
     deepmerge "^4.2.2"
     js-beautify "^1.14.7"
 
-"@manuscripts/library@1.0.2-vite-support":
-  version "1.0.2-vite-support"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.0.2-vite-support.tgz#f7e816781c961161571e4ceac68c451e0093ae75"
-  integrity sha512-twqN5YgN3ds+qFvlNtLrT0ouoNLyV/o+CIOx6ss4E7+NKZUrutgF4H8qfFiPh7bbkFfhWy/QFMYpM8xf2FQjnA==
-  dependencies:
-    "@manuscripts/data" "^0.1.12"
-    "@manuscripts/json-schema" "^1.0.0"
-    "@manuscripts/transform" "^1.1.2"
-    astrocite-bibtex "^0.16.4"
-    astrocite-ris "^0.16.4"
-    citeproc "^2.4.62"
-    fontoxpath "^3.28.2"
-    prosemirror-model "^1.18.3"
-
 "@manuscripts/library@1.0.2-vite-support-2":
   version "1.0.2-vite-support-2"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.0.2-vite-support-2.tgz#59e8bc994a999bc1cceb8bd20c291306b4de606d"
