@@ -44,7 +44,7 @@
     "@manuscripts/library": "1.0.3",
     "@manuscripts/quarterback-types": "^0.2.2",
     "@manuscripts/requirements": "^1.0.3",
-    "@manuscripts/style-guide": "1.0.6",
+    "@manuscripts/style-guide": "1.0.6-LEAN-2306",
     "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.2.0",
     "@manuscripts/transform": "1.1.4",
