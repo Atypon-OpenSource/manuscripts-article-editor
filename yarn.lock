@@ -1903,20 +1903,20 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.3.tgz#21ee5420da4e1bc2d0f7ee94166dce0fbfe3b346"
-  integrity sha512-nXwVhMmMGL86e0AUXwMGv4vI4ddg7ujHw5zcl3anfsT+vlPe//cgXF5Wifv5G01csPSOaeyr2VUuFS7KmsUgig==
+"@manuscripts/body-editor@1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.4.tgz#abe1a88e0e577c60bc2fc901577430d89ce1de59"
+  integrity sha512-wVAR0f3kU8tBmOuRi48Wj6CdIbbV/IP6BuDn4rT6X+vwg5DerIFlXSxY/u3/EfJ90F6NRaImsSU8sohaGQNZKg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
-    "@manuscripts/assets" "^0.6.1"
+    "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^1.0.0"
     "@manuscripts/library" "^1.0.3"
     "@manuscripts/style-guide" "^1.0.7"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.2.0"
-    "@manuscripts/transform" "^1.1.4"
+    "@manuscripts/transform" "^1.1.5"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -2120,10 +2120,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.1.4", "@manuscripts/transform@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.4.tgz#3754516c90fdc6c769298577e4a599381f5d3ae8"
-  integrity sha512-cdR0poIcMipsib9RBOPvo6OWB86rYvVGKEjC/5PZ0M7tIUggk4eKSw+lw3Q0eS6e3pKusj/7fWAQgTyB7Dhd3Q==
+"@manuscripts/transform@1.1.5", "@manuscripts/transform@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.5.tgz#60832577890bbadcb8a98d0d9797caafe16fe64f"
+  integrity sha512-Q4O3q0qXh0qZyqbTtkSpzJZeP/ySgLA5aTeDX1KzjIeKyZX56P+l9I/zYGl40kmna0pi5ejFQCYGgP3gQw4ukQ==
   dependencies:
     "@manuscripts/json-schema" "^1.0.0"
     debug "^4.3.4"
