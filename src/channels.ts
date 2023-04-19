@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-import BroadcastChannel from 'broadcast-channel'
+import { BroadcastChannel } from 'broadcast-channel'
 
 export const channels = {
   logout: new BroadcastChannel('logout'),
