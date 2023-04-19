@@ -64,7 +64,6 @@ module.exports = ({ config, mode }) => {
     // react: require.resolve('react'),
     'react/jsx-runtime': require.resolve('react/jsx-runtime'),
     'react-dom': require.resolve('react-dom'),
-    'react-hot-loader': require.resolve('react-hot-loader'),
     'styled-components': require.resolve('styled-components'),
   }
 
@@ -76,7 +75,7 @@ module.exports = ({ config, mode }) => {
     fs: false,
     path: false,
     stream: false,
-    crypto: false
+    crypto: false,
   }
   return config
 }
