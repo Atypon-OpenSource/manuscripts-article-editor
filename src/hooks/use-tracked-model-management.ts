@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Model, ObjectTypes } from '@manuscripts/json-schema'
+import { CommentAnnotation, Model, ObjectTypes } from '@manuscripts/json-schema'
 import { SubmissionAttachment } from '@manuscripts/style-guide'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
@@ -76,8 +76,112 @@ const useTrackedModelManagement = (
     }
   }
 
+  const saveCommentNode = useCallback(
+    (comment: CommentAnnotation) => {
+      if (!view) {
+        throw Error('View not available')
+      }
+
+      const documentComment = {
+        id: comment._id,
+        contents: comment.contents,
+        target: comment.target,
+        selector: comment.selector,
+        contributions: comment.contributions,
+        resolved: comment.resolved,
+        originalText: comment.originalText,
+      }
+      const isNewComment = !modelMap.has(comment._id)
+      const isHighlightComment =
+        comment.selector && comment.selector.from !== comment.selector.to
+
+      const { tr } = state
+      doc.descendants((node, pos) => {
+        if (isNewComment || isHighlightComment) {
+          /** for new comments will update target comments array with the comment id
+           *  and add comment node to the comment list node
+           * */
+          if (node.attrs.id === comment.target && !isHighlightComment) {
+            tr.setNodeMarkup(pos, undefined, {
+              ...node.attrs,
+              comments: [...(node.attrs.comments || []), comment._id],
+            })
+          }
+          if (node.type === schema.nodes.comment_list) {
+            tr.replaceWith(
+              pos,
+              pos + node.nodeSize,
+              node.content.addToEnd(
+                schema.nodes.comment.create(documentComment)
+              )
+            )
+            tr.setMeta('track-changes-skip-tracking', true)
+            view.dispatch(tr)
+            return false
+          }
+        } else {
+          if (node.attrs.id === comment._id) {
+            tr.setNodeMarkup(pos, undefined, {
+              ...documentComment,
+            })
+            tr.setMeta('track-changes-skip-tracking', true)
+
+            view.dispatch(tr)
+            return false
+          }
+        }
+      })
+
+      return Promise.resolve(comment as Model)
+    },
+    [doc, modelMap, state, view]
+  )
+
+  const deleteCommentNode = useCallback(
+    (comment: CommentAnnotation) => {
+      if (!view) {
+        throw Error('View not available')
+      }
+
+      const { tr } = state
+      const isHighlightComment =
+        comment.selector && comment.selector.from !== comment.selector.to
+
+      doc.descendants((node, pos) => {
+        if (
+          node.attrs.id === comment.target &&
+          node.attrs.comments &&
+          !isHighlightComment
+        ) {
+          tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            comments: [
+              ...node.attrs.comments.filter((id: string) => id != comment._id),
+            ],
+          })
+        }
+
+        if (
+          node.attrs.id === comment._id &&
+          node.type === schema.nodes.comment
+        ) {
+          tr.delete(pos, pos + node.nodeSize)
+          tr.setMeta('track-changes-skip-tracking', true)
+          view.dispatch(tr)
+          return false
+        }
+      })
+      return Promise.resolve(comment._id)
+    },
+    [doc, state, view]
+  )
+
   const saveTrackModel = useCallback(
     <T extends Model>(model: T | Build<T> | Partial<T>) => {
+      if (model.objectType === ObjectTypes.CommentAnnotation) {
+        return saveCommentNode(model as unknown as CommentAnnotation)
+      }
+
       if (model._id) {
         const currentModel = modelMap.get(model._id!)
         if (currentModel) {
@@ -145,6 +249,10 @@ const useTrackedModelManagement = (
 
   const deleteTrackModel = useCallback(
     (id: string) => {
+      if (modelMap.get(id)?.objectType === ObjectTypes.CommentAnnotation) {
+        return deleteCommentNode(modelMap.get(id) as CommentAnnotation)
+      }
+
       if (modelMap.has(id)) {
         modelMap.delete(id)
         doc.descendants((node, pos) => {
@@ -161,7 +269,15 @@ const useTrackedModelManagement = (
 
       return Promise.resolve(id)
     },
-    [dispatch, dispatchStore, deleteModel, doc, modelMap, state] // will loop rerenders probably because of modelMap
+    [
+      modelMap,
+      deleteCommentNode,
+      doc,
+      state,
+      dispatch,
+      dispatchStore,
+      deleteModel,
+    ] // will loop rerenders probably because of modelMap
   )
 
   const getTrackModel = useCallback(
