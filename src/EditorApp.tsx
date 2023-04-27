@@ -11,7 +11,6 @@
  */
 import { FileManagement } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
-import { hot } from 'react-hot-loader'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -156,4 +155,4 @@ const EditorApp: React.FC<Props> = ({
   )
 }
 
-export default hot(module)(EditorApp)
+export default EditorApp
