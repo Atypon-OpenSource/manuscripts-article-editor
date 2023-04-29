@@ -181,9 +181,9 @@ const buildUtilities = (
     if (data.modelMap) {
       const modelMap = new Map(data.modelMap)
       modelMap.delete(id)
-  
+
       data.modelMap.delete(id)
-    
+
       updateState({
         modelMap: modelMap,
         savingProcess: 'saving',
