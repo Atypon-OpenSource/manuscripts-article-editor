@@ -118,6 +118,8 @@ const buildUtilities = (
     const modelMap = new Map(data.modelMap)
     modelMap.set(containedModel._id, newModel)
 
+    data.modelMap.set(containedModel._id, newModel)
+
     // const { attachment, ...containedModeldata } = containedModel as T &
     //   ContainedProps &
     //   ModelAttachment
@@ -177,9 +179,13 @@ const buildUtilities = (
 
   const deleteModel = async (id: string) => {
     if (data.modelMap) {
+      const modelMap = new Map(data.modelMap)
+      modelMap.delete(id)
+  
       data.modelMap.delete(id)
+    
       updateState({
-        modelMap: data.modelMap,
+        modelMap: modelMap,
         savingProcess: 'saving',
       })
       const result = await bulkPersistentManuscriptSave([
