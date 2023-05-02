@@ -33,7 +33,6 @@ import styled from 'styled-components'
 import config from '../../../config'
 import { useCreateEditor } from '../../../hooks/use-create-editor'
 import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
-import { Person } from '../../../lib/lean-workflow-gql'
 import { useCommentStore } from '../../../quarterback/useCommentStore'
 import { useDocStore } from '../../../quarterback/useDocStore'
 import { useStore } from '../../../store'
@@ -48,39 +47,19 @@ import {
 } from '../EditorContainer'
 import Inspector from '../Inspector'
 import ManuscriptSidebar from '../ManuscriptSidebar'
-import {
-  ApplicationMenuContainer,
-  ApplicationMenusLW as ApplicationMenus,
-} from './ApplicationMenusLW'
+import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
 import EditorElement from './EditorElement'
-import { UserProvider } from './provider/UserProvider'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
-  const [{ project, user, submission, person, permittedActions }, dispatch] =
-    useStore((state) => {
-      return {
-        manuscriptID: state.manuscriptID,
-        project: state.project,
-        user: state.user,
-        submission: state.submission,
-        permittedActions: state.permittedActions,
-        person: state.person,
-      }
-    })
-
-  useEffect(() => {
-    if (submission?.id && person) {
-      dispatch({
-        submission: submission,
-        submissionId: submission.id as string,
-        lwUser: person as Person,
-      })
+  const [{ project, user, permittedActions }] = useStore((state) => {
+    return {
+      project: state.project,
+      user: state.user,
+      permittedActions: state.permittedActions,
     }
-  }, [submission, person, dispatch])
+  })
 
-  // lwRole must not be used to calculate permissions in the contenxt of manuscripts app.
-  // lwRole is only for the dashboard
   const can = useCalcPermission({
     profile: user,
     project: project,
@@ -98,9 +77,7 @@ const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
-  const [lwUser] = useStore((store) => store.lwUser)
   const [modelMap] = useStore((store) => store.modelMap)
-  const [submissionID] = useStore((store) => store.submissionID || '')
   const [manuscriptID, storeDispatch, getState] = useStore(
     (store) => store.manuscriptID
   )
@@ -126,7 +103,7 @@ const ManuscriptPageView: React.FC = () => {
       saveModel,
       deleteModel,
       modelMap,
-      () => getState().submission.attachments
+      () => getState().attachments
     )
 
   useEffect(() => {
@@ -177,57 +154,51 @@ const ManuscriptPageView: React.FC = () => {
 
   return (
     <RequirementsProvider modelMap={modelMap}>
-      <UserProvider
-        lwUser={lwUser}
-        manuscriptUser={user}
-        submissionId={submissionID}
-      >
-        <ManuscriptSidebar
-          project={project}
-          manuscript={manuscript}
-          view={view}
-          state={state}
-          user={user}
-        />
+      <ManuscriptSidebar
+        project={project}
+        manuscript={manuscript}
+        view={view}
+        state={state}
+        user={user}
+      />
 
-        <PageWrapper>
-          <Main>
-            <EditorContainer>
-              <EditorContainerInner>
-                <EditorHeader>
-                  <ApplicationMenuContainer>
-                    <ApplicationMenus
-                      editor={editor}
-                      contentEditable={can.editArticle}
-                    />
-                  </ApplicationMenuContainer>
-                  {can.seeEditorToolbar && (
-                    <ManuscriptToolbar
-                      state={state}
-                      can={can}
-                      dispatch={dispatch}
-                      footnotesEnabled={config.features.footnotes}
-                      view={view}
-                    />
-                  )}
-                </EditorHeader>
-                <EditorBody>
-                  <MetadataContainer
-                    handleTitleStateChange={() => '' /*FIX THIS*/}
-                    allowInvitingAuthors={false}
-                    showAuthorEditButton={true}
-                    disableEditButton={!can.editMetadata}
+      <PageWrapper>
+        <Main>
+          <EditorContainer>
+            <EditorContainerInner>
+              <EditorHeader>
+                <ApplicationMenuContainer>
+                  <ApplicationMenus
+                    editor={editor}
+                    contentEditable={can.editArticle}
                   />
-                  <TrackChangesStyles>
-                    <EditorElement editor={editor} />
-                  </TrackChangesStyles>
-                </EditorBody>
-              </EditorContainerInner>
-            </EditorContainer>
-          </Main>
-          <Inspector editor={editor} />
-        </PageWrapper>
-      </UserProvider>
+                </ApplicationMenuContainer>
+                {can.seeEditorToolbar && (
+                  <ManuscriptToolbar
+                    state={state}
+                    can={can}
+                    dispatch={dispatch}
+                    footnotesEnabled={config.features.footnotes}
+                    view={view}
+                  />
+                )}
+              </EditorHeader>
+              <EditorBody>
+                <MetadataContainer
+                  handleTitleStateChange={() => '' /*FIX THIS*/}
+                  allowInvitingAuthors={false}
+                  showAuthorEditButton={true}
+                  disableEditButton={!can.editMetadata}
+                />
+                <TrackChangesStyles>
+                  <EditorElement editor={editor} />
+                </TrackChangesStyles>
+              </EditorBody>
+            </EditorContainerInner>
+          </EditorContainer>
+        </Main>
+        <Inspector editor={editor} />
+      </PageWrapper>
     </RequirementsProvider>
   )
 }

@@ -11,7 +11,7 @@
  */
 
 import {
-  ApplicationMenus,
+  ApplicationMenus as EditorMenus,
   DialogController,
   DialogNames,
   getMenus,
@@ -39,7 +39,7 @@ interface Props {
   contentEditable: boolean
 }
 
-export const ApplicationMenusLW: React.FC<Props> = ({
+export const ApplicationMenus: React.FC<Props> = ({
   editor,
   contentEditable,
 }) => {
@@ -106,7 +106,7 @@ export const ApplicationMenusLW: React.FC<Props> = ({
         editorState={editor.state}
         dispatch={editor.dispatch}
       />
-      <ApplicationMenus {...menus} />
+      <EditorMenus {...menus} />
     </>
   )
 }

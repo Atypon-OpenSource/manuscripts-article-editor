@@ -15,13 +15,12 @@ import './lib/fonts'
 import './channels'
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
-import { FileManagement } from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
 import React, { useEffect } from 'react'
 
 import { IntlProvider } from './components/IntlHookableProvider'
 import { LoadingPage } from './components/Loading'
-import { Person, Submission } from './lib/lean-workflow-gql'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
 import userID from './lib/user-id'
@@ -34,29 +33,24 @@ export type { state } from './store'
 export * from './store/ParentObserver'
 export { getUserRole } from './lib/roles'
 export { SaveStatusController } from './components/projects/lean-workflow/SaveStatusController'
-export { ExceptionDialog } from './components/projects/lean-workflow/ExceptionDialog'
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement
   parentObserver: ISubject
-  submissionId: string
   manuscriptID: string
   projectID: string
-  submission: Submission
+  attachments: FileAttachment[]
   permittedActions: string[]
-  person: Person
   authToken?: string
 }
 
 const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
   fileManagement,
   parentObserver,
-  submissionId,
   manuscriptID,
   projectID,
-  submission,
+  attachments,
   permittedActions,
-  person,
   authToken,
 }) => {
   useEffect(() => {
@@ -92,12 +86,10 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
               fileManagement={fileManagement}
               authToken={authToken || ''}
               parentObserver={parentObserver}
-              submissionId={submissionId}
               manuscriptID={manuscriptID}
               projectID={projectID}
-              submission={submission}
+              attachments={attachments} // @TODO replace on the app level
               permittedActions={permittedActions}
-              person={person}
             />
           </React.Suspense>
         </ThemeProvider>

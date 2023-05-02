@@ -46,8 +46,7 @@ export const useCreateEditor = () => {
       saveModel,
       deleteModel,
       commitAtLoad,
-      submissionId,
-      submission,
+      attachments,
       fileManagement,
     },
     dispatch,
@@ -63,9 +62,8 @@ export const useCreateEditor = () => {
     getModel: store.getModel,
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
-    submissionId: store.submissionID || '',
     commitAtLoad: store.commitAtLoad,
-    submission: store.submission,
+    attachments: store.attachments,
     fileManagement: store.fileManagement,
   }))
   const { user: trackUser } = useAuthStore()
@@ -151,7 +149,6 @@ export const useCreateEditor = () => {
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
     theme,
-    submissionId,
     capabilities: can,
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
@@ -159,24 +156,21 @@ export const useCreateEditor = () => {
       const result = await fileManagement.upload(file, designation)
       if (typeof result === 'object') {
         dispatch({
-          submission: {
-            ...submission,
-            attachments: [
-              ...submission.attachments,
-              {
-                ...result,
-              },
-            ],
-            /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
+          attachments: [
+            ...attachments,
+            {
+              ...result,
+            },
+          ],
+          /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
               That (adding modelId) should be removed once exFileRefs are out. ModelId should not be needed anymore then.
             */
-          },
         })
         return result
       }
     },
     getAttachments: () => {
-      return getState().submission.attachments
+      return getState().attachments
     },
   }
 

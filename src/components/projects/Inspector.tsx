@@ -12,8 +12,8 @@
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
 import {
+  FileAttachment,
   FileManager,
-  SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -42,12 +42,12 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ editor }) => {
   const [
-    { submission, fileManagement, comment, saveTrackModel, trackModelMap },
+    { attachments, fileManagement, comment, saveTrackModel, trackModelMap },
     stateDispatch,
   ] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
-    submission: store.submission,
+    attachments: store.attachments,
     fileManagement: store.fileManagement,
     comment: store.comment,
   }))
@@ -133,14 +133,11 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     saveModel={saveTrackModel}
                     fileManagement={{
                       ...fileManagement,
-                      getAttachments: () => submission.attachments,
+                      getAttachments: () => attachments,
                     }}
-                    addAttachmentToState={(attachment: SubmissionAttachment) =>
+                    addAttachmentToState={(attachment: FileAttachment) =>
                       stateDispatch({
-                        submission: {
-                          ...submission,
-                          attachments: [...submission.attachments, attachment],
-                        },
+                        attachments: [...attachments, attachment],
                       })
                     }
                   />

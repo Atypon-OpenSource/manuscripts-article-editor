@@ -25,7 +25,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { SubmissionAttachment } from '@manuscripts/style-guide'
+import { FileAttachment } from '@manuscripts/style-guide'
 import {
   Decoder,
   getModelData,
@@ -277,7 +277,7 @@ export default async function buildData(
   projectID: string,
   manuscriptID: string,
   api: Api,
-  attachments: SubmissionAttachment[]
+  attachments: FileAttachment[]
 ) {
   // const project = await getProjectData(projectID, api)
   const user = await api.getUser()
