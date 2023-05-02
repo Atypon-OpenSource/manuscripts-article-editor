@@ -35,11 +35,12 @@ import { Biblio } from './Bibilo'
 import { saveWithThrottle } from './savingUtilities'
 
 const buildUtilities = (
-  data: Partial<state>,
+  getData: () => Partial<state>,
   api: Api,
   updateState: (state: Partial<state>) => void
 ) => {
   const getModel = <T extends Model>(id: string) => {
+    const data = getData()
     if (!data.modelMap) {
       return
     }
@@ -61,6 +62,7 @@ const buildUtilities = (
   const bulkPersistentProjectSave = (models: ManuscriptModel[]) => {
     // combine entire project and overwrite?
     const onlyProjectModels = models.filter((model) => !model.manuscriptID)
+    const data = getData()
     if (data.projectID && data.manuscriptID) {
       api.saveProject(data.projectID, onlyProjectModels)
     }
@@ -73,6 +75,9 @@ const buildUtilities = (
     const clearedModels = models.filter((model) => {
       return model.objectType !== ObjectTypes.Project
     })
+
+    const data = getData()
+
     if (data.projectID && data.manuscriptID) {
       return api
         .saveManuscriptData(data.projectID, data.manuscriptID, clearedModels)
@@ -93,6 +98,8 @@ const buildUtilities = (
     if (!model._id) {
       throw new Error('Model ID required')
     }
+
+    const data = getData()
     if (!data.modelMap || !data.manuscriptID || !data.projectID) {
       throw new Error(
         'State misses important element. Unable to savel a model.'
@@ -115,7 +122,10 @@ const buildUtilities = (
       ...containerIDs,
     }
 
-    const modelMap = data.modelMap.set(containedModel._id, newModel)
+    const modelMap = new Map(data.modelMap)
+    modelMap.set(containedModel._id, newModel)
+
+    // data.modelMap.set(containedModel._id, newModel)
 
     // const { attachment, ...containedModeldata } = containedModel as T &
     //   ContainedProps &
@@ -149,6 +159,8 @@ const buildUtilities = (
     if (!model._id) {
       throw new Error('Model ID required.')
     }
+
+    const data = getData()
     if (!data.modelMap || !data.projectID) {
       throw new Error(
         'State misses important element. Unable to savel a model.'
@@ -160,10 +172,11 @@ const buildUtilities = (
     } as T & ContainedProps
     const map = data.modelMap // potential time discrepancy bug
 
+    updateState({
+      modelMap: map.set(model._id, containedModel),
+    })
+
     saveWithThrottle(() => {
-      updateState({
-        modelMap: map.set(model._id, containedModel),
-      })
       if (data.modelMap) {
         bulkPersistentProjectSave([
           ...data.modelMap.values(),
@@ -175,10 +188,15 @@ const buildUtilities = (
   }
 
   const deleteModel = async (id: string) => {
+    const data = getData()
     if (data.modelMap) {
-      data.modelMap.delete(id)
+      const modelMap = new Map(data.modelMap)
+      modelMap.delete(id)
+
+      // data.modelMap.delete(id)
+
       updateState({
-        modelMap: data.modelMap,
+        modelMap: modelMap,
         savingProcess: 'saving',
       })
       const result = await bulkPersistentManuscriptSave([
@@ -194,6 +212,7 @@ const buildUtilities = (
 
   const saveManuscript = async (manuscriptData: Partial<Manuscript>) => {
     try {
+      const data = getData()
       if (!data.modelMap || !data.manuscriptID) {
         throw new Error('Unable to save manuscript due to incomplete data')
       }
@@ -246,7 +265,7 @@ const buildUtilities = (
   }
 
   const deleteBiblioItem = (item: BibliographyItem) => {
-    return Promise.resolve(data.modelMap?.delete(item._id) || false)
+    return Promise.resolve(getData().modelMap?.delete(item._id) || false)
   }
 
   const saveCorrection = (correction: Correction) => {
@@ -268,6 +287,7 @@ const buildUtilities = (
   }
 
   let biblioUtils
+  const data = getData()
 
   if (data.manuscript && data.library) {
     const bundle = data.manuscript?.bundle // TODO: infer bundle from prototype if manuscript.bundle is undefined ?
