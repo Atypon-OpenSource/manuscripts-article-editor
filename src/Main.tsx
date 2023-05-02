@@ -39,7 +39,6 @@ const Main: React.FC<Props> = ({
   manuscriptID,
   projectID,
   authToken,
-  attachments,
   permittedActions,
 }) => (
   <DndProvider backend={HTML5Backend}>
@@ -50,7 +49,6 @@ const Main: React.FC<Props> = ({
       parentObserver={parentObserver}
       manuscriptID={manuscriptID}
       projectID={projectID}
-      attachments={attachments}
       permittedActions={permittedActions}
       authToken={authToken}
     />

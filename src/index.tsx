@@ -39,7 +39,6 @@ export interface ManuscriptEditorAppProps {
   parentObserver: ISubject
   manuscriptID: string
   projectID: string
-  attachments: FileAttachment[]
   permittedActions: string[]
   authToken?: string
 }
@@ -49,7 +48,6 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
   parentObserver,
   manuscriptID,
   projectID,
-  attachments,
   permittedActions,
   authToken,
 }) => {
@@ -88,7 +86,6 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
               parentObserver={parentObserver}
               manuscriptID={manuscriptID}
               projectID={projectID}
-              attachments={attachments} // @TODO replace on the app level
               permittedActions={permittedActions}
             />
           </React.Suspense>

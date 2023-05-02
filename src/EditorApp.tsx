@@ -57,7 +57,6 @@ const EditorApp: React.FC<Props> = ({
   parentObserver,
   manuscriptID,
   projectID,
-  attachments,
   permittedActions,
   fileManagement,
   authToken,
@@ -85,12 +84,12 @@ const EditorApp: React.FC<Props> = ({
       fileManagement,
       projectID,
       manuscriptID,
-      attachments,
+      fileManagement.getAttachments(),
       permittedActions,
       userID || '',
       authToken || ''
     )
-    const mainSource = new PsSource(attachments)
+    const mainSource = new PsSource(fileManagement.getAttachments())
     Promise.all([
       loadDoc(manuscriptID, projectID),
       createStore(
