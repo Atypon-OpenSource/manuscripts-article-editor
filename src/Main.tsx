@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
+import { FileManagement } from '@manuscripts/style-guide'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -26,7 +26,6 @@ interface Props {
   manuscriptID: string
   projectID: string
   authToken: string
-  attachments: FileAttachment[]
   permittedActions: string[]
 }
 

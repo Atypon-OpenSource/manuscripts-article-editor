@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
+import { FileManagement } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
@@ -38,7 +38,6 @@ interface Props {
   parentObserver: ISubject
   manuscriptID: string
   projectID: string
-  attachments: FileAttachment[]
   permittedActions: string[]
   authToken: string
 }

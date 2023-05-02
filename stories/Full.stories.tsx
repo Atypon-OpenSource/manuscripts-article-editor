@@ -30,7 +30,6 @@ storiesOf('Full', module).add('default', () => (
         return Promise.resolve(true)
       },
     }}
-    attachments={[]}
     parentObserver={new ParentObserver()}
     permittedActions={[]}
     manuscriptID={'MPManuscript:B3BB2CD8-F944-47C3-9F01-1996DBD417EE'}
