@@ -47,7 +47,7 @@ export default class PsSource implements StoreDataSourceStrategy {
         this.api,
         this.attachments
       )
-      this.utilities = buildUtilities(this.data, this.api, setState)
+      this.utilities = buildUtilities(() => this.data, this.api, setState)
     }
     next({ ...state, ...this.data, ...this.utilities })
   }
@@ -56,11 +56,16 @@ export default class PsSource implements StoreDataSourceStrategy {
     prev,
     setState
   ) => {
+    this.data = state // keep up to date for utility function
     if (!deeperEqual(state.modelMap, prev.modelMap)) {
-      setState((state) => ({
-        ...state,
-        ...getDrivedData(state.projectID, state),
-      }))
+      setState((state) => {
+        const newState = {
+          ...state,
+          ...getDrivedData(state.projectID, state),
+        }
+        this.data = newState
+        return newState
+      })
     }
     return
   }
