@@ -200,7 +200,7 @@ const buildUtilities = (
         savingProcess: 'saving',
       })
       const result = await bulkPersistentManuscriptSave([
-        ...data.modelMap.values(),
+        ...modelMap.values(),
       ] as ManuscriptModel[])
       updateState({
         savingProcess: result ? 'saved' : 'failed',
@@ -321,5 +321,4 @@ const buildUtilities = (
     biblio: biblioUtils?.getTools(),
   }
 }
-
 export default buildUtilities
