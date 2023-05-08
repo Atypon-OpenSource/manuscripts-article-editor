@@ -1903,10 +1903,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.8.tgz#e55827745d658c8ea15b750689366995fda09ebc"
-  integrity sha512-QJZHbOy0iGikxxoX2VMCs1wKHOLl932AqWjVGrkbWYYJo6eqJGz0objCHg9Q/1B01bpX7u0ucWsdJMrkL8xQjw==
+"@manuscripts/body-editor@^1.1.8-LEAN-2402":
+  version "1.1.8-LEAN-2402"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.8-LEAN-2402.tgz#90b43adfc5e3573a8ed869a06f47ccc5238d8ca6"
+  integrity sha512-JRJxJR0BlogTQqJ4lbTkD14rLVRqkm+cfOUz65hBITkPCs/H+qGyFDncj8oJ04Lu1WzMANDdfD93hopbs5CgYg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
@@ -1916,7 +1916,7 @@
     "@manuscripts/style-guide" "^1.0.8"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.2.0"
-    "@manuscripts/transform" "^1.1.5"
+    "@manuscripts/transform" "^1.1.6-LEAN-2402"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -2107,20 +2107,6 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.1.5", "@manuscripts/transform@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.5.tgz#60832577890bbadcb8a98d0d9797caafe16fe64f"
-  integrity sha512-Q4O3q0qXh0qZyqbTtkSpzJZeP/ySgLA5aTeDX1KzjIeKyZX56P+l9I/zYGl40kmna0pi5ejFQCYGgP3gQw4ukQ==
-  dependencies:
-    "@manuscripts/json-schema" "^1.0.0"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    mathjax-full "^3.2.2"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
-
 "@manuscripts/transform@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.1.tgz#2d343a82d94d330690c6d64e94d88f2c32648f87"
@@ -2136,6 +2122,20 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.2.tgz#5097b173b8bdf5df090a589c9b826875b9308a77"
   integrity sha512-107Bzoas0x0l1AIFOusklqbFbWu/1Fuse7d4Hsljsib6Etc0Eye7EcqR8wKYr/cvOBOtkP3UUa1L2l2WnzbH1A==
+  dependencies:
+    "@manuscripts/json-schema" "^1.0.0"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@^1.1.6-LEAN-2402":
+  version "1.1.6-LEAN-2402"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.6-LEAN-2402.tgz#917b7a7aeb2f22210186857571c9cd4ee1f3a7fd"
+  integrity sha512-QkExi9D9Fp/u2ZE+SiMcR+dYxxCwTkQt0csJRN1lsXeYzAZ8Z5xYRek1Rt/9pprkXqqCyRHTPK0eY/rA6+iQgw==
   dependencies:
     "@manuscripts/json-schema" "^1.0.0"
     debug "^4.3.4"
