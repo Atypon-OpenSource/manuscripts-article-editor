@@ -16,11 +16,7 @@ import {
   Model,
   ObjectTypes,
 } from '@manuscripts/json-schema'
-import {
-  buildColor,
-  getByPrototype,
-  hasObjectType,
-} from '@manuscripts/transform'
+import { buildColor, hasObjectType } from '@manuscripts/transform'
 
 import { SaveModel } from '../components/inspector/StyleFields'
 
@@ -31,6 +27,17 @@ export const isColorScheme = hasObjectType<ColorScheme>(ObjectTypes.ColorScheme)
 
 export const nextColorPriority = (colors: Color[]) =>
   Math.max(...colors.map((color) => color.priority || 0)) + 10
+
+export const getByPrototype = <T extends Model>(
+  modelMap: Map<string, Model>,
+  prototype: string
+): T | undefined => {
+  for (const model of modelMap.values()) {
+    if (model.prototype === prototype) {
+      return model as T
+    }
+  }
+}
 
 export const buildColors = (
   modelMap: Map<string, Model>,
