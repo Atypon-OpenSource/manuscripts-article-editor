@@ -110,9 +110,8 @@ export const SectionInspector: React.FC<{
       return []
     }
 
-    // @ts-ignore TODO:: remove ignore later
-    return sortedSectionCategories.filter(({ groupIDs }) =>
-      groupIDs.includes(container.attrs.group)
+    return sortedSectionCategories.filter(
+      ({ groupIDs }) => groupIDs && groupIDs.includes(container.attrs.group)
     )
   }, [state.selection])
 
