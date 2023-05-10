@@ -21,7 +21,10 @@ const deeperEqual = (prev: any, next: any) => {
       // }
       return prev === next // @TODO implement better check maybe
     case 'Map': // important for modelMap
-      if (prev == next && prev.size == next.size) {
+      if (prev == next) {
+        return true
+      }
+      if (prev.size == next.size) {
         for (const [key, value] of prev) {
           const nextPeer = next.get(key)
           if (!nextPeer || nextPeer !== value) {
