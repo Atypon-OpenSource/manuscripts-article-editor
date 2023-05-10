@@ -2033,7 +2033,7 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.1.0-LEAN-2309", "@manuscripts/style-guide@^1.1.0-LEAN-2309":
+"@manuscripts/style-guide@^1.1.0-LEAN-2309":
   version "1.1.0-LEAN-2309"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.0-LEAN-2309.tgz#53d5d26002a98458d32fef8ab83e40348e14d094"
   integrity sha512-DUDbGVsZi2ODLgjVJz1oyGPuhXErDkFZkfb/M4LDe1CQFZQOw8MEIJp688y4MjmdiirOyzgrRrFlG36Yel25+Q==
