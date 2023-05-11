@@ -130,6 +130,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     can={can}
                     enableDragAndDrop={true}
                     modelMap={trackModelMap}
+                    // @ts-ignore
                     saveModel={saveTrackModel}
                     fileManagement={{
                       ...fileManagement,
