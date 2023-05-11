@@ -28,7 +28,7 @@ export const isColorScheme = hasObjectType<ColorScheme>(ObjectTypes.ColorScheme)
 export const nextColorPriority = (colors: Color[]) =>
   Math.max(...colors.map((color) => color.priority || 0)) + 10
 
-export const getByPrototype = <T extends Model>(
+export const getFirstPrototype = <T extends Model>(
   modelMap: Map<string, Model>,
   prototype: string
 ): T | undefined => {
@@ -44,10 +44,10 @@ export const buildColors = (
   colorSchemeID: string = DEFAULT_COLOR_SCHEME
 ) => {
   // const colorScheme = modelMap.get(colorSchemeID) as ColorScheme | undefined
-  let colorScheme = getByPrototype<ColorScheme>(modelMap, colorSchemeID)
+  let colorScheme = getFirstPrototype<ColorScheme>(modelMap, colorSchemeID)
 
   if (colorSchemeID !== DEFAULT_COLOR_SCHEME && !colorScheme) {
-    colorScheme = getByPrototype<ColorScheme>(modelMap, DEFAULT_COLOR_SCHEME)
+    colorScheme = getFirstPrototype<ColorScheme>(modelMap, DEFAULT_COLOR_SCHEME)
   }
 
   const colors: Color[] = []
@@ -56,7 +56,7 @@ export const buildColors = (
     for (const colorID of colorScheme.colors) {
       if (colorID) {
         // const color = modelMap.get(colorID) as Color | undefined
-        const color = getByPrototype<Color>(modelMap, colorID)
+        const color = getFirstPrototype<Color>(modelMap, colorID)
 
         if (color && color.value) {
           colors.push(color)
