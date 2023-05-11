@@ -12,9 +12,9 @@
 import { insertSectionLabel } from '@manuscripts/body-editor'
 import { Section } from '@manuscripts/json-schema'
 import { Title } from '@manuscripts/title-editor'
-import { isSectionLabelNode, schema, SectionNode } from '@manuscripts/transform'
+import { isSectionLabelNode, SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import { findParentNodeOfType } from 'prosemirror-utils'
+import { findParentNode } from 'prosemirror-utils'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
@@ -102,7 +102,7 @@ export const SectionInspector: React.FC<{
   )
 
   const sectionCategories = useMemo(() => {
-    const container = findParentNodeOfType(schema.nodes.section_container)(
+    const container = findParentNode((node) => node.attrs.category)(
       state.selection
     )?.node
 
@@ -110,8 +110,18 @@ export const SectionInspector: React.FC<{
       return []
     }
 
+    const sectionCategory = sortedSectionCategories.find(
+      ({ _id }) => _id === container.attrs.category
+    )
+
+    if (!sectionCategory) {
+      return []
+    }
+
     return sortedSectionCategories.filter(
-      ({ groupIDs }) => groupIDs && groupIDs.includes(container.attrs.group)
+      ({ groupIDs }) =>
+        groupIDs &&
+        groupIDs.some((groupID) => sectionCategory.groupIDs.includes(groupID))
     )
   }, [state.selection])
 
