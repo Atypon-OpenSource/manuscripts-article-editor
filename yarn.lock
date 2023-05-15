@@ -1999,6 +1999,14 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
+"@manuscripts/json-schema@^2.0.1-LEAN-2416":
+  version "2.0.1-LEAN-2416"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.0.1-LEAN-2416.tgz#5c8f24bdc48827c88d98dcced3cf148312fc9d1e"
+  integrity sha512-ONZV8iR9drLX8zlF+28i79XBMDXJDgaO+YQ0Xb8s14mS6qTeouCG+kFLuwAP5CkBM4qBbUNWzy0zOXXhTIwoFg==
+  dependencies:
+    ajv "^8.12.0"
+    deepmerge "^4.3.1"
+
 "@manuscripts/library@1.1.1", "@manuscripts/library@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.1.tgz#1248ea15fb326b5203fa51e9131bea26c8568326"

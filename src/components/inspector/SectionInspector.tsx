@@ -121,7 +121,7 @@ export const SectionInspector: React.FC<{
     return sortedSectionCategories.filter(
       ({ groupIDs }) =>
         groupIDs &&
-        groupIDs.some((groupID) => sectionCategory.groupIDs.includes(groupID))
+        groupIDs.some((groupID) => sectionCategory.groupIDs?.includes(groupID))
     )
   }, [state.selection])
 
