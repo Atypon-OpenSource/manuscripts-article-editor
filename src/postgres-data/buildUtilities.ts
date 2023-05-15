@@ -80,7 +80,6 @@ const buildUtilities = (
           return true // not sure what will be returned at this point
         })
         .catch((e) => {
-          console.log('ERROR ERROR')
           return false
         })
     } else {
