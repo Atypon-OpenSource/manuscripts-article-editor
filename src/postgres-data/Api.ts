@@ -55,13 +55,6 @@ export default class Api {
   }
 
   post = async <T>(path: string, data: unknown) => {
-    // try {
-    //   const result = await this.instance.post<T>(path, data)
-    //   return result.data
-    // } catch (e) {
-    //   console.log(e)
-    //   return null
-    // }
     return this.instance
       .post<T>(path, data)
       .then((result) => result.data)
