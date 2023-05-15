@@ -2036,10 +2036,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.1.tgz#9c606e036668febcbf852667a0936dbe82c1aed0"
-  integrity sha512-0uSFi6/e9U9bPU5racxbZC2GjYxQz61cx4FXLaJDU4WBCTCB2uAzurRAlLDv01kzN6BbkdZSUvZHmWryBMNsfg==
+"@manuscripts/style-guide@1.1.1-LEAN-2481-1":
+  version "1.1.1-LEAN-2481-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.1-LEAN-2481-1.tgz#116e2ecb35ddd62398f28aa71c1831837bcf141d"
+  integrity sha512-zPqtG207kiUkWwb4pqe1zO23jCgYeAqY42G1EUCR9NegE1KkVBBscDSQXGJ3Kn0YS+sYw16ZFzx8ZZU1oIxpEw==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -2078,10 +2078,10 @@
     tooltip.js "^1.3.3"
     typeface-lato "^1.1.13"
 
-"@manuscripts/style-guide@^1.1.1-LEAN-2481":
-  version "1.1.1-LEAN-2481"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.1-LEAN-2481.tgz#83751383b942de2c24600447490122e3be070982"
-  integrity sha512-2Zn5fGJXJTVhuBn/P1gU9kBhyPVaKPaB/Vf0nxjk9S6seKDRMOZVWKjBnLNIcQG9CQmEZa++8Um6HEg3fIQXhg==
+"@manuscripts/style-guide@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.1.tgz#9c606e036668febcbf852667a0936dbe82c1aed0"
+  integrity sha512-0uSFi6/e9U9bPU5racxbZC2GjYxQz61cx4FXLaJDU4WBCTCB2uAzurRAlLDv01kzN6BbkdZSUvZHmWryBMNsfg==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
