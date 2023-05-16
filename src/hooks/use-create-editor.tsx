@@ -15,9 +15,10 @@ import {
   useEditor,
 } from '@manuscripts/body-editor'
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
-import { usePermissions } from '@manuscripts/style-guide'
+import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build } from '@manuscripts/transform'
+import { memoize } from 'lodash'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
@@ -68,7 +69,10 @@ export const useCreateEditor = () => {
   }))
   const { user: trackUser } = useAuthStore()
 
-  const can = usePermissions()
+  const getCapabilities = memoize((project, user, permittedActions) =>
+    getActionCapabilities(project, user, undefined, permittedActions)
+  )
+
   const popper = useRef<PopperManager>(new PopperManager())
 
   const retrySync = (componentIDs: string[]) => {
@@ -149,7 +153,10 @@ export const useCreateEditor = () => {
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
     theme,
-    capabilities: can,
+    getCapabilities: () => {
+      const state = getState()
+      return getCapabilities(state.project, state.user, state.permittedActions)
+    },
     // TODO:: remove this as we are not going to use designation
     updateDesignation: () => new Promise(() => false),
     uploadAttachment: async (designation: string, file: File) => {

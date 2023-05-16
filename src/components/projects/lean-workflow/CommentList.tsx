@@ -14,6 +14,8 @@ import {
   commentScroll,
   deleteHighlightMarkers,
   getHighlightTarget,
+  isHighlightComment,
+  isThereSelector,
   updateCommentAnnotationState,
 } from '@manuscripts/body-editor'
 import {
@@ -50,9 +52,6 @@ import { HighlightedText } from '../HighlightedText'
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
 }
-
-const isHighlightComment = (comment: CommentAnnotation) =>
-  comment.selector && comment.selector.from !== comment.selector.to
 
 const cleanUpSelectedComment = () => {
   document
@@ -324,7 +323,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   }, [selectedHighlightId])
 
   const scrollIntoHighlight = (comment: CommentAnnotation) => {
-    const commentId = comment.selector ? comment._id : comment.target
+    const commentId = isThereSelector(comment.selector)
+      ? comment._id
+      : comment.target
     commentScroll(commentId, 'editor', isHighlightComment(comment))
     setSelectedHighlightId(undefined)
   }
@@ -390,7 +391,11 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
               {selectedNoteData.map(({ comment, children }) => (
                 <Pattern.Thread key={comment._id}>
                   <NoteBodyContainer
-                    id={comment.selector ? comment._id : comment.target}
+                    id={
+                      isThereSelector(comment.selector)
+                        ? comment._id
+                        : comment.target
+                    }
                     isSelected={false}
                     isNew={isNew(comment as CommentAnnotation)}
                   >
