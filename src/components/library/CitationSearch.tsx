@@ -27,7 +27,7 @@ import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { TemplateIcon } from '../projects/lean-workflow/icons/TemplateIcon'
+import { TemplateIcon } from '../projects/advanced/icons/TemplateIcon'
 import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
 import { CitationSearchSection } from './CitationSearchSection'

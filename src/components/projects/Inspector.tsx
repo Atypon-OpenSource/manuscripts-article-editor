@@ -34,8 +34,8 @@ import Panel from '../Panel'
 import { RequirementsInspectorView } from '../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
-import { CommentsTab } from './lean-workflow/CommentsTab'
-import { ContentTab } from './lean-workflow/ContentTab'
+import { CommentsTab } from './advanced/CommentsTab'
+import { ContentTab } from './advanced/ContentTab'
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
