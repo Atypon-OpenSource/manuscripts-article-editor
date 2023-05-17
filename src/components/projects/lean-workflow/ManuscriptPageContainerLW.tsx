@@ -162,21 +162,20 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
 
-  const saveDocument = (state: ManuscriptEditorState) => {
-    console.log('Actually saving')
-    storeDispatch({ doc: state.doc })
-    updateDocument(manuscriptID, state.doc.toJSON())
-  }
-
-  const doWithThrottle = useDoWithThrottle()
-
   // @TODO - remove this once testing is completed
   const throttle = useMemo(() => {
     const location = new URLSearchParams(window.location.search)
     return parseInt(location.get('throttle') || '') || 3000
   }, [])
 
-  console.log(throttle)
+  const saveDocument = (state: ManuscriptEditorState) => {
+    // @TODO - remove this once testing is completed
+    console.log('Saving to quarteback with throttle: ' + throttle)
+    storeDispatch({ doc: state.doc })
+    updateDocument(manuscriptID, state.doc.toJSON())
+  }
+
+  const doWithThrottle = useDoWithThrottle()
 
   useEffect(() => {
     const { trackState } = setEditorState(state)
