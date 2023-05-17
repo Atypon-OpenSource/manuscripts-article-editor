@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { useRef } from 'react'
+
 let throttled = () => null
 let timeout: number
 
@@ -26,4 +28,26 @@ export const saveWithThrottle = (fn: () => any, interval = 4000) => {
       timeout = 0
     }, interval)
   }
+}
+
+export const useDoWithThrottle = () => {
+  const throttled = useRef(() => null)
+  const timeout = useRef<number>()
+
+  const doWithThrottle = (fn: () => any, interval = 4000) => {
+    throttled.current = fn
+    if (!timeout.current) {
+      throttled.current()
+      throttled.current = () => {
+        return null
+      }
+      timeout.current = window.setTimeout(() => {
+        throttled.current()
+        window.clearTimeout(timeout.current)
+        timeout.current = 0
+      }, interval)
+    }
+  }
+
+  return doWithThrottle
 }
