@@ -1917,16 +1917,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.2.4-LEAN-2416":
-  version "1.2.4-LEAN-2416"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.4-LEAN-2416.tgz#5f01d6a534e34b348abe9c572ac9d26f65b1f8c6"
-  integrity sha512-T6VqOK7y0xNILUDtsjxoaCz0IpYcRXgeyuEY+cuctqWoxsTJZKAAD1fTemM9ruvB/V4W5vklOkYls1DIAjMRYA==
+"@manuscripts/body-editor@^1.2.4-LEAN-2416-1":
+  version "1.2.4-LEAN-2416-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.4-LEAN-2416-1.tgz#540fb9232acdfb3b238b01800bbf1dae703dac00"
+  integrity sha512-y/Rexa9Qm3ncSfZJ82N/3Fxfz6MM0BWpvfdCfeScGdCcfRCRvbUPzxHgR4xnt1xkxj2pif+yjrrEjKagiMGQQg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.1-LEAN-2416"
-    "@manuscripts/library" "^1.1.1"
+    "@manuscripts/library" "^1.1.1-LEAN-2416"
     "@manuscripts/style-guide" "^1.1.2-LEAN-2416"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.3.1"
@@ -2013,14 +2013,14 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@1.1.1", "@manuscripts/library@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.1.tgz#1248ea15fb326b5203fa51e9131bea26c8568326"
-  integrity sha512-EB5ig7y5exRfcoV0IJuq1+cM1CC6VWmHT8NevrDV8vzuqjbguYSRQZ+x6ncQ9PPIIpEcnoWRN/+sfJKqAH9DiQ==
+"@manuscripts/library@^1.1.1-LEAN-2416":
+  version "1.1.1-LEAN-2416"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.1-LEAN-2416.tgz#6d26e224619638d9661b228609018a7f765046f1"
+  integrity sha512-O4lC9O3UWUHAFSYfzzlGmnjWyA2oDrfIueo9v6qCOf+0Vl55NpeV6xKf4w8LD+oiz/viXjJuMjUiiBt34GoCNQ==
   dependencies:
     "@manuscripts/data" "^1.0.2"
-    "@manuscripts/json-schema" "^2.0.1"
-    "@manuscripts/transform" "^1.2.1"
+    "@manuscripts/json-schema" "^2.0.1-LEAN-2416"
+    "@manuscripts/transform" "^1.2.4-LEAN-2357"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
@@ -2123,7 +2123,7 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@^1.2.1", "@manuscripts/transform@^1.2.3":
+"@manuscripts/transform@^1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.2.3.tgz#d6c0d83aa1ca69bdc3072f2dad85b1fcbeb34927"
   integrity sha512-LcatsFDB/Sf1U3FyMgPWljyDKpgfB34qw81Hn/GdELLNgCoO1jUDOY7WQ2KW78BdtvqDUSu5eR4zKP3vKyiw5w==
