@@ -1903,20 +1903,20 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.1.4-LEAN-2197":
-  version "1.1.4-LEAN-2197"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.1.4-LEAN-2197.tgz#2e091f02c0edfabfe331b2cff9e1f93a10bce8d6"
-  integrity sha512-lqs/bY604QHXsWmUSV7uLy3ZQRIIJbnYlB2J4a8j0HAGI3/EvlgvhWOhNga9VvhglAFxtXjRqazvAOTOu8q37Q==
+"@manuscripts/body-editor@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.3.tgz#5e60a655c7b23c185908e7f1f8b1945c1b343a11"
+  integrity sha512-QtPZF/x1BQqxFFwON/CiRgTyrDGZGClbUmZ9iaKFHY15KNopbQPp/W2PekLpKJKwLghWtIURmakjtFZhknWF9w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
-    "@manuscripts/json-schema" "^1.0.0"
-    "@manuscripts/library" "^1.0.3"
-    "@manuscripts/style-guide" "^1.0.7"
+    "@manuscripts/json-schema" "^2.0.1"
+    "@manuscripts/library" "^1.1.1"
+    "@manuscripts/style-guide" "^1.1.1"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "^1.2.0"
-    "@manuscripts/transform" "^1.1.5"
+    "@manuscripts/track-changes-plugin" "^1.3.1"
+    "@manuscripts/transform" "^1.2.3"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1974,6 +1974,11 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-0.1.13.tgz#161a5a7a3228681a331cad53c6d190cfe13f1b67"
   integrity sha512-Ll059DFfjQ02dzlLIa4b/5xB/ShCaqaVKypwvQCGlRT6L5HnHmDJ6Ue33Ygvfl0OdMJK+oflFXSuabFwdsyQZQ==
 
+"@manuscripts/data@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-1.0.2.tgz#daf61fe1dfa47503afb4ca0f72540091e6576caf"
+  integrity sha512-mEZM3bkHYGkgz7DK92+6jhOlqmufoKqAK166YlO7GswKspzcg1bM+2+T8O9QuMhYGcma1mnC93EwLPhOFJ5Vjw==
+
 "@manuscripts/eslint-config@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@manuscripts/eslint-config/-/eslint-config-0.5.1.tgz#dd68abc2976aed76296258aa81581f661d24ee56"
@@ -1997,7 +2002,15 @@
     deepmerge "^4.2.2"
     js-beautify "^1.14.7"
 
-"@manuscripts/library@1.0.3", "@manuscripts/library@^1.0.3":
+"@manuscripts/json-schema@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.0.1.tgz#7c10e146710784d007217e09ffe4ee6defe012db"
+  integrity sha512-nsH3UA6Cl3gqLAdbE0xrMLVRiynzsnxhSi5X+Q9GGB4VtkiA7UDXFAunkce7VZucCoa2OZeqNoUOZtwoJxUeyQ==
+  dependencies:
+    ajv "^8.12.0"
+    deepmerge "^4.3.1"
+
+"@manuscripts/library@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.0.3.tgz#b985314e59072d17b18242c7e7b406ee91b10650"
   integrity sha512-j2V8jUfsfx63SStgQa55j4rlg+8O9Zu0VZsZjIA5LD36Us4HbW6faZZzZwjbknwh5CktPgW1XSSEvl0MtQw6qw==
@@ -2005,6 +2018,20 @@
     "@manuscripts/data" "^0.1.12"
     "@manuscripts/json-schema" "^1.0.0"
     "@manuscripts/transform" "^1.1.2"
+    astrocite-bibtex "^0.16.4"
+    astrocite-ris "^0.16.4"
+    citeproc "^2.4.62"
+    fontoxpath "^3.28.2"
+    prosemirror-model "^1.18.3"
+
+"@manuscripts/library@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.1.tgz#1248ea15fb326b5203fa51e9131bea26c8568326"
+  integrity sha512-EB5ig7y5exRfcoV0IJuq1+cM1CC6VWmHT8NevrDV8vzuqjbguYSRQZ+x6ncQ9PPIIpEcnoWRN/+sfJKqAH9DiQ==
+  dependencies:
+    "@manuscripts/data" "^1.0.2"
+    "@manuscripts/json-schema" "^2.0.1"
+    "@manuscripts/transform" "^1.2.1"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
@@ -2047,19 +2074,19 @@
     tooltip.js "^1.3.3"
     typeface-lato "^1.1.13"
 
-"@manuscripts/style-guide@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.0.7.tgz#3697b007dce835e8e57beffb750528f3c8209c8c"
-  integrity sha512-D2aYU6yrGVFDkZcrL2FTi1A0Lz3UReZ3S/Zo/N2NaE3YK412ylmgJy+M3YP0OJGhw+VGjXnjdb+CjKApffbpQA==
+"@manuscripts/style-guide@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.1.tgz#9c606e036668febcbf852667a0936dbe82c1aed0"
+  integrity sha512-0uSFi6/e9U9bPU5racxbZC2GjYxQz61cx4FXLaJDU4WBCTCB2uAzurRAlLDv01kzN6BbkdZSUvZHmWryBMNsfg==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
-    "@manuscripts/json-schema" "^1.0.0"
+    "@manuscripts/json-schema" "^2.0.1"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/transform" "^1.1.1"
+    "@manuscripts/transform" "^1.2.3"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -2120,7 +2147,23 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.1.5", "@manuscripts/transform@^1.1.5":
+"@manuscripts/track-changes-plugin@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.3.1.tgz#aad7d398b8d040ee552beedeb7b75155bc963175"
+  integrity sha512-RkAc/70gl1gaGWiOqM+R+mQeTZupFoyl022CpeIGFRDN5eRZr6vU4lUPc6Us0kTwgCvwFHi8Tqg7guZJTEE2iQ==
+  dependencies:
+    debug "^4.3.4"
+    prosemirror-commands "^1.5.0"
+    prosemirror-example-setup "^1.2.1"
+    prosemirror-history "^1.3.0"
+    prosemirror-keymap "^1.2.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-schema-list "^1.2.2"
+    prosemirror-state "^1.4.2"
+    prosemirror-transform "^1.7.0"
+    prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.5.tgz#60832577890bbadcb8a98d0d9797caafe16fe64f"
   integrity sha512-Q4O3q0qXh0qZyqbTtkSpzJZeP/ySgLA5aTeDX1KzjIeKyZX56P+l9I/zYGl40kmna0pi5ejFQCYGgP3gQw4ukQ==
@@ -2134,23 +2177,26 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-"@manuscripts/transform@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.1.tgz#2d343a82d94d330690c6d64e94d88f2c32648f87"
-  integrity sha512-FzKE+eWUYpy9PYzLAnPMd3N9bL1+ujJviddps7Irvo5o4/T0izFSGHzWs3BifHG5SaOVS5qR6tYZKI2f06TZdA==
-  dependencies:
-    debug "^4.3.4"
-    mathjax-full "^3.2.2"
-    mime "^3.0.0"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
-
 "@manuscripts/transform@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.1.2.tgz#5097b173b8bdf5df090a589c9b826875b9308a77"
   integrity sha512-107Bzoas0x0l1AIFOusklqbFbWu/1Fuse7d4Hsljsib6Etc0Eye7EcqR8wKYr/cvOBOtkP3UUa1L2l2WnzbH1A==
   dependencies:
     "@manuscripts/json-schema" "^1.0.0"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@^1.2.1", "@manuscripts/transform@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.2.3.tgz#d6c0d83aa1ca69bdc3072f2dad85b1fcbeb34927"
+  integrity sha512-LcatsFDB/Sf1U3FyMgPWljyDKpgfB34qw81Hn/GdELLNgCoO1jUDOY7WQ2KW78BdtvqDUSu5eR4zKP3vKyiw5w==
+  dependencies:
+    "@manuscripts/json-schema" "^2.0.1"
     debug "^4.3.4"
     jszip "^3.10.1"
     mathjax-full "^3.2.2"
@@ -4313,6 +4359,16 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.12.3, ajv@^6.12.4, ajv
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+ajv@^8.12.0:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
+  integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
@@ -6457,6 +6513,11 @@ deepmerge@^4.2.2:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.0.tgz#65491893ec47756d44719ae520e0e2609233b59b"
   integrity sha512-z2wJZXrmeHdvYJp/Ux55wIjqo81G5Bp4c+oELTW+7ar6SogWHajt5a9gO3s3IDaGSAXjDk0vlQKN3rms8ab3og==
+
+deepmerge@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
+  integrity sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==
 
 default-browser-id@^1.0.4:
   version "1.0.4"
@@ -10373,6 +10434,11 @@ json-schema-traverse@^0.4.1:
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
   integrity sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==
 
+json-schema-traverse@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz#ae7bcb3656ab77a73ba5c49bf654f38e6b6860e2"
+  integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
+
 json-schema@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.4.0.tgz#f7de4cf6efab838ebaeb3236474cbba5a1930ab5"
@@ -13910,6 +13976,11 @@ require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
   integrity sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==
+
+require-from-string@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/require-from-string/-/require-from-string-2.0.2.tgz#89a7fdd938261267318eafe14f9c32e598c36909"
+  integrity sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==
 
 require-main-filename@^2.0.0:
   version "2.0.0"
