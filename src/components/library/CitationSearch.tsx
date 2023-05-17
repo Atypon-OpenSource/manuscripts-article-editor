@@ -193,7 +193,16 @@ export const CitationSearch: React.FC<{
             }
 
             setSelected((selected) => {
-              selected.set(id, buildBibliographyItem(result))
+              selected.set(
+                id,
+                buildBibliographyItem({
+                  ...result,
+                  type:
+                    (result.type as string) == 'journal-article'
+                      ? 'article-journal'
+                      : result.type,
+                })
+              )
               return new Map<string, Build<BibliographyItem>>([...selected])
             })
 
