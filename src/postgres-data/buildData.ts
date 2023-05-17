@@ -231,24 +231,26 @@ const getCollaboratorsData = async (
   return collabsData
 }
 
-const getDrivedData = async (
-  manuscriptID: string,
-  projectID: string,
+const createDoc = (
   data: Partial<state>,
   alternatedModelMap?: Map<string, Model>
 ) => {
+  if (!data.modelMap) {
+    return null
+  }
+  const decoder = new Decoder(alternatedModelMap || data.modelMap, true)
+  const doc = decoder.createArticleNode()
+  return doc
+}
+
+export const getDrivedData = (projectID: string, data: Partial<state>) => {
   if (!data.modelMap || !projectID) {
     return null
   }
 
-  const decoder = new Decoder(alternatedModelMap || data.modelMap, true)
-  const doc = decoder.createArticleNode()
-  const ancestorDoc = decoder.createArticleNode()
   const storeData: Partial<state> = {
     snapshotID: null,
     commitAtLoad: null,
-    ancestorDoc,
-    doc,
   }
 
   const affiliationAndContributors: (Contributor | Affiliation)[] = []
@@ -309,12 +311,8 @@ export default async function buildData(
     )
   }
 
-  const derivedData = await getDrivedData(
-    manuscriptID,
-    projectID,
-    manuscriptData,
-    noAttachmentsModelMap
-  )
+  const derivedData = getDrivedData(projectID, manuscriptData)
+  const doc = createDoc(manuscriptData, noAttachmentsModelMap)
 
   return {
     projects: projects,
@@ -330,6 +328,7 @@ export default async function buildData(
     ...collaboratorsData,
     ...librariesData,
     ...manuscriptData,
+    doc,
     tokenData: new TokenData(),
   }
 }

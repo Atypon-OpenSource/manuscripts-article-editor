@@ -20,7 +20,7 @@ export type stateSetter = (setState: (currentState: state) => state) => void
 export interface StoreDataSourceStrategy {
   build: builderFn
   unmount?: () => void
-  afterAction?: (state: state, setState: stateSetter) => void
+  afterAction?: (state: state, prev: state, setState: stateSetter) => void
   beforeAction?: GenericStore['beforeAction']
   updateStore?: (setState: stateSetter) => void
 }

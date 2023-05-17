@@ -73,28 +73,26 @@ export const SectionValidations: React.FC<{
       }
     })
     sectionsData.push(
-      <>
-        <RequirementContainer
-          result={sections}
-          key={sectionValidationId}
-          title={categoryData}
-        >
-          <Requirement>
-            {sections.map(
-              (section: AnyValidationResult) =>
-                section.message && (
-                  <RequirementsData
-                    node={section}
-                    key={section._id}
-                    modelMap={modelMap}
-                    manuscriptID={manuscriptID}
-                    bulkUpdate={bulkUpdate}
-                  />
-                )
-            )}
-          </Requirement>
-        </RequirementContainer>
-      </>
+      <RequirementContainer
+        result={sections}
+        key={sectionValidationId}
+        title={categoryData}
+      >
+        <Requirement>
+          {sections.map(
+            (section: AnyValidationResult) =>
+              section.message && (
+                <RequirementsData
+                  node={section}
+                  key={section._id}
+                  modelMap={modelMap}
+                  manuscriptID={manuscriptID}
+                  bulkUpdate={bulkUpdate}
+                />
+              )
+          )}
+        </Requirement>
+      </RequirementContainer>
     )
     if (sectionValidation.length <= 0) {
       return <>{sectionsData}</>
