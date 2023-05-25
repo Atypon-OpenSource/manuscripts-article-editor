@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
@@ -42,26 +42,17 @@ interface Props {
 }
 const Inspector: React.FC<Props> = ({ editor }) => {
   const [
-    {
-      submission,
-      fileManagement,
-      comment1,
-      saveTrackModel,
-      trackModelMap,
-      selectedComment,
-    },
+    { submission, fileManagement, comment, saveTrackModel, trackModelMap },
     stateDispatch,
   ] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
     submission: store.submission,
     fileManagement: store.fileManagement,
-    comment1: store.comment,
-    selectedComment: store.selectedComment,
+    comment: store.comment,
   }))
 
   const { state, dispatch } = editor
-  const comment = comment1 || selectedComment
 
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -139,7 +130,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     can={can}
                     enableDragAndDrop={true}
                     modelMap={trackModelMap}
-                    saveModel={(m) => saveTrackModel(m as any)}
+                    saveModel={saveTrackModel}
                     fileManagement={{
                       ...fileManagement,
                       getAttachments: () => submission.attachments,
