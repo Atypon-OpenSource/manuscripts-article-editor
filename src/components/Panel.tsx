@@ -20,6 +20,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import layout, { Pane } from '../lib/layout'
+import { useStore } from '../store'
 
 export interface ResizerButtonInnerProps {
   isCollapsed: boolean
@@ -69,13 +70,20 @@ const Panel: React.FC<PanelProps> = (props) => {
   })
 
   const forceOpen = useRef<boolean>()
-
   const hideWhenQuery = useRef<MediaQueryList>()
+  const [_, dispatch] = useStore((store) => ({
+    selectedComment: store.selectedComment,
+  }))
 
   useLayoutEffect(() => {
     if (forceOpen.current !== props.forceOpen) {
       updateState(layout.get(props.name), props.forceOpen)
       forceOpen.current = props.forceOpen
+    }
+    if (props.forceOpen) {
+      const { name } = props
+      const data = { ...layout.get(name), collapsed: false }
+      layout.set(name, data)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.forceOpen, props.name])
@@ -105,17 +113,18 @@ const Panel: React.FC<PanelProps> = (props) => {
   function updateState(data: Pane, forceOpen = false) {
     const { minSize } = props
     const { hidden } = state
-
     const size = Math.max(minSize || 0, data.size)
-
     const collapsed = !forceOpen && (data.collapsed || hidden)
-
     setState((state) => ({
       ...state,
       originalSize: size,
       size: collapsed ? 0 : size,
       collapsed,
     }))
+
+    if (forceOpen === false && data.collapsed === true) {
+      dispatch({ selectedComment: undefined })
+    }
   }
 
   function buildStyle(direction: string | null, size: number): PanelStyle {
@@ -142,24 +151,19 @@ const Panel: React.FC<PanelProps> = (props) => {
 
   function handleResizeEnd(resizeDelta: number) {
     const { originalSize } = state as InitializedPanelState
-
     const { name } = props
-
     const data = layout.get(name)
     data.size = resizeDelta < -originalSize ? 0 : originalSize + resizeDelta
     data.collapsed = data.size === 0
     layout.set(name, data)
-
     updateState(data)
   }
 
   function handleResizeButton() {
     const { name } = props
-
     const data = layout.get(name)
     data.collapsed = !data.collapsed
     layout.set(name, data)
-
     updateState(data)
   }
 
