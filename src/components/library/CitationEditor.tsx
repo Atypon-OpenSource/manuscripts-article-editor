@@ -220,7 +220,6 @@ const CitationEditor: React.FC<Props> = ({
       ),
     [citedReferencesSet, filterLibraryItems]
   )
-
   if (searching) {
     return (
       <CitationSearch
@@ -236,17 +235,28 @@ const CitationEditor: React.FC<Props> = ({
 
   if (!items.length) {
     return (
-      <CitationSearch
-        query={selectedText}
-        filterLibraryItems={filterLibraryItems}
-        importItems={importItems}
-        handleCite={handleCite}
-        addCitation={addCitationCallback}
-        handleCancel={handleCancel}
-      />
+      <div>
+        <CitationSearch
+          query={selectedText}
+          filterLibraryItems={filterLibraryItems}
+          importItems={importItems}
+          handleCite={handleCite}
+          addCitation={addCitationCallback}
+          handleCancel={handleCancel}
+        />
+        <CitationModel
+          editCitation={showEditModel}
+          modelMap={modelMap}
+          saveCallback={saveCallback}
+          selectedItem={selectedItem}
+          deleteCallback={deleteReferenceCallback}
+          setSelectedItem={setSelectedItem}
+          setShowEditModel={setShowEditModel}
+          getReferences={filterLibraryItems}
+        />
+      </div>
     )
   }
-
   return (
     <div>
       <Dialog
@@ -303,7 +313,6 @@ const CitationEditor: React.FC<Props> = ({
           </CitedItem>
         ))}
       </CitedItems>
-
       <CitationModel
         editCitation={showEditModel}
         modelMap={modelMap}
@@ -314,7 +323,6 @@ const CitationEditor: React.FC<Props> = ({
         setShowEditModel={setShowEditModel}
         getReferences={filterLibraryItems}
       />
-
       <Actions>
         <IconTextButton onClick={addCommentCallback}>
           <AddComment />

@@ -244,7 +244,7 @@ const ReferencesSidebar = styled(ModalSidebar)`
 `
 
 const ReferencesSidebarContent = styled(SidebarContent)`
-  overflow-y: hidden;
+  overflow-y: auto;
 `
 
 const Grid = styled.div`
