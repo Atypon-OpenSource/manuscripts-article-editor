@@ -26,27 +26,27 @@ import {
 } from '@manuscripts/style-guide'
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorState } from '@manuscripts/transform'
-import { debounce } from 'lodash'
 import React, { useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
-import config from '../../../config'
-import { useCreateEditor } from '../../../hooks/use-create-editor'
-import useTrackedModelManagement from '../../../hooks/use-tracked-model-management'
-import { useCommentStore } from '../../../quarterback/useCommentStore'
-import { useDocStore } from '../../../quarterback/useDocStore'
-import { useStore } from '../../../store'
-import MetadataContainer from '../../metadata/MetadataContainer'
-import { Main } from '../../Page'
-import { useEditorStore } from '../../track-changes/useEditorStore'
+import config from '../../config'
+import { useCreateEditor } from '../../hooks/use-create-editor'
+import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
+import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
+import { useCommentStore } from '../../quarterback/useCommentStore'
+import { useDocStore } from '../../quarterback/useDocStore'
+import { useStore } from '../../store'
+import MetadataContainer from '../metadata/MetadataContainer'
+import { Main } from '../Page'
+import { useEditorStore } from '../track-changes/useEditorStore'
 import {
   EditorBody,
   EditorContainer,
   EditorContainerInner,
   EditorHeader,
-} from '../EditorContainer'
-import Inspector from '../Inspector'
-import ManuscriptSidebar from '../ManuscriptSidebar'
+} from './EditorContainer'
+import Inspector from './Inspector'
+import ManuscriptSidebar from './ManuscriptSidebar'
 import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
 import EditorElement from './EditorElement'
 import { TrackChangesStyles } from './TrackChangesStyles'
@@ -139,15 +139,25 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
 
-  const saveDocument = debounce((state: ManuscriptEditorState) => {
+  // @TODO - remove this once testing is completed
+  const throttle = useMemo(() => {
+    const location = new URLSearchParams(window.location.search)
+    return parseInt(location.get('throttle') || '') || 3000
+  }, [])
+
+  const saveDocument = (state: ManuscriptEditorState) => {
+    // @TODO - remove this once testing is completed
+    console.log('Saving to quarteback with throttle: ' + throttle)
     storeDispatch({ doc: state.doc })
     updateDocument(manuscriptID, state.doc.toJSON())
-  }, 500)
+  }
+
+  const doWithThrottle = useDoWithThrottle()
 
   useEffect(() => {
     const { trackState } = setEditorState(state)
     if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
-      saveDocument(state)
+      doWithThrottle(() => saveDocument(state), throttle)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])

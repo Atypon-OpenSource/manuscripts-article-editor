@@ -47,7 +47,7 @@
     "@manuscripts/style-guide": "1.1.1-LEAN-2299-2",
     "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.3.1",
-    "@manuscripts/transform": "^1.2.3",
+    "@manuscripts/transform": "1.2.4",
     "@reach/tabs": "^0.11.2",
     "autotrack": "^2.4.1",
     "axios": "^1.2.2",

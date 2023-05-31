@@ -32,7 +32,7 @@ export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export * from './store/ParentObserver'
 export { getUserRole } from './lib/roles'
-export { SaveStatusController } from './components/projects/advanced/SaveStatusController'
+export { SaveStatusController } from './components/projects/SaveStatusController'
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement

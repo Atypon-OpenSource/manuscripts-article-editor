@@ -177,11 +177,11 @@ export interface Store {
   ): void | action
   unmountHandler?(state: state): void
   subscribe(fn: () => void): () => void
-  queue: Set<(state: state) => void>
+  queue: Set<(state: state, prev?: state) => void>
   unmount(): void
   setState(state: state): void
   getState(): state
-  dispatchQueue(): void
+  dispatchQueue(prev: state | null): void
 }
 
 export class GenericStore implements Store {
@@ -217,17 +217,18 @@ export class GenericStore implements Store {
 
     // this.state = buildStateFromSources(source)
   }
-  queue: Set<(state: state) => void> = new Set()
+  queue: Set<(state: state, prev: state) => void> = new Set()
   getState() {
     return this.state!
   }
   setState(state: state | ((state: state) => state)) {
+    const prevState = { ...this.state! }
     if (typeof state === 'function') {
       this.state = state(this.state!)
     } else {
       this.state = { ...this.state, ...state }
     }
-    this.dispatchQueue()
+    this.dispatchQueue(prevState)
   }
   init = async (sources: StoreDataSourceStrategy[]) => {
     this.sources = sources
@@ -254,16 +255,17 @@ export class GenericStore implements Store {
     this.sources.map((source) => {
       if (source.afterAction) {
         this.subscribe(
-          () =>
-            source.afterAction && source.afterAction(this.state!, this.setState)
+          (state, prevState) =>
+            source.afterAction &&
+            source.afterAction(state!, prevState, this.setState)
         )
       }
     })
   }
-  dispatchQueue() {
-    this.queue.forEach((fn) => fn(this.state!))
+  dispatchQueue(prevState: state) {
+    this.queue.forEach((fn) => fn(this.state!, prevState))
   }
-  subscribe(fn: (state: state) => void) {
+  subscribe(fn: (state: state, prev: state) => void) {
     const queue = this.queue
     queue.add(fn)
     return function unsubscribe() {

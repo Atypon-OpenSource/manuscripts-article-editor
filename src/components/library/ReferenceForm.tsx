@@ -42,8 +42,8 @@ import { OptionsType } from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
-import { DeleteIcon } from '../projects/advanced/icons/DeleteIcon'
-import { LinkIcon } from '../projects/advanced/icons/LinkIcon'
+import { DeleteIcon } from '../projects/icons/DeleteIcon'
+import { LinkIcon } from '../projects/icons/LinkIcon'
 import { SelectField } from '../SelectField'
 
 export const LabelContainer = styled.div`

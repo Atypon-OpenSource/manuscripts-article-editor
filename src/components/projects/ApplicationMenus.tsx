@@ -24,9 +24,9 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 
-import config from '../../../config'
-import { addColor, buildColors } from '../../../lib/colors'
-import { useStore } from '../../../store'
+import config from '../../config'
+import { addColor, buildColors } from '../../lib/colors'
+import { useStore } from '../../store'
 
 export const ApplicationMenuContainer = styled.div`
   display: flex;

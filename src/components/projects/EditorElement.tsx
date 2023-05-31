@@ -35,10 +35,10 @@ import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
-import { setNodeAttrs } from '../../../lib/node-attrs'
-import { useStore } from '../../../store'
-import { SpriteMap } from '../../track-changes/suggestion-list/Icons'
-import { useEditorStore } from '../../track-changes/useEditorStore'
+import { setNodeAttrs } from '../../lib/node-attrs'
+import { useStore } from '../../store'
+import { SpriteMap } from '../track-changes/suggestion-list/Icons'
+import { useEditorStore } from '../track-changes/useEditorStore'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
