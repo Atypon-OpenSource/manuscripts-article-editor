@@ -33,7 +33,7 @@ import ReactTooltip from 'react-tooltip'
 import styled, { css } from 'styled-components'
 
 import { ScrollableModalMain } from '../metadata/AuthorsModals'
-import { GroupIcon } from '../projects/lean-workflow/icons/GroupIcon'
+import { GroupIcon } from '../projects/icons/GroupIcon'
 import {
   ModalBody,
   ModalSidebar,

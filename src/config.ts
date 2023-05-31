@@ -44,10 +44,6 @@ interface Config {
     enabled: boolean
     url: string
   }
-  leanWorkflow: {
-    url: string
-    graphqlEndpoint: string
-  }
   keywordsCategories: boolean
 }
 
@@ -76,10 +72,6 @@ const config = {
   quarterback: {
     enabled: isTrue(process.env.QUARTERBACK_ENABLED),
     url: normalizeURL(process.env.QUARTERBACK_URL) || '',
-  },
-  leanWorkflow: {
-    url: normalizeURL(process.env.LEAN_WORKFLOW_URL),
-    graphqlEndpoint: process.env.LEAN_WORKFLOW_GRAPHQL_ENDPOINT,
   },
   keywordsCategories: isTrue(process.env.FEATURE_KEYWORDS_CATEGORIES),
 }

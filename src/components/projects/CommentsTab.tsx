@@ -20,9 +20,9 @@ import { ContentNodeWithPos } from 'prosemirror-utils'
 import React from 'react'
 import styled from 'styled-components'
 
-import config from '../../../config'
-import { useCreateEditor } from '../../../hooks/use-create-editor'
-import { useStore } from '../../../store'
+import config from '../../config'
+import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useStore } from '../../store'
 import { CommentList } from './CommentList'
 
 export const CommentsTab: React.FC<{
