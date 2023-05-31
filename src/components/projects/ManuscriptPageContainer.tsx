@@ -39,16 +39,16 @@ import { useStore } from '../../store'
 import MetadataContainer from '../metadata/MetadataContainer'
 import { Main } from '../Page'
 import { useEditorStore } from '../track-changes/useEditorStore'
+import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
 import {
   EditorBody,
   EditorContainer,
   EditorContainerInner,
   EditorHeader,
 } from './EditorContainer'
+import EditorElement from './EditorElement'
 import Inspector from './Inspector'
 import ManuscriptSidebar from './ManuscriptSidebar'
-import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
-import EditorElement from './EditorElement'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
