@@ -14,9 +14,9 @@ import { usePermissions } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
-import config from '../../../config'
-import { useStore } from '../../../store'
-import { useEditorStore } from '../../track-changes/useEditorStore'
+import config from '../../config'
+import { useStore } from '../../store'
+import { useEditorStore } from '../track-changes/useEditorStore'
 
 const TrackChangesOn = styled.div`
 

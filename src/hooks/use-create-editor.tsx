@@ -15,7 +15,7 @@ import {
   useEditor,
 } from '@manuscripts/body-editor'
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
-import { getLWCapabilities } from '@manuscripts/style-guide'
+import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build } from '@manuscripts/transform'
 import { memoize } from 'lodash'
@@ -47,8 +47,7 @@ export const useCreateEditor = () => {
       saveModel,
       deleteModel,
       commitAtLoad,
-      submissionId,
-      submission,
+      attachments,
       fileManagement,
     },
     dispatch,
@@ -64,15 +63,14 @@ export const useCreateEditor = () => {
     getModel: store.getModel,
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
-    submissionId: store.submissionID || '',
     commitAtLoad: store.commitAtLoad,
-    submission: store.submission,
+    attachments: store.attachments,
     fileManagement: store.fileManagement,
   }))
   const { user: trackUser } = useAuthStore()
 
   const getCapabilities = memoize((project, user, permittedActions) =>
-    getLWCapabilities(project, user, undefined, permittedActions)
+    getActionCapabilities(project, user, undefined, permittedActions)
   )
 
   const popper = useRef<PopperManager>(new PopperManager())
@@ -155,7 +153,6 @@ export const useCreateEditor = () => {
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
     theme,
-    submissionId,
     getCapabilities: () => {
       const state = getState()
       return getCapabilities(state.project, state.user, state.permittedActions)
@@ -166,24 +163,21 @@ export const useCreateEditor = () => {
       const result = await fileManagement.upload(file, designation)
       if (typeof result === 'object') {
         dispatch({
-          submission: {
-            ...submission,
-            attachments: [
-              ...submission.attachments,
-              {
-                ...result,
-              },
-            ],
-            /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
+          attachments: [
+            ...attachments,
+            {
+              ...result,
+            },
+          ],
+          /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
               That (adding modelId) should be removed once exFileRefs are out. ModelId should not be needed anymore then.
             */
-          },
         })
         return result
       }
     },
     getAttachments: () => {
-      return getState().submission.attachments
+      return getState().attachments
     },
   }
 
