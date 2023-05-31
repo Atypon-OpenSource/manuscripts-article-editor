@@ -12,8 +12,8 @@
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
 import {
+  FileAttachment,
   FileManager,
-  SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -34,8 +34,8 @@ import Panel from '../Panel'
 import { RequirementsInspectorView } from '../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
-import { CommentsTab } from './lean-workflow/CommentsTab'
-import { ContentTab } from './lean-workflow/ContentTab'
+import { CommentsTab } from './CommentsTab'
+import { ContentTab } from './ContentTab'
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
@@ -43,9 +43,9 @@ interface Props {
 const Inspector: React.FC<Props> = ({ editor }) => {
   const [
     {
-      submission,
+      attachments,
       fileManagement,
-      comment1,
+      editorSelectedComment,
       saveTrackModel,
       trackModelMap,
       selectedComment,
@@ -54,14 +54,14 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   ] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
-    submission: store.submission,
+    attachments: store.attachments,
     fileManagement: store.fileManagement,
-    comment1: store.comment,
+    editorSelectedComment: store.comment,
     selectedComment: store.selectedComment,
   }))
 
   const { state, dispatch } = editor
-  const comment = comment1 || selectedComment
+  const comment = editorSelectedComment || selectedComment
 
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -142,14 +142,11 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     saveModel={(m) => saveTrackModel(m as any)}
                     fileManagement={{
                       ...fileManagement,
-                      getAttachments: () => submission.attachments,
+                      getAttachments: () => attachments,
                     }}
-                    addAttachmentToState={(attachment: SubmissionAttachment) =>
+                    addAttachmentToState={(attachment: FileAttachment) =>
                       stateDispatch({
-                        submission: {
-                          ...submission,
-                          attachments: [...submission.attachments, attachment],
-                        },
+                        attachments: [...attachments, attachment],
                       })
                     }
                   />

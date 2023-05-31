@@ -15,10 +15,10 @@ import { SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
-import { useStore } from '../../../store'
-import { SectionInspector } from '../../inspector/SectionInspector'
-import { StatisticsInspector } from '../../inspector/StatisticsInspector'
-import { ManuscriptInspector } from '../ManuscriptInspector'
+import { useStore } from '../../store'
+import { SectionInspector } from '../inspector/SectionInspector'
+import { StatisticsInspector } from '../inspector/StatisticsInspector'
+import { ManuscriptInspector } from './ManuscriptInspector'
 
 export const ContentTab: React.FC<{
   state: EditorState
