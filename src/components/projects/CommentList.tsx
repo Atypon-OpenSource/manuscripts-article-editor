@@ -44,10 +44,10 @@ import { TextSelection } from 'prosemirror-state'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { useCreateEditor } from '../../../hooks/use-create-editor'
-import { useStore } from '../../../store'
-import * as Pattern from '../CommentListPatterns'
-import { HighlightedText } from '../HighlightedText'
+import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useStore } from '../../store'
+import * as Pattern from './CommentListPatterns'
+import { HighlightedText } from './HighlightedText'
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>

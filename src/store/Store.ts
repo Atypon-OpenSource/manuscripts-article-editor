@@ -26,7 +26,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { FileManagement } from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import {
   Attachment,
   Build,
@@ -36,7 +36,6 @@ import {
   ModelAttachment,
 } from '@manuscripts/transform'
 
-import { Person, Submission } from '../lib/lean-workflow-gql'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { BiblioTools } from './BiblioTools'
@@ -75,7 +74,6 @@ export type state = {
   userRole: ProjectRole
   tokenData: TokenData
   projectID: string
-  submissionID?: string
   fileManagement: FileManagement
   userID?: string | undefined
   userProfileID?: string | undefined
@@ -96,9 +94,8 @@ export type state = {
   collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
-  submission: Submission
+  attachments: FileAttachment[]
   permittedActions: string[]
-  person: Person
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>

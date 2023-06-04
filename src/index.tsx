@@ -21,7 +21,6 @@ import React, { useEffect } from 'react'
 
 import { IntlProvider } from './components/IntlHookableProvider'
 import { LoadingPage } from './components/Loading'
-import { Person, Submission } from './lib/lean-workflow-gql'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
 import userID from './lib/user-id'
@@ -33,30 +32,23 @@ export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export * from './store/ParentObserver'
 export { getUserRole } from './lib/roles'
-export { SaveStatusController } from './components/projects/lean-workflow/SaveStatusController'
-export { ExceptionDialog } from './components/projects/lean-workflow/ExceptionDialog'
+export { SaveStatusController } from './components/projects/SaveStatusController'
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement
   parentObserver: ISubject
-  submissionId: string
   manuscriptID: string
   projectID: string
-  submission: Submission
   permittedActions: string[]
-  person: Person
   authToken?: string
 }
 
 const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
   fileManagement,
   parentObserver,
-  submissionId,
   manuscriptID,
   projectID,
-  submission,
   permittedActions,
-  person,
   authToken,
 }) => {
   useEffect(() => {
@@ -92,12 +84,9 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
               fileManagement={fileManagement}
               authToken={authToken || ''}
               parentObserver={parentObserver}
-              submissionId={submissionId}
               manuscriptID={manuscriptID}
               projectID={projectID}
-              submission={submission}
               permittedActions={permittedActions}
-              person={person}
             />
           </React.Suspense>
         </ThemeProvider>

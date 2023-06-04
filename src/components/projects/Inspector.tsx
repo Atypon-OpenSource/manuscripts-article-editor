@@ -7,13 +7,13 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
 import {
+  FileAttachment,
   FileManager,
-  SubmissionAttachment,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -34,25 +34,34 @@ import Panel from '../Panel'
 import { RequirementsInspectorView } from '../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
-import { CommentsTab } from './lean-workflow/CommentsTab'
-import { ContentTab } from './lean-workflow/ContentTab'
+import { CommentsTab } from './CommentsTab'
+import { ContentTab } from './ContentTab'
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
 }
 const Inspector: React.FC<Props> = ({ editor }) => {
   const [
-    { submission, fileManagement, comment, saveTrackModel, trackModelMap },
+    {
+      attachments,
+      fileManagement,
+      editorSelectedComment,
+      saveTrackModel,
+      trackModelMap,
+      selectedComment,
+    },
     stateDispatch,
   ] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     trackModelMap: store.trackModelMap,
-    submission: store.submission,
+    attachments: store.attachments,
     fileManagement: store.fileManagement,
-    comment: store.comment,
+    editorSelectedComment: store.comment,
+    selectedComment: store.selectedComment,
   }))
 
   const { state, dispatch } = editor
+  const comment = editorSelectedComment || selectedComment
 
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -133,14 +142,11 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     saveModel={(m) => saveTrackModel(m as any)}
                     fileManagement={{
                       ...fileManagement,
-                      getAttachments: () => submission.attachments,
+                      getAttachments: () => attachments,
                     }}
-                    addAttachmentToState={(attachment: SubmissionAttachment) =>
+                    addAttachmentToState={(attachment: FileAttachment) =>
                       stateDispatch({
-                        submission: {
-                          ...submission,
-                          attachments: [...submission.attachments, attachment],
-                        },
+                        attachments: [...attachments, attachment],
                       })
                     }
                   />
