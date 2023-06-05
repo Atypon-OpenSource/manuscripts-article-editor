@@ -1994,17 +1994,22 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@manuscripts/assets@^0.6.1", "@manuscripts/assets@^0.6.2":
+"@manuscripts/assets@^0.6.1":
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.3.tgz#862293c311b172e0482d360cb8d533ba5d699f1e"
   integrity sha512-AJ6XhmWSSjFuhU/G8bFCyszi0l1flKXlLY8FxiwcmrA1mI0RorhLIxtSB2hgzdrftguqAt21IIUBHhCP8Vvt8w==
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.2.8-LEAN-2192":
-  version "1.2.8-LEAN-2192"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.8-LEAN-2192.tgz#8f3ba9cc4977bf6c4c8c9d186b4a7d53938ce65b"
-  integrity sha512-LAyxlT4aDGq8Q5THNfKI8Uxezu7u8KOtUtaf/4jbm1iz4wOMTlZPTtxkLRlz4mLZgGQtoO7JKEwX+bnIMKnqMQ==
+"@manuscripts/assets@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
+  integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
+
+"@manuscripts/body-editor@1.2.9-LEAN-2192":
+  version "1.2.9-LEAN-2192"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9-LEAN-2192.tgz#9a3a2408c790efc160a01cb5edda4ffcfda65ec6"
+  integrity sha512-uTUeNaz9WfNdZVkLiT59gLoXUzCQ9xw7u2IHdui0bsYZ0XI0twP+bb0NDmoYWihzYc1F5cCAM+XwpvW17/MDXw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
@@ -2126,7 +2131,7 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.1.5-LEAN-2192":
+"@manuscripts/style-guide@1.1.5-LEAN-2192", "@manuscripts/style-guide@^1.1.5-LEAN-2192":
   version "1.1.5-LEAN-2192"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.5-LEAN-2192.tgz#1184f3783db4eaa2d2bddbe70e5c64136ca73525"
   integrity sha512-3mEzozqErnqV9fMqOtdwr0+leX2jp7RgFBLdcZRf0XNmd6MeUNfM2CZhcdEYpxflxQj592JBvZzHfVukiptcWw==

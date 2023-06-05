@@ -104,7 +104,7 @@ export const useCreateEditor = () => {
           }),
         ]
       : [],
-    locale: manuscript.primaryLanguageCode || 'en-GB',
+    locale: manuscript?.primaryLanguageCode || 'en-GB',
     environment: config.environment,
     history,
     popper: popper.current,
@@ -157,10 +157,8 @@ export const useCreateEditor = () => {
       const state = getState()
       return getCapabilities(state.project, state.user, state.permittedActions)
     },
-    // TODO:: remove this as we are not going to use designation
-    updateDesignation: () => new Promise(() => false),
-    uploadAttachment: async (designation: string, file: File) => {
-      const result = await fileManagement.upload(file, designation)
+    uploadAttachment: async (file: File) => {
+      const result = await fileManagement.upload(file)
       if (typeof result === 'object') {
         dispatch({
           attachments: [
