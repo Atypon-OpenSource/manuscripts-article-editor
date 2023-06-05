@@ -1917,28 +1917,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-<<<<<<< HEAD
-"@manuscripts/body-editor@1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.7.tgz#9d6a802b1d82199edbfacca0dddbdda04f9ba606"
-  integrity sha512-SydIIkJoovyjkI0PBVMjA3dHGlZ6CB8gkMkvgv/DM4NmCGBAbNH7Dtdol7c7TkVpsiDefOrcCM/e6dBPohBV5Q==
-=======
-"@manuscripts/body-editor@1.2.5-LEAN-2237-2":
-  version "1.2.5-LEAN-2237-2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.5-LEAN-2237-2.tgz#dd05b372982a0014512379c2ac0e673bd44f3959"
-  integrity sha512-zKJ5fak3tn5KNnmF+YJD33hInEcBRdNzxdFVBG38WHZNdIKHJR5wj2HPQcs3jFg8pE2VZCgh7hJNJ2wHapze+A==
->>>>>>> 3b096693 (LEAN-2510: LW-R9: Editor- Uploading a file to other files tab added the file to supplement file too (and vice versa))
+"@manuscripts/body-editor@1.2.9":
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9.tgz#53d1cc7e8cca62c81a9db5b1d6ec9622e877d7dc"
+  integrity sha512-ygsOZi9CtTFiSs+tfArkLamtMoWKRwZZV4jh2rPnc940CJmPnjLNMellOiZVW/N6SAEW2Y5D7p95Zaf0HWtnVA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.1"
     "@manuscripts/library" "^1.1.1"
-<<<<<<< HEAD
-    "@manuscripts/style-guide" "1.1.3"
-=======
-    "@manuscripts/style-guide" "1.1.2-LEAN-2237-2"
->>>>>>> 3b096693 (LEAN-2510: LW-R9: Editor- Uploading a file to other files tab added the file to supplement file too (and vice versa))
+    "@manuscripts/style-guide" "1.1.5"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.3.1"
     "@manuscripts/transform" "1.2.4"
@@ -2053,59 +2042,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-<<<<<<< HEAD
-"@manuscripts/style-guide@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.3.tgz#59c1e3b6184e0fcc31ba67f5490db64e8bd679b4"
-  integrity sha512-le5Cp9jqyoW8iio4sbzg9OZpB/EbDptjzYdmHa79xomnSzCxmMbWb9GPVwEXM0r8gFsPwlw7/QtddKBAV8sDnw==
-  dependencies:
-    "@apollo/client" "^3.7.3"
-    "@formatjs/intl-relativetimeformat" "^4.5.9"
-    "@formatjs/intl-utils" "^2.2.0"
-    "@manuscripts/assets" "^0.6.2"
-    "@manuscripts/comment-editor" "^1.0.1"
-    "@manuscripts/json-schema" "^2.0.1"
-    "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/transform" "^1.2.3"
-    "@reach/tabs" "^0.11.2"
-    date-fns "^2.29.3"
-    formik "^2.2.9"
-    lodash-es "^4.17.21"
-    prosemirror-commands "^1.5.0"
-    prosemirror-history "^1.3.0"
-    prosemirror-inputrules "^1.2.0"
-    prosemirror-keymap "^1.2.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-state "^1.4.2"
-    prosemirror-transform "^1.7.0"
-    prosemirror-view "^1.29.1"
-    react "^17.0.2"
-    react-color "^2.19.3"
-    react-dnd "^11.1.3"
-    react-dnd-html5-backend "^11.1.3"
-    react-dom "^17.0.2"
-    react-intl "^3.12.0"
-    react-modal "^3.11.2"
-    react-modern-calendar-datepicker "^3.1.3"
-    react-popper "^1.3.11"
-    react-router-dom "^5.2.0"
-    react-select "^5.0.1"
-    react-sizeme "^2.6.12"
-    react-tooltip "^4.2.11"
-    styled-components "^5.2.0"
-    tooltip.js "^1.3.3"
-    typeface-lato "^1.1.13"
-
-"@manuscripts/style-guide@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.4.tgz#904123a2017a45a8694d4100fdd9d63e82558411"
-  integrity sha512-03yIDqvm2pEQHIUZnXeVpwKPbQ70JRkDbVyjZNGl+aEkxIH0OlYIxF6J0hMoCT7by1bbo01Km/h7s7lbK+53tQ==
-=======
-"@manuscripts/style-guide@1.1.2-LEAN-2237-2":
-  version "1.1.2-LEAN-2237-2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.2-LEAN-2237-2.tgz#b11e8f4b374891473c1dd6376a89a902c5965c79"
-  integrity sha512-bSDuprFXf0V9w+d7FRt2TbAUcAfG7GU6MzdUBJsoZthnaFyTRWnVJ5ht8fsmPIPv7kK5vvDUw6eptNWsLtSihg==
->>>>>>> 3b096693 (LEAN-2510: LW-R9: Editor- Uploading a file to other files tab added the file to supplement file too (and vice versa))
+"@manuscripts/style-guide@1.1.5", "@manuscripts/style-guide@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.5.tgz#bab25ff89c87208558f14bababb0ec2ad93fedcf"
+  integrity sha512-p8K9HQ2hF3V0Pjttk2KD5kAmmnNlfCdn9omahIGWj2Wptd1TF3YceMHutTNybfl3YL50o8/WwE48w9MiOSE+TQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
