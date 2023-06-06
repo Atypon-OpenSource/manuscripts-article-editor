@@ -2006,17 +2006,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.2.9-LEAN-2192-v4":
-  version "1.2.9-LEAN-2192-v4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9-LEAN-2192-v4.tgz#11386f3d1bfffe61b67c1f9a1a7bff9364fbdf42"
-  integrity sha512-Ny/WKOfmI7ZcrFbkTtgk6DcxmimR2SM6plrFo9yXrkygG9uMTo5A/QdXCWm9G1R2TXr+4BuT8WZZPCxxLPg5+A==
+"@manuscripts/body-editor@1.2.9-LEAN-2192-v5":
+  version "1.2.9-LEAN-2192-v5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9-LEAN-2192-v5.tgz#ef0f46d889022ac67244c72cc111e3afe36756e2"
+  integrity sha512-qSZ9PXYNSn6LVGv6VVL4P8CmIu3mtzSZ7poP16kHRRK5ZKE8nbrzumrx4qHQiWjs7kBqtICW9hkfiwI97rBsYQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.1"
     "@manuscripts/library" "^1.1.1"
-    "@manuscripts/style-guide" "1.1.5-LEAN-2192-v4"
+    "@manuscripts/style-guide" "1.1.5-LEAN-2192-v5"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.3.1"
     "@manuscripts/transform" "1.2.4"
@@ -2131,10 +2131,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.1.5-LEAN-2192-v4":
-  version "1.1.5-LEAN-2192-v4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.5-LEAN-2192-v4.tgz#0cdc988ebbfbf7d932c8e5114ee983d5a07e5d16"
-  integrity sha512-t3YCeKa+Aymzr9IHuxnEnkY78hmO5if2jBhBakm6LnFmt2X5KWTswsATM9doonXgmoRTVhG7MdVb4mR7CyZKcw==
+"@manuscripts/style-guide@1.1.5-LEAN-2192-v5":
+  version "1.1.5-LEAN-2192-v5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.5-LEAN-2192-v5.tgz#ef08bf69b05c3a8523ffbb5885b271e2a6f48bcc"
+  integrity sha512-/BirTU7vO/uy62RQYtXUpTwx3M9qNc/2z0HGDjcMaF8b5UgMRe0hehZ+UuajwW/wVZQkHEemQktFZXUYbDeTwA==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
