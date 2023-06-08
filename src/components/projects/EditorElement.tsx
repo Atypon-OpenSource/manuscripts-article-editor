@@ -16,7 +16,7 @@ import {
   useEditor,
 } from '@manuscripts/body-editor'
 import { Model, ObjectTypes, Supplement } from '@manuscripts/json-schema'
-import { Category, Dialog } from '@manuscripts/style-guide'
+import { Category, Dialog, FileAttachment } from '@manuscripts/style-guide'
 import {
   CHANGE_STATUS,
   trackCommands,
@@ -35,11 +35,10 @@ import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
-import { SubmissionAttachment } from '../../../lib/lean-workflow-gql'
-import { setNodeAttrs } from '../../../lib/node-attrs'
-import { useStore } from '../../../store'
-import { SpriteMap } from '../../track-changes/suggestion-list/Icons'
-import { useEditorStore } from '../../track-changes/useEditorStore'
+import { setNodeAttrs } from '../../lib/node-attrs'
+import { useStore } from '../../store'
+import { SpriteMap } from '../track-changes/suggestion-list/Icons'
+import { useEditorStore } from '../track-changes/useEditorStore'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
@@ -61,7 +60,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
-        const attachment = item.externalFile as SubmissionAttachment
+        const attachment = item.externalFile as FileAttachment
         if (!attachment || !docPos || !docPos.pos) {
           return
         }
@@ -205,7 +204,7 @@ const addFigureAtFigCaptionPosition = (
   pos: number,
   attrs: Record<string, unknown>,
   nodeSelection: NodeSelection,
-  attachment: SubmissionAttachment
+  attachment: FileAttachment
 ) => {
   const { view, dispatch } = editor
   if (!view) {
@@ -324,7 +323,7 @@ const addNewFigure = (
 const deleteSupplementFile = (
   deleteModel: (id: string) => Promise<string>,
   modelMap: Map<string, Model>,
-  attachment: SubmissionAttachment
+  attachment: FileAttachment
 ) => {
   const supplement = getModelsByType<Supplement>(
     modelMap,

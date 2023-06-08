@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { SubmissionAttachment } from '@manuscripts/style-guide'
+import { FileAttachment } from '@manuscripts/style-guide'
 
 import deeperEqual from '../lib/deeper-equal'
 import { builderFn, state, stateSetter } from '../store'
@@ -22,8 +22,8 @@ export default class PsSource implements StoreDataSourceStrategy {
   api: Api
   data: Partial<state>
   utilities: ReturnType<typeof buildUtilities>
-  attachments: SubmissionAttachment[]
-  constructor(attachments: SubmissionAttachment[]) {
+  attachments: FileAttachment[]
+  constructor(attachments: FileAttachment[]) {
     this.api = new Api()
     this.attachments = attachments
     // import api
@@ -57,6 +57,10 @@ export default class PsSource implements StoreDataSourceStrategy {
     setState
   ) => {
     this.data = state // keep up to date for utility function
+    if (typeof state.modelMap === 'undefined') {
+      return
+    }
+
     if (!deeperEqual(state.modelMap, prev.modelMap)) {
       setState((state) => {
         const newState = {

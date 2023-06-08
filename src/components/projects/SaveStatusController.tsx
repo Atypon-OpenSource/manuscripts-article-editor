@@ -13,7 +13,7 @@
 import { SaveStatus } from '@manuscripts/style-guide'
 import React from 'react'
 
-import useOnlineState, { OnlineState } from '../../../hooks/use-online-state'
+import useOnlineState, { OnlineState } from '../../hooks/use-online-state'
 
 interface Props {
   isSaving: boolean
