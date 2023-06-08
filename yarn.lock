@@ -1917,10 +1917,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.2.9-LEAN-2504":
-  version "1.2.9-LEAN-2504"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9-LEAN-2504.tgz#28e841d57ac628eff0407ac1b2c7d3bfa31a75ec"
-  integrity sha512-vq3tVG5v1sAdAF0xp2DPwexR3Scc2/gLKzl1DpVZ3JNJETP4OM8hLZV4VpiLyOJeUl4g3xMPjSVoyx12brycwA==
+"@manuscripts/body-editor@1.2.9-LEAN-2504-v2":
+  version "1.2.9-LEAN-2405-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9-LEAN-2405-2.tgz#04de59e25c55d47ea7cf19b36b1c37673ff77960"
+  integrity sha512-p9TPtIJYJizsI+oKVo/UD2A8xwm+7SUEYCu4lw44l25aHOaKt1HqLtqPW6OIC5YnUbm3hOdas5zQO/l85D9Piw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
