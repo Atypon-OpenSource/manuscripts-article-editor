@@ -1917,17 +1917,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.2.11":
-  version "1.2.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.11.tgz#c37511909129cc25b13d243c57916c6319e11e99"
-  integrity sha512-RAkpL0YNJ9EcMhUyJbh9JHaAD57zVUTZLNHz7wFt4UUvvUszSiXqq5SG+kMuUnNEhLg89/r1iXztdAPMum3N1w==
+"@manuscripts/body-editor@^1.2.12":
+  version "1.2.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.12.tgz#c4508f76afc4f4ccd51dd3daf8c181339973c672"
+  integrity sha512-kf3g8ZJU+t4SNk8mEger1B5+9dFANTu/oDoYNJY7Ji6raA79KbsXFmx7pK4JWebAb9Sp0BfVVJryNPDQK2SlGg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.2"
     "@manuscripts/library" "^1.1.2"
-    "@manuscripts/style-guide" "^1.1.6"
+    "@manuscripts/style-guide" "^1.1.7"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.5.0"
     "@manuscripts/transform" "^1.2.5"
@@ -2050,10 +2050,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.6.tgz#606c72cb9f761b1b74900879aecca476eb23e719"
-  integrity sha512-r+TRBqXnRoghXtAg5VPxeJ8U+XYKKhuRBY6XnnmaQc6g2nikZRoi97byEzlfrKw2Tl98NMREBC/jT7qL9fb2jQ==
+"@manuscripts/style-guide@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.7.tgz#53912a58de4454715f49428311fb8f473c69c093"
+  integrity sha512-ST5ii0vhfQ7MQQikzpm1BE2IO/h4PG9oCHTK9AWVGjYQlk2PxDFcvmlOIOPQEuZlUIfPlrHObvBxAqZys3H0aQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
