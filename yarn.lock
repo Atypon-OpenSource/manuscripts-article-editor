@@ -1917,10 +1917,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.2.9":
-  version "1.2.9"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9.tgz#53d1cc7e8cca62c81a9db5b1d6ec9622e877d7dc"
-  integrity sha512-ygsOZi9CtTFiSs+tfArkLamtMoWKRwZZV4jh2rPnc940CJmPnjLNMellOiZVW/N6SAEW2Y5D7p95Zaf0HWtnVA==
+"@manuscripts/body-editor@1.2.10":
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.10.tgz#147c8580aa1bbb0481743df426c01a955efaf75c"
+  integrity sha512-SCTWajugx/F0zFo6M1awyzATR21can74EgD9GTzFBXtoSYjcIj/hck2zXnfvv4GYPVfrkQVcAGEQ9D1MpufS2Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
@@ -1929,7 +1929,7 @@
     "@manuscripts/library" "^1.1.1"
     "@manuscripts/style-guide" "1.1.5"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "^1.3.1"
+    "@manuscripts/track-changes-plugin" "^1.4.1"
     "@manuscripts/transform" "1.2.4"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
@@ -2099,10 +2099,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.3.1.tgz#aad7d398b8d040ee552beedeb7b75155bc963175"
-  integrity sha512-RkAc/70gl1gaGWiOqM+R+mQeTZupFoyl022CpeIGFRDN5eRZr6vU4lUPc6Us0kTwgCvwFHi8Tqg7guZJTEE2iQ==
+"@manuscripts/track-changes-plugin@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.4.1.tgz#442f6fa83523de3d85f41543d1e28c23078d9420"
+  integrity sha512-lhjD6qPBqjwMRJcmPfIYaNPmVSl+06NR5dr96Uu3i89ogbC42sQDLHD7mo7nnkrw2Hu8k9u24t4eB6421a4RQQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
