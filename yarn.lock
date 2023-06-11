@@ -2006,10 +2006,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.2.9-LEAN-2192-v5":
-  version "1.2.9-LEAN-2192-v5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.9-LEAN-2192-v5.tgz#ef0f46d889022ac67244c72cc111e3afe36756e2"
-  integrity sha512-qSZ9PXYNSn6LVGv6VVL4P8CmIu3mtzSZ7poP16kHRRK5ZKE8nbrzumrx4qHQiWjs7kBqtICW9hkfiwI97rBsYQ==
+"@manuscripts/body-editor@1.2.10":
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.10.tgz#147c8580aa1bbb0481743df426c01a955efaf75c"
+  integrity sha512-SCTWajugx/F0zFo6M1awyzATR21can74EgD9GTzFBXtoSYjcIj/hck2zXnfvv4GYPVfrkQVcAGEQ9D1MpufS2Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
@@ -2018,7 +2018,7 @@
     "@manuscripts/library" "^1.1.1"
     "@manuscripts/style-guide" "1.1.5-LEAN-2192-v5"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "^1.3.1"
+    "@manuscripts/track-changes-plugin" "^1.4.1"
     "@manuscripts/transform" "1.2.4"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
@@ -2188,10 +2188,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.3.1":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.4.0.tgz#68b6129825552ba3701644b865635c0c56e7af7d"
-  integrity sha512-0udkrf6WEIe+uhlhUOsootxBJ6q9Fm896/MwdyFhvbG67ncEfZWzmN7Kp9ZowaLevCqqEBHmjU05iDQPycGHqA==
+"@manuscripts/track-changes-plugin@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.4.1.tgz#442f6fa83523de3d85f41543d1e28c23078d9420"
+  integrity sha512-lhjD6qPBqjwMRJcmPfIYaNPmVSl+06NR5dr96Uu3i89ogbC42sQDLHD7mo7nnkrw2Hu8k9u24t4eB6421a4RQQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
