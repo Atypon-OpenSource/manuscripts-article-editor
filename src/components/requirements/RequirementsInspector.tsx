@@ -24,7 +24,6 @@ import styled from 'styled-components'
 import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { useStore } from '../../store'
 import { DataLoadingPlaceholder } from '../Placeholders'
-import { ExceptionDialog } from '../projects/lean-workflow/ExceptionDialog'
 import { RequirementsList } from './RequirementsList'
 
 export const buildQualityCheck = async (
@@ -117,29 +116,41 @@ interface Props {
 export const RequirementsInspectorView: React.FC<
   Props & ReturnType<typeof useRequirementsValidation>
 > = ({ error, result, isBuilding }) => {
-  const [prototypeId] = useStore((store) => store.manuscript?.prototype)
+  const [prototypeId, dispatch] = useStore(
+    (store) => store.manuscript?.prototype
+  )
+
+  useEffect(() => {
+    if (error) {
+      dispatch({ requirementError: 'QR_SERVICE_UNAVAILABLE' })
+    }
+    if (!prototypeId) {
+      dispatch({ requirementError: 'QR_PROFILE_NOT_FOUND' })
+    }
+    dispatch({ requirementError: '' })
+  }, [error, prototypeId, dispatch])
+
+  useEffect(() => {
+    if (!prototypeId) {
+      dispatch({ requirementError: 'QR_PROFILE_NOT_FOUND' })
+    } else {
+      dispatch({ requirementError: '' })
+    }
+  }, [prototypeId, dispatch])
 
   if (isBuilding) {
     return <DataLoadingPlaceholder />
   }
 
   if (error) {
-    return (
-      <>
-        <ErrorMessage> {error?.message}</ErrorMessage>
-        <ExceptionDialog errorCode={'QR_SERVICE_UNAVAILABLE'} />
-      </>
-    )
+    return <ErrorMessage> {error?.message}</ErrorMessage>
   }
 
   if (!prototypeId) {
     return (
-      <>
-        <AlertMessage>
-          You need to select a template to display the quality report check
-        </AlertMessage>
-        <ExceptionDialog errorCode={'QR_PROFILE_NOT_FOUND'} />
-      </>
+      <AlertMessage>
+        You need to select a template to display the quality report check
+      </AlertMessage>
     )
   }
 

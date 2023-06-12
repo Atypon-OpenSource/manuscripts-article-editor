@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ApolloProvider } from '@apollo/react-hooks'
 import { FileManagement } from '@manuscripts/style-guide'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
@@ -18,54 +17,40 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { ServiceWorker } from './components/ServiceWorker'
 import EditorApp from './EditorApp'
-import { apolloClient } from './lib/apollo'
-import { Person, Submission } from './lib/lean-workflow-gql'
 import { ISubject } from './store/ParentObserver'
 import { GlobalStyle } from './theme/theme'
 
 interface Props {
   fileManagement: FileManagement
   parentObserver: ISubject
-  submissionId: string
   manuscriptID: string
   projectID: string
   authToken: string
-  submission: Submission
   permittedActions: string[]
-  person: Person
 }
 
-// submissionId="13f64873-a9bf-4d88-a44a-2a25f9e49fc3"
-// manuscriptID="MPProject:E1895468-4DFE-4F17-9B06-5212ECD29555"
-// projectID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
+// projectID="MPProject:E1895468-4DFE-4F17-9B06-5212ECD29555"
+// manuscriptID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
 
 const Main: React.FC<Props> = ({
   fileManagement,
   parentObserver,
-  submissionId,
   manuscriptID,
   projectID,
   authToken,
-  submission,
   permittedActions,
-  person,
 }) => (
   <DndProvider backend={HTML5Backend}>
     <GlobalStyle />
     <ServiceWorker />
-    <ApolloProvider client={apolloClient}>
-      <EditorApp
-        fileManagement={fileManagement}
-        parentObserver={parentObserver}
-        submissionId={submissionId}
-        manuscriptID={manuscriptID}
-        projectID={projectID}
-        submission={submission}
-        permittedActions={permittedActions}
-        person={person}
-        authToken={authToken}
-      />
-    </ApolloProvider>
+    <EditorApp
+      fileManagement={fileManagement}
+      parentObserver={parentObserver}
+      manuscriptID={manuscriptID}
+      projectID={projectID}
+      permittedActions={permittedActions}
+      authToken={authToken}
+    />
   </DndProvider>
 )
 
