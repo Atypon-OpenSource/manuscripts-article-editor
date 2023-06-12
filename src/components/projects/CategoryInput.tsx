@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { SectionCategory } from '@manuscripts/json-schema'
 import React, { useCallback, useMemo } from 'react'
 import Select, { OptionProps, OptionsType } from 'react-select'
 import styled from 'styled-components'
@@ -30,9 +31,10 @@ type OptionType = {
 
 export const CategoryInput: React.FC<{
   value: string
+  sectionCategories: SectionCategory[]
   handleChange: (category: string) => void
   existingCatsCounted: { [key: string]: number }
-}> = ({ value, handleChange, existingCatsCounted }) => {
+}> = ({ value, handleChange, existingCatsCounted, sectionCategories }) => {
   const [currentValue, handleLocalChange] = useSyncedData<string>(
     value,
     handleChange,
@@ -61,7 +63,7 @@ export const CategoryInput: React.FC<{
 
   const options = useMemo(() => {
     const options: OptionType[] = []
-    sortedSectionCategories.map((cat) => {
+    sectionCategories.map((cat) => {
       if (
         isEditableSectionCategory(cat) &&
         (!isUniquePresent(cat, existingCatsCounted) || isUnique(currentValue))
@@ -70,7 +72,7 @@ export const CategoryInput: React.FC<{
       }
     })
     return options
-  }, [currentValue, existingCatsCounted])
+  }, [currentValue, existingCatsCounted, sectionCategories])
 
   const selectionValue = useMemo(() => {
     const cat = sortedSectionCategories.find(
