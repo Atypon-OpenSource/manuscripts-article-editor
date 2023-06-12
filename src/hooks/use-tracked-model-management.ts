@@ -11,7 +11,7 @@
  */
 
 import { CommentAnnotation, Model, ObjectTypes } from '@manuscripts/json-schema'
-import { SubmissionAttachment } from '@manuscripts/style-guide'
+import { FileAttachment } from '@manuscripts/style-guide'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
   Build,
@@ -44,7 +44,7 @@ const useTrackedModelManagement = (
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
   deleteModel: (id: string) => Promise<string>,
   finalModelMap: Map<string, Model>,
-  getAttachments: () => SubmissionAttachment[]
+  getAttachments: () => FileAttachment[]
 ) => {
   const modelMap = useMemo(() => {
     const docJSONed = doc.toJSON()

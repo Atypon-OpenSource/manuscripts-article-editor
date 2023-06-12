@@ -26,47 +26,10 @@ storiesOf('Full', module).add('default', () => (
       replace: () => {
         return Promise.resolve(true)
       },
-      changeDesignation: () => {
-        return Promise.resolve(true)
-      },
     }}
     parentObserver={new ParentObserver()}
     permittedActions={[]}
-    submissionId={'sdfsdf'}
     manuscriptID={'MPManuscript:B3BB2CD8-F944-47C3-9F01-1996DBD417EE'}
     projectID={'MPProject:ADC69637-C321-4158-8E24-F92068D4727D'}
-    submission={{
-      id: 'submission1',
-      attachments: [],
-      nextStep: {
-        type: {
-          transitions: [],
-          role: {
-            label: 'Automated task',
-          },
-          label: 'XML Conversion',
-          description:
-            'Automated conversion to JATS with reference & house style rules',
-        },
-      },
-      currentStep: {
-        type: {
-          transitions: [],
-          role: {
-            label: 'Automated task',
-          },
-          label: 'Quality Report Generation',
-          description: 'Technical checks on article to create Quality Report',
-        },
-      },
-    }}
-    person={{
-      id: '',
-      displayName: '',
-      role: {
-        id: '',
-        label: '',
-      },
-    }}
   />
 ))
