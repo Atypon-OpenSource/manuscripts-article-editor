@@ -14,12 +14,14 @@ import { Section } from '@manuscripts/json-schema'
 import { Title } from '@manuscripts/title-editor'
 import { isSectionLabelNode, SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
+import { findParentNode } from 'prosemirror-utils'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import {
   chooseSectionCategory,
   isEditableSectionCategoryID,
+  sortedSectionCategories,
 } from '../../lib/section-categories'
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
@@ -99,6 +101,30 @@ export const SectionInspector: React.FC<{
     [section, dispatchNodeAttrs, state, dispatch, sectionNode]
   )
 
+  const sectionCategories = useMemo(() => {
+    const container = findParentNode((node) => node.attrs.category)(
+      state.selection
+    )?.node
+
+    if (!container) {
+      return []
+    }
+
+    const sectionCategory = sortedSectionCategories.find(
+      ({ _id }) => _id === container.attrs.category
+    )
+
+    if (!sectionCategory) {
+      return []
+    }
+
+    return sortedSectionCategories.filter(
+      ({ groupIDs }) =>
+        groupIDs &&
+        groupIDs.some((groupID) => sectionCategory.groupIDs?.includes(groupID))
+    )
+  }, [state.selection])
+
   const currentSectionCategory = chooseSectionCategory(section)
   return (
     <InspectorSection title={'Section'}>
@@ -135,6 +161,7 @@ export const SectionInspector: React.FC<{
 
           <CategoryInput
             value={currentSectionCategory}
+            sectionCategories={sectionCategories}
             existingCatsCounted={existingCatsCounted}
             handleChange={(category: string) => {
               dispatchNodeAttrs(section._id, { category })
