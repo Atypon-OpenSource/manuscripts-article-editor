@@ -162,7 +162,6 @@ export const useCreateEditor = () => {
       )
       return {
         ...caps,
-        editCitationsAndRefs: false,
       }
     },
     uploadAttachment: async (file: File) => {
