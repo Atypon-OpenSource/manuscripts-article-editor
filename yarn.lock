@@ -1978,15 +1978,15 @@
     react-dom "^17.0.2"
     react-select "^3.1.0"
 
-"@manuscripts/data@1.0.2-LEAN-2500":
-  version "1.0.2-LEAN-2500"
-  resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-1.0.2-LEAN-2500.tgz#c2e47cec03d0b83674e88614aee9bdb73afa0275"
-  integrity sha512-lKHvCWH6tGWGSx4k4AdqwrZQFQFbB3oh03r6FoYKMfD6wm40a9/qh924VLGnuuzweSShfVatmgaB1DcbSSBBlw==
-
 "@manuscripts/data@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-1.0.2.tgz#daf61fe1dfa47503afb4ca0f72540091e6576caf"
   integrity sha512-mEZM3bkHYGkgz7DK92+6jhOlqmufoKqAK166YlO7GswKspzcg1bM+2+T8O9QuMhYGcma1mnC93EwLPhOFJ5Vjw==
+
+"@manuscripts/data@^1.0.2-LEAN-2500v2":
+  version "1.0.2-LEAN-2500v2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-1.0.2-LEAN-2500v2.tgz#a4c8a2a8602ab90ee4b7cd7ff6bd5ee961a5c42f"
+  integrity sha512-E455z6mVrTAfVe8qGDeo+1yxul48hguyhvm2Vz4d6KA7NgBW61+epkOyzUBVSAFjN3QWHCcAQQT2otJY56j4rg==
 
 "@manuscripts/eslint-config@^0.5.1":
   version "0.5.1"

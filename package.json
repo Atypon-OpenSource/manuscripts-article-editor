@@ -39,7 +39,7 @@
     "@manuscripts/assets": "^0.6.1",
     "@manuscripts/body-editor": "1.2.9",
     "@manuscripts/comment-editor": "^1.0.1",
-    "@manuscripts/data": "1.0.2-LEAN-2500",
+    "@manuscripts/data": "^1.0.2-LEAN-2500v2",
     "@manuscripts/json-schema": "^2.0.1",
     "@manuscripts/library": "1.1.1",
     "@manuscripts/quarterback-types": "^1.0.0",
