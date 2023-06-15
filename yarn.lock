@@ -1917,16 +1917,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.2.17":
-  version "1.2.17"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.17.tgz#a66114dade84914507f990bf77e86ada909d8ec1"
-  integrity sha512-mBbAb4+r7C9qg3CLYU8u0SAzjHT31d4IKwrPhdiM4kTc1ma8KOLahYESaGEisqytQj8VVWP2oDaZ1fp7KFL96A==
+"@manuscripts/body-editor@^1.2.17-LEAN-2143":
+  version "1.2.17-LEAN-2143"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.17-LEAN-2143.tgz#a7b78b33a8835a2c7f6c46f1a6a7f2d69e11b43a"
+  integrity sha512-zIkw4QKw4D38JQjlSfTeBk3v8x/4zGoQFhH80xKV2qaqiY3KdbwqXs4kGLYEGBVbtTZjBg+2Vtj3bRtObOSwEQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.2"
-    "@manuscripts/library" "^1.1.2"
+    "@manuscripts/library" "^1.1.2-LEAN-2143"
     "@manuscripts/style-guide" "^1.1.7"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.5.0"
@@ -2013,10 +2013,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.2.tgz#57d994da64aeb2755a18669850dbfc14820917f9"
-  integrity sha512-8ovklbmqoCwnoYSp48aZhoMz6lY9jEPQI811kZ7lsb13oi4ffnwx0g0h1DGSS2bY60+dTH5YpfKri4NSVr/FsA==
+"@manuscripts/library@^1.1.2-LEAN-2143":
+  version "1.1.2-LEAN-2143"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.2-LEAN-2143.tgz#d9cf765129011187f90d57c7078a119ad9e7cfd1"
+  integrity sha512-U86IP4+7riM26+4Py+WrbUq2vEo2EZVw+gD4a8S5stcrMuNXlnKAzaeV0nuCV2pisLXubxHeOFCRh1KTx68Yww==
   dependencies:
     "@manuscripts/data" "^1.0.2"
     "@manuscripts/json-schema" "^2.0.2"
