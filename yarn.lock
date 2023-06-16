@@ -1917,16 +1917,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.2.17-LEAN-2143-v3":
-  version "1.2.17-LEAN-2143-v3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.17-LEAN-2143-v3.tgz#c051bf950176aaaa801895e878e61d96c416a6be"
-  integrity sha512-QcJtmIDwKZlg/HDcD73mOFT37whrgSTHtAlvaChEkgkQuci1xXGKIMHpuqzoj+A82pn5draibZzLH2SlP2QCIQ==
+"@manuscripts/body-editor@^1.2.17-LEAN-2143-v4":
+  version "1.2.17-LEAN-2143-v4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.17-LEAN-2143-v4.tgz#3280b996a2907f3d4b9ead18d5e0017cfb132c10"
+  integrity sha512-Sp0xhSaNOVxRZSI1mCpSWPxhsZ7v1RyY+Atz+TUluzwtH/TM/jAWAIq8unKlsoTwo+ptfW0Fjsn1jFM2r7wIjA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.2"
-    "@manuscripts/library" "^1.1.2-LEAN-2143-v3"
+    "@manuscripts/library" "^1.1.2-LEAN-2143-v4"
     "@manuscripts/style-guide" "^1.1.7"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.5.0"
@@ -2013,10 +2013,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@^1.1.2-LEAN-2143-v3":
-  version "1.1.2-LEAN-2143-v3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.2-LEAN-2143-v3.tgz#569fcd4e0e9d4bfc630a68d4341a43e627a9e78d"
-  integrity sha512-gMOdgI9SJGV3LL2EGA5Np+KLkCC/JUxpsQk5Hvu92+m487DP9d8SZHVG86XaADhsOwjxkpC0kGKttqNN9NQJjQ==
+"@manuscripts/library@^1.1.2-LEAN-2143-v4":
+  version "1.1.2-LEAN-2143-v4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.2-LEAN-2143-v4.tgz#72678ad362ab22942e04f5e52b83f4b66e8425a8"
+  integrity sha512-DELYItkWh8JuRHv7m2cwEkSMymM/YEFok+jj2K9O9wIbnYAlBAi5E5mRs31kogX/nB/RTq4k/lcG9+d6sIyxiQ==
   dependencies:
     "@manuscripts/data" "^1.0.2"
     "@manuscripts/json-schema" "^2.0.2"
