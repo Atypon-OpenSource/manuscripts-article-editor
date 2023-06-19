@@ -1917,10 +1917,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.2.18":
-  version "1.2.18"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.18.tgz#6fa63736e1e712912213eb399988e4c80e5dc743"
-  integrity sha512-ZTGR0sCqy5RxTAsnTyLFQw3kIJSW2I6s0oibZxlffSMYRK5dJ+WX/qFlIa7pZVnld6l+/DsWbRjukwGCBceHPg==
+"@manuscripts/body-editor@^1.2.18-LEAN-2508":
+  version "1.2.18-LEAN-2508"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.18-LEAN-2508.tgz#0bda7c0ae22c4b95e5bef9b718862a9d1e1ad12a"
+  integrity sha512-9b3fKCk1JV6MZlsCh0L10/WxfN5jg1Kc2JM8JLOqanbTcAgGewJszN+DLm1EhNngkLBUUu00nT/4+ygv8jxpFw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
@@ -1929,7 +1929,7 @@
     "@manuscripts/library" "^1.1.2"
     "@manuscripts/style-guide" "^1.1.7"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "1.5.2"
+    "@manuscripts/track-changes-plugin" "^1.5.2-LEAN-2508"
     "@manuscripts/transform" "^1.3.0"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
@@ -2107,10 +2107,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.5.2", "@manuscripts/track-changes-plugin@^1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.5.2.tgz#8e4cb2f3aefbc3bfbee05ed166bed13ce26fa3e2"
-  integrity sha512-TK0Kg2omuY/nUKhFqDFmbF+7tPGaZ8R7BYIjfG7W40MEpM0SjZeH9JkeA+T4dnJ2+vn/WSMd6y8f9TIJvPHEKQ==
+"@manuscripts/track-changes-plugin@^1.5.2-LEAN-2508":
+  version "1.5.2-LEAN-2508"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.5.2-LEAN-2508.tgz#02c9c9072bd3be709151396d900d7264526bc56b"
+  integrity sha512-8yW1h3XlizWoH/q9Ym2en+gaTtIX20yprDtyi0AJBF9FmiyEe3RVcG9cI+d9FV1rhx71rvvwPOOFb1TcxOqmGg==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
