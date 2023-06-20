@@ -23,9 +23,9 @@ import {
   Project,
   ProjectInvitation,
   Snapshot,
+  Submission,
   Tag,
   UserProfile,
-  Submission,
 } from '@manuscripts/json-schema'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import {
