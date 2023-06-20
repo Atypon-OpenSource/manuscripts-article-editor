@@ -25,6 +25,7 @@ import {
   Snapshot,
   Tag,
   UserProfile,
+  Submission,
 } from '@manuscripts/json-schema'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import {
@@ -155,6 +156,7 @@ export type state = {
   globalLibraryCollections?: Map<string, LibraryCollection> // From the user
   globalLibraryItems?: Map<string, BibliographyItem> // From the user
   library: Map<string, BibliographyItem>
+  submission: Submission
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
