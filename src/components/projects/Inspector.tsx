@@ -47,14 +47,14 @@ const Inspector: React.FC<Props> = ({ editor }) => {
       fileManagement,
       editorSelectedComment,
       saveTrackModel,
-      deleteTrackModel,
+      deleteModel,
       trackModelMap,
       selectedComment,
     },
     stateDispatch,
   ] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
-    deleteTrackModel: store.deleteTrackModel,
+    deleteModel: store.deleteModel,
     trackModelMap: store.trackModelMap,
     attachments: store.attachments,
     fileManagement: store.fileManagement,
@@ -142,7 +142,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     enableDragAndDrop={true}
                     modelMap={trackModelMap}
                     saveModel={(m) => saveTrackModel(m as any)}
-                    deleteModel={deleteTrackModel}
+                    deleteModel={deleteModel}
                     fileManagement={{
                       ...fileManagement,
                       getAttachments: () => attachments,

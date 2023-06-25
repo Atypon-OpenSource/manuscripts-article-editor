@@ -1917,17 +1917,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.2.18-LEAN-2457":
-  version "1.2.18-LEAN-2457"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.18-LEAN-2457.tgz#121e882d6e0de9f6ce5dd45f0e7cd7b99db9af21"
-  integrity sha512-EfPcWm92tCS5+a/SLIfNawpgGmakJ4eRYUo7Bq5REx6fP+CHR3z1OmuMCUVFQG83xVH4WXft1L1ecVO8U3t+ng==
+"@manuscripts/body-editor@1.2.18-LEAN-2457-1":
+  version "1.2.18-LEAN-2457-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.18-LEAN-2457-1.tgz#e595f6776a49178e1bcd7bcfa3dcc0048ddfac13"
+  integrity sha512-gZK934OoaERjO3kEbqmH6AkKdqiS0Ijndl95qNfLOiajTLvTmmDjo6kfeJcNG5ZqpTLfFQ8L5Fc/Dg0U8Kxg/Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.2"
     "@manuscripts/library" "^1.1.2"
-    "@manuscripts/style-guide" "1.1.8-LEAN-2457"
+    "@manuscripts/style-guide" "1.1.8-LEAN-2457-1"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "1.5.2"
     "@manuscripts/transform" "^1.3.0"
@@ -2050,10 +2050,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.1.8-LEAN-2457", "@manuscripts/style-guide@^1.1.8-LEAN-2457":
-  version "1.1.8-LEAN-2457"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.8-LEAN-2457.tgz#587cff4d46357f3610d6a8f2dbd8eedfe5c93ea8"
-  integrity sha512-RBNgpFLZju+r/dGz01o5lHlexd46OisKxNI+lZ1RFzn2RaKRNXyjG8s8N70uYIBre4NZMSZS3xlORwpImQ6Ymw==
+"@manuscripts/style-guide@1.1.8-LEAN-2457-1":
+  version "1.1.8-LEAN-2457-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.8-LEAN-2457-1.tgz#02a412cdecf726c8491e3a516b3f6a6ba58b4eac"
+  integrity sha512-VlLs9wQcRlmTnrUfi1ThiE1Li5hnjMvcoKWuLhFJ7VJXLOK7KvWmf9fS58XD4fZmf6cH3xxdSXnIqUrvB3vXdw==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
