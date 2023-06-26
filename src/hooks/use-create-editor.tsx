@@ -186,12 +186,14 @@ export const useCreateEditor = () => {
     getAttachments: () => {
       return getState().attachments
     },
+    getDoc: () => {
+      return getState().doc
+    },
   }
 
   const editor = useEditor(
     ManuscriptsEditor.createState(editorProps),
     ManuscriptsEditor.createView(editorProps)
   )
-
   return editor
 }
