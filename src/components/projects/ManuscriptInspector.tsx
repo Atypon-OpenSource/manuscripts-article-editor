@@ -17,7 +17,6 @@ import config from '../../config'
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { DOIInput } from './DOIInput'
-import { KeywordsInput } from './KeywordsInput'
 import { RunningTitleField } from './RunningTitleField'
 
 export const ManuscriptInspector: React.FC<{
