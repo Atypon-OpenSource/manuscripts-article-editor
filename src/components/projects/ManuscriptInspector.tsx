@@ -16,7 +16,6 @@ import React from 'react'
 import config from '../../config'
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
-import { CategorisedKeywordsInput } from './CategorisedKeywordsInput'
 import { DOIInput } from './DOIInput'
 import { KeywordsInput } from './KeywordsInput'
 import { RunningTitleField } from './RunningTitleField'
@@ -66,14 +65,6 @@ export const ManuscriptInspector: React.FC<{
             }}
           />
         </>
-      )}
-
-      <Subheading>Keywords</Subheading>
-
-      {config.keywordsCategories ? (
-        <CategorisedKeywordsInput target={manuscript} />
-      ) : (
-        <KeywordsInput state={state} dispatch={dispatch} />
       )}
     </InspectorSection>
   )
