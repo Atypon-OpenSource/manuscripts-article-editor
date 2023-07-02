@@ -2006,19 +2006,19 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.2.13-LEAN-2192-v10":
-  version "1.2.13-LEAN-2192-v10"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.13-LEAN-2192-v10.tgz#d740a242a7677335a6e858fa7e0320fa4e7c5d31"
-  integrity sha512-7Dxk90uwJpWMqFMLN1hYQBevwyBexSHGD/w6jz08gLaKYcRDYL9HxqTOkVbWalWNxCKBJQeBf9Zg3vqZVjyR9g==
+"@manuscripts/body-editor@1.2.20-LEAN-2192-v11":
+  version "1.2.20-LEAN-2192-v11"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.20-LEAN-2192-v11.tgz#4e819f82161f9ab6016bea34e35f2acbcb2b1112"
+  integrity sha512-2KfJ1FydBqoHxQDhnjepfJ/hv93MwuFAw/8HhJr8GfdElHhL46IypI4MPe9sbR61NquBW5l+pb3xwKLFT3Fdog==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.2"
     "@manuscripts/library" "^1.1.2"
-    "@manuscripts/style-guide" "1.1.7-LEAN-2192-v10"
+    "@manuscripts/style-guide" "1.1.9-LEAN-2192-v11"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "1.5.2"
+    "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.3.0"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
@@ -2139,10 +2139,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.1.7-LEAN-2192-v10":
-  version "1.1.7-LEAN-2192-v10"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.7-LEAN-2192-v10.tgz#d74dbc6a3e4aac7efb338c285aef4cb32b989f0d"
-  integrity sha512-4sV/ZfB2iGFql10Jnh/GkCu2rdgPrw8Nsq21I9jgayhn21cWlj8fUtJRbyXO/QUMNocOOz+DSLrMX5ED03AbAw==
+"@manuscripts/style-guide@1.1.9-LEAN-2192-v11":
+  version "1.1.9-LEAN-2192-v11"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.9-LEAN-2192-v11.tgz#43ab27a70e46e599a58246b4058bb30047d6e456"
+  integrity sha512-yviBYAIgsUtKJOYabQjZH1i4rtWk2HT0YfHDYegFHgJjfAe/JbwVyiPVKtk+TWtFFCLbRz5rfxvJA2o9NNBuJQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -2196,10 +2196,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.5.2", "@manuscripts/track-changes-plugin@^1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.5.2.tgz#8e4cb2f3aefbc3bfbee05ed166bed13ce26fa3e2"
-  integrity sha512-TK0Kg2omuY/nUKhFqDFmbF+7tPGaZ8R7BYIjfG7W40MEpM0SjZeH9JkeA+T4dnJ2+vn/WSMd6y8f9TIJvPHEKQ==
+"@manuscripts/track-changes-plugin@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.6.1.tgz#bb6d3e7cb9620fc636436f6e6b173849d15952a9"
+  integrity sha512-lu93qvlvm8PcDb5UjzEQTd5qUndr0tGTsOcyuMNyIGAZt1n/5AP6ydrx1bmu0FLptdOV9Ey1ReQLtrSbhqTGzQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
