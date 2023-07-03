@@ -28,11 +28,17 @@ export const useHandleSnapshot = (storeExists = true) => {
     const resp = await saveSnapshot(docToJSON())
     if ('data' in resp) {
       execCmd(trackCommands.applyAndRemoveChanges())
-      const state = useEditorStore.getState().editorState
-      if (!state) {
-        return
-      }
-      await usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          const state = useEditorStore.getState().editorState
+          if (!state) {
+            return
+          }
+          resolve(
+            usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
+          )
+        })
+      })
     }
   }
 }
