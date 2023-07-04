@@ -179,7 +179,6 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                       listKeywords={keywords}
                       saveComment={saveComment}
                       scrollIntoHighlight={scrollIntoHighlight}
-                      // @ts-ignore
                       onFocusOut={onFocusOut}
                       handleCreateReply={createReply}
                       can={can}
