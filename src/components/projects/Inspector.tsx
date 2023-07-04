@@ -58,7 +58,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     trackModelMap: store.trackModelMap,
     attachments: store.attachments,
     fileManagement: store.fileManagement,
-    editorSelectedComment: store.comment,
+    editorSelectedComment: store.newComments.size,
     selectedComment: store.selectedComment,
   }))
 
