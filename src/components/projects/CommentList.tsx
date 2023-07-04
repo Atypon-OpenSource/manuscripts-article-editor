@@ -31,7 +31,7 @@ import styled from 'styled-components'
 import {
   default as useCommentOperation,
   useCommentLabel,
-} from '../../hooks/use-comment-manger'
+} from '../../hooks/use-comment-manager'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useStore } from '../../store'
 import * as Pattern from './CommentListPatterns'
