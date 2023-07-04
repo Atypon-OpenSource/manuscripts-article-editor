@@ -155,14 +155,7 @@ export const useCreateEditor = () => {
     theme,
     getCapabilities: () => {
       const state = getState()
-      const caps = getCapabilities(
-        state.project,
-        state.user,
-        state.permittedActions
-      )
-      return {
-        ...caps,
-      }
+      return getCapabilities(state.project, state.user, state.permittedActions)
     },
     uploadAttachment: async (file: File) => {
       const result = await fileManagement.upload(file)

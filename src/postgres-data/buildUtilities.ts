@@ -149,8 +149,6 @@ const buildUtilities = (
         ...modelMap.values(),
       ] as ManuscriptModel[])
 
-      console.log('Result:')
-      console.log(result)
       updateState({
         savingProcess: result ? 'saved' : 'failed',
       })
