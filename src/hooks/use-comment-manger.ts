@@ -76,7 +76,7 @@ export default (
       if (newComments.has(comment._id)) {
         newComments.delete(comment._id)
         dispatch({
-          newComments,
+          newComments: new Map([...newComments]),
         })
 
         if (view?.state && !isHighlightComment(comment)) {

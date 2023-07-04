@@ -122,7 +122,9 @@ export const useCreateEditor = () => {
         const state = getState()
         const contribution = buildContribution(state.user._id)
         comment.contributions = [contribution]
-        dispatch({ newComments: state.newComments.set(comment._id, comment) })
+        dispatch({
+          newComments: new Map([...state.newComments, [comment._id, comment]]),
+        })
       }
     },
     setSelectedComment: (commentId?: string) =>
