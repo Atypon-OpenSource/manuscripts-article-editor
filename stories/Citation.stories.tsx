@@ -65,6 +65,7 @@ storiesOf('Citation', module)
       citation={citation}
       updateCitation={action('update citation')}
       updatePopper={action('update popper')}
+      canEdit={true}
     />
   ))
   .add('Citation Search Section', () => (

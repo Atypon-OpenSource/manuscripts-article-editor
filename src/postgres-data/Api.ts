@@ -55,13 +55,13 @@ export default class Api {
   }
 
   post = async <T>(path: string, data: unknown) => {
-    try {
-      const result = await this.instance.post<T>(path, data)
-      return result.data
-    } catch (e) {
-      console.log(e)
-      return null
-    }
+    return this.instance
+      .post<T>(path, data)
+      .then((result) => result.data)
+      .catch((e) => {
+        console.log(e)
+        throw e.data?.error?.message || 'Request failed'
+      })
   }
 
   delete = <T>(url: string) => {
@@ -186,7 +186,7 @@ export default class Api {
   ) => {
     // this method delete all the previous data from the project, including the project itself (!)
     // if no project model is present, the current project model will be delete and it will be impossible to load the manuscript anymore.
-    await this.post(`project/${projectID}/manuscripts/${manuscriptID}/save`, {
+    return this.post(`project/${projectID}/manuscripts/${manuscriptID}/save`, {
       data: models,
     })
   }
