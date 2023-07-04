@@ -32,10 +32,8 @@ export const useHandleSnapshot = (storeExists = true) => {
         setTimeout(() => {
           const state = useEditorStore.getState().editorState
           if (!state) {
-            if (!state) {
-              reject(new Error('State is not available'))
-              return
-            }
+            reject(new Error('State is not available'))
+            return
           }
           resolve(
             usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
