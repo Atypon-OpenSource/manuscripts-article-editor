@@ -1917,17 +1917,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.2.20":
-  version "1.2.20"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.20.tgz#cced0b499b5a3dbd18072269db3c31a48abfac5e"
-  integrity sha512-aLVj1KasBeixWQ/Kb8JRZMnhI0uAnfX6b9ZV+JBsr6zNyTl4U+6K8llsMr9CUj2D1RUXinvEeoZec28sU20w+w==
+"@manuscripts/body-editor@1.2.20-LEAN-2505":
+  version "1.2.20-LEAN-2505"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.20-LEAN-2505.tgz#fcd54f680658499b8dbe60cc01de8cc9cc5f7d1c"
+  integrity sha512-NMTK6gJ6Yw4f6ff7UGAcoMkjATvta1bGQg/Qcy8YxYtvqkFKBzVZAKV3zZyW2oYI6NxGj5TcZJnykE4EadKgEQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
-    "@manuscripts/comment-editor" "^1.0.1"
     "@manuscripts/json-schema" "^2.0.2"
     "@manuscripts/library" "^1.1.2"
-    "@manuscripts/style-guide" "^1.1.9"
+    "@manuscripts/style-guide" "1.1.9-LEAN-2505"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.3.0"
@@ -1962,10 +1961,10 @@
     react-modal "^3.11.2"
     uuid "^9.0.0"
 
-"@manuscripts/comment-editor@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/comment-editor/-/comment-editor-1.0.1.tgz#b0198089892bb427a8cc1acfeb747dfc1cd3607a"
-  integrity sha512-fr4B9hfQswQE6j5V1+Bn31y5QBls6+flZrrDXAL3yPb0OCN5JPQYv12FZksKrfSJW5pqMpm3Hny+b6wOms7EGQ==
+"@manuscripts/comment-editor@^1.0.1-LEAN-2505":
+  version "1.0.1-LEAN-2505"
+  resolved "https://registry.yarnpkg.com/@manuscripts/comment-editor/-/comment-editor-1.0.1-LEAN-2505.tgz#8690cc0e34db109db61dc6d8e9a176101e1fef6e"
+  integrity sha512-K3uOIyu7AylOdnz9kT1wiSoGWNoxAcHJonO6FzVmBu6M+RCU+dL2FB8EkCuVeBbXq85QrPbACBBPh6CbCe1jnA==
   dependencies:
     prosemirror-commands "^1.5.0"
     prosemirror-history "^1.3.0"
@@ -2050,16 +2049,16 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.1.9":
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.9.tgz#4baab25e6bd27878d83846ddbdf56757eae7670d"
-  integrity sha512-6JRgtuN0Y9VqWORMoqTncTOlpjwlRkNxCjY68MeodSK0vxL5kCxzlwk4oSz5oB1li2Z3lhinsxOsdBNqRr1UYQ==
+"@manuscripts/style-guide@1.1.9-LEAN-2505":
+  version "1.1.9-LEAN-2505"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.9-LEAN-2505.tgz#9b232baa2bbf68a70aa480db8e64e06d4e4e5a12"
+  integrity sha512-y1jwoje4BUehvAAUp+r7MlrzYrridweTeIIpJ/ULS4XHqec+BCcrgJBiX36lqWlBhx1wHq5pxFSDsyMvEoyWlw==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
     "@manuscripts/assets" "^0.6.2"
-    "@manuscripts/comment-editor" "^1.0.1"
+    "@manuscripts/comment-editor" "^1.0.1-LEAN-2505"
     "@manuscripts/json-schema" "^2.0.2"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/transform" "^1.3.0"

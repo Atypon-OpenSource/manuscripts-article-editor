@@ -120,6 +120,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       ) {
         deleteComment(commentId)
       }
+      return true
     },
     [deleteComment, newComments]
   )
