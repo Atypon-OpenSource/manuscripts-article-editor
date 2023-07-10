@@ -57,6 +57,10 @@ export default class PsSource implements StoreDataSourceStrategy {
     setState
   ) => {
     this.data = state // keep up to date for utility function
+    if (typeof state.modelMap === 'undefined') {
+      return
+    }
+
     if (!deeperEqual(state.modelMap, prev.modelMap)) {
       setState((state) => {
         const newState = {
