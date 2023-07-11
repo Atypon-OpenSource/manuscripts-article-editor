@@ -84,7 +84,7 @@ const buildUtilities = (
         .then(() => {
           return true // not sure what will be returned at this point
         })
-        .catch(() => {
+        .catch((e) => {
           return false
         })
     } else {
@@ -148,6 +148,7 @@ const buildUtilities = (
       const result = await bulkPersistentManuscriptSave([
         ...modelMap.values(),
       ] as ManuscriptModel[])
+
       updateState({
         savingProcess: result ? 'saved' : 'failed',
       })
