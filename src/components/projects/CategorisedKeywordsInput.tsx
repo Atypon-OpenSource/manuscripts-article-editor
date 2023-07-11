@@ -204,7 +204,7 @@ export const CategorisedKeywordsInput: React.FC<{
     }
   }
 
-  const getCategoryTitleById = (id: string) => {
+  const getCategoryTitleById = (id?: string) => {
     const cat = Object.entries(categories).find(
       ([, keywordsGroup]) => keywordsGroup._id === id
     )
@@ -316,7 +316,7 @@ export const CategorisedKeywordsInput: React.FC<{
       <OptionWrapper
         focused={keywordToEdit ? data._id === keywordToEdit._id : false}
         ref={innerRef}
-        {...innerProps}
+        {...(innerProps as any)}
       >
         <LabelContainer isCreate={isCreate}>
           {isCreate && <PlusIcon />}

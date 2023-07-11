@@ -12,7 +12,7 @@
 
 import { SectionCategory } from '@manuscripts/json-schema'
 import React, { useCallback, useMemo } from 'react'
-import Select, { OptionProps, OptionsType } from 'react-select'
+import Select, { OptionProps } from 'react-select'
 import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
@@ -42,10 +42,7 @@ export const CategoryInput: React.FC<{
   )
 
   const handleInputChange = useCallback(
-    (newValue: OptionsType<OptionType>) => {
-      // @ts-ignore
-      handleLocalChange(newValue.value)
-    },
+    (newValue) => handleLocalChange(newValue.value),
     [handleLocalChange]
   )
 
@@ -55,7 +52,7 @@ export const CategoryInput: React.FC<{
     data,
   }) => {
     return (
-      <OptionWrapper ref={innerRef} {...innerProps}>
+      <OptionWrapper ref={innerRef} {...(innerProps as any)}>
         {data.label}
       </OptionWrapper>
     )
@@ -84,7 +81,6 @@ export const CategoryInput: React.FC<{
   return (
     <Container>
       <Select<OptionType, true>
-        // @ts-ignore
         value={selectionValue}
         options={options}
         menuPortalTarget={document.body}
