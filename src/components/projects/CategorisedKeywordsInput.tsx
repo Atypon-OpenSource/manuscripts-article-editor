@@ -282,7 +282,6 @@ export const CategorisedKeywordsInput: React.FC<{
     // remove the model
     await saveModel<AnyElement | Section | Manuscript>({
       ...target,
-      keywordIDs: keywordIDs.filter((kid) => kid !== id),
     })
   }
   const changeTitle = (category: KeywordGroup, title: string) => {
@@ -291,19 +290,6 @@ export const CategorisedKeywordsInput: React.FC<{
       title,
     })
   }
-
-  const keywordIDs = target.keywordIDs || []
-  const options = keywords.filter(
-    (keyword) => !keywordIDs.includes(keyword._id)
-  )
-  const optionIndex = (keyword: Keyword) => {
-    return options
-      .map((keyword) => {
-        return keyword._id
-      })
-      .indexOf(keyword._id)
-  }
-
   const OptionComponent: React.FC<OptionProps<Keyword, true>> = ({
     innerRef,
     innerProps,
@@ -351,7 +337,6 @@ export const CategorisedKeywordsInput: React.FC<{
 
             await saveModel<AnyElement | Section | Manuscript>({
               ...target,
-              keywordIDs: [...keywordIDs, keyword._id],
             })
 
             await saveModel<Keyword>(keyword)
@@ -416,7 +401,7 @@ export const CategorisedKeywordsInput: React.FC<{
                     position: 'absolute',
                     bottom: '100%',
                     right: '0',
-                    marginBottom: -40 * optionIndex(keywordToEdit),
+                    marginBottom: -40,
                   }}
                   data-placement={placement}
                 >

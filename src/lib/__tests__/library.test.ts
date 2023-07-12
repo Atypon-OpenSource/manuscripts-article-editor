@@ -19,7 +19,6 @@ describe('library filtering', () => {
     const map = new Map<string, BibliographyItem>()
     const x: BibliographyItem = {
       _id: 'MPBibliographyItem:x',
-      keywordIDs: ['MPKeyword:derp'],
       containerID: 'MPLibrary:z',
       objectType: 'MPBibliographyItem',
       createdAt: 1,
@@ -27,7 +26,6 @@ describe('library filtering', () => {
       type: 'article',
       title: 'xyz',
       manuscriptID: 'MPManuscript:1',
-      sessionID: 'foo',
     }
     const y: BibliographyItem = {
       _id: 'MPBibliographyItem:y',
@@ -38,7 +36,6 @@ describe('library filtering', () => {
       type: 'article',
       title: 'yuv',
       manuscriptID: 'MPManuscript:1',
-      sessionID: 'foo',
     }
     map.set('MPBibliographyItem:x', x)
     map.set('MPBibliographyItem:y', y)
@@ -49,7 +46,6 @@ describe('library filtering', () => {
     expect((await filterLibrary(map, undefined)).sort()).toMatchObject(
       [x, y].sort()
     )
-    expect(await filterLibrary(map, undefined, keywords)).toMatchObject([x])
     expect(await filterLibrary(map, 'yuv')).toMatchObject([y])
   })
 })

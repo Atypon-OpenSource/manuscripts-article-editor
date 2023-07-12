@@ -13,7 +13,6 @@ import {
   Manuscript,
   Model,
   Project,
-  Snapshot,
   UserCollaborator,
   UserProfile,
 } from '@manuscripts/json-schema'
@@ -204,7 +203,4 @@ export default class Api {
   //   return this.post(`project/${projectId}/save/${manuscriptId}`, models) // currently not supported by the api
   // }
 
-  createSnapshot = (containerID: string, snapshot: Snapshot) => {
-    return this.post(`snapshot/${containerID}/create`, snapshot)
-  }
 }

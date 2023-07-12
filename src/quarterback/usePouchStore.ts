@@ -29,9 +29,6 @@ export type Maybe<T> = Ok<T> | Error
 const EXCLUDED_KEYS = [
   'id',
   '_id',
-  '_rev',
-  '_revisions',
-  'sessionID',
   'createdAt',
   'updatedAt',
   'owners',

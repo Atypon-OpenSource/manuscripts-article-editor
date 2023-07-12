@@ -24,7 +24,7 @@ export const KeywordsInput: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
 }> = ({ state, dispatch }) => {
-  const [{ modelMap, saveModel, manuscript, saveManuscript }] = useStore(
+  const [{ saveModel, manuscript }] = useStore(
     (store) => ({
       modelMap: store.modelMap,
       saveModel: store.saveModel,
@@ -32,11 +32,7 @@ export const KeywordsInput: React.FC<{
       saveManuscript: store.saveManuscript,
     })
   )
-  const keywordIDs = manuscript.keywordIDs || []
 
-  const manuscriptKeywords: ManuscriptKeyword[] = keywordIDs
-    .map((id) => modelMap.get(id) as ManuscriptKeyword | undefined)
-    .filter(Boolean) as ManuscriptKeyword[]
 
   const updateKeywordsElement = (manuscriptKeywords: ManuscriptKeyword[]) => {
     const keywordsElements: Array<{
@@ -83,25 +79,10 @@ export const KeywordsInput: React.FC<{
         const keyword = buildManuscriptKeyword(inputValue)
 
         await saveModel<ManuscriptKeyword>(keyword)
-
-        await saveManuscript({
-          keywordIDs: [...keywordIDs, keyword._id],
-        })
-
-        updateKeywordsElement([
-          ...manuscriptKeywords,
-          keyword as ManuscriptKeyword,
-        ])
       }}
-      options={manuscriptKeywords}
-      value={manuscriptKeywords}
       getOptionValue={(option) => option._id}
       getOptionLabel={(option) => option.name}
       onChange={async (manuscriptKeywords: ManuscriptKeyword[]) => {
-        await saveManuscript({
-          keywordIDs: manuscriptKeywords.map((item) => item._id),
-        })
-
         updateKeywordsElement(manuscriptKeywords)
       }}
       styles={selectStyles}

@@ -2102,6 +2102,14 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
+"@manuscripts/json-schema@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.0.3.tgz#08813da78fbb0795ad9ca2476e1aadb8f85d572c"
+  integrity sha512-p6A0T2dchDcT8pyZYjMGK/eC/vOS2oND/K+A+bmz3LxVsaJ56FBNKgBKVrs3SkXupUbGnX3GOkYO2XH/uzQFqg==
+  dependencies:
+    ajv "^8.12.0"
+    deepmerge "^4.3.1"
+
 "@manuscripts/library@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.2.tgz#57d994da64aeb2755a18669850dbfc14820917f9"

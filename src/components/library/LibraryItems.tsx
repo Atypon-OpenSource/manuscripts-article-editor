@@ -63,26 +63,8 @@ const Metadata = styled.div`
   font-weight: ${(props) => props.theme.font.weight.light};
 `
 
-const Collections = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: ${(props) => props.theme.grid.unit * 2}px;
-`
 
-const Collection = styled.span`
-  border-radius: ${(props) => props.theme.grid.radius.default};
-  display: inline-flex;
-  align-items: center;
-  padding: 2px ${(props) => props.theme.grid.unit * 2}px;
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
-  background-color: ${(props) => props.theme.colors.border.secondary};
-  font-size: 90%;
-`
 
-const ActiveCollection = styled(Collection)`
-  background-color: ${(props) => props.theme.colors.brand.default};
-  color: ${(props) => props.theme.colors.text.onDark};
-`
 
 const ItemIcon = styled.div`
   flex-shrink: 1;
@@ -160,33 +142,6 @@ export const LibraryItems: React.FC<{
               <Metadata data-cy={'search-result-author'}>
                 {fullLibraryItemMetadata(item)}
               </Metadata>
-
-              {item.keywordIDs && (
-                <Collections>
-                  {item.keywordIDs.map((keywordID) => {
-                    const libraryCollection =
-                      projectLibraryCollections.get(keywordID)
-
-                    if (!libraryCollection) {
-                      return null
-                    }
-
-                    if (keywordID === filterID) {
-                      return (
-                        <ActiveCollection key={keywordID}>
-                          {libraryCollection.name}
-                        </ActiveCollection>
-                      )
-                    }
-
-                    return (
-                      <Collection key={keywordID}>
-                        {libraryCollection.name}
-                      </Collection>
-                    )
-                  })}
-                </Collections>
-              )}
             </ItemMetadata>
           </Item>
         ))}

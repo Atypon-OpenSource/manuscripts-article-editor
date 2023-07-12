@@ -25,7 +25,6 @@ describe('section categories', () => {
       path: ['MPSection:1'],
       manuscriptID: 'MPManuscript:1',
       containerID: 'MPProject:1',
-      sessionID: 'test',
       createdAt: 0,
       updatedAt: 0,
     }
@@ -44,7 +43,6 @@ describe('section categories', () => {
       path: ['MPSection:1'],
       manuscriptID: 'MPManuscript:1',
       containerID: 'MPProject:1',
-      sessionID: 'test',
       createdAt: 0,
       updatedAt: 0,
     }
@@ -63,7 +61,6 @@ describe('section categories', () => {
       path: ['MPSection:1', 'MPSection:1A'],
       manuscriptID: 'MPManuscript:1',
       containerID: 'MPProject:1',
-      sessionID: 'test',
       createdAt: 0,
       updatedAt: 0,
     }
