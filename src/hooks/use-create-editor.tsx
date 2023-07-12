@@ -17,7 +17,7 @@ import {
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
-import { Build } from '@manuscripts/transform'
+import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
@@ -117,7 +117,16 @@ export const useCreateEditor = () => {
     modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setComment: (comment?: CommentAnnotation) => dispatch({ comment }),
+    setComment: (comment?: CommentAnnotation) => {
+      if (comment) {
+        const state = getState()
+        const contribution = buildContribution(state.user._id)
+        comment.contributions = [contribution]
+        dispatch({
+          newComments: new Map([...state.newComments, [comment._id, comment]]),
+        })
+      }
+    },
     setSelectedComment: (commentId?: string) =>
       dispatch({ selectedComment: commentId }),
     getModel,
