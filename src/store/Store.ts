@@ -86,7 +86,7 @@ export type state = {
   snapshotID: string | null
   handleSnapshot?: () => Promise<void>
   comments?: CommentAnnotation[]
-  comment?: CommentAnnotation
+  newComments: Map<string, CommentAnnotation>
   notes?: ManuscriptNote[]
   tags?: Tag[]
   collaborators?: Map<string, UserProfile>
