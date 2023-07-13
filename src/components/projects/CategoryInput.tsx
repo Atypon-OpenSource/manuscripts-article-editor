@@ -47,12 +47,11 @@ export const CategoryInput: React.FC<{
   )
 
   const OptionComponent: React.FC<OptionProps<OptionType, true>> = ({
-    innerRef,
     innerProps,
     data,
   }) => {
     return (
-      <OptionWrapper ref={innerRef} {...(innerProps as any)}>
+      <OptionWrapper {...innerProps} ref={null}>
         {data.label}
       </OptionWrapper>
     )

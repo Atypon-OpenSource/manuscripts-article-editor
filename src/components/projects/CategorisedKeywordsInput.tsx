@@ -315,8 +315,8 @@ export const CategorisedKeywordsInput: React.FC<{
     return (
       <OptionWrapper
         focused={keywordToEdit ? data._id === keywordToEdit._id : false}
-        ref={innerRef}
-        {...(innerProps as any)}
+        {...innerProps}
+        ref={null}
       >
         <LabelContainer isCreate={isCreate}>
           {isCreate && <PlusIcon />}
