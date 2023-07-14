@@ -202,5 +202,4 @@ export default class Api {
   // ) => {
   //   return this.post(`project/${projectId}/save/${manuscriptId}`, models) // currently not supported by the api
   // }
-
 }

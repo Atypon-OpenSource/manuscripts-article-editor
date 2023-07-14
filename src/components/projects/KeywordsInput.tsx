@@ -24,15 +24,12 @@ export const KeywordsInput: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
 }> = ({ state, dispatch }) => {
-  const [{ saveModel, manuscript }] = useStore(
-    (store) => ({
-      modelMap: store.modelMap,
-      saveModel: store.saveModel,
-      manuscript: store.manuscript,
-      saveManuscript: store.saveManuscript,
-    })
-  )
-
+  const [{ saveModel, manuscript }] = useStore((store) => ({
+    modelMap: store.modelMap,
+    saveModel: store.saveModel,
+    manuscript: store.manuscript,
+    saveManuscript: store.saveManuscript,
+  }))
 
   const updateKeywordsElement = (manuscriptKeywords: ManuscriptKeyword[]) => {
     const keywordsElements: Array<{

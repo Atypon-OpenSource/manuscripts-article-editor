@@ -63,9 +63,6 @@ const Metadata = styled.div`
   font-weight: ${(props) => props.theme.font.weight.light};
 `
 
-
-
-
 const ItemIcon = styled.div`
   flex-shrink: 1;
   margin-right: ${(props) => props.theme.grid.unit * 4}px;
@@ -100,15 +97,7 @@ export const LibraryItems: React.FC<{
   filterID?: string
   projectLibraryCollections: Map<string, LibraryCollection>
   selectedItem: BibliographyItem | undefined
-}> = ({
-  query,
-  setQuery,
-  handleSelect,
-  items,
-  filterID,
-  projectLibraryCollections,
-  selectedItem,
-}) => (
+}> = ({ query, setQuery, handleSelect, items, selectedItem }) => (
   <Container>
     <SearchWrapper>
       <Search
