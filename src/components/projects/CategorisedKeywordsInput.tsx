@@ -277,31 +277,12 @@ export const CategorisedKeywordsInput: React.FC<{
     })
     deleteModel(id)
   }
-  const deleteKeyword = async (id: string) => {
-    await deleteModel(id) // why async/await here? a mystery to me but it doesn seesm to work w/o it
-    // remove the model
-    await saveModel<AnyElement | Section | Manuscript>({
-      ...target,
-      keywordIDs: keywordIDs.filter((kid) => kid !== id),
-    })
-  }
+
   const changeTitle = (category: KeywordGroup, title: string) => {
     saveModel<KeywordGroup>({
       ...category,
       title,
     })
-  }
-
-  const keywordIDs = target.keywordIDs || []
-  const options = keywords.filter(
-    (keyword) => !keywordIDs.includes(keyword._id)
-  )
-  const optionIndex = (keyword: Keyword) => {
-    return options
-      .map((keyword) => {
-        return keyword._id
-      })
-      .indexOf(keyword._id)
   }
 
   const OptionComponent: React.FC<OptionProps<Keyword, true>> = ({
@@ -351,7 +332,6 @@ export const CategorisedKeywordsInput: React.FC<{
 
             await saveModel<AnyElement | Section | Manuscript>({
               ...target,
-              keywordIDs: [...keywordIDs, keyword._id],
             })
 
             await saveModel<Keyword>(keyword)
@@ -416,7 +396,7 @@ export const CategorisedKeywordsInput: React.FC<{
                     position: 'absolute',
                     bottom: '100%',
                     right: '0',
-                    marginBottom: -40 * optionIndex(keywordToEdit),
+                    marginBottom: -40,
                   }}
                   data-placement={placement}
                 >
@@ -439,7 +419,6 @@ export const CategorisedKeywordsInput: React.FC<{
                       setCatForKeyword={setCatForKeyword}
                       changeTitle={changeTitle}
                       deleteCategory={deleteCategory}
-                      deleteKeyword={deleteKeyword}
                       addCategory={addCategory}
                       closeEdit={() => {
                         setKeywordToEdit(undefined)
@@ -578,7 +557,6 @@ const EditKeywordCat: React.FC<{
   setCatForKeyword: (keyword: Keyword, cat: KeywordGroup) => Keyword
   deleteCategory: (id: string) => void
   changeTitle: (category: KeywordGroup, title: string) => void
-  deleteKeyword: (id: string) => void
   addCategory: (title: string) => void
   closeEdit: () => void
 }> = ({
@@ -588,7 +566,6 @@ const EditKeywordCat: React.FC<{
   setCatForKeyword,
   deleteCategory,
   changeTitle,
-  deleteKeyword,
   addCategory,
   closeEdit,
   setTag,
@@ -605,7 +582,6 @@ const EditKeywordCat: React.FC<{
     },
     secondary: {
       action: () => {
-        deleteKeyword(tag._id)
         setOpen(false)
         closeEdit()
       },

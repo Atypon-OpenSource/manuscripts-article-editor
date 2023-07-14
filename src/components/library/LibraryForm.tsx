@@ -344,7 +344,6 @@ interface LibraryFormValues {
   _id: string
   title?: string
   author?: BibliographicName[]
-  keywordIDs?: string[]
   DOI?: string
   issued?: {
     _id: string
@@ -363,7 +362,6 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   _id: item._id,
   title: item.title,
   author: item.author,
-  keywordIDs: item.keywordIDs,
   DOI: item.DOI,
   issued: item.issued,
   type: item.type,
