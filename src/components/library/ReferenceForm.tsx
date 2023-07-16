@@ -197,7 +197,6 @@ export interface ReferenceFormValues {
   _id: string
   title?: string
   author?: BibliographicName[]
-  keywordIDs?: string[]
   DOI?: string
   issued?: {
     _id: string
