@@ -10,8 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import {
+  getHighlightTarget,
+  isHighlightComment,
+} from '@manuscripts/body-editor'
 import { CommentAnnotation, ObjectTypes } from '@manuscripts/json-schema'
-import React from 'react'
+import { EditorState } from 'prosemirror-state'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -25,11 +30,25 @@ const Container = styled.div`
 `
 
 export const HighlightedText: React.FC<{
+  state: EditorState
   comment: CommentAnnotation
-  getHighlightTextColor: (comment: CommentAnnotation) => string
+  commentsLabels: Map<string, string>
   onClick?: (comment: CommentAnnotation) => void
-}> = React.memo(({ comment, getHighlightTextColor, onClick }) => {
-  if (!comment.originalText) {
+}> = React.memo(({ comment, state, commentsLabels, onClick }) => {
+  const getHighlightTextColor = useCallback(
+    (comment: CommentAnnotation) =>
+      !isHighlightComment(comment) ||
+      (state && getHighlightTarget(comment, state))
+        ? '#ffe08b'
+        : '#f9020287',
+    [state]
+  )
+
+  const commentLabel = commentsLabels.has(comment.target)
+    ? commentsLabels.get(comment.target)
+    : comment.originalText
+
+  if (!commentLabel) {
     return null
   }
 
@@ -41,7 +60,7 @@ export const HighlightedText: React.FC<{
       }}
       onClick={() => onClick && onClick(comment)}
     >
-      {comment.originalText.split('\n').map((item, index) => {
+      {commentLabel.split('\n').map((item, index) => {
         return (
           <Text
             isCitation={comment.target.includes(ObjectTypes.Citation)}
