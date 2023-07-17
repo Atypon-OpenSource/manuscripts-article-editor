@@ -45,7 +45,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     {
       attachments,
       fileManagement,
-      editorSelectedComment,
+      isThereNewComments,
       saveTrackModel,
       deleteModel,
       trackModelMap,
@@ -58,12 +58,12 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     trackModelMap: store.trackModelMap,
     attachments: store.attachments,
     fileManagement: store.fileManagement,
-    editorSelectedComment: store.comment,
+    isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
   }))
 
   const { state, dispatch } = editor
-  const comment = editorSelectedComment || selectedComment
+  const comment = isThereNewComments || selectedComment
 
   const [tabIndex, setTabIndex] = useState(0)
 
