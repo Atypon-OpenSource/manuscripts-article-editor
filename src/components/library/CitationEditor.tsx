@@ -96,8 +96,17 @@ const CitedItems = styled.div`
 const ActionButton = styled(IconButton).attrs({
   size: 24,
 })`
-  :focus,
-  :hover {
+  :disabled {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: rgb(255, 255, 255);
+    path,
+    g {
+      fill: ${(props) => props.theme.colors.background.tertiary} !important;
+    }
+  }
+  :not(:disabled):focus,
+  :not(:disabled):hover {
     path,
     g {
       fill: ${(props) => props.theme.colors.brand.medium} !important;
@@ -132,6 +141,7 @@ interface Props {
   updateCitation: (data: Partial<Citation>) => Promise<void>
   setComment: (comment: CommentAnnotation) => void
   updatePopper: () => void
+  canEdit: boolean
 }
 
 const CitationEditor: React.FC<Props> = ({
@@ -151,6 +161,7 @@ const CitationEditor: React.FC<Props> = ({
   removeLibraryItem,
   setLibraryItem,
   updatePopper,
+  canEdit,
 }) => {
   const [searching, setSearching] = useState(false)
 
@@ -300,10 +311,12 @@ const CitationEditor: React.FC<Props> = ({
                 <EditCitationButton
                   value={item._id}
                   onClick={onCitationEditClick}
+                  disabled={!canEdit}
                 >
                   <AnnotationEdit color={'#6E6E6E'} />
                 </EditCitationButton>
                 <ActionButton
+                  disabled={!canEdit}
                   onClick={() => setDeleteDialog({ show: true, id: item._id })}
                 >
                   <CloseIconDark className={'remove-icon'} />
@@ -331,7 +344,7 @@ const CitationEditor: React.FC<Props> = ({
 
         <ButtonGroup>
           <SecondaryButton onClick={() => handleClose()}>Done</SecondaryButton>
-          <PrimaryButton onClick={() => setSearching(true)}>
+          <PrimaryButton disabled={!canEdit} onClick={() => setSearching(true)}>
             Add Citation
           </PrimaryButton>
         </ButtonGroup>
