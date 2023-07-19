@@ -18,7 +18,7 @@ let timeout: number
 export const saveWithThrottle = (fn: () => any, interval = 4000) => {
   throttled = fn
   if (!timeout) {
-    throttled()
+    // throttled()
     throttled = () => {
       return null
     }

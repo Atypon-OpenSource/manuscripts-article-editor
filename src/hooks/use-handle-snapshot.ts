@@ -38,7 +38,7 @@ export const useHandleSnapshot = (storeExists = true) => {
           resolve(
             usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
           )
-        })
+        }, 1000) // to avoid potentially saving before the changes are applied
       })
     }
   }
