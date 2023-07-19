@@ -60,7 +60,6 @@ const hasChanged = (a: Model, b: Model): boolean => {
 
 interface PouchState {
   getModels?: () => Map<string, Model> | undefined
-  saveModel?: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   bulkUpdate?: (
     models: Array<ContainedModel> | Model[] | Build<Model>[] | Partial<Model>[]
   ) => void

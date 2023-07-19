@@ -105,7 +105,6 @@ const EditorApp: React.FC<Props> = ({
         }
         initPouchStore({
           getModels: () => store.state?.modelMap,
-          saveModel: store.state?.saveModel,
           bulkUpdate: store.state?.bulkUpdate,
         })
         setStore(store)
