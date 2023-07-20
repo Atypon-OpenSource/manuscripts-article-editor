@@ -9,41 +9,29 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-
 import {
   commentScroll,
-  deleteHighlightMarkers,
-  getHighlightTarget,
   isHighlightComment,
   isThereSelector,
-  updateCommentAnnotationState,
 } from '@manuscripts/body-editor'
+import { CommentAnnotation, UserProfile } from '@manuscripts/json-schema'
 import {
-  CommentAnnotation,
-  ElementsOrder,
-  ObjectTypes,
-  UserProfile,
-} from '@manuscripts/json-schema'
-import {
-  buildCommentTree,
-  CommentData,
   CommentTarget,
-  CommentType,
   CommentWrapper,
   NoteBodyContainer,
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import {
-  buildComment,
-  buildContribution,
-  buildKeyword,
-  getModelsByType,
-} from '@manuscripts/transform'
+import { buildKeyword } from '@manuscripts/transform'
 import { TextSelection } from 'prosemirror-state'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { EditorView } from 'prosemirror-view'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import {
+  default as useCommentOperation,
+  useCommentLabel,
+} from '../../hooks/use-comment-manager'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useStore } from '../../store'
 import * as Pattern from './CommentListPatterns'
@@ -53,243 +41,43 @@ interface Props {
   editor: ReturnType<typeof useCreateEditor>
 }
 
-const cleanUpSelectedComment = () => {
-  document
-    .querySelectorAll(`.selected-comment`)
-    .forEach((element) => element.classList.remove('selected-comment'))
-}
-
 export const CommentList: React.FC<Props> = ({ editor }) => {
   const [
     {
-      comment,
-      doc,
+      newComments,
       user,
       collaborators,
       collaboratorsById,
       keywords,
-      modelMap,
-      trackModelMap,
       saveTrackModel,
-      deleteTrackModel,
     },
-    dispatch,
   ] = useStore((store) => ({
-    doc: store.doc,
     notes: store.notes,
     user: store.user,
     collaborators: store.collaborators || new Map<string, UserProfile>(),
     collaboratorsById: store.collaboratorsById,
     keywords: store.keywords,
     manuscriptID: store.manuscriptID,
-    modelMap: store.modelMap,
-    trackModelMap: store.trackModelMap,
     saveTrackModel: store.saveTrackModel,
-    deleteTrackModel: store.deleteTrackModel,
-    comment: store.comment,
+    newComments: store.newComments,
   }))
   const { state, view } = editor
-
-  const [newComment, setNewComment] = useState<CommentAnnotation>()
-
-  const comments = useMemo(
-    () =>
-      getModelsByType<CommentAnnotation>(
-        trackModelMap,
-        ObjectTypes.CommentAnnotation
-      ),
-    [trackModelMap]
-  )
 
   const createKeyword = useCallback(
     (name: string) => saveTrackModel(buildKeyword(name)),
     [saveTrackModel]
   )
-  const currentUser = useMemo(() => user, [user])
+
   const [commentFilter, setCommentFilter] = useState<Pattern.CommentFilter>(
     Pattern.CommentFilter.ALL
   )
 
-  const setComment = useCallback(
-    (targetId?: string) =>
-      dispatch({ comment: targetId && buildComment(targetId) }),
-    [dispatch]
-  )
-
-  const addComment = useCallback(
-    (comment) => dispatch({ comments: [...comments, comment] }),
-    [comments, dispatch]
-  )
-
-  const updateComments = useCallback(
-    (comment) =>
-      dispatch({
-        comments: comments.map((c) => (c._id === comment._id && comment) || c),
-      }),
-    [comments, dispatch]
-  )
-
-  const removeComment = useCallback(
-    (id) =>
-      dispatch({
-        comments: comments.filter((c) => c._id !== id),
-      }),
-    [comments, dispatch]
-  )
-
-  useEffect(() => {
-    if (comment && comment.target && !newComment) {
-      const contribution = buildContribution(currentUser._id)
-      comment.contributions = [contribution]
-
-      if (isHighlightComment(comment)) {
-        const highlight = state && getHighlightTarget(comment, state)
-
-        if (highlight) {
-          // newComment.originalText = getHighlightText(highlight, state)
-          comment.originalText = highlight.text
-          setNewComment(comment)
-        }
-      } else {
-        setNewComment(comment)
-      }
-    }
-  }, [comment, doc, newComment, state, currentUser])
-
-  /**
-   * This map holds all block elements in the editor(citation, figure, table)
-   * will be used to show the header of the block comment which is the element label
-   */
-  const commentsLabels = useMemo(() => {
-    const labelsMap = new Map<string, string>()
-    let graphicalAbstractFigureId: string | undefined = undefined
-
-    doc.descendants((node) => {
-      if (node.type.name === 'citation') {
-        labelsMap.set(node.attrs['rid'], node.attrs.contents.trim())
-      }
-
-      if (node.attrs['category'] === 'MPSectionCategory:abstract-graphical') {
-        node.forEach((node) => {
-          if (node.type.name === 'figure_element') {
-            graphicalAbstractFigureId = node.attrs['id']
-          }
-        })
-      }
-    })
-
-    const setLabels = (
-      label: string,
-      elements: string[],
-      excludedElementId?: string
-    ) =>
-      elements
-        .filter((element) => element !== excludedElementId)
-        .map((element, index) => labelsMap.set(element, `${label} ${++index}`))
-
-    const elementsOrders = getModelsByType<ElementsOrder>(
-      modelMap,
-      ObjectTypes.ElementsOrder
-    )
-    elementsOrders.map(({ elementType, elements }) => {
-      if (
-        elementType === ObjectTypes.TableElement ||
-        elementType === ObjectTypes.FigureElement
-      ) {
-        const label =
-          (elementType === ObjectTypes.FigureElement && 'Figure') || 'Table'
-        setLabels(label, elements, graphicalAbstractFigureId)
-      }
-    })
-
-    return labelsMap
-  }, [doc, modelMap])
-
-  const items = useMemo<Array<[string, CommentData[]]>>(() => {
-    const combinedComments = [...comments]
-
-    if (newComment) {
-      combinedComments.push(newComment)
-    }
-    const commentsTreeMap = buildCommentTree(doc, combinedComments)
-    return Array.from(commentsTreeMap.entries())
-  }, [comments, newComment, doc])
-
-  const handleSetResolved = useCallback(
-    async (comment) => {
-      const savedComment = await saveTrackModel({
-        ...comment,
-        resolved: !comment.resolved,
-      } as CommentAnnotation)
-      if (savedComment && savedComment._id === comment._id) {
-        updateComments(savedComment)
-      }
-    },
-    [saveTrackModel, updateComments]
-  )
-
-  const saveComment = useCallback(
-    (comment: CommentAnnotation) => {
-      return saveTrackModel(comment).then((comment) => {
-        if (newComment && newComment._id === comment._id) {
-          setComment(undefined)
-          setNewComment(undefined)
-          addComment(comment)
-
-          if (view?.state && !isHighlightComment(comment)) {
-            updateCommentAnnotationState(view?.state, view?.dispatch)
-          }
-        } else {
-          updateComments(comment)
-        }
-        return comment
-      })
-    },
-    [
-      saveTrackModel,
-      newComment,
-      setComment,
-      addComment,
-      view?.state,
-      view?.dispatch,
-      updateComments,
-    ]
-  )
-
-  const deleteComment = useCallback(
-    (id: string) => {
-      const comment = newComment || (trackModelMap.get(id) as CommentAnnotation)
-      return deleteTrackModel(id)
-        .then(() => {
-          removeComment(id)
-        })
-        .finally(() => {
-          if (comment.selector?.from !== comment.selector?.to) {
-            view && deleteHighlightMarkers(id)(view.state, view.dispatch)
-          }
-
-          if (newComment && newComment._id === id) {
-            setComment(undefined)
-            setNewComment(undefined)
-          }
-          if (view?.state && !isHighlightComment(comment)) {
-            updateCommentAnnotationState(view?.state, view?.dispatch)
-          }
-          cleanUpSelectedComment()
-          setSelectedHighlightId(undefined)
-        })
-    },
-    [
-      deleteTrackModel,
-      trackModelMap,
-      newComment,
-      removeComment,
-      setComment,
-      view,
-    ]
-  )
-
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
+
+  const { comments, saveComment, setResolved, createReply, deleteComment } =
+    useCommentOperation(view, setSelectedHighlightId)
+
+  const commentsLabels = useCommentLabel()
 
   /**
    * check if the selection pointing to a highlight node
@@ -322,6 +110,21 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     }
   }, [selectedHighlightId])
 
+  const onFocusOut = useCallback(
+    (view: EditorView) => {
+      const commentId = view.dom.getAttribute('comment-id')
+      if (
+        commentId &&
+        newComments.has(commentId) &&
+        view.state.doc.textContent.length < 1
+      ) {
+        deleteComment(commentId)
+      }
+      return true
+    },
+    [deleteComment, newComments]
+  )
+
   const scrollIntoHighlight = (comment: CommentAnnotation) => {
     const commentId = isThereSelector(comment.selector)
       ? comment._id
@@ -330,57 +133,23 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     setSelectedHighlightId(undefined)
   }
 
-  const isNew = useCallback(
-    (comment: CommentAnnotation): boolean => {
-      return newComment ? newComment._id === comment._id : false
-    },
-    [newComment]
-  )
-
-  const getHighlightTextColor = useCallback(
-    (comment: CommentAnnotation) => {
-      if (!isHighlightComment(comment)) {
-        return '#ffe08b'
-      }
-
-      let highlight = null
-      try {
-        const target = state && getHighlightTarget(comment, state)
-        highlight = target // && getHighlightText(target, state)
-      } catch (e) {
-        highlight = null
-      }
-
-      return highlight ? '#ffe08b' : '#f9020287'
-    },
-    [state]
-  )
-
-  const getHighlightComment = useCallback(
-    (comment: CommentType) => {
-      if (commentsLabels.has(comment.target)) {
-        return { ...comment, originalText: commentsLabels.get(comment.target) }
-      }
-      return comment
-    },
-    [commentsLabels]
-  )
+  const isNew = (comment: CommentAnnotation) => newComments.has(comment._id)
 
   const can = usePermissions()
 
-  if (!items.length) {
+  if (!comments.length) {
     return <Pattern.EmptyCommentsListPlaceholder />
   }
 
   return (
     <React.Fragment>
       <Pattern.SeeResolvedCheckbox
-        isEmpty={!items.length}
+        isEmpty={!comments.length}
         commentFilter={commentFilter}
         setCommentFilter={setCommentFilter}
       />
       <Container className={'comments-group'}>
-        {items.map(([target, commentData]) => {
+        {comments.map(([target, commentData]) => {
           // TODO: move this into a child component?
           const selectedNoteData =
             commentFilter === Pattern.CommentFilter.ALL
@@ -411,17 +180,17 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                       listKeywords={keywords}
                       saveComment={saveComment}
                       scrollIntoHighlight={scrollIntoHighlight}
-                      handleCreateReply={setComment}
+                      onFocusOut={onFocusOut}
+                      handleCreateReply={createReply}
                       can={can}
-                      currentUserId={currentUser._id}
-                      handleSetResolved={() => handleSetResolved(comment)}
+                      currentUserId={user._id}
+                      handleSetResolved={() => setResolved(comment)}
                       isNew={isNew(comment as CommentAnnotation)}
                     >
                       <HighlightedText
-                        comment={
-                          getHighlightComment(comment) as CommentAnnotation
-                        }
-                        getHighlightTextColor={getHighlightTextColor}
+                        state={state}
+                        commentsLabels={commentsLabels}
+                        comment={comment as CommentAnnotation}
                         onClick={scrollIntoHighlight}
                       />
                     </CommentWrapper>
@@ -441,9 +210,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                         }
                         listKeywords={keywords}
                         saveComment={saveComment}
-                        handleCreateReply={setComment}
+                        handleCreateReply={createReply}
                         can={can}
-                        currentUserId={currentUser._id}
+                        currentUserId={user._id}
                         isNew={isNew(comment as CommentAnnotation)}
                       />
                     </ReplyBodyContainer>
