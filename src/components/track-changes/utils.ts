@@ -67,7 +67,7 @@ export const adaptTrackedData = (docJSONed: unknown) => {
   const cleanNode = (parent: any) => {
     parent.attrs = deepCloneAttrs(parent.attrs)
     // Prosemirror's Node.toJSON() references attributes so they have to be cloned to avoid disaster.
-    // It must be before conten check for the nodes like figures
+    // It must be done before content check for the nodes like figures
     if (parent.content) {
       parent.content = parent.content.filter((child: ManuscriptNode) => {
         // the type is wrong. we get JSON and not the doc
@@ -77,8 +77,22 @@ export const adaptTrackedData = (docJSONed: unknown) => {
         }
         // consider this for future implementation: text changes are in general not to be regarded => meaning always to pass through
         const lastChange = getLastChange(child.attrs.dataTracked)
+
+        // for the cases when we change attributes we need to pick oldAttributes if the last change is reject.
+        // The oldAttributes are the last attributes before the rejected change
+        // so they represent current real values
+        if (
+          lastChange.status == CHANGE_STATUS.rejected &&
+          lastChange.operation == CHANGE_OPERATION.set_node_attributes
+        ) {
+          // @ts-ignore
+          child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
+          // @ts-ignore
+          child.attrs = deepCloneAttrs(lastChange.oldAttrs)
+          return true
+        }
         // this to be able to create a modelMap with models that are relevant but were spawn out of existing and have duplicate ids
-        // this will fail with new prosemirror as attributes are read only but it's ok to modify them on an inactive document
+        // this will fail with new prosemirror as attributes are read only but it's ok to modify them on an inactive document as we do here
         if (
           lastChange.status !== CHANGE_STATUS.rejected &&
           lastChange.operation !== CHANGE_OPERATION.delete
