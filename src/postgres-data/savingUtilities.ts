@@ -18,10 +18,6 @@ let timeout: number
 export const saveWithThrottle = (fn: () => any, interval = 4000) => {
   throttled = fn
   if (!timeout) {
-    // throttled()
-    throttled = () => {
-      return null
-    }
     timeout = window.setTimeout(() => {
       throttled()
       window.clearTimeout(timeout)
