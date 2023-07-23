@@ -34,7 +34,7 @@ import {
 } from '@manuscripts/transform'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { OptionsType } from 'react-select'
+import { OnChangeValue } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
 
@@ -375,7 +375,7 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   supplement: item.supplement ? String(item.supplement) : undefined,
 })
 
-const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
+const bibliographyItemTypeOptions: OptionType[] = Array.from(
   bibliographyItemTypes.entries()
 )
   .map(([value, label]) => ({ value, label }))
@@ -654,7 +654,9 @@ const LibraryForm: React.FC<{
               <Field name={'keywordIDs'}>
                 {(props: FieldProps) => (
                   <CreatableSelect<OptionType, true>
-                    onChange={async (newValue: OptionsType<OptionType>) => {
+                    onChange={async (
+                      newValue: OnChangeValue<OptionType, true>
+                    ) => {
                       setFieldValue(
                         props.field.name,
                         await Promise.all(

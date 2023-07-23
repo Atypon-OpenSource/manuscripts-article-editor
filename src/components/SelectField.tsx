@@ -12,7 +12,7 @@
 
 import { FieldProps } from 'formik'
 import React from 'react'
-import Select, { OptionsType } from 'react-select'
+import Select from 'react-select'
 
 interface OptionType {
   label: string
@@ -21,7 +21,7 @@ interface OptionType {
 
 interface Props {
   id?: string
-  options: OptionsType<OptionType>
+  options: OptionType[]
 }
 
 export const SelectField: React.FunctionComponent<Props & FieldProps> = ({
