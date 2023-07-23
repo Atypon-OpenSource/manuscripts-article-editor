@@ -15,6 +15,7 @@ import ArrowDownBlack from '@manuscripts/assets/react/ArrowDownBlack'
 import {
   BibliographicName,
   BibliographyItem,
+  LibraryCollection,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { bibliographyItemTypes } from '@manuscripts/library'
@@ -29,12 +30,16 @@ import { TitleField } from '@manuscripts/title-editor'
 import {
   buildBibliographicDate,
   buildBibliographicName,
+  buildLibraryCollection,
 } from '@manuscripts/transform'
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { OptionsType } from 'react-select'
+import { OnChangeValue } from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 import styled from 'styled-components'
 
+import { selectStyles } from '../../lib/select-styles'
+import { useStore } from '../../store'
 import { SelectField } from '../SelectField'
 
 const LabelContainer = styled.div`
@@ -322,10 +327,24 @@ interface OptionType {
   value: any
 }
 
+const buildOptions = (data: Map<string, LibraryCollection>) => {
+  const options: OptionType[] = []
+
+  for (const libraryCollection of data.values()) {
+    options.push({
+      value: libraryCollection._id,
+      label: libraryCollection.name,
+    })
+  }
+
+  return options
+}
+
 interface LibraryFormValues {
   _id: string
   title?: string
   author?: BibliographicName[]
+  keywordIDs?: string[]
   DOI?: string
   issued?: {
     _id: string
@@ -355,7 +374,7 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   supplement: item.supplement ? String(item.supplement) : undefined,
 })
 
-const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
+const bibliographyItemTypeOptions: OptionType[] = Array.from(
   bibliographyItemTypes.entries()
 )
   .map(([value, label]) => ({ value, label }))
@@ -377,6 +396,14 @@ const LibraryForm: React.FC<{
       formRef.current.scrollTop = 0
     }
   }, [item])
+
+  const [
+    { createProjectLibraryCollection, projectLibraryCollections, projectID },
+  ] = useStore((store) => ({
+    createProjectLibraryCollection: store.createProjectLibraryCollection,
+    projectLibraryCollections: store.projectLibraryCollections,
+    projectID: store.projectID,
+  }))
 
   return (
     <Formik<LibraryFormValues>
@@ -614,6 +641,62 @@ const LibraryForm: React.FC<{
               <Field name={'supplement'}>
                 {(props: FieldProps) => (
                   <FormTextField id={'supplement'} {...props.field} />
+                )}
+              </Field>
+            </FormField>
+
+            <FormField>
+              <LabelContainer>
+                <Label htmlFor={'keywordIDs'}>Lists</Label>
+              </LabelContainer>
+
+              <Field name={'keywordIDs'}>
+                {(props: FieldProps) => (
+                  <CreatableSelect<OptionType, true>
+                    onChange={async (
+                      newValue: OnChangeValue<OptionType, true>
+                    ) => {
+                      setFieldValue(
+                        props.field.name,
+                        await Promise.all(
+                          newValue.map(async (option) => {
+                            const existing = projectLibraryCollections.get(
+                              option.value
+                            )
+
+                            if (existing) {
+                              return existing._id
+                            }
+
+                            const libraryCollection = buildLibraryCollection(
+                              user.userID,
+                              String(option.label)
+                            )
+
+                            await createProjectLibraryCollection(
+                              libraryCollection,
+                              projectID
+                            )
+
+                            return libraryCollection._id
+                          })
+                        )
+                      )
+                    }}
+                    options={buildOptions(projectLibraryCollections)}
+                    value={
+                      props.field.value
+                        ? (props.field.value as string[])
+                            .filter((id) => projectLibraryCollections.has(id))
+                            .map((id) => projectLibraryCollections.get(id)!)
+                            .map((item) => ({
+                              value: item._id,
+                              label: item.name,
+                            }))
+                        : null
+                    }
+                    styles={selectStyles}
+                  />
                 )}
               </Field>
             </FormField>

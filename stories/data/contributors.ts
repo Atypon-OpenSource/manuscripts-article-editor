@@ -117,7 +117,6 @@ export const user: UserProfileWithAvatar = {
   email: 'janine.melnitz@example.com',
   avatar: imageFile,
   affiliations: ['affiliation-1'],
-  sessionID: 'story',
   createdAt: 0,
   updatedAt: 0,
 }
