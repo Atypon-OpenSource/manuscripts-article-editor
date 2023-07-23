@@ -38,7 +38,6 @@ import {
   FormikProps,
 } from 'formik'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { OptionsType } from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
@@ -304,7 +303,7 @@ export const buildInitialValues = (
   page: item.page ? String(item.page) : undefined,
 })
 
-export const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
+export const bibliographyItemTypeOptions: OptionType[] = Array.from(
   bibliographyItemTypes.entries()
 )
   .map(([value, label]) => ({ value, label }))
