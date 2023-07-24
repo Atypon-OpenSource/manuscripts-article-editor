@@ -38,7 +38,6 @@ import {
   FormikProps,
 } from 'formik'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { OptionsType } from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
@@ -197,7 +196,6 @@ export interface ReferenceFormValues {
   _id: string
   title?: string
   author?: BibliographicName[]
-  keywordIDs?: string[]
   DOI?: string
   issued?: {
     _id: string
@@ -292,7 +290,6 @@ export const buildInitialValues = (
   _id: item._id,
   title: item.title,
   author: item.author,
-  keywordIDs: item.keywordIDs,
   DOI: item.DOI,
   issued: item.issued,
   type: item.type,
@@ -304,7 +301,7 @@ export const buildInitialValues = (
   page: item.page ? String(item.page) : undefined,
 })
 
-export const bibliographyItemTypeOptions: OptionsType<OptionType> = Array.from(
+export const bibliographyItemTypeOptions: OptionType[] = Array.from(
   bibliographyItemTypes.entries()
 )
   .map(([value, label]) => ({ value, label }))

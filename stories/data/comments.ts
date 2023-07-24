@@ -23,7 +23,6 @@ export const comments: CommentAnnotation[] = [
       '<div><blockquote>some quoted text</blockquote><p>This is a <span class="keyword" data-keyword="keyword-1">#comment</span> for <span class="user" data-user="user-2">@test</span>.</p></div>',
     createdAt: Math.floor(new Date('2018-01-22T08:00:00Z').getTime() / 1000),
     updatedAt: Math.floor(new Date('2018-01-23T08:00:00Z').getTime() / 1000),
-    sessionID: 'foo',
     originalText: '',
     contributions: [
       {

@@ -22,8 +22,11 @@ import { SaveModel } from '../components/inspector/StyleFields'
 
 export const DEFAULT_COLOR_SCHEME = 'MPColorScheme:default'
 
-export const isColor = hasObjectType<Color>(ObjectTypes.Color)
-export const isColorScheme = hasObjectType<ColorScheme>(ObjectTypes.ColorScheme)
+export const isColor: (model: Model) => model is Color = hasObjectType<Color>(
+  ObjectTypes.Color
+)
+export const isColorScheme: (model: Model) => model is ColorScheme =
+  hasObjectType<ColorScheme>(ObjectTypes.ColorScheme)
 
 export const nextColorPriority = (colors: Color[]) =>
   Math.max(...colors.map((color) => color.priority || 0)) + 10
