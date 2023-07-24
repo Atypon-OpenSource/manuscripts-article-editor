@@ -318,15 +318,24 @@ const buildUtilities = (
       modelMap.set(containedModel._id, newModel)
     }
 
-    saveWithThrottle(async () => {
-      updateState({
-        savingProcess: 'saving',
-      })
-      const result = await bulkPersistentManuscriptSave([
-        ...modelMap.values(),
-      ] as ManuscriptModel[])
-      updateState({
-        savingProcess: result ? 'saved' : 'failed',
+    return new Promise<void>((resolve, reject) => {
+      saveWithThrottle(async () => {
+        updateState({
+          savingProcess: 'saving',
+        })
+        const result = await bulkPersistentManuscriptSave([
+          ...modelMap.values(),
+        ] as ManuscriptModel[])
+
+        if (result) {
+          resolve()
+        } else {
+          reject()
+        }
+
+        updateState({
+          savingProcess: result ? 'saved' : 'failed',
+        })
       })
     })
   }

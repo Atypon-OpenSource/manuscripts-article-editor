@@ -98,12 +98,11 @@ export const usePouchStore = create(
         }
       }
       try {
-        bulkUpdate([...newModelMap.values()])
+        await bulkUpdate([...newModelMap.values()])
+        return { data: true }
       } catch (e) {
         return { err: `Failed to save model: ${e}`, code: 500 }
       }
-
-      return { data: true }
     },
   }))
 )

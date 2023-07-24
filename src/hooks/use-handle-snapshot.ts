@@ -28,16 +28,22 @@ export const useHandleSnapshot = (storeExists = true) => {
     const resp = await saveSnapshot(docToJSON())
     if ('data' in resp) {
       execCmd(trackCommands.applyAndRemoveChanges())
-      await new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
           const state = useEditorStore.getState().editorState
           if (!state) {
             reject(new Error('State is not available'))
             return
           }
-          resolve(
-            usePouchStore.getState().saveDoc(getDocWithoutTrackContent(state))
-          )
+          usePouchStore
+            .getState()
+            .saveDoc(getDocWithoutTrackContent(state))
+            .then(() => {
+              resolve()
+            })
+            .catch(() =>
+              reject(new Error('Cannot save to api. Check connection.'))
+            )
         }, 1000) // to avoid potentially saving before the changes are applied
       })
     }
