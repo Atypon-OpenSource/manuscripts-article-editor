@@ -41,7 +41,9 @@ export class Biblio implements BiblioTools {
     }
   }
 
-  matchLibraryItemByIdentifier = (item: BibliographyItem) =>
+  matchLibraryItemByIdentifier: (
+    item: BibliographyItem
+  ) => BibliographyItem | undefined = (item: BibliographyItem) =>
     libMatch(item, this.library)
 
   filterLibraryItems = (query: string) => filterLibrary(this.library, query)
@@ -50,7 +52,16 @@ export class Biblio implements BiblioTools {
     return undefined
   }
 
-  getTools = () => {
+  getTools: () => {
+    getCitationProvider: () => undefined
+    getLibraryItem: (id: string) => BibliographyItem | undefined
+    setLibraryItem: (item: BibliographyItem) => any
+    filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
+    matchLibraryItemByIdentifier: (
+      item: BibliographyItem
+    ) => BibliographyItem | undefined
+    removeLibraryItem: (id: string) => void
+  } = () => {
     return {
       filterLibraryItems: this.filterLibraryItems,
       matchLibraryItemByIdentifier: this.matchLibraryItemByIdentifier,
