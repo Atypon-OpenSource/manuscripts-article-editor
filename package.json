@@ -37,7 +37,7 @@
     "@fontsource/pt-sans": "^4.5.11",
     "@fontsource/pt-serif": "^4.5.11",
     "@manuscripts/assets": "^0.6.1",
-    "@manuscripts/body-editor": "^1.2.29",
+    "@manuscripts/body-editor": "^1.2.30",
     "@manuscripts/data": "^1.0.3",
     "@manuscripts/json-schema": "^2.1.0",
     "@manuscripts/library": "^1.1.3",
