@@ -41,7 +41,6 @@ const maximumManuscriptWordCountRequirement: MaximumManuscriptWordCountRequireme
     objectType: 'MPMaximumManuscriptWordCountRequirement',
     createdAt: 0,
     updatedAt: 0,
-    sessionID: 'foo',
     severity: 0,
     count: 1000,
   }
@@ -58,7 +57,6 @@ const minimumManuscriptWordCountRequirement: MinimumManuscriptWordCountRequireme
     objectType: 'MPMinimumManuscriptWordCountRequirement',
     createdAt: 0,
     updatedAt: 0,
-    sessionID: 'foo',
     severity: 0,
     count: 100,
   }
@@ -75,7 +73,6 @@ const maximumManuscriptCharacterCountRequirement: MaximumManuscriptCharacterCoun
     objectType: 'MPMaximumManuscriptCharacterCountRequirement',
     createdAt: 0,
     updatedAt: 0,
-    sessionID: 'foo',
     severity: 0,
     count: 10000,
   }
@@ -92,7 +89,6 @@ const minimumManuscriptCharacterCountRequirement: MinimumManuscriptCharacterCoun
     objectType: 'MPMinimumManuscriptCharacterCountRequirement',
     createdAt: 0,
     updatedAt: 0,
-    sessionID: 'foo',
     severity: 0,
     count: 1000,
   }
@@ -108,7 +104,6 @@ const maximumSectionWordCountRequirement: MaximumSectionWordCountRequirement = {
   objectType: 'MPMaximumSectionWordCountRequirement',
   createdAt: 0,
   updatedAt: 0,
-  sessionID: 'foo',
   severity: 0,
   count: 1000,
 }
@@ -124,7 +119,6 @@ const minimumSectionWordCountRequirement: MinimumSectionWordCountRequirement = {
   objectType: 'MPMinimumSectionWordCountRequirement',
   createdAt: 0,
   updatedAt: 0,
-  sessionID: 'foo',
   severity: 0,
   count: 100,
 }
@@ -141,7 +135,6 @@ const maximumSectionCharacterCountRequirement: MaximumSectionCharacterCountRequi
     objectType: 'MPMaximumSectionCharacterCountRequirement',
     createdAt: 0,
     updatedAt: 0,
-    sessionID: 'foo',
     severity: 0,
     count: 10000,
   }
@@ -158,7 +151,6 @@ const minimumSectionCharacterCountRequirement: MinimumSectionCharacterCountRequi
     objectType: 'MPMinimumSectionCharacterCountRequirement',
     createdAt: 0,
     updatedAt: 0,
-    sessionID: 'foo',
     severity: 0,
     count: 1000,
   }

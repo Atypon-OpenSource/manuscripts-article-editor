@@ -22,7 +22,6 @@ import {
   Model,
   Project,
   ProjectInvitation,
-  Snapshot,
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
@@ -85,10 +84,9 @@ export type state = {
   projects: Project[]
   modelMap: Map<string, Model>
   snapshotID: string | null
-  snapshots?: Snapshot[]
   handleSnapshot?: () => Promise<void>
   comments?: CommentAnnotation[]
-  comment?: CommentAnnotation
+  newComments: Map<string, CommentAnnotation>
   notes?: ManuscriptNote[]
   tags?: Tag[]
   collaborators?: Map<string, UserProfile>

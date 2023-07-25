@@ -223,12 +223,10 @@ const useTrackedModelManagement = (
                     dataTrackedId
                   )
                 ) {
-                  setNodeAttrs(
-                    view.state,
-                    view.dispatch,
-                    node.attrs.id,
-                    newNode.attrs
-                  )
+                  setNodeAttrs(view.state, view.dispatch, node.attrs.id, {
+                    ...newNode.attrs,
+                    id: node.attrs.id,
+                  })
                 }
               })
               foundInDoc = true

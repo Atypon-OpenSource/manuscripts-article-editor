@@ -13,20 +13,6 @@
 import { BibliographyItem } from '@manuscripts/json-schema'
 import fuzzysort from 'fuzzysort'
 
-const hasFilter = (filters: Set<string>, keywordIDs?: string[]) => {
-  if (!keywordIDs) {
-    return false
-  }
-
-  for (const keywordID of keywordIDs) {
-    if (filters.has(keywordID)) {
-      return true
-    }
-  }
-
-  return false
-}
-
 const newestFirst = (a: BibliographyItem, b: BibliographyItem) => {
   if (a.createdAt === b.createdAt) {
     return 0
@@ -80,7 +66,7 @@ export const filterLibrary = async (
   const filteredItems: BibliographyItem[] = []
 
   for (const item of library.values()) {
-    if (!filters || hasFilter(filters, item.keywordIDs)) {
+    if (!filters) {
       filteredItems.push(item)
     }
   }

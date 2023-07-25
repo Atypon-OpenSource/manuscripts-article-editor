@@ -21,7 +21,6 @@ import {
   Model,
   ObjectTypes,
   Project,
-  Snapshot,
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
@@ -102,7 +101,6 @@ export const buildModelMap = async (
   return output
 }
 
-const isSnapshot = (model: Model) => model.objectType === ObjectTypes.Snapshot
 const isTag = (model: Model) => model.objectType === ObjectTypes.Tag
 const isCorrection = (model: Model) =>
   model.objectType === ObjectTypes.Correction
@@ -143,12 +141,6 @@ const getManuscriptData = async (
     }
     if (isManuscript(model)) {
       data.manuscript = model
-      continue
-    }
-    if (isSnapshot(model)) {
-      data.snapshots = data.snapshots
-        ? ([...data.snapshots, model] as Snapshot[])
-        : ([model] as Snapshot[])
       continue
     }
     if (isManuscriptNote(model)) {
