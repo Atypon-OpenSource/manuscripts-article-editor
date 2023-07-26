@@ -293,14 +293,14 @@ const buildUtilities = (
       )
     }
 
-    // NOTE: this is needed because the local state is updated before saving
-    const containerIDs: ContainerIDs = {
-      containerID: data.projectID,
-    }
-
     const modelMap = new Map(data.modelMap)
 
     for (const model of items) {
+      // NOTE: this is needed because the local state is updated before saving
+      const containerIDs: ContainerIDs = {
+        containerID: data.projectID,
+      }
+
       if (!model._id) {
         throw new Error('Model ID required')
       }
