@@ -363,7 +363,6 @@ const buildInitialValues = (item: BibliographyItem): LibraryFormValues => ({
   _id: item._id,
   title: item.title,
   author: item.author,
-  keywordIDs: item.keywordIDs,
   DOI: item.DOI,
   issued: item.issued,
   type: item.type,

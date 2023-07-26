@@ -138,10 +138,11 @@ const buildUtilities = (
     // }
     // return result as T & ContainedProps
 
+    updateState({
+      modelMap,
+    })
+
     saveWithThrottle(async () => {
-      updateState({
-        modelMap,
-      })
       updateState({
         savingProcess: 'saving',
       })
@@ -280,11 +281,63 @@ const buildUtilities = (
     saveProjectModel(libraryCollection)
   }
 
-  const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
-    for (const value of items) {
-      // @TODO - optimize to save all the models at once or at least throttle
-      saveModel(value)
+  // async ( model: T | Build<T> | Partial<T>
+  const bulkUpdate = async (
+    items: Array<ContainedModel> | Build<Model>[] | Partial<Model>[]
+  ) => {
+    const data = getData()
+
+    if (!data.modelMap || !data.manuscriptID || !data.projectID) {
+      throw new Error(
+        'State misses important element. Unable to savel a model.'
+      )
     }
+
+    // NOTE: this is needed because the local state is updated before saving
+    const containerIDs: ContainerIDs = {
+      containerID: data.projectID,
+    }
+
+    const modelMap = new Map(data.modelMap)
+
+    for (const model of items) {
+      if (!model._id) {
+        throw new Error('Model ID required')
+      }
+
+      const containedModel = model as Model & ContainedProps
+
+      if (isManuscriptModel(containedModel)) {
+        containerIDs.manuscriptID = data.manuscriptID
+      }
+
+      const newModel = {
+        ...containedModel,
+        ...containerIDs,
+      }
+      modelMap.set(containedModel._id, newModel)
+    }
+
+    return new Promise<void>((resolve, reject) => {
+      saveWithThrottle(async () => {
+        updateState({
+          savingProcess: 'saving',
+        })
+        const result = await bulkPersistentManuscriptSave([
+          ...modelMap.values(),
+        ] as ManuscriptModel[])
+
+        if (result) {
+          resolve()
+        } else {
+          reject()
+        }
+
+        updateState({
+          savingProcess: result ? 'saved' : 'failed',
+        })
+      })
+    })
   }
 
   let biblioUtils
