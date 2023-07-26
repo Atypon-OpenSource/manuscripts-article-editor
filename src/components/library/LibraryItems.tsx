@@ -7,9 +7,8 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
-
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { BibliographyItem, LibraryCollection } from '@manuscripts/json-schema'
 import { fullLibraryItemMetadata } from '@manuscripts/library'
@@ -63,27 +62,6 @@ const Metadata = styled.div`
   font-weight: ${(props) => props.theme.font.weight.light};
 `
 
-const Collections = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: ${(props) => props.theme.grid.unit * 2}px;
-`
-
-const Collection = styled.span`
-  border-radius: ${(props) => props.theme.grid.radius.default};
-  display: inline-flex;
-  align-items: center;
-  padding: 2px ${(props) => props.theme.grid.unit * 2}px;
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
-  background-color: ${(props) => props.theme.colors.border.secondary};
-  font-size: 90%;
-`
-
-const ActiveCollection = styled(Collection)`
-  background-color: ${(props) => props.theme.colors.brand.default};
-  color: ${(props) => props.theme.colors.text.onDark};
-`
-
 const ItemIcon = styled.div`
   flex-shrink: 1;
   margin-right: ${(props) => props.theme.grid.unit * 4}px;
@@ -118,15 +96,7 @@ export const LibraryItems: React.FC<{
   filterID?: string
   projectLibraryCollections: Map<string, LibraryCollection>
   selectedItem: BibliographyItem | undefined
-}> = ({
-  query,
-  setQuery,
-  handleSelect,
-  items,
-  filterID,
-  projectLibraryCollections,
-  selectedItem,
-}) => (
+}> = ({ query, setQuery, handleSelect, items, selectedItem }) => (
   <Container>
     <SearchWrapper>
       <Search
@@ -160,33 +130,6 @@ export const LibraryItems: React.FC<{
               <Metadata data-cy={'search-result-author'}>
                 {fullLibraryItemMetadata(item)}
               </Metadata>
-
-              {item.keywordIDs && (
-                <Collections>
-                  {item.keywordIDs.map((keywordID) => {
-                    const libraryCollection =
-                      projectLibraryCollections.get(keywordID)
-
-                    if (!libraryCollection) {
-                      return null
-                    }
-
-                    if (keywordID === filterID) {
-                      return (
-                        <ActiveCollection key={keywordID}>
-                          {libraryCollection.name}
-                        </ActiveCollection>
-                      )
-                    }
-
-                    return (
-                      <Collection key={keywordID}>
-                        {libraryCollection.name}
-                      </Collection>
-                    )
-                  })}
-                </Collections>
-              )}
             </ItemMetadata>
           </Item>
         ))}

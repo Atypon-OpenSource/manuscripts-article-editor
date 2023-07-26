@@ -68,17 +68,19 @@ export const DEFAULT_TABLE_FOOTER_BACKGROUND_COLOR = '#eee'
 export const DEFAULT_TABLE_HEADER_BACKGROUND_COLOR = '#eee'
 export const DEFAULT_TEXT_INDENT = 0
 
-export const isParagraphStyle = hasObjectType<ParagraphStyle>(
-  ObjectTypes.ParagraphStyle
-)
-export const isFigureStyle = hasObjectType<FigureStyle>(ObjectTypes.FigureStyle)
-export const isBorderStyle = hasObjectType<BorderStyle>(ObjectTypes.BorderStyle)
-export const isTableStyle = hasObjectType<TableStyle>(ObjectTypes.TableStyle)
-export const isInlineStyle = hasObjectType<InlineStyle>(ObjectTypes.InlineStyle)
+export const isParagraphStyle: (model: Model) => model is ParagraphStyle =
+  hasObjectType<ParagraphStyle>(ObjectTypes.ParagraphStyle)
+export const isFigureStyle: (model: Model) => model is FigureStyle =
+  hasObjectType<FigureStyle>(ObjectTypes.FigureStyle)
+export const isBorderStyle: (model: Model) => model is BorderStyle =
+  hasObjectType<BorderStyle>(ObjectTypes.BorderStyle)
+export const isTableStyle: (model: Model) => model is TableStyle =
+  hasObjectType<TableStyle>(ObjectTypes.TableStyle)
+export const isInlineStyle: (model: Model) => model is InlineStyle =
+  hasObjectType<InlineStyle>(ObjectTypes.InlineStyle)
 
-export const isFigureLayout = hasObjectType<FigureLayout>(
-  ObjectTypes.FigureLayout
-)
+export const isFigureLayout: (model: Model) => model is FigureLayout =
+  hasObjectType<FigureLayout>(ObjectTypes.FigureLayout)
 
 export type Style =
   | AuxiliaryObjectReferenceStyle
