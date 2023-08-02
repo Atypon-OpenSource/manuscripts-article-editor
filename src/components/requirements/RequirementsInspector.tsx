@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Model } from '@manuscripts/json-schema'
+import {
+  ManuscriptTemplate,
+  Model,
+  SectionCategory,
+} from '@manuscripts/json-schema'
 import {
   AnyValidationResult,
   createTemplateValidator,
@@ -30,6 +34,8 @@ export const buildQualityCheck = async (
   modelMap: Map<string, Model>,
   prototypeId: string | undefined,
   manuscriptID: string,
+  template: ManuscriptTemplate | undefined,
+  sectionCategories: SectionCategory[],
   validationOptions?: validationOptions
 ): Promise<AnyValidationResult[]> => {
   if (typeof prototypeId === 'undefined') {
@@ -62,7 +68,10 @@ export const buildQualityCheck = async (
       })
     })
 
-  const validateManuscript = createTemplateValidator(prototypeId)
+  const validateManuscript = createTemplateValidator(
+    template as ManuscriptTemplate,
+    sectionCategories
+  )
   // TODO: remove `as AnyValidationResult[]`
   const results = (await validateManuscript(
     Array.from(modelMap.values()) as ContainedModel[],
@@ -75,11 +84,14 @@ export const buildQualityCheck = async (
 }
 
 export const RequirementsInspector: React.FC = () => {
-  const [{ modelMap, manuscript, manuscriptID }] = useStore((store) => ({
-    modelMap: store.modelMap,
-    manuscript: store.manuscript,
-    manuscriptID: store.manuscriptID,
-  }))
+  const [{ modelMap, manuscript, manuscriptID, sectionCategories, template }] =
+    useStore((store) => ({
+      modelMap: store.modelMap,
+      manuscript: store.manuscript,
+      manuscriptID: store.manuscriptID,
+      sectionCategories: store.sectionCategories,
+      template: store.template,
+    }))
 
   const prototypeId = manuscript.prototype
 
@@ -89,7 +101,13 @@ export const RequirementsInspector: React.FC = () => {
 
   useEffect(() => {
     setIsBuilding(true)
-    buildQualityCheck(modelMap, prototypeId, manuscriptID)
+    buildQualityCheck(
+      modelMap,
+      prototypeId,
+      manuscriptID,
+      template,
+      sectionCategories
+    )
       .then(setResult)
       .finally(() => {
         setIsBuilding(false)

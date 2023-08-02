@@ -49,6 +49,8 @@ export const useCreateEditor = () => {
       commitAtLoad,
       attachments,
       fileManagement,
+      style,
+      locale,
     },
     dispatch,
     getState,
@@ -66,6 +68,8 @@ export const useCreateEditor = () => {
     commitAtLoad: store.commitAtLoad,
     attachments: store.attachments,
     fileManagement: store.fileManagement,
+    style: store.cslStyle,
+    locale: store.cslLocale,
   }))
   const { user: trackUser } = useAuthStore()
 
@@ -105,6 +109,11 @@ export const useCreateEditor = () => {
         ]
       : [],
     locale: manuscript?.primaryLanguageCode || 'en-GB',
+    cslProps: {
+      style,
+      locale,
+      lang: 'en-US',
+    },
     environment: config.environment,
     history,
     popper: popper.current,

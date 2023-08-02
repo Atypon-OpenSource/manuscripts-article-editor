@@ -23,10 +23,15 @@ interface Args {
 }
 
 export const useRequirementsValidation = ({ state }: Args) => {
-  const [{ manuscript, modelMap }] = useStore((store) => ({
-    manuscript: store.manuscript,
-    modelMap: store.modelMap,
-  }))
+  const [{ manuscript, modelMap, template, sectionCategories }] = useStore(
+    (store) => ({
+      manuscript: store.manuscript,
+      modelMap: store.modelMap,
+      sectionCategories: store.sectionCategories,
+      template: store.template,
+    })
+  )
+
   const [error, setError] = useState<Error | null>()
   const [result, setResult] = useState<AnyValidationResult[]>([])
   const [isBuilding, setIsBuilding] = useState<boolean>(false)
@@ -60,9 +65,16 @@ export const useRequirementsValidation = ({ state }: Args) => {
   useIdlePropEffect(
     () => {
       setIsBuilding(true)
-      buildQualityCheck(modelMap, prototypeID, manuscript._id, {
-        validateImageFiles: false,
-      })
+      buildQualityCheck(
+        modelMap,
+        prototypeID,
+        manuscript._id,
+        template,
+        sectionCategories,
+        {
+          validateImageFiles: false,
+        }
+      )
         .then(setResult)
         // Saving the report failed, we need to update the `RequirementsValidation` schema in order to fix the issue.
         // TODO: re-enable once we decide to save the quality report (RequirementsValidation).
