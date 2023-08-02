@@ -112,7 +112,6 @@ export const useCreateEditor = () => {
     cslProps: {
       style,
       locale,
-      lang: 'en-US',
     },
     environment: config.environment,
     history,

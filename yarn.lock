@@ -1850,16 +1850,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.2.31-LEAN-2651":
-  version "1.2.31-LEAN-2651"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.31-LEAN-2651.tgz#1da455c373b806ca057b07af344511bb3c0142f9"
-  integrity sha512-gQQIR0wyekQHzpz8l6zD9mSKT+94zdTGwHkjAOPoXxxH/q/A+m52/y5BNpIK/2iUpj1FNwAPQfaEJg3GiuQYrg==
+"@manuscripts/body-editor@1.2.31-LEAN-2651-1":
+  version "1.2.31-LEAN-2651-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.31-LEAN-2651-1.tgz#246be50ec12b8441d91b01c5a473f5cc5d0060ba"
+  integrity sha512-gq8ctRYEoPN2+TJCouwiLaYhdZyuyhlym5NkcfNnI65/VObfbyBYFHmsOOVKKQTrdaWShj8xTNI7MVRWXXq+GQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.0"
-    "@manuscripts/library" "1.1.4-LEAN-2651"
+    "@manuscripts/library" "1.1.4-LEAN-2651-1"
     "@manuscripts/style-guide" "1.1.15-LEAN-2651"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
@@ -1934,10 +1934,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@1.1.4-LEAN-2651":
-  version "1.1.4-LEAN-2651"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.4-LEAN-2651.tgz#bdde3ab5c980f9e6c954de49e2679829fd2d1f3a"
-  integrity sha512-VNgIpT11oen97KjJhxXroIxMtrC5PKSDJuwBvzbJ+0+j1QsJoU4sfPGOce1tn97E103TSpJvuYmhon/hamNlLg==
+"@manuscripts/library@1.1.4-LEAN-2651-1":
+  version "1.1.4-LEAN-2651-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.4-LEAN-2651-1.tgz#a17c7d75120872b2998193e085458616574df465"
+  integrity sha512-TOpCCRtx6Dk+RVqV7KCQCOkdvkOq5yMfgEu1dyFe7bBw84jfbN6xs4FpHQRSTA37p5OQGCnFFMX+40lolWfzGw==
   dependencies:
     "@manuscripts/json-schema" "^2.1.0"
     "@manuscripts/transform" "1.3.6-LEAN-2650"
