@@ -32,6 +32,7 @@ import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
+import { useDocStore } from 'src/quarterback/useDocStore'
 
 export const useCreateEditor = () => {
   const [
@@ -87,6 +88,8 @@ export const useCreateEditor = () => {
   }
 
   const history = useHistory()
+
+  const { stepsExchanger } = useDocStore()
 
   const editorProps = {
     attributes: {
@@ -189,11 +192,13 @@ export const useCreateEditor = () => {
     getDoc: () => {
       return getState().doc
     },
+    stepsExchanger,
   }
 
   const editor = useEditor(
     ManuscriptsEditor.createState(editorProps),
-    ManuscriptsEditor.createView(editorProps)
+    ManuscriptsEditor.createView(editorProps),
+    stepsExchanger
   )
   return editor
 }

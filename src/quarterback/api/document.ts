@@ -18,6 +18,16 @@ import {
 
 import { del, get, post, put } from './methods'
 
+export type StepsPayload = {
+  steps: unknown[]
+  version: number
+}
+
+type IStepsResponse = {
+  steps: unknown[]
+  version: number
+}
+
 export const getDocument = (id: string) =>
   get<IGetDocumentResponse>(`doc/${id}`, 'Fetching document failed')
 
@@ -29,3 +39,6 @@ export const updateDocument = (id: string, payload: IUpdateDocumentRequest) =>
 
 export const deleteDocument = (docId: string) =>
   del<boolean>(`doc/${docId}`, 'Deleting document failed')
+
+export const applySteps = (docId: string, payload: StepsPayload) =>
+  post<IStepsResponse>(`doc/${docId}`, payload, 'Creating document failed')
