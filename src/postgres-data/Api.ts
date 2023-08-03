@@ -132,7 +132,7 @@ export default class Api {
   getSectionCategories = () =>
     this.get<SectionCategory[]>('/config?id=section-categories', V2)
 
-  getLocales = (lang: string) =>
+  getCSLLocale = (lang: string) =>
     lang !== 'en-US'
       ? this.get<string>(`/csl/locales?id=${lang}`, V2)
       : undefined

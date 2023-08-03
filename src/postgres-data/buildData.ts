@@ -172,7 +172,7 @@ const getManuscriptData = async (
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
     // TODO:: config this!
-    api.getLocales('en-US'),
+    api.getCSLLocale('en-US'),
     api.getTemplate(data.manuscript?.prototype),
   ])
 
