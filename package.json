@@ -90,7 +90,6 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@manuscripts/eslint-config": "^0.5.1",
-    "@manuscripts/examples": "^0.1.0",
     "@storybook/addon-actions": "^6.5.15",
     "@storybook/addon-links": "^6.5.15",
     "@storybook/addon-storyshots": "^6.5.15",

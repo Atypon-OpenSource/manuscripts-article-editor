@@ -1926,11 +1926,6 @@
     eslint-config-prettier "^8.5.0"
     prettier "^2.8.1"
 
-"@manuscripts/examples@^0.1.0":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/examples/-/examples-0.1.1.tgz#96b385e64df8b8cd14d9e47d2d69da366491e64b"
-  integrity sha512-f30/rqu/DeJVt2reNYmqt9iJk2WVtMRXL+PbKeoa+smJUNIdSKvSlPUdtTP1ymSS920FPeVa8bc9dB1z9aH3Lw==
-
 "@manuscripts/json-schema@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.1.0.tgz#2665dd90fd9d230ec188a2405efe8abf74145d39"
