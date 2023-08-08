@@ -145,12 +145,10 @@ export default class Api {
       ? this.get<Bundle>(`/bundles?id=${template.bundle}`, V2)
       : undefined
 
-  getCSLStyle = (template: ManuscriptTemplate | undefined) => {
-    const style = template?.bundle
-      ?.split('MPBundle:www-zotero-org-styles-')
-      .pop()
-    return style ? this.get<string>(`/csl/styles?id=${style}`, V2) : undefined
-  }
+  getCSLStyle = (bundle: Bundle | undefined) =>
+    bundle?.csl?._id
+      ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`, V2)
+      : undefined
 
   getCollaborators = (containerID: string) =>
     this.get<UserCollaborator[]>(`/project/${containerID}/collaborators`)

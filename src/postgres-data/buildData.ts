@@ -176,10 +176,8 @@ const getManuscriptData = async (
     api.getTemplate(data.manuscript?.prototype),
   ])
 
-  const [bundle, cslStyle] = await Promise.all([
-    api.getBundle(template),
-    api.getCSLStyle(template),
-  ])
+  const bundle = await api.getBundle(template)
+  const cslStyle = await api.getCSLStyle(bundle)
 
   data.sectionCategories = sectionCategories || []
   data.template = template
