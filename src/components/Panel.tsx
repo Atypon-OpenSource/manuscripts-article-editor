@@ -73,6 +73,8 @@ const Panel: React.FC<PanelProps> = (props) => {
   const hideWhenQuery = useRef<MediaQueryList>()
   const [_, dispatch] = useStore((store) => ({
     selectedComment: store.selectedComment,
+    selectedSuggestion: store.selectedSuggestion,
+    editorSelectedSuggestion: store.editorSelectedSuggestion,
   }))
 
   useLayoutEffect(() => {
@@ -125,6 +127,7 @@ const Panel: React.FC<PanelProps> = (props) => {
     if (forceOpen === false && data.collapsed === true) {
       dispatch({ selectedComment: undefined })
       dispatch({ selectedSuggestion: undefined })
+      dispatch({ editorSelectedSuggestion: undefined })
     }
   }
 
