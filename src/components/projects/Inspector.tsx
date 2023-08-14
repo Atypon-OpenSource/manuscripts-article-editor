@@ -50,6 +50,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
       deleteModel,
       trackModelMap,
       selectedComment,
+      selectedSuggestion,
+      editorSelectedSuggestion,
     },
     stateDispatch,
   ] = useStore((store) => ({
@@ -60,10 +62,14 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     fileManagement: store.fileManagement,
     isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
+    selectedSuggestion: store.selectedSuggestion,
+    editorSelectedSuggestion: store.editorSelectedSuggestion,
   }))
 
   const { state, dispatch } = editor
+
   const comment = isThereNewComments || selectedComment
+  const suggestion = selectedSuggestion || editorSelectedSuggestion
 
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -72,6 +78,12 @@ const Inspector: React.FC<Props> = ({ editor }) => {
       setTabIndex(1)
     }
   }, [comment])
+
+  useEffect(() => {
+    if (suggestion) {
+      setTabIndex(3)
+    }
+  }, [suggestion])
 
   const validation = useRequirementsValidation({
     state,
@@ -92,7 +104,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={comment !== undefined}
+        forceOpen={comment !== undefined || suggestion !== undefined}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
@@ -132,7 +144,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
               )}
               {config.quarterback.enabled && (
                 <InspectorTabPanel key="History">
-                  <TrackChangesPanel key="track-changes" />
+                  <TrackChangesPanel key="track-changes" editor={editor} />
                 </InspectorTabPanel>
               )}
               {config.features.fileManagement && (

@@ -129,6 +129,12 @@ export const useCreateEditor = () => {
     },
     setSelectedComment: (commentId?: string) =>
       dispatch({ selectedComment: commentId }),
+    setEditorSelectedSuggestion: (suggestionId?: string) => {
+      dispatch({ editorSelectedSuggestion: suggestionId })
+      if (!suggestionId) {
+        dispatch({ selectedSuggestion: undefined })
+      }
+    },
     getModel,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
       /*

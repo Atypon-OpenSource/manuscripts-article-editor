@@ -12,6 +12,7 @@
 import { TrackedChange } from '@manuscripts/track-changes-plugin'
 import React from 'react'
 
+import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { InspectorSection } from '../../InspectorSection'
 import { Suggestion } from './Suggestion'
 
@@ -23,6 +24,7 @@ interface IProps {
   handleRejectChange(c: TrackedChange): void
   handleResetChange(c: TrackedChange): void
   handleAcceptPending?(): void
+  editor: ReturnType<typeof useCreateEditor>
 }
 
 export const SuggestionList = (props: IProps) => {
@@ -34,6 +36,7 @@ export const SuggestionList = (props: IProps) => {
     handleRejectChange,
     handleResetChange,
     handleAcceptPending,
+    editor,
   } = props
   const changesByDate = (a: TrackedChange, b: TrackedChange) =>
     b.dataTracked.updatedAt - a.dataTracked.updatedAt
@@ -57,6 +60,7 @@ export const SuggestionList = (props: IProps) => {
           handleReject={handleRejectChange}
           handleReset={handleResetChange}
           key={c.id}
+          editor={editor}
         />
       ))}
     </InspectorSection>

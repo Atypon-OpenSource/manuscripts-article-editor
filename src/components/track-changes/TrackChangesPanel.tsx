@@ -18,21 +18,31 @@ import {
 } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 
+import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useAuthStore } from '../../quarterback/useAuthStore'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
+import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 import { useEditorStore } from './useEditorStore'
 
-export function TrackChangesPanel() {
+interface Props {
+  editor: ReturnType<typeof useCreateEditor>
+}
+
+export const TrackChangesPanel: React.FC<Props> = ({ editor }) => {
   const { user, authenticate } = useAuthStore()
   const { execCmd, trackState } = useEditorStore()
   const { listComments } = useCommentStore()
   const { currentDocument } = useDocStore()
   const { changeSet } = trackState || {}
   const [sortBy, setSortBy] = useState('Date')
+
+  const [{ editorSelectedSuggestion }, dispatch] = useStore((store) => ({
+    editorSelectedSuggestion: store.editorSelectedSuggestion,
+  }))
 
   useEffect(() => {
     async function loginListComments(docId: string) {
@@ -86,6 +96,31 @@ export function TrackChangesPanel() {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
 
+  const isSelectedSuggestion = (suggestion: TrackedChange) => {
+    return !!(
+      suggestion.id === editorSelectedSuggestion ||
+      (suggestion.type === 'node-change' &&
+        suggestion.children.find((change) => {
+          return change.id === editorSelectedSuggestion
+        }))
+    )
+  }
+
+  const checkSelectedSuggestion = (suggestionList?: TrackedChange[]) => {
+    if (suggestionList) {
+      suggestionList.forEach((suggestion) => {
+        if (isSelectedSuggestion(suggestion)) {
+          dispatch({ selectedSuggestion: suggestion.id })
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    checkSelectedSuggestion(changeSet?.pending)
+    checkSelectedSuggestion(changeSet?.accepted)
+  }, [changeSet, editorSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       <SnapshotsDropdown />
@@ -100,6 +135,7 @@ export function TrackChangesPanel() {
         handleAcceptPending={
           changeSet?.pending.length ? handleAcceptPending : undefined
         }
+        editor={editor}
       />
       <SuggestionList
         changes={changeSet?.accepted || []}
@@ -108,6 +144,7 @@ export function TrackChangesPanel() {
         handleAcceptChange={handleAcceptChange}
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
+        editor={editor}
       />
       <SuggestionList
         changes={changeSet?.rejected || []}
@@ -116,6 +153,7 @@ export function TrackChangesPanel() {
         handleAcceptChange={handleAcceptChange}
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
+        editor={editor}
       />
     </>
   )
