@@ -1943,17 +1943,17 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.2.31-LEAN-2684-7":
-  version "1.2.31-LEAN-2684-7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.31-LEAN-2684-7.tgz#ddb051716016d377f820f413dea49a012ee580f6"
-  integrity sha512-4lGcZHe7P5DpVbRK/QO2rJkeV2qIGCiIrJdrz2OI2EJZdUu/t+b4jDX9wyWfydahz8w30hq9QJd4aLWkEOr3FQ==
+"@manuscripts/body-editor@1.2.31-LEAN-2684-8":
+  version "1.2.31-LEAN-2684-8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.31-LEAN-2684-8.tgz#af258f6315b7597d480ccfc97094c8c88b14a079"
+  integrity sha512-TWhCrAAEB9ILzGxLeNlnV5Cb+cR/SuKND88b9lclUwKyB9MUpwhzaP7nQZtzz0vP05dU/xShfOYAz0BVgI7SOg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.0"
     "@manuscripts/library" "^1.1.4"
-    "@manuscripts/style-guide" "1.1.15-LEAN-2684-4"
+    "@manuscripts/style-guide" "1.1.15-LEAN-2684-5"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.3.5"
@@ -2077,10 +2077,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.1.15-LEAN-2684-4":
-  version "1.1.15-LEAN-2684-4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.15-LEAN-2684-4.tgz#57ee3648afd322d5b2510c19545d3a77c35d11d0"
-  integrity sha512-JKIjTEQcEEgoD21znIuiSdnsX/5Rv5evzy+1RI16JPCE0zpntA6btVelRxqQdK87DqoDD+Z7lfFsi2TUDDao3w==
+"@manuscripts/style-guide@1.1.15-LEAN-2684-5":
+  version "1.1.15-LEAN-2684-5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.15-LEAN-2684-5.tgz#42bd8777b3d61ded69f06767c5dba95e80aa10b7"
+  integrity sha512-pdBuHmALIithmiFHjgZb12m42U33skNLoZMWZrzPpzvwElpAU+J6oxz5yoRRid4IQQL4Mulj1rwlz4pj1LBKOg==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
