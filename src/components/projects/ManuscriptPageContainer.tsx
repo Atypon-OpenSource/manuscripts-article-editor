@@ -31,6 +31,7 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
@@ -52,7 +53,7 @@ import ManuscriptSidebar from './ManuscriptSidebar'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
-  const [{ project, user, permittedActions }] = useStore((state) => {
+  const [{ project, user, permittedActions }, dispatch] = useStore((state) => {
     return {
       project: state.project,
       user: state.user,
@@ -65,6 +66,14 @@ const ManuscriptPageContainer: React.FC = () => {
     project: project,
     permittedActions,
   })
+
+  const handleSnapshot = useHandleSnapshot()
+
+  useEffect(() => {
+    if (handleSnapshot) {
+      dispatch({ handleSnapshot })
+    }
+  }, [handleSnapshot, dispatch])
 
   return (
     <CapabilitiesProvider can={can}>

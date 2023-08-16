@@ -9,6 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
 
 import { useEditorStore } from '../components/track-changes/useEditorStore'
@@ -19,6 +20,7 @@ import { useSnapshotStore } from '../quarterback/useSnapshotStore'
 export const useHandleSnapshot = (storeExists = true) => {
   const { execCmd, docToJSON } = useEditorStore()
   const { saveSnapshot } = useSnapshotStore()
+  const can = usePermissions()
 
   if (!storeExists) {
     return null
@@ -34,6 +36,9 @@ export const useHandleSnapshot = (storeExists = true) => {
           if (!state) {
             reject(new Error('State is not available'))
             return
+          }
+          if (!can.applySaveChanges) {
+            return resolve()
           }
           usePouchStore
             .getState()
