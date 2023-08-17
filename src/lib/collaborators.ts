@@ -43,7 +43,6 @@ export const buildCollaboratorProfiles = (
       collaborator.collaboratorProfile
     )
   }
-  // @ts-ignore
   profiles.set(user[key] as string, user)
   return profiles
 }

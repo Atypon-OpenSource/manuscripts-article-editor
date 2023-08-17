@@ -314,7 +314,6 @@ const addNewFigure = (
 ) => {
   const figure = view.state.schema.nodes.figure.createAndFill({
     ...attrs,
-    // @ts-ignore
     id: generateID(ObjectTypes.Figure),
   }) as FigureNode
   const tr = view.state.tr.insert(pos, figure)
