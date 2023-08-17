@@ -21,7 +21,7 @@ import styled from 'styled-components'
 import {
   chooseSectionCategory,
   isEditableSectionCategoryID,
-  sortedSectionCategories,
+  sortSectionCategories,
 } from '../../lib/section-categories'
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
@@ -38,7 +38,10 @@ export const SectionInspector: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
 }> = ({ dispatchNodeAttrs, section, sectionNode, state, dispatch }) => {
-  const [modelMap] = useStore((store) => store.trackModelMap)
+  const [{ modelMap, sectionCategories }] = useStore((store) => ({
+    modelMap: store.trackModelMap,
+    sectionCategories: sortSectionCategories(store.sectionCategories),
+  }))
 
   const existingCatsCounted = useMemo(() => {
     const exisitingCats: { [key: string]: number } = {}
@@ -101,7 +104,7 @@ export const SectionInspector: React.FC<{
     [section, dispatchNodeAttrs, state, dispatch, sectionNode]
   )
 
-  const sectionCategories = useMemo(() => {
+  const sortedSectionCategories = useMemo(() => {
     const container = findParentNode((node) => node.attrs.category)(
       state.selection
     )?.node
@@ -110,7 +113,7 @@ export const SectionInspector: React.FC<{
       return []
     }
 
-    const sectionCategory = sortedSectionCategories.find(
+    const sectionCategory = sectionCategories.find(
       ({ _id }) => _id === container.attrs.category
     )
 
@@ -118,12 +121,12 @@ export const SectionInspector: React.FC<{
       return []
     }
 
-    return sortedSectionCategories.filter(
+    return sectionCategories.filter(
       ({ groupIDs }) =>
         groupIDs &&
         groupIDs.some((groupID) => sectionCategory.groupIDs?.includes(groupID))
     )
-  }, [state.selection])
+  }, [sectionCategories, state.selection])
 
   const currentSectionCategory = chooseSectionCategory(section)
   return (
@@ -161,7 +164,7 @@ export const SectionInspector: React.FC<{
 
           <CategoryInput
             value={currentSectionCategory}
-            sectionCategories={sectionCategories}
+            sectionCategories={sortedSectionCategories}
             existingCatsCounted={existingCatsCounted}
             handleChange={(category: string) => {
               dispatchNodeAttrs(section._id, { category })
