@@ -101,6 +101,8 @@ export type state = {
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
   deleteProject: (projectID: string) => Promise<string>
   updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+  selectedSuggestion?: string
+  editorSelectedSuggestion?: string
 
   // track changes doc state changes
   saveTrackModel: <T extends Model>(

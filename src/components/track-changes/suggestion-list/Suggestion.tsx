@@ -11,12 +11,10 @@
  */
 import { usePermissions } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
-import { useCreateEditor } from '../../../hooks/use-create-editor'
 import { useStore } from '../../../store'
 import { Accept, Back, Reject } from './Icons'
 import { AvatarContainer, SuggestionSnippet, Time } from './SuggestionSnippet'
@@ -26,7 +24,7 @@ interface Props {
   handleAccept: (c: TrackedChange) => void
   handleReject: (c: TrackedChange) => void
   handleReset: (c: TrackedChange) => void
-  editor: ReturnType<typeof useCreateEditor>
+  handleClickSuggestion(c: TrackedChange): void
 }
 
 export const Suggestion: React.FC<Props> = ({
@@ -34,20 +32,18 @@ export const Suggestion: React.FC<Props> = ({
   handleAccept,
   handleReject,
   handleReset,
-  editor,
+  handleClickSuggestion,
 }) => {
-  const [{ user, selectedSuggestion }, dispatch] = useStore((store) => ({
+  const [{ user, selectedSuggestion }] = useStore((store) => ({
     user: store.user,
     selectedSuggestion: store.selectedSuggestion,
   }))
 
   const can = usePermissions()
 
-  const wrapperRef = useRef(null)
+  const wrapperRef = useRef<HTMLLIElement>(null)
 
   const [suggestionClicked, setSuggestionClicked] = useState(false)
-
-  const { state, dispatch: editorDispatch } = editor
 
   const canRejectOwnSuggestion = useMemo(() => {
     if (
@@ -70,12 +66,12 @@ export const Suggestion: React.FC<Props> = ({
   }, [suggestion])
 
   const isSelectedSuggestion = useMemo(() => {
-    return selectedSuggestion && selectedSuggestion === suggestion.id
+    return !!(selectedSuggestion && selectedSuggestion === suggestion.id)
   }, [selectedSuggestion, suggestion])
 
   useEffect(() => {
     if (isSelectedSuggestion && wrapperRef.current && !suggestionClicked) {
-      const wrapperRefElement = wrapperRef.current as HTMLElement
+      const wrapperRefElement = wrapperRef.current
       wrapperRefElement.scrollIntoView({
         behavior: 'auto',
         block: 'start',
@@ -89,21 +85,10 @@ export const Suggestion: React.FC<Props> = ({
     <Wrapper isFocused={isSelectedSuggestion} ref={wrapperRef}>
       <FocusHandle
         href="#"
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault()
           setSuggestionClicked(true)
-          let selection
-          if (suggestion.type === 'text-change') {
-            selection = TextSelection.create(
-              state.tr.doc,
-              suggestion.from,
-              suggestion.to
-            )
-          } else {
-            selection = NodeSelection.create(state.tr.doc, suggestion.from)
-          }
-          editorDispatch(state.tr.setSelection(selection).scrollIntoView())
-          editor.view && editor.view.focus()
-          dispatch({ selectedSuggestion: suggestion.id })
+          handleClickSuggestion(suggestion)
         }}
         isDisabled={isRejected}
       >

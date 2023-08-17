@@ -17,8 +17,8 @@ import {
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
+import { NodeSelection, TextSelection } from 'prosemirror-state'
 
-import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useAuthStore } from '../../quarterback/useAuthStore'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
@@ -28,11 +28,7 @@ import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 import { useEditorStore } from './useEditorStore'
 
-interface Props {
-  editor: ReturnType<typeof useCreateEditor>
-}
-
-export const TrackChangesPanel: React.FC<Props> = ({ editor }) => {
+export function TrackChangesPanel() {
   const { user, authenticate } = useAuthStore()
   const { execCmd, trackState } = useEditorStore()
   const { listComments } = useCommentStore()
@@ -40,9 +36,12 @@ export const TrackChangesPanel: React.FC<Props> = ({ editor }) => {
   const { changeSet } = trackState || {}
   const [sortBy, setSortBy] = useState('Date')
 
-  const [{ editorSelectedSuggestion }, dispatch] = useStore((store) => ({
-    editorSelectedSuggestion: store.editorSelectedSuggestion,
-  }))
+  const [{ editorSelectedSuggestion, editor }, dispatch] = useStore(
+    (store) => ({
+      editorSelectedSuggestion: store.editorSelectedSuggestion,
+      editor: store.editor,
+    })
+  )
 
   useEffect(() => {
     async function loginListComments(docId: string) {
@@ -116,6 +115,23 @@ export const TrackChangesPanel: React.FC<Props> = ({ editor }) => {
     }
   }
 
+  const handleClickSuggestion = (suggestion: TrackedChange) => {
+    const { state, dispatch: editorDispatch } = editor
+    let selection
+    if (suggestion.type === 'text-change') {
+      selection = TextSelection.create(
+        state.tr.doc,
+        suggestion.from,
+        suggestion.to
+      )
+    } else {
+      selection = NodeSelection.create(state.tr.doc, suggestion.from)
+    }
+    editorDispatch(state.tr.setSelection(selection).scrollIntoView())
+    editor.view && editor.view.focus()
+    dispatch({ selectedSuggestion: suggestion.id })
+  }
+
   useEffect(() => {
     checkSelectedSuggestion(changeSet?.pending)
     checkSelectedSuggestion(changeSet?.accepted)
@@ -135,7 +151,7 @@ export const TrackChangesPanel: React.FC<Props> = ({ editor }) => {
         handleAcceptPending={
           changeSet?.pending.length ? handleAcceptPending : undefined
         }
-        editor={editor}
+        handleClickSuggestion={handleClickSuggestion}
       />
       <SuggestionList
         changes={changeSet?.accepted || []}
@@ -144,7 +160,7 @@ export const TrackChangesPanel: React.FC<Props> = ({ editor }) => {
         handleAcceptChange={handleAcceptChange}
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
-        editor={editor}
+        handleClickSuggestion={handleClickSuggestion}
       />
       <SuggestionList
         changes={changeSet?.rejected || []}
@@ -153,7 +169,7 @@ export const TrackChangesPanel: React.FC<Props> = ({ editor }) => {
         handleAcceptChange={handleAcceptChange}
         handleRejectChange={handleRejectChange}
         handleResetChange={handleResetChange}
-        editor={editor}
+        handleClickSuggestion={handleClickSuggestion}
       />
     </>
   )

@@ -72,16 +72,18 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const suggestion = selectedSuggestion || editorSelectedSuggestion
 
   const [tabIndex, setTabIndex] = useState(0)
+  const COMMENTS_TAB_INDEX = 1,
+    SUGGESTIONS_TAB_INDEX = 3
 
   useEffect(() => {
     if (comment) {
-      setTabIndex(1)
+      setTabIndex(COMMENTS_TAB_INDEX)
     }
   }, [comment])
 
   useEffect(() => {
     if (suggestion) {
-      setTabIndex(3)
+      setTabIndex(SUGGESTIONS_TAB_INDEX)
     }
   }, [suggestion])
 
@@ -144,7 +146,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
               )}
               {config.quarterback.enabled && (
                 <InspectorTabPanel key="History">
-                  <TrackChangesPanel key="track-changes" editor={editor} />
+                  <TrackChangesPanel key="track-changes" />
                 </InspectorTabPanel>
               )}
               {config.features.fileManagement && (
