@@ -1850,16 +1850,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1.tgz#cf9ecd3d83bfe340e9db0bf48d7b691f979d4bc0"
-  integrity sha512-QTwVwPvuxCKoKOMUPBJi8bUnxNfznCJoCeI7VX4VfbzHhHqqDsRs0ab3/K+JLcYnifSQg49mt4OQXPiyX/wisQ==
+"@manuscripts/body-editor@^1.3.1-LEAN-2143":
+  version "1.3.1-LEAN-2143"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1-LEAN-2143.tgz#c5016da876c031d75cf8a8359de501f8a5cce373"
+  integrity sha512-si3KYRc7zuN2P+kgUv5uwNiWDgHCXxhuOVQ7vgH8dD5eAATqVYdjeP8L9nBk8GCTiC7JtaRtcube6XoA0VLm/w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
-    "@manuscripts/library" "^1.1.6"
+    "@manuscripts/library" "^1.1.6-LEAN-2143"
     "@manuscripts/style-guide" "^1.2.1"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
@@ -1941,6 +1941,19 @@
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.6.tgz#b1649c62a6a0f3ed14516088b729ca0e160976a1"
   integrity sha512-v6hMNm1k5DtZu9X8LpXbEeJWFmHDOm00gSPlXtvKTyFec7whfjKD/7mRTJak15tIVlVfvYBVHpgnotI00tclvQ==
+  dependencies:
+    "@manuscripts/json-schema" "^2.1.0"
+    "@manuscripts/transform" "^1.3.10"
+    astrocite-bibtex "^0.16.4"
+    astrocite-ris "^0.16.4"
+    citeproc "^2.4.62"
+    fontoxpath "^3.28.2"
+    prosemirror-model "^1.18.3"
+
+"@manuscripts/library@^1.1.6-LEAN-2143":
+  version "1.1.6-LEAN-2143"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.6-LEAN-2143.tgz#fc171c8ad21c5169c0b02b8114b70fb03efc9792"
+  integrity sha512-9pE9vJ/C8dZS87L92zz90XyisRsXDd4ZuZM5AKh28zNp804aR+WVjrdnFuQNJRjkZYcq1xmNahOUEcf2xdfadw==
   dependencies:
     "@manuscripts/json-schema" "^2.1.0"
     "@manuscripts/transform" "^1.3.10"
