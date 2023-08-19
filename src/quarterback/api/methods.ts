@@ -143,3 +143,17 @@ export function del<T>(
     defaultError
   )
 }
+
+export function listen<T>(
+  path: string,
+  event: string,
+  listener: (event: MessageEvent<T>) => void,
+  defaultError?: string,
+  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+) {
+  const evtSource = new EventSource(`${QUARTERBACK_URL}/${path}`, {
+    withCredentials: true,
+  })
+
+  evtSource.addEventListener(event, listener)
+}

@@ -15,16 +15,28 @@ import {
   IGetDocumentResponse,
   IUpdateDocumentRequest,
 } from '@manuscripts/quarterback-types'
+import { Step } from 'prosemirror-transform'
 
-import { del, get, post, put } from './methods'
+import { del, get, listen, post, put } from './methods'
 
 export type StepsPayload = {
   steps: unknown[]
   version: number
+  clientID: number | string
 }
 
-type IStepsResponse = {
-  steps: unknown[]
+export type AppliedStepsResponse = {
+  lastVersion?: number
+  steps?: number
+  error?: string
+}
+
+export type StepWithClientID = Step & {
+  clientID: string
+}
+
+export type StepsSinceResponse = {
+  steps: StepWithClientID[]
   version: number
 }
 
@@ -41,4 +53,30 @@ export const deleteDocument = (docId: string) =>
   del<boolean>(`doc/${docId}`, 'Deleting document failed')
 
 export const applySteps = (docId: string, payload: StepsPayload) =>
-  post<IStepsResponse>(`doc/${docId}`, payload, 'Creating document failed')
+  post<AppliedStepsResponse>(
+    `doc/${docId}/steps`,
+    payload,
+    'Creating document failed'
+  )
+
+export const stepsSince = (docId: string, version: number) =>
+  get<StepsSinceResponse>(
+    `doc/${docId}/version/${version}`,
+    'Fetching document failed'
+  )
+
+export const listenStepUpdates = (
+  docId: string,
+  dataListener: (version: string, steps: StepWithClientID[]) => void
+) => {
+  const listener = (event: MessageEvent) => {
+    if (event.data) {
+      const data = JSON.parse(event.data)
+      if (data.version && data.steps && Array.isArray(data.steps)) {
+        dataListener(data.version as string, data.steps as StepWithClientID[])
+      }
+    }
+  }
+
+  listen(`doc/${docId}/listen`, 'NEW_STEPS', listener)
+}

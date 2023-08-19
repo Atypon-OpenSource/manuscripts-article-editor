@@ -156,9 +156,9 @@ const ManuscriptPageView: React.FC = () => {
 
   useEffect(() => {
     const { trackState } = setEditorState(state)
-    if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
-      doWithThrottle(() => saveDocument(state), throttle)
-    }
+    // if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
+    //   doWithThrottle(() => saveDocument(state), throttle)
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 

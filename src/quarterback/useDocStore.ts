@@ -14,7 +14,7 @@ import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 import * as docApi from './api/document'
-import QuarterbackProvider from './QuarterbackProvider'
+import QuarterbackStepsExchanger from './QuarterbackStepsExchanger'
 
 interface CurrentDocument {
   manuscriptID: string
@@ -56,8 +56,31 @@ export const useDocStore = create(
         }
         return resp
       },
-      stepsExchanger() {
-        return new QuarterbackProvider(docApi.applySteps)
+      stepsExchanger(docId: string, lastVersion: number) {
+        const applySteps = async (
+          docId: string,
+          payload: docApi.StepsPayload
+        ) => {
+          const resp = await docApi.applySteps(docId, payload)
+          if ('data' in resp) {
+            return resp.data
+          }
+        }
+
+        const getStepsSince = async (docId: string, version: number) => {
+          const resp = await docApi.stepsSince(docId, version)
+          if ('data' in resp) {
+            return resp.data
+          }
+        }
+
+        return new QuarterbackStepsExchanger(
+          docId,
+          lastVersion,
+          applySteps,
+          getStepsSince,
+          docApi.listenStepUpdates
+        )
       },
       updateDocument: async (id: string, doc: Record<string, any>) => {
         const resp = await docApi.updateDocument(id, { doc })
