@@ -30,11 +30,13 @@ import {
   Attachment,
   Build,
   ContainedModel,
+  ManuscriptEditorView,
   ManuscriptModel,
   ManuscriptNode,
   ModelAttachment,
 } from '@manuscripts/transform'
 
+import { useCreateEditor } from '../hooks/use-create-editor'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { BiblioTools } from './BiblioTools'
@@ -155,6 +157,8 @@ export type state = {
   globalLibraryCollections?: Map<string, LibraryCollection> // From the user
   globalLibraryItems?: Map<string, BibliographyItem> // From the user
   library: Map<string, BibliographyItem>
+  editor: ReturnType<typeof useCreateEditor>
+  view: ManuscriptEditorView
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

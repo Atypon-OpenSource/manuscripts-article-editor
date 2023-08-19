@@ -16,8 +16,8 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useState } from 'react'
 import { NodeSelection, TextSelection } from 'prosemirror-state'
+import React, { useEffect, useState } from 'react'
 
 import { useAuthStore } from '../../quarterback/useAuthStore'
 import { useCommentStore } from '../../quarterback/useCommentStore'
