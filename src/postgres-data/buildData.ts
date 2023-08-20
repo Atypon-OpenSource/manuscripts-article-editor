@@ -169,6 +169,22 @@ const getManuscriptData = async (
   data.commits = data.commits || []
   data.modelMap = await buildModelMap(models || [])
 
+  const [sectionCategories, cslLocale, template] = await Promise.all([
+    api.getSectionCategories(),
+    // TODO:: config this!
+    api.getCSLLocale('en-US'),
+    api.getTemplate(data.manuscript?.prototype),
+  ])
+
+  const bundle = await api.getBundle(template)
+  const cslStyle = await api.getCSLStyle(bundle)
+
+  data.sectionCategories = sectionCategories || []
+  data.template = template
+  data.bundle = bundle
+  data.cslLocale = cslLocale
+  data.cslStyle = cslStyle
+
   return data
 }
 

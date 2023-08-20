@@ -40,7 +40,6 @@ Manuscripts is highly modular: it is composed out of a series of NPM published m
 
 ### Datasets
 
-- [@manuscripts/data](https://www.npmjs.com/package/@manuscripts/data) (source at [gitlab.com/mpapp-public/manuscripts-data](https://www.npmjs.com/package/@manuscripts/data)): source data such as document templates for use by Manuscripts client applications, plus scripts for building and deploying the data to npm.
 - [@manuscripts/examples](https://www.npmjs.com/package/@manuscripts/examples) (source at [gitlab.com/mpapp-public/manuscripts-examples](https://gitlab.com/mpapp-public/manuscripts-examples)): example Manuscripts documents for reference and test purposes.
 
 ### Utilities
@@ -90,18 +89,6 @@ Deploy the files to S3 with `scripts/deploy.sh`.
 1. To build the client image, run `docker-compose build client`
 1. To start the services, run `docker stack deploy --compose-file <(docker-compose config) manuscripts`
 1. To stop the services, run `docker stack rm manuscripts`
-
-## Template publishing
-
-1. Make sure you are using the test environment. (@manuscripts/data fetch published templates from the test environment: https://gitlab.com/mpapp-public/manuscripts-data/-/blob/master/scripts/fetch-published-templates.js#L6)
-2. Make sure you are logged in as a user who is allowed to publish templates (APP_COUCHBASE_ALLOWED_OWNERS)
-   or you are using (have access to) one of the projects which is allowed to publish templates (APP_COUCHBASE_ALLOWED_PROJECTS).
-3. Create a manuscript, edit the title (will be used as the template title), and specify requirements. Then publish the template (This can be done through Project menu > Publish Template).
-4. Release new version of [manuscripts-data](https://gitlab.com/mpapp-public/manuscripts-data). (The build process will fetch published, user-generated template data from a manuscripts-api endpoint and adds it to the data published as @manuscripts/data)
-5. Release new version of [manuscripts-requirements](https://gitlab.com/mpapp-public/manuscripts-requirements) after updating the @manuscripts/data dependency version. (Essential for the validation process and building the quality report.)
-6. Upgrade [pressroom-js](https://gitlab.com/mpapp-public/pressroom-js) after updating @manuscripts/data and @manuscripts/requirements dependencies.
-7. Update [fusion-kubernetes-env](https://gitlab.com/mpapp-private/fusion-kubernetes-env) with the new pressroom-js image tag.
-8. Upgrade this repository dependencies (@manuscripts/data and @manuscripts/requirements).
 
 ## Testing
 
