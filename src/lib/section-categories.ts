@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
 import { Section, SectionCategory } from '@manuscripts/json-schema'
 
 export const uneditableSectionCategories: string[] = [
@@ -31,9 +30,8 @@ export const isEditableSectionCategoryID = (id: string) =>
 export const isEditableSectionCategory = (sectionCategory: SectionCategory) =>
   isEditableSectionCategoryID(sectionCategory._id)
 
-export const sortedSectionCategories = (
-  sectionCategories as SectionCategory[]
-).sort((a, b) => a.priority - b.priority)
+export const sortSectionCategories = (sectionCategories: SectionCategory[]) =>
+  sectionCategories.sort((a, b) => a.priority - b.priority)
 
 export const chooseSectionCategory = (section: Section): string => {
   if (section.category) {
