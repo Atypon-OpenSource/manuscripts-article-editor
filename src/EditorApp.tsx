@@ -32,6 +32,7 @@ import {
   GenericStoreProvider,
 } from './store'
 import { ISubject } from './store/ParentObserver'
+import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
 
 interface Props {
   fileManagement: FileManagement
@@ -76,6 +77,7 @@ const EditorApp: React.FC<Props> = ({
   }, [store?.state?.user, setUser])
 
   const loadDoc = useLoadDoc()
+  const quarterBackSource = new QuarterbackDataSource(loadDoc)
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
@@ -89,20 +91,14 @@ const EditorApp: React.FC<Props> = ({
       authToken || ''
     )
     const mainSource = new PsSource(fileManagement.getAttachments())
-    Promise.all([
-      loadDoc(manuscriptID, projectID),
-      createStore(
-        [basicSource, mainSource],
-        undefined,
-        undefined,
-        parentObserver
-      ),
-    ])
-      .then(([doc, store]) => {
+    createStore(
+      [basicSource, mainSource, quarterBackSource],
+      undefined,
+      undefined,
+      parentObserver
+    )
+      .then((store) => {
         // if no doc found in track changes backend, the one produced from manuscripts backend will be used (store.doc)
-        if (doc) {
-          store.setState((s) => ({ ...s, doc }))
-        }
         initPouchStore({
           getModels: () => store.state?.modelMap,
           bulkUpdate: store.state?.bulkUpdate,

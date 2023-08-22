@@ -192,7 +192,7 @@ export const useCreateEditor = () => {
     getDoc: () => {
       return getState().doc
     },
-    collabProvider: stepsExchanger(project._id, 1),
+    collabProvider: stepsExchanger(manuscript._id, project._id, 1),
   }
 
   const editor = useEditor(

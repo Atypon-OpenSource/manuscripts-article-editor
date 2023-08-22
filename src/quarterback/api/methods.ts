@@ -10,6 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import type { Maybe } from '@manuscripts/quarterback-types'
+import {
+  EventSourceMessage,
+  fetchEventSource,
+} from '@microsoft/fetch-event-source'
 
 import config from '../../config'
 import { useAuthStore } from '../useAuthStore'
@@ -144,16 +148,50 @@ export function del<T>(
   )
 }
 
-export function listen<T>(
+export async function listen<T>(
   path: string,
-  event: string,
-  listener: (event: MessageEvent<T>) => void,
+  listener: (event: EventSourceMessage) => void,
   defaultError?: string,
   headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
 ) {
-  const evtSource = new EventSource(`${QUARTERBACK_URL}/${path}`, {
-    withCredentials: true,
+  // const evtSource = new EventSource(`${QUARTERBACK_URL}/${path}`, {
+  //   withCredentials: true,
+  // })
+  if (!useAuthStore.getState().jwt) {
+    await useAuthStore.getState().authenticate()
+    headers = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  }
+  await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
+    onmessage: listener,
+    headers: headers,
+    async onopen(response) {
+      if (
+        response.ok &&
+        response.headers.get('content-type') === 'text/event-stream'
+      ) {
+        console.log('EventSource Connection Opened Ok')
+        return
+      } else if (
+        response.status >= 400 &&
+        response.status < 500 &&
+        response.status !== 429
+      ) {
+        // client-side errors are usually non-retriable:
+        console.error(
+          'EventSource connection error with status: ' + response.status
+        )
+      } else {
+        console.error(
+          'EventSource connection error with status: ' + response.status
+        )
+      }
+    },
+    onclose() {
+      // if the server closes the connection unexpectedly, retry:
+      console.log('EventSource connection closed')
+    },
+    onerror(err) {
+      console.log('EventSource connection error: ' + err)
+    },
   })
-
-  evtSource.addEventListener(event, listener)
 }

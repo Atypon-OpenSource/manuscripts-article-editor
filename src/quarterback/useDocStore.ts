@@ -15,6 +15,7 @@ import { combine } from 'zustand/middleware'
 
 import * as docApi from './api/document'
 import QuarterbackStepsExchanger from './QuarterbackStepsExchanger'
+import { useAuthStore } from './useAuthStore'
 
 interface CurrentDocument {
   manuscriptID: string
@@ -56,7 +57,15 @@ export const useDocStore = create(
         }
         return resp
       },
-      stepsExchanger(docId: string, lastVersion: number) {
+      stepsExchanger(
+        docId: string,
+        projectId: string,
+        lastVersion: number,
+        isAuthed = true
+      ) {
+        if (!isAuthed) {
+          return
+        }
         const applySteps = async (
           docId: string,
           payload: docApi.StepsPayload
@@ -76,6 +85,7 @@ export const useDocStore = create(
 
         return new QuarterbackStepsExchanger(
           docId,
+          projectId,
           lastVersion,
           applySteps,
           getStepsSince,

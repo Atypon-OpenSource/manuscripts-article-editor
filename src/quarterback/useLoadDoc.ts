@@ -10,19 +10,24 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { schema } from '@manuscripts/transform'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 
 import config from '../config'
 import { useAuthStore } from './useAuthStore'
 import { useDocStore } from './useDocStore'
 import { useSnapshotStore } from './useSnapshotStore'
+import { updateDocument } from './api/document'
 
 export const useLoadDoc = () => {
   const { authenticate } = useAuthStore()
   const { createDocument, getDocument, setCurrentDocument } = useDocStore()
   const { init: initSnapshots, setSnapshots } = useSnapshotStore()
 
-  return async function loadDoc(manuscriptID: string, projectID: string) {
+  return async function loadDoc(
+    manuscriptID: string,
+    projectID: string,
+    existingDoc: ManuscriptNode
+  ) {
     if (!config.quarterback.enabled) {
       return undefined
     }
@@ -34,12 +39,23 @@ export const useLoadDoc = () => {
     const found = await getDocument(manuscriptID)
     let doc
     if ('data' in found) {
+      let empty = true
+      for (const _ in found.data.doc as object) {
+        empty = false
+        break
+      }
+
+      if (empty) {
+        await updateDocument(manuscriptID, { doc: existingDoc.toJSON() })
+      }
+
       initSnapshots()
       setSnapshots(found.data.snapshots)
       doc = found.data.doc
     } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
-      createDocument(manuscriptID, projectID)
+      await createDocument(manuscriptID, projectID)
+      await updateDocument(manuscriptID, { doc: existingDoc.toJSON() })
     }
     if (
       doc !== null &&

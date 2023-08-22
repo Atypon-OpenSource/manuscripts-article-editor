@@ -18,6 +18,7 @@ import {
 import { Step } from 'prosemirror-transform'
 
 import { del, get, listen, post, put } from './methods'
+import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 export type StepsPayload = {
   steps: unknown[]
@@ -67,16 +68,25 @@ export const stepsSince = (docId: string, version: number) =>
 
 export const listenStepUpdates = (
   docId: string,
-  dataListener: (version: string, steps: StepWithClientID[]) => void
+  dataListener: (
+    version: number,
+    steps: StepWithClientID[],
+    clientIDs: number[]
+  ) => void
 ) => {
-  const listener = (event: MessageEvent) => {
+  const listener = (event: EventSourceMessage) => {
     if (event.data) {
       const data = JSON.parse(event.data)
-      if (data.version && data.steps && Array.isArray(data.steps)) {
-        dataListener(data.version as string, data.steps as StepWithClientID[])
+      if (
+        data.version &&
+        data.steps &&
+        Array.isArray(data.steps) &&
+        data.clientIDs
+      ) {
+        dataListener(data.version as string, data.steps, data.clientID)
       }
     }
   }
 
-  listen(`doc/${docId}/listen`, 'NEW_STEPS', listener)
+  listen(`doc/${docId}/listen`, listener)
 }

@@ -17,10 +17,17 @@ import {
   StepsSinceResponse,
   StepWithClientID,
 } from './api/document'
+import { schema } from '@manuscripts/transform'
+
+let instance: QuarterbackStepsExchanger | null
 
 export abstract class StepsCollabProvider {
   currentVersion: number
-  protected newStepsListener: (steps: Step[], clientIDs: string[]) => void
+  protected newStepsListener: (
+    version: number,
+    steps: Step[],
+    clientIDs: number[]
+  ) => void
   abstract sendSteps(
     version: number,
     steps: readonly Step[],
@@ -38,11 +45,15 @@ export abstract class StepsCollabProvider {
 }
 
 class QuarterbackStepsExchanger extends StepsCollabProvider {
+  private static _instance: QuarterbackStepsExchanger | null // react uncontrolled function call protection
+
   private applySteps: (
     docId: string,
     payload: StepsPayload
   ) => Promise<AppliedStepsResponse | undefined>
+
   private docId: string
+  private projectId: string
 
   getStepsSince: (
     docId: string,
@@ -51,28 +62,49 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
 
   constructor(
     docId: string,
+    projectId: string,
     startingVersion: number,
     applySteps: QuarterbackStepsExchanger['applySteps'],
     getStepsSince: QuarterbackStepsExchanger['getStepsSince'],
     listenToSteps: (
       docId: string,
-      listener: (version: string, stepsWithClientId: StepWithClientID[]) => void
+      listener: (version: number, steps: unknown[], clientIDs: number[]) => void
     ) => void
   ) {
+    if (QuarterbackStepsExchanger._instance) {
+      return QuarterbackStepsExchanger._instance
+    }
     super()
+    QuarterbackStepsExchanger._instance = this
     this.applySteps = applySteps
     this.docId = docId
+    this.projectId = projectId
 
     this.currentVersion = startingVersion
     this.getStepsSince = getStepsSince
 
     this.sendSteps = this.sendSteps.bind(this)
 
-    // listenToSteps(docId, (version, stepsWithClientId) => {
-    //   const { steps, clientIDs } =
-    //     this.breakdownStepsWithClientID(stepsWithClientId)
-    //   this.newStepsListener(steps, clientIDs)
-    // })
+    listenToSteps(docId, (version, jsonSteps, clientIDs) => {
+      console.log(jsonSteps)
+      console.log(version)
+      if (!jsonSteps) {
+        return
+      }
+      const steps = jsonSteps.map((s: unknown) =>
+        Step.fromJSON(schema, s)
+      ) as Step[]
+
+      if (steps.length) {
+        this.newStepsListener(version, steps, clientIDs)
+      }
+    })
+
+    console.log('CONTRUCTED')
+  }
+
+  destroy() {
+    QuarterbackStepsExchanger._instance = null
   }
 
   async sendSteps(version: number, steps: Step[], clientID: string) {
@@ -94,7 +126,7 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
 
     this.currentVersion = version
 
-    await this.applySteps(this.docId, {
+    await this.applySteps(this.projectId, {
       steps: stepsJSON,
       version,
       clientID,
