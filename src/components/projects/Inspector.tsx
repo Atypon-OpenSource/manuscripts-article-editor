@@ -85,7 +85,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     if (suggestion) {
       setTabIndex(SUGGESTIONS_TAB_INDEX)
     }
-  }, [suggestion])
+  }, [suggestion, SUGGESTIONS_TAB_INDEX])
 
   const validation = useRequirementsValidation({
     state,
