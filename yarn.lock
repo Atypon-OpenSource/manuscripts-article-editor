@@ -1850,17 +1850,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.3.1-LEAN-2479":
-  version "1.3.1-LEAN-2479"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1-LEAN-2479.tgz#54c9f98c652df9869ebe0d76097fcf7dca672b49"
-  integrity sha512-s6PV1oYnYuHc6lipr0HAtUgpY6wB/bwfopuLHsRZtxtkeVRKGq3IsyTwXBOFSlPJPYefLAGtHqqKtfXOpCsImA==
+"@manuscripts/body-editor@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.4.tgz#8741b24daefd1597ae76502e4e5353555447e6dc"
+  integrity sha512-9LejO4MQtKIpTokPtuNJwghzgbq5x73mDXpR3t+DodHbdUAPDAmKPt0P/lBoHG5YgV79M7ukn3r6XiUP4s2MRA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
     "@manuscripts/library" "^1.1.6"
-    "@manuscripts/style-guide" "^1.2.1"
+    "@manuscripts/style-guide" "^1.2.2"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.3.11"
@@ -1972,10 +1972,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.2.1.tgz#f0c90191a0f030381489aad11ffd1e689ca48be6"
-  integrity sha512-hf80n0koYaVmRsAtJtvsCsfkoge1gLVBzB/xjPq/jK3bq012sggdrqfezCLrSP07Jp8Vw1U9N+Ws0WYpEFlJAw==
+"@manuscripts/style-guide@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.2.2.tgz#9c88d40286ca84c5d8d009cc82cc8316cc7345cd"
+  integrity sha512-2rUNebDswPUsS+L2x6Q6O7nr4Z+LTBjp9ZGYvOReLUMZnQWJoMHEc2SXvEX1lUDYleQPrz4sL4IOmqXnpVtnjQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
