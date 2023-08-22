@@ -1850,17 +1850,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1.tgz#cf9ecd3d83bfe340e9db0bf48d7b691f979d4bc0"
-  integrity sha512-QTwVwPvuxCKoKOMUPBJi8bUnxNfznCJoCeI7VX4VfbzHhHqqDsRs0ab3/K+JLcYnifSQg49mt4OQXPiyX/wisQ==
+"@manuscripts/body-editor@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.4.tgz#8741b24daefd1597ae76502e4e5353555447e6dc"
+  integrity sha512-9LejO4MQtKIpTokPtuNJwghzgbq5x73mDXpR3t+DodHbdUAPDAmKPt0P/lBoHG5YgV79M7ukn3r6XiUP4s2MRA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
     "@manuscripts/library" "^1.1.6"
-    "@manuscripts/style-guide" "^1.2.1"
+    "@manuscripts/style-guide" "^1.2.2"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.3.11"
@@ -1972,52 +1972,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.2.1-LEAN-2669":
-  version "1.2.1-LEAN-2669"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.2.1-LEAN-2669.tgz#06e0460616dbc63ab558e2fbaf579a04627b92ab"
-  integrity sha512-ANImh6S+zEG6lunGSb1aUZ25LqgqVLdvPXWhOQxE8GnNZRX/DBPVO9MfoQYQ3v++eMkbX3exLPEMvtyh+QhFLQ==
-  dependencies:
-    "@apollo/client" "^3.7.3"
-    "@formatjs/intl-relativetimeformat" "^4.5.9"
-    "@formatjs/intl-utils" "^2.2.0"
-    "@manuscripts/assets" "^0.6.2"
-    "@manuscripts/comment-editor" "^1.0.3"
-    "@manuscripts/json-schema" "^2.1.1"
-    "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/transform" "^1.3.11"
-    "@reach/tabs" "^0.11.2"
-    date-fns "^2.29.3"
-    formik "^2.2.9"
-    lodash-es "^4.17.21"
-    prosemirror-commands "^1.5.0"
-    prosemirror-history "^1.3.0"
-    prosemirror-inputrules "^1.2.0"
-    prosemirror-keymap "^1.2.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-state "^1.4.2"
-    prosemirror-transform "^1.7.0"
-    prosemirror-view "^1.29.1"
-    react "^17.0.2"
-    react-color "^2.19.3"
-    react-dnd "^11.1.3"
-    react-dnd-html5-backend "^11.1.3"
-    react-dom "^17.0.2"
-    react-intl "^3.12.0"
-    react-modal "^3.11.2"
-    react-modern-calendar-datepicker "^3.1.3"
-    react-popper "^1.3.11"
-    react-router-dom "^5.2.0"
-    react-select "^5.7.3"
-    react-sizeme "^2.6.12"
-    react-tooltip "^4.2.11"
-    styled-components "^5.2.0"
-    tooltip.js "^1.3.3"
-    typeface-lato "^1.1.13"
-
-"@manuscripts/style-guide@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.2.1.tgz#f0c90191a0f030381489aad11ffd1e689ca48be6"
-  integrity sha512-hf80n0koYaVmRsAtJtvsCsfkoge1gLVBzB/xjPq/jK3bq012sggdrqfezCLrSP07Jp8Vw1U9N+Ws0WYpEFlJAw==
+"@manuscripts/style-guide@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.2.2.tgz#9c88d40286ca84c5d8d009cc82cc8316cc7345cd"
+  integrity sha512-2rUNebDswPUsS+L2x6Q6O7nr4Z+LTBjp9ZGYvOReLUMZnQWJoMHEc2SXvEX1lUDYleQPrz4sL4IOmqXnpVtnjQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
