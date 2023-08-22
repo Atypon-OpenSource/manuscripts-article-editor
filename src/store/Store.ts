@@ -32,11 +32,13 @@ import {
   Attachment,
   Build,
   ContainedModel,
+  ManuscriptEditorView,
   ManuscriptModel,
   ManuscriptNode,
   ModelAttachment,
 } from '@manuscripts/transform'
 
+import { useCreateEditor } from '../hooks/use-create-editor'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { BiblioTools } from './BiblioTools'
@@ -103,6 +105,8 @@ export type state = {
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
   deleteProject: (projectID: string) => Promise<string>
   updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
+  selectedSuggestion?: string
+  editorSelectedSuggestion?: string
 
   // track changes doc state changes
   saveTrackModel: <T extends Model>(
@@ -155,6 +159,8 @@ export type state = {
   globalLibraryCollections?: Map<string, LibraryCollection> // From the user
   globalLibraryItems?: Map<string, BibliographyItem> // From the user
   library: Map<string, BibliographyItem>
+  editor: ReturnType<typeof useCreateEditor>
+  view: ManuscriptEditorView
   sectionCategories: SectionCategory[]
   template?: ManuscriptTemplate
   bundle?: Bundle
