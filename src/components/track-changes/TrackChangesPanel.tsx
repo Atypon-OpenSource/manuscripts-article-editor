@@ -116,19 +116,21 @@ export function TrackChangesPanel() {
   }
 
   const handleClickSuggestion = (suggestion: TrackedChange) => {
-    const { state, dispatch: editorDispatch } = editor
-    let selection
-    if (suggestion.type === 'text-change') {
-      selection = TextSelection.create(
-        state.tr.doc,
-        suggestion.from,
-        suggestion.to
-      )
-    } else {
-      selection = NodeSelection.create(state.tr.doc, suggestion.from)
+    const { view, dispatch: editorDispatch } = editor
+    if (view) {
+      let selection
+      if (suggestion.type === 'text-change') {
+        selection = TextSelection.create(
+          view.state.tr.doc,
+          suggestion.from,
+          suggestion.to
+        )
+      } else {
+        selection = NodeSelection.create(view.state.tr.doc, suggestion.from)
+      }
+      editorDispatch(view.state.tr.setSelection(selection).scrollIntoView())
+      editor.view && editor.view.focus()
     }
-    editorDispatch(state.tr.setSelection(selection).scrollIntoView())
-    editor.view && editor.view.focus()
     dispatch({ selectedSuggestion: suggestion.id })
   }
 
