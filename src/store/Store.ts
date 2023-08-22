@@ -12,6 +12,7 @@
 
 import {
   BibliographyItem,
+  Bundle,
   CommentAnnotation,
   ContainerInvitation,
   Library,
@@ -22,6 +23,7 @@ import {
   Model,
   Project,
   ProjectInvitation,
+  SectionCategory,
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
@@ -153,6 +155,11 @@ export type state = {
   globalLibraryCollections?: Map<string, LibraryCollection> // From the user
   globalLibraryItems?: Map<string, BibliographyItem> // From the user
   library: Map<string, BibliographyItem>
+  sectionCategories: SectionCategory[]
+  template?: ManuscriptTemplate
+  bundle?: Bundle
+  cslLocale?: string
+  cslStyle?: string
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

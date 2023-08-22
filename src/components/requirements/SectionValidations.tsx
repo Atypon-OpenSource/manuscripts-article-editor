@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
 import {
   CountValidationResult,
   Model,
@@ -23,6 +22,7 @@ import { Build, ContainedModel } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 
+import { useStore } from '../../store'
 import { RequirementContainer } from './RequirementContainer'
 import { RequirementsData } from './RequirementsData'
 
@@ -32,6 +32,8 @@ export const SectionValidations: React.FC<{
   manuscriptID: string
   bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
 }> = ({ sortedData, modelMap, manuscriptID, bulkUpdate }) => {
+  const [sectionCategories] = useStore((store) => store.sectionCategories)
+
   const isSectionValidation = (
     node: AnyValidationResult
   ): node is

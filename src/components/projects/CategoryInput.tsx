@@ -20,7 +20,6 @@ import {
   isEditableSectionCategory,
   isUnique,
   isUniquePresent,
-  sortedSectionCategories,
 } from '../../lib/section-categories'
 import { OptionWrapper } from './TagsInput'
 
@@ -71,11 +70,11 @@ export const CategoryInput: React.FC<{
   }, [currentValue, existingCatsCounted, sectionCategories])
 
   const selectionValue = useMemo(() => {
-    const cat = sortedSectionCategories.find(
+    const cat = sectionCategories.find(
       (category) => category._id === currentValue
     )
     return cat && { value: cat._id, label: cat.name }
-  }, [currentValue])
+  }, [currentValue, sectionCategories])
 
   return (
     <Container>

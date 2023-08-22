@@ -10,9 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  Bundle,
   Manuscript,
+  ManuscriptTemplate,
   Model,
   Project,
+  SectionCategory,
   UserCollaborator,
   UserProfile,
 } from '@manuscripts/json-schema'
@@ -21,6 +24,9 @@ import axios, { AxiosInstance } from 'axios'
 
 import config from '../config'
 import { ContainedIDs } from '../store'
+
+// TODO:: remove this when migrating all api endpoints to v2
+const V2 = config.api.url.replace('/api/v1', '/api/v2')
 
 export default class Api {
   instance: AxiosInstance
@@ -38,9 +44,10 @@ export default class Api {
     })
   }
 
-  get = async <T>(url: string) => {
+  get = async <T>(url: string, baseURL?: string) => {
     try {
       const result = await this.instance.get<T>(url, {
+        baseURL,
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
         },
@@ -49,7 +56,7 @@ export default class Api {
       return result.data
     } catch (e) {
       console.log(e)
-      return null
+      return undefined
     }
   }
 
@@ -121,6 +128,27 @@ export default class Api {
     this.post<T[]>(`/container/${containerID}/${manuscriptID}/load`, {
       types,
     })
+
+  getSectionCategories = () =>
+    this.get<SectionCategory[]>('/config?id=section-categories', V2)
+
+  getCSLLocale = (lang: string) =>
+    lang !== 'en-US'
+      ? this.get<string>(`/csl/locales?id=${lang}`, V2)
+      : undefined
+
+  getTemplate = (id?: string) =>
+    id ? this.get<ManuscriptTemplate>(`/templates?id=${id}`, V2) : undefined
+
+  getBundle = (template: ManuscriptTemplate | undefined) =>
+    template?.bundle
+      ? this.get<Bundle>(`/bundles?id=${template.bundle}`, V2)
+      : undefined
+
+  getCSLStyle = (bundle: Bundle | undefined) =>
+    bundle?.csl?._id
+      ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`, V2)
+      : undefined
 
   getCollaborators = (containerID: string) =>
     this.get<UserCollaborator[]>(`/project/${containerID}/collaborators`)
