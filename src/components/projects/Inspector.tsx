@@ -73,7 +73,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const [tabIndex, setTabIndex] = useState(0)
   const COMMENTS_TAB_INDEX = 1,
-    SUGGESTIONS_TAB_INDEX = 3
+    SUGGESTIONS_TAB_INDEX = config.features.qualityControl ? 3 : 2
 
   useEffect(() => {
     if (comment) {
