@@ -86,14 +86,13 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
     this.sendSteps = this.sendSteps.bind(this)
 
     listenToSteps(docId, (version, jsonSteps, clientIDs) => {
+      console.log(clientIDs)
       console.log(jsonSteps)
       console.log(version)
       if (!jsonSteps) {
         return
       }
-      const steps = jsonSteps.map((s: unknown) =>
-        Step.fromJSON(schema, s)
-      ) as Step[]
+      const steps = this.hydrateSteps(jsonSteps)
 
       if (steps.length) {
         this.newStepsListener(version, steps, clientIDs)
@@ -107,12 +106,16 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
     QuarterbackStepsExchanger._instance = null
   }
 
+  hydrateSteps(jsonSteps: unknown[]) {
+    return jsonSteps.map((s: unknown) => Step.fromJSON(schema, s)) as Step[]
+  }
+
   async sendSteps(version: number, steps: Step[], clientID: string) {
     // this is for the backend - basically a mark to check if version is applicable and do something about it if not
     //if (version !== this.previousVersion) return
 
-    console.log('Steps')
-    console.log(steps)
+    // console.log('Steps')
+    // console.log(steps)
     // Apply and accumulate new steps
     const stepsJSON: unknown[] = []
     steps.forEach((step) => {
@@ -158,10 +161,13 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
 
   async stepsSince(version: number) {
     // retrieve the steps since the number of version given
-    const res = await this.getStepsSince(this.docId, version)
+    const res = await this.getStepsSince(this.projectId, version)
     if (res) {
-      const { steps, clientIDs } = this.breakdownStepsWithClientID(res.steps)
-      return { steps, clientIDs, version: res.version }
+      return {
+        steps: this.hydrateSteps(res.steps),
+        clientIDs: res.clientIDs,
+        version: res.version,
+      }
     }
     return
   }

@@ -17,23 +17,26 @@ export default class QuarterbackDataSource implements StoreDataSourceStrategy {
     projectID: string,
     manuscriptID: string,
     doc: ManuscriptNode | undefined
-  ) => Promise<ManuscriptNode | undefined>
+  ) => Promise<{ doc: ManuscriptNode; version: number } | undefined>
   constructor(loadDoc: QuarterbackDataSource['loadDoc']) {
     this.loadDoc = loadDoc
   }
   build: builderFn = async (state, next) => {
     if (state.projectID && state.manuscriptID && state.doc) {
-      const doc = await this.loadDoc(
+      const res = await this.loadDoc(
         state.projectID,
         state.manuscriptID,
         state.doc
       )
-      if (doc) {
-        next({
-          ...state,
-          doc,
-        })
-        return
+      if (res?.doc && res.version) {
+        if (res.doc) {
+          next({
+            ...state,
+            doc: res.doc,
+            initialDocVersion: res.version,
+          })
+          return
+        }
       }
     }
     next(state)

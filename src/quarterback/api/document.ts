@@ -32,13 +32,10 @@ export type AppliedStepsResponse = {
   error?: string
 }
 
-export type StepWithClientID = Step & {
-  clientID: string
-}
-
 export type StepsSinceResponse = {
-  steps: StepWithClientID[]
+  steps: unknown[]
   version: number
+  clientIDs: number[]
 }
 
 export const getDocument = (id: string) =>
@@ -68,22 +65,19 @@ export const stepsSince = (docId: string, version: number) =>
 
 export const listenStepUpdates = (
   docId: string,
-  dataListener: (
-    version: number,
-    steps: StepWithClientID[],
-    clientIDs: number[]
-  ) => void
+  dataListener: (version: number, steps: unknown[], clientIDs: number[]) => void
 ) => {
   const listener = (event: EventSourceMessage) => {
     if (event.data) {
       const data = JSON.parse(event.data)
+      console.log()
       if (
-        data.version &&
+        typeof data.version != 'undefined' &&
         data.steps &&
         Array.isArray(data.steps) &&
         data.clientIDs
       ) {
-        dataListener(data.version as string, data.steps, data.clientID)
+        dataListener(data.version as string, data.steps, data.clientIDs)
       }
     }
   }

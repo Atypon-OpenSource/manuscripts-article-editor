@@ -68,6 +68,7 @@ export type state = {
   manuscript: Manuscript
   manuscripts?: Manuscript[]
   doc: ManuscriptNode
+  initialDocVersion: number
   ancestorDoc: ManuscriptNode
   user: UserProfile // probably should be optional
   userRole: ProjectRole

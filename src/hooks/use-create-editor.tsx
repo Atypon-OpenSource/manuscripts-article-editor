@@ -50,6 +50,7 @@ export const useCreateEditor = () => {
       commitAtLoad,
       attachments,
       fileManagement,
+      initialDocVersion,
     },
     dispatch,
     getState,
@@ -67,6 +68,7 @@ export const useCreateEditor = () => {
     commitAtLoad: store.commitAtLoad,
     attachments: store.attachments,
     fileManagement: store.fileManagement,
+    initialDocVersion: store.initialDocVersion,
   }))
   const { user: trackUser } = useAuthStore()
 
@@ -192,7 +194,11 @@ export const useCreateEditor = () => {
     getDoc: () => {
       return getState().doc
     },
-    collabProvider: stepsExchanger(manuscript._id, project._id, 1),
+    collabProvider: stepsExchanger(
+      manuscript._id,
+      project._id,
+      initialDocVersion
+    ), // @TODO pass the versio
   }
 
   const editor = useEditor(

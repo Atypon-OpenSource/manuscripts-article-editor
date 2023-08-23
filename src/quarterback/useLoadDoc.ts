@@ -38,6 +38,7 @@ export const useLoadDoc = () => {
     setCurrentDocument(manuscriptID, projectID)
     const found = await getDocument(manuscriptID)
     let doc
+    let version = 0
     if ('data' in found) {
       let empty = true
       for (const _ in found.data.doc as object) {
@@ -52,6 +53,7 @@ export const useLoadDoc = () => {
       initSnapshots()
       setSnapshots(found.data.snapshots)
       doc = found.data.doc
+      version = found.data.version
     } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
       await createDocument(manuscriptID, projectID)
@@ -62,7 +64,7 @@ export const useLoadDoc = () => {
       typeof doc === 'object' &&
       Object.keys(doc).length !== 0
     ) {
-      return schema.nodeFromJSON(doc)
+      return { doc: schema.nodeFromJSON(doc), version }
     }
     return undefined
   }
