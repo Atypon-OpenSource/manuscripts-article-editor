@@ -15,10 +15,10 @@ import {
   IGetDocumentResponse,
   IUpdateDocumentRequest,
 } from '@manuscripts/quarterback-types'
+import { EventSourceMessage } from '@microsoft/fetch-event-source'
 import { Step } from 'prosemirror-transform'
 
 import { del, get, listen, post, put } from './methods'
-import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 export type StepsPayload = {
   steps: unknown[]

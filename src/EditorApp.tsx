@@ -22,6 +22,7 @@ import ManuscriptPageContainer from './components/projects/ManuscriptPageContain
 import { useHandleSnapshot } from './hooks/use-handle-snapshot'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
+import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
 import { useAuthStore } from './quarterback/useAuthStore'
 import { useLoadDoc } from './quarterback/useLoadDoc'
 import { usePouchStore } from './quarterback/usePouchStore'
@@ -32,7 +33,6 @@ import {
   GenericStoreProvider,
 } from './store'
 import { ISubject } from './store/ParentObserver'
-import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
 
 interface Props {
   fileManagement: FileManagement

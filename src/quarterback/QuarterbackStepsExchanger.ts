@@ -9,6 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
+import { CollabProvider } from '@manuscripts/body-editor'
+import { schema } from '@manuscripts/transform'
 import { Step } from 'prosemirror-transform'
 
 import {
@@ -17,34 +19,8 @@ import {
   StepsSinceResponse,
   StepWithClientID,
 } from './api/document'
-import { schema } from '@manuscripts/transform'
 
-let instance: QuarterbackStepsExchanger | null
-
-export abstract class StepsCollabProvider {
-  currentVersion: number
-  protected newStepsListener: (
-    version: number,
-    steps: Step[],
-    clientIDs: number[]
-  ) => void
-  abstract sendSteps(
-    version: number,
-    steps: readonly Step[],
-    clientID: string | number
-  ): Promise<void>
-  abstract onNewSteps(listener: StepsCollabProvider['newStepsListener']): void
-  abstract stepsSince(version: number): Promise<
-    | {
-        steps: Step[]
-        clientIDs: string[]
-        version: number
-      }
-    | undefined
-  >
-}
-
-class QuarterbackStepsExchanger extends StepsCollabProvider {
+class QuarterbackStepsExchanger extends CollabProvider {
   private static _instance: QuarterbackStepsExchanger | null // react uncontrolled function call protection
 
   private applySteps: (
@@ -86,9 +62,6 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
     this.sendSteps = this.sendSteps.bind(this)
 
     listenToSteps(docId, (version, jsonSteps, clientIDs) => {
-      console.log(clientIDs)
-      console.log(jsonSteps)
-      console.log(version)
       if (!jsonSteps) {
         return
       }
@@ -98,8 +71,6 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
         this.newStepsListener(version, steps, clientIDs)
       }
     })
-
-    console.log('CONTRUCTED')
   }
 
   destroy() {
@@ -111,20 +82,10 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
   }
 
   async sendSteps(version: number, steps: Step[], clientID: string) {
-    // this is for the backend - basically a mark to check if version is applicable and do something about it if not
-    //if (version !== this.previousVersion) return
-
-    // console.log('Steps')
-    // console.log(steps)
     // Apply and accumulate new steps
     const stepsJSON: unknown[] = []
     steps.forEach((step) => {
       stepsJSON.push(step.toJSON())
-
-      //  backend has to make sure -> -> ->
-      //  this.doc = step.apply(this.doc).doc
-      //  this.steps.push(step)
-      //  this.stepClientIDs.push(clientID)
     })
 
     this.currentVersion = version
@@ -136,7 +97,7 @@ class QuarterbackStepsExchanger extends StepsCollabProvider {
     })
   }
 
-  onNewSteps(listener: StepsCollabProvider['newStepsListener']) {
+  onNewSteps(listener: CollabProvider['newStepsListener']) {
     this.newStepsListener = listener
   }
 

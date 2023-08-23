@@ -13,10 +13,10 @@
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 
 import config from '../config'
+import { updateDocument } from './api/document'
 import { useAuthStore } from './useAuthStore'
 import { useDocStore } from './useDocStore'
 import { useSnapshotStore } from './useSnapshotStore'
-import { updateDocument } from './api/document'
 
 export const useLoadDoc = () => {
   const { authenticate } = useAuthStore()
