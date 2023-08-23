@@ -23,6 +23,7 @@ interface IProps {
   handleRejectChange(c: TrackedChange): void
   handleResetChange(c: TrackedChange): void
   handleAcceptPending?(): void
+  handleClickSuggestion(c: TrackedChange): void
 }
 
 export const SuggestionList = (props: IProps) => {
@@ -34,6 +35,7 @@ export const SuggestionList = (props: IProps) => {
     handleRejectChange,
     handleResetChange,
     handleAcceptPending,
+    handleClickSuggestion,
   } = props
   const changesByDate = (a: TrackedChange, b: TrackedChange) =>
     b.dataTracked.updatedAt - a.dataTracked.updatedAt
@@ -56,6 +58,7 @@ export const SuggestionList = (props: IProps) => {
           handleAccept={handleAcceptChange}
           handleReject={handleRejectChange}
           handleReset={handleResetChange}
+          handleClickSuggestion={handleClickSuggestion}
           key={c.id}
         />
       ))}

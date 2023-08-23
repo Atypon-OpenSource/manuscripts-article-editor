@@ -148,6 +148,10 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
 
+  useEffect(() => {
+    storeDispatch({ editor, view })
+  }, [storeDispatch, view]) // eslint-disable-line react-hooks/exhaustive-deps
+
   // @TODO - remove this once testing is completed
   const throttle = useMemo(() => {
     const location = new URLSearchParams(window.location.search)
