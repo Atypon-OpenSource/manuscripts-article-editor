@@ -155,6 +155,15 @@ export const useCreateEditor = () => {
       return saveModel(model) as Promise<any>
     },
     deleteModel,
+    saveTrackModel: (model: Model) => {
+      return getState().saveTrackModel(model)
+    },
+    deleteTrackModel: (id: string) => {
+      return getState().deleteTrackModel(id)
+    },
+    getTrackModelMap: () => {
+      return getState().trackModelMap
+    },
     retrySync,
 
     renderReactComponent: (child: ReactNode, container: HTMLElement) => {

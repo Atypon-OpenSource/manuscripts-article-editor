@@ -63,7 +63,6 @@ export const CitationModel: React.FC<{
   setSelectedItem,
   setShowEditModel,
   deleteCallback,
-  getReferences,
 }) => {
   const stopEditing = useCallback(
     () => setShowEditModel(false),
@@ -99,23 +98,20 @@ export const CitationModel: React.FC<{
 
   useEffect(() => {
     if (editCitation) {
-      getReferences(undefined)
-        .then((references) => {
-          const referenceCount = new Map()
-
-          getModelsByType<Citation>(modelMap, ObjectTypes.Citation).map(
-            ({ embeddedCitationItems }) =>
-              embeddedCitationItems.map(({ bibliographyItem }) => {
-                let value = referenceCount.get(bibliographyItem)
-                referenceCount.set(bibliographyItem, (value && ++value) || 1)
-              })
-          )
-
-          setReferences({ references, referenceCount })
-        })
-        .catch((e) => console.error(e))
+      const references = getModelsByType<BibliographyItem>(
+        modelMap,
+        ObjectTypes.BibliographyItem
+      )
+      getModelsByType<Citation>(modelMap, ObjectTypes.Citation).map(
+        ({ embeddedCitationItems }) =>
+          embeddedCitationItems.map(({ bibliographyItem }) => {
+            let value = referenceCount.get(bibliographyItem)
+            referenceCount.set(bibliographyItem, (value && ++value) || 1)
+          })
+      )
+      setReferences({ references, referenceCount })
     }
-  }, [editCitation, getReferences, modelMap])
+  }, [editCitation, modelMap, referenceCount])
 
   const modelDeleteCallback = useCallback(() => {
     deleteCallback()

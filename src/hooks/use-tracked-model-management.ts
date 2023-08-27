@@ -181,6 +181,10 @@ const useTrackedModelManagement = (
       if (model.objectType === ObjectTypes.CommentAnnotation) {
         return saveCommentNode(model as unknown as CommentAnnotation)
       }
+      // TODO:: remove this when adding support to track node attributes LEAN-2721
+      if (model.objectType === ObjectTypes.BibliographyItem && view) {
+        view.state.tr.setMeta('track-changes-skip-tracking', true)
+      }
 
       if (model._id) {
         const currentModel = modelMap.get(model._id!)
