@@ -1850,16 +1850,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.3.1-LEAN-2143-v8":
-  version "1.3.1-LEAN-2143-v8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1-LEAN-2143-v8.tgz#794a4e021540365e4e67f12077579926902d1a44"
-  integrity sha512-CgWPfNjKPFgZNYE2mUkr5aRZDisHptwBlxOZuCXFb9/OHUrKTFxNSQApzzjofBKADdaSmaZb2bCjW/OpiT5ckw==
+"@manuscripts/body-editor@^1.3.1-LEAN-2143-v9":
+  version "1.3.1-LEAN-2143-v9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1-LEAN-2143-v9.tgz#1917a6c31815e99bdbbab8df4cb3ab82f0daf541"
+  integrity sha512-mDUisFDRDBmT6IyWxM+3o965FncvRCQqVrFpwfQLh+AbVxmo3A/LvLmLHu9VumM/hT78TfyR9zDsNl5ipwIaHw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
-    "@manuscripts/library" "^1.1.6-LEAN-2143"
+    "@manuscripts/library" "^1.1.6-LEAN-2143-v2"
     "@manuscripts/style-guide" "^1.2.1"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
@@ -1937,10 +1937,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@^1.1.6-LEAN-2143":
-  version "1.1.6-LEAN-2143"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.6-LEAN-2143.tgz#fc171c8ad21c5169c0b02b8114b70fb03efc9792"
-  integrity sha512-9pE9vJ/C8dZS87L92zz90XyisRsXDd4ZuZM5AKh28zNp804aR+WVjrdnFuQNJRjkZYcq1xmNahOUEcf2xdfadw==
+"@manuscripts/library@^1.1.6-LEAN-2143-v2":
+  version "1.1.6-LEAN-2143-v2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.6-LEAN-2143-v2.tgz#29c08b856e5ba21730b841fd07ca1391f9f61f19"
+  integrity sha512-/FsmYbDUx/O0KP/Mj3PEVIo/Idu7h2LGZomlWetyP4slfLpFQn2HPdjhDgVOYFzPcmMT0bP4nF9CXrCZEsMFXg==
   dependencies:
     "@manuscripts/json-schema" "^2.1.0"
     "@manuscripts/transform" "^1.3.10"

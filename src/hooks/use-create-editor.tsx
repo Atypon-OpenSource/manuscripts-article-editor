@@ -28,7 +28,7 @@ import { getCapabilities as getActionCapabilities } from '@manuscripts/style-gui
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
-import React, { ReactChild, ReactNode, useRef } from 'react'
+import React, { ReactChild, ReactNode, useMemo, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
 
@@ -101,7 +101,7 @@ export const useCreateEditor = () => {
     return bibliographyItems
   }
 
-  const generateCitations = () => {
+  const generatedCitations = useMemo(() => {
     const citationsMap = new Map<string, string>()
     const citationNodes = buildCitationNodes(doc, getModel)
 
@@ -110,7 +110,7 @@ export const useCreateEditor = () => {
     )
 
     try {
-      const generatedCitations = CitationProvider.rebuildProcessorState(
+      const generated = CitationProvider.rebuildProcessorState(
         citations,
         getBibliographyItems(),
         style || '',
@@ -119,7 +119,7 @@ export const useCreateEditor = () => {
       ).map((item) => item[2]) // id, noteIndex, output
 
       citationNodes.forEach(([node, pos], index) => {
-        let contents = generatedCitations[index]
+        let contents = generated[index]
 
         if (contents === '[NO_PRINTED_FORM]') {
           contents = ''
@@ -131,7 +131,7 @@ export const useCreateEditor = () => {
       console.error(error) // tslint:disable-line:no-console
     }
     return citationsMap
-  }
+  }, [modelMap.size]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const popper = useRef<PopperManager>(new PopperManager())
 
@@ -253,7 +253,7 @@ export const useCreateEditor = () => {
     getDoc: () => {
       return getState().doc
     },
-    generatedCitations: generateCitations(),
+    generatedCitations,
   }
 
   const editor = useEditor(
