@@ -20,7 +20,7 @@ import { getCapabilities as getActionCapabilities } from '@manuscripts/style-gui
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
-import React, { ReactChild, ReactNode, useMemo, useRef } from 'react'
+import React, { ReactChild, ReactNode, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
 
