@@ -1850,16 +1850,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.3.1-LEAN-2143-v10":
-  version "1.3.1-LEAN-2143-v10"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1-LEAN-2143-v10.tgz#de08eed6c14e932ff4125c936cccbba06f34b586"
-  integrity sha512-GTnNoO/UboXgtZzXKHLtOShng6OyPWfcBCSC+XfLU5nxbEr7K9yoD0UmALHTr+BJQBmMgFsJB03gCMAEt8ITiA==
+"@manuscripts/body-editor@^1.3.1-LEAN-2143-v11":
+  version "1.3.1-LEAN-2143-v11"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.1-LEAN-2143-v11.tgz#266f9d5a83a5bb8f4acf15f0dde9454f9b87a030"
+  integrity sha512-a7qkjE5hxHfEjIhhZvVys9N9+XvoKbkL8dot8TE1LN5tSQ974d1ONdtxSRjpKCSz9cG9ss9vsHBWRB3zFMr7Bw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
-    "@manuscripts/library" "^1.1.6-LEAN-2143-v2"
+    "@manuscripts/library" "^1.1.6-LEAN-2143-v4"
     "@manuscripts/style-guide" "^1.2.1"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
@@ -1937,10 +1937,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@^1.1.6-LEAN-2143-v2":
-  version "1.1.6-LEAN-2143-v2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.6-LEAN-2143-v2.tgz#29c08b856e5ba21730b841fd07ca1391f9f61f19"
-  integrity sha512-/FsmYbDUx/O0KP/Mj3PEVIo/Idu7h2LGZomlWetyP4slfLpFQn2HPdjhDgVOYFzPcmMT0bP4nF9CXrCZEsMFXg==
+"@manuscripts/library@^1.1.6-LEAN-2143-v4":
+  version "1.1.6-LEAN-2143-v4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.6-LEAN-2143-v4.tgz#67aea2729733ca6b645e96fd3134944527ac89ca"
+  integrity sha512-Oy7kQB7U9Xd/LQVtb/XRutS6UUST5PEVLUg77e226KqZu4Tu7L7FFSQp5w7uL1wZAtRnwAi8M7dmVOFOTs/4Kw==
   dependencies:
     "@manuscripts/json-schema" "^2.1.0"
     "@manuscripts/transform" "^1.3.10"
