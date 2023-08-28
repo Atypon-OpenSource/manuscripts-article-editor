@@ -50,6 +50,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
       deleteModel,
       trackModelMap,
       selectedComment,
+      selectedSuggestion,
+      editorSelectedSuggestion,
     },
     stateDispatch,
   ] = useStore((store) => ({
@@ -60,18 +62,30 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     fileManagement: store.fileManagement,
     isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
+    selectedSuggestion: store.selectedSuggestion,
+    editorSelectedSuggestion: store.editorSelectedSuggestion,
   }))
 
   const { state, dispatch } = editor
+
   const comment = isThereNewComments || selectedComment
+  const suggestion = selectedSuggestion || editorSelectedSuggestion
 
   const [tabIndex, setTabIndex] = useState(0)
+  const COMMENTS_TAB_INDEX = 1,
+    SUGGESTIONS_TAB_INDEX = config.features.qualityControl ? 3 : 2
 
   useEffect(() => {
     if (comment) {
-      setTabIndex(1)
+      setTabIndex(COMMENTS_TAB_INDEX)
     }
   }, [comment])
+
+  useEffect(() => {
+    if (suggestion) {
+      setTabIndex(SUGGESTIONS_TAB_INDEX)
+    }
+  }, [suggestion, SUGGESTIONS_TAB_INDEX])
 
   const validation = useRequirementsValidation({
     state,
@@ -92,7 +106,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={comment !== undefined}
+        forceOpen={comment !== undefined || suggestion !== undefined}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
