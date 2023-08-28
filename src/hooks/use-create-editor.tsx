@@ -14,16 +14,8 @@ import {
   PopperManager,
   useEditor,
 } from '@manuscripts/body-editor'
-import {
-  BibliographyItem,
-  CommentAnnotation,
-  Model,
-} from '@manuscripts/json-schema'
-import {
-  buildCitationNodes,
-  buildCitations,
-  CitationProvider,
-} from '@manuscripts/library'
+import { CommentAnnotation, Model } from '@manuscripts/json-schema'
+import {} from '@manuscripts/library'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
@@ -85,53 +77,6 @@ export const useCreateEditor = () => {
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
   )
-
-  const getBibliographyItem = (id: string) => {
-    return getModel<BibliographyItem>(id)
-  }
-
-  const getBibliographyItems = () => {
-    const bibliographyItems: BibliographyItem[] = []
-    modelMap?.forEach((value) => {
-      if (value.objectType === 'MPBibliographyItem') {
-        bibliographyItems.push(value as BibliographyItem)
-      }
-    })
-
-    return bibliographyItems
-  }
-
-  const generatedCitations = useMemo(() => {
-    const citationsMap = new Map<string, string>()
-    const citationNodes = buildCitationNodes(doc, getModel)
-
-    const citations = buildCitations(citationNodes, (id: string) =>
-      getBibliographyItem(id)
-    )
-
-    try {
-      const generated = CitationProvider.rebuildProcessorState(
-        citations,
-        getBibliographyItems(),
-        style || '',
-        locale,
-        'html'
-      ).map((item) => item[2]) // id, noteIndex, output
-
-      citationNodes.forEach(([node, pos], index) => {
-        let contents = generated[index]
-
-        if (contents === '[NO_PRINTED_FORM]') {
-          contents = ''
-        }
-
-        citationsMap.set(node.attrs.rid, contents)
-      })
-    } catch (error) {
-      console.error(error) // tslint:disable-line:no-console
-    }
-    return citationsMap
-  }, [modelMap.size]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const popper = useRef<PopperManager>(new PopperManager())
 
@@ -253,7 +198,6 @@ export const useCreateEditor = () => {
     getDoc: () => {
       return getState().doc
     },
-    generatedCitations,
   }
 
   const editor = useEditor(
