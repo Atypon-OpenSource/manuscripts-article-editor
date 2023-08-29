@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 
 /**
- * This will run the provided Effect and show a prompt based on `preventUnload` state when the tab is closed (ie the window unmounts)
+ * This will run the provided Effect when the tab is closed (ie the window unmounts)
  */
 
 export const useWindowUnloadEffect = (
