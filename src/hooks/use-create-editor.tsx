@@ -15,7 +15,6 @@ import {
   useEditor,
 } from '@manuscripts/body-editor'
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
-import {} from '@manuscripts/library'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
