@@ -22,7 +22,7 @@ interface Props {
   deleteModel: (id: string) => Promise<string>
   setLibraryItem: (item: BibliographyItem) => void
   removeLibraryItem: (id: string) => void
-  modelMap: Map<string, Model>
+  getModelMap: () => Map<string, Model>
   referenceID?: string
 }
 
@@ -34,8 +34,9 @@ export const ReferencesEditor: React.FC<Props> = (props) => {
     setLibraryItem,
     removeLibraryItem,
     referenceID,
-    modelMap,
+    getModelMap,
   } = props
+  const modelMap = getModelMap()
 
   const [showEditModel, setShowEditModel] = useState(false)
   const [selectedItem, setSelectedItem] = useState<BibliographyItem>()
@@ -63,7 +64,7 @@ export const ReferencesEditor: React.FC<Props> = (props) => {
     }
   }, [selectedItem, deleteModel, removeLibraryItem])
 
-  const component = (
+  return (
     <CitationModel
       editCitation={showEditModel}
       modelMap={modelMap}
@@ -75,6 +76,4 @@ export const ReferencesEditor: React.FC<Props> = (props) => {
       getReferences={filterLibraryItems}
     />
   )
-
-  return component
 }

@@ -33,7 +33,7 @@ import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
 
-export const useCreateEditor = () => {
+export const useCreateEditor = (initTrackModelMap: Map<string, Model>) => {
   const [
     {
       doc,
@@ -43,9 +43,6 @@ export const useCreateEditor = () => {
       user,
       biblio,
       modelMap,
-      getModel,
-      saveModel,
-      deleteModel,
       commitAtLoad,
       attachments,
       fileManagement,
@@ -62,8 +59,6 @@ export const useCreateEditor = () => {
     user: store.user,
     biblio: store.biblio,
     modelMap: store.modelMap,
-    getModel: store.getModel,
-    saveModel: store.saveModel,
     deleteModel: store.deleteModel,
     commitAtLoad: store.commitAtLoad,
     attachments: store.attachments,
@@ -81,11 +76,13 @@ export const useCreateEditor = () => {
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
-      const model = getModel(id)
-      if (!model) {
+      const { saveTrackModel } = getState()
+      const model = modelMap.get(id)
+
+      if (!model || !saveTrackModel) {
         return
       }
-      saveModel(model)
+      return saveTrackModel(model)
     })
     return Promise.resolve()
   }
@@ -121,8 +118,6 @@ export const useCreateEditor = () => {
     // refactor the library stuff to a hook-ish type thingy
     ...biblio,
 
-    // model and attachment retrieval:
-    modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
     setComment: (comment?: CommentAnnotation) => {
@@ -143,7 +138,11 @@ export const useCreateEditor = () => {
         dispatch({ selectedSuggestion: undefined })
       }
     },
-    getModel,
+    getModelMap: () => getState().trackModelMap || initTrackModelMap,
+    getModel: (id: string) =>
+      (getState().getTrackModel
+        ? getState().getTrackModel(id)
+        : initTrackModelMap.get(id)) as any,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
       /*
       Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
@@ -152,17 +151,18 @@ export const useCreateEditor = () => {
       we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
       Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
       */
-      return saveModel(model) as Promise<any>
+      return new Promise(() => {
+        const { saveTrackModel } = getState()
+
+        return saveTrackModel ? saveTrackModel(model) : model
+      }) as Promise<any>
     },
-    deleteModel,
-    saveTrackModel: (model: Model) => {
-      return getState().saveTrackModel(model)
-    },
-    deleteTrackModel: (id: string) => {
-      return getState().deleteTrackModel(id)
-    },
-    getTrackModelMap: () => {
-      return getState().trackModelMap
+    deleteModel: (id: string) => {
+      return new Promise<string>(() => {
+        const { deleteTrackModel } = getState()
+
+        return deleteTrackModel ? deleteTrackModel(id) : id
+      })
     },
     retrySync,
 

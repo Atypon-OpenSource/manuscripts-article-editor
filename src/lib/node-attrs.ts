@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Citation, Model, ObjectTypes } from '@manuscripts/json-schema'
+import { getModelsByType, ManuscriptNode, schema } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
+
+import { trackedJoint } from '../components/track-changes/utils'
 
 export const setNodeAttrs = (
   state: EditorState,
@@ -29,6 +33,40 @@ export const setNodeAttrs = (
         ...attrs,
       })
       dispatch(tr)
+    }
+  })
+}
+
+/**
+ * Will need to get CitationModel from the PM document. as we start to save/delete
+ * citation nodes in PM document not directly through using  API DB
+ */
+export const addCitationsModel = (
+  doc: ManuscriptNode,
+  modelsFromPM: Map<string, Model>,
+  finalModelMap: Map<string, Model>
+) => {
+  getModelsByType(modelsFromPM, ObjectTypes.BibliographyItem).map((model) => {
+    const id = model._id.split(trackedJoint)[0]
+    modelsFromPM.delete(id)
+    modelsFromPM.set(model._id, {
+      ...model,
+      _id: model._id.split(trackedJoint)[0],
+    })
+  })
+
+  doc.descendants((node, pos, parent) => {
+    if (node.type === schema.nodes.citation) {
+      modelsFromPM.set(node.attrs.rid, {
+        _id: node.attrs.rid,
+        objectType: ObjectTypes.Citation,
+        containingObject: parent?.attrs.id,
+        embeddedCitationItems:
+          node.attrs.embeddedCitationItems ||
+          (finalModelMap.get(node.attrs.rid) as Citation)
+            ?.embeddedCitationItems ||
+          [],
+      } as Citation)
     }
   })
 }

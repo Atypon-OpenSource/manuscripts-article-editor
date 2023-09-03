@@ -29,27 +29,24 @@ import {
   adaptTrackedData,
   trackedJoint,
 } from '../components/track-changes/utils'
-import { setNodeAttrs } from '../lib/node-attrs'
+import { addCitationsModel, setNodeAttrs } from '../lib/node-attrs'
 import {
   replaceAttachmentLinks,
   replaceAttachmentsIds,
 } from '../lib/replace-attachments-ids'
 import { useStore } from '../store'
 
-const useTrackedModelManagement = (
+export const useTrackModel = (
   doc: ManuscriptNode,
-  view: ManuscriptEditorView | undefined,
-  state: EditorState,
-  dispatch: (tr: Transaction) => EditorState,
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
-  deleteModel: (id: string) => Promise<string>,
   finalModelMap: Map<string, Model>,
   getAttachments: () => FileAttachment[]
-) => {
-  const modelMap = useMemo(() => {
+) =>
+  useMemo(() => {
     const docJSONed = doc.toJSON()
     const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
+    addCitationsModel(doc, modelsFromPM, finalModelMap)
+
     // adding supplements from final model map as they are meta (not PM presentable)
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
@@ -60,6 +57,17 @@ const useTrackedModelManagement = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc, finalModelMap])
 
+const useTrackedModelManagement = (
+  doc: ManuscriptNode,
+  view: ManuscriptEditorView | undefined,
+  state: EditorState,
+  dispatch: (tr: Transaction) => EditorState,
+  modelMap: Map<string, Model>,
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
+  deleteModel: (id: string) => Promise<string>,
+  finalModelMap: Map<string, Model>,
+  getAttachments: () => FileAttachment[]
+) => {
   const [, dispatchStore] = useStore()
 
   const matchByTrackVersion = (
@@ -181,10 +189,6 @@ const useTrackedModelManagement = (
       if (model.objectType === ObjectTypes.CommentAnnotation) {
         return saveCommentNode(model as unknown as CommentAnnotation)
       }
-      // TODO:: remove this when adding support to track node attributes LEAN-2721
-      if (model.objectType === ObjectTypes.BibliographyItem && view) {
-        view.state.tr.setMeta('track-changes-skip-tracking', true)
-      }
 
       if (model._id) {
         const currentModel = modelMap.get(model._id!)
@@ -290,7 +294,6 @@ const useTrackedModelManagement = (
   return {
     saveTrackModel,
     deleteTrackModel,
-    trackModelMap: modelMap,
     getTrackModel,
   }
 }
