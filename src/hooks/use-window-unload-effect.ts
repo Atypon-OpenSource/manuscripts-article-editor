@@ -17,12 +17,12 @@ import { useCallback, useEffect, useRef } from 'react'
  */
 
 export const useWindowUnloadEffect = (
-  effect: () => void,
+  effect?: () => void,
   preventUnload?: boolean
 ) => {
   const handleUnload = useCallback(
     (e: BeforeUnloadEvent) => {
-      effect()
+      effect && effect()
 
       if (preventUnload) {
         e.preventDefault()
