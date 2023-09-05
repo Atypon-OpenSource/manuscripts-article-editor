@@ -175,7 +175,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
         }
       }
     },
-    [handleAcceptChange, handleRejectChange, trackState]
+    [handleAcceptChange, handleRejectChange, trackState, editor]
   )
 
   return (
