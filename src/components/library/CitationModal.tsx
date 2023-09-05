@@ -163,7 +163,7 @@ export const CitationModal: React.FC<{
     if (selectedReferenceNode.current) {
       selectedReferenceNode.current.scrollIntoView({
         block: 'center',
-        behavior: 'instant',
+        behavior: 'auto',
       })
     }
   }, [selectedReferenceNode])
