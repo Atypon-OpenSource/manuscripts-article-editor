@@ -143,6 +143,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
   )
   const handleEditorClick = useCallback(
     (e: React.MouseEvent) => {
+      const { view, dispatch } = editor
       const button = e.target && (e.target as HTMLElement).closest('button')
       if (!button) {
         return
@@ -162,6 +163,14 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
             handleAcceptChange(change)
           } else if (action === 'reject') {
             handleRejectChange(change)
+          }
+          if (
+            change.type === 'node-change' &&
+            change.nodeType === 'keyword' &&
+            view &&
+            dispatch
+          ) {
+            dispatch(view.state.tr.setMeta('keywordsUpdated', true))
           }
         }
       }
