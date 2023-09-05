@@ -19,6 +19,7 @@ import { Model, ObjectTypes, Supplement } from '@manuscripts/json-schema'
 import { Category, Dialog, FileAttachment } from '@manuscripts/style-guide'
 import {
   CHANGE_STATUS,
+  ChangeSet,
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
@@ -141,6 +142,18 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
     },
     [execCmd]
   )
+
+  const findChange = (changeSet: ChangeSet, changeId: string) => {
+    const change = changeSet.changes.find((c) => c.id == changeId)
+    if (change) {
+      const fullChange = changeSet[change.dataTracked.status].find(
+        (c) => c.id == changeId
+      )
+      return fullChange
+    }
+    return change
+  }
+
   const handleEditorClick = useCallback(
     (e: React.MouseEvent) => {
       const { view, dispatch } = editor
@@ -157,7 +170,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
       const changeId = button.getAttribute('data-changeid')
 
       if (action && changeId) {
-        const change = changeSet.changes.find((c) => c.id == changeId)
+        const change = findChange(changeSet, changeId)
         if (change) {
           if (action === 'accept') {
             handleAcceptChange(change)
