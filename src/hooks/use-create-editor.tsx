@@ -203,6 +203,9 @@ export const useCreateEditor = () => {
     getDoc: () => {
       return getState().doc
     },
+    getModelMap: () => {
+      return getState().modelMap
+    },
   }
 
   const editor = useEditor(
