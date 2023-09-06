@@ -1850,17 +1850,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.3.5-LEAN-2729-v11":
-  version "1.3.5-LEAN-2729-v11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.3.5-LEAN-2729-v11.tgz#b98fea5a720f0c561380856fc4ac3fd1e8c13d40"
-  integrity sha512-37j6413j0XWLM0yokbJ9iURu+EXmZn9JjFeRzboLlLemFIXjsoUjf0i1a7o5fX0oR/7dmrBIgrwz13NY+up9cQ==
+"@manuscripts/body-editor@1.4.3-LEAN-2729":
+  version "1.4.3-LEAN-2729"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.3-LEAN-2729.tgz#8deecec7c00a0cf419a62d750d0913de4a20bd34"
+  integrity sha512-RkwPkG1h5l/Nqi9K27SrrO+eWvn0soAjZ2++DHQQXKmVy7J+KjrsLhOGt7hi1RgBiOLC4eBAdI8QaHZbjAr4Uw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
     "@manuscripts/library" "^1.1.6"
-    "@manuscripts/style-guide" "^1.2.2"
+    "@manuscripts/style-guide" "1.3.1"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.3.11"
@@ -1972,10 +1972,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.2.2.tgz#9c88d40286ca84c5d8d009cc82cc8316cc7345cd"
-  integrity sha512-2rUNebDswPUsS+L2x6Q6O7nr4Z+LTBjp9ZGYvOReLUMZnQWJoMHEc2SXvEX1lUDYleQPrz4sL4IOmqXnpVtnjQ==
+"@manuscripts/style-guide@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.1.tgz#6b879fa8179c36b68474ad72fe1b5188a7356017"
+  integrity sha512-c21pVE/37CavzQesqhreT++3b6JSMUGcEEe0ifbpFAEt9ZMj/JZoLmJ0tA18r1Z8cgoepUmKhFNu+KpHD9piJA==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
