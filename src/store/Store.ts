@@ -117,6 +117,7 @@ export type state = {
   deleteTrackModel: (id: string) => Promise<string>
 
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
+  preventUnload?: boolean
   saveNewManuscript: (
     dependencies: Array<Build<ContainedModel> & ContainedIDs>,
     containerID: string,
