@@ -29,7 +29,6 @@ import { getModelsByType } from '@manuscripts/transform'
 import { FormikProps } from 'formik'
 import { isEqual } from 'lodash-es'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
 import ReactTooltip from 'react-tooltip'
 import styled, { css } from 'styled-components'
 
@@ -46,6 +45,7 @@ import ReferenceForm, {
   buildInitialValues,
   ReferenceFormValues,
 } from './ReferenceForm'
+import { useScrollDetection } from '../../hooks/use-scroll-detection'
 
 export const CitationModal: React.FC<{
   editCitation: boolean
@@ -145,64 +145,73 @@ export const CitationModal: React.FC<{
   const disableDelete =
     ((selectedItem?._id && referenceCount.get(selectedItem._id)) || 0) > 0
 
-  const pageCount = 20
-  const refRoot = useRef<HTMLDivElement>(null)
-  const entryEnd = (pageCount - 1) / pageCount
-  const entryStart = 1 / pageCount
-
   const selectedReferenceNode = useRef<HTMLDivElement>(null)
 
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    root: refRoot.current,
-    threshold: [entryStart, entryEnd], // triggering when before the last or the first item
-    // @TODO: ingore upper part trigger when loaded for the first time and not explicitly request to scroll up
-  })
-
   useEffect(() => {
-    if (selectedReferenceNode.current) {
-      selectedReferenceNode.current.scrollIntoView({
-        block: 'center',
-        behavior: 'auto',
-      })
-    }
+    setTimeout(() => {
+      if (selectedReferenceNode.current) {
+        selectedReferenceNode.current.scrollIntoView({
+          block: 'center',
+          behavior: 'auto',
+        })
+      }
+    }, 0)
   }, [selectedReferenceNode])
 
-  const selectedIndex = useMemo(() => {
-    if (selectedItem) {
-      return references.findIndex((i) => selectedItem?._id == i._id)
-    }
-    return 0
-  }, [selectedItem, references])
+  const selectedIndex = selectedItem
+    ? references.findIndex((i) => selectedItem?._id == i._id)
+    : 0
 
-  const firstDisplayIndex = useMemo(() => {
-    const selectedItemTopOffset = 8
-    let initValue = Math.max(0, selectedIndex - selectedItemTopOffset)
-    if (inView && entry?.intersectionRatio === entryStart) {
-      // scrolling up
-      initValue = Math.max(0, firstDisplayIndex - pageCount)
-    }
-    return initValue
-  }, [selectedIndex, entry, inView, pageCount, entryStart])
+  const selectedItemTopOffset = 6
+  const pageItemsCount = 10
+  const entryStart = 0.05
+  const entryEnd = 0.95
+  const dropLimit = pageItemsCount * 3
 
-  const lastDisplayedIndex = useMemo(() => {
-    let initValue = firstDisplayIndex + pageCount
-    if (inView && entry?.intersectionRatio === entryEnd) {
-      // scrolling down
-      initValue = Math.min(references.length - 1, initValue + pageCount)
+  const { ref, triggers } = useScrollDetection(entryStart, entryEnd)
+  const [firstDisplayIndex, setFirstDisplayIndex] = useState(0)
+  const [lastDisplayIndex, setLastDisplayIndex] = useState(pageItemsCount)
+
+  useEffect(() => {
+    const base = Math.max(0, selectedIndex - selectedItemTopOffset)
+    setFirstDisplayIndex(base)
+    setLastDisplayIndex(Math.min(references.length - 1, base + pageItemsCount))
+  }, [selectedIndex, references.length])
+
+  useEffect(() => {
+    if (triggers.top) {
+      const newFirst = Math.max(0, firstDisplayIndex - pageItemsCount)
+      setFirstDisplayIndex(newFirst)
+      setLastDisplayIndex(Math.min(newFirst + dropLimit, lastDisplayIndex))
     }
-    return initValue
-  }, [firstDisplayIndex, entry, inView, pageCount, entryEnd, references])
+
+    if (triggers.bottom) {
+      const newLast = Math.min(
+        references.length - 1,
+        lastDisplayIndex + pageItemsCount
+      )
+      setLastDisplayIndex(newLast)
+      setFirstDisplayIndex(Math.max(newLast - dropLimit, firstDisplayIndex))
+    }
+  }, [
+    dropLimit,
+    firstDisplayIndex,
+    lastDisplayIndex,
+    pageItemsCount,
+    triggers.top,
+    triggers.bottom,
+    references,
+  ])
 
   const displayableRefs = useMemo(() => {
     const refs = []
     if (references.length) {
-      for (let i = firstDisplayIndex; i <= lastDisplayedIndex; i++) {
+      for (const i = firstDisplayIndex; i <= lastDisplayIndex; i++) {
         refs.push(references[i])
       }
     }
     return refs
-  }, [firstDisplayIndex, lastDisplayedIndex, references])
+  }, [firstDisplayIndex, lastDisplayIndex, references])
 
   if (references.length <= 0) {
     return <></>
@@ -244,20 +253,8 @@ export const CitationModal: React.FC<{
         <ModalBody>
           <ReferencesSidebar>
             <SidebarHeader title={'References'} />
-            <ReferencesSidebarContent ref={refRoot}>
-              {/* HERE ARE REFS RENDERED
-                   
-                  1. If (selectedItem) {
-                    get 3 items before, and 4 items after
-                  } else {
-                    load first 10 items
-                  }
-
-                  2. Watch intersection
-                  
-              
-              */}
-              <ReferencesInnerWrapper ref={ref}>
+            <ReferencesSidebarContent ref={ref}>
+              <ReferencesInnerWrapper>
                 {displayableRefs.map((item, index) => (
                   <ReferenceButton
                     key={index}
@@ -320,7 +317,6 @@ export const CitationModal: React.FC<{
 
 const ReferencesInnerWrapper = styled.div`
   width: 100%;
-  overflow-y: auto;
 `
 
 const ReferencesSidebar = styled(ModalSidebar)`
