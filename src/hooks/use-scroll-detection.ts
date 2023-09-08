@@ -20,14 +20,6 @@ export const useScrollDetection = (
   const observer = useRef<() => void>()
   const [triggers, setTriggers] = useState({ bottom: false, top: false })
 
-  //   useEffect(() => {
-  //     return () => {
-  //       if (observer.current) {
-  //         refRoot.current?.removeEventListener('scroll', observer.current)
-  //       }
-  //     }
-  //   })
-
   const ref = (node: HTMLDivElement | null) => {
     if (!node) {
       return
@@ -40,16 +32,18 @@ export const useScrollDetection = (
           return
         }
         const node = refRoot.current!
-        const topRatio = node.scrollTop / node.scrollHeight
+        const topRatio = node.scrollTop / node.offsetHeight
         const bottomRatio =
-          (node.scrollTop + node.offsetHeight) / node.scrollHeight
+          1 -
+          (node.scrollHeight - node.offsetHeight - node.scrollTop) /
+            node.offsetHeight
 
-        const newVal = { ...triggers }
+        const newVal = { top: false, bottom: false }
+
         newVal.top = Math.round(topRatio * 100) / 100 <= topTrigger
         newVal.bottom = Math.round(bottomRatio * 100) / 100 >= bottomTrigger
-        if (newVal.top != triggers.top || newVal.bottom != triggers.bottom) {
-          setTriggers(newVal)
-        }
+
+        setTriggers(newVal)
       }
       refRoot.current.addEventListener('scroll', listener)
       observer.current = listener

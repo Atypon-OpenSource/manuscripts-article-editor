@@ -28,7 +28,14 @@ import {
 import { getModelsByType } from '@manuscripts/transform'
 import { FormikProps } from 'formik'
 import { isEqual } from 'lodash-es'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled, { css } from 'styled-components'
 
@@ -46,6 +53,7 @@ import ReferenceForm, {
   ReferenceFormValues,
 } from './ReferenceForm'
 import { useScrollDetection } from '../../hooks/use-scroll-detection'
+import usePrevious from 'src/hooks/use-previous'
 
 export const CitationModal: React.FC<{
   editCitation: boolean
@@ -145,24 +153,25 @@ export const CitationModal: React.FC<{
   const disableDelete =
     ((selectedItem?._id && referenceCount.get(selectedItem._id)) || 0) > 0
 
-  const selectedReferenceNode = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (selectedReferenceNode.current) {
-        selectedReferenceNode.current.scrollIntoView({
-          block: 'center',
-          behavior: 'auto',
-        })
-      }
-    }, 0)
-  }, [selectedReferenceNode])
+  const selectedReferenceNode = useRef<{ node: HTMLDivElement | null }>({
+    node: null,
+  })
 
   const selectedIndex = selectedItem
     ? references.findIndex((i) => selectedItem?._id == i._id)
     : 0
 
+  useEffect(() => {
+    setTimeout(() => {
+      selectedReferenceNode.current?.node?.scrollIntoView({
+        block: 'center',
+        behavior: 'auto',
+      })
+    }, 100)
+  }, [selectedIndex])
+
   const selectedItemTopOffset = 6
+  const offloadSize = 30
   const pageItemsCount = 10
   const entryStart = 0.05
   const entryEnd = 0.95
@@ -176,13 +185,14 @@ export const CitationModal: React.FC<{
     const base = Math.max(0, selectedIndex - selectedItemTopOffset)
     setFirstDisplayIndex(base)
     setLastDisplayIndex(Math.min(references.length - 1, base + pageItemsCount))
-  }, [selectedIndex, references.length])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [references.length]) // this has to run only on start and never on selection change
 
   useEffect(() => {
     if (triggers.top) {
       const newFirst = Math.max(0, firstDisplayIndex - pageItemsCount)
       setFirstDisplayIndex(newFirst)
-      setLastDisplayIndex(Math.min(newFirst + dropLimit, lastDisplayIndex))
+      // setLastDisplayIndex(Math.min(newFirst + dropLimit, lastDisplayIndex))
     }
 
     if (triggers.bottom) {
@@ -191,27 +201,55 @@ export const CitationModal: React.FC<{
         lastDisplayIndex + pageItemsCount
       )
       setLastDisplayIndex(newLast)
-      setFirstDisplayIndex(Math.max(newLast - dropLimit, firstDisplayIndex))
+      // setFirstDisplayIndex(Math.max(newLast - dropLimit, firstDisplayIndex))
     }
-  }, [
-    dropLimit,
-    firstDisplayIndex,
-    lastDisplayIndex,
-    pageItemsCount,
-    triggers.top,
-    triggers.bottom,
-    references,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dropLimit, pageItemsCount, triggers.top, triggers.bottom, references])
+
+  const heightMap = useRef(new Map<number, number>())
 
   const displayableRefs = useMemo(() => {
-    const refs = []
+    const refs = new Map<number, BibliographyItem>()
     if (references.length) {
-      for (const i = firstDisplayIndex; i <= lastDisplayIndex; i++) {
-        refs.push(references[i])
+      for (let i = firstDisplayIndex; i <= lastDisplayIndex; i++) {
+        refs.set(i, references[i])
       }
     }
     return refs
   }, [firstDisplayIndex, lastDisplayIndex, references])
+
+  const compensationIndices = useRef<number[] | null>([])
+
+  useLayoutEffect(() => {
+    compensationIndices.current = compensationIndices.current || [
+      firstDisplayIndex,
+    ]
+    const source = compensationIndices.current
+    const prevFirst = source ? source[source.length - 1] : firstDisplayIndex
+
+    const diff = firstDisplayIndex - prevFirst
+
+    for (let i = 1; i < Math.abs(diff); i++) {
+      if (diff > 0) {
+        source.push(prevFirst + i)
+      } else {
+        source.pop()
+      }
+    }
+  }, [firstDisplayIndex, heightMap])
+
+  const heightCompensation = useMemo(() => {
+    if (compensationIndices.current) {
+      return compensationIndices.current?.reduce((acc, index) => {
+        return acc + (heightMap.current.get(index) || 0)
+      }, 0)
+    } else {
+      return 0
+    }
+  }, [heightMap])
+
+  // console.log(compensationIndices)
+  // console.log(heightCompensation)
 
   if (references.length <= 0) {
     return <></>
@@ -254,18 +292,21 @@ export const CitationModal: React.FC<{
           <ReferencesSidebar>
             <SidebarHeader title={'References'} />
             <ReferencesSidebarContent ref={ref}>
-              <ReferencesInnerWrapper>
-                {displayableRefs.map((item, index) => (
+              <ReferencesInnerWrapper style={{ paddingTop: '0px' }}>
+                {[...displayableRefs.entries()].map(([index, item]) => (
                   <ReferenceButton
                     key={index}
                     id={item._id}
                     onClick={onSelectReference}
                     selected={selectedItem?._id === item._id}
-                    ref={
-                      selectedItem?._id === item._id
-                        ? selectedReferenceNode
-                        : null
-                    }
+                    ref={(node) => {
+                      if (node) {
+                        heightMap.current.set(index, node.offsetHeight)
+                        if (selectedItem?._id === node.id) {
+                          selectedReferenceNode.current.node = node
+                        }
+                      }
+                    }}
                   >
                     <IconContainer data-tip={true} data-for={'group-icon'}>
                       <ReferenceLibraryIcon />
