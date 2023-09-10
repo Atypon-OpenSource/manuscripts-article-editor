@@ -77,6 +77,7 @@ const Actions = styled.div<{ selector: string }>`
   .pending:hover .track-changes--control:is(${(props) => props.selector}),
   .track-changes--control:is(${(props) => props.selector}):hover {
     display: inline-flex;
+    top: 0;
   }
 `
 
