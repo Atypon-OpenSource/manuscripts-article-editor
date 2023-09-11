@@ -1850,20 +1850,20 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.2.33-LIT-528106-1":
-  version "1.2.33-LIT-528106-1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.33-LIT-528106-1.tgz#bbe31b2cc27e1c41d00f04ffc9a372338630196b"
-  integrity sha512-jaIy2T7FKQOHd9N35Pn7WE7WCGi8lAVX1p/VhO/sD2cZKIZf3eKodNx+pur0vMxEip2hBAassjOyEwn/a4Yxxg==
+"@manuscripts/body-editor@1.2.33-LIT-528106-2":
+  version "1.2.33-LIT-528106-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.2.33-LIT-528106-2.tgz#7bfe5cdcbf727b7e85af319e9b51e286d0da611d"
+  integrity sha512-keHAI7HJ/EcBca9LrN1C/b9W6gDFd0KbEaTJvUCRyoKi/G0fR3PoRbDtBS6FXrMyh958/pHSUrwpNt3Rr3LTVQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
-    "@manuscripts/json-schema" "^2.1.0"
-    "@manuscripts/library" "1.1.4-LIT-528106-1"
-    "@manuscripts/style-guide" "1.1.17-LIT-528106-1"
+    "@manuscripts/json-schema" "^2.1.1"
+    "@manuscripts/library" "1.1.4-LIT-528106-2"
+    "@manuscripts/style-guide" "1.1.17-LIT-528106-2"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
-    "@manuscripts/transform" "1.3.6-LIT-528106-4"
+    "@manuscripts/transform" "1.3.6-LIT-528106-5"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1929,13 +1929,21 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@1.1.4-LIT-528106-1":
-  version "1.1.4-LIT-528106-1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.4-LIT-528106-1.tgz#2725a5d32846e992e89f59ea42a9b7e4f8f4f427"
-  integrity sha512-xXAazCpZIvgJQ5IyqjA38ocwqSIojk4SBhT09Pz1v2VzAohXk+ZDj91gNblxurnq9q33Lm65miet1PqtMOQ2aQ==
+"@manuscripts/json-schema@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.1.1.tgz#f37c0c059ade6c001bd4d789deddde293066cd80"
+  integrity sha512-ePFyoeOYymTZLjQAIjr1+DT6RnwKdJZ5dkEvwR7qTLeIlYEwXY1Ho8Xis8PXQz6pmw0QX5EvgjOhGFduZ7irqg==
+  dependencies:
+    ajv "^8.12.0"
+    deepmerge "^4.3.1"
+
+"@manuscripts/library@1.1.4-LIT-528106-2":
+  version "1.1.4-LIT-528106-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.4-LIT-528106-2.tgz#0ad2529bef14a7835926f1a6f57bf700bc423fe0"
+  integrity sha512-ItdLCebUO3Pci/O2hU0lbRgL5sKwYrMQdEerJvZ5RpGL8xKWvuwYAPwAneo/9US0Qeb9zkLWmf0ZzXXTr7v7dg==
   dependencies:
     "@manuscripts/json-schema" "^2.1.0"
-    "@manuscripts/transform" "1.3.6-LIT-528106-4"
+    "@manuscripts/transform" "1.3.6-LIT-528106-5"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
@@ -1947,14 +1955,14 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-"@manuscripts/requirements@1.1.3-LIT-528106-1":
-  version "1.1.3-LIT-528106-1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/requirements/-/requirements-1.1.3-LIT-528106-1.tgz#6567a14a0f654b3d51614ce4e684df8d3b2fbacd"
-  integrity sha512-PlnKZX3aA4KJk9Uf1iOJsxX6y56BgCaoLed3pxHQc7UP7wxhvbKEEsMiEzopgSh/EV3vBXFSqc9bBxshJpNgLg==
+"@manuscripts/requirements@1.1.3-LIT-528106-3":
+  version "1.1.3-LIT-528106-3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/requirements/-/requirements-1.1.3-LIT-528106-3.tgz#e7e7d418104a812424da6b7a14c4853b2032da78"
+  integrity sha512-6KwAlxHESONtOlUpAp3Jy/Tm3t4ligYgC8siJUMtFtgZd8AfGIDJAhlEsTkyDdUBK7QQHokQ4wVI+2qDSUcmHw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
-    "@manuscripts/json-schema" "^2.1.0"
-    "@manuscripts/transform" "1.3.6-LIT-528106-4"
+    "@manuscripts/json-schema" "^2.1.1"
+    "@manuscripts/transform" "1.3.6-LIT-528106-5"
     deep-equal "^2.2.0"
     file-type "^16.5.4"
     grapheme-splitter "^1.0.4"
@@ -1964,10 +1972,10 @@
     prosemirror-view "^1.29.1"
     uuid "^9.0.0"
 
-"@manuscripts/style-guide@1.1.17-LIT-528106-1":
-  version "1.1.17-LIT-528106-1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.17-LIT-528106-1.tgz#655f29c7a0c896f633db492dd84323da7d7a8a8d"
-  integrity sha512-JA10g4ncX/6PTkFlPm6iJsPVnvBbOPiWw66U3xhyeZA3zwCQMBlynozV7QJGkCuj9DZ4LrQpNsSorHR0qwJUFg==
+"@manuscripts/style-guide@1.1.17-LIT-528106-2":
+  version "1.1.17-LIT-528106-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.1.17-LIT-528106-2.tgz#3044ff11bbcab11f63833f5930ce212102319913"
+  integrity sha512-kZcOEqOp/D6N0HXkOn2oxcOrm2FcBZIn6KBi4IMxyvidxKsD7e9B3iwSe7+fWvlHr6Aiams2GyCPOsfJNqEzFA==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -1976,7 +1984,7 @@
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/transform" "1.3.6-LIT-528106-4"
+    "@manuscripts/transform" "1.3.6-LIT-528106-5"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -2037,10 +2045,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.3.6-LIT-528106-4":
-  version "1.3.6-LIT-528106-4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.3.6-LIT-528106-4.tgz#b28674a57a4521b3b5295a0a0d0d089a0d95da81"
-  integrity sha512-wVURgWLrmR3M7Wf3Q+hWrXZDJ21ES0ciim0JMxQJb7fVxmIyPsLYHI510DyO86GSSThshvj5RdpA7+Z6pYCQQQ==
+"@manuscripts/transform@1.3.6-LIT-528106-5":
+  version "1.3.6-LIT-528106-5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.3.6-LIT-528106-5.tgz#75ade6541ebee67e2e3b74f62eb98f971bd6ad21"
+  integrity sha512-RHkWjj2fmhBNawgJdyCWWnSl/uD6a8q5Z0mlma3xzdxD1vrACYv8YTSuEybtJXPbPonLbr60gVf/qdUlF4zALQ==
   dependencies:
     "@manuscripts/json-schema" "^2.1.1"
     debug "^4.3.4"
