@@ -212,6 +212,9 @@ export const useCreateEditor = (initTrackModelMap: Map<string, Model>) => {
     getDoc: () => {
       return getState().doc
     },
+    getModelMap: () => {
+      return getState().modelMap
+    },
   }
 
   const editor = useEditor(

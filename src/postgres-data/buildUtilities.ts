@@ -140,6 +140,7 @@ const buildUtilities = (
 
     updateState({
       modelMap,
+      preventUnload: true,
     })
 
     saveWithThrottle(async () => {
@@ -152,6 +153,7 @@ const buildUtilities = (
 
       updateState({
         savingProcess: result ? 'saved' : 'failed',
+        preventUnload: false,
       })
     })
     return newModel
