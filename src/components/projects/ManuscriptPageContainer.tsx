@@ -32,7 +32,7 @@ import styled from 'styled-components'
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import useTrackedModelManagement, {
-  useTrackModel
+  useTrackModel,
 } from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
