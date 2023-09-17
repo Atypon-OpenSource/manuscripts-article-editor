@@ -159,7 +159,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     deleteModel={deleteModel}
                     fileManagement={{
                       ...fileManagement,
-                      getAttachments: () => attachments,
                     }}
                     addAttachmentToState={(attachment: FileAttachment) =>
                       stateDispatch({
