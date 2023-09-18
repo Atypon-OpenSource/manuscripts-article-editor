@@ -23,6 +23,7 @@ const TrackChangesOn = styled.div`
   .track-changes--control {
     display: none;
     position: absolute;
+    z-index: 1;
   }
 
   .track-changes--control > button {

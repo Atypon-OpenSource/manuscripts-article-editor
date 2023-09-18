@@ -1850,16 +1850,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.4.3-LEAN-2693-0":
-  version "1.4.3-LEAN-2693-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.3-LEAN-2693-0.tgz#88b9df5b3b33b4fec4669d3a3c2702f3546fe50a"
-  integrity sha512-6sLmFOIxwCLL39D0QFjIh/Y+GxbTHyFV2JkvM1sMrUF/fmQX0k0+5CDpxApCXqDFt0n1wcbOHI3F8ikG37BIew==
+"@manuscripts/body-editor@^1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.6.tgz#72258fd97172ed9593c3210f3a23e3397076fd02"
+  integrity sha512-sUljg7NFcHElfAXNC9BXDnCBkAv2bKNjKmtk3CP5RHwDstycHtm2+2ArVNICTBf3i9iQCr0mCW2dzS0nKBqQtA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.1"
-    "@manuscripts/library" "^1.1.6"
+    "@manuscripts/library" "^1.1.7"
     "@manuscripts/style-guide" "1.3.1"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
@@ -1937,10 +1937,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.6.tgz#b1649c62a6a0f3ed14516088b729ca0e160976a1"
-  integrity sha512-v6hMNm1k5DtZu9X8LpXbEeJWFmHDOm00gSPlXtvKTyFec7whfjKD/7mRTJak15tIVlVfvYBVHpgnotI00tclvQ==
+"@manuscripts/library@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.7.tgz#88fda9f3dcb8c64a2eca4a43224393419654f8f3"
+  integrity sha512-yrCB2FOVoAFuAFUJSz/xbBHHUy+aLr03cZhKOpnOyiG0aOl83YONYDUVsFaQs7KoBvo05BYTwyktDC8vKZqXTA==
   dependencies:
     "@manuscripts/json-schema" "^2.1.0"
     "@manuscripts/transform" "^1.3.10"
