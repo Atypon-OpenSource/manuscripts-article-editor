@@ -33,6 +33,7 @@ import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
+import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
@@ -100,6 +101,9 @@ const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
 
   const editor = useCreateEditor()
+
+  const [preventUnload] = useStore((store) => store.preventUnload)
+  useWindowUnloadEffect(undefined, preventUnload)
 
   const { state, dispatch, view } = editor
 
