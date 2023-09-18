@@ -157,10 +157,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     modelMap={trackModelMap}
                     saveModel={(m) => saveTrackModel(m as any)}
                     deleteModel={deleteModel}
-                    fileManagement={{
-                      ...fileManagement,
-                      getAttachments: () => attachments,
-                    }}
+                    fileManagement={fileManagement}
                     addAttachmentToState={(attachment: FileAttachment) =>
                       stateDispatch({
                         attachments: [...attachments, attachment],

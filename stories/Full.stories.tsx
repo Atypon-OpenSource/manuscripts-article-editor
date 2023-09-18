@@ -20,10 +20,18 @@ storiesOf('Full', module).add('default', () => (
       getAttachments: () => {
         return []
       },
-      upload: () => {
-        return Promise.resolve(true)
+      upload: (f) => {
+        return Promise.resolve({
+          id: 'test',
+          type: {
+            id: 'figure',
+          },
+          name: f.name,
+          link: '',
+          createdDate: new Date(),
+        })
       },
-      replace: () => {
+      download: () => {
         return Promise.resolve(true)
       },
     }}
