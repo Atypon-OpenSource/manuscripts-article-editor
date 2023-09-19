@@ -31,7 +31,7 @@ export const useLoadDoc = () => {
       return undefined
     }
     setCurrentDocument(manuscriptID, projectID)
-    const found = await getDocument(manuscriptID)
+    const found = await getDocument(projectID, manuscriptID)
     let doc
     if ('data' in found) {
       initSnapshots()

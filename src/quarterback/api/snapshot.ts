@@ -31,8 +31,16 @@ export const getSnapshot = (snapshotId: string) =>
     'Fetching a snapshot failed'
   )
 
-export const saveSnapshot = (payload: ISaveSnapshotRequest) =>
-  post<ISaveSnapshotResponse>('snapshot', payload, 'Saving snapshot failed')
+export const saveSnapshot = (
+  projectID: string,
+  manuscriptID: string,
+  payload: ISaveSnapshotRequest
+) =>
+  post<ISaveSnapshotResponse>(
+    `snapshot/${projectID}/manuscript/${manuscriptID}`,
+    payload,
+    'Saving snapshot failed'
+  )
 
 export const updateSnapshot = (
   snapId: string,
