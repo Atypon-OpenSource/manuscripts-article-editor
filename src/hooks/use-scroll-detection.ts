@@ -32,6 +32,9 @@ export const useScrollDetection = (
           return
         }
         const node = refRoot.current!
+        if (node.scrollTop == 0) {
+          node.scrollTop = 1
+        }
         const topRatio = node.scrollTop / node.offsetHeight
         const bottomRatio =
           1 -
@@ -39,8 +42,8 @@ export const useScrollDetection = (
             node.offsetHeight
 
         const newVal = { top: false, bottom: false }
+        newVal.top = topRatio <= topTrigger
 
-        newVal.top = Math.round(topRatio * 100) / 100 <= topTrigger
         newVal.bottom = Math.round(bottomRatio * 100) / 100 >= bottomTrigger
 
         setTriggers(newVal)

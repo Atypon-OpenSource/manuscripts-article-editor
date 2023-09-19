@@ -165,9 +165,9 @@ export const CitationModal: React.FC<{
   }, [selectedIndex])
 
   const selectedItemTopOffset = 6 // to be able to place the selected item in the middle and allow for some scroll at the top
-  const pageItemsCount = 10
-  const topTrigger = 0.05 // says: notify when x% of the offsetHeight remains hidden at the top
-  const bottomTrigger = 0.95 // says: notify when x% of the offsetHeight remains hidden at the bottom
+  const pageItemsCount = 12
+  const topTrigger = 0.1 // says: notify when x% of the offsetHeight remains hidden at the top
+  const bottomTrigger = 0.9 // says: notify when x% of the offsetHeight remains hidden at the bottom
   const dropLimit = pageItemsCount * 3 // basically maximum amount of items that can exist at the same time
 
   const { ref, triggers } = useScrollDetection(topTrigger, bottomTrigger)
@@ -199,7 +199,7 @@ export const CitationModal: React.FC<{
       setFirstDisplayIndex(Math.max(newLast - dropLimit, firstDisplayIndex))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dropLimit, pageItemsCount, triggers.top, triggers.bottom, references])
+  }, [dropLimit, pageItemsCount, triggers, references])
 
   const displayableRefs = useMemo(() => {
     const refs = new Map<number, BibliographyItem>()
