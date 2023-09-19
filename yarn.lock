@@ -1838,25 +1838,25 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@manuscripts/assets@^0.6.1":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.3.tgz#862293c311b172e0482d360cb8d533ba5d699f1e"
-  integrity sha512-AJ6XhmWSSjFuhU/G8bFCyszi0l1flKXlLY8FxiwcmrA1mI0RorhLIxtSB2hgzdrftguqAt21IIUBHhCP8Vvt8w==
-  dependencies:
-    "@inline-svg-unique-id/react" "^1.2.3"
-
 "@manuscripts/assets@^0.6.2":
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.4.9":
-  version "1.4.9"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9.tgz#ffa0ca0661a0d9a9aab241b9262dec130d160122"
-  integrity sha512-ABJPkDm3WZT2DpgRvKAZE8YyifFeJQYCyr1YrAB4YTl7lLAPUPtzBnOWXIQ/kZQTdG/uJwSSkiwR1sjJuQzz7g==
+"@manuscripts/assets@^0.6.3-LEAN-2850":
+  version "0.6.3-LEAN-2850"
+  resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.3-LEAN-2850.tgz#56bcd63648987c4faa09a0915614310c7774eb55"
+  integrity sha512-fwjloo3HH1V+98k1kTQywS13kk0WKNEY0EhnDSiph46E5SlMcpmKiwfNNJbbDd4xuPctgzmb3GRZnBzhFAF+GA==
+  dependencies:
+    "@inline-svg-unique-id/react" "^1.2.3"
+
+"@manuscripts/body-editor@1.4.9-LEAN-2850":
+  version "1.4.9-LEAN-2850"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9-LEAN-2850.tgz#2f2bc09746b32e16c6290dc4ef3fea5941823f47"
+  integrity sha512-Gm7Sm2gUo+7lbPsWOBy7KxOWDwPzk97et6JLCCXYDnycIkBds9QYmIQlomfNgcZqDE88Wi91VNxrPM8RUT+9qA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
-    "@manuscripts/assets" "^0.6.2"
+    "@manuscripts/assets" "^0.6.3-LEAN-2850"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.2"
     "@manuscripts/library" "^1.1.8"
