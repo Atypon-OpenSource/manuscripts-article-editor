@@ -78,11 +78,15 @@ export const useSnapshotStore = create(
         if (!currentDocument) {
           resp = { err: 'No current document', code: 400 }
         } else {
-          resp = await snapApi.saveSnapshot({
-            docId: currentDocument.manuscriptID,
-            snapshot: docJson,
-            name: new Date().toLocaleString('sv'),
-          })
+          resp = await snapApi.saveSnapshot(
+            currentDocument.projectID,
+            currentDocument.manuscriptID,
+            {
+              docId: currentDocument.manuscriptID,
+              snapshot: docJson,
+              name: new Date().toLocaleString('sv'),
+            }
+          )
         }
         if ('data' in resp) {
           const {

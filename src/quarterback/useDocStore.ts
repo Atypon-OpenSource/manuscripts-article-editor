@@ -34,8 +34,8 @@ export const useDocStore = create(
       setCurrentDocument: (manuscriptID: string, projectID: string) => {
         set({ currentDocument: { manuscriptID, projectID } })
       },
-      getDocument: async (manuscriptID: string) => {
-        const resp = await docApi.getDocument(manuscriptID)
+      getDocument: async (projectID: string, manuscriptID: string) => {
+        const resp = await docApi.getDocument(projectID, manuscriptID)
         if ('data' in resp) {
           set({ quarterbackDoc: resp.data })
         }
@@ -55,8 +55,14 @@ export const useDocStore = create(
         }
         return resp
       },
-      updateDocument: async (id: string, doc: Record<string, any>) => {
-        const resp = await docApi.updateDocument(id, { doc })
+      updateDocument: async (
+        projectID: string,
+        manuscriptID: string,
+        doc: Record<string, any>
+      ) => {
+        const resp = await docApi.updateDocument(projectID, manuscriptID, {
+          doc,
+        })
         if ('data' in resp) {
           set((state) => {
             const { quarterbackDoc } = state
@@ -73,11 +79,11 @@ export const useDocStore = create(
         }
         return resp
       },
-      deleteDocument: async (manuscriptId: string) => {
-        const resp = await docApi.deleteDocument(manuscriptId)
+      deleteDocument: async (projectID: string, manuscriptID: string) => {
+        const resp = await docApi.deleteDocument(projectID, manuscriptID)
         if ('data' in resp) {
           set((state) =>
-            state.quarterbackDoc?.manuscript_model_id === manuscriptId
+            state.quarterbackDoc?.manuscript_model_id === manuscriptID
               ? { quarterbackDoc: null }
               : state
           )

@@ -18,14 +18,32 @@ import {
 
 import { del, get, post, put } from './methods'
 
-export const getDocument = (id: string) =>
-  get<IGetDocumentResponse>(`doc/${id}`, 'Fetching document failed')
+export const getDocument = (projectID: string, manuscriptID: string) =>
+  get<IGetDocumentResponse>(
+    `doc/${projectID}/manuscript/${manuscriptID}`,
+    'Fetching document failed'
+  )
 
 export const createDocument = (payload: ICreateDocRequest) =>
-  post<ICreateDocResponse>('doc', payload, 'Creating document failed')
+  post<ICreateDocResponse>(
+    `doc/${payload.project_model_id}/manuscript/${payload.manuscript_model_id}`,
+    payload,
+    'Creating document failed'
+  )
 
-export const updateDocument = (id: string, payload: IUpdateDocumentRequest) =>
-  put<boolean>(`doc/${id}`, payload, 'Updating document failed')
+export const updateDocument = (
+  projectID: string,
+  manuscriptID: string,
+  payload: IUpdateDocumentRequest
+) =>
+  put<boolean>(
+    `doc/${projectID}/manuscript/${manuscriptID}`,
+    payload,
+    'Updating document failed'
+  )
 
-export const deleteDocument = (docId: string) =>
-  del<boolean>(`doc/${docId}`, 'Deleting document failed')
+export const deleteDocument = (projectID: string, manuscriptID: string) =>
+  del<boolean>(
+    `doc/${projectID}/manuscript/${manuscriptID}`,
+    'Deleting document failed'
+  )
