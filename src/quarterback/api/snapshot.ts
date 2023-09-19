@@ -19,9 +19,9 @@ import {
 
 import { del, get, post, put } from './methods'
 
-export const listSnapshotLabels = (docId: string) =>
+export const listSnapshotLabels = (docID: string) =>
   get<IGetSnapshotLabelsResponse>(
-    `doc/${docId}/snapshot/labels`,
+    `doc/${docID}/snapshot/labels`,
     'Fetching snapshots failed'
   )
 
