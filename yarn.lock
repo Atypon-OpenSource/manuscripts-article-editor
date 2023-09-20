@@ -1850,16 +1850,16 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.4.7-LEAN-2744-0":
-  version "1.4.7-LEAN-2744-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.7-LEAN-2744-0.tgz#1de6c55468da28f8330184278607ab5a80f8aede"
-  integrity sha512-zJzESRsV2xgllKPK0hwrNn5Xu4CRP/TAJboXEjY4M1jVicT104Y12zJ5oFR1AUBrlrhiPwaVDbVgnNIw5WTuRw==
+"@manuscripts/body-editor@1.4.9-LEAN-2744":
+  version "1.4.9-LEAN-2744"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9-LEAN-2744.tgz#6e634977389aad583d0cc201ec4803ecd07869b2"
+  integrity sha512-k7Iyf72yG0nmIalY+gEZv/PJD55PGiuL+PoLx1X8bCS1acI8mn0dHU9M6Y6yWp8TvcAabr6uQrkDnHnc0ZUFPg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.2"
-    "@manuscripts/library" "1.1.8-LEAN-2744-0"
+    "@manuscripts/library" "^1.1.8"
     "@manuscripts/style-guide" "1.3.2-LEAN-2745"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
@@ -1928,19 +1928,6 @@
   dependencies:
     ajv "^8.12.0"
     deepmerge "^4.3.1"
-
-"@manuscripts/library@1.1.8-LEAN-2744-0":
-  version "1.1.8-LEAN-2744-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.8-LEAN-2744-0.tgz#9031ce36487d6177dbdbb46d1b2396cb4e77ecd4"
-  integrity sha512-4TD4+LvnPwKn5i1DfyCd+GxQGcsYVXJj8OZBI8otQ7CzVoT+8DBOHfxPDlCd5Mar+AlJteOrOywveTag1Q218Q==
-  dependencies:
-    "@manuscripts/json-schema" "^2.1.2"
-    "@manuscripts/transform" "1.3.11-LEAN-2745"
-    astrocite-bibtex "^0.16.4"
-    astrocite-ris "^0.16.4"
-    citeproc "^2.4.62"
-    fontoxpath "^3.28.2"
-    prosemirror-model "^1.18.3"
 
 "@manuscripts/library@^1.1.8":
   version "1.1.8"

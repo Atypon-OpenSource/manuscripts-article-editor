@@ -37,7 +37,7 @@
     "@fontsource/pt-sans": "^4.5.11",
     "@fontsource/pt-serif": "^4.5.11",
     "@manuscripts/assets": "^0.6.1",
-    "@manuscripts/body-editor": "1.4.7-LEAN-2744-0",
+    "@manuscripts/body-editor": "1.4.9-LEAN-2744",
     "@manuscripts/json-schema": "^2.1.2",
     "@manuscripts/library": "^1.1.8",
     "@manuscripts/quarterback-types": "^1.0.0",
