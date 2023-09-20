@@ -166,8 +166,8 @@ export const CitationModal: React.FC<{
 
   const selectedItemTopOffset = 6 // to be able to place the selected item in the middle and allow for some scroll at the top
   const pageItemsCount = 12
-  const topTrigger = 0.1 // says: notify when x% of the offsetHeight remains hidden at the top
-  const bottomTrigger = 0.9 // says: notify when x% of the offsetHeight remains hidden at the bottom
+  const topTrigger = 0.2 // says: notify when x% of the offsetHeight remains hidden at the top
+  const bottomTrigger = 0.8 // says: notify when x% of the offsetHeight remains hidden at the bottom
   const dropLimit = pageItemsCount * 3 // basically maximum amount of items that can exist at the same time
 
   const { ref, triggers } = useScrollDetection(topTrigger, bottomTrigger)
