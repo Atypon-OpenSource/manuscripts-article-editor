@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { isMetaNode } from '@manuscripts/body-editor'
 import { EditorState, Transaction } from 'prosemirror-state'
 
 export const setNodeAttrs = (
@@ -28,6 +29,10 @@ export const setNodeAttrs = (
         ...node.attrs,
         ...attrs,
       })
+
+      if (isMetaNode(node.type.name)) {
+        tr.setMeta('track-changes-update-meta-node', true)
+      }
       dispatch(tr)
     }
   })

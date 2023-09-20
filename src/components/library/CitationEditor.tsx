@@ -34,6 +34,7 @@ import {
   Build,
   buildBibliographyItem,
   buildComment,
+  getModelsByType,
 } from '@manuscripts/transform'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
@@ -122,12 +123,11 @@ const Actions = styled.div`
 `
 
 interface Props {
-  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
   setLibraryItem: (item: BibliographyItem) => void
   removeLibraryItem: (id: string) => void
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
-  modelMap: Map<string, Model>
+  getModelMap: () => Map<string, Model>
   importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
   handleCancel: () => void
   handleCite: (items: BibliographyItem[], query?: string) => Promise<void>
@@ -146,7 +146,7 @@ interface Props {
 
 const CitationEditor: React.FC<Props> = ({
   items,
-  modelMap,
+  getModelMap,
   saveModel,
   deleteModel,
   handleCancel,
@@ -156,13 +156,14 @@ const CitationEditor: React.FC<Props> = ({
   selectedText,
   setComment,
   importItems,
-  filterLibraryItems,
   citation,
   removeLibraryItem,
   setLibraryItem,
   updatePopper,
   canEdit,
 }) => {
+  const modelMap = getModelMap()
+
   const [searching, setSearching] = useState(false)
 
   const saveCallback = useCallback(
@@ -219,23 +220,20 @@ const CitationEditor: React.FC<Props> = ({
     [citation._id, setComment]
   )
 
-  const citedReferencesSet = useMemo(
-    () => new Set(items.map((item) => item._id)),
-    [items]
-  )
+  const bibliographyItems = useMemo(() => {
+    const citedReferencesSet = new Set(items.map((item) => item._id))
+    return new Map(
+      getModelsByType<BibliographyItem>(modelMap, ObjectTypes.BibliographyItem)
+        .filter((model) => !citedReferencesSet.has(model._id))
+        .map((model) => [model._id, model])
+    )
+  }, [items, modelMap])
 
-  const filterLibraryItemsWrapper = useCallback(
-    async (query: string) =>
-      (await filterLibraryItems(query)).filter(
-        (item) => !citedReferencesSet?.has(item._id)
-      ),
-    [citedReferencesSet, filterLibraryItems]
-  )
   if (searching) {
     return (
       <CitationSearch
         query={selectedText}
-        filterLibraryItems={filterLibraryItemsWrapper}
+        bibliographyItems={bibliographyItems}
         importItems={importItems}
         handleCite={handleCite}
         addCitation={addCitationCallback}
@@ -249,7 +247,7 @@ const CitationEditor: React.FC<Props> = ({
       <div>
         <CitationSearch
           query={selectedText}
-          filterLibraryItems={filterLibraryItems}
+          bibliographyItems={bibliographyItems}
           importItems={importItems}
           handleCite={handleCite}
           addCitation={addCitationCallback}
@@ -263,7 +261,6 @@ const CitationEditor: React.FC<Props> = ({
           deleteCallback={deleteReferenceCallback}
           setSelectedItem={setSelectedItem}
           setShowEditModel={setShowEditModel}
-          getReferences={filterLibraryItems}
         />
       </div>
     )
@@ -334,7 +331,6 @@ const CitationEditor: React.FC<Props> = ({
         deleteCallback={deleteReferenceCallback}
         setSelectedItem={setSelectedItem}
         setShowEditModel={setShowEditModel}
-        getReferences={filterLibraryItems}
       />
       <Actions>
         <IconTextButton onClick={addCommentCallback}>

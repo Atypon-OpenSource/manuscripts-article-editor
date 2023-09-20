@@ -17,36 +17,35 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { CitationModel } from './CitationModel'
 
 interface Props {
-  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
   setLibraryItem: (item: BibliographyItem) => void
   removeLibraryItem: (id: string) => void
-  modelMap: Map<string, Model>
+  getModelMap: () => Map<string, Model>
   referenceID?: string
 }
 
 export const ReferencesEditor: React.FC<Props> = (props) => {
   const {
-    filterLibraryItems,
     saveModel,
     deleteModel,
     setLibraryItem,
     removeLibraryItem,
     referenceID,
-    modelMap,
+    getModelMap,
   } = props
+  const modelMap = getModelMap()
 
   const [showEditModel, setShowEditModel] = useState(false)
   const [selectedItem, setSelectedItem] = useState<BibliographyItem>()
 
   useEffect(() => {
     if (referenceID) {
-      const reference = modelMap.get(referenceID) as BibliographyItem
+      const reference = getModelMap().get(referenceID) as BibliographyItem
       setSelectedItem(reference)
       setShowEditModel(true)
     }
-  }, [referenceID, modelMap])
+  }, [referenceID, getModelMap])
 
   const saveCallback = useCallback(
     async (item) => {
@@ -72,7 +71,6 @@ export const ReferencesEditor: React.FC<Props> = (props) => {
       deleteCallback={deleteReferenceCallback}
       setSelectedItem={setSelectedItem}
       setShowEditModel={setShowEditModel}
-      getReferences={filterLibraryItems}
     />
   )
 
