@@ -41,7 +41,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     saveTrackModel: store.saveTrackModel,
     deleteModel: store.deleteModel,
     trackModelMap: store.trackModelMap,
-    attachments: store.attachments,
     fileManagement: store.fileManagement,
     isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
