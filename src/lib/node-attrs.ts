@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { isMetaNode } from '@manuscripts/body-editor'
+import { isMetaNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 
 export const setNodeAttrs = (

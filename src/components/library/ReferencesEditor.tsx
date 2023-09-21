@@ -19,50 +19,47 @@ import { CitationModel } from './CitationModel'
 interface Props {
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
-  setLibraryItem: (item: BibliographyItem) => void
-  removeLibraryItem: (id: string) => void
-  getModelMap: () => Map<string, Model>
+  modelMap: Map<string, Model>
   referenceID?: string
 }
 
 export const ReferencesEditor: React.FC<Props> = (props) => {
-  const {
-    saveModel,
-    deleteModel,
-    setLibraryItem,
-    removeLibraryItem,
-    referenceID,
-    getModelMap,
-  } = props
-  const modelMap = getModelMap()
+  const { saveModel, deleteModel, referenceID } = props
+  const [modelMap, setModelMap] = useState(props.modelMap)
 
   const [showEditModel, setShowEditModel] = useState(false)
   const [selectedItem, setSelectedItem] = useState<BibliographyItem>()
 
   useEffect(() => {
     if (referenceID) {
-      const reference = getModelMap().get(referenceID) as BibliographyItem
+      const reference = modelMap.get(referenceID) as BibliographyItem
       setSelectedItem(reference)
       setShowEditModel(true)
     }
-  }, [referenceID, getModelMap])
+  }, [referenceID, modelMap])
 
   const saveCallback = useCallback(
     async (item) => {
       await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
-      setLibraryItem(item)
+      setModelMap(
+        new Map([
+          ...modelMap,
+          [item._id, { ...item, objectType: ObjectTypes.BibliographyItem }],
+        ])
+      )
     },
-    [saveModel, setLibraryItem]
+    [saveModel, modelMap]
   )
 
   const deleteReferenceCallback = useCallback(async () => {
     if (selectedItem) {
       await deleteModel(selectedItem._id)
-      removeLibraryItem(selectedItem._id)
+      modelMap.delete(selectedItem._id)
+      setModelMap(new Map([...modelMap]))
     }
-  }, [selectedItem, deleteModel, removeLibraryItem])
+  }, [selectedItem, deleteModel, modelMap])
 
-  const component = (
+  return (
     <CitationModel
       editCitation={showEditModel}
       modelMap={modelMap}
@@ -73,6 +70,4 @@ export const ReferencesEditor: React.FC<Props> = (props) => {
       setShowEditModel={setShowEditModel}
     />
   )
-
-  return component
 }

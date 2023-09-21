@@ -123,11 +123,10 @@ const Actions = styled.div`
 `
 
 interface Props {
-  setLibraryItem: (item: BibliographyItem) => void
-  removeLibraryItem: (id: string) => void
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
-  getModelMap: () => Map<string, Model>
+  modelMap: Map<string, Model>
+  insertBibliographyNode: (item: Build<BibliographyItem>) => void
   importItems: (items: BibliographyItem[]) => Promise<BibliographyItem[]>
   handleCancel: () => void
   handleCite: (items: BibliographyItem[], query?: string) => Promise<void>
@@ -146,7 +145,7 @@ interface Props {
 
 const CitationEditor: React.FC<Props> = ({
   items,
-  getModelMap,
+  modelMap: initModelMap,
   saveModel,
   deleteModel,
   handleCancel,
@@ -156,23 +155,26 @@ const CitationEditor: React.FC<Props> = ({
   selectedText,
   setComment,
   importItems,
+  insertBibliographyNode,
   citation,
-  removeLibraryItem,
-  setLibraryItem,
   updatePopper,
   canEdit,
 }) => {
-  const modelMap = getModelMap()
-
   const [searching, setSearching] = useState(false)
+  const [modelMap, setModelMap] = useState(initModelMap)
 
   const saveCallback = useCallback(
     async (item) => {
       await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
-      setLibraryItem(item)
+      setModelMap(
+        new Map([
+          ...modelMap,
+          [item._id, { ...item, objectType: ObjectTypes.BibliographyItem }],
+        ])
+      )
       updatePopper()
     },
-    [saveModel, setLibraryItem, updatePopper]
+    [modelMap, saveModel, updatePopper]
   )
 
   const [showEditModel, setShowEditModel] = useState(false)
@@ -193,10 +195,11 @@ const CitationEditor: React.FC<Props> = ({
   const deleteReferenceCallback = useCallback(async () => {
     if (selectedItem) {
       await deleteModel(selectedItem._id)
-      removeLibraryItem(selectedItem._id)
+      modelMap.delete(selectedItem._id)
+      setModelMap(new Map([...modelMap]))
       setSelectedItem(modelMap.get(referenceIdRef.current) as BibliographyItem)
     }
-  }, [selectedItem, modelMap, deleteModel, removeLibraryItem, referenceIdRef])
+  }, [selectedItem, modelMap, deleteModel, referenceIdRef])
 
   const [deleteDialog, setDeleteDialog] = useState<{
     show: boolean
@@ -209,11 +212,13 @@ const CitationEditor: React.FC<Props> = ({
       type: 'article-journal',
     })
     setSearching(false)
-    setLibraryItem(item as BibliographyItem)
     setSelectedItem(item as BibliographyItem)
     setShowEditModel(true)
-    await saveModel({ ...item, objectType: ObjectTypes.BibliographyItem })
-  }, [setLibraryItem, saveModel])
+    insertBibliographyNode(item)
+    setModelMap(
+      new Map([...modelMap, [item._id, { ...item } as BibliographyItem]])
+    )
+  }, [insertBibliographyNode, modelMap])
 
   const addCommentCallback = useCallback(
     () => setComment(buildComment(citation._id) as CommentAnnotation),

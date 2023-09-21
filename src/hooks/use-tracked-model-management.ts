@@ -10,20 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  Citation,
-  CitationItem,
-  CommentAnnotation,
-  Model,
-  ObjectTypes,
-} from '@manuscripts/json-schema'
+import { CommentAnnotation, Model, ObjectTypes } from '@manuscripts/json-schema'
 import { FileAttachment } from '@manuscripts/style-guide'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   Decoder,
   encode,
-  getModelsByType,
   ManuscriptEditorView,
   ManuscriptNode,
   schema,
@@ -43,47 +36,6 @@ import {
 } from '../lib/replace-attachments-ids'
 import { useStore } from '../store'
 
-/**
- * This to make sure ids of bibliography item in embeddedCitationItems
- * are compatible with id trackedJoint`:dataTracked:` we add for each changed node.
- */
-export const updateCitations = (
-  doc: ManuscriptNode,
-  modelsFromPM: Map<string, Model>,
-  finalModelMap: Map<string, Model>
-) => {
-  const bibliographyItemIds = new Map(
-    getModelsByType(modelsFromPM, ObjectTypes.BibliographyItem).map((model) => [
-      model._id.split(trackedJoint)[0],
-      model._id,
-    ])
-  )
-
-  doc.descendants((node, pos, parent) => {
-    if (node.type === schema.nodes.citation) {
-      modelsFromPM.set(node.attrs.rid, {
-        _id: modelsFromPM.get(node.attrs.rid)?._id || node.attrs.rid,
-        objectType: ObjectTypes.Citation,
-        containingObject: parent?.attrs.id,
-        // This will make sure old citation will have embeddedCitationItems,
-        // so it will be compatible with the change of saving citation in PMDocument
-        embeddedCitationItems:
-          node.attrs.embeddedCitationItems?.map((item: CitationItem) => ({
-            ...item,
-            bibliographyItem: bibliographyItemIds.get(item.bibliographyItem),
-          })) ||
-          (
-            finalModelMap.get(node.attrs.rid.split(trackedJoint)[0]) as Citation
-          )?.embeddedCitationItems.map((item: CitationItem) => ({
-            ...item,
-            bibliographyItem: bibliographyItemIds.get(item.bibliographyItem),
-          })) ||
-          [],
-      } as Citation)
-    }
-  })
-}
-
 export const useTrackModel = (
   doc: ManuscriptNode,
   finalModelMap: Map<string, Model>,
@@ -93,7 +45,6 @@ export const useTrackModel = (
     const docJSONed = doc.toJSON()
     const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
-    updateCitations(doc, modelsFromPM, finalModelMap)
     // adding supplements from final model map as they are meta (not PM presentable)
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
