@@ -1850,16 +1850,16 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.4.9-LEAN-2850-v5":
-  version "1.4.9-LEAN-2850-v5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9-LEAN-2850-v5.tgz#b7c09e4b05b0b20aef2c5b8eb23b75ae25b457ed"
-  integrity sha512-YjnQdKgduskJS3cSUX+nKx3oWpnaxquNG8ZmG9BSKrRK1Div3kDCN9WKYP4tsVr42VlaDRHIWH3ss1tn9SCQlQ==
+"@manuscripts/body-editor@1.4.9-LEAN-2850-v6":
+  version "1.4.9-LEAN-2850-v6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9-LEAN-2850-v6.tgz#454a0f561e095c437f6c7f4efae5cf41e969838d"
+  integrity sha512-PU2MBRzuPQN8u0OTLvEXpaRDVCPL1TMizgJk99UneN99X9ddS+dQcnm0kR3v/eSs2SHqO40SSkUyP/xntCRKFQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.3-LEAN-2850"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.2"
-    "@manuscripts/library" "^1.1.8"
+    "@manuscripts/library" "1.1.8-LEAN-2850"
     "@manuscripts/style-guide" "^1.3.2"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
@@ -1929,10 +1929,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@^1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.8.tgz#2df525ce6f735830b63fa4328bfd4deee0c55980"
-  integrity sha512-3N7UWPPwvwxBLKzdHb17o1M4m3exHpq6ko2Tq8QvKVTGPFkOhkJ6RaHDyHV5vIuwEzJcMj3qsKfPiXmJNGctxA==
+"@manuscripts/library@1.1.8-LEAN-2850":
+  version "1.1.8-LEAN-2850"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.8-LEAN-2850.tgz#b75aebbf3759febb67c6e8d1636d912db0b6e9aa"
+  integrity sha512-JeeIHvPEYj+zbkx5QHzeCfaXzcMnUOsS4K214FmhOgrVcsIay3NUyW/5c2BQkWFP7hVj9slcz+Ulcfn7tpXZxA==
   dependencies:
     "@manuscripts/json-schema" "^2.1.2"
     "@manuscripts/transform" "^1.3.12"
