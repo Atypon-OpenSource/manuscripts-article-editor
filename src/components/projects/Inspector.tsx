@@ -42,6 +42,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     deleteModel: store.deleteModel,
     trackModelMap: store.trackModelMap,
     fileManagement: store.fileManagement,
+    files: store.attachments,
     isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
     selectedSuggestion: store.selectedSuggestion,
@@ -135,6 +136,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                 <InspectorTabPanel key="Files">
                   <FileManager
                     can={can}
+                    files={store.files}
                     enableDragAndDrop={true}
                     modelMap={store.trackModelMap}
                     saveModel={store.saveTrackModel}

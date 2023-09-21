@@ -17,9 +17,6 @@ import { ManuscriptEditorApp, ParentObserver } from '../src'
 storiesOf('Full', module).add('default', () => (
   <ManuscriptEditorApp
     fileManagement={{
-      getAttachments: () => {
-        return []
-      },
       upload: (f) => {
         return Promise.resolve({
           id: 'test',
@@ -35,6 +32,7 @@ storiesOf('Full', module).add('default', () => (
         return Promise.resolve(true)
       },
     }}
+    files={[]}
     parentObserver={new ParentObserver()}
     permittedActions={[]}
     manuscriptID={'MPManuscript:B3BB2CD8-F944-47C3-9F01-1996DBD417EE'}

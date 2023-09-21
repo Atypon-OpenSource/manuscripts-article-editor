@@ -34,7 +34,6 @@ import {
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
-import { replaceAttachmentsIds } from '../lib/replace-attachments-ids'
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
@@ -296,17 +295,8 @@ export default async function buildData(
 
   const projects = await api.getUserProjects()
 
-  // replace attachments with src
-  let noAttachmentsModelMap: Map<string, Model> | undefined = undefined
-  if (attachments && manuscriptData.modelMap) {
-    noAttachmentsModelMap = replaceAttachmentsIds(
-      manuscriptData.modelMap,
-      attachments
-    )
-  }
-
   const derivedData = getDrivedData(projectID, manuscriptData)
-  const doc = createDoc(manuscriptData, noAttachmentsModelMap)
+  const doc = createDoc(manuscriptData, manuscriptData.modelMap)
 
   return {
     projects: projects,

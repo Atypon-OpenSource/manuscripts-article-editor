@@ -79,9 +79,7 @@ const ManuscriptPageView: React.FC = () => {
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
   const [modelMap] = useStore((store) => store.modelMap)
-  const [manuscriptID, storeDispatch, getState] = useStore(
-    (store) => store.manuscriptID
-  )
+  const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
@@ -106,8 +104,7 @@ const ManuscriptPageView: React.FC = () => {
       dispatch,
       saveModel,
       deleteModel,
-      modelMap,
-      () => getState().attachments
+      modelMap
     )
 
   useEffect(() => {

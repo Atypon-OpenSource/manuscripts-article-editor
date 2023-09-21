@@ -42,12 +42,10 @@ export const useCreateEditor = () => {
       project,
       user,
       biblio,
-      modelMap,
       getModel,
       saveModel,
       deleteModel,
       commitAtLoad,
-      attachments,
       fileManagement,
       style,
       locale,
@@ -66,7 +64,7 @@ export const useCreateEditor = () => {
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
     commitAtLoad: store.commitAtLoad,
-    attachments: store.attachments,
+    files: store.attachments,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
@@ -121,8 +119,6 @@ export const useCreateEditor = () => {
     // refactor the library stuff to a hook-ish type thingy
     ...biblio,
 
-    // model and attachment retrieval:
-    modelMap,
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
     setComment: (comment?: CommentAnnotation) => {
@@ -143,7 +139,6 @@ export const useCreateEditor = () => {
         dispatch({ selectedSuggestion: undefined })
       }
     },
-    getModel,
     saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
       /*
       Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
@@ -180,32 +175,13 @@ export const useCreateEditor = () => {
       const state = getState()
       return getCapabilities(state.project, state.user, state.permittedActions)
     },
-    uploadAttachment: async (file: File) => {
-      const result = await fileManagement.upload(file)
-      if (typeof result === 'object') {
-        dispatch({
-          attachments: [
-            ...attachments,
-            {
-              ...result,
-            },
-          ],
-          /* Result of query is freezed so it needs unpacking as we fiddle with it later on - adding modelID in the styleguide.
-              That (adding modelId) should be removed once exFileRefs are out. ModelId should not be needed anymore then.
-            */
-        })
-        return result
-      }
-    },
-    getAttachments: () => {
-      return getState().attachments
-    },
-    getDoc: () => {
-      return getState().doc
-    },
     getModelMap: () => {
       return getState().modelMap
     },
+    getFiles: () => {
+      return getState().attachments
+    },
+    fileManagement: fileManagement,
   }
 
   const editor = useEditor(
