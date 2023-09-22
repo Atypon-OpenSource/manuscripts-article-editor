@@ -42,8 +42,6 @@ export const useCreateEditor = () => {
       project,
       user,
       biblio,
-      saveModel,
-      deleteModel,
       commitAtLoad,
       fileManagement,
       style,
@@ -58,8 +56,6 @@ export const useCreateEditor = () => {
     project: store.project,
     user: store.user,
     biblio: store.biblio,
-    saveModel: store.saveTrackModel,
-    deleteModel: store.deleteTrackModel,
     commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
@@ -73,8 +69,34 @@ export const useCreateEditor = () => {
 
   const popper = useRef<PopperManager>(new PopperManager())
 
+  const getModelMap = () => {
+    const state = getState()
+    return state.trackModelMap || state.modelMap
+  }
+
+  const saveModel = <T extends Model>(model: T | Build<T> | Partial<T>) => {
+    /*
+    Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
+    but only if requested in a transaction so it happens only in a couple of cases.
+    This shouldn't be happening with the track-changes enabled. With the way things are currently,
+    we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
+    Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
+    */
+    const state = getState()
+    return state.saveTrackModel
+      ? state.saveTrackModel(model)
+      : state.saveModel(model)
+  }
+
+  const deleteModel = (id: string) => {
+    const state = getState()
+    return state.deleteTrackModel
+      ? state.deleteTrackModel(id)
+      : state.deleteModel(id)
+  }
+
   const retrySync = (componentIDs: string[]) => {
-    const modelMap = getState().trackModelMap
+    const modelMap = getModelMap()
     componentIDs.forEach((id) => {
       const model = modelMap.get(id)
       if (!model) {
@@ -136,16 +158,8 @@ export const useCreateEditor = () => {
         dispatch({ selectedSuggestion: undefined })
       }
     },
-    saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
-      /*
-      Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
-      but only if requested in a transaction so it happens only in a couple of cases.
-      This shouldn't be happening with the track-changes enabled. With the way things are currently,
-      we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
-      Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
-      */
-      return saveModel(model) as Promise<any>
-    },
+    getModelMap,
+    saveModel,
     deleteModel,
     retrySync,
 
@@ -171,9 +185,6 @@ export const useCreateEditor = () => {
     getCapabilities: () => {
       const state = getState()
       return getCapabilities(state.project, state.user, state.permittedActions)
-    },
-    getModelMap: () => {
-      return getState().trackModelMap
     },
     getFiles: () => {
       return getState().files
