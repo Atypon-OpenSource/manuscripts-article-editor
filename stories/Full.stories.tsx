@@ -31,6 +31,9 @@ storiesOf('Full', module).add('default', () => (
       download: () => {
         return Promise.resolve(true)
       },
+      previewLink: (f) => {
+        return ''
+      },
     }}
     files={[]}
     parentObserver={new ParentObserver()}

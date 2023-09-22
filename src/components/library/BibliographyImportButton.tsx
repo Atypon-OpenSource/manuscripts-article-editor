@@ -17,6 +17,7 @@ import { parseBibliography } from '@manuscripts/library'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import { Build, buildBibliographyItem } from '@manuscripts/transform'
 import React, { useCallback, useContext, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import { FileExtensionError } from '../../lib/errors'
 import { ContactSupportButton } from '../ContactSupportButton'
@@ -31,7 +32,6 @@ import {
   NotificationPrompt,
   NotificationTitle,
 } from '../Notifications'
-import {FormattedMessage} from "react-intl";
 
 const CITATION_IMPORT_NOTIFICATION_ID = 'citation-import'
 
