@@ -15,7 +15,7 @@ import './lib/fonts'
 import './channels'
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
-import {FileAttachment, FileManagement} from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
 import React, { useEffect } from 'react'
 
