@@ -42,7 +42,6 @@ export const useCreateEditor = () => {
       project,
       user,
       biblio,
-      modelMap,
       saveModel,
       deleteModel,
       commitAtLoad,
@@ -59,9 +58,8 @@ export const useCreateEditor = () => {
     project: store.project,
     user: store.user,
     biblio: store.biblio,
-    modelMap: store.modelMap,
-    saveModel: store.saveModel,
-    deleteModel: store.deleteModel,
+    saveModel: store.saveTrackModel,
+    deleteModel: store.deleteTrackModel,
     commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
@@ -76,6 +74,7 @@ export const useCreateEditor = () => {
   const popper = useRef<PopperManager>(new PopperManager())
 
   const retrySync = (componentIDs: string[]) => {
+    const modelMap = getState().trackModelMap
     componentIDs.forEach((id) => {
       const model = modelMap.get(id)
       if (!model) {
@@ -174,7 +173,7 @@ export const useCreateEditor = () => {
       return getCapabilities(state.project, state.user, state.permittedActions)
     },
     getModelMap: () => {
-      return getState().modelMap
+      return getState().trackModelMap
     },
     getFiles: () => {
       return getState().files
