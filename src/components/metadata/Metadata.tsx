@@ -143,8 +143,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       authorsAndAffiliations: store.authorsAndAffiliations,
       contributorRoles: store.contributorRoles,
       saveModel: store.saveModel,
-      getAttachment: store.getAttachment,
-      putAttachment: store.putAttachment,
       project: store.project,
       tokenActions: store.tokenActions,
     }

@@ -42,7 +42,7 @@ export const useCreateEditor = () => {
       project,
       user,
       biblio,
-      getModel,
+      modelMap,
       saveModel,
       deleteModel,
       commitAtLoad,
@@ -60,11 +60,9 @@ export const useCreateEditor = () => {
     user: store.user,
     biblio: store.biblio,
     modelMap: store.modelMap,
-    getModel: store.getModel,
     saveModel: store.saveModel,
     deleteModel: store.deleteModel,
     commitAtLoad: store.commitAtLoad,
-    files: store.attachments,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
@@ -79,7 +77,7 @@ export const useCreateEditor = () => {
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
-      const model = getModel(id)
+      const model = modelMap.get(id)
       if (!model) {
         return
       }
@@ -179,7 +177,7 @@ export const useCreateEditor = () => {
       return getState().modelMap
     },
     getFiles: () => {
-      return getState().attachments
+      return getState().files
     },
     fileManagement: fileManagement,
   }

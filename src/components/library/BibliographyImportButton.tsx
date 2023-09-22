@@ -31,7 +31,7 @@ import {
   NotificationPrompt,
   NotificationTitle,
 } from '../Notifications'
-import { CitationImportSuccessMessage } from './Messages'
+import {FormattedMessage} from "react-intl";
 
 const CITATION_IMPORT_NOTIFICATION_ID = 'citation-import'
 
@@ -201,3 +201,16 @@ export const BibliographyImportButton: React.FC<{
 
   return <Component importItems={handleImport} importing={importing} />
 })
+
+const CitationImportSuccessMessage: React.FC<{
+  count: number
+}> = ({ count }) => (
+  <FormattedMessage
+    id={'citation_import_success'}
+    defaultMessage={`{count, number} {count, plural,
+                        one {record}
+                        other {records}
+                      } imported into the project library`}
+    values={{ count }}
+  />
+)

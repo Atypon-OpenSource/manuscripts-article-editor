@@ -24,7 +24,6 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { FileAttachment } from '@manuscripts/style-guide'
 import {
   Decoder,
   getModelData,
@@ -232,8 +231,6 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 
   const storeData: Partial<state> = {
     snapshotID: null,
-    commitAtLoad: null,
-    projectLibraryCollections: new Map<string, LibraryCollection>(),
     library: new Map<string, BibliographyItem>(),
   }
 
@@ -272,8 +269,7 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 export default async function buildData(
   projectID: string,
   manuscriptID: string,
-  api: Api,
-  attachments: FileAttachment[]
+  api: Api
 ) {
   // const project = await getProjectData(projectID, api)
   const user = await api.getUser()

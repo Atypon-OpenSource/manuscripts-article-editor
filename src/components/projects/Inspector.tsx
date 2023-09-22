@@ -42,7 +42,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     deleteModel: store.deleteModel,
     trackModelMap: store.trackModelMap,
     fileManagement: store.fileManagement,
-    files: store.attachments,
+    files: store.files,
     isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
     selectedSuggestion: store.selectedSuggestion,

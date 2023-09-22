@@ -24,12 +24,11 @@ export const ContentTab: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState
 }> = ({ dispatch, state }) => {
-  const [{ manuscript, doc, getModel }] = useStore((store) => {
+  const [{ manuscript, doc, modelMap }] = useStore((store) => {
     return {
       manuscript: store.manuscript,
       doc: store.doc,
-      getModel: store.getTrackModel,
-      saveManuscript: store.saveManuscript,
+      modelMap: store.trackModelMap,
     }
   })
 
@@ -38,7 +37,7 @@ export const ContentTab: React.FC<{
   if (state.selection) {
     sectionNode = findParentSection(state.selection)?.node as SectionNode
     if (sectionNode) {
-      section = getModel<Section>(sectionNode.attrs.id)
+      section = modelMap.get(sectionNode.attrs.id) as Section
     }
   }
 

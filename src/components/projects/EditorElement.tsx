@@ -59,17 +59,17 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
-        const attachment = item.file as FileAttachment
+        const file = item.file as FileAttachment
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
         const model = item.model
 
-        if (!attachment || !docPos || !docPos.pos) {
+        if (!file || !docPos || !docPos.pos) {
           return
         }
 
         const resolvedPos = view.state.doc.resolve(docPos.pos)
         const attrs: Record<string, unknown> = {
-          src: attachment.link,
+          src: file.id,
         }
 
         switch (resolvedPos.parent.type) {
@@ -91,7 +91,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
               resolvedPos.pos,
               attrs,
               new NodeSelection(resolvedPos),
-              attachment
+              file
             )
             break
           }
@@ -111,7 +111,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
             view.focus()
             dispatch(transaction)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-            insertFileAsFigure(attachment, view.state, dispatch)
+            insertFileAsFigure(file, view.state, dispatch)
           }
         }
         if (model) {
@@ -229,7 +229,7 @@ const addFigureAtFigCaptionPosition = (
   pos: number,
   attrs: Record<string, unknown>,
   nodeSelection: NodeSelection,
-  attachment: FileAttachment
+  file: FileAttachment
 ) => {
   const { view, dispatch } = editor
   if (!view) {
@@ -288,7 +288,7 @@ const addFigureAtFigCaptionPosition = (
     const transaction = view.state.tr.setSelection(nodeSelection)
     view.focus()
     dispatch(transaction)
-    insertFileAsFigure(attachment, view.state, dispatch)
+    insertFileAsFigure(file, view.state, dispatch)
   }
 }
 

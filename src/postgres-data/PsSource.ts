@@ -22,10 +22,10 @@ export default class PsSource implements StoreDataSourceStrategy {
   api: Api
   data: Partial<state>
   utilities: ReturnType<typeof buildUtilities>
-  attachments: FileAttachment[]
-  constructor(attachments: FileAttachment[]) {
+  files: FileAttachment[]
+  constructor(files: FileAttachment[]) {
     this.api = new Api()
-    this.attachments = attachments
+    this.files = files
     // import api
     // get user and all the data
     // build and provide methods such as saveModel, saveManuscript etc. (see ModelManager in couch-data)
@@ -41,12 +41,7 @@ export default class PsSource implements StoreDataSourceStrategy {
       this.api.setToken(state.authToken)
     }
     if (state.manuscriptID && state.projectID) {
-      this.data = await buildData(
-        state.projectID,
-        state.manuscriptID,
-        this.api,
-        this.attachments
-      )
+      this.data = await buildData(state.projectID, state.manuscriptID, this.api)
       this.utilities = buildUtilities(() => this.data, this.api, setState)
     }
     next({ ...state, ...this.data, ...this.utilities })
