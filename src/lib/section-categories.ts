@@ -22,6 +22,7 @@ export const uneditableSectionCategories: string[] = [
 
 export const uniqueSectionCategories: string[] = [
   'MPSectionCategory:abstract-graphical',
+  'MPSectionCategory:abstract',
 ]
 
 export const isEditableSectionCategoryID = (id: string) =>
