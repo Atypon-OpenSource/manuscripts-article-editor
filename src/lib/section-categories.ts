@@ -48,6 +48,13 @@ export const isUnique = (categoryId: string) => {
   return uniqueSectionCategories.includes(categoryId)
 }
 
+export const isUniqueCurrent = (
+  categoryId: string,
+  currentCategoryId: string
+) => {
+  return categoryId === currentCategoryId
+}
+
 export const isUniquePresent = (
   cat: SectionCategory,
   existingCats: { [key: string]: number }
