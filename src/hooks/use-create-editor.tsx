@@ -140,11 +140,13 @@ export const useCreateEditor = (initTrackModelMap: Map<string, Model>) => {
       }
     },
     getModelMap: () => getState().trackModelMap || initTrackModelMap,
-    getModel: (id: string) =>
+    getModel: <T extends Model>(id: string): T | undefined =>
       getState().getTrackModel
         ? getState().getTrackModel(id)
-        : (initTrackModelMap.get(id) as any),
-    saveModel: function <T extends Model>(model: T | Build<T> | Partial<T>) {
+        : (initTrackModelMap.get(id) as T | undefined),
+    saveModel: function <T extends Model>(
+      model: T | Build<T> | Partial<T>
+    ): Promise<T> {
       /*
       Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
       but only if requested in a transaction so it happens only in a couple of cases.
@@ -155,7 +157,7 @@ export const useCreateEditor = (initTrackModelMap: Map<string, Model>) => {
       const { saveTrackModel } = getState()
       return Promise.resolve(
         saveTrackModel ? saveTrackModel(model) : model
-      ) as any
+      ) as Promise<T>
     },
     deleteModel: (id: string) => {
       const { deleteTrackModel } = getState()
