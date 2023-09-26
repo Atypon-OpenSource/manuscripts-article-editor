@@ -1850,20 +1850,20 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.4.9-LEAN-2922-0":
-  version "1.4.9-LEAN-2922-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9-LEAN-2922-0.tgz#bea21355fe9a23e29689b7a899501cce97615611"
-  integrity sha512-j+jdUElg5cIxmlaGEIFiYrJ5mg+vT7DBD+7PHsKeToOSUmTnfEHjRjUnyiRHWRTZljKJfQAJ5AsInHH5Jn3Z9g==
+"@manuscripts/body-editor@1.4.10-LEAN-2922-0":
+  version "1.4.10-LEAN-2922-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.10-LEAN-2922-0.tgz#9d3fa7a8eddca06af31b47cb5d9b62e07c88c28f"
+  integrity sha512-wX8wXMCPE1jwbqpJuBFP/Eii6zuAcLfKN9FnGy1wrJ5yl3nWa6F4Iyyb/x5UNhlxXoOXNkkfJ2HwEtkaKx+Hnw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
-    "@manuscripts/json-schema" "^2.1.2"
+    "@manuscripts/json-schema" "^2.2.0"
     "@manuscripts/library" "^1.1.8"
-    "@manuscripts/style-guide" "^1.3.2"
+    "@manuscripts/style-guide" "^1.3.3"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
-    "@manuscripts/transform" "^1.3.12"
+    "@manuscripts/transform" "^1.4.1"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -2014,7 +2014,7 @@
     tooltip.js "^1.3.3"
     typeface-lato "^1.1.13"
 
-"@manuscripts/style-guide@^1.3.2":
+"@manuscripts/style-guide@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.3.tgz#f7df5e396787a992d54894792b169b1a4fc75f84"
   integrity sha512-TnwJbeVB0Pklx4qdWvL4EUBZKIId025LyCdHaM9cyUZLbFLRDlU6ifyunaLMksTRuqq0rCWamOHhVtOyiaAHMw==
