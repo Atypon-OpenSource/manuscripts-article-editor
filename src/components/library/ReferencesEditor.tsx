@@ -14,7 +14,7 @@ import { BibliographyItem, Model, ObjectTypes } from '@manuscripts/json-schema'
 import { Build } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { CitationModel } from './CitationModel'
+import { CitationModal } from './CitationModal'
 
 interface Props {
   filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
@@ -64,7 +64,7 @@ export const ReferencesEditor: React.FC<Props> = (props) => {
   }, [selectedItem, deleteModel, removeLibraryItem])
 
   const component = (
-    <CitationModel
+    <CitationModal
       editCitation={showEditModel}
       modelMap={modelMap}
       saveCallback={saveCallback}
