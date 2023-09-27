@@ -1850,10 +1850,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.4.6-LEAN-2147":
-  version "1.4.6-LEAN-2147"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.6-LEAN-2147.tgz#2fec1d6a4d35537b2ca8260d606b908a2788c814"
-  integrity sha512-4/nBakBKm6wGpXLdxBncUtqPvyfuu/I25qDCKcfOO069Yw7AW0fnaAlkX3/J4gKHqOkkC0Erh4nofuVOhAI15w==
+"@manuscripts/body-editor@1.4.6-LEAN-2147-v2":
+  version "1.4.6-LEAN-2147-v2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.6-LEAN-2147-v2.tgz#92a6a6caa6a3f865eab4bcaf7af7d6ebfd271105"
+  integrity sha512-CqMfQMze/tIiqaNHdRu+J6YSO2JWEdKAOwoBeAs5jAAB90iBa5nCO8KQ4R6ruP+wNBJ2gLmsRBu7NQMOBWRPAg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
@@ -2045,7 +2045,7 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.3.11-LEAN-2147", "@manuscripts/transform@^1.3.11-LEAN-2147":
+"@manuscripts/transform@1.3.11-LEAN-2147":
   version "1.3.11-LEAN-2147"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.3.11-LEAN-2147.tgz#14143dd512595d333b1aa3562912e90ba0efdca3"
   integrity sha512-ecWJicNj7uW/X0vlGXQPNwO4hRgy7id63TaFwObNv7gqh3lfb6Bawj4hycye5cIhI2/RRnQzqT8Bxr8sZr17cA==
