@@ -39,7 +39,7 @@ import {
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 
-import { CitationModel } from './CitationModel'
+import { CitationModal } from './CitationModal'
 import { CitationSearch } from './CitationSearch'
 
 const CitedItem = styled.div`
@@ -258,7 +258,7 @@ const CitationEditor: React.FC<Props> = ({
           addCitation={addCitationCallback}
           handleCancel={handleCancel}
         />
-        <CitationModel
+        <CitationModal
           editCitation={showEditModel}
           modelMap={modelMap}
           saveCallback={saveCallback}
@@ -328,7 +328,7 @@ const CitationEditor: React.FC<Props> = ({
           </CitedItem>
         ))}
       </CitedItems>
-      <CitationModel
+      <CitationModal
         editCitation={showEditModel}
         modelMap={modelMap}
         saveCallback={saveCallback}
