@@ -86,9 +86,11 @@ export const adaptTrackedData = (docJSONed: unknown) => {
           lastChange.operation == CHANGE_OPERATION.set_node_attributes
         ) {
           // @ts-ignore
-          child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
-          // @ts-ignore
           child.attrs = deepCloneAttrs(lastChange.oldAttrs)
+
+          // @ts-ignore
+          child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
+
           return true
         }
         // this to be able to create a modelMap with models that are relevant but were spawn out of existing and have duplicate ids
