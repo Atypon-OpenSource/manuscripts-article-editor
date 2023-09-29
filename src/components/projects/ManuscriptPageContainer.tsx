@@ -132,7 +132,9 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
 
-  setEditorState(state) // not sure if that's needed. Needs a check
+  useEffect(() => {
+    setEditorState(state) // not sure if that's needed. Needs a check
+  }, [])
 
   return (
     <RequirementsProvider modelMap={modelMap}>
