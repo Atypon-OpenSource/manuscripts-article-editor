@@ -16,7 +16,6 @@ import {
   IUpdateDocumentRequest,
 } from '@manuscripts/quarterback-types'
 import { EventSourceMessage } from '@microsoft/fetch-event-source'
-import { Step } from 'prosemirror-transform'
 
 import { del, get, listen, post, put } from './methods'
 
@@ -77,7 +76,7 @@ export const listenStepUpdates = (
         Array.isArray(data.steps) &&
         data.clientIDs
       ) {
-        dataListener(data.version as string, data.steps, data.clientIDs)
+        dataListener(data.version, data.steps, data.clientIDs)
       }
     }
   }

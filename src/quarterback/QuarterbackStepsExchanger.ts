@@ -17,7 +17,6 @@ import {
   AppliedStepsResponse,
   StepsPayload,
   StepsSinceResponse,
-  StepWithClientID,
 } from './api/document'
 
 class QuarterbackStepsExchanger extends CollabProvider {
@@ -28,6 +27,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     payload: StepsPayload
   ) => Promise<AppliedStepsResponse | undefined>
 
+  // @ts-ignore
   private docId: string
   private projectId: string
 
@@ -99,25 +99,6 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
   onNewSteps(listener: CollabProvider['newStepsListener']) {
     this.newStepsListener = listener
-  }
-
-  breakdownStepsWithClientID(stepsWithClientId: StepWithClientID[]) {
-    const clientIDs: string[] = []
-    const steps: Step[] = []
-    for (let i = 0; i < stepsWithClientId.length; i++) {
-      const step = stepsWithClientId[i]
-      const cleanStep: any = {}
-      for (const key in step) {
-        if (key == 'clientID') {
-          continue
-        }
-        cleanStep[key] = step[key as keyof Step]
-      }
-      steps.push(cleanStep)
-      clientIDs.push(step.clientID)
-    }
-
-    return { steps, clientIDs }
   }
 
   async stepsSince(version: number) {

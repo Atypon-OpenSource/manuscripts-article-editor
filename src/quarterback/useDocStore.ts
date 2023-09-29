@@ -15,7 +15,6 @@ import { combine } from 'zustand/middleware'
 
 import * as docApi from './api/document'
 import QuarterbackStepsExchanger from './QuarterbackStepsExchanger'
-import { useAuthStore } from './useAuthStore'
 
 interface CurrentDocument {
   manuscriptID: string
