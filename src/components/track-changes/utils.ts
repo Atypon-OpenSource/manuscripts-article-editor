@@ -38,7 +38,7 @@ export const filterNodesWithTrackingData = (node: any) => {
 }
 
 const getLastChange = (changes: TrackedAttrs[]) => {
-  return [...changes].sort((a, b) => (a.createdAt < b.createdAt ? 1 : 0))[0]
+  return [...changes].sort((a, b) => b.createdAt - a.createdAt)[0]
 }
 
 export const trackedJoint = ':dataTracked:'
