@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { PopperManager } from '@manuscripts/body-editor'
 import {
   BibliographyItem,
   Bundle,
@@ -98,6 +99,7 @@ export type state = {
   collaboratorsById?: Map<string, UserProfile>
   attachments: FileAttachment[]
   permittedActions: string[]
+  popper: PopperManager
   getModel: <T extends Model>(id: string) => T | undefined
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
@@ -106,6 +108,7 @@ export type state = {
   deleteProject: (projectID: string) => Promise<string>
   updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
   selectedSuggestion?: string
+  selectedAttrsChange?: string
   editorSelectedSuggestion?: string
 
   // track changes doc state changes

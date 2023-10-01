@@ -9,17 +9,13 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ManuscriptsEditor,
-  PopperManager,
-  useEditor,
-} from '@manuscripts/body-editor'
+import { ManuscriptsEditor, useEditor } from '@manuscripts/body-editor'
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
-import React, { ReactChild, ReactNode, useRef } from 'react'
+import React, { ReactChild, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
 
@@ -40,6 +36,7 @@ export const useCreateEditor = () => {
       ancestorDoc,
       manuscript,
       project,
+      popper,
       user,
       biblio,
       modelMap,
@@ -59,6 +56,7 @@ export const useCreateEditor = () => {
     ancestorDoc: store.ancestorDoc,
     manuscript: store.manuscript,
     project: store.project,
+    popper: store.popper,
     user: store.user,
     biblio: store.biblio,
     modelMap: store.modelMap,
@@ -76,8 +74,6 @@ export const useCreateEditor = () => {
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
   )
-
-  const popper = useRef<PopperManager>(new PopperManager())
 
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
@@ -115,7 +111,7 @@ export const useCreateEditor = () => {
     },
     environment: config.environment,
     history,
-    popper: popper.current,
+    popper,
     projectID: project._id,
 
     // refactor the library stuff to a hook-ish type thingy
