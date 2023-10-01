@@ -101,7 +101,6 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
 export const ManuscriptEditorApp = React.memo(
   ManuscriptEditor,
   (prev, next) => {
-    console.log('hello world')
     // Due to complexity of this component rerendering it idly would be a major inconvenience and a performance problem
     // To update that component from above we introduced the parentObserver that allowes to manipulate the state in a controlled manner
     return prev.manuscriptID == next.manuscriptID // if props are equal, do not rerender
