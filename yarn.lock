@@ -1950,10 +1950,10 @@
     fontoxpath "^3.28.2"
     prosemirror-model "^1.18.3"
 
-"@manuscripts/quarterback-types@1.0.0-LEAN-2585":
-  version "1.0.0-LEAN-2585"
-  resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0-LEAN-2585.tgz#47a48c19f23fbb680dae97daa4c868363472fe94"
-  integrity sha512-9F44MqCM3/3hnhUVl9Zwdhay3uxx0Z1R+u89eAuu0lrHt7xHSkwyQpBsQZs0583xreLS/WVf9ImA6LYyCOHZ+g==
+"@manuscripts/quarterback-types@1.0.0-LEAN-2586":
+  version "1.0.0-LEAN-2586"
+  resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0-LEAN-2586.tgz#8893dbc2c3e6fc7a2bff262ef5af37e4cf750f6d"
+  integrity sha512-448VGzJqVUPf/t+DlefP9Am5XwJwmSVAVwLzlW1xCV3YCVbWpyQDmBxSE/q5TDhuWrJCNweNvjbysu32IENL5A==
 
 "@manuscripts/requirements@^1.1.6":
   version "1.1.6"
