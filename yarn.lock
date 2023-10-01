@@ -1850,17 +1850,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@1.4.11-LEAN-2585-0":
-  version "1.4.11-LEAN-2585-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.11-LEAN-2585-0.tgz#47f8d65ee4515143774baf50b6f3cf142ee95ba9"
-  integrity sha512-kod3hgORRBN6cOwjub54tOOLX85Lrwb8ZVNM+uEI46zLZZWllwfwiBBrc1LOBtz7XvSYz0gP2f+dwW7Pv+HxBQ==
+"@manuscripts/body-editor@^1.4.12":
+  version "1.4.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.12.tgz#1b3d53cec0f215eaeb21604255edd5d3fa495ceb"
+  integrity sha512-cfeHKEauhr06BV2Weg0hfJBLTN/vXFguMNPjo7agQ2sdCt3jjNYwmYNe8u9QBY8U6zumYyxdhYUpKAYGHjjhhQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.2.0"
     "@manuscripts/library" "^1.1.9"
-    "@manuscripts/style-guide" "1.3.4-LEAN-2585-0"
+    "@manuscripts/style-guide" "^1.3.4"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.4.2"
