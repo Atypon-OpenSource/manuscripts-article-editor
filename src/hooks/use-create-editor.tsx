@@ -51,7 +51,6 @@ export const useCreateEditor = () => {
       fileManagement,
       style,
       locale,
-      citeprocCitations,
     },
     dispatch,
     getState,
@@ -71,7 +70,6 @@ export const useCreateEditor = () => {
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
-    citeprocCitations: store.citeprocCitations,
   }))
   const { user: trackUser } = useAuthStore()
 
@@ -208,9 +206,11 @@ export const useCreateEditor = () => {
     getModelMap: () => {
       return getState().modelMap
     },
-    citeprocCitations,
     setCiteprocCitations: (citations: Map<string, string>) => {
       dispatch({ citeprocCitations: citations })
+    },
+    getCiteprocCitations: () => {
+      return getState().citeprocCitations
     },
   }
 
