@@ -46,7 +46,6 @@ export const useDocStore = create(
           manuscript_model_id: manuscriptID,
           project_model_id: projectID,
           doc: {},
-          user_model_id: ''
         })
         if ('data' in resp) {
           set({
