@@ -45,7 +45,8 @@ export const useDocStore = create(
         const resp = await docApi.createDocument({
           manuscript_model_id: manuscriptID,
           project_model_id: projectID,
-          doc: {}
+          doc: {},
+          user_model_id: ''
         })
         if ('data' in resp) {
           set({
