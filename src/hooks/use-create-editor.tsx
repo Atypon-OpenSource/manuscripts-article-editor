@@ -41,6 +41,7 @@ export const useCreateEditor = () => {
       manuscript,
       project,
       user,
+      modelMap,
       biblio,
       commitAtLoad,
       fileManagement,
@@ -55,6 +56,7 @@ export const useCreateEditor = () => {
     manuscript: store.manuscript,
     project: store.project,
     user: store.user,
+    modelMap: store.modelMap,
     biblio: store.biblio,
     commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
@@ -70,8 +72,7 @@ export const useCreateEditor = () => {
   const popper = useRef<PopperManager>(new PopperManager())
 
   const getModelMap = () => {
-    const state = getState()
-    return state.trackModelMap || state.modelMap
+    return getState().modelMap
   }
 
   const saveModel = <T extends Model>(model: T | Build<T> | Partial<T>) => {
@@ -82,21 +83,14 @@ export const useCreateEditor = () => {
     we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
     Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
     */
-    const state = getState()
-    return state.saveTrackModel
-      ? state.saveTrackModel(model)
-      : state.saveModel(model)
+    return getState().saveModel(model)
   }
 
   const deleteModel = (id: string) => {
-    const state = getState()
-    return state.deleteTrackModel
-      ? state.deleteTrackModel(id)
-      : state.deleteModel(id)
+    return getState().deleteModel(id)
   }
 
   const retrySync = (componentIDs: string[]) => {
-    const modelMap = getModelMap()
     componentIDs.forEach((id) => {
       const model = modelMap.get(id)
       if (!model) {
