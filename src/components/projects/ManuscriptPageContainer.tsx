@@ -54,7 +54,7 @@ import ManuscriptSidebar from './ManuscriptSidebar'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
-  const [{ project, user, permittedActions }, dispatch] = useStore((state) => {
+  const [{ project, user, permittedActions }] = useStore((state) => {
     return {
       project: state.project,
       user: state.user,
@@ -67,13 +67,6 @@ const ManuscriptPageContainer: React.FC = () => {
     project: project,
     permittedActions,
   })
-
-  const handleSnapshot = useHandleSnapshot()
-
-  useEffect(() => {
-    dispatch({ handleSnapshot })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <CapabilitiesProvider can={can}>
@@ -98,6 +91,13 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   const can = usePermissions()
+
+  const handleSnapshot = useHandleSnapshot()
+
+  useEffect(() => {
+    storeDispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const editor = useCreateEditor()
 

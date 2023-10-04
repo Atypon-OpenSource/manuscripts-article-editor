@@ -21,6 +21,7 @@ export const useHandleSnapshot = (storeExists = true) => {
   const { execCmd, docToJSON } = useEditorStore()
   const { saveSnapshot } = useSnapshotStore()
   const can = usePermissions()
+  const canApplySaveChanges = can.applySaveChanges
 
   if (!storeExists) {
     return null
@@ -37,7 +38,7 @@ export const useHandleSnapshot = (storeExists = true) => {
             reject(new Error('State is not available'))
             return
           }
-          if (!can.applySaveChanges) {
+          if (canApplySaveChanges) {
             return resolve()
           }
           usePouchStore
