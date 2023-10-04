@@ -16,7 +16,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
-import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { useStore } from '../../store'
 import {
   InspectorContainer,
@@ -27,7 +26,6 @@ import {
   PaddedInspectorTabPanels,
 } from '../Inspector'
 import Panel from '../Panel'
-import { RequirementsInspectorView } from '../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { CommentsTab } from './CommentsTab'
@@ -55,8 +53,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
 
   const [tabIndex, setTabIndex] = useState(0)
-  const COMMENTS_TAB_INDEX = 1,
-    SUGGESTIONS_TAB_INDEX = config.features.qualityControl ? 3 : 2
+  const COMMENTS_TAB_INDEX = 1
+  const SUGGESTIONS_TAB_INDEX = 2
 
   useEffect(() => {
     if (comment) {
@@ -70,9 +68,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
 
-  const validation = useRequirementsValidation({
-    state,
-  })
   const selection = useMemo(
     () => state && findParentNodeWithIdValue(state.selection),
     [state]
@@ -96,9 +91,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
             <InspectorTabList>
               <InspectorTab>Content</InspectorTab>
               <InspectorTab>Comments</InspectorTab>
-              {config.features.qualityControl && (
-                <InspectorTab>Quality</InspectorTab>
-              )}
               {config.quarterback.enabled && (
                 <InspectorTab>History</InspectorTab>
               )}
@@ -117,16 +109,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                   key="comments"
                 />
               </InspectorTabPanel>
-              {config.features.qualityControl && (
-                <InspectorTabPanel key="Quality">
-                  <RequirementsInspectorView
-                    result={validation.result}
-                    error={validation.error}
-                    isBuilding={validation.isBuilding}
-                    key="quality"
-                  />
-                </InspectorTabPanel>
-              )}
               {config.quarterback.enabled && (
                 <InspectorTabPanel key="History">
                   <TrackChangesPanel key="track-changes" />
