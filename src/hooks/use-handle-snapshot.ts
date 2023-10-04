@@ -38,7 +38,7 @@ export const useHandleSnapshot = (storeExists = true) => {
             reject(new Error('State is not available'))
             return
           }
-          if (canApplySaveChanges) {
+          if (!canApplySaveChanges) {
             return resolve()
           }
           usePouchStore
