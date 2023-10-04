@@ -72,6 +72,7 @@ const ManuscriptPageContainer: React.FC = () => {
 
   useEffect(() => {
     dispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
