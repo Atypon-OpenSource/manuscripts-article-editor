@@ -71,10 +71,8 @@ const ManuscriptPageContainer: React.FC = () => {
   const handleSnapshot = useHandleSnapshot()
 
   useEffect(() => {
-    if (handleSnapshot) {
-      dispatch({ handleSnapshot })
-    }
-  }, [handleSnapshot, dispatch])
+    dispatch({ handleSnapshot })
+  }, [])
 
   return (
     <CapabilitiesProvider can={can}>
