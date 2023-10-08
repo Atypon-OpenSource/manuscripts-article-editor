@@ -42,7 +42,6 @@
     "@manuscripts/library": "^1.1.11",
     "@manuscripts/quarterback-types": "^1.0.0",
     "@manuscripts/style-guide": "^1.3.5",
-    "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.6.1",
     "@manuscripts/transform": "^1.4.3",
     "@reach/tabs": "^0.11.2",

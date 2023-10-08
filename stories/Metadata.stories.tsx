@@ -11,7 +11,6 @@
  */
 
 import { AuthorAffiliation } from '@manuscripts/style-guide'
-import { Title, TitleField } from '@manuscripts/title-editor'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
@@ -22,6 +21,8 @@ import { AuthorFormContainer } from '../src/components/metadata/AuthorFormContai
 import { AuthorsModal } from '../src/components/metadata/AuthorsModals'
 import AuthorsSidebar from '../src/components/metadata/AuthorsSidebar'
 import SearchAuthorsSidebar from '../src/components/metadata/SearchAuthorsSidebar'
+import { Title } from '../src/components/title/Title'
+import { TitleField } from '../src/components/title/TitleField'
 import {
   buildAuthorAffiliations,
   buildSortedAffiliationIDs,
