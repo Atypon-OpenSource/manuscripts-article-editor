@@ -15,7 +15,6 @@ import {
   Contributor,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { TitleEditorView } from '@manuscripts/title-editor'
 import {
   buildBibliographicName,
   buildContributor,
@@ -27,6 +26,7 @@ import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
 import { useStore } from '../../store'
+import { TitleEditorView } from '../title/Schema'
 import { InvitationValues } from './AuthorInvitationForm'
 import { Metadata } from './Metadata'
 

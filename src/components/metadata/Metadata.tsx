@@ -25,11 +25,11 @@ import {
   StyledModal,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../store'
+import { TitleEditorView } from '../title/Schema'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'

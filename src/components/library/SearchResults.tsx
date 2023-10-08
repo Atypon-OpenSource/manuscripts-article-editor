@@ -14,10 +14,11 @@ import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AddIcon from '@manuscripts/assets/react/AddIcon'
 import { BibliographyItem } from '@manuscripts/json-schema'
 import { estimateID, shortLibraryItemMetadata } from '@manuscripts/library'
-import { Title } from '@manuscripts/title-editor'
 import { Build } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Title } from '../title/Title'
 
 const SearchResult = styled.div`
   cursor: pointer;

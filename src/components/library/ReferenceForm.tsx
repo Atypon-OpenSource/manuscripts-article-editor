@@ -24,7 +24,6 @@ import {
   SecondaryButton,
   TextField,
 } from '@manuscripts/style-guide'
-import { TitleField } from '@manuscripts/title-editor'
 import {
   buildBibliographicDate,
   buildBibliographicName,
@@ -44,6 +43,7 @@ import styled from 'styled-components'
 import { DeleteIcon } from '../projects/icons/DeleteIcon'
 import { LinkIcon } from '../projects/icons/LinkIcon'
 import { SelectField } from '../SelectField'
+import { TitleField } from '../title/TitleField'
 
 export const LabelContainer = styled.div`
   display: flex;

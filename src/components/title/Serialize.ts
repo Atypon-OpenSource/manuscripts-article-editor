@@ -7,28 +7,17 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import styled from 'styled-components'
+import { DOMSerializer, Node as ProsemirrorNode } from 'prosemirror-model'
 
-import { TitleField } from '../title/TitleField'
+import { schema } from './Schema'
 
-export const RunningTitleField = styled(TitleField)`
-  & .ProseMirror {
-    font-family: ${(props) => props.theme.font.family.sans};
-    font-size: ${(props) => props.theme.font.size.medium};
-    line-height: 1.25;
-    color: ${(props) => props.theme.colors.text.primary};
-    border-radius: ${(props) => props.theme.grid.radius.small};
-    border: 1px solid ${(props) => props.theme.colors.text.muted};
-    padding: ${(props) => props.theme.grid.unit * 2}px
-      ${(props) => props.theme.grid.unit * 3}px;
+export const serializer = DOMSerializer.fromSchema(schema)
 
-    &:focus {
-      outline: none;
-      border-color: ${(props) => props.theme.colors.border.field.hover};
-      background-color: ${(props) => props.theme.colors.background.fifth};
-    }
-  }
-`
+export const serialize = (node: ProsemirrorNode): string => {
+  const element = serializer.serializeNode(node) as HTMLElement
+
+  return element.innerHTML
+}
