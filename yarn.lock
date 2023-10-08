@@ -1850,17 +1850,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.4.14":
-  version "1.4.14"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.14.tgz#f76dac3088f1dedeaa30b739567b808f593065f6"
-  integrity sha512-uEFYrgMjZnnvA4rsC+507i6eUBuEY5q+0YpMoW3g68mH8H7RChmBAoThDIEIawzCsvnFsb+XwoZrVt+hQq9tQQ==
+"@manuscripts/body-editor@1.4.14-LEAN-2585-0":
+  version "1.4.14-LEAN-2585-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.14-LEAN-2585-0.tgz#205efef5ce25fad306d8b70c5f629f847ea68797"
+  integrity sha512-pNDGxpLcKTGbRAz9xvbU63cKi1nXekTJ3Oqyf1BcN4WNxYRPU8Q4puKfXhRYcricBQiAS/J/2q3b9GqMDb36GQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.2.0"
     "@manuscripts/library" "^1.1.11"
-    "@manuscripts/style-guide" "^1.3.5"
+    "@manuscripts/style-guide" "1.3.5-LEAN-2585-0"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.6.1"
     "@manuscripts/transform" "^1.4.3"
@@ -1955,10 +1955,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0-LEAN-2586.tgz#8893dbc2c3e6fc7a2bff262ef5af37e4cf750f6d"
   integrity sha512-448VGzJqVUPf/t+DlefP9Am5XwJwmSVAVwLzlW1xCV3YCVbWpyQDmBxSE/q5TDhuWrJCNweNvjbysu32IENL5A==
 
-"@manuscripts/style-guide@^1.3.5":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.5.tgz#8f3174b38e6b7a7276ee63999f9cfd1fdfd7c6ca"
-  integrity sha512-iyTdTETwvMBSkBl1Mg8+3oTCiuogSYHh8TTcGCK4/V8acUXdBcf1DeK70mgi/QLocbNscjzo913BNEf6OCEYOA==
+"@manuscripts/style-guide@1.3.5-LEAN-2585-0":
+  version "1.3.5-LEAN-2585-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.5-LEAN-2585-0.tgz#90b86e75db449b5404352cac0b5eb437bd66bb53"
+  integrity sha512-Cjnf4bJqqnJ7WPqSR+uyRoXGb2w/v2BOEGr/VHyh2ZoCL2dLUJjreTbrr+w1XIpkuZsvZFyJDAj87sPQE97JQg==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
