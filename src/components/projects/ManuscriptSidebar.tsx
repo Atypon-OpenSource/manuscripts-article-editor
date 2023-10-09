@@ -28,7 +28,7 @@ import { useStore } from '../../store'
 import PageSidebar from '../PageSidebar'
 import { SortableManuscript } from './SortableManuscript'
 import { parse } from '../title/Parse'
-import { schema} from '../title/Schema'
+import { TitleSchema} from '../title/Schema'
 
 const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
   if (a.priority === b.priority) {
@@ -42,6 +42,7 @@ interface Props {
   openTemplateSelector?: (newProject: boolean) => void
   manuscript: Manuscript
   project: Project
+  schema: TitleSchema
   saveProjectTitle?: (title: string) => Promise<Project>
   view?: ManuscriptEditorView
   state: ReturnType<typeof useEditor>['state']
@@ -53,6 +54,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   manuscript,
   view,
   project,
+  schema,
 }) => {
   const [{ manuscripts, saveModel }] = useStore((store) => ({
     manuscripts: store.manuscripts || [],
