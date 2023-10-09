@@ -203,7 +203,7 @@ export const CitationModal: React.FC<{
     const refs = new Map<number, BibliographyItem>()
     if (references.length) {
       for (let i = firstDisplayIndex; i <= lastDisplayIndex; i++) {
-        refs.set(i, references[i])
+        references[i] && refs.set(i, references[i])
       }
     }
     return refs
