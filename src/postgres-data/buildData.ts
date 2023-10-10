@@ -188,31 +188,6 @@ const getManuscriptData = async (
   return data
 }
 
-const getLibrariesData = async (projectID: string, api: Api) => {
-  const libraries = await api.getProjectModels<Model>(projectID, [
-    'MPLibraryCollection',
-    'MPBibliographyItem',
-  ])
-  if (libraries) {
-    return libraries.reduce(
-      (acc, item) => {
-        if (item.objectType === ObjectTypes.BibliographyItem) {
-          acc.library.set(item._id, item as BibliographyItem)
-        }
-        if (item.objectType === ObjectTypes.LibraryCollection) {
-          acc.projectLibraryCollections.set(item._id, item as LibraryCollection)
-        }
-        return acc
-      },
-      {
-        projectLibraryCollections: new Map<string, LibraryCollection>(),
-        library: new Map<string, BibliographyItem>(),
-      }
-    )
-  }
-  return null
-}
-
 const getCollaboratorsData = async (
   projectID: string,
   data: Partial<state>,
@@ -259,6 +234,8 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
   const storeData: Partial<state> = {
     snapshotID: null,
     commitAtLoad: null,
+    projectLibraryCollections: new Map<string, LibraryCollection>(),
+    library: new Map<string, BibliographyItem>(),
   }
 
   const affiliationAndContributors: (Contributor | Affiliation)[] = []
@@ -266,6 +243,16 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 
   // eslint-disable-next-line no-unsafe-optional-chaining
   for (const model of data.modelMap?.values()) {
+    if (model.objectType === ObjectTypes.BibliographyItem) {
+      storeData.library!.set(model._id, model as BibliographyItem)
+    }
+    if (model.objectType === ObjectTypes.LibraryCollection) {
+      storeData.projectLibraryCollections!.set(
+        model._id,
+        model as LibraryCollection
+      )
+    }
+
     if (
       model.objectType === ObjectTypes.Affiliation ||
       model.objectType === ObjectTypes.Contributor
@@ -308,7 +295,6 @@ export default async function buildData(
   )
 
   const projects = await api.getUserProjects()
-  const librariesData = await getLibrariesData(projectID, api)
 
   // replace attachments with src
   let noAttachmentsModelMap: Map<string, Model> | undefined = undefined
@@ -334,7 +320,6 @@ export default async function buildData(
     userRole,
     ...derivedData,
     ...collaboratorsData,
-    ...librariesData,
     ...manuscriptData,
     doc,
     tokenData: new TokenData(),

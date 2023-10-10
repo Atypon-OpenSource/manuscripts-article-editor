@@ -28,10 +28,11 @@ import {
 import { getModelsByType } from '@manuscripts/transform'
 import { FormikProps } from 'formik'
 import { isEqual } from 'lodash-es'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled, { css } from 'styled-components'
 
+import { useScrollDetection } from '../../hooks/use-scroll-detection'
 import { ScrollableModalMain } from '../metadata/AuthorsModals'
 import { GroupIcon } from '../projects/icons/GroupIcon'
 import {
@@ -46,7 +47,7 @@ import ReferenceForm, {
   ReferenceFormValues,
 } from './ReferenceForm'
 
-export const CitationModel: React.FC<{
+export const CitationModal: React.FC<{
   editCitation: boolean
   modelMap: Map<string, Model>
   saveCallback: (item?: ReferenceFormValues) => void
@@ -144,7 +145,73 @@ export const CitationModel: React.FC<{
   const disableDelete =
     ((selectedItem?._id && referenceCount.get(selectedItem._id)) || 0) > 0
 
-  if (references.length < 1) {
+  const selectedReferenceNode = useRef<HTMLDivElement | null>(null)
+
+  const selectedIndex = useMemo(
+    () =>
+      selectedItem
+        ? references.findIndex((i) => selectedItem?._id == i._id)
+        : 0,
+    [selectedItem, references]
+  )
+
+  useEffect(() => {
+    setTimeout(() => {
+      selectedReferenceNode.current?.scrollIntoView({
+        block: 'center',
+        behavior: 'auto',
+      })
+    }, 100)
+  }, [selectedIndex])
+
+  const selectedItemTopOffset = 6 // to be able to place the selected item in the middle and allow for some scroll at the top
+  const pageItemsCount = 12
+  const topTrigger = 0.2 // says: notify when x% of the offsetHeight remains hidden at the top
+  const bottomTrigger = 0.8 // says: notify when x% of the offsetHeight remains hidden at the bottom
+  const dropLimit = pageItemsCount * 3 // basically maximum amount of items that can exist at the same time
+
+  const { ref, triggers } = useScrollDetection(topTrigger, bottomTrigger)
+  const [firstDisplayIndex, setFirstDisplayIndex] = useState<number>(
+    Math.max(0, selectedIndex - selectedItemTopOffset)
+  )
+  const [lastDisplayIndex, setLastDisplayIndex] = useState(pageItemsCount)
+
+  useEffect(() => {
+    const base = Math.max(0, selectedIndex - selectedItemTopOffset)
+    setFirstDisplayIndex(base)
+    setLastDisplayIndex(Math.min(references.length - 1, base + pageItemsCount))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [references.length]) // this has to run only on start and never on selection change
+
+  useEffect(() => {
+    if (triggers.top) {
+      const newFirst = Math.max(0, firstDisplayIndex - pageItemsCount)
+      setFirstDisplayIndex(newFirst)
+      setLastDisplayIndex(Math.min(newFirst + dropLimit, lastDisplayIndex))
+    }
+
+    if (triggers.bottom) {
+      const newLast = Math.min(
+        references.length - 1,
+        lastDisplayIndex + pageItemsCount
+      )
+      setLastDisplayIndex(newLast)
+      setFirstDisplayIndex(Math.max(newLast - dropLimit, firstDisplayIndex))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dropLimit, pageItemsCount, triggers, references])
+
+  const displayableRefs = useMemo(() => {
+    const refs = new Map<number, BibliographyItem>()
+    if (references.length) {
+      for (let i = firstDisplayIndex; i <= lastDisplayIndex; i++) {
+        refs.set(i, references[i])
+      }
+    }
+    return refs
+  }, [firstDisplayIndex, lastDisplayIndex, references])
+
+  if (references.length <= 0) {
     return <></>
   }
 
@@ -184,41 +251,48 @@ export const CitationModel: React.FC<{
         <ModalBody>
           <ReferencesSidebar>
             <SidebarHeader title={'References'} />
-            <ReferencesSidebarContent>
-              {references.map((item, index) => (
-                <ReferenceButton
-                  key={index}
-                  id={item._id}
-                  onClick={onSelectReference}
-                  selected={selectedItem?._id === item._id}
-                >
-                  <IconContainer data-tip={true} data-for={'group-icon'}>
-                    <ReferenceLibraryIcon />
-                    <GroupIcon
-                      numberOfCitations={referenceCount.get(item._id) || 0}
-                    />
-                    <ReactTooltip
-                      disable={(referenceCount.get(item._id) || 0) < 1}
-                      id={'group-icon'}
-                      place="bottom"
-                      effect="solid"
-                      offset={{ top: 40 }}
-                      className="tooltip"
-                    >
-                      Number of times used in the document
-                    </ReactTooltip>
-                  </IconContainer>
-                  <Grid>
-                    <CitedItemTitle
-                      value={item.title || 'Untitled'}
-                      withOverflow
-                    />
-                    <CitedItemMetadata>
-                      {shortLibraryItemMetadata(item)}
-                    </CitedItemMetadata>
-                  </Grid>
-                </ReferenceButton>
-              ))}
+            <ReferencesSidebarContent ref={ref}>
+              <ReferencesInnerWrapper style={{ paddingTop: '0px' }}>
+                {[...displayableRefs.entries()].map(([index, item]) => (
+                  <ReferenceButton
+                    key={index}
+                    id={item._id}
+                    onClick={onSelectReference}
+                    selected={selectedItem?._id === item._id}
+                    ref={
+                      selectedItem?._id === item._id
+                        ? selectedReferenceNode
+                        : null
+                    }
+                  >
+                    <IconContainer data-tip={true} data-for={'group-icon'}>
+                      <ReferenceLibraryIcon />
+                      <GroupIcon
+                        numberOfCitations={referenceCount.get(item._id) || 0}
+                      />
+                      <ReactTooltip
+                        disable={(referenceCount.get(item._id) || 0) < 1}
+                        id={'group-icon'}
+                        place="bottom"
+                        effect="solid"
+                        offset={{ top: 40 }}
+                        className="tooltip"
+                      >
+                        Number of times used in the document
+                      </ReactTooltip>
+                    </IconContainer>
+                    <Grid>
+                      <CitedItemTitle
+                        value={item.title || 'Untitled'}
+                        withOverflow
+                      />
+                      <CitedItemMetadata>
+                        {shortLibraryItemMetadata(item)}
+                      </CitedItemMetadata>
+                    </Grid>
+                  </ReferenceButton>
+                ))}
+              </ReferencesInnerWrapper>
             </ReferencesSidebarContent>
           </ReferencesSidebar>
           <ScrollableModalMain>
@@ -238,6 +312,10 @@ export const CitationModel: React.FC<{
     </StyledModal>
   )
 }
+
+const ReferencesInnerWrapper = styled.div`
+  width: 100%;
+`
 
 const ReferencesSidebar = styled(ModalSidebar)`
   width: 70%;
