@@ -1850,10 +1850,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.4.9-LEAN-2850-v2-3":
-  version "1.4.9-LEAN-2850-v2-3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9-LEAN-2850-v2-3.tgz#45b56bdd6763e69f67120fa23d741d9f65e1a062"
-  integrity sha512-PZJagFY8wVAlB3urNIxO5f9wqwyeULtY3fsdoZTpjHR1IlJ5pg9mZOWrqH6wObbeIg1+IkK24IEa7ekA0CzqRg==
+"@manuscripts/body-editor@1.4.9-LEAN-2850-v2-4":
+  version "1.4.9-LEAN-2850-v2-4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.9-LEAN-2850-v2-4.tgz#0032d207feb05d58a960c32fd7be19d44bc50c83"
+  integrity sha512-x6VDwZN9PCkzitUoc8JYeUXMTtKAwuSCdtA+Rz2sIUHhqE3cLtTp7aUTzusMiVup9E04BP8aUX/AfdngfQ3Fag==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.3-LEAN-2850"
