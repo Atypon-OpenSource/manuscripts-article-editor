@@ -206,6 +206,12 @@ export const useCreateEditor = () => {
     getModelMap: () => {
       return getState().modelMap
     },
+    setCiteprocCitations: (citations: Map<string, string>) => {
+      dispatch({ citeprocCitations: citations })
+    },
+    getCiteprocCitations: () => {
+      return getState().citeprocCitations
+    },
   }
 
   const editor = useEditor(
