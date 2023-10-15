@@ -31,9 +31,7 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
-import useTrackedModelManagement, {
-  useTrackModel,
-} from '../../hooks/use-tracked-model-management'
+import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
@@ -93,25 +91,19 @@ const ManuscriptPageView: React.FC = () => {
 
   const can = usePermissions()
 
-  const trackModelMap = useTrackModel(
-    doc,
-    modelMap,
-    () => getState().attachments
-  )
-  const editor = useCreateEditor(trackModelMap)
+  const editor = useCreateEditor()
 
   const [preventUnload] = useStore((store) => store.preventUnload)
   useWindowUnloadEffect(undefined, preventUnload)
 
   const { state, dispatch, view } = editor
 
-  const { saveTrackModel, deleteTrackModel, getTrackModel } =
+  const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
     useTrackedModelManagement(
       doc,
       view,
       state,
       dispatch,
-      trackModelMap,
       saveModel,
       deleteModel,
       modelMap,

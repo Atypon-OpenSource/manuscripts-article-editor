@@ -36,12 +36,17 @@ import {
 } from '../lib/replace-attachments-ids'
 import { useStore } from '../store'
 
-export const useTrackModel = (
+const useTrackedModelManagement = (
   doc: ManuscriptNode,
+  view: ManuscriptEditorView | undefined,
+  state: EditorState,
+  dispatch: (tr: Transaction) => EditorState,
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
+  deleteModel: (id: string) => Promise<string>,
   finalModelMap: Map<string, Model>,
   getAttachments: () => FileAttachment[]
-) =>
-  useMemo(() => {
+) => {
+  const modelMap = useMemo(() => {
     const docJSONed = doc.toJSON()
     const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
@@ -55,17 +60,6 @@ export const useTrackModel = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc, finalModelMap])
 
-const useTrackedModelManagement = (
-  doc: ManuscriptNode,
-  view: ManuscriptEditorView | undefined,
-  state: EditorState,
-  dispatch: (tr: Transaction) => EditorState,
-  modelMap: Map<string, Model>,
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>,
-  deleteModel: (id: string) => Promise<string>,
-  finalModelMap: Map<string, Model>,
-  getAttachments: () => FileAttachment[]
-) => {
   const [, dispatchStore] = useStore()
 
   const matchByTrackVersion = (
@@ -292,6 +286,7 @@ const useTrackedModelManagement = (
   return {
     saveTrackModel,
     deleteTrackModel,
+    trackModelMap: modelMap,
     getTrackModel,
   }
 }
