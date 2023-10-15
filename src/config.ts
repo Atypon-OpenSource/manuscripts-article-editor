@@ -30,7 +30,6 @@ interface Config {
   }
   features: {
     productionNotes: boolean
-    qualityControl: boolean
     footnotes: boolean
     fileManagement: boolean
     commenting: boolean
@@ -59,7 +58,6 @@ const config = {
   },
   features: {
     productionNotes: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
-    qualityControl: isTrue(process.env.FEATURE_QUALITY_CONTROL),
     footnotes: isTrue(process.env.FEATURE_FOOTNOTES),
     fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
     commenting: isTrue(process.env.FEATURE_COMMENTS),
