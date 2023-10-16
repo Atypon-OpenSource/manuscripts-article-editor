@@ -55,7 +55,6 @@ export const CitationModal: React.FC<{
   selectedItem?: BibliographyItem
   setSelectedItem: React.Dispatch<React.SetStateAction<BibliographyItem>>
   setShowEditModel: React.Dispatch<React.SetStateAction<boolean>>
-  getReferences: (query?: string) => Promise<BibliographyItem[]>
 }> = ({
   editCitation,
   modelMap,
@@ -64,7 +63,6 @@ export const CitationModal: React.FC<{
   setSelectedItem,
   setShowEditModel,
   deleteCallback,
-  getReferences,
 }) => {
   const stopEditing = useCallback(
     () => setShowEditModel(false),
@@ -100,23 +98,23 @@ export const CitationModal: React.FC<{
 
   useEffect(() => {
     if (editCitation) {
-      getReferences(undefined)
-        .then((references) => {
-          const referenceCount = new Map()
+      const references = getModelsByType<BibliographyItem>(
+        modelMap,
+        ObjectTypes.BibliographyItem
+      )
+      const referenceCount = new Map()
 
-          getModelsByType<Citation>(modelMap, ObjectTypes.Citation).map(
-            ({ embeddedCitationItems }) =>
-              embeddedCitationItems.map(({ bibliographyItem }) => {
-                let value = referenceCount.get(bibliographyItem)
-                referenceCount.set(bibliographyItem, (value && ++value) || 1)
-              })
-          )
+      getModelsByType<Citation>(modelMap, ObjectTypes.Citation).map(
+        ({ embeddedCitationItems }) =>
+          embeddedCitationItems.map(({ bibliographyItem }) => {
+            let value = referenceCount.get(bibliographyItem)
+            referenceCount.set(bibliographyItem, (value && ++value) || 1)
+          })
+      )
 
-          setReferences({ references, referenceCount })
-        })
-        .catch((e) => console.error(e))
+      setReferences({ references, referenceCount })
     }
-  }, [editCitation, getReferences, modelMap])
+  }, [editCitation, modelMap])
 
   const modelDeleteCallback = useCallback(() => {
     deleteCallback()
@@ -205,7 +203,7 @@ export const CitationModal: React.FC<{
     const refs = new Map<number, BibliographyItem>()
     if (references.length) {
       for (let i = firstDisplayIndex; i <= lastDisplayIndex; i++) {
-        refs.set(i, references[i])
+        references[i] && refs.set(i, references[i])
       }
     }
     return refs
