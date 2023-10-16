@@ -9,11 +9,18 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
-import { TrackAttrsPopperContent } from '@manuscripts/style-guide'
-import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
+import { ButtonGroup, TextButton } from '@manuscripts/style-guide'
+import {
+  CHANGE_STATUS,
+  NodeAttrChange,
+  trackCommands,
+} from '@manuscripts/track-changes-plugin'
+import { Command } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 import ReactDOM from 'react-dom'
+import styled from 'styled-components'
 
+import EditIcon from '../components/projects/icons/EditIcon'
 import { useEditorStore } from '../components/track-changes/useEditorStore'
 import { filterAttrsChange } from '../lib/attrs-change-filter'
 import { useStore } from '../store'
@@ -100,3 +107,126 @@ export default () => {
     ]
   )
 }
+
+export const TrackAttrsPopperContent: React.FC<{
+  newAttrs: Record<string, { label: string; value: string }>
+  oldAttrs: Record<string, { label: string; value: string }>
+  changeId: string
+  updateState: (cmd: Command) => void
+}> = ({ newAttrs, oldAttrs, changeId, updateState }) => {
+  const approveChange = () => {
+    updateState(
+      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, [changeId])
+    )
+  }
+
+  const rejectChange = () => {
+    updateState(
+      trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, [changeId])
+    )
+  }
+
+  return (
+    <>
+      <Header>
+        <LabelContainer>
+          <EditIcon />
+          <Label>Changed</Label>
+        </LabelContainer>
+        <ButtonGroup>
+          <RejectButton onClick={rejectChange}>Reject</RejectButton>
+          <TrackChangesButton onClick={approveChange}>
+            Approve
+          </TrackChangesButton>
+        </ButtonGroup>
+      </Header>
+
+      <ChangesList>
+        {Object.entries(oldAttrs).map(([key], index) => (
+          <Attribute key={index}>
+            <AttributeLabel>{oldAttrs[key].label}:</AttributeLabel>
+            {newAttrs[key].value &&
+              oldAttrs[key].value !== newAttrs[key].value && (
+                <OldAttribute>{oldAttrs[key].value}</OldAttribute>
+              )}
+            <AttributeValue>
+              {newAttrs[key].value || oldAttrs[key].value}
+            </AttributeValue>
+          </Attribute>
+        ))}
+      </ChangesList>
+    </>
+  )
+}
+
+export const TrackChangesButton = styled(TextButton)`
+  font-size: ${(props) => props.theme.font.size.normal};
+  color: ${(props) => props.theme.colors.text.tertiary};
+  text-decoration: underline;
+  margin-right: ${(props) => props.theme.grid.unit * 2}px;
+
+  &:hover,
+  &:focus {
+    color: ${(props) => props.theme.colors.text.tertiary} !important;
+  }
+`
+
+const RejectButton = styled(TrackChangesButton)`
+  color: ${(props) => props.theme.colors.text.secondary};
+`
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+`
+
+const Label = styled.div`
+  color: ${(props) => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.medium};
+  font-weight: ${(props) => props.theme.font.weight.normal};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
+  font-style: normal;
+  padding: 2px;
+`
+
+const LabelContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 4px;
+`
+
+const Attribute = styled.div`
+  padding: ${(props) => props.theme.grid.unit * 3}px;
+  cursor: pointer;
+
+  &:hover {
+    background: ${(props) => props.theme.colors.background.fifth};
+  }
+`
+
+const AttributeLabel = styled.div`
+  color: ${(props) => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.small};
+  font-weight: ${(props) => props.theme.font.weight.bold};
+  font-style: normal;
+  line-height: 16px;
+`
+
+const AttributeValue = styled(AttributeLabel)`
+  font-weight: ${(props) => props.theme.font.weight.normal};
+`
+
+const OldAttribute = styled(AttributeValue)`
+  text-decoration: line-through;
+`
+
+const ChangesList = styled.div`
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 4}px;
+  max-height: ${(props) => props.theme.grid.unit * 124}px;
+  background: ${(props) => props.theme.colors.background.secondary};
+  overflow-y: scroll;
+  overflow-x: hidden;
+`
