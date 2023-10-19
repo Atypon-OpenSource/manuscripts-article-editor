@@ -40,7 +40,7 @@
     "@manuscripts/body-editor": "1.4.16-LEAN-2585-0",
     "@manuscripts/json-schema": "^2.2.0",
     "@manuscripts/library": "^1.1.12",
-    "@manuscripts/quarterback-types": "^1.0.0",
+    "@manuscripts/quarterback-types": "1.0.0-LEAN-2586",
     "@manuscripts/style-guide": "1.3.5-LEAN-2585-0",
     "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.7.0",
