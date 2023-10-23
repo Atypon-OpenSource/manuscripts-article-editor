@@ -12,9 +12,10 @@
 
 import { BibliographyItem } from '@manuscripts/json-schema'
 import { shortLibraryItemMetadata } from '@manuscripts/library'
-import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Title } from '../title/Title'
 
 const CitedItem = styled.div`
   padding: ${(props) => props.theme.grid.unit * 4}px 0;
