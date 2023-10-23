@@ -29,6 +29,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
+import { Title } from '@manuscripts/title-editor'
 import {
   Build,
   buildBibliographyItem,
@@ -38,7 +39,6 @@ import {
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 
-import { Title } from '../title/Title'
 import { CitationModal } from './CitationModal'
 import { CitationSearch } from './CitationSearch'
 
