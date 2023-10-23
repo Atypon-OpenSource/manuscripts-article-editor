@@ -10,12 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { TitleEditorView, TitleField } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
-import { TitleEditorView } from '../title/Schema'
-import { TitleField } from '../title/TitleField'
 
 export const TitleFieldContainer: React.FC<{
   editable: boolean
@@ -42,6 +41,7 @@ export const TitleFieldContainer: React.FC<{
     />
   )
 }
+
 const StyledTitleField = styled(TitleField)`
   flex: 1;
 

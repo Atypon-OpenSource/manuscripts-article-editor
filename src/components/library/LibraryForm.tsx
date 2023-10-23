@@ -26,6 +26,7 @@ import {
   TertiaryButton,
   TextField,
 } from '@manuscripts/style-guide'
+import { TitleField } from '@manuscripts/title-editor'
 import {
   buildBibliographicDate,
   buildBibliographicName,
@@ -40,7 +41,6 @@ import styled from 'styled-components'
 import { selectStyles } from '../../lib/select-styles'
 import { useStore } from '../../store'
 import { SelectField } from '../SelectField'
-import { TitleField } from '../title/TitleField'
 
 const LabelContainer = styled.div`
   display: flex;

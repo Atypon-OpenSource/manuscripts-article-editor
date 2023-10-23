@@ -11,6 +11,7 @@
  */
 import { insertSectionLabel } from '@manuscripts/body-editor'
 import { Section } from '@manuscripts/json-schema'
+import { Title } from '@manuscripts/title-editor'
 import { isSectionLabelNode, SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { findParentNode } from 'prosemirror-utils'
@@ -25,7 +26,6 @@ import {
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { CategoryInput } from '../projects/CategoryInput'
-import { Title } from '../title/Title'
 
 export const SectionInspector: React.FC<{
   dispatchNodeAttrs: (

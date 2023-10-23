@@ -10,9 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { TitleField } from '@manuscripts/title-editor'
 import styled from 'styled-components'
-
-import { TitleField } from '../title/TitleField'
 
 export const RunningTitleField = styled(TitleField)`
   & .ProseMirror {

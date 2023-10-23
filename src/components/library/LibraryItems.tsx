@@ -12,11 +12,11 @@
 import ReferenceLibraryIcon from '@manuscripts/assets/react/ReferenceLibraryIcon'
 import { BibliographyItem, LibraryCollection } from '@manuscripts/json-schema'
 import { fullLibraryItemMetadata } from '@manuscripts/library'
+import { Title } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
 
 import Search, { SearchWrapper } from '../Search'
-import { Title } from '../title/Title'
 
 const Container = styled.div`
   display: flex;
