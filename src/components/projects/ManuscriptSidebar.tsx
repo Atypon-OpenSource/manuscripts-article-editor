@@ -27,8 +27,11 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useStore } from '../../store'
 import PageSidebar from '../PageSidebar'
 import { SortableManuscript } from './SortableManuscript'
+<<<<<<< HEAD
 import { parse } from '../title/Parse'
 import { TitleSchema} from '../title/Schema'
+=======
+>>>>>>> parent of 275cf07f... pass title into body-editor
 
 const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
   if (a.priority === b.priority) {
@@ -122,7 +125,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
               capabilities={can}
             />
           ) : (
-            <OutlineManuscript project={project} manuscript={item} schema= {schema} parse={parse}/>
+            <OutlineManuscript project={project} manuscript={item} />
           )}
         </SortableManuscript>
       ))}
