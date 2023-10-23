@@ -18,7 +18,7 @@ import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isEditableSectionCategory,
-  isUnique,
+  isUniqueCurrent,
   isUniquePresent,
 } from '../../lib/section-categories'
 import { OptionWrapper } from './TagsInput'
@@ -61,7 +61,8 @@ export const CategoryInput: React.FC<{
     sectionCategories.map((cat) => {
       if (
         isEditableSectionCategory(cat) &&
-        (!isUniquePresent(cat, existingCatsCounted) || isUnique(currentValue))
+        (!isUniquePresent(cat, existingCatsCounted) ||
+          isUniqueCurrent(cat._id, currentValue))
       ) {
         options.push({ value: cat._id, label: cat.name })
       }
