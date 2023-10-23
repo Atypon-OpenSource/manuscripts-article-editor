@@ -22,6 +22,7 @@ export const uneditableSectionCategories: string[] = [
 
 export const uniqueSectionCategories: string[] = [
   'MPSectionCategory:abstract-graphical',
+  'MPSectionCategory:abstract',
 ]
 
 export const isEditableSectionCategoryID = (id: string) =>
@@ -45,6 +46,13 @@ export const chooseSectionCategory = (section: Section): string => {
 
 export const isUnique = (categoryId: string) => {
   return uniqueSectionCategories.includes(categoryId)
+}
+
+export const isUniqueCurrent = (
+  categoryId: string,
+  currentCategoryId: string
+) => {
+  return categoryId === currentCategoryId
 }
 
 export const isUniquePresent = (

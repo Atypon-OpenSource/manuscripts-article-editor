@@ -13,8 +13,10 @@ import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
   TrackedAttrs,
+  UpdateAttrs,
 } from '@manuscripts/track-changes-plugin'
 import { ManuscriptNode } from '@manuscripts/transform'
+import { Attrs } from 'prosemirror-model'
 
 const hasTrackingData = (node: ManuscriptNode) => {
   return !!node?.attrs?.dataTracked
@@ -42,6 +44,9 @@ const getLastChange = (changes: TrackedAttrs[]) => {
 }
 
 export const trackedJoint = ':dataTracked:'
+
+const getNodeId = (attrs: Attrs | UpdateAttrs) =>
+  attrs.id || (attrs as Attrs).rid
 
 export const adaptTrackedData = (docJSONed: unknown) => {
   const cleanDoc = Object.assign({}, docJSONed)
@@ -86,9 +91,10 @@ export const adaptTrackedData = (docJSONed: unknown) => {
           lastChange.operation == CHANGE_OPERATION.set_node_attributes
         ) {
           // @ts-ignore
-          child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
-          // @ts-ignore
           child.attrs = deepCloneAttrs(lastChange.oldAttrs)
+          // @ts-ignore
+          child.attrs[child.attrs.id ? 'id' : 'rid'] =
+            getNodeId(child.attrs) + trackedJoint + getNodeId(lastChange)
           return true
         }
         // this to be able to create a modelMap with models that are relevant but were spawn out of existing and have duplicate ids
@@ -100,7 +106,8 @@ export const adaptTrackedData = (docJSONed: unknown) => {
           // @ts-ignore
           child.attrs = deepCloneAttrs(child.attrs) || {} // @TODO: needs refactoring, in case when there is a dataTracked attribute, we deep copy attributes 2 times.
           // @ts-ignore
-          child.attrs.id = child.attrs.id + trackedJoint + lastChange.id
+          child.attrs[child.attrs.id ? 'id' : 'rid'] =
+            getNodeId(child.attrs) + trackedJoint + getNodeId(lastChange)
           return true
         }
         return false
