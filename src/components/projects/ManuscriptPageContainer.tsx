@@ -26,11 +26,12 @@ import {
 } from '@manuscripts/style-guide'
 import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorState } from '@manuscripts/transform'
-import React, { useEffect, useLayoutEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
+import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
@@ -167,6 +168,16 @@ const ManuscriptPageView: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
+  const trackAttrsPopper = useTrackAttrsPopper()
+
+  const onAppClick = useCallback(
+    (e: React.MouseEvent) => {
+      // TODO:: handle dropdown list for figure and file inspector
+      trackAttrsPopper(e)
+    },
+    [trackAttrsPopper]
+  )
+
   return (
     <RequirementsProvider modelMap={modelMap}>
       <ManuscriptSidebar
@@ -177,7 +188,7 @@ const ManuscriptPageView: React.FC = () => {
         user={user}
       />
 
-      <PageWrapper>
+      <PageWrapper onClick={onAppClick}>
         <Main>
           <EditorContainer>
             <EditorContainerInner>

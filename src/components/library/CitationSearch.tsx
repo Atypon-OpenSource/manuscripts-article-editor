@@ -27,6 +27,7 @@ import { debounce } from 'lodash-es'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { filterLibrary } from '../../lib/search-library'
 import { TemplateIcon } from '../projects/icons/TemplateIcon'
 import Search, { SearchWrapper } from '../Search'
 import { BibliographyImportButton } from './BibliographyImportButton'
@@ -89,7 +90,7 @@ interface Source {
 }
 
 export const CitationSearch: React.FC<{
-  filterLibraryItems: (query: string | null) => Promise<BibliographyItem[]>
+  bibliographyItems: Map<string, BibliographyItem>
   handleCite: (
     items: Array<BibliographyItem | Build<BibliographyItem>>,
     query?: string
@@ -101,7 +102,7 @@ export const CitationSearch: React.FC<{
     items: Array<Build<BibliographyItem>>
   ) => Promise<BibliographyItem[]>
 }> = ({
-  filterLibraryItems,
+  bibliographyItems,
   handleCite,
   addCitation,
   importItems: _importItems,
@@ -120,12 +121,12 @@ export const CitationSearch: React.FC<{
 
   const searchLibrary: SearchInterface = useCallback(
     (query: string, params: { rows: number; sort?: string }) => {
-      return filterLibraryItems(query).then((items) => ({
+      return filterLibrary(bibliographyItems, query).then((items) => ({
         items: items.slice(0, params.rows),
         total: items.length,
       }))
     },
-    [filterLibraryItems]
+    [bibliographyItems]
   )
 
   const [cancelTokenSource, setCancelTokenSource] =
