@@ -11,11 +11,7 @@
  */
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
-import {
-  FileAttachment,
-  FileManager,
-  usePermissions,
-} from '@manuscripts/style-guide'
+import { FileManager, usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import config from '../../config'
@@ -39,25 +35,12 @@ interface Props {
   editor: ReturnType<typeof useCreateEditor>
 }
 const Inspector: React.FC<Props> = ({ editor }) => {
-  const [
-    {
-      attachments,
-      fileManagement,
-      isThereNewComments,
-      saveTrackModel,
-      deleteModel,
-      trackModelMap,
-      selectedComment,
-      selectedSuggestion,
-      editorSelectedSuggestion,
-    },
-    stateDispatch,
-  ] = useStore((store) => ({
+  const [store] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     deleteModel: store.deleteModel,
     trackModelMap: store.trackModelMap,
-    attachments: store.attachments,
     fileManagement: store.fileManagement,
+    files: store.files,
     isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
     selectedSuggestion: store.selectedSuggestion,
@@ -66,8 +49,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const { state, dispatch } = editor
 
-  const comment = isThereNewComments || selectedComment
-  const suggestion = selectedSuggestion || editorSelectedSuggestion
+  const comment = store.isThereNewComments || store.selectedComment
+  const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
 
   const [tabIndex, setTabIndex] = useState(0)
   const COMMENTS_TAB_INDEX = 1
@@ -92,6 +75,9 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const can = usePermissions()
 
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <Panel
@@ -135,19 +121,13 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                 <InspectorTabPanel key="Files">
                   <FileManager
                     can={can}
+                    files={store.files}
                     enableDragAndDrop={true}
-                    modelMap={trackModelMap}
-                    saveModel={(m) => saveTrackModel(m as any)}
-                    deleteModel={deleteModel}
-                    fileManagement={{
-                      ...fileManagement,
-                      getAttachments: () => attachments,
-                    }}
-                    addAttachmentToState={(attachment: FileAttachment) =>
-                      stateDispatch({
-                        attachments: [...attachments, attachment],
-                      })
-                    }
+                    modelMap={store.trackModelMap}
+                    // @ts-ignore
+                    saveModel={store.saveTrackModel}
+                    deleteModel={store.deleteModel}
+                    fileManagement={store.fileManagement}
                   />
                 </InspectorTabPanel>
               )}

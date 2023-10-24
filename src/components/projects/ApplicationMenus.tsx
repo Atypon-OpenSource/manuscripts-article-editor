@@ -44,14 +44,9 @@ export const ApplicationMenus: React.FC<Props> = ({
   contentEditable,
 }) => {
   const [store] = useStore((store) => ({
-    manuscriptID: store.manuscriptID,
-    userID: store.userID,
     modelMap: store.modelMap,
     saveModel: store.saveModel,
-    manuscripts: store.manuscripts,
     project: store.project,
-    getAttachment: store.getAttachment,
-    saveNewManuscript: store.saveNewManuscript,
   }))
 
   const history = useHistory()

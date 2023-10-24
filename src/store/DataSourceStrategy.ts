@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { PopperManager } from '@manuscripts/body-editor'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 
 import { builderFn, GenericStore, state } from '.'
@@ -30,7 +31,7 @@ export class BasicSource implements StoreDataSourceStrategy {
     fileManagement: FileManagement,
     projectID: string,
     manuscriptID: string,
-    attachments: FileAttachment[],
+    files: FileAttachment[],
     permittedActions: string[],
     userID?: string | undefined,
     authToken?: string | undefined
@@ -39,11 +40,12 @@ export class BasicSource implements StoreDataSourceStrategy {
       fileManagement,
       projectID,
       manuscriptID,
-      attachments,
+      files,
       permittedActions,
       userID,
       authToken,
       newComments: new Map(),
+      popper: new PopperManager(),
     }
   }
 

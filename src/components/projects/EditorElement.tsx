@@ -15,7 +15,7 @@ import {
   insertFileAsFigure,
   useEditor,
 } from '@manuscripts/body-editor'
-import { Model, ObjectTypes, Supplement } from '@manuscripts/json-schema'
+import { ObjectTypes } from '@manuscripts/json-schema'
 import { Category, Dialog, FileAttachment } from '@manuscripts/style-guide'
 import {
   CHANGE_STATUS,
@@ -27,7 +27,6 @@ import {
   FigureElementNode,
   FigureNode,
   generateID,
-  getModelsByType,
   ManuscriptEditorView,
   schema,
 } from '@manuscripts/transform'
@@ -48,27 +47,29 @@ interface Props {
 const EditorElement: React.FC<Props> = ({ editor }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
-  const [{ modelMap, deleteModel }] = useStore((store) => ({
-    modelMap: store.modelMap,
+  const [{ deleteModel }] = useStore((store) => ({
     deleteModel: store.deleteModel,
   }))
   const { execCmd, trackState } = useEditorStore()
 
   const [, drop] = useDrop({
-    accept: 'FileSectionItem',
-    drop: (item, monitor) => {
+    accept: 'file',
+    drop: async (item, monitor) => {
       const offset = monitor.getSourceClientOffset()
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
-        const attachment = item.externalFile as FileAttachment
-        if (!attachment || !docPos || !docPos.pos) {
+        const file = item.file as FileAttachment
+        // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
+        const model = item.model
+
+        if (!file || !docPos || !docPos.pos) {
           return
         }
 
         const resolvedPos = view.state.doc.resolve(docPos.pos)
         const attrs: Record<string, unknown> = {
-          src: attachment.link,
+          src: file.id,
         }
 
         switch (resolvedPos.parent.type) {
@@ -79,7 +80,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
             } else {
               addNewFigure(view, dispatch, attrs, resolvedPos.pos + 1)
             }
-            return deleteSupplementFile(deleteModel, modelMap, attachment)
+            break
           }
           case schema.nodes.figcaption:
           case schema.nodes.caption:
@@ -90,9 +91,9 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
               resolvedPos.pos,
               attrs,
               new NodeSelection(resolvedPos),
-              attachment
+              file
             )
-            return deleteSupplementFile(deleteModel, modelMap, attachment)
+            break
           }
           case schema.nodes.figure_element: {
             addFigureAtFigureElementPosition(
@@ -101,7 +102,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
               resolvedPos.pos,
               attrs
             )
-            return deleteSupplementFile(deleteModel, modelMap, attachment)
+            break
           }
           default: {
             const transaction = view.state.tr.setSelection(
@@ -110,9 +111,11 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
             view.focus()
             dispatch(transaction)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-            insertFileAsFigure(attachment, view.state, dispatch)
-            return deleteSupplementFile(deleteModel, modelMap, attachment)
+            insertFileAsFigure(file, view.state, dispatch)
           }
+        }
+        if (model) {
+          await deleteModel(model.id)
         }
       }
     },
@@ -226,7 +229,7 @@ const addFigureAtFigCaptionPosition = (
   pos: number,
   attrs: Record<string, unknown>,
   nodeSelection: NodeSelection,
-  attachment: FileAttachment
+  file: FileAttachment
 ) => {
   const { view, dispatch } = editor
   if (!view) {
@@ -285,7 +288,7 @@ const addFigureAtFigCaptionPosition = (
     const transaction = view.state.tr.setSelection(nodeSelection)
     view.focus()
     dispatch(transaction)
-    insertFileAsFigure(attachment, view.state, dispatch)
+    insertFileAsFigure(file, view.state, dispatch)
   }
 }
 
@@ -340,20 +343,6 @@ const addNewFigure = (
   }) as FigureNode
   const tr = view.state.tr.insert(pos, figure)
   dispatch(tr)
-}
-
-const deleteSupplementFile = (
-  deleteModel: (id: string) => Promise<string>,
-  modelMap: Map<string, Model>,
-  attachment: FileAttachment
-) => {
-  const supplement = getModelsByType<Supplement>(
-    modelMap,
-    ObjectTypes.Supplement
-  ).find((object) => object.href === `attachment:${attachment.id}`)
-  if (supplement) {
-    return deleteModel(supplement._id)
-  }
 }
 
 export default EditorElement

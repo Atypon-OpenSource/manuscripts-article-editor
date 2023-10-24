@@ -7,17 +7,33 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { storiesOf } from '@storybook/react'
 import React from 'react'
 
-import {
-  ManuscriptPlaceholder,
-  ProjectPlaceholder,
-} from '../src/components/Placeholders'
+const EditIcon: React.FC = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 2L14 4L9 9L6 10L7 7L12 2Z"
+      stroke="#353535"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M13 10V11.5C13 12.328 12.328 13 11.5 13H4.5C3.672 13 3 12.328 3 11.5V4.5C3 3.672 3.672 3 4.5 3H6"
+      stroke="#353535"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
-storiesOf('Placeholders', module)
-  .add('Manuscript', () => <ManuscriptPlaceholder />)
-  .add('Project', () => <ProjectPlaceholder />)
+export default EditIcon
