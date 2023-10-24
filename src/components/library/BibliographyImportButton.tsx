@@ -17,6 +17,7 @@ import { parseBibliography } from '@manuscripts/library'
 import { SecondaryButton } from '@manuscripts/style-guide'
 import { Build, buildBibliographyItem } from '@manuscripts/transform'
 import React, { useCallback, useContext, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import { FileExtensionError } from '../../lib/errors'
 import { ContactSupportButton } from '../ContactSupportButton'
@@ -31,7 +32,6 @@ import {
   NotificationPrompt,
   NotificationTitle,
 } from '../Notifications'
-import { CitationImportSuccessMessage } from './Messages'
 
 const CITATION_IMPORT_NOTIFICATION_ID = 'citation-import'
 
@@ -201,3 +201,16 @@ export const BibliographyImportButton: React.FC<{
 
   return <Component importItems={handleImport} importing={importing} />
 })
+
+const CitationImportSuccessMessage: React.FC<{
+  count: number
+}> = ({ count }) => (
+  <FormattedMessage
+    id={'citation_import_success'}
+    defaultMessage={`{count, number} {count, plural,
+                        one {record}
+                        other {records}
+                      } imported into the project library`}
+    values={{ count }}
+  />
+)
