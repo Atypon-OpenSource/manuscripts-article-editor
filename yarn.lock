@@ -1965,11 +1965,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-<<<<<<< HEAD
-"@manuscripts/style-guide@1.3.5-LEAN-2705":
-  version "1.3.5-LEAN-2705"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.5-LEAN-2705.tgz#05af4b183e914c46e9f9889654fe16e563cb3074"
-  integrity sha512-L+wrvBi1UV1ix4QNzyPGXRluY9FEmYHz+LnEIqJ/5RcKJnI8lNIhIbtGsc0U1KuZOk47DtCgrdFNeYjLbJBXrQ==
+"@manuscripts/style-guide@^1.3.6":
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.6.tgz#0afd5ef4ffeefa478f885cfcb6f7451081d41c00"
+  integrity sha512-YrpAa7pE4xwrwmO5ckm4yPNk9/eog7FE5UNkntLbHqRuLNFYNyfOcO8uaKJ4v7xR7zDSL5XjZWJlM0BPnvP9Yg==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -2008,16 +2007,10 @@
     tooltip.js "^1.3.3"
     typeface-lato "^1.1.13"
 
-"@manuscripts/style-guide@^1.3.5":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.5.tgz#8f3174b38e6b7a7276ee63999f9cfd1fdfd7c6ca"
-  integrity sha512-iyTdTETwvMBSkBl1Mg8+3oTCiuogSYHh8TTcGCK4/V8acUXdBcf1DeK70mgi/QLocbNscjzo913BNEf6OCEYOA==
-=======
-"@manuscripts/style-guide@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.6.tgz#0afd5ef4ffeefa478f885cfcb6f7451081d41c00"
-  integrity sha512-YrpAa7pE4xwrwmO5ckm4yPNk9/eog7FE5UNkntLbHqRuLNFYNyfOcO8uaKJ4v7xR7zDSL5XjZWJlM0BPnvP9Yg==
->>>>>>> ff2e419bca20a373320b2ae5e6bedf9ebec82831
+"@manuscripts/style-guide@^1.3.6-LEAN-2705":
+  version "1.3.6-LEAN-2705"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.6-LEAN-2705.tgz#209bb71983c7522176abd0d44e55f9fd0a179fd4"
+  integrity sha512-4FGsWpz31uLI02cyivcr4SYSB7DvYobic6/ydbzu2hLCMUg5VOGsW44X2N9FeWf4o0xc0cWxf2qi2y139ZK78g==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
