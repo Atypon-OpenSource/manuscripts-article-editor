@@ -247,17 +247,17 @@ const PageWrapper = styled.div`
     display: initial;
     color: ${(props) => props.theme.colors.button.secondary.color.default};
     background: ${(props) =>
-    props.theme.colors.button.secondary.background.default};
+      props.theme.colors.button.secondary.background.default};
     border-color: ${(props) =>
-    props.theme.colors.button.secondary.border.default};
+      props.theme.colors.button.secondary.border.default};
 
     &:not([disabled]):hover,
     &:not([disabled]):focus {
       color: ${(props) => props.theme.colors.button.secondary.color.hover};
       background: ${(props) =>
-    props.theme.colors.button.secondary.background.hover};
+        props.theme.colors.button.secondary.background.hover};
       border-color: ${(props) =>
-    props.theme.colors.button.secondary.border.hover};
+        props.theme.colors.button.secondary.border.hover};
     }
   }
 `
