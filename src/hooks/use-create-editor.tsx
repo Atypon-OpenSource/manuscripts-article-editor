@@ -180,6 +180,12 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
+    setCiteprocCitations: (citations: Map<string, string>) => {
+      dispatch({ citeprocCitations: citations })
+    },
+    getCiteprocCitations: () => {
+      return getState().citeprocCitations
+    },
   }
 
   const editor = useEditor(

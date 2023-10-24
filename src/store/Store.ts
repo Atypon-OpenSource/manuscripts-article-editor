@@ -140,6 +140,7 @@ export type state = {
   bundle?: Bundle
   cslLocale?: string
   cslStyle?: string
+  citeprocCitations: Map<string, string>
 
   sectionCategories: SectionCategory[]
   contributorRoles: ContributorRole[]
