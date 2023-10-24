@@ -1860,17 +1860,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/assets/-/assets-0.6.2.tgz#ae54a9945aabc4b0ed60c96be6edf1855adfbe41"
   integrity sha512-r9Mo/mcNV23vVbqCUOYVyLDfnp0e5Yaub7K9l1T3QP41a5+FUOOURb7i+wJsLoQnBDx4jueztqrxskZdKQciKQ==
 
-"@manuscripts/body-editor@^1.4.21":
-  version "1.4.21"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.21.tgz#b29f74cc63b216cad9064422b05853a5820df025"
-  integrity sha512-QizMerQDaOSrJRWaeDmhRKhWniWzncbH9Mv9vcCcWGCv5rJBmV0i+NgbbvIfhfTMflUq6FaAhGhb9dOjN9Uayg==
+"@manuscripts/body-editor@1.4.21-LEAN-2585-0":
+  version "1.4.21-LEAN-2585-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.21-LEAN-2585-0.tgz#0d5c0973068b7f8b85d50e905d772490301c0297"
+  integrity sha512-f9743pC5Aa1Ad+p8tWJhhipLESyI6qcc6cpvAYtk4VfZdpfhHhGe5Wl1euOiL8hkBfTWmNkD3NS1yawUDVU99w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.2.0"
     "@manuscripts/library" "^1.1.12"
-    "@manuscripts/style-guide" "^1.3.6"
+    "@manuscripts/style-guide" "1.3.6-LEAN-2585-0"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.1"
     "@manuscripts/transform" "^1.4.6"
@@ -1960,15 +1960,15 @@
     fontoxpath "^3.28.2"
     prosemirror-model "^1.18.3"
 
-"@manuscripts/quarterback-types@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
-  integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
+"@manuscripts/quarterback-types@1.0.0-LEAN-2586":
+  version "1.0.0-LEAN-2586"
+  resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0-LEAN-2586.tgz#8893dbc2c3e6fc7a2bff262ef5af37e4cf750f6d"
+  integrity sha512-448VGzJqVUPf/t+DlefP9Am5XwJwmSVAVwLzlW1xCV3YCVbWpyQDmBxSE/q5TDhuWrJCNweNvjbysu32IENL5A==
 
-"@manuscripts/style-guide@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.6.tgz#0afd5ef4ffeefa478f885cfcb6f7451081d41c00"
-  integrity sha512-YrpAa7pE4xwrwmO5ckm4yPNk9/eog7FE5UNkntLbHqRuLNFYNyfOcO8uaKJ4v7xR7zDSL5XjZWJlM0BPnvP9Yg==
+"@manuscripts/style-guide@1.3.6-LEAN-2585", "@manuscripts/style-guide@1.3.6-LEAN-2585-0":
+  version "1.3.6-LEAN-2585-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.6-LEAN-2585-0.tgz#513171dd52769ce4c488d4b2770eef32bea75b48"
+  integrity sha512-CCNJbSfhWQowCKey5Jn04Z9jhNbj2lGb3vnOb1fSPvdt5se+ZI6tLXFWWvACIBQq44gPtQnRiZfSUupfkfHtQw==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
