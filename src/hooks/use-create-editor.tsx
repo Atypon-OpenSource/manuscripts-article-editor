@@ -67,8 +67,6 @@ export const useCreateEditor = () => {
     getActionCapabilities(project, user, undefined, permittedActions)
   )
 
-  const popper = useRef<PopperManager>(new PopperManager())
-
   const getModelMap = () => {
     return getState().modelMap
   }

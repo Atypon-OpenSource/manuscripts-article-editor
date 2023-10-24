@@ -75,6 +75,9 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const can = usePermissions()
 
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <Panel
@@ -121,6 +124,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     files={store.files}
                     enableDragAndDrop={true}
                     modelMap={store.trackModelMap}
+                    // @ts-ignore
                     saveModel={store.saveTrackModel}
                     deleteModel={store.deleteModel}
                     fileManagement={store.fileManagement}

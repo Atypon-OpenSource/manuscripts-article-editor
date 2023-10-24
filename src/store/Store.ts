@@ -143,6 +143,8 @@ export type state = {
 
   sectionCategories: SectionCategory[]
   contributorRoles: ContributorRole[]
+
+  popper: PopperManager
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
