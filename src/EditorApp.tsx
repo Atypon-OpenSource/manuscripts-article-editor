@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileManagement } from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
@@ -35,6 +35,7 @@ import { ISubject } from './store/ParentObserver'
 
 interface Props {
   fileManagement: FileManagement
+  files: FileAttachment[]
   parentObserver: ISubject
   manuscriptID: string
   projectID: string
@@ -58,6 +59,7 @@ const EditorApp: React.FC<Props> = ({
   projectID,
   permittedActions,
   fileManagement,
+  files,
   authToken,
 }) => {
   const userID = getCurrentUserId()
@@ -83,12 +85,12 @@ const EditorApp: React.FC<Props> = ({
       fileManagement,
       projectID,
       manuscriptID,
-      fileManagement.getAttachments(),
+      files,
       permittedActions,
       userID || '',
       authToken || ''
     )
-    const mainSource = new PsSource(fileManagement.getAttachments())
+    const mainSource = new PsSource(files)
     Promise.all([
       loadDoc(manuscriptID, projectID),
       createStore(

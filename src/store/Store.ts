@@ -10,12 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { PopperManager } from '@manuscripts/body-editor'
 import {
   BibliographyItem,
   Bundle,
   CommentAnnotation,
   ContainerInvitation,
-  Library,
+  ContributorRole,
   LibraryCollection,
   Manuscript,
   ManuscriptNote,
@@ -27,19 +28,19 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import {
-  Attachment,
+  AuthorData,
+  FileAttachment,
+  FileManagement,
+} from '@manuscripts/style-guide'
+import {
   Build,
   ContainedModel,
-  ManuscriptEditorView,
-  ManuscriptModel,
   ManuscriptNode,
   ModelAttachment,
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
-import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { BiblioTools } from './BiblioTools'
 import { TokenData } from './TokenData'
@@ -68,105 +69,83 @@ export interface ContainedIDs {
 
 export type state = {
   [key: string]: any
+  manuscriptID: string
+  projectID: string
+  userID?: string
+
   project: Project
   manuscript: Manuscript
   manuscripts?: Manuscript[]
+  user: UserProfile // probably should be optional
+
+  editor: ReturnType<typeof useCreateEditor>
   doc: ManuscriptNode
   ancestorDoc: ManuscriptNode
-  user: UserProfile // probably should be optional
-  userRole: ProjectRole
-  tokenData: TokenData
-  projectID: string
-  fileManagement: FileManagement
-  userID?: string | undefined
-  userProfileID?: string | undefined
-  manuscriptID: string
-  containerID: string // @TODO it's the same as projectID - has to be cleaned up
-  invitations?: ContainerInvitation[]
-  projectInvitations?: ProjectInvitation[]
-  containerInvitations?: ContainerInvitation[]
-  projects: Project[]
-  modelMap: Map<string, Model>
-  snapshotID: string | null
-  handleSnapshot?: () => Promise<void>
-  comments?: CommentAnnotation[]
-  newComments: Map<string, CommentAnnotation>
-  notes?: ManuscriptNote[]
-  tags?: Tag[]
-  collaborators?: Map<string, UserProfile>
-  collaboratorsProfiles?: Map<string, UserProfile>
-  collaboratorsById?: Map<string, UserProfile>
-  attachments: FileAttachment[]
-  permittedActions: string[]
-  getModel: <T extends Model>(id: string) => T | undefined
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  deleteModel: (id: string) => Promise<string>
-  bulkUpdate: (items: Array<ContainedModel>) => Promise<void>
-  deleteProject: (projectID: string) => Promise<string>
-  updateProject: (projectID: string, data: Partial<Project>) => Promise<Project>
-  selectedSuggestion?: string
-  editorSelectedSuggestion?: string
 
+  modelMap: Map<string, Model>
+  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  deleteModel: (id: string) => Promise<string>
+  bulkUpdate: (models: ContainedModel[]) => Promise<void>
+  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   // track changes doc state changes
   saveTrackModel: <T extends Model>(
     model: T | Build<T> | Partial<T>
   ) => Promise<T>
-  getTrackModel: <T extends Model>(id: string) => T | undefined
   trackModelMap: Map<string, Model>
   deleteTrackModel: (id: string) => Promise<string>
 
-  savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
-  preventUnload?: boolean
-  saveNewManuscript: (
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    containerID: string,
-    manuscript: Build<Manuscript>,
-    newProject?: Build<Project>
-  ) => Promise<Build<Manuscript>>
-  updateManuscriptTemplate?: (
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    containerID: string,
-    manuscript: Manuscript,
-    updatedModels: ManuscriptModel[]
-  ) => Promise<Manuscript>
+  fileManagement: FileManagement
+  files: FileAttachment[]
+
+  authToken: string
+  tokenData: TokenData
+
+  // TODO remove
+  projectInvitations?: ProjectInvitation[]
+  containerInvitations?: ContainerInvitation[]
   getInvitation?: (
     invitingUserID: string,
     invitedEmail: string
   ) => Promise<ContainerInvitation>
-  getAttachment?: (
-    id: string,
-    attachmentID: string
-  ) => Promise<Blob | undefined>
-  putAttachment?: (id: string, attachment: Attachment) => Promise<void>
-  getUserTemplates?: () => Promise<{
-    userTemplates: ManuscriptTemplate[]
-    userTemplateModels: ManuscriptModel[]
-  }>
-  createUser: (profile: Build<UserProfile>) => Promise<void>
-  updateBiblioItem: (item: BibliographyItem) => Promise<any>
-  deleteBiblioItem: (item: BibliographyItem) => Promise<any>
-  biblio: BiblioTools
-  createProjectLibraryCollection: (
-    collection: Build<LibraryCollection>,
-    projectID: string
-  ) => Promise<void>
-  saveBiblioItem: (
-    item: Build<BibliographyItem>,
-    projectID: string
-  ) => Promise<BibliographyItem>
-  projectLibraryCollections: Map<string, LibraryCollection>
-  globalLibraries?: Map<string, Library> // From the user
-  globalLibraryCollections?: Map<string, LibraryCollection> // From the user
-  globalLibraryItems?: Map<string, BibliographyItem> // From the user
+  tokenActions: TokenActions
+
+  snapshotID: string | null
+  handleSnapshot?: () => Promise<void>
+
+  comments?: CommentAnnotation[]
+  newComments: Map<string, CommentAnnotation>
+  collaborators?: Map<string, UserProfile>
+  collaboratorsProfiles?: Map<string, UserProfile>
+  collaboratorsById?: Map<string, UserProfile>
+
+  authorsAndAffiliations: AuthorData
+
+  notes?: ManuscriptNote[]
+
+  tags?: Tag[]
+
+  permittedActions: string[]
+
+  selectedSuggestion?: string
+  selectedAttrsChange?: string
+  editorSelectedSuggestion?: string
+
+  savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
+  preventUnload?: boolean
+
   library: Map<string, BibliographyItem>
-  editor: ReturnType<typeof useCreateEditor>
-  view: ManuscriptEditorView
-  sectionCategories: SectionCategory[]
+  projectLibraryCollections: Map<string, LibraryCollection>
+  biblio: BiblioTools
   template?: ManuscriptTemplate
   bundle?: Bundle
   cslLocale?: string
   cslStyle?: string
+  citeprocCitations: Map<string, string>
+
+  sectionCategories: SectionCategory[]
+  contributorRoles: ContributorRole[]
+
+  popper: PopperManager
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
