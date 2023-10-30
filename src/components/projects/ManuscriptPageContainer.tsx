@@ -155,7 +155,7 @@ const ManuscriptPageView: React.FC = () => {
     // @TODO - remove this once testing is completed
     console.log('Saving to quarteback with throttle: ' + throttle)
     storeDispatch({ doc: state.doc })
-    updateDocument(project._id, manuscriptID, state.doc.toJSON())
+    updateDocument(`/api/v1/quarterback/doc/${project._id}/${manuscriptID}`, manuscriptID, state.doc.toJSON())
   }
 
   const doWithThrottle = useDoWithThrottle()
