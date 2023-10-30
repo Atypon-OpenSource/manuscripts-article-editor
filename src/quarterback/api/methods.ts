@@ -57,7 +57,7 @@ export async function wrappedFetch<T>(
 ): Promise<Maybe<T>> {
   let resp
   try {
-    resp = await fetch(`${MANUSCRIPTS_API_URL}/${path}`, options)
+    resp = await fetch(`${MANUSCRIPTS_API_URL}/quarterback/${path}`, options)
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
