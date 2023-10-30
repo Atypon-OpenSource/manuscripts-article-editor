@@ -15,7 +15,7 @@ import config from '../../config'
 import { useAuthStore } from '../useAuthStore'
 
 const {
-  quarterback: { url: QUARTERBACK_URL },
+  api: { url: MANUSCRIPTS_API_URL },
 } = config
 
 type FetchOptions = {
@@ -57,7 +57,7 @@ export async function wrappedFetch<T>(
 ): Promise<Maybe<T>> {
   let resp
   try {
-    resp = await fetch(`${QUARTERBACK_URL}/${path}`, options)
+    resp = await fetch(`${MANUSCRIPTS_API_URL}/${path}`, options)
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
