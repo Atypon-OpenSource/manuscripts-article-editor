@@ -66,7 +66,6 @@ class QuarterbackStepsExchanger extends CollabProvider {
         return
       }
       const steps = this.hydrateSteps(jsonSteps)
-
       if (steps.length) {
         this.newStepsListener(version, steps, clientIDs)
       }
@@ -89,8 +88,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     })
 
     this.currentVersion = version
-
-    await this.applySteps(this.projectId, {
+    await this.applySteps(this.docId, {
       steps: stepsJSON,
       version,
       clientID,
@@ -103,7 +101,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
   async stepsSince(version: number) {
     // retrieve the steps since the number of version given
-    const res = await this.getStepsSince(this.projectId, version)
+    const res = await this.getStepsSince(this.docId, version)
     if (res) {
       return {
         steps: this.hydrateSteps(res.steps),

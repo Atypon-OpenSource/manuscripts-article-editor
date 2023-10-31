@@ -83,6 +83,35 @@ export async function wrappedFetch<T>(
   }
   return { data }
 }
+export async function wrappedFetchAPI<T>(
+  path: string,
+  options: FetchOptions,
+  defaultError = 'Request failed'
+): Promise<Maybe<T>> {
+  let resp
+  try {
+    resp = await fetch(`http://host:3000/api/v2/quarterback/${path}`, options)
+  } catch (err) {
+    // Must be a connection error (?)
+    console.error(err)
+    return { err: 'Connection error', code: 550 }
+  }
+  let data
+  const contentType = resp.headers.get('Content-Type')
+  if (!contentType || contentType.includes('application/json')) {
+    data = await resp.json()
+  } else if (contentType.includes('application/octet-stream')) {
+    data = await resp.arrayBuffer()
+  }
+  if (!resp.ok) {
+    console.error(data?.message || defaultError)
+    return {
+      err: data?.message || defaultError,
+      code: resp.status,
+    }
+  }
+  return { data }
+}
 
 export function get<T>(
   path: string,
@@ -98,7 +127,20 @@ export function get<T>(
     defaultError
   )
 }
-
+export function getAPI<T>(
+  path: string,
+  defaultError?: string,
+  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+): Promise<Maybe<T>> {
+  return wrappedFetchAPI(
+    path,
+    {
+      method: 'GET',
+      headers,
+    },
+    defaultError
+  )
+}
 export function post<T>(
   path: string,
   payload: any,
@@ -115,7 +157,22 @@ export function post<T>(
     defaultError
   )
 }
-
+export function postAPI<T>(
+  path: string,
+  payload: any,
+  defaultError?: string,
+  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+): Promise<Maybe<T>> {
+  return wrappedFetchAPI(
+    path,
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+    },
+    defaultError
+  )
+}
 export function put<T>(
   path: string,
   payload: any,
@@ -161,7 +218,9 @@ export async function listen<T>(
     await useAuthStore.getState().authenticate()
     headers = { ...DEFAULT_HEADERS, ...getAuthHeader() }
   }
-  await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
+  await fetchEventSource(`host:3000/api/v2/quarterback/${path}`, {
+
+  // await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
     onmessage: listener,
     headers: headers,
     async onopen(response) {

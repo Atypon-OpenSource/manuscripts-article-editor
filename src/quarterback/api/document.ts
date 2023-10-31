@@ -17,7 +17,7 @@ import {
 } from '@manuscripts/quarterback-types'
 import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
-import { del, get, listen, post, put } from './methods'
+import { del, get, listen, post, put, getAPI, postAPI } from './methods'
 
 export type StepsPayload = {
   steps: unknown[]
@@ -50,14 +50,14 @@ export const deleteDocument = (docId: string) =>
   del<boolean>(`doc/${docId}`, 'Deleting document failed')
 
 export const applySteps = (docId: string, payload: StepsPayload) =>
-  post<AppliedStepsResponse>(
+  postAPI<AppliedStepsResponse>(
     `doc/${docId}/steps`,
     payload,
     'Creating document failed'
   )
 
 export const stepsSince = (docId: string, version: number) =>
-  get<StepsSinceResponse>(
+  getAPI<StepsSinceResponse>(
     `doc/${docId}/version/${version}`,
     'Fetching document failed'
   )
@@ -69,7 +69,6 @@ export const listenStepUpdates = (
   const listener = (event: EventSourceMessage) => {
     if (event.data) {
       const data = JSON.parse(event.data)
-      console.log()
       if (
         typeof data.version != 'undefined' &&
         data.steps &&

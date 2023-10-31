@@ -15,8 +15,8 @@ import { builderFn, StoreDataSourceStrategy } from '../store'
 
 export default class QuarterbackDataSource implements StoreDataSourceStrategy {
   loadDoc: (
-    projectID: string,
     manuscriptID: string,
+    projectID: string,
     doc: ManuscriptNode | undefined
   ) => Promise<{ doc: ManuscriptNode; version: number } | undefined>
   constructor(loadDoc: QuarterbackDataSource['loadDoc']) {
@@ -25,8 +25,8 @@ export default class QuarterbackDataSource implements StoreDataSourceStrategy {
   build: builderFn = async (state, next) => {
     if (state.projectID && state.manuscriptID && state.doc) {
       const res = await this.loadDoc(
-        state.projectID,
         state.manuscriptID,
+        state.projectID,
         state.doc
       )
       if (res?.doc && res.version) {
