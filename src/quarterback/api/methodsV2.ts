@@ -14,9 +14,8 @@ import type { Maybe } from '@manuscripts/quarterback-types'
 import config from '../../config'
 import { useAuthStore } from '../useAuthStore'
 
-const {
-  quarterback: { url: QUARTERBACK_URL },
-} = config
+// TODO:: remove this when migrating all api endpoints to v2
+const V2 = config.api.url.replace('/api/v1', '/api/v2/quarterback')
 
 type FetchOptions = {
   method: string
@@ -57,7 +56,7 @@ export async function wrappedFetch<T>(
 ): Promise<Maybe<T>> {
   let resp
   try {
-    resp = await fetch(`${QUARTERBACK_URL}/${path}`, options)
+    resp = await fetch(`${V2}/${path}`, options)
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)

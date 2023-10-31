@@ -16,7 +16,7 @@ import {
   IUpdateDocumentRequest,
 } from '@manuscripts/quarterback-types'
 
-import { del, get, post, put } from './methods'
+import { del, get, post, put } from './methodsV2'
 
 export const getDocument = (projectID: string, manuscriptID: string) =>
   get<IGetDocumentResponse>(
