@@ -15,7 +15,7 @@ import config from '../../config'
 import { useAuthStore } from '../useAuthStore'
 
 // TODO:: remove this when migrating all api endpoints to v2
-const V2 = config.api.url.replace('/api/v1', '/api/v2/quarterback')
+const V2 = config.api.url.replace('/api/v1', '/api/V2/quarterback')
 
 type FetchOptions = {
   method: string
