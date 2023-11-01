@@ -24,8 +24,8 @@ type FetchOptions = {
 }
 
 export const DEFAULT_HEADERS = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
+  accept: 'application/json',
+  'content-type': 'application/json',
 }
 
 let debouncedAuth = false
