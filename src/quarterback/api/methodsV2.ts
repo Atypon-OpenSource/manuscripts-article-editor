@@ -12,7 +12,7 @@
 import type { Maybe } from '@manuscripts/quarterback-types'
 
 import config from '../../config'
-import { useAuthStore } from '../useAuthStore'
+//import { useAuthStore } from '../useAuthStore'
 
 // TODO:: remove this when migrating all api endpoints to v2
 const V2 = config.api.url.replace('/api/v1', '/api/v2/quarterback')
@@ -24,29 +24,30 @@ type FetchOptions = {
 }
 
 export const DEFAULT_HEADERS = {
-  accept: 'application/json',
-  'content-type': 'application/json',
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
 }
 
-let debouncedAuth = false
+//const debouncedAuth = false
 
 export function getAuthHeader() {
-  const jwt = useAuthStore.getState().jwt
-  if (!jwt && !debouncedAuth) {
-    // To ensure that user stays authenticated incase the token expires or something weird like
-    // https://jira.atypon.com/browse/LEAN-1619 happens, we'll run authenticate again each time
-    // quarterback-api is called (basically doc PUTs)
-    debouncedAuth = true
-    useAuthStore.getState().authenticate()
-    setTimeout(() => {
-      debouncedAuth = false
-    }, 5000)
-  }
+  // const jwt = useAuthStore.getState().jwt
+  // if (!jwt && !debouncedAuth) {
+  //   // To ensure that user stays authenticated incase the token expires or something weird like
+  //   // https://jira.atypon.com/browse/LEAN-1619 happens, we'll run authenticate again each time
+  //   // quarterback-api is called (basically doc PUTs)
+  //   debouncedAuth = true
+  //   useAuthStore.getState().authenticate()
+  //   setTimeout(() => {
+  //     debouncedAuth = false
+  //   }, 5000)
+  // }
   // @TODO use non-standard authorization header while istio is enabled but not in use.
   // This means it parses all Authorization headers and fails since the quarterback API issuer
   // has not been configured with istio.
   // https://jira.atypon.com/browse/LEAN-1274
-  return jwt && { 'X-Authorization': `Bearer ${jwt.token}` }
+  const api_key = process.env.API_KEY
+  return api_key && { 'X-Authorization': `Bearer ${api_key}` }
 }
 
 export async function wrappedFetch<T>(
