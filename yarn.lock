@@ -2007,10 +2007,10 @@
     tooltip.js "^1.3.3"
     typeface-lato "^1.1.13"
 
-"@manuscripts/style-guide@^1.3.6-LEAN-2705":
-  version "1.3.6-LEAN-2705"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.6-LEAN-2705.tgz#209bb71983c7522176abd0d44e55f9fd0a179fd4"
-  integrity sha512-4FGsWpz31uLI02cyivcr4SYSB7DvYobic6/ydbzu2hLCMUg5VOGsW44X2N9FeWf4o0xc0cWxf2qi2y139ZK78g==
+"@manuscripts/style-guide@^1.3.6-LEAN-2705-7":
+  version "1.3.6-LEAN-2705-7"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.3.6-LEAN-2705-7.tgz#c5f2ed8dc4ee6d443dca4a486c8053784b86b900"
+  integrity sha512-LaatIEra802z9BthTh13bjQwHohGusJAwovdbqZoQ84GGqH5A6TgS2esgPsIWbginB04rUQQuXDqQ6BijXyIfQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
