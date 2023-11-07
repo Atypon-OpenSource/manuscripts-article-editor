@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import type { Maybe } from '@manuscripts/quarterback-types'
-
+import { useStore } from '../../store'
 import config from '../../config'
 //import { useAuthStore } from '../useAuthStore'
 
@@ -46,8 +46,8 @@ export function getAuthHeader() {
   // This means it parses all Authorization headers and fails since the quarterback API issuer
   // has not been configured with istio.
   // https://jira.atypon.com/browse/LEAN-1274
-  const api_key = process.env.API_KEY
-  return api_key && { 'X-Authorization': `Bearer ${api_key}` }
+  const editorAuthToken = useStore((state) => state.editorAuthToken)
+  return editorAuthToken && { 'X-Authorization': `Bearer ${editorAuthToken}` }
 }
 
 export async function wrappedFetch<T>(
