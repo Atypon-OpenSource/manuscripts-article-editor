@@ -337,11 +337,9 @@ const ReferenceForm: React.FC<{
 
   const deleteClickCallback = useCallback(() => setShowDeleteDialog(true), [])
 
-  const initVals = buildInitialValues(item)
-
   return (
     <Formik<ReferenceFormValues>
-      initialValues={initVals}
+      initialValues={buildInitialValues(item)}
       onSubmit={saveCallback}
       innerRef={formMikRef}
       enableReinitialize={true}
