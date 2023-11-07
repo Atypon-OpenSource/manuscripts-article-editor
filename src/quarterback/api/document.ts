@@ -9,41 +9,25 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ICreateDocRequest,
-  ICreateDocResponse,
-  IGetDocumentResponse,
-  IUpdateDocumentRequest,
-} from '@manuscripts/quarterback-types'
 import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
+import {
+  AppliedStepsResponse,
+  CreateDocRequest,
+  ManuscriptDocWithSnapshots,
+  StepsPayload,
+  StepsSinceResponse,
+  UpdateDocumentRequest,
+} from '../types'
 import { del, get, getAPI, listen, post, postAPI, put } from './methods'
 
-export type StepsPayload = {
-  steps: unknown[]
-  version: number
-  clientID: number | string
-}
-
-export type AppliedStepsResponse = {
-  lastVersion?: number
-  steps?: number
-  error?: string
-}
-
-export type StepsSinceResponse = {
-  steps: unknown[]
-  version: number
-  clientIDs: number[]
-}
-
 export const getDocument = (id: string) =>
-  get<IGetDocumentResponse>(`doc/${id}`, 'Fetching document failed')
+  get<ManuscriptDocWithSnapshots>(`doc/${id}`, 'Fetching document failed')
 
-export const createDocument = (payload: ICreateDocRequest) =>
-  post<ICreateDocResponse>('doc', payload, 'Creating document failed')
+export const createDocument = (payload: CreateDocRequest) =>
+  post<ManuscriptDocWithSnapshots>('doc', payload, 'Creating document failed')
 
-export const updateDocument = (id: string, payload: IUpdateDocumentRequest) =>
+export const updateDocument = (id: string, payload: UpdateDocumentRequest) =>
   put<boolean>(`doc/${id}`, payload, 'Updating document failed')
 
 export const deleteDocument = (docId: string) =>

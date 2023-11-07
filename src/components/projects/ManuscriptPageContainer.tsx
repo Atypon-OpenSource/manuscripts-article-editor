@@ -24,8 +24,6 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
-import { ManuscriptEditorState } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 

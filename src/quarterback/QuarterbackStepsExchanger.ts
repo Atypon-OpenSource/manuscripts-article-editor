@@ -14,11 +14,7 @@ import { schema } from '@manuscripts/transform'
 import { Step } from 'prosemirror-transform'
 
 import { saveWithThrottle } from '../postgres-data/savingUtilities'
-import {
-  AppliedStepsResponse,
-  StepsPayload,
-  StepsSinceResponse,
-} from './api/document'
+import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
 
 class QuarterbackStepsExchanger extends CollabProvider {
   private static _instance: QuarterbackStepsExchanger | null // react uncontrolled function call protection

@@ -9,12 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptDoc } from '@manuscripts/quarterback-types'
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 import * as docApi from './api/document'
 import QuarterbackStepsExchanger from './QuarterbackStepsExchanger'
+import { ManuscriptDoc, StepsPayload } from './types'
 
 interface CurrentDocument {
   manuscriptID: string
@@ -65,10 +65,7 @@ export const useDocStore = create(
         if (!isAuthed) {
           return
         }
-        const applySteps = async (
-          docId: string,
-          payload: docApi.StepsPayload
-        ) => {
+        const applySteps = async (docId: string, payload: StepsPayload) => {
           const resp = await docApi.applySteps(docId, payload)
           if ('data' in resp) {
             return resp.data
