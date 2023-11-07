@@ -11,16 +11,11 @@
  */
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
-import {
-  FileAttachment,
-  FileManager,
-  usePermissions,
-} from '@manuscripts/style-guide'
+import { FileManager, usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
-import { useRequirementsValidation } from '../../hooks/use-requirements-validation'
 import { useStore } from '../../store'
 import {
   InspectorContainer,
@@ -31,7 +26,6 @@ import {
   PaddedInspectorTabPanels,
 } from '../Inspector'
 import Panel from '../Panel'
-import { RequirementsInspectorView } from '../requirements/RequirementsInspector'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { CommentsTab } from './CommentsTab'
@@ -41,41 +35,39 @@ interface Props {
   editor: ReturnType<typeof useCreateEditor>
 }
 const Inspector: React.FC<Props> = ({ editor }) => {
-  const [
-    {
-      attachments,
-      fileManagement,
-      isThereNewComments,
-      saveTrackModel,
-      deleteModel,
-      trackModelMap,
-      selectedComment,
-    },
-    stateDispatch,
-  ] = useStore((store) => ({
+  const [store] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     deleteModel: store.deleteModel,
     trackModelMap: store.trackModelMap,
-    attachments: store.attachments,
     fileManagement: store.fileManagement,
+    files: store.files,
     isThereNewComments: store.newComments.size > 0,
     selectedComment: store.selectedComment,
+    selectedSuggestion: store.selectedSuggestion,
+    editorSelectedSuggestion: store.editorSelectedSuggestion,
   }))
 
   const { state, dispatch } = editor
-  const comment = isThereNewComments || selectedComment
+
+  const comment = store.isThereNewComments || store.selectedComment
+  const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
 
   const [tabIndex, setTabIndex] = useState(0)
+  const COMMENTS_TAB_INDEX = 1
+  const SUGGESTIONS_TAB_INDEX = 2
 
   useEffect(() => {
     if (comment) {
-      setTabIndex(1)
+      setTabIndex(COMMENTS_TAB_INDEX)
     }
   }, [comment])
 
-  const validation = useRequirementsValidation({
-    state,
-  })
+  useEffect(() => {
+    if (suggestion) {
+      setTabIndex(SUGGESTIONS_TAB_INDEX)
+    }
+  }, [suggestion, SUGGESTIONS_TAB_INDEX])
+
   const selection = useMemo(
     () => state && findParentNodeWithIdValue(state.selection),
     [state]
@@ -83,6 +75,9 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const can = usePermissions()
 
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <Panel
@@ -92,16 +87,13 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={comment !== undefined}
+        forceOpen={comment !== undefined || suggestion !== undefined}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
             <InspectorTabList>
               <InspectorTab>Content</InspectorTab>
               <InspectorTab>Comments</InspectorTab>
-              {config.features.qualityControl && (
-                <InspectorTab>Quality</InspectorTab>
-              )}
               {config.quarterback.enabled && (
                 <InspectorTab>History</InspectorTab>
               )}
@@ -120,16 +112,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                   key="comments"
                 />
               </InspectorTabPanel>
-              {config.features.qualityControl && (
-                <InspectorTabPanel key="Quality">
-                  <RequirementsInspectorView
-                    result={validation.result}
-                    error={validation.error}
-                    isBuilding={validation.isBuilding}
-                    key="quality"
-                  />
-                </InspectorTabPanel>
-              )}
               {config.quarterback.enabled && (
                 <InspectorTabPanel key="History">
                   <TrackChangesPanel key="track-changes" />
@@ -139,19 +121,13 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                 <InspectorTabPanel key="Files">
                   <FileManager
                     can={can}
+                    files={store.files}
                     enableDragAndDrop={true}
-                    modelMap={trackModelMap}
-                    saveModel={(m) => saveTrackModel(m as any)}
-                    deleteModel={deleteModel}
-                    fileManagement={{
-                      ...fileManagement,
-                      getAttachments: () => attachments,
-                    }}
-                    addAttachmentToState={(attachment: FileAttachment) =>
-                      stateDispatch({
-                        attachments: [...attachments, attachment],
-                      })
-                    }
+                    modelMap={store.trackModelMap}
+                    // @ts-ignore
+                    saveModel={store.saveTrackModel}
+                    deleteModel={store.deleteModel}
+                    fileManagement={store.fileManagement}
                   />
                 </InspectorTabPanel>
               )}

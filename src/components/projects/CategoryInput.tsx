@@ -18,9 +18,8 @@ import styled from 'styled-components'
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isEditableSectionCategory,
-  isUnique,
+  isUniqueCurrent,
   isUniquePresent,
-  sortedSectionCategories,
 } from '../../lib/section-categories'
 import { OptionWrapper } from './TagsInput'
 
@@ -62,7 +61,8 @@ export const CategoryInput: React.FC<{
     sectionCategories.map((cat) => {
       if (
         isEditableSectionCategory(cat) &&
-        (!isUniquePresent(cat, existingCatsCounted) || isUnique(currentValue))
+        (!isUniquePresent(cat, existingCatsCounted) ||
+          isUniqueCurrent(cat._id, currentValue))
       ) {
         options.push({ value: cat._id, label: cat.name })
       }
@@ -71,11 +71,11 @@ export const CategoryInput: React.FC<{
   }, [currentValue, existingCatsCounted, sectionCategories])
 
   const selectionValue = useMemo(() => {
-    const cat = sortedSectionCategories.find(
+    const cat = sectionCategories.find(
       (category) => category._id === currentValue
     )
     return cat && { value: cat._id, label: cat.name }
-  }, [currentValue])
+  }, [currentValue, sectionCategories])
 
   return (
     <Container>

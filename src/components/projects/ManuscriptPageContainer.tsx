@@ -24,12 +24,17 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { useEffect, useLayoutEffect, useMemo } from 'react'
+import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
+import { ManuscriptEditorState } from '@manuscripts/transform'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
+import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
+import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useStore } from '../../store'
@@ -75,7 +80,7 @@ const ManuscriptPageView: React.FC = () => {
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
   const [modelMap] = useStore((store) => store.modelMap)
-  const [_, storeDispatch, getState] = useStore()
+  const [_, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
@@ -85,7 +90,17 @@ const ManuscriptPageView: React.FC = () => {
 
   const can = usePermissions()
 
+  const handleSnapshot = useHandleSnapshot()
+
+  useEffect(() => {
+    storeDispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const editor = useCreateEditor()
+
+  const [preventUnload] = useStore((store) => store.preventUnload)
+  useWindowUnloadEffect(undefined, preventUnload)
 
   const { state, dispatch, view } = editor
 
@@ -97,8 +112,7 @@ const ManuscriptPageView: React.FC = () => {
       dispatch,
       saveModel,
       deleteModel,
-      modelMap,
-      () => getState().attachments
+      modelMap
     )
 
   useEffect(() => {
@@ -133,13 +147,27 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
 
+  useEffect(() => {
+    storeDispatch({ editor, view })
+  }, [storeDispatch, view]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
     doWithThrottle(() => {
       setEditorState(state)
-    }, 1000)
+    }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
+
+  const trackAttrsPopper = useTrackAttrsPopper()
+
+  const onAppClick = useCallback(
+    (e: React.MouseEvent) => {
+      // TODO:: handle dropdown list for figure and file inspector
+      trackAttrsPopper(e)
+    },
+    [trackAttrsPopper]
+  )
 
   return (
     <RequirementsProvider modelMap={modelMap}>
@@ -151,7 +179,7 @@ const ManuscriptPageView: React.FC = () => {
         user={user}
       />
 
-      <PageWrapper>
+      <PageWrapper onClick={onAppClick}>
         <Main>
           <EditorContainer>
             <EditorContainerInner>

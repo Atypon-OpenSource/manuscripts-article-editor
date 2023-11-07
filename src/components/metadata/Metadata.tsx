@@ -34,7 +34,6 @@ import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
-import { HeaderFigure } from './HeaderFigure'
 import { TitleFieldContainer } from './TitleFieldContainer'
 
 const TitleContainer = styled.div`
@@ -144,8 +143,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       authorsAndAffiliations: store.authorsAndAffiliations,
       contributorRoles: store.contributorRoles,
       saveModel: store.saveModel,
-      getAttachment: store.getAttachment,
-      putAttachment: store.putAttachment,
       project: store.project,
       tokenActions: store.tokenActions,
     }
@@ -173,7 +170,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   return (
     <HeaderContainer>
       <Header>
-        <HeaderFigure />
         <TitleContainer>
           <TitleFieldContainer
             title={manuscript.title || ''}

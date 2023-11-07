@@ -24,7 +24,6 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { FileAttachment } from '@manuscripts/style-guide'
 import {
   Decoder,
   getModelData,
@@ -34,7 +33,6 @@ import {
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
-import { replaceAttachmentsIds } from '../lib/replace-attachments-ids'
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
@@ -169,32 +167,23 @@ const getManuscriptData = async (
   data.commits = data.commits || []
   data.modelMap = await buildModelMap(models || [])
 
-  return data
-}
-
-const getLibrariesData = async (projectID: string, api: Api) => {
-  const libraries = await api.getProjectModels<Model>(projectID, [
-    'MPLibraryCollection',
-    'MPBibliographyItem',
+  const [sectionCategories, cslLocale, template] = await Promise.all([
+    api.getSectionCategories(),
+    // TODO:: config this!
+    api.getCSLLocale('en-US'),
+    api.getTemplate(data.manuscript?.prototype),
   ])
-  if (libraries) {
-    return libraries.reduce(
-      (acc, item) => {
-        if (item.objectType === ObjectTypes.BibliographyItem) {
-          acc.library.set(item._id, item as BibliographyItem)
-        }
-        if (item.objectType === ObjectTypes.LibraryCollection) {
-          acc.projectLibraryCollections.set(item._id, item as LibraryCollection)
-        }
-        return acc
-      },
-      {
-        projectLibraryCollections: new Map<string, LibraryCollection>(),
-        library: new Map<string, BibliographyItem>(),
-      }
-    )
-  }
-  return null
+
+  const bundle = await api.getBundle(template)
+  const cslStyle = await api.getCSLStyle(bundle)
+
+  data.sectionCategories = sectionCategories || []
+  data.template = template
+  data.bundle = bundle
+  data.cslLocale = cslLocale
+  data.cslStyle = cslStyle
+
+  return data
 }
 
 const getCollaboratorsData = async (
@@ -242,7 +231,7 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 
   const storeData: Partial<state> = {
     snapshotID: null,
-    commitAtLoad: null,
+    library: new Map<string, BibliographyItem>(),
   }
 
   const affiliationAndContributors: (Contributor | Affiliation)[] = []
@@ -250,6 +239,16 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 
   // eslint-disable-next-line no-unsafe-optional-chaining
   for (const model of data.modelMap?.values()) {
+    if (model.objectType === ObjectTypes.BibliographyItem) {
+      storeData.library!.set(model._id, model as BibliographyItem)
+    }
+    if (model.objectType === ObjectTypes.LibraryCollection) {
+      storeData.projectLibraryCollections!.set(
+        model._id,
+        model as LibraryCollection
+      )
+    }
+
     if (
       model.objectType === ObjectTypes.Affiliation ||
       model.objectType === ObjectTypes.Contributor
@@ -270,8 +269,7 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 export default async function buildData(
   projectID: string,
   manuscriptID: string,
-  api: Api,
-  attachments: FileAttachment[]
+  api: Api
 ) {
   // const project = await getProjectData(projectID, api)
   const user = await api.getUser()
@@ -292,19 +290,9 @@ export default async function buildData(
   )
 
   const projects = await api.getUserProjects()
-  const librariesData = await getLibrariesData(projectID, api)
-
-  // replace attachments with src
-  let noAttachmentsModelMap: Map<string, Model> | undefined = undefined
-  if (attachments && manuscriptData.modelMap) {
-    noAttachmentsModelMap = replaceAttachmentsIds(
-      manuscriptData.modelMap,
-      attachments
-    )
-  }
 
   const derivedData = getDrivedData(projectID, manuscriptData)
-  const doc = createDoc(manuscriptData, noAttachmentsModelMap)
+  const doc = createDoc(manuscriptData, manuscriptData.modelMap)
 
   return {
     projects: projects,
@@ -318,7 +306,6 @@ export default async function buildData(
     userRole,
     ...derivedData,
     ...collaboratorsData,
-    ...librariesData,
     ...manuscriptData,
     doc,
     tokenData: new TokenData(),

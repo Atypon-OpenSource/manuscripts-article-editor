@@ -11,7 +11,7 @@
  */
 import { usePermissions } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
@@ -24,6 +24,7 @@ interface Props {
   handleAccept: (c: TrackedChange) => void
   handleReject: (c: TrackedChange) => void
   handleReset: (c: TrackedChange) => void
+  handleClickSuggestion(c: TrackedChange): void
 }
 
 export const Suggestion: React.FC<Props> = ({
@@ -31,10 +32,18 @@ export const Suggestion: React.FC<Props> = ({
   handleAccept,
   handleReject,
   handleReset,
+  handleClickSuggestion,
 }) => {
-  const [user] = useStore((store) => store.user)
+  const [{ user, selectedSuggestion }] = useStore((store) => ({
+    user: store.user,
+    selectedSuggestion: store.selectedSuggestion,
+  }))
 
   const can = usePermissions()
+
+  const wrapperRef = useRef<HTMLLIElement>(null)
+
+  const [suggestionClicked, setSuggestionClicked] = useState(false)
 
   const canRejectOwnSuggestion = useMemo(() => {
     if (
@@ -56,13 +65,31 @@ export const Suggestion: React.FC<Props> = ({
     return suggestion.dataTracked.status === CHANGE_STATUS.accepted
   }, [suggestion])
 
+  const isSelectedSuggestion = useMemo(() => {
+    return !!(selectedSuggestion && selectedSuggestion === suggestion.id)
+  }, [selectedSuggestion, suggestion])
+
+  useEffect(() => {
+    if (isSelectedSuggestion && wrapperRef.current && !suggestionClicked) {
+      const wrapperRefElement = wrapperRef.current
+      wrapperRefElement.scrollIntoView({
+        behavior: 'auto',
+        block: 'start',
+        inline: 'start',
+      })
+    }
+    setSuggestionClicked(false)
+  }, [isSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <Wrapper isFocused={false}>
+    <Wrapper isFocused={isSelectedSuggestion} ref={wrapperRef}>
       <FocusHandle
-        // href="#"
-        // onClick={() => {
-        //   console.log('click')
-        // }}
+        href="#"
+        onClick={(e) => {
+          e.preventDefault()
+          setSuggestionClicked(true)
+          handleClickSuggestion(suggestion)
+        }}
         isDisabled={isRejected}
       >
         <SuggestionSnippet suggestion={suggestion} />
@@ -155,6 +182,10 @@ const Wrapper = styled.li<{
 
   /* FocusHandle should cover entire card: */
   position: relative;
+  background: ${(props) =>
+    props.isFocused
+      ? props.theme.colors.background.fifth + ' !important'
+      : 'transparent'};
 
   &:hover {
     background: ${(props) => props.theme.colors.background.fifth} !important;

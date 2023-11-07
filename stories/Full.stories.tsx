@@ -17,16 +17,25 @@ import { ManuscriptEditorApp, ParentObserver } from '../src'
 storiesOf('Full', module).add('default', () => (
   <ManuscriptEditorApp
     fileManagement={{
-      getAttachments: () => {
-        return []
+      upload: (f) => {
+        return Promise.resolve({
+          id: 'test',
+          type: {
+            id: 'figure',
+          },
+          name: f.name,
+          link: '',
+          createdDate: new Date(),
+        })
       },
-      upload: () => {
+      download: () => {
         return Promise.resolve(true)
       },
-      replace: () => {
-        return Promise.resolve(true)
+      previewLink: (f) => {
+        return ''
       },
     }}
+    files={[]}
     parentObserver={new ParentObserver()}
     permittedActions={[]}
     manuscriptID={'MPManuscript:B3BB2CD8-F944-47C3-9F01-1996DBD417EE'}
