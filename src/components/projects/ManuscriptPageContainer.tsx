@@ -31,6 +31,7 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
@@ -89,6 +90,13 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   const can = usePermissions()
+
+  const handleSnapshot = useHandleSnapshot()
+
+  useEffect(() => {
+    storeDispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const editor = useCreateEditor()
 
