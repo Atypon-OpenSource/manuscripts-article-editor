@@ -17,7 +17,7 @@ import {
 } from '@manuscripts/quarterback-types'
 import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
-import { del, get, listen, post, put, getAPI, postAPI } from './methods'
+import { del, get, getAPI, listen, post, postAPI, put } from './methods'
 
 export type StepsPayload = {
   steps: unknown[]

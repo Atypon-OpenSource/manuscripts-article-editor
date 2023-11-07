@@ -30,6 +30,7 @@ import styled from 'styled-components'
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
+import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useStore } from '../../store'
 import MetadataContainer from '../metadata/MetadataContainer'
@@ -132,9 +133,13 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
 
+  const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
-    setEditorState(state) // not sure if that's needed. Needs a check
-  }, [])
+    doWithThrottle(() => {
+      setEditorState(state)
+    }, 1000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
   return (
     <RequirementsProvider modelMap={modelMap}>

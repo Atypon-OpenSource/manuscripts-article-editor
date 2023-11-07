@@ -90,7 +90,10 @@ export async function wrappedFetchAPI<T>(
 ): Promise<Maybe<T>> {
   let resp
   try {
-    resp = await fetch(`http://host:3000/api/v2/quarterback/${path}`, options)
+    resp = await fetch(
+      `http://localhost:3000/api/v2/quarterback/${path}`,
+      options
+    )
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
@@ -218,9 +221,8 @@ export async function listen<T>(
     await useAuthStore.getState().authenticate()
     headers = { ...DEFAULT_HEADERS, ...getAuthHeader() }
   }
-  await fetchEventSource(`host:3000/api/v2/quarterback/${path}`, {
-
-  // await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
+  await fetchEventSource(`http://localhost:3000/api/v2/quarterback/${path}`, {
+    // await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
     onmessage: listener,
     headers: headers,
     async onopen(response) {

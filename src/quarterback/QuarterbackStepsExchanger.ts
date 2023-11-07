@@ -13,6 +13,7 @@ import { CollabProvider } from '@manuscripts/body-editor'
 import { schema } from '@manuscripts/transform'
 import { Step } from 'prosemirror-transform'
 
+import { saveWithThrottle } from '../postgres-data/savingUtilities'
 import {
   AppliedStepsResponse,
   StepsPayload,
@@ -29,6 +30,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
   // @ts-ignore
   private docId: string
+  // @ts-ignore
   private projectId: string
 
   getStepsSince: (
@@ -88,11 +90,14 @@ class QuarterbackStepsExchanger extends CollabProvider {
     })
 
     this.currentVersion = version
-    await this.applySteps(this.docId, {
-      steps: stepsJSON,
-      version,
-      clientID,
-    })
+    saveWithThrottle(() => {
+      this.applySteps(this.docId, {
+        steps: stepsJSON,
+        version,
+        clientID,
+      })
+    }, 2000)
+    return Promise.resolve()
   }
 
   onNewSteps(listener: CollabProvider['newStepsListener']) {
