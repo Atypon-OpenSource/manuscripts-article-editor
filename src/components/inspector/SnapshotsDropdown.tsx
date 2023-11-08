@@ -20,6 +20,8 @@ import styled from 'styled-components'
 
 import { useDropdown } from '../../hooks/use-dropdown'
 import { useSnapshotStore } from '../../quarterback/useSnapshotStore'
+// import { useStore } from 'zustand'
+import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'
 import {
   Dropdown,
@@ -34,6 +36,7 @@ export const SnapshotsDropdown: React.FC = () => {
   const snapshotStore = useSnapshotStore()
   const { snapshots, inspectedSnapshot } = snapshotStore
   const { docToJSON, execCmd, hydrateDocFromJSON } = useEditorStore()
+  const [authToken] = useStore((store) => store.authToken)
 
   const sortedSnapshots = snapshots.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -51,7 +54,7 @@ export const SnapshotsDropdown: React.FC = () => {
       handleResumeEditing()
       return
     }
-    const resp = await snapshotStore.inspectSnapshot(snap.id)
+    const resp = await snapshotStore.inspectSnapshot(snap.id, authToken)
     if ('data' in resp) {
       hydrateDocFromJSON(resp.data.snapshot as any)
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))

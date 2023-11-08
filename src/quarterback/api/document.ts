@@ -18,15 +18,21 @@ import {
 
 import { del, get, post, put } from './methodsV2'
 
-export const getDocument = (projectID: string, manuscriptID: string) =>
+export const getDocument = (
+  projectID: string,
+  manuscriptID: string,
+  authToken: string
+) =>
   get<IGetDocumentResponse>(
     `doc/${projectID}/manuscript/${manuscriptID}`,
+    authToken,
     'Fetching document failed'
   )
 
-export const createDocument = (payload: ICreateDocRequest) =>
+export const createDocument = (payload: ICreateDocRequest, authToken: string) =>
   post<ICreateDocResponse>(
     `doc/${payload.project_model_id}/manuscript/${payload.manuscript_model_id}`,
+    authToken,
     payload,
     'Creating document failed'
   )
@@ -34,16 +40,23 @@ export const createDocument = (payload: ICreateDocRequest) =>
 export const updateDocument = (
   projectID: string,
   manuscriptID: string,
+  authToken: string,
   payload: IUpdateDocumentRequest
 ) =>
   put<boolean>(
     `doc/${projectID}/manuscript/${manuscriptID}`,
+    authToken,
     payload,
     'Updating document failed'
   )
 
-export const deleteDocument = (projectID: string, manuscriptID: string) =>
+export const deleteDocument = (
+  projectID: string,
+  manuscriptID: string,
+  authToken: string
+) =>
   del<boolean>(
     `doc/${projectID}/manuscript/${manuscriptID}`,
+    authToken,
     'Deleting document failed'
   )

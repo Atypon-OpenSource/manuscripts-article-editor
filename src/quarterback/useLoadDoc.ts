@@ -17,7 +17,7 @@ import { useAuthStore } from './useAuthStore'
 import { useDocStore } from './useDocStore'
 import { useSnapshotStore } from './useSnapshotStore'
 
-export const useLoadDoc = () => {
+export const useLoadDoc = (authToken: string) => {
   const { authenticate } = useAuthStore()
   const { createDocument, getDocument, setCurrentDocument } = useDocStore()
   const { init: initSnapshots, setSnapshots } = useSnapshotStore()
@@ -31,7 +31,7 @@ export const useLoadDoc = () => {
       return undefined
     }
     setCurrentDocument(manuscriptID, projectID)
-    const found = await getDocument(projectID, manuscriptID)
+    const found = await getDocument(projectID, manuscriptID, authToken)
     let doc
     if ('data' in found) {
       initSnapshots()
@@ -39,7 +39,7 @@ export const useLoadDoc = () => {
       doc = found.data.doc
     } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
-      createDocument(manuscriptID, projectID)
+      createDocument(manuscriptID, projectID, authToken)
     }
     if (
       doc !== null &&

@@ -60,6 +60,7 @@ const ManuscriptPageContainer: React.FC = () => {
       project: state.project,
       user: state.user,
       permittedActions: state.permittedActions,
+      authToken: state.authToken,
     }
   })
 
@@ -88,6 +89,7 @@ const ManuscriptPageView: React.FC = () => {
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
+  const [authToken] = useStore((store) => store.authToken)
 
   const can = usePermissions()
 
@@ -163,7 +165,7 @@ const ManuscriptPageView: React.FC = () => {
     // @TODO - remove this once testing is completed
     console.log('Saving to quarteback with throttle: ' + throttle)
     storeDispatch({ doc: state.doc })
-    updateDocument(project._id, manuscriptID, state.doc.toJSON())
+    updateDocument(project._id, manuscriptID, state.doc.toJSON(), authToken)
   }
 
   const doWithThrottle = useDoWithThrottle()

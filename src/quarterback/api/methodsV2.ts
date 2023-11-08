@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import type { Maybe } from '@manuscripts/quarterback-types'
-import { useStore } from '../../store'
+
 import config from '../../config'
-//import { useAuthStore } from '../useAuthStore'
+// import { useAuthStore } from '../useAuthStore'
 
 // TODO:: remove this when migrating all api endpoints to v2
 const V2 = config.api.url.replace('/api/v1', '/api/v2/quarterback')
@@ -30,24 +30,8 @@ export const DEFAULT_HEADERS = {
 
 //const debouncedAuth = false
 
-export function getAuthHeader() {
-  // const jwt = useAuthStore.getState().jwt
-  // if (!jwt && !debouncedAuth) {
-  //   // To ensure that user stays authenticated incase the token expires or something weird like
-  //   // https://jira.atypon.com/browse/LEAN-1619 happens, we'll run authenticate again each time
-  //   // quarterback-api is called (basically doc PUTs)
-  //   debouncedAuth = true
-  //   useAuthStore.getState().authenticate()
-  //   setTimeout(() => {
-  //     debouncedAuth = false
-  //   }, 5000)
-  // }
-  // @TODO use non-standard authorization header while istio is enabled but not in use.
-  // This means it parses all Authorization headers and fails since the quarterback API issuer
-  // has not been configured with istio.
-  // https://jira.atypon.com/browse/LEAN-1274
-  const editorAuthToken = useStore((state) => state.editorAuthToken)
-  return editorAuthToken && { 'X-Authorization': `Bearer ${editorAuthToken}` }
+export function getAuthHeader(authToken: string) {
+  return authToken && { 'X-Authorization': `Bearer ${authToken}` }
 }
 
 export async function wrappedFetch<T>(
@@ -82,8 +66,12 @@ export async function wrappedFetch<T>(
 
 export function get<T>(
   path: string,
+  authToken: string,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
@@ -97,9 +85,13 @@ export function get<T>(
 
 export function post<T>(
   path: string,
+  authToken: string,
   payload: any,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
@@ -114,9 +106,13 @@ export function post<T>(
 
 export function put<T>(
   path: string,
+  authToken: string,
   payload: any,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
@@ -131,8 +127,12 @@ export function put<T>(
 
 export function del<T>(
   path: string,
+  authToken: string,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,

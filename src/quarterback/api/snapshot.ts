@@ -19,33 +19,44 @@ import {
 
 import { del, get, post, put } from './methodsV2'
 
-export const listSnapshotLabels = (docID: string) =>
+export const listSnapshotLabels = (docID: string, authToken: string) =>
   get<IGetSnapshotLabelsResponse>(
     `doc/${docID}/snapshot/labels`,
+    authToken,
     'Fetching snapshots failed'
   )
 
-export const getSnapshot = (snapshotId: string) =>
+export const getSnapshot = (snapshotId: string, authToken: string) =>
   get<IGetSnapshotResponse>(
     `snapshot/${snapshotId}`,
+    authToken,
     'Fetching a snapshot failed'
   )
 
 export const saveSnapshot = (
   projectID: string,
   manuscriptID: string,
+  authToken: string,
   payload: ISaveSnapshotRequest
 ) =>
   post<ISaveSnapshotResponse>(
     `snapshot/${projectID}/manuscript/${manuscriptID}`,
+    authToken,
     payload,
     'Saving snapshot failed'
   )
 
 export const updateSnapshot = (
   snapId: string,
+  authToken: string,
   payload: IUpdateSnapshotRequest
-) => put<boolean>(`snapshot/${snapId}`, payload, 'Updating snapshot failed')
+) =>
+  put<boolean>(
+    `snapshot/${snapId}`,
+    authToken,
+    payload,
+    'Updating snapshot failed'
+  )
 
-export const deleteSnapshot = (snapId: string) =>
-  del<boolean>(`snapshot/${snapId}`, 'Deleting snapshot failed')
+export const deleteSnapshot = (snapId: string, authToken: string) =>
+  del<boolean>(`snapshot/${snapId}`, authToken, 'Deleting snapshot failed')
