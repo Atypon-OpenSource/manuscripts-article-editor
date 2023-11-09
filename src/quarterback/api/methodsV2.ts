@@ -31,7 +31,7 @@ export const DEFAULT_HEADERS = {
 //const debouncedAuth = false
 
 export function getAuthHeader(authToken: string) {
-  return authToken && { 'X-Authorization': `Bearer ${authToken}` }
+  return authToken && { Authorization: `Bearer ${authToken}` }
 }
 
 export async function wrappedFetch<T>(
