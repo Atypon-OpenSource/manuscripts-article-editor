@@ -15,7 +15,7 @@ import './lib/fonts'
 import './channels'
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
-import { FileManagement } from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
 import React, { useEffect } from 'react'
 
@@ -36,6 +36,7 @@ export { SaveStatusController } from './components/projects/SaveStatusController
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement
+  files: FileAttachment[]
   parentObserver: ISubject
   manuscriptID: string
   projectID: string
@@ -45,6 +46,7 @@ export interface ManuscriptEditorAppProps {
 
 const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
   fileManagement,
+  files,
   parentObserver,
   manuscriptID,
   projectID,
@@ -82,6 +84,7 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
           >
             <Main
               fileManagement={fileManagement}
+              files={files}
               authToken={authToken || ''}
               parentObserver={parentObserver}
               manuscriptID={manuscriptID}

@@ -24,7 +24,6 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { FileAttachment } from '@manuscripts/style-guide'
 import {
   Decoder,
   getModelData,
@@ -34,7 +33,6 @@ import {
 
 import { buildAuthorsAndAffiliations } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
-import { replaceAttachmentsIds } from '../lib/replace-attachments-ids'
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
@@ -233,8 +231,6 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 
   const storeData: Partial<state> = {
     snapshotID: null,
-    commitAtLoad: null,
-    projectLibraryCollections: new Map<string, LibraryCollection>(),
     library: new Map<string, BibliographyItem>(),
   }
 
@@ -273,8 +269,7 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
 export default async function buildData(
   projectID: string,
   manuscriptID: string,
-  api: Api,
-  attachments: FileAttachment[]
+  api: Api
 ) {
   // const project = await getProjectData(projectID, api)
   const user = await api.getUser()
@@ -296,17 +291,8 @@ export default async function buildData(
 
   const projects = await api.getUserProjects()
 
-  // replace attachments with src
-  let noAttachmentsModelMap: Map<string, Model> | undefined = undefined
-  if (attachments && manuscriptData.modelMap) {
-    noAttachmentsModelMap = replaceAttachmentsIds(
-      manuscriptData.modelMap,
-      attachments
-    )
-  }
-
   const derivedData = getDrivedData(projectID, manuscriptData)
-  const doc = createDoc(manuscriptData, noAttachmentsModelMap)
+  const doc = createDoc(manuscriptData, manuscriptData.modelMap)
 
   return {
     projects: projects,

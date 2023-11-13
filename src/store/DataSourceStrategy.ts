@@ -31,7 +31,7 @@ export class BasicSource implements StoreDataSourceStrategy {
     fileManagement: FileManagement,
     projectID: string,
     manuscriptID: string,
-    attachments: FileAttachment[],
+    files: FileAttachment[],
     permittedActions: string[],
     userID?: string | undefined,
     authToken?: string | undefined
@@ -40,7 +40,7 @@ export class BasicSource implements StoreDataSourceStrategy {
       fileManagement,
       projectID,
       manuscriptID,
-      attachments,
+      files,
       permittedActions,
       userID,
       authToken,
