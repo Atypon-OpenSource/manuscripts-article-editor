@@ -24,15 +24,19 @@ export const ManuscriptInspector: React.FC<{
   dispatch: (tr: Transaction) => EditorState | void
   canWrite?: boolean
 }> = ({ state, dispatch }) => {
-  const [{ manuscript, saveManuscript }] = useStore((store) => ({
-    manuscript: store.manuscript,
-    modelMap: store.trackModelMap,
-    saveManuscript: store.saveManuscript,
-    saveModel: store.saveTrackModel,
-    deleteModel: store.deleteTrackModel,
-    user: store.user,
-    project: store.project,
-  }))
+  const [{ manuscript, saveManuscript, title, saveArticleTitle }] = useStore(
+    (store) => ({
+      manuscript: store.manuscript,
+      title: store.title,
+      modelMap: store.trackModelMap,
+      saveManuscript: store.saveManuscript,
+      saveArticleTitle: store.saveArticleTitle,
+      saveModel: store.saveTrackModel,
+      deleteModel: store.deleteTrackModel,
+      user: store.user,
+      project: store.project,
+    })
+  )
   return (
     <InspectorSection title={'Manuscript'}>
       {config.features.DOI && (
@@ -56,9 +60,9 @@ export const ManuscriptInspector: React.FC<{
 
           <RunningTitleField
             placeholder={'Running title'}
-            value={manuscript.runningTitle || ''}
+            value={title.runningTitle || ''}
             handleChange={async (runningTitle) => {
-              await saveManuscript({
+              await saveArticleTitle({
                 runningTitle,
               })
             }}
