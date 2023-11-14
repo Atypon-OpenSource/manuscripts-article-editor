@@ -13,21 +13,15 @@
 import { schema } from '@manuscripts/transform'
 
 import config from '../config'
-import { useAuthStore } from './useAuthStore'
 import { useDocStore } from './useDocStore'
 import { useSnapshotStore } from './useSnapshotStore'
 
 export const useLoadDoc = (authToken: string) => {
-  const { authenticate } = useAuthStore()
   const { createDocument, getDocument, setCurrentDocument } = useDocStore()
   const { init: initSnapshots, setSnapshots } = useSnapshotStore()
 
   return async function loadDoc(manuscriptID: string, projectID: string) {
     if (!config.quarterback.enabled) {
-      return undefined
-    }
-    const auth = await authenticate()
-    if (!auth) {
       return undefined
     }
     setCurrentDocument(manuscriptID, projectID)
@@ -37,7 +31,7 @@ export const useLoadDoc = (authToken: string) => {
       initSnapshots()
       setSnapshots(found.data.snapshots)
       doc = found.data.doc
-    } else if ('err' in found && found.code === 404) {
+    } else if ('err' in found && found.err.includes('code(404)')) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
       createDocument(manuscriptID, projectID, authToken)
     }
