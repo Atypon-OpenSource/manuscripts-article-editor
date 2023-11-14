@@ -9,13 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { insertSectionLabel } from '@manuscripts/body-editor'
 import { Section } from '@manuscripts/json-schema'
 import { Title } from '@manuscripts/title-editor'
-import { isSectionLabelNode, SectionNode } from '@manuscripts/transform'
+import { SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { findParentNode } from 'prosemirror-utils'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import {
@@ -60,50 +59,6 @@ export const SectionInspector: React.FC<{
     return exisitingCats
   }, [modelMap.size]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [titleSuppressed, setTitleSuppressed] = useState<boolean>(
-    !!section.titleSuppressed
-  )
-
-  const updateTitleSuppressed = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault()
-      const nextTitleSuppressed = !e.target.checked
-      setTitleSuppressed(nextTitleSuppressed)
-      dispatchNodeAttrs(section._id, { titleSuppressed: nextTitleSuppressed })
-    },
-    [section, dispatchNodeAttrs]
-  )
-
-  const updateGeneratedLabel = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault()
-      const isGenerated = !e.target.checked
-      // setGeneratedLabel(isGenerated)
-
-      const tr = dispatchNodeAttrs(
-        section._id,
-        {
-          generatedLabel: isGenerated,
-        },
-        !isGenerated
-      )
-      if (!isGenerated) {
-        let existingLabel = null
-        sectionNode?.descendants((node) => {
-          if (isSectionLabelNode(node)) {
-            existingLabel = node
-          }
-        })
-        if (!existingLabel) {
-          insertSectionLabel(state, dispatch, tr)
-        } else if (tr) {
-          dispatch(tr)
-        }
-      }
-    },
-    [section, dispatchNodeAttrs, state, dispatch, sectionNode]
-  )
-
   const sortedSectionCategories = useMemo(() => {
     const container = findParentNode((node) => node.attrs.category)(
       state.selection
@@ -132,31 +87,6 @@ export const SectionInspector: React.FC<{
   return (
     <InspectorSection title={'Section'}>
       {section.title && <StyledTitle value={section.title} />}
-
-      {sectionNode && 'titleSuppressed' in sectionNode.attrs && (
-        <div>
-          <label>
-            <input
-              type={'checkbox'}
-              checked={!titleSuppressed}
-              onChange={updateTitleSuppressed}
-            />{' '}
-            Title is shown
-          </label>
-        </div>
-      )}
-      {sectionNode && 'generatedLabel' in sectionNode.attrs && (
-        <div>
-          <label>
-            <input
-              type={'checkbox'}
-              checked={!sectionNode.attrs.generatedLabel}
-              onChange={updateGeneratedLabel}
-            />{' '}
-            Use custom label
-          </label>
-        </div>
-      )}
 
       {isEditableSectionCategoryID(currentSectionCategory) && (
         <>

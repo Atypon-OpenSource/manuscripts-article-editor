@@ -1860,10 +1860,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.4.23":
-  version "1.4.23"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.23.tgz#5b4fb6ff987cfb9f6f4a99be9513b8627d498b29"
-  integrity sha512-b52X+kW0qrsOP1QeDZ9MSMDh9pdGpNXOpyJXbarDmmYwDJV4j5Ox5g4Zb1wCyaea5KpI9Iep09y0LTFt1NTtpw==
+"@manuscripts/body-editor@^1.4.24":
+  version "1.4.24"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.24.tgz#a569c71062eea18191fbc1d8b6a5cf9d0fc44ad2"
+  integrity sha512-Cq6HT3H4Dno3gbmQNLoFFxLuzce9+BJNHIw9KmtEe7SQ8XgpfsDj/O2LXNyfgI5l0bqDtx1nobrX30fPwrJo4A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1877,7 +1877,6 @@
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
-    comlink "^4.3.0"
     dompurify "^2.4.1"
     formik "^2.2.9"
     grapheme-splitter "^1.0.4"
@@ -5829,11 +5828,6 @@ combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
-
-comlink@^4.3.0:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/comlink/-/comlink-4.4.1.tgz#e568b8e86410b809e8600eb2cf40c189371ef981"
-  integrity sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q==
 
 comma-separated-tokens@^1.0.0:
   version "1.0.8"
