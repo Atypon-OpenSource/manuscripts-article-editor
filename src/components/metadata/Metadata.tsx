@@ -131,7 +131,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   const [
     {
       manuscript,
-      title,
+      titles,
       authorsAndAffiliations,
       contributorRoles,
       tokenActions,
@@ -141,7 +141,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   ] = useStore((store) => {
     return {
       manuscript: store.manuscript,
-      title: store.title,
+      titles: store.titles,
       authorsAndAffiliations: store.authorsAndAffiliations,
       contributorRoles: store.contributorRoles,
       saveModel: store.saveModel,
@@ -174,7 +174,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       <Header>
         <TitleContainer>
           <TitleFieldContainer
-            title={title.articleTitle || ''}
+            title={titles.title || ''}
             handleChange={props.saveTitle}
             handleStateChange={props.handleTitleStateChange}
             editable={can.editArticle}

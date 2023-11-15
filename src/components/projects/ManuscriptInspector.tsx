@@ -24,10 +24,10 @@ export const ManuscriptInspector: React.FC<{
   dispatch: (tr: Transaction) => EditorState | void
   canWrite?: boolean
 }> = ({ state, dispatch }) => {
-  const [{ manuscript, saveManuscript, title, saveArticleTitle }] = useStore(
+  const [{ manuscript, saveManuscript, titles, saveArticleTitle }] = useStore(
     (store) => ({
       manuscript: store.manuscript,
-      title: store.title,
+      titles: store.titles,
       modelMap: store.trackModelMap,
       saveManuscript: store.saveManuscript,
       saveArticleTitle: store.saveArticleTitle,
@@ -60,7 +60,7 @@ export const ManuscriptInspector: React.FC<{
 
           <RunningTitleField
             placeholder={'Running title'}
-            value={title.runningTitle || ''}
+            value={titles.runningTitle || ''}
             handleChange={async (runningTitle) => {
               await saveArticleTitle({
                 runningTitle,
