@@ -26,7 +26,7 @@ import {
   ProjectInvitation,
   SectionCategory,
   Tag,
-  Title,
+  Titles,
   UserProfile,
 } from '@manuscripts/json-schema'
 import {
@@ -76,7 +76,7 @@ export type state = {
 
   project: Project
   manuscript: Manuscript
-  title: Title
+  titles: Titles
   manuscripts?: Manuscript[]
   user: UserProfile // probably should be optional
 
@@ -89,7 +89,7 @@ export type state = {
   deleteModel: (id: string) => Promise<string>
   bulkUpdate: (models: ContainedModel[]) => Promise<void>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  saveArticleTitle: (data: Partial<Title>) => Promise<void>
+  saveArticleTitle: (data: Partial<Titles>) => Promise<void>
   // track changes doc state changes
   saveTrackModel: <T extends Model>(
     model: T | Build<T> | Partial<T>
