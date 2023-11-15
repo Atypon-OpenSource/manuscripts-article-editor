@@ -197,10 +197,12 @@ export interface ReferenceFormValues {
   title?: string
   author?: BibliographicName[]
   DOI?: string
-  issued?: {
-    _id: string
-    'date-parts'?: Array<Array<string | number>>
-  }
+  issued?:
+    | {
+        _id: string
+        'date-parts'?: Array<Array<string | number>>
+      }
+    | ''
   type: string
   'container-title'?: string
   URL?: string
@@ -288,18 +290,19 @@ export const buildInitialValues = (
   item: BibliographyItem
 ): ReferenceFormValues => ({
   _id: item._id,
-  title: item.title,
-  author: item.author,
-  DOI: item.DOI,
-  issued: item.issued,
-  type: item.type,
-  'container-title': item['container-title'],
-  URL: item.URL,
-  issue: item.issue ? String(item.issue) : undefined,
-  volume: item.volume ? String(item.volume) : undefined,
-  supplement: item.supplement ? String(item.supplement) : undefined,
-  page: item.page ? String(item.page) : undefined,
+  title: item.title || '',
+  author: item.author || [],
+  DOI: item.DOI || '',
+  issued: item.issued || '',
+  type: item.type || '',
+  'container-title': item['container-title'] || '',
+  URL: item.URL || '',
+  issue: item.issue ? String(item.issue) : '',
+  volume: item.volume ? String(item.volume) : '',
+  supplement: item.supplement ? String(item.supplement) : '',
+  page: item.page ? String(item.page) : '',
 })
+// NOTE: not undefined due to https://github.com/jaredpalmer/formik/issues/2180
 
 export const bibliographyItemTypeOptions: OptionType[] = Array.from(
   bibliographyItemTypes.entries()

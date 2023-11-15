@@ -15,10 +15,7 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
-import {
-  ManuscriptToolbar,
-  RequirementsProvider,
-} from '@manuscripts/body-editor'
+import { ManuscriptToolbar } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
@@ -31,6 +28,7 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
@@ -89,6 +87,13 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   const can = usePermissions()
+
+  const handleSnapshot = useHandleSnapshot()
+
+  useEffect(() => {
+    storeDispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const editor = useCreateEditor()
 
@@ -179,7 +184,7 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   return (
-    <RequirementsProvider modelMap={modelMap}>
+    <>
       <ManuscriptSidebar
         project={project}
         manuscript={manuscript}
@@ -225,7 +230,7 @@ const ManuscriptPageView: React.FC = () => {
         </Main>
         <Inspector editor={editor} />
       </PageWrapper>
-    </RequirementsProvider>
+    </>
   )
 }
 
