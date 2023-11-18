@@ -193,7 +193,7 @@ const ManuscriptPageView: React.FC = () => {
         view={view}
         state={state}
         user={user}
-        doc ={doc}
+        doc={doc}
       />
 
       <PageWrapper onClick={onAppClick}>

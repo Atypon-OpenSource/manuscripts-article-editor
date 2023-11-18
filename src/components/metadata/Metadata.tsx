@@ -146,7 +146,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       saveModel: store.saveModel,
       project: store.project,
       tokenActions: store.tokenActions,
-      doc: store.doc
+      doc: store.doc,
     }
   })
 
