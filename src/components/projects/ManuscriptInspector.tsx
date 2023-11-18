@@ -24,7 +24,7 @@ export const ManuscriptInspector: React.FC<{
   dispatch: (tr: Transaction) => EditorState | void
   canWrite?: boolean
 }> = ({ state, dispatch }) => {
-  const [{ manuscript, saveManuscript}] = useStore((store) => ({
+  const [{ manuscript, saveManuscript }] = useStore((store) => ({
     manuscript: store.manuscript,
     doc: store.doc,
     modelMap: store.trackModelMap,

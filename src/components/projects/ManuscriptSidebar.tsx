@@ -16,7 +16,7 @@ import {
   OutlineManuscript,
   useEditor,
 } from '@manuscripts/body-editor'
-import { Manuscript, Project} from '@manuscripts/json-schema'
+import { Manuscript, Project } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import {
   ManuscriptEditorView,
@@ -53,7 +53,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   manuscript,
   view,
   project,
-  doc
+  doc,
 }) => {
   const [{ manuscripts, saveModel }] = useStore((store) => ({
     manuscripts: store.manuscripts || [],
