@@ -76,8 +76,6 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
-  const [titles] = useStore((store) => store.titles)
-
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
   const [modelMap] = useStore((store) => store.modelMap)
@@ -195,7 +193,6 @@ const ManuscriptPageView: React.FC = () => {
         view={view}
         state={state}
         user={user}
-        titles={titles}
       />
 
       <PageWrapper onClick={onAppClick}>

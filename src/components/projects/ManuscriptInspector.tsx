@@ -17,26 +17,23 @@ import config from '../../config'
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { DOIInput } from './DOIInput'
-import { RunningTitleField } from './RunningTitleField'
+//import { RunningTitleField } from './RunningTitleField'
 
 export const ManuscriptInspector: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
   canWrite?: boolean
 }> = ({ state, dispatch }) => {
-  const [{ manuscript, saveManuscript, titles, saveArticleTitle }] = useStore(
-    (store) => ({
-      manuscript: store.manuscript,
-      titles: store.titles,
-      modelMap: store.trackModelMap,
-      saveManuscript: store.saveManuscript,
-      saveArticleTitle: store.saveArticleTitle,
-      saveModel: store.saveTrackModel,
-      deleteModel: store.deleteTrackModel,
-      user: store.user,
-      project: store.project,
-    })
-  )
+  const [{ manuscript, saveManuscript}] = useStore((store) => ({
+    manuscript: store.manuscript,
+    doc: store.doc,
+    modelMap: store.trackModelMap,
+    saveManuscript: store.saveManuscript,
+    saveModel: store.saveTrackModel,
+    deleteModel: store.deleteTrackModel,
+    user: store.user,
+    project: store.project,
+  }))
   return (
     <InspectorSection title={'Manuscript'}>
       {config.features.DOI && (
@@ -58,15 +55,15 @@ export const ManuscriptInspector: React.FC<{
         <>
           <Subheading>Running title</Subheading>
 
-          <RunningTitleField
+          {/* <RunningTitleField
             placeholder={'Running title'}
-            value={titles.runningTitle || ''}
+            value={doc.content.firstChild?.textContent || ''}
             handleChange={async (runningTitle) => {
-              await saveArticleTitle({
+              await saveManuscript({
                 runningTitle,
               })
             }}
-          />
+          /> */}
         </>
       )}
     </InspectorSection>
