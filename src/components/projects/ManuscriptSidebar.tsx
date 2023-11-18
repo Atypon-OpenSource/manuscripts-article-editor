@@ -16,10 +16,11 @@ import {
   OutlineManuscript,
   useEditor,
 } from '@manuscripts/body-editor'
-import { Manuscript, Project, Titles } from '@manuscripts/json-schema'
+import { Manuscript, Project} from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import {
   ManuscriptEditorView,
+  ManuscriptNode,
   UserProfileWithAvatar,
 } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -39,8 +40,8 @@ const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
 interface Props {
   openTemplateSelector?: (newProject: boolean) => void
   manuscript: Manuscript
-  titles: Titles
   project: Project
+  doc: ManuscriptNode
   saveProjectTitle?: (title: string) => Promise<Project>
   view?: ManuscriptEditorView
   state: ReturnType<typeof useEditor>['state']
@@ -50,9 +51,9 @@ interface Props {
 const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   state,
   manuscript,
-  titles,
   view,
   project,
+  doc
 }) => {
   const [{ manuscripts, saveModel }] = useStore((store) => ({
     manuscripts: store.manuscripts || [],
@@ -118,14 +119,9 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
               view={view}
               selected={selected}
               capabilities={can}
-              titles={titles}
             />
           ) : (
-            <OutlineManuscript
-              project={project}
-              manuscript={item}
-              titles={titles}
-            />
+            <OutlineManuscript project={project} manuscript={item} doc={doc} />
           )}
         </SortableManuscript>
       ))}

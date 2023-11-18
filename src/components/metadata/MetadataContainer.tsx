@@ -80,8 +80,7 @@ const MetadataContainer: React.FC<Props> = ({
       collaboratorsProfiles,
       user,
       manuscript,
-      titles,
-      saveArticleTitle,
+      saveManuscript,
       deleteModel,
       containerInvitations,
       invitations,
@@ -94,8 +93,6 @@ const MetadataContainer: React.FC<Props> = ({
     project: store.project,
     manuscript: store.manuscript,
     saveManuscript: store.saveManuscript,
-    titles: store.titles,
-    saveArticleTitle: store.saveArticleTitle,
     deleteModel: store.deleteModel,
     containerInvitations: store.containerInvitations || [],
     invitations: store.projectInvitations || [],
@@ -140,9 +137,8 @@ const MetadataContainer: React.FC<Props> = ({
   }
 
   const saveTitle = async (title: string) => {
-    await saveArticleTitle!({
-      _id: titles._id,
-      title,
+    await saveManuscript!({
+      _id: manuscript._id,
     })
   }
 
