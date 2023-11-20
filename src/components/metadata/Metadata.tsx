@@ -23,7 +23,6 @@ import {
   ModalContainer,
   ModalHeader,
   StyledModal,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
