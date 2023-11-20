@@ -34,7 +34,6 @@ import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
-import { TitleFieldContainer } from './TitleFieldContainer'
 
 const TitleContainer = styled.div`
   display: flex;
@@ -136,7 +135,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       tokenActions,
       project,
       saveModel,
-      doc,
     },
   ] = useStore((store) => {
     return {
@@ -149,8 +147,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       doc: store.doc,
     }
   })
-
-  const can = usePermissions()
 
   const handleInvitationSubmit = useCallback(
     (values: InvitationValues) => {
@@ -173,12 +169,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
     <HeaderContainer>
       <Header>
         <TitleContainer>
-          <TitleFieldContainer
-            title={doc.content.firstChild?.textContent || ''}
-            handleChange={props.saveTitle}
-            handleStateChange={props.handleTitleStateChange}
-            editable={can.editArticle}
-          />
           <ExpanderButton
             aria-label={'Toggle expand authors'}
             onClick={props.toggleExpanded}
