@@ -42,7 +42,6 @@
     "@manuscripts/library": "1.1.12-LEAN-2852-14",
     "@manuscripts/quarterback-types": "^1.0.0",
     "@manuscripts/style-guide": "1.4.0-LEAN-2852-1",
-    "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.7.2",
     "@manuscripts/transform": "1.5.1-LEAN-2852-2",
     "@reach/tabs": "^0.11.2",
