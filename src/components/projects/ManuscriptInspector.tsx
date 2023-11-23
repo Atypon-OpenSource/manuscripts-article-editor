@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { titles } from '@manuscripts/transform'
+//import { titles } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
