@@ -26,7 +26,6 @@ import {
   ProjectInvitation,
   SectionCategory,
   Tag,
-  Titles,
   UserProfile,
 } from '@manuscripts/json-schema'
 import {
@@ -88,8 +87,6 @@ export type state = {
   deleteModel: (id: string) => Promise<string>
   bulkUpdate: (models: ContainedModel[]) => Promise<void>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  saveTitles: (data: Partial<Titles>) => Promise<void>
-
   // track changes doc state changes
   saveTrackModel: <T extends Model>(
     model: T | Build<T> | Partial<T>
