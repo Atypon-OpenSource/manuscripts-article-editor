@@ -41,7 +41,7 @@
     "@manuscripts/json-schema": "2.2.0-LEAN-2852-12",
     "@manuscripts/library": "1.1.12-LEAN-2852-17",
     "@manuscripts/quarterback-types": "^1.0.0",
-    "@manuscripts/style-guide": "1.4.0-LEAN-2852-4",
+    "@manuscripts/style-guide": "1.4.0-LEAN-2852-1",
     "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.7.2",
     "@manuscripts/transform": "1.5.1-LEAN-2852-5",

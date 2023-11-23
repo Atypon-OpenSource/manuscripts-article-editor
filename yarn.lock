@@ -1938,6 +1938,14 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
+"@manuscripts/json-schema@2.2.0-LEAN-2852-5":
+  version "2.2.0-LEAN-2852-5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.0-LEAN-2852-5.tgz#6adfa6391d3b742dfba41ed1d62f67c462264203"
+  integrity sha512-lMe/Yuc+hvi1Qyo/ujghbAsLyBmFABk8u4SjEH9pZzWWTY6vfHkdGkHZgpa0u8vqnl9hoPng1omcSYyaC6iWcQ==
+  dependencies:
+    ajv "^8.12.0"
+    deepmerge "^4.3.1"
+
 "@manuscripts/library@1.1.12-LEAN-2852-17":
   version "1.1.12-LEAN-2852-17"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.12-LEAN-2852-17.tgz#ef34f63fc4afbca6af28899c784e9fa12da2272a"
@@ -1955,6 +1963,48 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
+
+"@manuscripts/style-guide@1.4.0-LEAN-2852-1":
+  version "1.4.0-LEAN-2852-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.0-LEAN-2852-1.tgz#cebe8389ad0cacf15dc9e8f71cbdee5613a85ba9"
+  integrity sha512-/gZEICG3tSfVFGefOSymqV4tm6oB3h5IHaUrw8HSSQN3NG7mSao/YvfqTQIsUjVYnR5EIDLkFP3/VB5YQyKnAA==
+  dependencies:
+    "@apollo/client" "^3.7.3"
+    "@formatjs/intl-relativetimeformat" "^4.5.9"
+    "@formatjs/intl-utils" "^2.2.0"
+    "@manuscripts/assets" "^0.6.2"
+    "@manuscripts/comment-editor" "^1.0.3"
+    "@manuscripts/json-schema" "2.2.0-LEAN-2852-5"
+    "@manuscripts/title-editor" "^1.1.0"
+    "@manuscripts/transform" "1.5.0-LEAN-2852-10"
+    "@reach/tabs" "^0.11.2"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    lodash-es "^4.17.21"
+    prosemirror-commands "^1.5.0"
+    prosemirror-history "^1.3.0"
+    prosemirror-inputrules "^1.2.0"
+    prosemirror-keymap "^1.2.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-state "^1.4.2"
+    prosemirror-transform "^1.7.0"
+    prosemirror-view "^1.29.1"
+    react "^17.0.2"
+    react-color "^2.19.3"
+    react-dnd "^11.1.3"
+    react-dnd-html5-backend "^11.1.3"
+    react-dom "^17.0.2"
+    react-intl "^3.12.0"
+    react-modal "^3.11.2"
+    react-modern-calendar-datepicker "^3.1.3"
+    react-popper "^1.3.11"
+    react-router-dom "^5.2.0"
+    react-select "^5.7.3"
+    react-sizeme "^2.6.12"
+    react-tooltip "^4.2.11"
+    styled-components "^5.2.0"
+    tooltip.js "^1.3.3"
+    typeface-lato "^1.1.13"
 
 "@manuscripts/style-guide@1.4.0-LEAN-2852-4":
   version "1.4.0-LEAN-2852-4"
@@ -2028,6 +2078,20 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@1.5.0-LEAN-2852-10":
+  version "1.5.0-LEAN-2852-10"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.0-LEAN-2852-10.tgz#b6f2451b8b731522ce76930d30ed6f894b64fda4"
+  integrity sha512-o2HUXZiR7U1EE2mpbz+n7vuU/199ZvA+j4pLN/+5U4zK86FnRn2grhwn/aF8wRP6T3PJwF5mKOnYcAHmkwuVMQ==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.0-LEAN-2852-5"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@1.5.0-LEAN-2852-16":
   version "1.5.0-LEAN-2852-16"
