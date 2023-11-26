@@ -83,8 +83,9 @@ export const useSnapshotStore = create(
             currentDocument.manuscriptID,
             authToken,
             {
-              docID: currentDocument.manuscriptID,
+              docId: currentDocument.manuscriptID,
               name: new Date().toLocaleString('sv'),
+              snapshot: docJson
             }
           )
         }
