@@ -1860,17 +1860,17 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.1.tgz#db1eb0b9fd5214ab52606e8b1f105fcd7de9e7b9"
-  integrity sha512-AHdlszxaTtcgC+gWF+z3erWMORedoCNGqaOn+HdgdPqWfSm+El7x5Q4s4yg77UxsegUFCtzmhheWKpp/kNEY7A==
+"@manuscripts/body-editor@1.5.1-LEAN-2585-0":
+  version "1.5.1-LEAN-2585-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.1-LEAN-2585-0.tgz#a783657b99c1e0fbbb07c0d60066365c8fa2837c"
+  integrity sha512-3a1hgsrMzqNIdPaxA2ahGW1DQAiWVDT9umg5vUHl8ArKrDDIMg+iwidhOuRTYXtbP8RrMl0Q1lt3X34nsttu5g==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.2.0"
     "@manuscripts/library" "1.2.0"
-    "@manuscripts/style-guide" "1.4.0"
+    "@manuscripts/style-guide" "1.4.0-LEAN-2585-0"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.2"
     "@manuscripts/transform" "1.5.0"
@@ -1964,10 +1964,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-"@manuscripts/style-guide@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.0.tgz#2df1bd69968d24ea2ba72d6939316b57bf27a8cc"
-  integrity sha512-I8RBWUZcUogophzApZ/j7/sO3UJo1grIzw1fXUU+qi9gIcjgUrxNinghOqjrdVq+EQ2KQzcQjFH8AsKifIy3yg==
+"@manuscripts/style-guide@1.4.0-LEAN-2585-0":
+  version "1.4.0-LEAN-2585-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.0-LEAN-2585-0.tgz#a5151e59caa2ad1ecd0cbebf88a50118b5f8e37e"
+  integrity sha512-sZs8nXLKDwCe0SfcDRezaA9e0CZdcPC0+B+Q3G2IciPQqOk1DiMFAq09x2CH0KS1o/xB+N3DSOBejP4mJL40kw==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
