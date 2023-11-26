@@ -31,7 +31,7 @@ export const useLoadDoc = (authToken: string) => {
       initSnapshots()
       setSnapshots(found.data.snapshots)
       doc = found.data.doc
-    } else if ('err' in found && found.err.includes('code(404)')) {
+    } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
       createDocument(manuscriptID, projectID, authToken)
     }
