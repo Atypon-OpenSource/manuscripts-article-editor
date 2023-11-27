@@ -23,6 +23,7 @@ import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
+import MetadataContainer from '../components/metadata/MetadataContainer'
 import config from '../config'
 import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
@@ -167,6 +168,7 @@ export const useCreateEditor = () => {
       ReferencesViewer,
       CitationEditor,
       CitationViewer,
+      MetadataContainer,
     },
 
     ancestorDoc: ancestorDoc,
