@@ -36,7 +36,7 @@ export const saveSnapshot = (
   projectID: string,
   manuscriptID: string,
   authToken: string,
-  payload: any
+  payload: any // To Do until we remove ISaveSnapshotRequest from backend
 ) =>
   post<ISaveSnapshotResponse>(
     `snapshot/${projectID}/manuscript/${manuscriptID}`,
