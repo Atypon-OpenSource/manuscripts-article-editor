@@ -12,7 +12,6 @@
 import {
   IGetSnapshotLabelsResponse,
   IGetSnapshotResponse,
-  ISaveSnapshotRequest,
   ISaveSnapshotResponse,
   IUpdateSnapshotRequest,
 } from '@manuscripts/quarterback-types'
@@ -37,7 +36,7 @@ export const saveSnapshot = (
   projectID: string,
   manuscriptID: string,
   authToken: string,
-  payload: ISaveSnapshotRequest
+  payload: any
 ) =>
   post<ISaveSnapshotResponse>(
     `snapshot/${projectID}/manuscript/${manuscriptID}`,
