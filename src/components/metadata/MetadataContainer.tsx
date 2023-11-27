@@ -15,7 +15,6 @@ import {
   Contributor,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { TitleEditorView } from '@manuscripts/title-editor'
 import {
   buildBibliographicName,
   buildContributor,
@@ -31,7 +30,6 @@ import { InvitationValues } from './AuthorInvitationForm'
 import { Metadata } from './Metadata'
 
 interface Props {
-  handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
@@ -55,7 +53,6 @@ const MetadataContainer: React.FC<Props> = ({
   allowInvitingAuthors,
   showAuthorEditButton,
   disableEditButton,
-  handleTitleStateChange,
 }) => {
   const [state, setState] = useState<State>({
     editing: false,
@@ -80,7 +77,6 @@ const MetadataContainer: React.FC<Props> = ({
       collaboratorsProfiles,
       user,
       manuscript,
-      saveManuscript,
       deleteModel,
       containerInvitations,
       invitations,
@@ -92,7 +88,6 @@ const MetadataContainer: React.FC<Props> = ({
     user: store.user,
     project: store.project,
     manuscript: store.manuscript,
-    saveManuscript: store.saveManuscript,
     deleteModel: store.deleteModel,
     containerInvitations: store.containerInvitations || [],
     invitations: store.projectInvitations || [],
@@ -134,12 +129,6 @@ const MetadataContainer: React.FC<Props> = ({
       isInvite: false,
       invitationSent: false,
     }))
-  }
-
-  const saveTitle = async (title: string) => {
-    await saveManuscript!({
-      _id: manuscript._id,
-    })
   }
 
   const createAuthor = async (
@@ -311,7 +300,6 @@ const MetadataContainer: React.FC<Props> = ({
 
   return (
     <Metadata
-      saveTitle={saveTitle}
       invitations={allInvitations}
       editing={state.editing}
       startEditing={startEditing}
@@ -335,7 +323,6 @@ const MetadataContainer: React.FC<Props> = ({
       handleDrop={handleDrop}
       updateAuthor={updateAuthor(user)}
       invitationSent={state.invitationSent}
-      handleTitleStateChange={handleTitleStateChange}
       allowInvitingAuthors={allowInvitingAuthors}
       showAuthorEditButton={showAuthorEditButton}
       disableEditButton={disableEditButton}
