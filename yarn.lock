@@ -1860,20 +1860,20 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.1.tgz#db1eb0b9fd5214ab52606e8b1f105fcd7de9e7b9"
-  integrity sha512-AHdlszxaTtcgC+gWF+z3erWMORedoCNGqaOn+HdgdPqWfSm+El7x5Q4s4yg77UxsegUFCtzmhheWKpp/kNEY7A==
+"@manuscripts/body-editor@1.5.1-LEAN-2985-0":
+  version "1.5.1-LEAN-2985-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.1-LEAN-2985-0.tgz#0856d8520d5b47d26fb628cbefd3a1fa3de462bd"
+  integrity sha512-IcAbpsDLGklVAdI0ZckxJLjyoCFCUAGrYy8xHDYuOTv8OmX7rLfcSS6FrIz2LEVzg7ZODplgmKrqgxc+wqNG4A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.2.0"
-    "@manuscripts/library" "1.2.0"
-    "@manuscripts/style-guide" "1.4.0"
+    "@manuscripts/library" "1.2.0-LEAN-2985-0"
+    "@manuscripts/style-guide" "1.4.0-LEAN-2985-0"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.2"
-    "@manuscripts/transform" "1.5.0"
+    "@manuscripts/transform" "1.5.1-LEAN-2985-1"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1946,13 +1946,13 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.0.tgz#2608388893293c6aa302cc7e2ca944feffe1502c"
-  integrity sha512-CfgzGc7YNzm81d1qG1RINMERppi6DH8oWb3M9wMzLk+Vn+CYCxH1rzxEK2UMOg2UADahVwCfzJJxWhkhvJWQeA==
+"@manuscripts/library@1.2.0-LEAN-2985-0":
+  version "1.2.0-LEAN-2985-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.0-LEAN-2985-0.tgz#83748e1ed5f13c2a071dbe5afd3a9d0dabb31f3f"
+  integrity sha512-9IuNJZFC9WdQBS2VN2wZLU6SoT5KSQSGQDuMk2njP6g4mfdzNWsqufVfViwuE48av78Na97tFawoLGfhpiQnIQ==
   dependencies:
     "@manuscripts/json-schema" "^2.2.0"
-    "@manuscripts/transform" "1.5.0"
+    "@manuscripts/transform" "1.5.1-LEAN-2985-1"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
@@ -1964,10 +1964,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-"@manuscripts/style-guide@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.0.tgz#2df1bd69968d24ea2ba72d6939316b57bf27a8cc"
-  integrity sha512-I8RBWUZcUogophzApZ/j7/sO3UJo1grIzw1fXUU+qi9gIcjgUrxNinghOqjrdVq+EQ2KQzcQjFH8AsKifIy3yg==
+"@manuscripts/style-guide@1.4.0-LEAN-2985-0":
+  version "1.4.0-LEAN-2985-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.0-LEAN-2985-0.tgz#cfafe0e2a634efc4b18f17ffc0c8c55087418ac6"
+  integrity sha512-JQcTMYlISIVjwZi131JLnMqTkTxAe4p68/9ENthnBNM0LrAMFOU7vHtS8INBU4Incfl+yGFLwwQGDfmjL4xj2Q==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -1976,7 +1976,7 @@
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.2"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/transform" "1.5.0"
+    "@manuscripts/transform" "1.5.1-LEAN-2985-1"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -2037,10 +2037,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.0.tgz#3426e528facebac96fdd9c02a66909539363e36a"
-  integrity sha512-6NVYOPoUpuqxIo3Rnkb3SiflV78nkzpBttNxFboWV5Xkw3m0gnlDoig4v6wJzZQ2lP/cScsnuJUZfYqj+jNOQg==
+"@manuscripts/transform@1.5.1-LEAN-2985-1":
+  version "1.5.1-LEAN-2985-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.1-LEAN-2985-1.tgz#9140b91a4d780dc7bd79dc03d9afd093df38f0cb"
+  integrity sha512-WiJLTptKAmXnIL0ZKzCCcfaRr6c3lSMI9G0i3IjZbReXQsf2YWSICNDQDkXBS0SI/Bn8TQFGiPPPlEFfHCAdbw==
   dependencies:
     "@manuscripts/json-schema" "^2.2.0"
     debug "^4.3.4"
