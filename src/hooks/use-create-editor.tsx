@@ -48,6 +48,7 @@ export const useCreateEditor = () => {
     },
     dispatch,
     getState,
+    subscribe,
   ] = useStore((store) => ({
     doc: store.doc,
     ancestorDoc: store.ancestorDoc,
@@ -170,6 +171,7 @@ export const useCreateEditor = () => {
       CitationViewer,
       MetadataContainer,
     },
+    subscribeStore: subscribe,
 
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
