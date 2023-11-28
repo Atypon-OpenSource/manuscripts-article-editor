@@ -26,7 +26,7 @@ import {
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useStore } from '../../store'
+import { state } from '../../store'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
@@ -109,29 +109,18 @@ interface Props {
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
+  store: state
 }
 
 export const Metadata: React.FunctionComponent<Props> = (props) => {
-  const [
-    {
-      manuscript,
-      authorsAndAffiliations,
-      contributorRoles,
-      tokenActions,
-      project,
-      saveModel,
-    },
-  ] = useStore((store) => {
-    return {
-      manuscript: store.manuscript,
-      authorsAndAffiliations: store.authorsAndAffiliations,
-      contributorRoles: store.contributorRoles,
-      saveModel: store.saveModel,
-      project: store.project,
-      tokenActions: store.tokenActions,
-      doc: store.doc,
-    }
-  })
+  const {
+    manuscript,
+    authorsAndAffiliations,
+    contributorRoles,
+    tokenActions,
+    project,
+    saveModel,
+  } = props.store
 
   const handleInvitationSubmit = useCallback(
     (values: InvitationValues) => {
@@ -153,7 +142,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   return (
     <HeaderContainer>
       <Header>
-
         {props.expanded && (
           <AuthorsContainer
             authorData={authorsAndAffiliations}
