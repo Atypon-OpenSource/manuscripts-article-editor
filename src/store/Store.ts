@@ -212,6 +212,7 @@ export class GenericStore implements Store {
   getState() {
     return this.state!
   }
+
   setState(state: state | ((state: state) => state)) {
     const prevState = { ...this.state! }
     if (typeof state === 'function') {

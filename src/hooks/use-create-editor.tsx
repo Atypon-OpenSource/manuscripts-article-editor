@@ -23,6 +23,7 @@ import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
+import { DetachableMetadata } from '../components/projects/DetachableMetadata'
 import config from '../config'
 import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
@@ -47,6 +48,7 @@ export const useCreateEditor = () => {
     },
     dispatch,
     getState,
+    subscribe,
   ] = useStore((store) => ({
     doc: store.doc,
     ancestorDoc: store.ancestorDoc,
@@ -62,6 +64,7 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
   }))
   const { user: trackUser } = useAuthStore()
+  const [initStore] = useStore((store) => store)
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
@@ -167,8 +170,9 @@ export const useCreateEditor = () => {
       ReferencesViewer,
       CitationEditor,
       CitationViewer,
+      DetachableMetadata,
     },
-
+    subscribeStore: subscribe,
     ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
     theme,

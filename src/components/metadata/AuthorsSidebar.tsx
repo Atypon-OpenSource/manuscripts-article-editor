@@ -15,7 +15,6 @@ import {
   AlertMessage,
   AlertMessageType,
   AuthorAffiliation,
-  AuthorsDND,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
@@ -82,13 +81,13 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
           </AlertMessage>
         </AlertMessageContainer>
       )}
-      <AuthorsDND
+      {/* <AuthorsDND
         authors={authors}
         selectAuthor={selectAuthor}
         selectedAuthor={selectedAuthor}
         handleDrop={handleDrop}
         getSidebarItemDecorator={getSidebarItemDecorator}
-      />
+      /> */}
     </SidebarContent>
   </ModalSidebar>
 )

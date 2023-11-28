@@ -26,7 +26,7 @@ import { projectInvite } from '../../lib/api'
 import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
 import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
-import { useStore } from '../../store'
+import { state, useStore } from '../../store'
 import { InvitationValues } from './AuthorInvitationForm'
 import { Metadata } from './Metadata'
 
@@ -35,6 +35,7 @@ interface Props {
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
+  store: state
 }
 
 interface State {
@@ -56,6 +57,7 @@ const MetadataContainer: React.FC<Props> = ({
   showAuthorEditButton,
   disableEditButton,
   handleTitleStateChange,
+  store,
 }) => {
   const [state, setState] = useState<State>({
     editing: false,
@@ -74,44 +76,24 @@ const MetadataContainer: React.FC<Props> = ({
     },
   })
 
-  const [
-    {
-      saveModel,
-      collaboratorsProfiles,
-      user,
-      manuscript,
-      saveManuscript,
-      deleteModel,
-      containerInvitations,
-      invitations,
-      getInvitation,
-    },
-  ] = useStore((store) => ({
-    saveModel: store.saveModel,
-    collaboratorsProfiles: store.collaboratorsProfiles,
-    user: store.user,
-    project: store.project,
-    manuscript: store.manuscript,
-    saveManuscript: store.saveManuscript,
-    deleteModel: store.deleteModel,
-    containerInvitations: store.containerInvitations || [],
-    invitations: store.projectInvitations || [],
-    getInvitation: store.getInvitation || (() => null),
-  }))
+  const {
+    saveModel,
+    collaboratorsProfiles,
+    user,
+    manuscript,
+    saveManuscript,
+    deleteModel,
+    containerInvitations,
+    invitations,
+  } = store
 
-  const allInvitations = [
-    ...buildContainerInvitations(invitations),
-    ...containerInvitations,
-  ].filter((invitation) => invitation.containerID.startsWith('MPProject'))
+  const allInvitations = []
 
   const updateAuthor =
     (invitingUser: UserProfile) =>
     async (author: Contributor, invitedEmail: string) => {
-      const invitation = await getInvitation(invitingUser.userID, invitedEmail)
-
       const updatedAuthor: Contributor = await saveModel({
         ...author,
-        invitationID: invitation?._id || '',
       })
 
       selectAuthor(updatedAuthor)
@@ -274,13 +256,7 @@ const MetadataContainer: React.FC<Props> = ({
     invitingID: string,
     name: string
   ) => {
-    const invitation = await getInvitation(invitingID, invitedEmail)
-    await createAuthor(
-      buildAuthorPriority(authors),
-      null,
-      name,
-      invitation?._id
-    )
+    await createAuthor(buildAuthorPriority(authors), null, name, '')
   }
 
   const handleDrop = (
@@ -312,8 +288,9 @@ const MetadataContainer: React.FC<Props> = ({
 
   return (
     <Metadata
+      store={store}
       saveTitle={saveTitle}
-      invitations={allInvitations}
+      invitations={[]}
       editing={state.editing}
       startEditing={startEditing}
       selectAuthor={selectAuthor}
@@ -332,7 +309,7 @@ const MetadataContainer: React.FC<Props> = ({
       handleAddingDoneCancel={handleAddingDoneCancel}
       handleInvite={handleInvite}
       handleInviteCancel={handleInviteCancel}
-      handleInvitationSubmit={handleInvitationSubmit(user, allInvitations)}
+      handleInvitationSubmit={handleInvitationSubmit(user, [])}
       handleDrop={handleDrop}
       updateAuthor={updateAuthor(user)}
       invitationSent={state.invitationSent}

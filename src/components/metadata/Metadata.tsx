@@ -29,7 +29,7 @@ import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useStore } from '../../store'
+import { state, useStore } from '../../store'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
@@ -121,6 +121,7 @@ interface Props {
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
+  store: state
 }
 
 const expanderStyle = (expanded: boolean) => ({
@@ -128,25 +129,14 @@ const expanderStyle = (expanded: boolean) => ({
 })
 
 export const Metadata: React.FunctionComponent<Props> = (props) => {
-  const [
-    {
-      manuscript,
-      authorsAndAffiliations,
-      contributorRoles,
-      tokenActions,
-      project,
-      saveModel,
-    },
-  ] = useStore((store) => {
-    return {
-      manuscript: store.manuscript,
-      authorsAndAffiliations: store.authorsAndAffiliations,
-      contributorRoles: store.contributorRoles,
-      saveModel: store.saveModel,
-      project: store.project,
-      tokenActions: store.tokenActions,
-    }
-  })
+  const {
+    manuscript,
+    authorsAndAffiliations,
+    contributorRoles,
+    tokenActions,
+    project,
+    saveModel,
+  } = props.store
 
   const can = usePermissions()
 

@@ -215,12 +215,6 @@ const ManuscriptPageView: React.FC = () => {
                 )}
               </EditorHeader>
               <EditorBody>
-                <MetadataContainer
-                  handleTitleStateChange={() => '' /*FIX THIS*/}
-                  allowInvitingAuthors={false}
-                  showAuthorEditButton={true}
-                  disableEditButton={!can.editMetadata}
-                />
                 <TrackChangesStyles>
                   <EditorElement editor={editor} />
                 </TrackChangesStyles>
