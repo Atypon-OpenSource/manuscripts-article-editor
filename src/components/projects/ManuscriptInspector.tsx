@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-//import { titles } from '@manuscripts/transform'
+import { titles } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
@@ -18,7 +18,7 @@ import config from '../../config'
 import { useStore } from '../../store'
 import { InspectorSection, Subheading } from '../InspectorSection'
 import { DOIInput } from './DOIInput'
-//import { RunningTitleField } from './RunningTitleField'
+import { RunningTitleField } from './RunningTitleField'
 
 export const ManuscriptInspector: React.FC<{
   state: EditorState
@@ -56,15 +56,15 @@ export const ManuscriptInspector: React.FC<{
         <>
           <Subheading>Running title</Subheading>
 
-          {/* <RunningTitleField
+          <RunningTitleField
             placeholder={'Running title'}
-            value={doc.content.firstChild?.textContent || ''}
+            value={titles.runningTitle || ''}
             handleChange={async (runningTitle) => {
               await saveManuscript({
                 runningTitle,
               })
             }}
-          /> */}
+          />
         </>
       )}
     </InspectorSection>
