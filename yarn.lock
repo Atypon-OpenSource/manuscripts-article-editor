@@ -1860,20 +1860,20 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.2.tgz#b8508e65c33b46f6cc98e3371c5bbca94a67e935"
-  integrity sha512-GZ1Xt9Ac0Qp4lhDI1GpJHfm2/EI+sJb8MFxEF9lKqvV+yTQotRd3OcbVPtwCCIksjeAOblFwMXZX7f65TnUEnw==
+"@manuscripts/body-editor@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.3.tgz#1dc90f909e97d4171fcc5a0577d0e9a91e4438b5"
+  integrity sha512-b1e1RWlcLDLO5ypfLhPGzygT9G+PXZN4lE6svmOE7GZvox/v4GCiyxS0xl/p31fM7F4415PGSW4pSan47h3LbA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.2.0"
-    "@manuscripts/library" "1.2.0"
-    "@manuscripts/style-guide" "1.4.0"
+    "@manuscripts/library" "1.2.1"
+    "@manuscripts/style-guide" "1.4.1"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.2"
-    "@manuscripts/transform" "1.5.0"
+    "@manuscripts/transform" "1.5.2"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1946,13 +1946,13 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.0.tgz#2608388893293c6aa302cc7e2ca944feffe1502c"
-  integrity sha512-CfgzGc7YNzm81d1qG1RINMERppi6DH8oWb3M9wMzLk+Vn+CYCxH1rzxEK2UMOg2UADahVwCfzJJxWhkhvJWQeA==
+"@manuscripts/library@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.1.tgz#f6544e4fbe293304121c26ff7d548d9197b63a33"
+  integrity sha512-nSvE1AvXGJTNIy0nQWb4gcsjwqDtCI1WU+UuP0/oZTY8G5EyLvL33tZDV5+B0a2GHL9PpWAZlOe1EEIeIUTGgw==
   dependencies:
     "@manuscripts/json-schema" "^2.2.0"
-    "@manuscripts/transform" "1.5.0"
+    "@manuscripts/transform" "1.5.2"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
@@ -1964,10 +1964,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-"@manuscripts/style-guide@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.0.tgz#2df1bd69968d24ea2ba72d6939316b57bf27a8cc"
-  integrity sha512-I8RBWUZcUogophzApZ/j7/sO3UJo1grIzw1fXUU+qi9gIcjgUrxNinghOqjrdVq+EQ2KQzcQjFH8AsKifIy3yg==
+"@manuscripts/style-guide@1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.1.tgz#f93cb782c4e093ab6cf8f9c387edfd9f2c477895"
+  integrity sha512-asPkkb0o80G/Ku1h6DjImJ3d9XC0M8bovwzItF8Eqtv+5MADtaMu5YKZFRbT9JaU/K1n31VV+ccH5u57haiSmw==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -1976,7 +1976,7 @@
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.1.2"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/transform" "1.5.0"
+    "@manuscripts/transform" "1.5.2"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -2037,10 +2037,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.0.tgz#3426e528facebac96fdd9c02a66909539363e36a"
-  integrity sha512-6NVYOPoUpuqxIo3Rnkb3SiflV78nkzpBttNxFboWV5Xkw3m0gnlDoig4v6wJzZQ2lP/cScsnuJUZfYqj+jNOQg==
+"@manuscripts/transform@1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.2.tgz#5489b77e246a39fb0b8c4b089aac1836b747b1cb"
+  integrity sha512-kolZz098NjweoH2ViJmxeJ241kAQdEfL0iA5gm2xcHjJEyoBw4riU1f7Sx+krVT+t1M7sjK8xNE75o6YDWGdMw==
   dependencies:
     "@manuscripts/json-schema" "^2.2.0"
     debug "^4.3.4"
