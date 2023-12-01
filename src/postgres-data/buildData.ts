@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  Affiliation,
   BibliographyItem,
   CommentAnnotation,
-  Contributor,
-  ContributorRole,
   Correction,
   LibraryCollection,
   ManuscriptNote,
@@ -31,7 +28,7 @@ import {
   isManuscript,
 } from '@manuscripts/transform'
 
-import { buildAuthorsAndAffiliations } from '../lib/authors'
+import { getMetaData } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
@@ -228,14 +225,10 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
   if (!data.modelMap || !projectID) {
     return null
   }
-
   const storeData: Partial<state> = {
     snapshotID: null,
     library: new Map<string, BibliographyItem>(),
   }
-  // START - prepsat jako funkci s parametrem metaData = data.modelMap || data.trackedModelMap
-  const affiliationAndContributors: (Contributor | Affiliation)[] = []
-  const contributorRoles: ContributorRole[] = []
 
   // eslint-disable-next-line no-unsafe-optional-chaining
   for (const model of data.modelMap?.values()) {
@@ -248,23 +241,11 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
         model as LibraryCollection
       )
     }
-
-    if (
-      model.objectType === ObjectTypes.Affiliation ||
-      model.objectType === ObjectTypes.Contributor
-    ) {
-      affiliationAndContributors.push(model as Affiliation) // or Contributor
-    }
-    if (model.objectType === ObjectTypes.ContributorRole) {
-      contributorRoles.push(model as ContributorRole)
-    }
   }
-  // END of funkce
-
-  storeData.authorsAndAffiliations = buildAuthorsAndAffiliations(
-    affiliationAndContributors
-  )
-  storeData.contributorRoles = contributorRoles
+  // getMetaData returns {authorsAndAffiliations, contributorRoles}
+  const metaData = getMetaData(data.modelMap)
+  storeData.authorsAndAffiliations = metaData?.authorsAndAffiliations
+  storeData.contributorRoles = metaData?.contributorRoles
   return storeData
 }
 

@@ -133,7 +133,9 @@ class AuthorsModalContainer extends React.Component<Props, State> {
         contributorRoles={contributorRoles}
         createContributorRole={this.createContributorRole}
         allowInvitingAuthors={!!allowInvitingAuthors}
-      />
+      >
+        <>HOVNO</>
+      </AuthorsModal>
     )
   }
 
@@ -256,6 +258,9 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   }
 
   private createEmptyAuthor = async () => {
+    console.log('createEmptyAuthor...')
+    console.log(this)
+    console.log(this.props)
     const authorInfo = buildContributor(
       buildBibliographicName({ given: '', family: '' }),
       'author',

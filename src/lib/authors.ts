@@ -10,7 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Affiliation, Contributor, ObjectTypes } from '@manuscripts/json-schema'
+import {
+  Affiliation,
+  Contributor,
+  ContributorRole,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/json-schema'
 import { hasObjectType } from '@manuscripts/transform'
 
 import { ascendingPriority } from './sort'
@@ -92,6 +98,31 @@ export const buildAffiliationsMap = (
 
 const isContributor = hasObjectType<Contributor>(ObjectTypes.Contributor)
 const isAffiliation = hasObjectType<Affiliation>(ObjectTypes.Affiliation)
+
+export const getMetaData = (modelMap: Map<string, Model>) => {
+  const affiliationAndContributors: (Contributor | Affiliation)[] = []
+  const contributorRoles: ContributorRole[] = []
+
+  if (modelMap) {
+    for (const model of modelMap.values()) {
+      if (
+        model.objectType === ObjectTypes.Affiliation ||
+        model.objectType === ObjectTypes.Contributor
+      ) {
+        affiliationAndContributors.push(model as Affiliation) // or Contributor
+      }
+      if (model.objectType === ObjectTypes.ContributorRole) {
+        contributorRoles.push(model as ContributorRole)
+      }
+    }
+    return {
+      authorsAndAffiliations: buildAuthorsAndAffiliations(
+        affiliationAndContributors
+      ),
+      contributorRoles: contributorRoles,
+    }
+  }
+}
 
 export const buildAuthorsAndAffiliations = (
   data: Array<Contributor | Affiliation>
