@@ -233,7 +233,7 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
     snapshotID: null,
     library: new Map<string, BibliographyItem>(),
   }
-
+  // START - prepsat jako funkci s parametrem metaData = data.modelMap || data.trackedModelMap
   const affiliationAndContributors: (Contributor | Affiliation)[] = []
   const contributorRoles: ContributorRole[] = []
 
@@ -259,6 +259,8 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
       contributorRoles.push(model as ContributorRole)
     }
   }
+  // END of funkce
+
   storeData.authorsAndAffiliations = buildAuthorsAndAffiliations(
     affiliationAndContributors
   )

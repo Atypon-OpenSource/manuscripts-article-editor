@@ -12,8 +12,11 @@
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import {
+  Affiliation,
   ContainerInvitation,
   Contributor,
+  ContributorRole,
+  ObjectTypes,
   UserProfile,
 } from '@manuscripts/json-schema'
 import {
@@ -29,6 +32,7 @@ import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
+import { buildAuthorsAndAffiliations } from '../../lib/authors'
 import { useStore } from '../../store'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
@@ -131,22 +135,49 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   const [
     {
       manuscript,
-      authorsAndAffiliations,
-      contributorRoles,
+      // authorsAndAffiliations,
+      // contributorRoles,
       tokenActions,
       project,
-      saveModel,
+      // saveModel,
+      saveTrackModel,
+      trackModelMap,
     },
   ] = useStore((store) => {
     return {
       manuscript: store.manuscript,
-      authorsAndAffiliations: store.authorsAndAffiliations,
-      contributorRoles: store.contributorRoles,
-      saveModel: store.saveModel,
-      project: store.project,
+      // authorsAndAffiliations: store.authorsAndAffiliations,
+      // contributorRoles: store.contributorRoles,
       tokenActions: store.tokenActions,
+      project: store.project,
+      // saveModel: store.saveModel,
+      saveTrackModel: store.saveTrackModel,
+      trackModelMap: store.trackModelMap,
     }
   })
+  console.log('+++++++++++++++++++++')
+  console.log(trackModelMap)
+
+  const affiliationAndContributors: (Contributor | Affiliation)[] = []
+  const contributorRoles: ContributorRole[] = []
+  // KOD identicky s buildData.ts r.236 => zavolat jako funkci s parametrem kam predam trackModelMap
+  if (trackModelMap) {
+    for (const model of trackModelMap.values()) {
+      if (
+        model.objectType === ObjectTypes.Affiliation ||
+        model.objectType === ObjectTypes.Contributor
+      ) {
+        affiliationAndContributors.push(model as Affiliation) // or Contributor
+      }
+      if (model.objectType === ObjectTypes.ContributorRole) {
+        contributorRoles.push(model as ContributorRole)
+      }
+    }
+  }
+
+  const authorsAndAffiliations = buildAuthorsAndAffiliations(
+    affiliationAndContributors
+  )
 
   const can = usePermissions()
 
@@ -222,7 +253,8 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             ) : (
               <AuthorsModalContainer
                 {...props}
-                saveModel={saveModel}
+                // saveModel={saveModel}
+                saveTrackModel={saveTrackModel}
                 authors={authorsAndAffiliations.authors}
                 authorAffiliations={authorsAndAffiliations.authorAffiliations}
                 affiliations={authorsAndAffiliations.affiliations}

@@ -41,6 +41,8 @@ const useTrackedModelManagement = (
   finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
+    console.log('use-tracked-model-management.ts:')
+    console.log(doc)
     const docJSONed = doc.toJSON()
     const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
@@ -187,6 +189,7 @@ const useTrackedModelManagement = (
         let foundInDoc = false
 
         let dataTrackedId = ''
+        console.log('model._id: ' + model._id)
         if (model._id?.includes(trackedJoint)) {
           // when encoding we modify ids of track changes artefacts to avoid duplicate ids in the modelMap
           // when saving back we need to convert those ids back and also apply the updates on the right nodes
@@ -224,7 +227,9 @@ const useTrackedModelManagement = (
         }
 
         if (!foundInDoc) {
-          // ...that is if there is no node in the prosemirror doc for that id, that update final model. This is needed until we implement tracking on metadata
+          // ...that is if there is no node in the prosemirror doc for that id,
+          // that update final model.
+          // This is needed until we implement tracking on metadata
           saveModel(model)
         }
       }
@@ -247,6 +252,7 @@ const useTrackedModelManagement = (
             const { tr } = state
             tr.delete(pos, pos + node.nodeSize)
             dispatch(tr)
+            console.log(tr.doc.toString())
             dispatchStore({ trackModelMap: modelMap })
           }
         })

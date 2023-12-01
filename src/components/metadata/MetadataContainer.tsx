@@ -76,24 +76,28 @@ const MetadataContainer: React.FC<Props> = ({
 
   const [
     {
-      saveModel,
+      // saveModel,
+      saveTrackModel,
       collaboratorsProfiles,
       user,
       manuscript,
       saveManuscript,
-      deleteModel,
+      // deleteModel,
+      deleteTrackModel,
       containerInvitations,
       invitations,
       getInvitation,
     },
   ] = useStore((store) => ({
-    saveModel: store.saveModel,
+    // saveModel: store.saveModel,
+    saveTrackModel: store.saveTrackModel,
     collaboratorsProfiles: store.collaboratorsProfiles,
     user: store.user,
     project: store.project,
     manuscript: store.manuscript,
     saveManuscript: store.saveManuscript,
-    deleteModel: store.deleteModel,
+    // deleteModel: store.deleteModel,
+    deleteTrackModel: store.deleteTrackModel,
     containerInvitations: store.containerInvitations || [],
     invitations: store.projectInvitations || [],
     getInvitation: store.getInvitation || (() => null),
@@ -109,7 +113,7 @@ const MetadataContainer: React.FC<Props> = ({
     async (author: Contributor, invitedEmail: string) => {
       const invitation = await getInvitation(invitingUser.userID, invitedEmail)
 
-      const updatedAuthor: Contributor = await saveModel({
+      const updatedAuthor: Contributor = await saveTrackModel({
         ...author,
         invitationID: invitation?._id || '',
       })
@@ -161,7 +165,7 @@ const MetadataContainer: React.FC<Props> = ({
         ? buildContributor(bibName, 'author', priority, undefined, invitationID)
         : buildContributor(bibName, 'author', priority)
 
-      await saveModel(author)
+      await saveTrackModel(author)
 
       setState((state) => ({
         ...state,
@@ -177,7 +181,7 @@ const MetadataContainer: React.FC<Props> = ({
         person.userID
       )
 
-      const createdAuthor: Contributor = await saveModel(author)
+      const createdAuthor: Contributor = await saveTrackModel(author)
 
       setState((state) => ({
         ...state,
@@ -199,7 +203,7 @@ const MetadataContainer: React.FC<Props> = ({
   }
 
   const removeAuthor = async (author: Contributor) => {
-    await deleteModel(author._id)
+    await deleteTrackModel(author._id)
     deselectAuthor()
     if (state.addedAuthors.includes(author.userID as string)) {
       const index = state.addedAuthors.indexOf(author.userID as string)
@@ -292,7 +296,7 @@ const MetadataContainer: React.FC<Props> = ({
     Promise.all(
       reorderedAuthors.map((author, i) => {
         author.priority = i
-        return saveModel<Contributor>(author)
+        return saveTrackModel<Contributor>(author)
       })
     )
       .then(() => {

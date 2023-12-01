@@ -58,7 +58,10 @@ interface Props {
   removeAuthor: (data: Contributor) => Promise<void>
   updateAuthor: (author: Contributor, email: string) => void
   selectAuthor: (data: Contributor) => void
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  // saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveTrackModel: <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ) => Promise<T>
   handleDrop: (
     authors: Contributor[],
     oldIndex: number,
@@ -83,6 +86,8 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
+    console.log('AuthorsModalContainer')
+    console.log(this.props)
     this.setState({
       invitationSent: this.props.invitationSent,
     })
@@ -137,7 +142,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   ): Promise<ContributorRole> => {
     const contributorRole = buildContributorRole(name)
 
-    return this.props.saveModel(contributorRole)
+    return this.props.saveTrackModel(contributorRole)
   }
 
   private handleRemoveAuthor = () =>
@@ -187,7 +192,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   }
 
   private handleSaveAuthor = async (values: AuthorValues) => {
-    await this.props.saveModel<Contributor>({
+    await this.props.saveTrackModel<Contributor>({
       objectType: ObjectTypes.Contributor,
       ...values,
     })
@@ -201,7 +206,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
 
     let affiliationObj
     if (typeof affiliation === 'string') {
-      affiliationObj = await this.props.saveModel<Affiliation>(
+      affiliationObj = await this.props.saveTrackModel<Affiliation>(
         buildAffiliation(affiliation)
       )
     } else {
@@ -215,7 +220,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       ),
     }
 
-    await this.props.saveModel<Contributor>(author)
+    await this.props.saveTrackModel<Contributor>(author)
   }
 
   private removeAuthorAffiliation = async (affiliation: Affiliation) => {
@@ -231,11 +236,11 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       ),
     }
 
-    await this.props.saveModel<Contributor>(nextAuthor)
+    await this.props.saveTrackModel<Contributor>(nextAuthor)
   }
 
   private updateAffiliation = async (affiliation: Affiliation) => {
-    await this.props.saveModel<Affiliation>(affiliation)
+    await this.props.saveTrackModel<Affiliation>(affiliation)
   }
 
   private getSelectedAuthor = () => {
@@ -257,7 +262,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       this.props.authors.length + 1
     )
 
-    const author: Contributor = await this.props.saveModel<Contributor>(
+    const author: Contributor = await this.props.saveTrackModel<Contributor>(
       authorInfo
     )
 
