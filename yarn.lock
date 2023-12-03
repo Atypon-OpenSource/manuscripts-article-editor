@@ -1920,17 +1920,17 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.4":
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.4.tgz#36dabac8024f45cdccab8324e7695792366c7157"
-  integrity sha512-RvcElSOBzPXj/PwF98S+rj9XDl6HxTb9ZrHjgBNDy4H289o+S5TEG9HyCtGjsLDecXIrD6U8czLskim10PjVJw==
+"@manuscripts/body-editor@1.5.5":
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.5.tgz#74f1285c3cb9b8a23e411fb1dd5c5e913e20cb61"
+  integrity sha512-fv4wkVUWKieyQ5PQqP18/uF4cloGKDRUz6JkBrWlZNuvnRA+t8zJQcn70knx9bgH3VjmRMsOH55a5nZ2mgKxtQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/comment-editor" "^1.0.3"
     "@manuscripts/json-schema" "^2.2.0"
     "@manuscripts/library" "1.2.1"
-    "@manuscripts/style-guide" "1.4.1"
+    "@manuscripts/style-guide" "1.4.2"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.3"
     "@manuscripts/transform" "1.5.2"
@@ -2016,10 +2016,10 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-"@manuscripts/style-guide@1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.1.tgz#f93cb782c4e093ab6cf8f9c387edfd9f2c477895"
-  integrity sha512-asPkkb0o80G/Ku1h6DjImJ3d9XC0M8bovwzItF8Eqtv+5MADtaMu5YKZFRbT9JaU/K1n31VV+ccH5u57haiSmw==
+"@manuscripts/style-guide@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.2.tgz#4aacdb4fff4efef8f1738f5185159e86899c52d1"
+  integrity sha512-E09CGX+kwdc2mvcaCcamuXXp0lStmIHrg5zhI2r8f13GcYbZoPSs0Mws2dq489WxJiRWNZmgAjbrQ+luyhToQQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
@@ -4100,13 +4100,6 @@
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
-
-"@wry/caches@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@wry/caches/-/caches-1.0.1.tgz#8641fd3b6e09230b86ce8b93558d44cf1ece7e52"
-  integrity sha512-bXuaUNLVVkD20wcGBWRyo7j9N3TxePEWFZj2Y+r9OoUzfqmavM84+mFykRicNsBqatba5JLay1t48wxaXaWnlA==
-  dependencies:
-    tslib "^2.3.0"
 
 "@wry/context@^0.7.0", "@wry/context@^0.7.3":
   version "0.7.4"
