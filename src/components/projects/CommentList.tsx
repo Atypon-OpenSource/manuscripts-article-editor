@@ -24,7 +24,6 @@ import {
 } from '@manuscripts/style-guide'
 import { buildKeyword } from '@manuscripts/transform'
 import { TextSelection } from 'prosemirror-state'
-import { EditorView } from 'prosemirror-view'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -111,14 +110,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   }, [selectedHighlightId])
 
   const onFocusOut = useCallback(
-    (view: EditorView) => {
-      const commentId = view.dom.getAttribute('comment-id')
-      if (
-        commentId &&
-        newComments.has(commentId) &&
-        view.state.doc.textContent.length < 1
-      ) {
-        deleteComment(commentId)
+    (id: string, content: string) => {
+      if (id && newComments.has(id) && content.length < 1) {
+        deleteComment(id)
       }
       return true
     },
