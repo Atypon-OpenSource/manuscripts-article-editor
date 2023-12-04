@@ -1920,20 +1920,20 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.2.tgz#b8508e65c33b46f6cc98e3371c5bbca94a67e935"
-  integrity sha512-GZ1Xt9Ac0Qp4lhDI1GpJHfm2/EI+sJb8MFxEF9lKqvV+yTQotRd3OcbVPtwCCIksjeAOblFwMXZX7f65TnUEnw==
+"@manuscripts/body-editor@1.5.5-LEAN-2852-3":
+  version "1.5.5-LEAN-2852-3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.5-LEAN-2852-3.tgz#67379a6c0ee14752e8df5634e3303d82077a1565"
+  integrity sha512-WGhIN8rBH4+X4t8IZpZbgBBp3O31XGW72xejfsLgxSng5nlzJpeoXHVFV2iA8KUyI1Y8Zuv/1zk0PDyzhXZEoQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/comment-editor" "^1.0.3"
-    "@manuscripts/json-schema" "^2.2.0"
-    "@manuscripts/library" "1.2.1"
-    "@manuscripts/style-guide" "1.4.2"
+    "@manuscripts/json-schema" "2.2.0-LEAN-2852-12"
+    "@manuscripts/library" "1.1.12-LEAN-2852-21"
+    "@manuscripts/style-guide" "1.4.0-LEAN-2852-8"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.3"
-    "@manuscripts/transform" "1.5.2"
+    "@manuscripts/transform" "1.5.1-LEAN-2852-9"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1998,14 +1998,6 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/json-schema@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.0.tgz#8507707f00c0e6cead4f4e2f2e1797f9bccec4af"
-  integrity sha512-2ooif0jtIld5bA44DHPpsNbDvdoQWaFcNXiBlc7OQ0znY37e5juMipknEtNTvdHCtHpzBkrLJt7k77bBT7VaVQ==
-  dependencies:
-    ajv "^8.12.0"
-    deepmerge "^4.3.1"
-
 "@manuscripts/library@1.1.12-LEAN-2852-21":
   version "1.1.12-LEAN-2852-21"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.1.12-LEAN-2852-21.tgz#ae6a606d18fb9ceebb2072c17d6d1c802b2f52b9"
@@ -2013,19 +2005,6 @@
   dependencies:
     "@manuscripts/json-schema" "2.2.0-LEAN-2852-12"
     "@manuscripts/transform" "1.5.1-LEAN-2852-9"
-    astrocite-bibtex "^0.16.4"
-    astrocite-ris "^0.16.4"
-    citeproc "^2.4.62"
-    fontoxpath "^3.28.2"
-    prosemirror-model "^1.18.3"
-
-"@manuscripts/library@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.0.tgz#2608388893293c6aa302cc7e2ca944feffe1502c"
-  integrity sha512-CfgzGc7YNzm81d1qG1RINMERppi6DH8oWb3M9wMzLk+Vn+CYCxH1rzxEK2UMOg2UADahVwCfzJJxWhkhvJWQeA==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.0"
-    "@manuscripts/transform" "1.5.2"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
@@ -2093,7 +2072,7 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.7.3":
+"@manuscripts/track-changes-plugin@^1.7.2", "@manuscripts/track-changes-plugin@^1.7.3":
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.3.tgz#e19a0d8bd3b3482f5c4316ee4865e6e57811e7c4"
   integrity sha512-VOXffxaRw0O80GKauOASb4wFNfwNP2bZ8JOVo0wuH1sUQFPpklSbxMBO/d5u+TNFgOTM1jUmvHxaQJpjnklJjg==
@@ -2108,20 +2087,6 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
-
-"@manuscripts/transform@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.2.tgz#5489b77e246a39fb0b8c4b089aac1836b747b1cb"
-  integrity sha512-kolZz098NjweoH2ViJmxeJ241kAQdEfL0iA5gm2xcHjJEyoBw4riU1f7Sx+krVT+t1M7sjK8xNE75o6YDWGdMw==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.0"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    mathjax-full "^3.2.2"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@1.5.1-LEAN-2852-9":
   version "1.5.1-LEAN-2852-9"
