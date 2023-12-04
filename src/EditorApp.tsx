@@ -77,7 +77,7 @@ const EditorApp: React.FC<Props> = ({
     }
   }, [store?.state?.user, setUser])
 
-  const loadDoc = useLoadDoc()
+  const loadDoc = useLoadDoc(authToken)
   const quarterBackSource = new QuarterbackDataSource(loadDoc)
 
   useEffect(() => {

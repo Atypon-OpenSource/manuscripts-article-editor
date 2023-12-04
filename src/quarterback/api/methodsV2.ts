@@ -10,13 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import type { Maybe } from '@manuscripts/quarterback-types'
+import {
+  EventSourceMessage,
+  fetchEventSource,
+} from '@microsoft/fetch-event-source'
 
 import config from '../../config'
-import { useAuthStore } from '../useAuthStore'
 
-const {
-  quarterback: { url: QUARTERBACK_URL },
-} = config
+// import { useAuthStore } from '../useAuthStore'
+
+// TODO:: remove this when migrating all api endpoints to v2
+const V2 = config.api.url.replace('/api/v1', '/api/v2')
 
 type FetchOptions = {
   method: string
@@ -29,25 +33,10 @@ export const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
 }
 
-let debouncedAuth = false
+//const debouncedAuth = false
 
-export function getAuthHeader() {
-  const jwt = useAuthStore.getState().jwt
-  if (!jwt && !debouncedAuth) {
-    // To ensure that user stays authenticated incase the token expires or something weird like
-    // https://jira.atypon.com/browse/LEAN-1619 happens, we'll run authenticate again each time
-    // quarterback-api is called (basically doc PUTs)
-    debouncedAuth = true
-    useAuthStore.getState().authenticate()
-    setTimeout(() => {
-      debouncedAuth = false
-    }, 5000)
-  }
-  // @TODO use non-standard authorization header while istio is enabled but not in use.
-  // This means it parses all Authorization headers and fails since the quarterback API issuer
-  // has not been configured with istio.
-  // https://jira.atypon.com/browse/LEAN-1274
-  return jwt && { 'X-Authorization': `Bearer ${jwt.token}` }
+export function getAuthHeader(authToken: string) {
+  return authToken && { Authorization: `Bearer ${authToken}` }
 }
 
 export async function wrappedFetch<T>(
@@ -57,39 +46,7 @@ export async function wrappedFetch<T>(
 ): Promise<Maybe<T>> {
   let resp
   try {
-    resp = await fetch(`${QUARTERBACK_URL}/${path}`, options)
-  } catch (err) {
-    // Must be a connection error (?)
-    console.error(err)
-    return { err: 'Connection error', code: 550 }
-  }
-  let data
-  const contentType = resp.headers.get('Content-Type')
-  if (!contentType || contentType.includes('application/json')) {
-    data = await resp.json()
-  } else if (contentType.includes('application/octet-stream')) {
-    data = await resp.arrayBuffer()
-  }
-  if (!resp.ok) {
-    console.error(data?.message || defaultError)
-    return {
-      err: data?.message || defaultError,
-      code: resp.status,
-    }
-  }
-  return { data }
-}
-export async function wrappedFetchAPI<T>(
-  path: string,
-  options: FetchOptions,
-  defaultError = 'Request failed'
-): Promise<Maybe<T>> {
-  let resp
-  try {
-    resp = await fetch(
-      `http://localhost:3000/api/v2/quarterback/${path}`,
-      options
-    )
+    resp = await fetch(`${V2}/${path}`, options)
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
@@ -114,8 +71,12 @@ export async function wrappedFetchAPI<T>(
 
 export function get<T>(
   path: string,
+  authToken: string,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
@@ -126,25 +87,16 @@ export function get<T>(
     defaultError
   )
 }
-export function getAPI<T>(
-  path: string,
-  defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
-): Promise<Maybe<T>> {
-  return wrappedFetchAPI(
-    path,
-    {
-      method: 'GET',
-      headers,
-    },
-    defaultError
-  )
-}
+
 export function post<T>(
   path: string,
+  authToken: string,
   payload: any,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
@@ -156,27 +108,16 @@ export function post<T>(
     defaultError
   )
 }
-export function postAPI<T>(
-  path: string,
-  payload: any,
-  defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
-): Promise<Maybe<T>> {
-  return wrappedFetchAPI(
-    path,
-    {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(payload),
-    },
-    defaultError
-  )
-}
+
 export function put<T>(
   path: string,
+  authToken: string,
   payload: any,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
@@ -191,8 +132,12 @@ export function put<T>(
 
 export function del<T>(
   path: string,
+  authToken: string,
   defaultError?: string,
-  headers: Record<string, string> = { ...DEFAULT_HEADERS, ...getAuthHeader() }
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
 ): Promise<Maybe<T>> {
   return wrappedFetch(
     path,
@@ -202,4 +147,54 @@ export function del<T>(
     },
     defaultError
   )
+}
+
+export async function listen<T>(
+  path: string,
+  listener: (event: EventSourceMessage) => void,
+  authToken: string,
+  defaultError?: string,
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
+) {
+  // const evtSource = new EventSource(`${QUARTERBACK_URL}/${path}`, {
+  //   withCredentials: true,
+  // })
+
+  await fetchEventSource(`http://localhost:3000/api/v2/quarterback/${path}`, {
+    // await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
+    onmessage: listener,
+    headers: headers,
+    async onopen(response) {
+      if (
+        response.ok &&
+        response.headers.get('content-type') === 'text/event-stream'
+      ) {
+        console.log('EventSource Connection Opened Ok')
+        return
+      } else if (
+        response.status >= 400 &&
+        response.status < 500 &&
+        response.status !== 429
+      ) {
+        // client-side errors are usually non-retriable:
+        console.error(
+          'EventSource connection error with status: ' + response.status
+        )
+      } else {
+        console.error(
+          'EventSource connection error with status: ' + response.status
+        )
+      }
+    },
+    onclose() {
+      // if the server closes the connection unexpectedly, retry:
+      console.log('EventSource connection closed')
+    },
+    onerror(err) {
+      console.log('EventSource connection error: ' + err)
+    },
+  })
 }

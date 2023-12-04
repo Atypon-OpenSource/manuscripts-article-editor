@@ -42,8 +42,14 @@ class QuarterbackStepsExchanger extends CollabProvider {
     getStepsSince: QuarterbackStepsExchanger['getStepsSince'],
     listenToSteps: (
       docId: string,
-      listener: (version: number, steps: unknown[], clientIDs: number[]) => void
-    ) => void
+      listener: (
+        version: number,
+        steps: unknown[],
+        clientIDs: number[]
+      ) => void,
+      authToken: string
+    ) => void,
+    authToken: string
   ) {
     if (QuarterbackStepsExchanger._instance) {
       return QuarterbackStepsExchanger._instance
@@ -59,15 +65,19 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
     this.sendSteps = this.sendSteps.bind(this)
 
-    listenToSteps(docId, (version, jsonSteps, clientIDs) => {
-      if (!jsonSteps) {
-        return
-      }
-      const steps = this.hydrateSteps(jsonSteps)
-      if (steps.length) {
-        this.newStepsListener(version, steps, clientIDs)
-      }
-    })
+    listenToSteps(
+      docId,
+      (version, jsonSteps, clientIDs) => {
+        if (!jsonSteps) {
+          return
+        }
+        const steps = this.hydrateSteps(jsonSteps)
+        if (steps.length) {
+          this.newStepsListener(version, steps, clientIDs)
+        }
+      },
+      authToken
+    )
   }
 
   destroy() {

@@ -46,6 +46,7 @@ export const useCreateEditor = () => {
       initialDocVersion,
       style,
       locale,
+      authToken,
     },
     dispatch,
     getState,
@@ -63,6 +64,7 @@ export const useCreateEditor = () => {
     initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
     locale: store.cslLocale,
+    authToken: store.authToken,
   }))
   const { user: trackUser } = useAuthStore()
 
@@ -194,7 +196,8 @@ export const useCreateEditor = () => {
     collabProvider: stepsExchanger(
       manuscript._id,
       project._id,
-      initialDocVersion
+      initialDocVersion,
+      authToken
     ), // @TODO pass the versio
   }
 

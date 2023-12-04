@@ -15,10 +15,7 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
-import {
-  ManuscriptToolbar,
-  RequirementsProvider,
-} from '@manuscripts/body-editor'
+import { ManuscriptToolbar } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
@@ -57,6 +54,7 @@ const ManuscriptPageContainer: React.FC = () => {
       project: state.project,
       user: state.user,
       permittedActions: state.permittedActions,
+      authToken: state.authToken,
     }
   })
 
@@ -168,7 +166,7 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   return (
-    <RequirementsProvider modelMap={modelMap}>
+    <>
       <ManuscriptSidebar
         project={project}
         manuscript={manuscript}
@@ -214,7 +212,7 @@ const ManuscriptPageView: React.FC = () => {
         </Main>
         <Inspector editor={editor} />
       </PageWrapper>
-    </RequirementsProvider>
+    </>
   )
 }
 

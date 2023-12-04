@@ -9,46 +9,89 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
+import {
+  ICreateDocRequest,
+  IUpdateDocumentRequest,
+} from '@manuscripts/quarterback-types'
 import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 import {
   AppliedStepsResponse,
-  CreateDocRequest,
   ManuscriptDocWithSnapshots,
   StepsPayload,
   StepsSinceResponse,
-  UpdateDocumentRequest,
 } from '../types'
-import { del, get, getAPI, listen, post, postAPI, put } from './methods'
+import { del, get, listen, post, put } from './methodsV2'
 
-export const getDocument = (id: string) =>
-  get<ManuscriptDocWithSnapshots>(`doc/${id}`, 'Fetching document failed')
+export const getDocument = (
+  projectID: string,
+  manuscriptID: string,
+  authToken: string
+) =>
+  get<ManuscriptDocWithSnapshots>(
+    `doc/${projectID}/manuscript/${manuscriptID}`,
+    authToken,
+    'Fetching document failed'
+  )
 
-export const createDocument = (payload: CreateDocRequest) =>
-  post<ManuscriptDocWithSnapshots>('doc', payload, 'Creating document failed')
+export const createDocument = (payload: ICreateDocRequest, authToken: string) =>
+  post<ManuscriptDocWithSnapshots>(
+    `doc/${payload.project_model_id}/manuscript/${payload.manuscript_model_id}`,
+    authToken,
+    payload,
+    'Creating document failed'
+  )
 
-export const updateDocument = (id: string, payload: UpdateDocumentRequest) =>
-  put<boolean>(`doc/${id}`, payload, 'Updating document failed')
+export const updateDocument = (
+  projectID: string,
+  manuscriptID: string,
+  authToken: string,
+  payload: IUpdateDocumentRequest
+) =>
+  put<boolean>(
+    `doc/${projectID}/manuscript/${manuscriptID}`,
+    authToken,
+    payload,
+    'Updating document failed'
+  )
 
-export const deleteDocument = (docId: string) =>
-  del<boolean>(`doc/${docId}`, 'Deleting document failed')
+export const deleteDocument = (
+  projectID: string,
+  manuscriptID: string,
+  authToken: string
+) =>
+  del<boolean>(
+    `doc/${projectID}/manuscript/${manuscriptID}`,
+    authToken,
+    'Deleting document failed'
+  )
 
-export const applySteps = (docId: string, payload: StepsPayload) =>
-  postAPI<AppliedStepsResponse>(
+export const applySteps = (
+  docId: string,
+  authToken: string,
+  payload: StepsPayload
+) =>
+  post<AppliedStepsResponse>(
     `doc/${docId}/steps`,
+    authToken,
     payload,
     'Creating document failed'
   )
 
 export const stepsSince = (docId: string, version: number) =>
-  getAPI<StepsSinceResponse>(
+  get<StepsSinceResponse>(
     `doc/${docId}/version/${version}`,
     'Fetching document failed'
   )
 
 export const listenStepUpdates = (
   docId: string,
-  dataListener: (version: number, steps: unknown[], clientIDs: number[]) => void
+  dataListener: (
+    version: number,
+    steps: unknown[],
+    clientIDs: number[]
+  ) => void,
+  authToken: string
 ) => {
   const listener = (event: EventSourceMessage) => {
     if (event.data) {
@@ -64,5 +107,5 @@ export const listenStepUpdates = (
     }
   }
 
-  listen(`doc/${docId}/listen`, listener)
+  listen(`doc/${docId}/listen`, listener, authToken)
 }
