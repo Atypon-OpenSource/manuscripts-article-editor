@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.5.7":
-  version "1.5.7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.7.tgz#9a39bbe1664341c17353596ff6f9d32a4e4d3989"
-  integrity sha512-xw7gbX/1nAGrtOeWvd6BhQNWUtQHjd1Yr+JxE0oXlk6ikAL2y7pERiHvJDy+PRaSg/aCtx2ZVCkHwkcIszt0Sw==
+"@manuscripts/body-editor@^1.5.8":
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.8.tgz#1dd95f7ba713aea67b158940a403d7a9fbb39251"
+  integrity sha512-hXG39oZOHN4UT64S07ofT0D/7xSICTYgq8jjgc3FZmvcu0mhA+3a9Fl6QXUgqUZaYncgGn3MaBmHNl+TkJoTpA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1932,7 +1932,7 @@
     "@manuscripts/style-guide" "^1.4.3"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.3"
-    "@manuscripts/transform" "1.5.2"
+    "@manuscripts/transform" "1.5.3"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -2074,6 +2074,20 @@
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.2.tgz#5489b77e246a39fb0b8c4b089aac1836b747b1cb"
   integrity sha512-kolZz098NjweoH2ViJmxeJ241kAQdEfL0iA5gm2xcHjJEyoBw4riU1f7Sx+krVT+t1M7sjK8xNE75o6YDWGdMw==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.0"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.3.tgz#1f2a598d583b45b2c40dbe86e45362200a0d6391"
+  integrity sha512-+Kkc/3WOBB8fhJnGo7fHnRDX0vToNXcFRKCB/XHuqw5/X28hK/h90kNLf6ptDnjbnwKlPI3CHFHJ6FPCiVzEaQ==
   dependencies:
     "@manuscripts/json-schema" "^2.2.0"
     debug "^4.3.4"
