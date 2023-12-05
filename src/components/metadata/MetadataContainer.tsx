@@ -195,6 +195,7 @@ const MetadataContainer: React.FC<Props> = ({
 
   const selectAuthor = (author: Contributor) => {
     // TODO: make this switch without deselecting
+    console.log('MetadataContainer.tsx - selectAuthor', author)
     setState((state) => ({ ...state, selectedAuthor: author._id }))
   }
 

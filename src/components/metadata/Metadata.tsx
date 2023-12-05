@@ -138,6 +138,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       project,
       // saveModel,
       saveTrackModel,
+      modelMap,
       trackModelMap,
     },
   ] = useStore((store) => {
@@ -149,9 +150,11 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
       project: store.project,
       // saveModel: store.saveModel,
       saveTrackModel: store.saveTrackModel,
+      modelMap: store.modelMap,
       trackModelMap: store.trackModelMap,
     }
   })
+  // TODO: remove modelMAp
 
   const metaData = getMetaData(trackModelMap)
   const authorsAndAffiliations = metaData?.authorsAndAffiliations
@@ -175,7 +178,10 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   if (!authorsAndAffiliations || !contributorRoles) {
     return null
   }
-
+  console.log('Metadata.tsx....................................')
+  console.log('modelMap: ', modelMap)
+  console.log('trackModelMap: ', trackModelMap)
+  console.log('authorsAndAffiliations: ', authorsAndAffiliations)
   return (
     <HeaderContainer>
       <Header>

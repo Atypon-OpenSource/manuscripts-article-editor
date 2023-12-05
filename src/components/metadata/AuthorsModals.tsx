@@ -107,6 +107,7 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
       handleDismiss={handleDismiss}
     />
     <ScrollableModalMain>
+      {console.log('AuthorsModal.selectedAuthor: ', selectedAuthor)}
       {selectedAuthor ? (
         <AuthorFormContainer
           author={selectedAuthor}

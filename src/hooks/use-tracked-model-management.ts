@@ -10,12 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { CommentAnnotation, Model, ObjectTypes } from '@manuscripts/json-schema'
+import {
+  CommentAnnotation,
+  // Contributor,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/json-schema'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   Decoder,
   encode,
+  // isCogintributorsSectionNode,
   ManuscriptEditorView,
   ManuscriptNode,
   schema,
@@ -170,6 +176,33 @@ const useTrackedModelManagement = (
     [doc, state, view]
   )
 
+  // const saveContributorNode = useCallback(
+  //   (contributor: Contributor) => {
+  //     const isNewContributor = !modelMap.has(contributor._id)
+  //     console.log('isNewContributor : ', isNewContributor)
+  //     if (!view) {
+  //       throw Error('View not available')
+  //     }
+  //     const { tr } = state
+  //     doc.descendants((node, pos) => {
+  //       if (isContributorsSectionNode(node)) {
+  //         tr.replaceWith(
+  //           pos,
+  //           pos + node.nodeSize,
+  //           node.content.addToEnd(
+  //             schema.nodes.contributor.create(contributor)
+  //           )
+  //         )
+  //         // tr.setMeta('track-changes-skip-tracking', true)
+  //         view.dispatch(tr)
+  //         return false
+  //       }
+  //     })
+  //     return Promise.resolve(contributor as Model)
+  //   },
+  //   [doc, modelMap, state, view]
+  // )
+
   const saveTrackModel = useCallback(
     <T extends Model>(model: T | Build<T> | Partial<T>) => {
       if (model.objectType === ObjectTypes.CommentAnnotation) {
@@ -224,12 +257,18 @@ const useTrackedModelManagement = (
         }
 
         if (!foundInDoc) {
-          // ...that is if there is no node in the prosemirror doc for that id,
-          // that update final model.
-          // This is needed until we implement tracking on metadata
-          saveModel(model)
+          if (model.objectType === ObjectTypes.Contributor) {
+            console.log('call saveContributorNode(model)...', model)
+            // return saveContributorNode(model as unknown as Contributor)
+          } else {
+            // ...that is if there is no node in the prosemirror doc for that id,
+            // that update final model.
+            // This is needed until we implement tracking on metadata
+            saveModel(model)
+          }
         }
       }
+      console.log('saveTrackModel.model : ', model)
       return Promise.resolve(model)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -243,13 +282,11 @@ const useTrackedModelManagement = (
       }
 
       if (modelMap.has(id)) {
-        modelMap.delete(id)
         doc.descendants((node, pos) => {
           if (node.attrs.id === id) {
             const { tr } = state
             tr.delete(pos, pos + node.nodeSize)
             dispatch(tr)
-            console.log(tr.doc.toString())
             dispatchStore({ trackModelMap: modelMap })
           }
         })
