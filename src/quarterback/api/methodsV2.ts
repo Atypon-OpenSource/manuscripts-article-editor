@@ -163,7 +163,7 @@ export async function listen<T>(
   //   withCredentials: true,
   // })
 
-  await fetchEventSource(`http://localhost:3000/api/v2/quarterback/${path}`, {
+  await fetchEventSource(`http://localhost:3000/api/v2/${path}`, {
     // await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
     onmessage: listener,
     headers: headers,

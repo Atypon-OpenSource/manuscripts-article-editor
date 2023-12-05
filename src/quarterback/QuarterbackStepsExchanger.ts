@@ -20,6 +20,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
   private static _instance: QuarterbackStepsExchanger | null // react uncontrolled function call protection
 
   private applySteps: (
+    projectId: string,
     docId: string,
     payload: StepsPayload
   ) => Promise<AppliedStepsResponse | undefined>
@@ -30,6 +31,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
   private projectId: string
 
   getStepsSince: (
+    projectId: string,
     docId: string,
     version: number
   ) => Promise<StepsSinceResponse | undefined>
@@ -41,6 +43,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     applySteps: QuarterbackStepsExchanger['applySteps'],
     getStepsSince: QuarterbackStepsExchanger['getStepsSince'],
     listenToSteps: (
+      projectId: string,
       docId: string,
       listener: (
         version: number,
@@ -66,6 +69,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     this.sendSteps = this.sendSteps.bind(this)
 
     listenToSteps(
+      projectId,
       docId,
       (version, jsonSteps, clientIDs) => {
         if (!jsonSteps) {
@@ -97,7 +101,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
     this.currentVersion = version
     saveWithThrottle(() => {
-      this.applySteps(this.docId, {
+      this.applySteps(this.projectId, this.docId, {
         steps: stepsJSON,
         version,
         clientID,
@@ -112,7 +116,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
   async stepsSince(version: number) {
     // retrieve the steps since the number of version given
-    const res = await this.getStepsSince(this.docId, version)
+    const res = await this.getStepsSince(this.projectId, this.docId, version)
     if (res) {
       return {
         steps: this.hydrateSteps(res.steps),

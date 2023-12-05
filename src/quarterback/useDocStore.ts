@@ -81,15 +81,28 @@ export const useDocStore = create(
         if (!isAuthed) {
           return
         }
-        const applySteps = async (docId: string, payload: StepsPayload) => {
-          const resp = await docApi.applySteps(docId, authToken, payload)
+        const applySteps = async (
+          projectId: string,
+          docId: string,
+          payload: StepsPayload
+        ) => {
+          const resp = await docApi.applySteps(
+            projectId,
+            docId,
+            authToken,
+            payload
+          )
           if ('data' in resp) {
             return resp.data
           }
         }
 
-        const getStepsSince = async (docId: string, version: number) => {
-          const resp = await docApi.stepsSince(docId, version)
+        const getStepsSince = async (
+          projectId: string,
+          docId: string,
+          version: number
+        ) => {
+          const resp = await docApi.stepsSince(projectId, docId, version)
           if ('data' in resp) {
             return resp.data
           }

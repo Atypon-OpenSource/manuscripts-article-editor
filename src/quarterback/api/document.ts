@@ -67,24 +67,26 @@ export const deleteDocument = (
   )
 
 export const applySteps = (
+  projectId: string,
   docId: string,
   authToken: string,
   payload: StepsPayload
 ) =>
   post<AppliedStepsResponse>(
-    `doc/${docId}/steps`,
+    `doc/${projectId}/manuscript/${docId}/steps`,
     authToken,
     payload,
     'Creating document failed'
   )
 
-export const stepsSince = (docId: string, version: number) =>
+export const stepsSince = (projectId: string, docId: string, version: number) =>
   get<StepsSinceResponse>(
-    `doc/${docId}/version/${version}`,
+    `doc/${projectId}/manuscript/${docId}/version/${version}`,
     'Fetching document failed'
   )
 
 export const listenStepUpdates = (
+  projectId: string,
   docId: string,
   dataListener: (
     version: number,
@@ -107,5 +109,5 @@ export const listenStepUpdates = (
     }
   }
 
-  listen(`doc/${docId}/listen`, listener, authToken)
+  listen(`doc/${projectId}/manuscript/${docId}/listen`, listener, authToken)
 }
