@@ -34,19 +34,34 @@ export const useDocStore = create(
       setCurrentDocument: (manuscriptID: string, projectID: string) => {
         set({ currentDocument: { manuscriptID, projectID } })
       },
-      getDocument: async (manuscriptID: string) => {
-        const resp = await docApi.getDocument(manuscriptID)
+      getDocument: async (
+        projectID: string,
+        manuscriptID: string,
+        authToken: string
+      ) => {
+        const resp = await docApi.getDocument(
+          projectID,
+          manuscriptID,
+          authToken
+        )
         if ('data' in resp) {
           set({ quarterbackDoc: resp.data })
         }
         return resp
       },
-      createDocument: async (manuscriptID: string, projectID: string) => {
-        const resp = await docApi.createDocument({
-          manuscript_model_id: manuscriptID,
-          project_model_id: projectID,
-          doc: {},
-        })
+      createDocument: async (
+        manuscriptID: string,
+        projectID: string,
+        authToken: string
+      ) => {
+        const resp = await docApi.createDocument(
+          {
+            manuscript_model_id: manuscriptID,
+            project_model_id: projectID,
+            doc: {},
+          },
+          authToken
+        )
         if ('data' in resp) {
           set({
             currentDocument: { manuscriptID, projectID },
@@ -55,8 +70,20 @@ export const useDocStore = create(
         }
         return resp
       },
-      updateDocument: async (id: string, doc: Record<string, any>) => {
-        const resp = await docApi.updateDocument(id, { doc })
+      updateDocument: async (
+        projectID: string,
+        manuscriptID: string,
+        doc: Record<string, any>,
+        authToken: string
+      ) => {
+        const resp = await docApi.updateDocument(
+          projectID,
+          manuscriptID,
+          authToken,
+          {
+            doc,
+          }
+        )
         if ('data' in resp) {
           set((state) => {
             const { quarterbackDoc } = state
@@ -73,11 +100,19 @@ export const useDocStore = create(
         }
         return resp
       },
-      deleteDocument: async (manuscriptId: string) => {
-        const resp = await docApi.deleteDocument(manuscriptId)
+      deleteDocument: async (
+        projectID: string,
+        manuscriptID: string,
+        authToken: string
+      ) => {
+        const resp = await docApi.deleteDocument(
+          projectID,
+          manuscriptID,
+          authToken
+        )
         if ('data' in resp) {
           set((state) =>
-            state.quarterbackDoc?.manuscript_model_id === manuscriptId
+            state.quarterbackDoc?.manuscript_model_id === manuscriptID
               ? { quarterbackDoc: null }
               : state
           )

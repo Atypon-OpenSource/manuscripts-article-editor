@@ -76,7 +76,7 @@ const EditorApp: React.FC<Props> = ({
     }
   }, [store?.state?.user, setUser])
 
-  const loadDoc = useLoadDoc()
+  const loadDoc = useLoadDoc(authToken)
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
