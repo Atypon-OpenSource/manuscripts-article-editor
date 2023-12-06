@@ -20,6 +20,7 @@ import { Manuscript, Project } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import {
   ManuscriptEditorView,
+  ManuscriptNode,
   UserProfileWithAvatar,
 } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -40,6 +41,7 @@ interface Props {
   openTemplateSelector?: (newProject: boolean) => void
   manuscript: Manuscript
   project: Project
+  doc: ManuscriptNode
   saveProjectTitle?: (title: string) => Promise<Project>
   view?: ManuscriptEditorView
   state: ReturnType<typeof useEditor>['state']
@@ -51,6 +53,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
   manuscript,
   view,
   project,
+  doc,
 }) => {
   const [{ manuscripts, saveModel }] = useStore((store) => ({
     manuscripts: store.manuscripts || [],
@@ -118,7 +121,7 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
               capabilities={can}
             />
           ) : (
-            <OutlineManuscript project={project} manuscript={item} />
+            <OutlineManuscript project={project} manuscript={item} doc={doc} />
           )}
         </SortableManuscript>
       ))}
