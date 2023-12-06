@@ -15,26 +15,24 @@ import {
   Contributor,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { TitleEditorView } from '@manuscripts/title-editor'
 import {
   buildBibliographicName,
   buildContributor,
 } from '@manuscripts/transform'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { projectInvite } from '../../lib/api'
 import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
-import { buildContainerInvitations } from '../../lib/invitation'
 import { trackEvent } from '../../lib/tracking'
-import { useStore } from '../../store'
+import { GenericStore, state } from '../../store'
 import { InvitationValues } from './AuthorInvitationForm'
 import { Metadata } from './Metadata'
 
 interface Props {
-  handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
+  subscribe: GenericStore['subscribe']
 }
 
 interface State {
@@ -55,8 +53,17 @@ const MetadataContainer: React.FC<Props> = ({
   allowInvitingAuthors,
   showAuthorEditButton,
   disableEditButton,
-  handleTitleStateChange,
+  subscribe,
 }) => {
+  const [store, setStore] = useState<state>()
+
+  useEffect(() => {
+    // onStoreUpdate: (fn: (s: state) => void) => void
+    subscribe((store) => {
+      setStore(store)
+    })
+  })
+
   const [state, setState] = useState<State>({
     editing: false,
     expanded: true,
@@ -74,44 +81,18 @@ const MetadataContainer: React.FC<Props> = ({
     },
   })
 
-  const [
-    {
-      saveModel,
-      collaboratorsProfiles,
-      user,
-      manuscript,
-      saveManuscript,
-      deleteModel,
-      containerInvitations,
-      invitations,
-      getInvitation,
-    },
-  ] = useStore((store) => ({
-    saveModel: store.saveModel,
-    collaboratorsProfiles: store.collaboratorsProfiles,
-    user: store.user,
-    project: store.project,
-    manuscript: store.manuscript,
-    saveManuscript: store.saveManuscript,
-    deleteModel: store.deleteModel,
-    containerInvitations: store.containerInvitations || [],
-    invitations: store.projectInvitations || [],
-    getInvitation: store.getInvitation || (() => null),
-  }))
+  if (!store) {
+    return null
+  }
 
-  const allInvitations = [
-    ...buildContainerInvitations(invitations),
-    ...containerInvitations,
-  ].filter((invitation) => invitation.containerID.startsWith('MPProject'))
+  const { saveModel, collaboratorsProfiles, user, manuscript, deleteModel } =
+    store
 
   const updateAuthor =
     (invitingUser: UserProfile) =>
     async (author: Contributor, invitedEmail: string) => {
-      const invitation = await getInvitation(invitingUser.userID, invitedEmail)
-
       const updatedAuthor: Contributor = await saveModel({
         ...author,
-        invitationID: invitation?._id || '',
       })
 
       selectAuthor(updatedAuthor)
@@ -134,13 +115,6 @@ const MetadataContainer: React.FC<Props> = ({
       isInvite: false,
       invitationSent: false,
     }))
-  }
-
-  const saveTitle = async (title: string) => {
-    await saveManuscript!({
-      _id: manuscript._id,
-      title,
-    })
   }
 
   const createAuthor = async (
@@ -274,13 +248,7 @@ const MetadataContainer: React.FC<Props> = ({
     invitingID: string,
     name: string
   ) => {
-    const invitation = await getInvitation(invitingID, invitedEmail)
-    await createAuthor(
-      buildAuthorPriority(authors),
-      null,
-      name,
-      invitation?._id
-    )
+    await createAuthor(buildAuthorPriority(authors), null, name, '')
   }
 
   const handleDrop = (
@@ -312,8 +280,8 @@ const MetadataContainer: React.FC<Props> = ({
 
   return (
     <Metadata
-      saveTitle={saveTitle}
-      invitations={allInvitations}
+      store={store}
+      invitations={[]}
       editing={state.editing}
       startEditing={startEditing}
       selectAuthor={selectAuthor}
@@ -332,11 +300,10 @@ const MetadataContainer: React.FC<Props> = ({
       handleAddingDoneCancel={handleAddingDoneCancel}
       handleInvite={handleInvite}
       handleInviteCancel={handleInviteCancel}
-      handleInvitationSubmit={handleInvitationSubmit(user, allInvitations)}
+      handleInvitationSubmit={handleInvitationSubmit(user, [])}
       handleDrop={handleDrop}
       updateAuthor={updateAuthor(user)}
       invitationSent={state.invitationSent}
-      handleTitleStateChange={handleTitleStateChange}
       allowInvitingAuthors={allowInvitingAuthors}
       showAuthorEditButton={showAuthorEditButton}
       disableEditButton={disableEditButton}
