@@ -86,8 +86,8 @@ export default class Api {
     return this.post<Project>(`container/${projectID}/load`, { types: [] })
   }
 
-  getProjectCollaborators = (projectID: string) => {
-    return this.get(`project/${projectID}/collaborators`)
+  getProjectUserProfiles = (projectID: string) => {
+    return this.get(`project/${projectID}/userProfiles`)
   }
 
   getUserProjects = () => {
@@ -150,8 +150,8 @@ export default class Api {
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`, V2)
       : undefined
 
-  getCollaborators = (containerID: string) =>
-    this.get<UserCollaborator[]>(`/project/${containerID}/collaborators`)
+  getUserProfiles = (containerID: string) =>
+    this.get<UserCollaborator[]>(`/project/${containerID}/userProfiles`)
 
   signUpAndGetToken = async (
     username: string,
