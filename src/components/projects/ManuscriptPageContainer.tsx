@@ -33,7 +33,6 @@ import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useStore } from '../../store'
-import MetadataContainer from '../metadata/MetadataContainer'
 import { Main } from '../Page'
 import { useEditorStore } from '../track-changes/useEditorStore'
 import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
@@ -173,6 +172,7 @@ const ManuscriptPageView: React.FC = () => {
         view={view}
         state={state}
         user={user}
+        doc={doc}
       />
 
       <PageWrapper onClick={onAppClick}>
@@ -197,12 +197,6 @@ const ManuscriptPageView: React.FC = () => {
                 )}
               </EditorHeader>
               <EditorBody>
-                <MetadataContainer
-                  handleTitleStateChange={() => '' /*FIX THIS*/}
-                  allowInvitingAuthors={false}
-                  showAuthorEditButton={true}
-                  disableEditButton={!can.editMetadata}
-                />
                 <TrackChangesStyles>
                   <EditorElement editor={editor} />
                 </TrackChangesStyles>
