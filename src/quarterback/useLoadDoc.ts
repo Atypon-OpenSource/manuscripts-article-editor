@@ -52,10 +52,21 @@ export const useLoadDoc = (authToken: string) => {
       version = found.data.version
     } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
-      await createDocument(manuscriptID, projectID, authToken)
-      await updateDocument(projectID, manuscriptID, authToken, {
+      const res = await createDocument(manuscriptID, projectID, authToken)
+      if ('data' in res) {
+        doc = res.data.doc
+        version = res.data.version
+      }
+      if ('err' in res) {
+        console.error('Unable to create new document: ' + res.err)
+      }
+
+      const update = await updateDocument(projectID, manuscriptID, authToken, {
         doc: existingDoc.toJSON(),
       })
+      if ('err' in update) {
+        console.error('Unable to create new document: ' + update.err)
+      }
     }
     if (
       doc !== null &&
