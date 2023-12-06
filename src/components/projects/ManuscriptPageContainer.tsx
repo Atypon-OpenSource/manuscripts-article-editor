@@ -15,10 +15,7 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
-import {
-  ManuscriptToolbar,
-  RequirementsProvider,
-} from '@manuscripts/body-editor'
+import { ManuscriptToolbar } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
@@ -31,6 +28,7 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
+import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
@@ -38,7 +36,6 @@ import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
 import { useStore } from '../../store'
-import MetadataContainer from '../metadata/MetadataContainer'
 import { Main } from '../Page'
 import { useEditorStore } from '../track-changes/useEditorStore'
 import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
@@ -59,6 +56,7 @@ const ManuscriptPageContainer: React.FC = () => {
       project: state.project,
       user: state.user,
       permittedActions: state.permittedActions,
+      authToken: state.authToken,
     }
   })
 
@@ -87,8 +85,16 @@ const ManuscriptPageView: React.FC = () => {
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
+  const [authToken] = useStore((store) => store.authToken)
 
   const can = usePermissions()
+
+  const handleSnapshot = useHandleSnapshot()
+
+  useEffect(() => {
+    storeDispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const editor = useCreateEditor()
 
@@ -155,7 +161,7 @@ const ManuscriptPageView: React.FC = () => {
     // @TODO - remove this once testing is completed
     console.log('Saving to quarteback with throttle: ' + throttle)
     storeDispatch({ doc: state.doc })
-    updateDocument(manuscriptID, state.doc.toJSON())
+    updateDocument(project._id, manuscriptID, state.doc.toJSON(), authToken)
   }
 
   const doWithThrottle = useDoWithThrottle()
@@ -179,13 +185,14 @@ const ManuscriptPageView: React.FC = () => {
   )
 
   return (
-    <RequirementsProvider modelMap={modelMap}>
+    <>
       <ManuscriptSidebar
         project={project}
         manuscript={manuscript}
         view={view}
         state={state}
         user={user}
+        doc={doc}
       />
 
       <PageWrapper onClick={onAppClick}>
@@ -210,12 +217,6 @@ const ManuscriptPageView: React.FC = () => {
                 )}
               </EditorHeader>
               <EditorBody>
-                <MetadataContainer
-                  handleTitleStateChange={() => '' /*FIX THIS*/}
-                  allowInvitingAuthors={false}
-                  showAuthorEditButton={true}
-                  disableEditButton={!can.editMetadata}
-                />
                 <TrackChangesStyles>
                   <EditorElement editor={editor} />
                 </TrackChangesStyles>
@@ -225,7 +226,7 @@ const ManuscriptPageView: React.FC = () => {
         </Main>
         <Inspector editor={editor} />
       </PageWrapper>
-    </RequirementsProvider>
+    </>
   )
 }
 

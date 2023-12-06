@@ -17,17 +17,15 @@ import React from 'react'
 
 import { useStore } from '../../store'
 import { SectionInspector } from '../inspector/SectionInspector'
-import { StatisticsInspector } from '../inspector/StatisticsInspector'
 import { ManuscriptInspector } from './ManuscriptInspector'
 
 export const ContentTab: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState
 }> = ({ dispatch, state }) => {
-  const [{ manuscript, doc, modelMap }] = useStore((store) => {
+  const [{ manuscript, modelMap }] = useStore((store) => {
     return {
       manuscript: store.manuscript,
-      doc: store.doc,
       modelMap: store.trackModelMap,
     }
   })
@@ -67,8 +65,6 @@ export const ContentTab: React.FC<{
 
   return (
     <div>
-      <StatisticsInspector manuscript={doc} section={sectionNode} />
-
       <ManuscriptInspector
         key={manuscript._id}
         state={state}

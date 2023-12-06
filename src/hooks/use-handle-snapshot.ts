@@ -9,23 +9,28 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
 
 import { useEditorStore } from '../components/track-changes/useEditorStore'
 import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
 import { usePouchStore } from '../quarterback/usePouchStore'
 import { useSnapshotStore } from '../quarterback/useSnapshotStore'
+import { useStore } from '../store'
 
 export const useHandleSnapshot = (storeExists = true) => {
   const { execCmd, docToJSON } = useEditorStore()
   const { saveSnapshot } = useSnapshotStore()
+  const can = usePermissions()
+  const canApplySaveChanges = can.applySaveChanges
+  const [authToken] = useStore((store) => store.authToken)
 
   if (!storeExists) {
     return null
   }
 
   return async () => {
-    const resp = await saveSnapshot(docToJSON())
+    const resp = await saveSnapshot(docToJSON(), authToken)
     if ('data' in resp) {
       execCmd(trackCommands.applyAndRemoveChanges())
       return new Promise<void>((resolve, reject) => {
@@ -34,6 +39,9 @@ export const useHandleSnapshot = (storeExists = true) => {
           if (!state) {
             reject(new Error('State is not available'))
             return
+          }
+          if (!canApplySaveChanges) {
+            return resolve()
           }
           usePouchStore
             .getState()

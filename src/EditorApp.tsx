@@ -19,7 +19,6 @@ import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
-import { useHandleSnapshot } from './hooks/use-handle-snapshot'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
 import { useAuthStore } from './quarterback/useAuthStore'
@@ -77,7 +76,7 @@ const EditorApp: React.FC<Props> = ({
     }
   }, [store?.state?.user, setUser])
 
-  const loadDoc = useLoadDoc()
+  const loadDoc = useLoadDoc(authToken)
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
@@ -120,14 +119,6 @@ const EditorApp: React.FC<Props> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [manuscriptID, projectID])
-
-  const handleSnapshot = useHandleSnapshot(!!store)
-
-  useEffect(() => {
-    if (handleSnapshot) {
-      store?.setState((state) => ({ handleSnapshot, ...state }))
-    }
-  }, [handleSnapshot, store])
 
   return store ? (
     <GenericStoreProvider store={store}>

@@ -15,7 +15,6 @@ import {
   AlertMessage,
   AlertMessageType,
   AuthorAffiliation,
-  AuthorsDND,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
@@ -46,12 +45,7 @@ interface Props {
 }
 
 const AuthorsSidebar: React.FunctionComponent<Props> = ({
-  authors,
-  selectAuthor,
-  selectedAuthor,
   openAddAuthors,
-  handleDrop,
-  getSidebarItemDecorator,
   invitationSent,
   handleDismiss,
 }) => (
@@ -82,13 +76,6 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
           </AlertMessage>
         </AlertMessageContainer>
       )}
-      <AuthorsDND
-        authors={authors}
-        selectAuthor={selectAuthor}
-        selectedAuthor={selectedAuthor}
-        handleDrop={handleDrop}
-        getSidebarItemDecorator={getSidebarItemDecorator}
-      />
     </SidebarContent>
   </ModalSidebar>
 )
