@@ -1860,24 +1860,22 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.4.23-LEAN-2832-3":
-  version "1.4.23-LEAN-2832-3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.4.23-LEAN-2832-3.tgz#b0ad286746f6b93f1ede5be563e7e4008d8f49b2"
-  integrity sha512-8F1xxzN9UPryPb2oVFQjeCNutynv36+D94V57KWd97f9PBx0SiZHH/YnPU6i1uE0+8/BdnhApMs69s9hqVF5tw==
+"@manuscripts/body-editor@1.5.9-LEAN-2832":
+  version "1.5.9-LEAN-2832"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.9-LEAN-2832.tgz#594a872fbf6d48a6a6556c00acf3caf6482a9d91"
+  integrity sha512-GOkbnra+/vrDunP05yQ0NYiGilmhzhnGNuCpMN3CrIwDs7vsHj8CTjuR/CQRbtBpPr5piWeqHIis8iyof/UCFw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
-    "@manuscripts/comment-editor" "^1.0.3"
-    "@manuscripts/json-schema" "^2.2.0"
-    "@manuscripts/library" "^1.1.12"
-    "@manuscripts/style-guide" "^1.3.6"
+    "@manuscripts/json-schema" "2.2.1"
+    "@manuscripts/library" "1.2.2"
+    "@manuscripts/style-guide" "1.4.5"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "1.7.3-LEAN-2832-v3"
-    "@manuscripts/transform" "^1.4.6"
+    "@manuscripts/track-changes-plugin" "1.7.3-LEAN-2832-v4"
+    "@manuscripts/transform" "1.5.4"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
-    comlink "^4.3.0"
     dompurify "^2.4.1"
     formik "^2.2.9"
     grapheme-splitter "^1.0.4"
@@ -1931,6 +1929,14 @@
     eslint-config-prettier "^8.5.0"
     prettier "^2.8.1"
 
+"@manuscripts/json-schema@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.1.tgz#cd0618ff8bc40e40bdd3640eb76765c6b57f6d43"
+  integrity sha512-Oo5AXJQbNEvSq4Bu6zNwuhIS77tV0J8ryIDUPLlo5Zpiui8g2ctg2nWkNVPsgSUmoUG8t7Hj6o7G+pwMnDWB7A==
+  dependencies:
+    ajv "^8.12.0"
+    deepmerge "^4.3.1"
+
 "@manuscripts/json-schema@^2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.1.2.tgz#80fc5d3c951d7a5586f625a651c704a3f9d2d5b5"
@@ -1946,6 +1952,19 @@
   dependencies:
     ajv "^8.12.0"
     deepmerge "^4.3.1"
+
+"@manuscripts/library@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.2.tgz#2859429b6372e1a62b661167e1fdc43d5b6da730"
+  integrity sha512-BzXxnUZq3aGM2FFTbXSlHJA9u9AyQTZXDBs7EA7EWc0o7iIUtF2RlsmPcIH5IiMzsgVv3wNyB7Im0tHvOmcveA==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.1"
+    "@manuscripts/transform" "1.5.4"
+    astrocite-bibtex "^0.16.4"
+    astrocite-ris "^0.16.4"
+    citeproc "^2.4.62"
+    fontoxpath "^3.28.2"
+    prosemirror-model "^1.18.3"
 
 "@manuscripts/library@^1.1.12":
   version "1.1.12"
@@ -1964,6 +1983,45 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
+
+"@manuscripts/style-guide@1.4.5":
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.5.tgz#bd9d807fe08f71f6550228fa3f3ddef1e242560a"
+  integrity sha512-j5JuyGn7t4b0yluQhiXMLnKR7Nyvhb0TN3GckpjFSBkLfn1u7L7pIr+7z4Wm+y+zYu8WF2CKIFszGRAVaoFnEw==
+  dependencies:
+    "@apollo/client" "^3.7.3"
+    "@formatjs/intl-relativetimeformat" "^4.5.9"
+    "@formatjs/intl-utils" "^2.2.0"
+    "@manuscripts/assets" "^0.6.2"
+    "@manuscripts/json-schema" "2.2.1"
+    "@manuscripts/transform" "1.5.4"
+    "@reach/tabs" "^0.11.2"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    lodash-es "^4.17.21"
+    prosemirror-commands "^1.5.0"
+    prosemirror-history "^1.3.0"
+    prosemirror-inputrules "^1.2.0"
+    prosemirror-keymap "^1.2.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-state "^1.4.2"
+    prosemirror-transform "^1.7.0"
+    react "^17.0.2"
+    react-color "^2.19.3"
+    react-dnd "^11.1.3"
+    react-dnd-html5-backend "^11.1.3"
+    react-dom "^17.0.2"
+    react-intl "^3.12.0"
+    react-modal "^3.11.2"
+    react-modern-calendar-datepicker "^3.1.3"
+    react-popper "^1.3.11"
+    react-router-dom "^5.2.0"
+    react-select "^5.7.3"
+    react-sizeme "^2.6.12"
+    react-tooltip "^4.2.11"
+    styled-components "^5.2.0"
+    tooltip.js "^1.3.3"
+    typeface-lato "^1.1.13"
 
 "@manuscripts/style-guide@^1.3.6":
   version "1.3.6"
@@ -2022,10 +2080,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.3-LEAN-2832-v3":
-  version "1.7.3-LEAN-2832-v3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.3-LEAN-2832-v3.tgz#701502559119da85ab2e85cd6326cdeb2ed7accb"
-  integrity sha512-fAJUKBU476/bAKGiV0YiRecDlxtS2RFjIWWKoG1mjQnNso1XCZoQCGXrO0/DNBulmHZWrjpu/58WRNN3QlR58g==
+"@manuscripts/track-changes-plugin@1.7.3-LEAN-2832-v4":
+  version "1.7.3-LEAN-2832-v4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.3-LEAN-2832-v4.tgz#dd6290193a2d2b5206825fb9b89edb23368e85e3"
+  integrity sha512-mysGnbGAwCtRptjaVfVbm7+eWVWRMDOfnn2Ko2qpqN5T5OoEmNUqBvNhHgb+/qh4KC+tfN0vStq0hhjr+E61GA==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -2037,6 +2095,20 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.4.tgz#8afba262486414448a4741f052a10c663aeb94d7"
+  integrity sha512-Tjq9ZfXz54M5T+11eLm7KGsI14Fc/B8xh96q2AitlWFu0hvbpXO2q8SafIQNLrORutaHcQMCt6ApYEb/IgqeHg==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.1"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@^1.4.3":
   version "1.4.4"
@@ -5787,11 +5859,6 @@ combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
-
-comlink@^4.3.0:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/comlink/-/comlink-4.4.1.tgz#e568b8e86410b809e8600eb2cf40c189371ef981"
-  integrity sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q==
 
 comma-separated-tokens@^1.0.0:
   version "1.0.8"
