@@ -79,15 +79,21 @@ export const applySteps = (
     'Creating document failed'
   )
 
-export const stepsSince = (projectId: string, docId: string, version: number) =>
+export const stepsSince = (
+  projectId: string,
+  docId: string,
+  version: number,
+  authToken: string
+) =>
   get<StepsSinceResponse>(
     `doc/${projectId}/manuscript/${docId}/version/${version}`,
-    'Fetching document failed'
+    authToken,
+    `Fetching steps since version ${version}`
   )
 
 export const listenStepUpdates = (
-  projectId: string,
-  docId: string,
+  projectID: string,
+  manuscriptID: string,
   dataListener: (
     version: number,
     steps: unknown[],
@@ -109,5 +115,9 @@ export const listenStepUpdates = (
     }
   }
 
-  listen(`doc/${projectId}/manuscript/${docId}/listen`, listener, authToken)
+  listen(
+    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
+    listener,
+    authToken
+  )
 }

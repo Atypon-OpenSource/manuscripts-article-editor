@@ -102,7 +102,12 @@ export const useDocStore = create(
           docId: string,
           version: number
         ) => {
-          const resp = await docApi.stepsSince(projectId, docId, version)
+          const resp = await docApi.stepsSince(
+            projectId,
+            docId,
+            version,
+            authToken
+          )
           if ('data' in resp) {
             return resp.data
           }

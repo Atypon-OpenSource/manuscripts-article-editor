@@ -159,12 +159,7 @@ export async function listen<T>(
     ...getAuthHeader(authToken),
   }
 ) {
-  // const evtSource = new EventSource(`${QUARTERBACK_URL}/${path}`, {
-  //   withCredentials: true,
-  // })
-
-  await fetchEventSource(`http://localhost:3000/api/v2/${path}`, {
-    // await fetchEventSource(`${QUARTERBACK_URL}/${path}`, {
+  await fetchEventSource(`${config.quarterback.url}/${path}`, {
     onmessage: listener,
     headers: headers,
     async onopen(response) {
