@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import {
   ContainerInvitation,
   Contributor,
@@ -23,24 +22,15 @@ import {
   ModalContainer,
   ModalHeader,
   StyledModal,
-  usePermissions,
 } from '@manuscripts/style-guide'
-import { TitleEditorView } from '@manuscripts/title-editor'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useStore } from '../../store'
+import { state } from '../../store'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { InviteAuthorsModal } from './AuthorsModals'
-import { TitleFieldContainer } from './TitleFieldContainer'
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-`
 
 export const ExpanderButton = styled(IconButton).attrs(() => ({
   size: 20,
@@ -81,7 +71,6 @@ const Header = styled.div`
 `
 
 interface Props {
-  saveTitle: (title: string) => void
   invitations: ContainerInvitation[]
   startEditing: () => void
   editing: boolean
@@ -117,38 +106,21 @@ interface Props {
     newIndex: number
   ) => void
   updateAuthor: (author: Contributor, email: string) => void
-  handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
+  store: state
 }
 
-const expanderStyle = (expanded: boolean) => ({
-  transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-})
-
 export const Metadata: React.FunctionComponent<Props> = (props) => {
-  const [
-    {
-      manuscript,
-      authorsAndAffiliations,
-      contributorRoles,
-      tokenActions,
-      project,
-      saveModel,
-    },
-  ] = useStore((store) => {
-    return {
-      manuscript: store.manuscript,
-      authorsAndAffiliations: store.authorsAndAffiliations,
-      contributorRoles: store.contributorRoles,
-      saveModel: store.saveModel,
-      project: store.project,
-      tokenActions: store.tokenActions,
-    }
-  })
-
-  const can = usePermissions()
+  const {
+    manuscript,
+    authorsAndAffiliations,
+    contributorRoles,
+    tokenActions,
+    project,
+    saveModel,
+  } = props.store
 
   const handleInvitationSubmit = useCallback(
     (values: InvitationValues) => {
@@ -170,23 +142,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   return (
     <HeaderContainer>
       <Header>
-        <TitleContainer>
-          <TitleFieldContainer
-            title={manuscript.title || ''}
-            handleChange={props.saveTitle}
-            handleStateChange={props.handleTitleStateChange}
-            editable={can.editArticle}
-          />
-          <ExpanderButton
-            aria-label={'Toggle expand authors'}
-            onClick={props.toggleExpanded}
-            style={expanderStyle(props.expanded)}
-            data-cy={'expander-button'}
-          >
-            <ArrowDownBlue />
-          </ExpanderButton>
-        </TitleContainer>
-
         {props.expanded && (
           <AuthorsContainer
             authorData={authorsAndAffiliations}
