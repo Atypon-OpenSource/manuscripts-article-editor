@@ -339,7 +339,7 @@ const useTrackedModelManagement = (
       dispatch,
       dispatchStore,
       deleteModel,
-    ] // will loop rerenders probably because of modelMap
+    ]
   )
 
   const getTrackModel = useCallback(
