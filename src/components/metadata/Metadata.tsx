@@ -32,7 +32,6 @@ import styled from 'styled-components'
 import { getMetaData } from '../../lib/authors'
 import { useStore } from '../../store'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
-import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
 import { TitleFieldContainer } from './TitleFieldContainer'
 
@@ -191,7 +190,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
             ) : (
               <AuthorsModalContainer
                 {...props}
-                // saveModel={saveModel}
                 saveTrackModel={saveTrackModel}
                 authors={authorsAndAffiliations.authors}
                 authorAffiliations={authorsAndAffiliations.authorAffiliations}

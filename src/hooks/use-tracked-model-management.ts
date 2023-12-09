@@ -11,6 +11,7 @@
  */
 
 import {
+  Affiliation,
   CommentAnnotation,
   Contributor,
   // Contributor,
@@ -22,6 +23,7 @@ import {
   Build,
   Decoder,
   encode,
+  isAffiliationsSectionNode,
   isContributorsSectionNode,
   // isCogintributorsSectionNode,
   ManuscriptEditorView,
@@ -79,26 +81,53 @@ const useTrackedModelManagement = (
     }
   }
 
-  const createContributorNode = (contributor: Build<Contributor>) => {
+  const createContributorNode = (model: Build<Contributor>) => {
     if (!view) {
       throw Error('View not available')
     }
+
     const { tr } = state
     doc.descendants((node, pos) => {
       if (isContributorsSectionNode(node)) {
         tr.insert(
           pos + node.nodeSize - 1,
           schema.nodes.contributor.create(
-            contributor,
-            schema.text('Contributor')
+            {
+              ...model,
+              id: model._id,
+            },
+            schema.text('_')
+            /* 
+              quarterback as it is now works incorrectly with empty nodes and updating attributes on them are misinterpreted as deletion
+              we either need to update quarterback to work correctly with empty nodes attributes or provide some content for these nodes or
+              implement a mechanism that would detect attributes updates on empty nodes and setMeta as we do for metaNodes
+            */
           )
         )
-        // tr.setMeta('track-changes-skip-tracking', true)
         view.dispatch(tr)
         return false
       }
     })
-    // return Promise.resolve(contributor as Model)
+  }
+
+  const createAffiliationNode = (model: Build<Contributor>) => {
+    if (!view) {
+      throw Error('View not available')
+    }
+    const { tr } = state
+    doc.descendants((node, pos) => {
+      if (isAffiliationsSectionNode(node)) {
+        tr.insert(
+          pos + node.nodeSize - 1,
+          schema.nodes.affiliation.create({
+            ...model,
+            id: model._id,
+          },, schema.text('_'))
+        )
+        view.dispatch(tr)
+        return false
+      }
+    })
   }
 
   const saveCommentNode = useCallback(
@@ -256,13 +285,11 @@ const useTrackedModelManagement = (
 
         if (!foundInDoc) {
           if (model.objectType === ObjectTypes.Contributor) {
-            const vals = {
-              ...model,
-              id: model._id,
-            }
-            createContributorNode(vals)
+            createContributorNode(model)
             // console.log('call saveContributorNode(model)...', model)
             // return saveContributorNode(model as unknown as Contributor)
+          } else if (model.objectType === ObjectTypes.Affiliation) {
+            createAffiliationNode(model)
           } else {
             // ...that is if there is no node in the prosemirror doc for that id,
             // that update final model.
