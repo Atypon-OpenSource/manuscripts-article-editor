@@ -51,7 +51,6 @@ const useTrackedModelManagement = (
   finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
-    console.log(doc)
     const docJSONed = doc.toJSON()
     const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
@@ -81,7 +80,7 @@ const useTrackedModelManagement = (
     }
   }
 
-  const createContributorNode = (model: Build<Contributor>) => {
+  const createContributorNode = (model: Contributor) => {
     if (!view) {
       throw Error('View not available')
     }
@@ -110,7 +109,7 @@ const useTrackedModelManagement = (
     })
   }
 
-  const createAffiliationNode = (model: Build<Contributor>) => {
+  const createAffiliationNode = (model: Affiliation) => {
     if (!view) {
       throw Error('View not available')
     }
@@ -119,10 +118,13 @@ const useTrackedModelManagement = (
       if (isAffiliationsSectionNode(node)) {
         tr.insert(
           pos + node.nodeSize - 1,
-          schema.nodes.affiliation.create({
-            ...model,
-            id: model._id,
-          },, schema.text('_'))
+          schema.nodes.affiliation.create(
+            {
+              ...model,
+              id: model._id,
+            },
+            schema.text('_')
+          )
         )
         view.dispatch(tr)
         return false
@@ -286,7 +288,6 @@ const useTrackedModelManagement = (
         if (!foundInDoc) {
           if (model.objectType === ObjectTypes.Contributor) {
             createContributorNode(model)
-            // console.log('call saveContributorNode(model)...', model)
             // return saveContributorNode(model as unknown as Contributor)
           } else if (model.objectType === ObjectTypes.Affiliation) {
             createAffiliationNode(model)
@@ -298,7 +299,6 @@ const useTrackedModelManagement = (
           }
         }
       }
-      // console.log('saveTrackModel.model : ', model)
       return Promise.resolve(model)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

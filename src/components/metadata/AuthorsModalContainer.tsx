@@ -43,7 +43,6 @@ interface Props {
   selectedAuthor: string | null
   removeAuthor: (data: Contributor) => Promise<void>
   selectAuthor: (data: Contributor) => void
-  // saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   saveTrackModel: <T extends Model>(
     model: T | Build<T> | Partial<T>
   ) => Promise<T>
@@ -126,19 +125,24 @@ class AuthorsModalContainer extends React.Component<Props, State> {
     })
   }
 
-  private addAuthorAffiliation = async (affiliation: Affiliation | string) => {
+  private addAuthorAffiliation = async (affiliation: string) => {
     const selectedAuthor = this.getSelectedAuthor()
     if (!selectedAuthor) {
       return
     }
 
     let affiliationObj
-    if (typeof affiliation === 'string') {
+
+    this.props.affiliations.forEach((aff) => {
+      if (affiliation.startsWith(aff._id)) {
+        affiliationObj = aff
+      }
+    })
+
+    if (!affiliationObj) {
       affiliationObj = await this.props.saveTrackModel<Affiliation>(
         buildAffiliation(affiliation)
       )
-    } else {
-      affiliationObj = affiliation
     }
 
     const author = {

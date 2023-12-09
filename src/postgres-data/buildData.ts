@@ -242,7 +242,6 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
       )
     }
   }
-  // getMetaData returns {authorsAndAffiliations, contributorRoles}
   const metaData = getMetaData(data.modelMap)
   storeData.authorsAndAffiliations = metaData?.authorsAndAffiliations
   storeData.contributorRoles = metaData?.contributorRoles

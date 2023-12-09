@@ -23,7 +23,7 @@ import { ascendingPriority } from './sort'
 
 export type AffiliationMap = Map<string, Affiliation>
 
-interface AffiliationData {
+export interface AffiliationData {
   ordinal: number
   data: Affiliation
 }

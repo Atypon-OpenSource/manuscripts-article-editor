@@ -12,111 +12,70 @@
 
 import { Contributor, UserProfile } from '@manuscripts/json-schema'
 import {
+  CloseButton,
+  ModalContainer,
+  ModalHeader,
+  StyledModal,
+} from '@manuscripts/style-guide'
+import {
   buildBibliographicName,
   buildContributor,
 } from '@manuscripts/transform'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { reorderAuthors } from '../../lib/authors'
-import { GenericStore, state } from '../../store'
-import { InvitationValues } from './AuthorInvitationForm'
-import { Metadata } from './Metadata'
+import { getMetaData, reorderAuthors } from '../../lib/authors'
+import { useStore } from '../../store'
 import { stripTracked } from '../track-changes/utils'
-
-interface Props {
-  allowInvitingAuthors: boolean
-  showAuthorEditButton: boolean
-  disableEditButton?: boolean
-  subscribe: GenericStore['subscribe']
-}
+import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
+import AuthorsModalContainer from './AuthorsModalContainer'
 
 interface State {
-  editing: boolean
   expanded: boolean
   selectedAuthor: string | null // _id of the selectedAuthor
   addingAuthors: boolean
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
   addedAuthors: string[]
-  isInvite: boolean
-  invitationValues: InvitationValues
-  invitationSent: boolean
   authorListError?: string
 }
 
-const MetadataContainer: React.FC<Props> = ({
-  allowInvitingAuthors,
-  showAuthorEditButton,
-  disableEditButton,
-  subscribe,
-}) => {
-  const [store, setStore] = useState<state>()
-
-  useEffect(() => {
-    // onStoreUpdate: (fn: (s: state) => void) => void
-    subscribe((store) => {
-      setStore(store)
-    })
-  })
+const AuthorModalViews: React.FC = () => {
+  const [store, dispatch] = useStore((store) => store)
 
   const [state, setState] = useState<State>({
-    editing: false,
     expanded: true,
     selectedAuthor: null,
     addingAuthors: false,
     nonAuthors: [],
     numberOfAddedAuthors: 0,
     addedAuthors: [],
-    isInvite: false,
-    invitationSent: false,
-    invitationValues: {
-      name: '',
-      email: '',
-      role: '',
-    },
   })
 
-  if (!store) {
-    return null
-  }
-
-  const { saveTrackModel, collaboratorsProfiles, user, deleteTrackModel } =
-    store
-
-  const updateAuthor =
-    (invitingUser: UserProfile) =>
-    async (author: Contributor, invitedEmail: string) => {
-      const updatedAuthor: Contributor = await saveTrackModel({
-        ...author,
-      })
-
-      selectAuthor(updatedAuthor)
-    }
-
-  const toggleExpanded = () => {
-    setState((state) => ({ ...state, expanded: !state.expanded }))
-  }
-
-  const startEditing = () => {
-    setState((state) => ({ ...state, editing: true }))
-  }
+  const {
+    saveTrackModel,
+    collaboratorsProfiles,
+    user,
+    deleteTrackModel,
+    trackModelMap,
+    authorsPopupOn,
+  } = store
 
   const stopEditing = () => {
     setState((state) => ({
       ...state,
-      editing: false,
+
       selectedAuthor: null,
       addingAuthors: false,
       isInvite: false,
-      invitationSent: false,
     }))
+
+    dispatch({ authorsPopupOn: false })
   }
 
   const createAuthor = async (
     priority: number,
     person?: UserProfile | null,
-    name?: string,
-    invitationID?: string
+    name?: string
   ) => {
     if (name) {
       const [given, ...family] = name.split(' ')
@@ -126,9 +85,7 @@ const MetadataContainer: React.FC<Props> = ({
         family: family.join(' '),
       })
 
-      const author = invitationID
-        ? buildContributor(bibName, 'author', priority, undefined, invitationID)
-        : buildContributor(bibName, 'author', priority)
+      const author = buildContributor(bibName, 'author', priority)
 
       await saveTrackModel(author)
 
@@ -158,14 +115,21 @@ const MetadataContainer: React.FC<Props> = ({
     }
   }
 
-  const selectAuthor = (author: Contributor) => {
+  const startEditing = useCallback(() => {
+    dispatch({ authorsPopupOn: true })
+  }, [dispatch])
+
+  const selectAuthor = useCallback((author: Contributor) => {
     // TODO: make this switch without deselecting
-    console.log('MetadataContainer.tsx - selectAuthor', author)
     setState((state) => ({
       ...state,
       selectedAuthor: stripTracked(author._id),
     }))
-  }
+  }, [])
+
+  useEffect(() => {
+    dispatch({ startEditing, selectAuthor })
+  }, [dispatch, startEditing, selectAuthor])
 
   const deselectAuthor = () => {
     setState((state) => ({ ...state, selectedAuthor: null }))
@@ -210,34 +174,60 @@ const MetadataContainer: React.FC<Props> = ({
       })
   }
 
-  if (!collaboratorsProfiles || !user) {
+  const metaData = useMemo(() => getMetaData(trackModelMap), [trackModelMap])
+
+  useEffect(() => {
+    dispatch({
+      trackedAuthorsAndAffiliations: metaData?.authorsAndAffiliations,
+    })
+  }, [metaData, dispatch])
+
+  const authorsAndAffiliations = metaData?.authorsAndAffiliations
+  const contributorRoles = metaData?.contributorRoles || []
+
+  if (
+    !collaboratorsProfiles ||
+    !user ||
+    !authorsAndAffiliations ||
+    !contributorRoles
+  ) {
     return null
   }
 
   return (
-    <Metadata
-      store={store}
-      invitations={[]}
-      editing={state.editing}
-      startEditing={startEditing}
-      selectAuthor={selectAuthor}
-      removeAuthor={removeAuthor}
-      createAuthor={createAuthor}
-      selectedAuthor={state.selectedAuthor}
-      stopEditing={stopEditing}
-      toggleExpanded={toggleExpanded}
-      expanded={state.expanded}
-      addingAuthors={state.addingAuthors}
-      numberOfAddedAuthors={state.numberOfAddedAuthors}
-      nonAuthors={state.nonAuthors}
-      addedAuthors={state.addedAuthors}
-      handleAddingDoneCancel={handleAddingDoneCancel}
-      handleDrop={handleDrop}
-      updateAuthor={updateAuthor(user)}
-      showAuthorEditButton={showAuthorEditButton}
-      disableEditButton={disableEditButton}
-    />
+    <StyledModal
+      isOpen={!!authorsPopupOn}
+      onRequestClose={stopEditing}
+      shouldCloseOnOverlayClick={true}
+    >
+      <ModalContainer>
+        <ModalHeader>
+          <CloseButton onClick={stopEditing} data-cy={'modal-close-button'} />
+        </ModalHeader>
+        {state.addingAuthors ? (
+          <AddAuthorsModalContainer
+            {...state}
+            handleAddingDoneCancel={handleAddingDoneCancel}
+            createAuthor={createAuthor}
+            authors={authorsAndAffiliations.authors}
+          />
+        ) : (
+          <AuthorsModalContainer
+            {...state}
+            createAuthor={createAuthor}
+            selectAuthor={selectAuthor}
+            removeAuthor={removeAuthor}
+            saveTrackModel={saveTrackModel}
+            handleDrop={handleDrop}
+            authors={authorsAndAffiliations.authors}
+            authorAffiliations={authorsAndAffiliations.authorAffiliations}
+            affiliations={authorsAndAffiliations.affiliations}
+            contributorRoles={contributorRoles}
+          />
+        )}
+      </ModalContainer>
+    </StyledModal>
   )
 }
 
-export default MetadataContainer
+export default AuthorModalViews

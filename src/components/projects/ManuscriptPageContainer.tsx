@@ -36,6 +36,7 @@ import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
 import { useStore } from '../../store'
+import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
 import { useEditorStore } from '../track-changes/useEditorStore'
 import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
@@ -160,7 +161,6 @@ const ManuscriptPageView: React.FC = () => {
   const saveDocument = (state: ManuscriptEditorState) => {
     // @TODO - remove this once testing is completed
     console.log('Saving to quarteback with throttle: ' + throttle)
-    console.log
     storeDispatch({ doc: state.doc })
     updateDocument(project._id, manuscriptID, state.doc.toJSON(), authToken)
   }
@@ -170,10 +170,7 @@ const ManuscriptPageView: React.FC = () => {
   useEffect(() => {
     const { trackState } = setEditorState(state)
     if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
-      // doWithThrottle(() => saveDocument(state), throttle)
-      saveDocument(state)
-      console.log('state.doc - DOC IN STATE')
-      console.log(state.doc)
+      doWithThrottle(() => saveDocument(state), throttle)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
@@ -203,6 +200,7 @@ const ManuscriptPageView: React.FC = () => {
         <Main>
           <EditorContainer>
             <EditorContainerInner>
+              <AuthorModalViews />
               <EditorHeader>
                 <ApplicationMenuContainer>
                   <ApplicationMenus
