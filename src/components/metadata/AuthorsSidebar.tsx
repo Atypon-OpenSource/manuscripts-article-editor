@@ -11,7 +11,7 @@
  */
 
 import { Contributor } from '@manuscripts/json-schema'
-import { AuthorAffiliation, AuthorsDND } from '@manuscripts/style-guide'
+import { AuthorAffiliation } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -33,13 +33,7 @@ interface Props {
   handleDrop: (oldIndex: number, newIndex: number) => void
 }
 
-const AuthorsSidebar: React.FunctionComponent<Props> = ({
-  authors,
-  selectAuthor,
-  selectedAuthor,
-  openAddAuthors,
-  handleDrop,
-}) => (
+const AuthorsSidebar: React.FunctionComponent<Props> = ({ openAddAuthors }) => (
   <ModalSidebar data-cy={'authors-sidebar'}>
     <SidebarHeader title={'Authors'} />
 
@@ -51,13 +45,6 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
           title={'New Author'}
         />
       </SidebarAction>
-
-      <AuthorsDND
-        authors={authors}
-        selectAuthor={selectAuthor}
-        selectedAuthor={selectedAuthor}
-        handleDrop={handleDrop}
-      />
     </SidebarContent>
   </ModalSidebar>
 )

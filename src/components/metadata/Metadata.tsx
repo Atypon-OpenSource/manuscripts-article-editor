@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
 import {
   ContainerInvitation,
   Contributor,
@@ -23,23 +22,13 @@ import {
   ModalContainer,
   ModalHeader,
   StyledModal,
-  usePermissions,
 } from '@manuscripts/style-guide'
-import { TitleEditorView } from '@manuscripts/title-editor'
 import React from 'react'
 import styled from 'styled-components'
 
-import { getMetaData } from '../../lib/authors'
-import { useStore } from '../../store'
+import { state } from '../../store'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import AuthorsModalContainer from './AuthorsModalContainer'
-import { TitleFieldContainer } from './TitleFieldContainer'
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-`
 
 export const ExpanderButton = styled(IconButton).attrs(() => ({
   size: 20,
@@ -80,7 +69,6 @@ const Header = styled.div`
 `
 
 interface Props {
-  saveTitle: (title: string) => void
   invitations: ContainerInvitation[]
   startEditing: () => void
   editing: boolean
@@ -107,34 +95,14 @@ interface Props {
     newIndex: number
   ) => void
   updateAuthor: (author: Contributor, email: string) => void
-  handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
-  allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
+  store: state
 }
 
-const expanderStyle = (expanded: boolean) => ({
-  transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-})
-
 export const Metadata: React.FunctionComponent<Props> = (props) => {
-  const [{ manuscript, saveTrackModel, trackModelMap }] = useStore((store) => {
-    return {
-      manuscript: store.manuscript,
-      saveTrackModel: store.saveTrackModel,
-      trackModelMap: store.trackModelMap,
-    }
-  })
-
-  // if (trackModelMap) {
-  //   console.log(JSON.stringify(Array.from(trackModelMap.keys())))
-  // }
-  // TODO: remove modelMAp
-  const metaData = getMetaData(trackModelMap)
-  const authorsAndAffiliations = metaData?.authorsAndAffiliations
-  const contributorRoles = metaData?.contributorRoles || []
-
-  const can = usePermissions()
+  const { authorsAndAffiliations, contributorRoles, saveTrackModel } =
+    props.store
 
   if (!authorsAndAffiliations || !contributorRoles) {
     return null
@@ -143,23 +111,6 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
   return (
     <HeaderContainer>
       <Header>
-        <TitleContainer>
-          <TitleFieldContainer
-            title={manuscript.title || ''}
-            handleChange={props.saveTitle}
-            handleStateChange={props.handleTitleStateChange}
-            editable={can.editArticle}
-          />
-          <ExpanderButton
-            aria-label={'Toggle expand authors'}
-            onClick={props.toggleExpanded}
-            style={expanderStyle(props.expanded)}
-            data-cy={'expander-button'}
-          >
-            <ArrowDownBlue />
-          </ExpanderButton>
-        </TitleContainer>
-
         {props.expanded && (
           <AuthorsContainer
             authorData={authorsAndAffiliations}

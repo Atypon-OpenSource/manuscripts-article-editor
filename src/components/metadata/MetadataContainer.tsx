@@ -10,32 +10,24 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  ContainerInvitation,
-  Contributor,
-  UserProfile,
-} from '@manuscripts/json-schema'
-import { TitleEditorView } from '@manuscripts/title-editor'
+import { Contributor, UserProfile } from '@manuscripts/json-schema'
 import {
   buildBibliographicName,
   buildContributor,
 } from '@manuscripts/transform'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { projectInvite } from '../../lib/api'
-import { buildAuthorPriority, reorderAuthors } from '../../lib/authors'
-import { buildContainerInvitations } from '../../lib/invitation'
-import { trackEvent } from '../../lib/tracking'
-import { useStore } from '../../store'
+import { reorderAuthors } from '../../lib/authors'
+import { GenericStore, state } from '../../store'
 import { InvitationValues } from './AuthorInvitationForm'
 import { Metadata } from './Metadata'
 import { stripTracked } from '../track-changes/utils'
 
 interface Props {
-  handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
   allowInvitingAuthors: boolean
   showAuthorEditButton: boolean
   disableEditButton?: boolean
+  subscribe: GenericStore['subscribe']
 }
 
 interface State {
@@ -56,8 +48,17 @@ const MetadataContainer: React.FC<Props> = ({
   allowInvitingAuthors,
   showAuthorEditButton,
   disableEditButton,
-  handleTitleStateChange,
+  subscribe,
 }) => {
+  const [store, setStore] = useState<state>()
+
+  useEffect(() => {
+    // onStoreUpdate: (fn: (s: state) => void) => void
+    subscribe((store) => {
+      setStore(store)
+    })
+  })
+
   const [state, setState] = useState<State>({
     editing: false,
     expanded: true,
@@ -75,48 +76,18 @@ const MetadataContainer: React.FC<Props> = ({
     },
   })
 
-  const [
-    {
-      // saveModel,
-      saveTrackModel,
-      collaboratorsProfiles,
-      user,
-      manuscript,
-      saveManuscript,
-      // deleteModel,
-      deleteTrackModel,
-      containerInvitations,
-      invitations,
-      getInvitation,
-    },
-  ] = useStore((store) => ({
-    // saveModel: store.saveModel,
-    saveTrackModel: store.saveTrackModel,
-    collaboratorsProfiles: store.collaboratorsProfiles,
-    user: store.user,
-    project: store.project,
-    manuscript: store.manuscript,
-    saveManuscript: store.saveManuscript,
-    // deleteModel: store.deleteModel,
-    deleteTrackModel: store.deleteTrackModel,
-    containerInvitations: store.containerInvitations || [],
-    invitations: store.projectInvitations || [],
-    getInvitation: store.getInvitation || (() => null),
-  }))
+  if (!store) {
+    return null
+  }
 
-  const allInvitations = [
-    ...buildContainerInvitations(invitations),
-    ...containerInvitations,
-  ].filter((invitation) => invitation.containerID.startsWith('MPProject'))
+  const { saveTrackModel, collaboratorsProfiles, user, deleteTrackModel } =
+    store
 
   const updateAuthor =
     (invitingUser: UserProfile) =>
     async (author: Contributor, invitedEmail: string) => {
-      const invitation = await getInvitation(invitingUser.userID, invitedEmail)
-
       const updatedAuthor: Contributor = await saveTrackModel({
         ...author,
-        invitationID: invitation?._id || '',
       })
 
       selectAuthor(updatedAuthor)
@@ -139,13 +110,6 @@ const MetadataContainer: React.FC<Props> = ({
       isInvite: false,
       invitationSent: false,
     }))
-  }
-
-  const saveTitle = async (title: string) => {
-    await saveManuscript!({
-      _id: manuscript._id,
-      title,
-    })
   }
 
   const createAuthor = async (
@@ -223,75 +187,6 @@ const MetadataContainer: React.FC<Props> = ({
       addingAuthors: false,
     }))
 
-  const handleInvite = (searchText: string) => {
-    const invitationValues = {
-      name: '',
-      email: '',
-      role: 'Writer',
-    }
-
-    if (searchText.includes('@')) {
-      invitationValues.email = searchText
-    } else {
-      invitationValues.name = searchText
-    }
-
-    setState((state) => ({ ...state, invitationValues, isInvite: true }))
-  }
-
-  const handleInviteCancel = () =>
-    setState((state) => ({ ...state, isInvite: false, invitationSent: false }))
-
-  const handleInvitationSubmit =
-    (invitingUser: UserProfile, invitations: ContainerInvitation[]) =>
-    async (authors: Contributor[], values: InvitationValues): Promise<void> => {
-      const { email, name, role } = values
-
-      const projectID = manuscript.containerID
-      const invitingID = invitingUser.userID
-
-      const alreadyInvited = invitations.some(
-        (invitation) =>
-          invitation.containerID === projectID &&
-          invitation.invitedUserEmail === email
-      )
-
-      await projectInvite(projectID, [{ email, name }], role)
-
-      if (!alreadyInvited) {
-        await createInvitedAuthor(authors, email, invitingID, name)
-      }
-
-      setState((state) => ({
-        ...state,
-        isInvite: false,
-        invitationSent: true,
-        addingAuthors: false,
-        numberOfAddedAuthors: 0,
-      }))
-
-      trackEvent({
-        category: 'Invitations',
-        action: 'Send',
-        label: `projectID=${projectID}`,
-      })
-    }
-
-  const createInvitedAuthor = async (
-    authors: Contributor[],
-    invitedEmail: string,
-    invitingID: string,
-    name: string
-  ) => {
-    const invitation = await getInvitation(invitingID, invitedEmail)
-    await createAuthor(
-      buildAuthorPriority(authors),
-      null,
-      name,
-      invitation?._id
-    )
-  }
-
   const handleDrop = (
     authors: Contributor[],
     oldIndex: number,
@@ -321,8 +216,8 @@ const MetadataContainer: React.FC<Props> = ({
 
   return (
     <Metadata
-      saveTitle={saveTitle}
-      invitations={allInvitations}
+      store={store}
+      invitations={[]}
       editing={state.editing}
       startEditing={startEditing}
       selectAuthor={selectAuthor}
@@ -336,17 +231,9 @@ const MetadataContainer: React.FC<Props> = ({
       numberOfAddedAuthors={state.numberOfAddedAuthors}
       nonAuthors={state.nonAuthors}
       addedAuthors={state.addedAuthors}
-      isInvite={state.isInvite}
-      invitationValues={state.invitationValues}
       handleAddingDoneCancel={handleAddingDoneCancel}
-      handleInvite={handleInvite}
-      handleInviteCancel={handleInviteCancel}
-      handleInvitationSubmit={handleInvitationSubmit(user, allInvitations)}
       handleDrop={handleDrop}
       updateAuthor={updateAuthor(user)}
-      invitationSent={state.invitationSent}
-      handleTitleStateChange={handleTitleStateChange}
-      allowInvitingAuthors={allowInvitingAuthors}
       showAuthorEditButton={showAuthorEditButton}
       disableEditButton={disableEditButton}
     />
