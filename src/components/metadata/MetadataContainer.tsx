@@ -29,6 +29,7 @@ import { trackEvent } from '../../lib/tracking'
 import { useStore } from '../../store'
 import { InvitationValues } from './AuthorInvitationForm'
 import { Metadata } from './Metadata'
+import { stripTracked } from '../track-changes/utils'
 
 interface Props {
   handleTitleStateChange: (view: TitleEditorView, docChanged: boolean) => void
@@ -196,7 +197,10 @@ const MetadataContainer: React.FC<Props> = ({
   const selectAuthor = (author: Contributor) => {
     // TODO: make this switch without deselecting
     console.log('MetadataContainer.tsx - selectAuthor', author)
-    setState((state) => ({ ...state, selectedAuthor: author._id }))
+    setState((state) => ({
+      ...state,
+      selectedAuthor: stripTracked(author._id),
+    }))
   }
 
   const deselectAuthor = () => {

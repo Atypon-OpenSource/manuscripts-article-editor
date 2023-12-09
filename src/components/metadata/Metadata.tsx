@@ -26,7 +26,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { TitleEditorView } from '@manuscripts/title-editor'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { getMetaData } from '../../lib/authors'
@@ -34,7 +34,6 @@ import { useStore } from '../../store'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import { InvitationValues } from './AuthorInvitationForm'
 import AuthorsModalContainer from './AuthorsModalContainer'
-import { InviteAuthorsModal } from './AuthorsModals'
 import { TitleFieldContainer } from './TitleFieldContainer'
 
 const TitleContainer = styled.div`
@@ -102,16 +101,7 @@ interface Props {
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
   addedAuthors: string[]
-  isInvite: boolean
-  invitationValues: InvitationValues
-  invitationSent: boolean
   handleAddingDoneCancel: () => void
-  handleInvite: (searchText: string) => void
-  handleInviteCancel: () => void
-  handleInvitationSubmit: (
-    authors: Contributor[],
-    values: InvitationValues
-  ) => Promise<void>
   handleDrop: (
     authors: Contributor[],
     oldIndex: number,
@@ -129,59 +119,28 @@ const expanderStyle = (expanded: boolean) => ({
 })
 
 export const Metadata: React.FunctionComponent<Props> = (props) => {
-  const [
-    {
-      manuscript,
-      // authorsAndAffiliations,
-      // contributorRoles,
-      tokenActions,
-      project,
-      // saveModel,
-      saveTrackModel,
-      modelMap,
-      trackModelMap,
-    },
-  ] = useStore((store) => {
+  const [{ manuscript, saveTrackModel, trackModelMap }] = useStore((store) => {
     return {
       manuscript: store.manuscript,
-      // authorsAndAffiliations: store.authorsAndAffiliations,
-      // contributorRoles: store.contributorRoles,
-      tokenActions: store.tokenActions,
-      project: store.project,
-      // saveModel: store.saveModel,
       saveTrackModel: store.saveTrackModel,
-      modelMap: store.modelMap,
       trackModelMap: store.trackModelMap,
     }
   })
-  // TODO: remove modelMAp
 
+  // if (trackModelMap) {
+  //   console.log(JSON.stringify(Array.from(trackModelMap.keys())))
+  // }
+  // TODO: remove modelMAp
   const metaData = getMetaData(trackModelMap)
   const authorsAndAffiliations = metaData?.authorsAndAffiliations
   const contributorRoles = metaData?.contributorRoles || []
 
   const can = usePermissions()
 
-  const handleInvitationSubmit = useCallback(
-    (values: InvitationValues) => {
-      if (!authorsAndAffiliations) {
-        return Promise.reject()
-      }
-      return props.handleInvitationSubmit(
-        authorsAndAffiliations.authors,
-        values
-      )
-    },
-    [authorsAndAffiliations, props]
-  )
-
   if (!authorsAndAffiliations || !contributorRoles) {
     return null
   }
-  console.log('Metadata.tsx....................................')
-  console.log('modelMap: ', modelMap)
-  console.log('trackModelMap: ', trackModelMap)
-  console.log('authorsAndAffiliations: ', authorsAndAffiliations)
+
   return (
     <HeaderContainer>
       <Header>
@@ -224,12 +183,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
                 data-cy={'modal-close-button'}
               />
             </ModalHeader>
-            {props.isInvite ? (
-              <InviteAuthorsModal
-                {...props}
-                handleInvitationSubmit={handleInvitationSubmit}
-              />
-            ) : props.addingAuthors ? (
+            {props.addingAuthors ? (
               <AddAuthorsModalContainer
                 {...props}
                 authors={authorsAndAffiliations.authors}
@@ -242,11 +196,7 @@ export const Metadata: React.FunctionComponent<Props> = (props) => {
                 authors={authorsAndAffiliations.authors}
                 authorAffiliations={authorsAndAffiliations.authorAffiliations}
                 affiliations={authorsAndAffiliations.affiliations}
-                project={project}
-                manuscript={manuscript}
-                tokenActions={tokenActions}
                 contributorRoles={contributorRoles}
-                allowInvitingAuthors={props.allowInvitingAuthors}
               />
             )}
           </ModalContainer>

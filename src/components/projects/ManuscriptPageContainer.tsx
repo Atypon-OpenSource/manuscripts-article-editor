@@ -161,6 +161,7 @@ const ManuscriptPageView: React.FC = () => {
   const saveDocument = (state: ManuscriptEditorState) => {
     // @TODO - remove this once testing is completed
     console.log('Saving to quarteback with throttle: ' + throttle)
+    console.log
     storeDispatch({ doc: state.doc })
     updateDocument(project._id, manuscriptID, state.doc.toJSON(), authToken)
   }
@@ -170,7 +171,10 @@ const ManuscriptPageView: React.FC = () => {
   useEffect(() => {
     const { trackState } = setEditorState(state)
     if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
-      doWithThrottle(() => saveDocument(state), throttle)
+      // doWithThrottle(() => saveDocument(state), throttle)
+      saveDocument(state)
+      console.log('state.doc - DOC IN STATE')
+      console.log(state.doc)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])

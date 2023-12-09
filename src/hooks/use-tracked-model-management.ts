@@ -12,6 +12,7 @@
 
 import {
   CommentAnnotation,
+  Contributor,
   // Contributor,
   Model,
   ObjectTypes,
@@ -21,6 +22,7 @@ import {
   Build,
   Decoder,
   encode,
+  isContributorsSectionNode,
   // isCogintributorsSectionNode,
   ManuscriptEditorView,
   ManuscriptNode,
@@ -47,6 +49,7 @@ const useTrackedModelManagement = (
   finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
+    console.log(doc)
     const docJSONed = doc.toJSON()
     const docClean = adaptTrackedData(docJSONed)
     const modelsFromPM = encode(schema.nodeFromJSON(docClean))
@@ -74,6 +77,28 @@ const useTrackedModelManagement = (
       return !!matchedTrackedId
       // check and identify precise dataTracked version
     }
+  }
+
+  const createContributorNode = (contributor: Build<Contributor>) => {
+    if (!view) {
+      throw Error('View not available')
+    }
+    const { tr } = state
+    doc.descendants((node, pos) => {
+      if (isContributorsSectionNode(node)) {
+        tr.insert(
+          pos + node.nodeSize - 1,
+          schema.nodes.contributor.create(
+            contributor,
+            schema.text('Contributor')
+          )
+        )
+        // tr.setMeta('track-changes-skip-tracking', true)
+        view.dispatch(tr)
+        return false
+      }
+    })
+    // return Promise.resolve(contributor as Model)
   }
 
   const saveCommentNode = useCallback(
@@ -176,33 +201,6 @@ const useTrackedModelManagement = (
     [doc, state, view]
   )
 
-  // const saveContributorNode = useCallback(
-  //   (contributor: Contributor) => {
-  //     const isNewContributor = !modelMap.has(contributor._id)
-  //     console.log('isNewContributor : ', isNewContributor)
-  //     if (!view) {
-  //       throw Error('View not available')
-  //     }
-  //     const { tr } = state
-  //     doc.descendants((node, pos) => {
-  //       if (isContributorsSectionNode(node)) {
-  //         tr.replaceWith(
-  //           pos,
-  //           pos + node.nodeSize,
-  //           node.content.addToEnd(
-  //             schema.nodes.contributor.create(contributor)
-  //           )
-  //         )
-  //         // tr.setMeta('track-changes-skip-tracking', true)
-  //         view.dispatch(tr)
-  //         return false
-  //       }
-  //     })
-  //     return Promise.resolve(contributor as Model)
-  //   },
-  //   [doc, modelMap, state, view]
-  // )
-
   const saveTrackModel = useCallback(
     <T extends Model>(model: T | Build<T> | Partial<T>) => {
       if (model.objectType === ObjectTypes.CommentAnnotation) {
@@ -258,7 +256,12 @@ const useTrackedModelManagement = (
 
         if (!foundInDoc) {
           if (model.objectType === ObjectTypes.Contributor) {
-            console.log('call saveContributorNode(model)...', model)
+            const vals = {
+              ...model,
+              id: model._id,
+            }
+            createContributorNode(vals)
+            // console.log('call saveContributorNode(model)...', model)
             // return saveContributorNode(model as unknown as Contributor)
           } else {
             // ...that is if there is no node in the prosemirror doc for that id,
@@ -268,7 +271,7 @@ const useTrackedModelManagement = (
           }
         }
       }
-      console.log('saveTrackModel.model : ', model)
+      // console.log('saveTrackModel.model : ', model)
       return Promise.resolve(model)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -281,13 +284,17 @@ const useTrackedModelManagement = (
         return deleteCommentNode(modelMap.get(id) as CommentAnnotation)
       }
 
+      const base = id.split(trackedJoint)
+
       if (modelMap.has(id)) {
         doc.descendants((node, pos) => {
-          if (node.attrs.id === id) {
+          if (
+            node.attrs.id === id ||
+            matchByTrackVersion(node, base[0], base[1] || '')
+          ) {
             const { tr } = state
             tr.delete(pos, pos + node.nodeSize)
             dispatch(tr)
-            dispatchStore({ trackModelMap: modelMap })
           }
         })
       } else {
