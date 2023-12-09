@@ -80,7 +80,7 @@ const useTrackedModelManagement = (
     }
   }
 
-  const createContributorNode = (model: Contributor) => {
+  const createContributorNode = (model: Partial<Contributor>) => {
     if (!view) {
       throw Error('View not available')
     }
@@ -109,7 +109,7 @@ const useTrackedModelManagement = (
     })
   }
 
-  const createAffiliationNode = (model: Affiliation) => {
+  const createAffiliationNode = (model: Partial<Affiliation>) => {
     if (!view) {
       throw Error('View not available')
     }
@@ -287,10 +287,10 @@ const useTrackedModelManagement = (
 
         if (!foundInDoc) {
           if (model.objectType === ObjectTypes.Contributor) {
-            createContributorNode(model)
+            createContributorNode(model as unknown as Contributor)
             // return saveContributorNode(model as unknown as Contributor)
           } else if (model.objectType === ObjectTypes.Affiliation) {
-            createAffiliationNode(model)
+            createAffiliationNode(model as unknown as Affiliation)
           } else {
             // ...that is if there is no node in the prosemirror doc for that id,
             // that update final model.
@@ -330,6 +330,7 @@ const useTrackedModelManagement = (
 
       return Promise.resolve(id)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       modelMap,
       deleteCommentNode,
