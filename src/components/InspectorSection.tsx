@@ -15,7 +15,6 @@ import { usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { ExpanderButton } from './metadata/Metadata'
 import ApproveAllButton from './track-changes/ApproveAllButton'
 
 const Section = styled.div`
