@@ -159,7 +159,7 @@ export async function listen<T>(
     ...getAuthHeader(authToken),
   }
 ) {
-  await fetchEventSource(`${config.quarterback.url}/${path}`, {
+  await fetchEventSource(`${V2}/${path}`, {
     onmessage: listener,
     headers: headers,
     async onopen(response) {
