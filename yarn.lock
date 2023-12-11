@@ -1920,19 +1920,19 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.9-LEAN-3019-v2":
-  version "1.5.9-LEAN-3019-v2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.9-LEAN-3019-v2.tgz#5bfc80930adc1e3ce8d7bfc559c7ac69ca3980f3"
-  integrity sha512-ABpHEMJqp/gi7LM3Afzk5b2JSP03zVjg+aukijQbCldIND/yHPOKrSqH1PgVUZJKa1U/QjpnI+4+UdQJNA99qQ==
+"@manuscripts/body-editor@1.5.10":
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.10.tgz#d4d2261f230c97a59239f50c04eeff3eb538db1e"
+  integrity sha512-FpNePpKPHton88242fEreODvYTj/Q9XX8g9KwkMCEw1NGbKzZN3XoYL/qkLkfIgflAcrdcYECnO55RGZE2PEBA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "2.2.1"
     "@manuscripts/library" "1.2.2"
-    "@manuscripts/style-guide" "1.4.5-LEAN-3019"
+    "@manuscripts/style-guide" "1.4.6"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.3"
-    "@manuscripts/transform" "1.5.4-3019-v1"
+    "@manuscripts/transform" "1.5.5"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1999,17 +1999,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-"@manuscripts/style-guide@1.4.5-LEAN-3019":
-  version "1.4.5-LEAN-3019"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.5-LEAN-3019.tgz#dad9a829411ac7d6258908be4f29462f588b49b6"
-  integrity sha512-xdP9/wMAjDVuiy3tMNeg6OKfJIxevsAtzTHw7gJCSiPx16asFGMhbEI13EPyxIEjwXS3M/tnXmNYVhfK6IMbRA==
+"@manuscripts/style-guide@1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.6.tgz#758e976410dd24c25865453c42d3cad682783bd4"
+  integrity sha512-wZ8xB1paZ0ZoW49efYtTdhqZT6ngGX24U5ZY5dWzg48Mv3IMX0F/16AqmQ9Wm/ztjcHxTviAtLpvowZJNSoOKw==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/transform" "1.5.4"
+    "@manuscripts/transform" "1.5.5"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -2083,10 +2083,10 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-"@manuscripts/transform@1.5.4-3019-v1":
-  version "1.5.4-3019-v1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.4-3019-v1.tgz#8e107556f1e25c004f3f6757c1f0e02199976b5a"
-  integrity sha512-W1EPVJ/XVY+L4gHAMEQTHscASG3/no/10qGVnE8huFHQhOydv9OAN1yYrPt1MlLDpBC7KPMyQXxpa5yUFlLaRA==
+"@manuscripts/transform@1.5.5":
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.5.tgz#db47574ff7cbe1efda433a60fd36c41d393c11fd"
+  integrity sha512-p5hccWvKnTolHxKEAPFWv7tprPKyRAJkMd27UfKIHjVO7UgB9FVkZEImmh2uKvgcV0D1mRxMTTuI0LungVxd0A==
   dependencies:
     "@manuscripts/json-schema" "2.2.1"
     debug "^4.3.4"
