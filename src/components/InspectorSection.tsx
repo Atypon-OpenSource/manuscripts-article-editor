@@ -11,11 +11,10 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import { usePermissions } from '@manuscripts/style-guide'
+import { IconButton, usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { ExpanderButton } from './metadata/Metadata'
 import ApproveAllButton from './track-changes/ApproveAllButton'
 
 const Section = styled.div`
@@ -50,6 +49,25 @@ export const Subheading = styled(HeadingText)`
 
 export const Field = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
+`
+
+export const ExpanderButton = styled(IconButton).attrs(() => ({
+  size: 20,
+  defaultColor: true,
+}))`
+  border: none;
+  border-radius: 50%;
+
+  &:focus,
+  &:hover {
+    &:not([disabled]) {
+      background: ${(props) => props.theme.colors.background.fifth};
+    }
+  }
+
+  svg circle {
+    stroke: ${(props) => props.theme.colors.border.secondary};
+  }
 `
 
 const Content = styled.div`
