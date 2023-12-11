@@ -36,6 +36,7 @@ import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
 import { useStore } from '../../store'
+import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
 import { useEditorStore } from '../track-changes/useEditorStore'
 import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
@@ -199,6 +200,7 @@ const ManuscriptPageView: React.FC = () => {
         <Main>
           <EditorContainer>
             <EditorContainerInner>
+              <AuthorModalViews />
               <EditorHeader>
                 <ApplicationMenuContainer>
                   <ApplicationMenus
