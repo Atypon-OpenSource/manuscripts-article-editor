@@ -75,10 +75,6 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       contributorRoles,
     } = this.props
 
-    if (!this.getSelectedAuthor()) {
-      console.log('No selected author')
-    }
-
     return (
       <AuthorsModal
         authors={authors}
@@ -182,11 +178,6 @@ class AuthorsModalContainer extends React.Component<Props, State> {
           stripTracked(author._id) ===
           stripTracked(this.props.selectedAuthor || '')
       ) || null
-
-    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    // console.log(this.props.selectedAuthor)
-    // console.log(this.props.authors)
-    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
     return sel
   }
