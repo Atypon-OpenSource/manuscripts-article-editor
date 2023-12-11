@@ -14,32 +14,18 @@ import {
   Affiliation,
   Contributor,
   ContributorRole,
-  Project,
 } from '@manuscripts/json-schema'
 import {
   AffiliationsEditor,
-  AlertMessage,
-  AlertMessageType,
   AuthorAffiliation,
   AuthorForm,
   AuthorValues,
 } from '@manuscripts/style-guide'
 import React from 'react'
-import styled from 'styled-components'
 
 import { AffiliationMap } from '../../lib/authors'
-import { TokenActions } from '../../store'
-import InviteAuthorButton from './InviteAuthorButton'
-
-const FormMessage = styled.div`
-  position: absolute;
-  bottom: ${(props) => props.theme.grid.unit * 5}px;
-  right: ${(props) => props.theme.grid.unit * 5}px;
-  width: 450px;
-`
 
 interface AuthorProps {
-  project: Project
   author: Contributor
   affiliations: AffiliationMap
   authorAffiliations: AuthorAffiliation[]
@@ -48,15 +34,10 @@ interface AuthorProps {
   removeAuthorAffiliation: (affiliation: Affiliation) => void
   updateAffiliation: (affiliation: Affiliation) => void
   removeAuthor: (data: Contributor) => void
-  isRejected: (invitationID: string) => boolean
-  updateAuthor: (author: Contributor, email: string) => void
-  getAuthorName: (author: Contributor) => string
   handleSave: (values: AuthorValues) => Promise<void>
   handleRemoveAuthor: () => void
-  tokenActions: TokenActions
   contributorRoles: ContributorRole[]
   createContributorRole: (name: string) => Promise<ContributorRole>
-  allowInvitingAuthors: boolean
 }
 
 export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
@@ -70,14 +51,8 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
   removeAuthor,
   isRemoveAuthorOpen,
   handleRemoveAuthor,
-  isRejected,
-  project,
-  updateAuthor,
-  getAuthorName,
-  tokenActions,
   contributorRoles,
   createContributorRole,
-  allowInvitingAuthors,
 }) => (
   <React.Fragment>
     <AuthorForm
@@ -96,35 +71,5 @@ export const AuthorFormContainer: React.FunctionComponent<AuthorProps> = ({
       removeAuthorAffiliation={removeAuthorAffiliation}
       updateAffiliation={updateAffiliation}
     />
-    {!author.userID && !author.invitationID && allowInvitingAuthors && (
-      <FormMessage>
-        <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
-          {getAuthorName(author) + ' '}
-          does not have access to the project.
-          <InviteAuthorButton
-            author={author}
-            project={project}
-            updateAuthor={updateAuthor}
-            tokenActions={tokenActions}
-          />
-        </AlertMessage>
-      </FormMessage>
-    )}
-    {author.invitationID &&
-      isRejected(author.invitationID) &&
-      allowInvitingAuthors && (
-        <FormMessage>
-          <AlertMessage type={AlertMessageType.info} hideCloseButton={true}>
-            {getAuthorName(author) + ' '}
-            does not have access to the project.
-            <InviteAuthorButton
-              author={author}
-              project={project}
-              updateAuthor={updateAuthor}
-              tokenActions={tokenActions}
-            />
-          </AlertMessage>
-        </FormMessage>
-      )}
   </React.Fragment>
 )

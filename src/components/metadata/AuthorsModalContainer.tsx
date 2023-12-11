@@ -12,13 +12,10 @@
 
 import {
   Affiliation,
-  ContainerInvitation,
   Contributor,
   ContributorRole,
-  Manuscript,
   Model,
   ObjectTypes,
-  Project,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
@@ -30,42 +27,30 @@ import {
   buildContributorRole,
 } from '@manuscripts/transform'
 import React from 'react'
-import styled from 'styled-components'
 
 import { AffiliationMap } from '../../lib/authors'
-import { TokenActions } from '../../store'
+import { stripTracked } from '../track-changes/utils'
 import { AuthorsModal } from './AuthorsModals'
-
-const Invited = styled.div`
-  display: flex;
-  font-size: ${(props) => props.theme.font.size.small};
-  color: ${(props) => props.theme.colors.brand.default};
-`
 
 interface State {
   isRemoveAuthorOpen: boolean
-  invitationSent: boolean
 }
 
 interface Props {
-  project: Project
-  manuscript: Manuscript
   authors: Contributor[]
-  invitations: ContainerInvitation[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   affiliations: AffiliationMap
   selectedAuthor: string | null
   removeAuthor: (data: Contributor) => Promise<void>
-  updateAuthor: (author: Contributor, email: string) => void
   selectAuthor: (data: Contributor) => void
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveTrackModel: <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ) => Promise<T>
   handleDrop: (
     authors: Contributor[],
     oldIndex: number,
     newIndex: number
   ) => void
-  tokenActions: TokenActions
-  invitationSent: boolean
   createAuthor: (
     priority: number,
     person?: UserProfile | null,
@@ -73,20 +58,13 @@ interface Props {
     invitationID?: string
   ) => void
   contributorRoles: ContributorRole[]
-  allowInvitingAuthors?: boolean
 }
 
 class AuthorsModalContainer extends React.Component<Props, State> {
   public state = {
     isRemoveAuthorOpen: false,
-    invitationSent: false,
   }
 
-  public componentDidMount() {
-    this.setState({
-      invitationSent: this.props.invitationSent,
-    })
-  }
   public render() {
     const { isRemoveAuthorOpen } = this.state
     const {
@@ -94,40 +72,27 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       authorAffiliations,
       affiliations,
       selectAuthor,
-      project,
-      tokenActions,
-      updateAuthor,
       contributorRoles,
-      allowInvitingAuthors,
     } = this.props
 
     return (
       <AuthorsModal
-        project={project}
         authors={authors}
         authorAffiliations={authorAffiliations}
         affiliations={affiliations}
         selectedAuthor={this.getSelectedAuthor()}
         isRemoveAuthorOpen={isRemoveAuthorOpen}
-        updateAuthor={updateAuthor}
         addAuthorAffiliation={this.addAuthorAffiliation}
         removeAuthorAffiliation={this.removeAuthorAffiliation}
         updateAffiliation={this.updateAffiliation}
-        getSidebarItemDecorator={this.getSidebarItemDecorator}
         handleDrop={this.handleDrop}
         handleSaveAuthor={this.handleSaveAuthor}
         openAddAuthors={this.createEmptyAuthor}
         selectAuthor={selectAuthor}
-        isRejected={this.isRejected}
         removeAuthor={this.removeAuthor}
-        getAuthorName={this.getAuthorName}
         handleRemoveAuthor={this.handleRemoveAuthor}
-        tokenActions={tokenActions}
-        invitationSent={this.state.invitationSent}
-        handleDismiss={this.handleDismiss}
         contributorRoles={contributorRoles}
         createContributorRole={this.createContributorRole}
-        allowInvitingAuthors={!!allowInvitingAuthors}
       />
     )
   }
@@ -137,13 +102,11 @@ class AuthorsModalContainer extends React.Component<Props, State> {
   ): Promise<ContributorRole> => {
     const contributorRole = buildContributorRole(name)
 
-    return this.props.saveModel(contributorRole)
+    return this.props.saveTrackModel(contributorRole)
   }
 
   private handleRemoveAuthor = () =>
     this.setState({ isRemoveAuthorOpen: !this.state.isRemoveAuthorOpen })
-
-  private handleDismiss = () => this.setState({ invitationSent: false })
 
   private removeAuthor = async (author: Contributor) => {
     await this.props.removeAuthor(author)
@@ -151,61 +114,31 @@ class AuthorsModalContainer extends React.Component<Props, State> {
     this.handleRemoveAuthor()
   }
 
-  private getAuthorName = (author: Contributor) => {
-    return !author.bibliographicName.given
-      ? 'Author '
-      : author.bibliographicName.given + ' ' + author.bibliographicName.family
-  }
-
-  private isRejected = (invitationID: string) => {
-    for (const invitation of this.props.invitations) {
-      if (invitation._id === invitationID) {
-        return false
-      }
-    }
-
-    return true
-  }
-
-  private getSidebarItemDecorator = (authorID: string) => {
-    const { invitations } = this.props
-    if (!invitations) {
-      return null
-    }
-
-    const author = this.props.authors.find((author) => author._id === authorID)
-    if (!author) {
-      return null
-    }
-
-    return invitations.find(
-      (invitation) =>
-        author.invitationID === invitation._id && !invitation.acceptedAt
-    ) ? (
-      <Invited>Invited</Invited>
-    ) : null
-  }
-
   private handleSaveAuthor = async (values: AuthorValues) => {
-    await this.props.saveModel<Contributor>({
+    await this.props.saveTrackModel<Contributor>({
       objectType: ObjectTypes.Contributor,
       ...values,
     })
   }
 
-  private addAuthorAffiliation = async (affiliation: Affiliation | string) => {
+  private addAuthorAffiliation = async (affiliation: string) => {
     const selectedAuthor = this.getSelectedAuthor()
     if (!selectedAuthor) {
       return
     }
 
     let affiliationObj
-    if (typeof affiliation === 'string') {
-      affiliationObj = await this.props.saveModel<Affiliation>(
+
+    this.props.affiliations.forEach((aff) => {
+      if (affiliation.startsWith(aff._id)) {
+        affiliationObj = aff
+      }
+    })
+
+    if (!affiliationObj) {
+      affiliationObj = await this.props.saveTrackModel<Affiliation>(
         buildAffiliation(affiliation)
       )
-    } else {
-      affiliationObj = affiliation
     }
 
     const author = {
@@ -215,7 +148,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       ),
     }
 
-    await this.props.saveModel<Contributor>(author)
+    await this.props.saveTrackModel<Contributor>(author)
   }
 
   private removeAuthorAffiliation = async (affiliation: Affiliation) => {
@@ -231,19 +164,22 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       ),
     }
 
-    await this.props.saveModel<Contributor>(nextAuthor)
+    await this.props.saveTrackModel<Contributor>(nextAuthor)
   }
 
   private updateAffiliation = async (affiliation: Affiliation) => {
-    await this.props.saveModel<Affiliation>(affiliation)
+    await this.props.saveTrackModel<Affiliation>(affiliation)
   }
 
   private getSelectedAuthor = () => {
-    return (
+    const sel =
       this.props.authors.find(
-        (author) => author._id === this.props.selectedAuthor
+        (author) =>
+          stripTracked(author._id) ===
+          stripTracked(this.props.selectedAuthor || '')
       ) || null
-    )
+
+    return sel
   }
 
   private handleDrop = (oldIndex: number, newIndex: number) => {
@@ -257,7 +193,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       this.props.authors.length + 1
     )
 
-    const author: Contributor = await this.props.saveModel<Contributor>(
+    const author: Contributor = await this.props.saveTrackModel<Contributor>(
       authorInfo
     )
 

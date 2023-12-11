@@ -62,7 +62,6 @@ const SearchContainer = styled.div`
 interface Props {
   nonAuthors: UserProfile[]
   numberOfAddedAuthors: number
-  isSearching: boolean
   isCreateAuthorOpen: boolean
   searchText: string
   searchResults: UserProfile[]
@@ -70,9 +69,6 @@ interface Props {
   authors: Contributor[]
   handleDoneCancel: () => void
   handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
-  handleSearchFocus: () => void
-  handleInvite: (searchText: string) => void
-  isAuthorExist: () => boolean
   handleCreateAuthor: () => void
   createAuthor: (
     priority: number,
@@ -85,17 +81,13 @@ interface Props {
 const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
   nonAuthors,
   numberOfAddedAuthors,
-  isSearching,
   searchText,
   addedAuthors,
   handleDoneCancel,
   createAuthor,
   handleSearchChange,
-  handleSearchFocus,
   searchResults,
-  handleInvite,
   authors,
-  isAuthorExist,
   isCreateAuthorOpen,
   handleCreateAuthor,
 }) => {
@@ -151,14 +143,10 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
         />
       ) : (
         <SearchAuthorsSidebar
-          handleInvite={handleInvite}
-          searchText={searchText}
           addedAuthors={addedAuthors}
           createAuthor={createAuthor}
           searchResults={searchResults}
           authors={authors}
-          isAuthorExist={isAuthorExist}
-          handleCreateAuthor={handleCreateAuthor}
         />
       )}
     </ModalSidebar>
