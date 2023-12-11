@@ -1920,17 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-<<<<<<< HEAD
-"@manuscripts/body-editor@1.5.9-LEAN-2832":
-  version "1.5.9-LEAN-2832"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.9-LEAN-2832.tgz#594a872fbf6d48a6a6556c00acf3caf6482a9d91"
-  integrity sha512-GOkbnra+/vrDunP05yQ0NYiGilmhzhnGNuCpMN3CrIwDs7vsHj8CTjuR/CQRbtBpPr5piWeqHIis8iyof/UCFw==
-=======
-"@manuscripts/body-editor@1.5.10":
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.10.tgz#d4d2261f230c97a59239f50c04eeff3eb538db1e"
-  integrity sha512-FpNePpKPHton88242fEreODvYTj/Q9XX8g9KwkMCEw1NGbKzZN3XoYL/qkLkfIgflAcrdcYECnO55RGZE2PEBA==
->>>>>>> 9cc012a8cbed13af8e23dd1be9a4cfc93dd9c45d
+"@manuscripts/body-editor@1.5.10-LEAN-2832":
+  version "1.5.10-LEAN-2832"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.10-LEAN-2832.tgz#e913a8c8449d64633898666b56ea4ece6daf3a48"
+  integrity sha512-EpUmdchUbaKNCMToVj6WGjtgBF0Ts7OTqFRvznnpplOFOGToWMrMWejJj9uHZByOQqWDjGyE7aQDZJAieBFCiA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1938,13 +1931,8 @@
     "@manuscripts/library" "1.2.2"
     "@manuscripts/style-guide" "1.4.6"
     "@manuscripts/title-editor" "^1.1.0"
-<<<<<<< HEAD
     "@manuscripts/track-changes-plugin" "1.7.3-LEAN-2832-v4"
-    "@manuscripts/transform" "1.5.4"
-=======
-    "@manuscripts/track-changes-plugin" "^1.7.3"
     "@manuscripts/transform" "1.5.5"
->>>>>>> 9cc012a8cbed13af8e23dd1be9a4cfc93dd9c45d
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
