@@ -25,7 +25,6 @@ import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
-import { useAuthStore } from '../quarterback/useAuthStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
@@ -63,7 +62,6 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
   }))
-  const { user: trackUser } = useAuthStore()
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
@@ -112,7 +110,7 @@ export const useCreateEditor = () => {
     plugins: config.quarterback.enabled
       ? [
           trackChangesPlugin({
-            userID: trackUser.id,
+            userID: user._id,
             debug: config.environment === 'development',
           }),
         ]

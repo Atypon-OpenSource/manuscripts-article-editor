@@ -25,9 +25,6 @@ import axios, { AxiosInstance } from 'axios'
 import config from '../config'
 import { ContainedIDs } from '../store'
 
-// TODO:: remove this when migrating all api endpoints to v2
-const V2 = config.api.url.replace('/api/v1', '/api/v2')
-
 export default class Api {
   instance: AxiosInstance
   constructor() {
@@ -44,14 +41,13 @@ export default class Api {
     })
   }
 
-  get = async <T>(url: string, baseURL?: string) => {
+  get = async <T>(url: string, data?: unknown) => {
     try {
       const result = await this.instance.get<T>(url, {
-        baseURL,
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
         },
-        data: {},
+        data: data || {},
       })
       return result.data
     } catch (e) {
@@ -83,15 +79,11 @@ export default class Api {
   }
 
   getProject = (projectID: string) => {
-    return this.post<Project>(`container/${projectID}/load`, { types: [] })
+    return this.get<Project>(`project/${projectID}`, { types: [] })
   }
 
   getProjectCollaborators = (projectID: string) => {
     return this.get(`project/${projectID}/collaborators`)
-  }
-
-  getUserProjects = () => {
-    return this.get<Project[]>(`user/projects`)
   }
 
   getUser = () => {
@@ -99,55 +91,42 @@ export default class Api {
   }
 
   getProjectModels = <T>(projectID: string, types: string[] = []) => {
-    return this.post<T[]>(`container/${projectID}/load`, { types })
-  }
-
-  deleteModel = (manuscriptID: string, modelID: string) => {
-    return this.delete(
-      `/project/:projectId/manuscripts/${manuscriptID}/model/${modelID}`
-    )
+    return this.get<T[]>(`project/${projectID}`, { types })
   }
 
   deleteProject = (projectID: string) => {
     return this.delete<boolean>(`project/${projectID}`) // not sure what exactly it sends over
   }
-  addManuscript = (projectID: string, data: unknown) => {
-    return this.post<Manuscript>(`project/${projectID}`, data) // will it really return manuscript?
-  }
 
   getManuscript = (containerID: string, manuscriptID: string) =>
-    this.post<Model[]>(`/container/${containerID}/${manuscriptID}/load`, {
-      types: [],
-    })
+    this.get<Model[]>(`project/${containerID}/manuscript/${manuscriptID}`)
 
   getManuscriptModels = <T>(
     containerID: string,
     manuscriptID: string,
     types: string[]
   ) =>
-    this.post<T[]>(`/container/${containerID}/${manuscriptID}/load`, {
+    this.get<T[]>(`project/${containerID}/manuscript/${manuscriptID}`, {
       types,
     })
 
   getSectionCategories = () =>
-    this.get<SectionCategory[]>('/config?id=section-categories', V2)
+    this.get<SectionCategory[]>('/config?id=section-categories')
 
   getCSLLocale = (lang: string) =>
-    lang !== 'en-US'
-      ? this.get<string>(`/csl/locales?id=${lang}`, V2)
-      : undefined
+    lang !== 'en-US' ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
 
   getTemplate = (id?: string) =>
-    id ? this.get<ManuscriptTemplate>(`/templates?id=${id}`, V2) : undefined
+    id ? this.get<ManuscriptTemplate>(`/templates?id=${id}`) : undefined
 
   getBundle = (template: ManuscriptTemplate | undefined) =>
     template?.bundle
-      ? this.get<Bundle>(`/bundles?id=${template.bundle}`, V2)
+      ? this.get<Bundle>(`/bundles?id=${template.bundle}`)
       : undefined
 
   getCSLStyle = (bundle: Bundle | undefined) =>
     bundle?.csl?._id
-      ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`, V2)
+      ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
 
   getCollaborators = (containerID: string) =>
@@ -168,11 +147,11 @@ export default class Api {
   }
 
   saveProject = (projectId: string, models: Model[]) => {
-    return this.post(`project/${projectId}/save`, { data: models })
+    return this.put(`project/${projectId}`, { data: models })
   }
 
-  createProject = (title: string) => {
-    return this.post<Project>('project', { title })
+  createProject = (projectId: string, title: string) => {
+    return this.post<Project>(`project/${projectId}`, { title })
   }
 
   createNewManuscript = (
@@ -188,9 +167,8 @@ export default class Api {
       )
     }
     return this.post<Manuscript>(
-      `container/projects/${projectID}/manuscript/${manuscriptID}`,
+      `projects/${projectID}/manuscript/${manuscriptID}`,
       {
-        manuscriptID,
         templateID,
       }
     )
@@ -203,34 +181,9 @@ export default class Api {
     projectID: string,
     data: Array<Build<ContainedModel> & ContainedIDs>
   ) => {
-    await this.post(`project/${projectID}/save`, {
+    await this.put(`project/${projectID}`, {
       data,
     })
     return data
   }
-
-  saveManuscriptData = async (
-    projectID: string,
-    manuscriptID: string,
-    models: Array<Build<ContainedModel>>
-  ) => {
-    // this method delete all the previous data from the project, including the project itself (!)
-    // if no project model is present, the current project model will be delete and it will be impossible to load the manuscript anymore.
-    return this.post(`project/${projectID}/manuscripts/${manuscriptID}/save`, {
-      data: models,
-    })
-  }
-
-  createUser = async (email: string, password: string) => {
-    // this is fiction - no such thing in the api
-    return this.post('/user', { email, password })
-  }
-
-  // upsertManuscript = (
-  //   projectId: string,
-  //   manuscriptId: string,
-  //   models: Model[]
-  // ) => {
-  //   return this.post(`project/${projectId}/save/${manuscriptId}`, models) // currently not supported by the api
-  // }
 }

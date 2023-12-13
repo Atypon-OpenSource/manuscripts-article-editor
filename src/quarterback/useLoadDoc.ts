@@ -13,27 +13,31 @@
 import { schema } from '@manuscripts/transform'
 
 import config from '../config'
+import Api from '../postgres-data/Api'
 import { useDocStore } from './useDocStore'
 import { useSnapshotStore } from './useSnapshotStore'
 
 export const useLoadDoc = (authToken: string) => {
-  const { createDocument, getDocument, setCurrentDocument } = useDocStore()
-  const { init: initSnapshots, setSnapshots } = useSnapshotStore()
+  const api = new Api()
+  api.setToken(authToken)
+
+  const { createDocument, getDocument, setCurrentDocument } = useDocStore(api)()
+  const { init: initSnapshots, setSnapshots } = useSnapshotStore(api)()
 
   return async function loadDoc(manuscriptID: string, projectID: string) {
     if (!config.quarterback.enabled) {
       return undefined
     }
     setCurrentDocument(manuscriptID, projectID)
-    const found = await getDocument(projectID, manuscriptID, authToken)
+    const found = await getDocument(projectID, manuscriptID)
     let doc
-    if ('data' in found) {
+    if (found) {
       initSnapshots()
-      setSnapshots(found.data.snapshots)
-      doc = found.data.doc
-    } else if ('err' in found && found.code === 404) {
+      setSnapshots(found.snapshots)
+      doc = found.doc
+    } else {
       // Create an empty doc that will be replaced with whatever document is currently being edited
-      createDocument(manuscriptID, projectID, authToken)
+      createDocument(manuscriptID, projectID)
     }
     if (
       doc !== null &&

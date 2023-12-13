@@ -41,6 +41,7 @@ import {
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
+import Api from '../postgres-data/Api'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { BiblioTools } from './BiblioTools'
 import { TokenData } from './TokenData'
@@ -72,6 +73,8 @@ export type state = {
   manuscriptID: string
   projectID: string
   userID?: string
+
+  api: Api
 
   project: Project
   manuscript: Manuscript

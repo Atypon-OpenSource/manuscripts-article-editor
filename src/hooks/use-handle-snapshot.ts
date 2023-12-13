@@ -19,19 +19,23 @@ import { useSnapshotStore } from '../quarterback/useSnapshotStore'
 import { useStore } from '../store'
 
 export const useHandleSnapshot = (storeExists = true) => {
-  const { execCmd, docToJSON } = useEditorStore()
-  const { saveSnapshot } = useSnapshotStore()
+  const { execCmd } = useEditorStore()
+  const [{ api, projectID, manuscriptID }] = useStore((store) => ({
+    projectID: store.projectID,
+    manuscriptID: store.manuscriptID,
+    api: store.api,
+  }))
+  const { saveSnapshot } = useSnapshotStore(api)()
   const can = usePermissions()
   const canApplySaveChanges = can.applySaveChanges
-  const [authToken] = useStore((store) => store.authToken)
 
   if (!storeExists) {
     return null
   }
 
   return async () => {
-    const resp = await saveSnapshot(docToJSON(), authToken)
-    if ('data' in resp) {
+    const resp = await saveSnapshot(projectID, manuscriptID)
+    if (resp) {
       execCmd(trackCommands.applyAndRemoveChanges())
       return new Promise<void>((resolve, reject) => {
         setTimeout(() => {

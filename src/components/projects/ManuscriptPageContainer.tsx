@@ -33,7 +33,6 @@ import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
-import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useDocStore } from '../../quarterback/useDocStore'
 import { useStore } from '../../store'
 import AuthorModalViews from '../metadata/AuthorModalViews'
@@ -75,6 +74,9 @@ const ManuscriptPageContainer: React.FC = () => {
 }
 
 const ManuscriptPageView: React.FC = () => {
+  const [{ api }] = useStore((store) => ({
+    api: store.api,
+  }))
   const [manuscript] = useStore((store) => store.manuscript)
   const [project] = useStore((store) => store.project)
   const [user] = useStore((store) => store.user)
@@ -83,10 +85,6 @@ const ManuscriptPageView: React.FC = () => {
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
-  const [collaboratorsById] = useStore(
-    (store) => store.collaboratorsById || new Map()
-  )
-  const [authToken] = useStore((store) => store.authToken)
 
   const can = usePermissions()
 
@@ -130,13 +128,8 @@ const ManuscriptPageView: React.FC = () => {
     getTrackModel,
   ])
 
-  const { setUsers } = useCommentStore()
-  const { updateDocument } = useDocStore()
+  const { updateDocument } = useDocStore(api)()
   const { init: initEditor, setEditorState, trackState } = useEditorStore()
-  useLayoutEffect(
-    () => setUsers(collaboratorsById),
-    [collaboratorsById, setUsers]
-  )
   useLayoutEffect(() => view && initEditor(view), [view, initEditor])
 
   const hasPendingSuggestions = useMemo(() => {
@@ -162,7 +155,7 @@ const ManuscriptPageView: React.FC = () => {
     // @TODO - remove this once testing is completed
     console.log('Saving to quarteback with throttle: ' + throttle)
     storeDispatch({ doc: state.doc })
-    updateDocument(project._id, manuscriptID, state.doc.toJSON(), authToken)
+    updateDocument(project._id, manuscriptID, state.doc.toJSON())
   }
 
   const doWithThrottle = useDoWithThrottle()

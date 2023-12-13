@@ -80,7 +80,7 @@ const buildUtilities = (
 
     if (data.projectID && data.manuscriptID) {
       return api
-        .saveManuscriptData(data.projectID, data.manuscriptID, clearedModels)
+        .saveProject(data.projectID, clearedModels)
         .then(() => {
           return true // not sure what will be returned at this point
         })
@@ -238,7 +238,10 @@ const buildUtilities = (
     newProject?: Build<Project>
   ) => {
     if (newProject) {
-      const project = await api.createProject(newProject.title || 'Untitled')
+      const project = await api.createProject(
+        containerID,
+        newProject.title || 'Untitled'
+      )
       if (project) {
         await api.createNewManuscript(project._id, manuscript._id)
         dependencies.forEach((dep) => {

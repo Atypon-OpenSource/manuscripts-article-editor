@@ -9,11 +9,15 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptDoc } from '@manuscripts/quarterback-types'
+import {
+  ICreateDocResponse,
+  IGetDocumentResponse,
+  ManuscriptDoc,
+} from '@manuscripts/quarterback-types'
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
-import * as docApi from './api/document'
+import Api from '../postgres-data/Api'
 
 interface CurrentDocument {
   manuscriptID: string
@@ -24,101 +28,82 @@ interface DocState {
   quarterbackDoc: ManuscriptDoc | null
 }
 
-export const useDocStore = create(
-  combine(
-    {
-      currentDocument: null,
-      quarterbackDoc: null,
-    } as DocState,
-    (set, get) => ({
-      setCurrentDocument: (manuscriptID: string, projectID: string) => {
-        set({ currentDocument: { manuscriptID, projectID } })
-      },
-      getDocument: async (
-        projectID: string,
-        manuscriptID: string,
-        authToken: string
-      ) => {
-        const resp = await docApi.getDocument(
-          projectID,
-          manuscriptID,
-          authToken
-        )
-        if ('data' in resp) {
-          set({ quarterbackDoc: resp.data })
-        }
-        return resp
-      },
-      createDocument: async (
-        manuscriptID: string,
-        projectID: string,
-        authToken: string
-      ) => {
-        const resp = await docApi.createDocument(
-          {
-            manuscript_model_id: manuscriptID,
-            project_model_id: projectID,
-            doc: {},
-          },
-          authToken
-        )
-        if ('data' in resp) {
-          set({
-            currentDocument: { manuscriptID, projectID },
-            quarterbackDoc: resp.data,
-          })
-        }
-        return resp
-      },
-      updateDocument: async (
-        projectID: string,
-        manuscriptID: string,
-        doc: Record<string, any>,
-        authToken: string
-      ) => {
-        const resp = await docApi.updateDocument(
-          projectID,
-          manuscriptID,
-          authToken,
-          {
-            doc,
-          }
-        )
-        if ('data' in resp) {
-          set((state) => {
-            const { quarterbackDoc } = state
-            if (quarterbackDoc) {
-              return {
-                quarterbackDoc: {
-                  ...quarterbackDoc,
-                  doc,
-                },
-              }
-            }
-            return state
-          })
-        }
-        return resp
-      },
-      deleteDocument: async (
-        projectID: string,
-        manuscriptID: string,
-        authToken: string
-      ) => {
-        const resp = await docApi.deleteDocument(
-          projectID,
-          manuscriptID,
-          authToken
-        )
-        if ('data' in resp) {
-          set((state) =>
-            state.quarterbackDoc?.manuscript_model_id === manuscriptID
-              ? { quarterbackDoc: null }
-              : state
+export const useDocStore = (api: Api) =>
+  create(
+    combine(
+      {
+        currentDocument: null,
+        quarterbackDoc: null,
+      } as DocState,
+      (set) => ({
+        setCurrentDocument: (manuscriptID: string, projectID: string) => {
+          set({ currentDocument: { manuscriptID, projectID } })
+        },
+        getDocument: async (projectID: string, manuscriptID: string) => {
+          const resp = await api.get<IGetDocumentResponse>(
+            `doc/${projectID}/manuscript/${manuscriptID}`
           )
-        }
-        return resp
-      },
-    })
+          if (resp) {
+            set({ quarterbackDoc: resp })
+          }
+          return resp
+        },
+        createDocument: async (manuscriptID: string, projectID: string) => {
+          const resp = await api.post<ICreateDocResponse>(
+            `doc/${projectID}/manuscript/${manuscriptID}`,
+            {
+              manuscript_model_id: manuscriptID,
+              project_model_id: projectID,
+              doc: {},
+            }
+          )
+
+          if (resp) {
+            set({
+              currentDocument: { manuscriptID, projectID },
+              quarterbackDoc: resp,
+            })
+          }
+          return resp
+        },
+        updateDocument: async (
+          projectID: string,
+          manuscriptID: string,
+          doc: Record<string, any>
+        ) => {
+          const resp = await api.put<boolean>(
+            `doc/${projectID}/manuscript/${manuscriptID}`,
+            { doc }
+          )
+          if (resp) {
+            set((state) => {
+              const { quarterbackDoc } = state
+              if (quarterbackDoc) {
+                return {
+                  quarterbackDoc: {
+                    ...quarterbackDoc,
+                    doc,
+                  },
+                }
+              }
+              return state
+            })
+          }
+          return resp
+        },
+        deleteDocument: async (projectID: string, manuscriptID: string) => {
+          const resp = await api.delete<boolean>(
+            `doc/${projectID}/manuscript/${manuscriptID}`
+          )
+          if (resp) {
+            set((state) =>
+              state.quarterbackDoc?.manuscript_model_id === manuscriptID
+                ? { quarterbackDoc: null }
+                : state
+            )
+          }
+          return resp
+        },
+      })
+    )
   )
-)

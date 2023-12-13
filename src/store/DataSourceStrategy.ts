@@ -13,6 +13,7 @@
 import { PopperManager } from '@manuscripts/body-editor'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 
+import Api from '../postgres-data/Api'
 import { builderFn, GenericStore, state } from '.'
 
 export type stateSetter = (setState: (currentState: state) => state) => void
@@ -28,6 +29,7 @@ export interface StoreDataSourceStrategy {
 export class BasicSource implements StoreDataSourceStrategy {
   data: { [key: string]: any }
   constructor(
+    api: Api,
     fileManagement: FileManagement,
     projectID: string,
     manuscriptID: string,
@@ -37,6 +39,7 @@ export class BasicSource implements StoreDataSourceStrategy {
     authToken?: string | undefined
   ) {
     this.data = {
+      api,
       fileManagement,
       projectID,
       manuscriptID,

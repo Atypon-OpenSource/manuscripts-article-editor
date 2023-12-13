@@ -33,10 +33,10 @@ import { useEditorStore } from '../track-changes/useEditorStore'
 
 export const SnapshotsDropdown: React.FC = () => {
   const { wrapperRef, toggleOpen, isOpen } = useDropdown()
-  const snapshotStore = useSnapshotStore()
+  const [api] = useStore((store) => store.api)
+  const snapshotStore = useSnapshotStore(api)()
   const { snapshots, inspectedSnapshot } = snapshotStore
   const { docToJSON, execCmd, hydrateDocFromJSON } = useEditorStore()
-  const [authToken] = useStore((store) => store.authToken)
 
   const sortedSnapshots = snapshots.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -54,9 +54,9 @@ export const SnapshotsDropdown: React.FC = () => {
       handleResumeEditing()
       return
     }
-    const resp = await snapshotStore.inspectSnapshot(snap.id, authToken)
-    if ('data' in resp) {
-      hydrateDocFromJSON(resp.data.snapshot as any)
+    const resp = await snapshotStore.inspectSnapshot(snap.id)
+    if (resp) {
+      hydrateDocFromJSON(resp)
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
     }
   }
