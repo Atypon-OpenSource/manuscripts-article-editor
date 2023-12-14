@@ -10,14 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Affiliation, Contributor, ObjectTypes } from '@manuscripts/json-schema'
+import {
+  Affiliation,
+  Contributor,
+  ContributorRole,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/json-schema'
 import { hasObjectType } from '@manuscripts/transform'
 
 import { ascendingPriority } from './sort'
 
 export type AffiliationMap = Map<string, Affiliation>
 
-interface AffiliationData {
+export interface AffiliationData {
   ordinal: number
   data: Affiliation
 }
@@ -63,6 +69,7 @@ export const buildAuthorAffiliations = (
   sortedAffiliationIDs: string[]
 ) => {
   const items = new Map<string, AffiliationData[]>()
+  const sortedAffs = Array.from(affiliations.values())
 
   for (const author of authors) {
     items.set(
@@ -70,7 +77,7 @@ export const buildAuthorAffiliations = (
       (author.affiliations || []).map((id) => {
         return {
           ordinal: sortedAffiliationIDs.indexOf(id) + 1,
-          data: affiliations.get(id) as Affiliation,
+          data: sortedAffs.find((af) => af._id.startsWith(id)) as Affiliation,
         }
       })
     )
@@ -79,19 +86,62 @@ export const buildAuthorAffiliations = (
   return items
 }
 
+function createInvalidAffillation(id: string) {
+  return {
+    priority: 0,
+    manuscriptID: '',
+    containerID: '',
+    _id: id,
+    objectType: 'MPAffiliation',
+    createdAt: 0,
+    updatedAt: 0,
+  } as Affiliation
+}
+
 export const buildAffiliationsMap = (
   affiliationIDs: string[],
   affiliations: Affiliation[]
 ): AffiliationMap =>
   new Map(
-    affiliationIDs.map((id: string): [string, Affiliation] => [
-      id,
-      affiliations.find((affiliation) => affiliation._id === id) as Affiliation,
-    ])
+    affiliationIDs.map((id: string): [string, Affiliation] => {
+      let associatedItem = affiliations.find((affiliation) =>
+        affiliation._id.startsWith(id)
+      )
+
+      // this provides loose id referencing for cases when affiliation is rejected in track changes and doesn't exist anymore in the modelMap
+      associatedItem = associatedItem || createInvalidAffillation(id)
+
+      return [id, associatedItem]
+    })
   )
 
 const isContributor = hasObjectType<Contributor>(ObjectTypes.Contributor)
 const isAffiliation = hasObjectType<Affiliation>(ObjectTypes.Affiliation)
+
+export const getMetaData = (modelMap: Map<string, Model>) => {
+  const affiliationAndContributors: (Contributor | Affiliation)[] = []
+  const contributorRoles: ContributorRole[] = []
+
+  if (modelMap) {
+    for (const model of modelMap.values()) {
+      if (
+        model.objectType === ObjectTypes.Affiliation ||
+        model.objectType === ObjectTypes.Contributor
+      ) {
+        affiliationAndContributors.push(model as Affiliation) // or Contributor
+      }
+      if (model.objectType === ObjectTypes.ContributorRole) {
+        contributorRoles.push(model as ContributorRole)
+      }
+    }
+    return {
+      authorsAndAffiliations: buildAuthorsAndAffiliations(
+        affiliationAndContributors
+      ),
+      contributorRoles: contributorRoles,
+    }
+  }
+}
 
 export const buildAuthorsAndAffiliations = (
   data: Array<Contributor | Affiliation>

@@ -82,6 +82,8 @@ export type state = {
   doc: ManuscriptNode
   ancestorDoc: ManuscriptNode
 
+  authorsPopupOn?: boolean // toggling authors modal
+
   modelMap: Map<string, Model>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
@@ -119,6 +121,7 @@ export type state = {
   collaboratorsById?: Map<string, UserProfile>
 
   authorsAndAffiliations: AuthorData
+  trackedAuthorsAndAffiliations?: AuthorData
 
   notes?: ManuscriptNote[]
 
