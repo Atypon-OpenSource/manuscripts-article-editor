@@ -12,13 +12,13 @@
 import { useLayoutEffect, useState } from 'react'
 
 import deeperEqual from '../lib/deeper-equal'
-import { dispatch, state } from './Store'
+import { dispatch, GenericStore, state } from './Store'
 import { useGenericStore } from './StoreContext'
 // import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector';
 
 export const useStore = <T>(
   selector = (r: state): state | T => r
-): [T, dispatch, () => state] => {
+): [T, dispatch, () => state, GenericStore['subscribe']] => {
   const store = useGenericStore()
   const [state, setState] = useState(
     selector ? () => selector(store.state!) : store.state
@@ -48,5 +48,5 @@ export const useStore = <T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // @TODO reconsider disabling exhaustive-deps
   // @ts-ignore
-  return [state, store.dispatchAction, store.getState]
+  return [state, store.dispatchAction, store.getState, store.subscribe]
 }

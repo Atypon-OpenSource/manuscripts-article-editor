@@ -11,12 +11,7 @@
  */
 
 import { Contributor } from '@manuscripts/json-schema'
-import {
-  AlertMessage,
-  AlertMessageType,
-  AuthorAffiliation,
-  AuthorsDND,
-} from '@manuscripts/style-guide'
+import { AuthorAffiliation, AuthorsDND } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -29,31 +24,21 @@ const SidebarAction = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
-const AlertMessageContainer = styled.div`
-  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
-`
-
 interface Props {
   authors: Contributor[]
   authorAffiliations: Map<string, AuthorAffiliation[]>
   selectedAuthor: Contributor | null
-  invitationSent: boolean
   selectAuthor: (item: Contributor) => void
   openAddAuthors: () => void
   handleDrop: (oldIndex: number, newIndex: number) => void
-  getSidebarItemDecorator?: (authorID: string) => JSX.Element | null
-  handleDismiss: () => void
 }
 
 const AuthorsSidebar: React.FunctionComponent<Props> = ({
+  openAddAuthors,
   authors,
   selectAuthor,
-  selectedAuthor,
-  openAddAuthors,
   handleDrop,
-  getSidebarItemDecorator,
-  invitationSent,
-  handleDismiss,
+  selectedAuthor,
 }) => (
   <ModalSidebar data-cy={'authors-sidebar'}>
     <SidebarHeader title={'Authors'} />
@@ -66,28 +51,11 @@ const AuthorsSidebar: React.FunctionComponent<Props> = ({
           title={'New Author'}
         />
       </SidebarAction>
-      {invitationSent && (
-        <AlertMessageContainer>
-          <AlertMessage
-            type={AlertMessageType.success}
-            hideCloseButton={true}
-            dismissButton={{
-              text: 'OK',
-              action: () => {
-                handleDismiss()
-              },
-            }}
-          >
-            Invitation was sent.
-          </AlertMessage>
-        </AlertMessageContainer>
-      )}
       <AuthorsDND
         authors={authors}
         selectAuthor={selectAuthor}
         selectedAuthor={selectedAuthor}
         handleDrop={handleDrop}
-        getSidebarItemDecorator={getSidebarItemDecorator}
       />
     </SidebarContent>
   </ModalSidebar>

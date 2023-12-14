@@ -45,6 +45,10 @@ const getLastChange = (changes: TrackedAttrs[]) => {
 
 export const trackedJoint = ':dataTracked:'
 
+export const stripTracked = (id: string) => {
+  return id.split(trackedJoint)[0]
+}
+
 const getNodeId = (attrs: Attrs | UpdateAttrs) =>
   attrs.id || (attrs as Attrs).rid
 
