@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.12":
-  version "1.5.12"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.12.tgz#33cb82d87d62590b861828c6cf47a962c1e45bdc"
-  integrity sha512-VFiw2wO0goJIxH8/mK95CUnCQ07NBUIVOIf8RMbmSyWeMFa7A+nQ+CrJOX6ZAXhdvWIwSG5vnPPJCdM+QIHUXg==
+"@manuscripts/body-editor@1.5.13":
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.13.tgz#b6a1a2978190b842b584ea387c85cab67903ce6e"
+  integrity sha512-Ebba6ZMGCGpT+gUgySh2xZo12QRaJMoEIiPqaoGVM1H1UIJdmz0r4YsaZc3QnHrOy5sG768vpY0gOjTFdCGfgQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1931,7 +1931,7 @@
     "@manuscripts/library" "1.2.2"
     "@manuscripts/style-guide" "1.4.6"
     "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "^1.7.3"
+    "@manuscripts/track-changes-plugin" "^1.7.4"
     "@manuscripts/transform" "1.5.6"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
@@ -2053,10 +2053,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.7.3":
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.3.tgz#e19a0d8bd3b3482f5c4316ee4865e6e57811e7c4"
-  integrity sha512-VOXffxaRw0O80GKauOASb4wFNfwNP2bZ8JOVo0wuH1sUQFPpklSbxMBO/d5u+TNFgOTM1jUmvHxaQJpjnklJjg==
+"@manuscripts/track-changes-plugin@^1.7.4":
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.4.tgz#bc6d37198eb6982ac77ae36cec7d0f3c98addcca"
+  integrity sha512-vE3urSp5BWgWd2ESmBNOJrU2s3hqnfgCATuM7VOQdyzjlgCNBe84+eqROrfdO3eYpGCsMcyVx7Cvro1BoZlnMQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
