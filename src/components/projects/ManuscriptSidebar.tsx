@@ -10,90 +10,22 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  findParentNodeWithIdValue,
-  ManuscriptOutline,
-  OutlineManuscript,
-  useEditor,
-} from '@manuscripts/body-editor'
-import { Manuscript, Project } from '@manuscripts/json-schema'
+import { ManuscriptOutline, useEditor } from '@manuscripts/body-editor'
+import { Manuscript } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
-import {
-  ManuscriptEditorView,
-  ManuscriptNode,
-  UserProfileWithAvatar,
-} from '@manuscripts/transform'
-import React, { useCallback, useEffect, useState } from 'react'
+import { ManuscriptEditorView } from '@manuscripts/transform'
+import React from 'react'
 
-import { useStore } from '../../store'
 import PageSidebar from '../PageSidebar'
-import { SortableManuscript } from './SortableManuscript'
-
-const lowestPriorityFirst = (a: Manuscript, b: Manuscript) => {
-  if (a.priority === b.priority) {
-    return a.createdAt - b.createdAt
-  }
-
-  return Number(a.priority) - Number(b.priority)
-}
 
 interface Props {
-  openTemplateSelector?: (newProject: boolean) => void
-  manuscript: Manuscript
-  project: Project
-  doc: ManuscriptNode
-  saveProjectTitle?: (title: string) => Promise<Project>
-  view?: ManuscriptEditorView
   state: ReturnType<typeof useEditor>['state']
-  user: UserProfileWithAvatar
+  manuscript: Manuscript
+  view?: ManuscriptEditorView
 }
 
-const ManuscriptSidebar: React.FunctionComponent<Props> = ({
-  state,
-  manuscript,
-  view,
-  project,
-  doc,
-}) => {
-  const [{ manuscripts, saveModel }] = useStore((store) => ({
-    manuscripts: store.manuscripts || [],
-    saveModel: store.saveModel,
-  }))
-
-  const selected = findParentNodeWithIdValue(state.selection)
+const ManuscriptSidebar: React.FC<Props> = ({ state, manuscript, view }) => {
   const can = usePermissions()
-
-  const [sortedManuscripts, setSortedManuscripts] = useState<Manuscript[]>()
-
-  useEffect(() => {
-    setSortedManuscripts(manuscripts.sort(lowestPriorityFirst))
-  }, [manuscripts])
-
-  const setIndex = useCallback(
-    (id: string, index: number) => {
-      const manuscript = manuscripts.find((item) => item._id === id)!
-
-      manuscript.priority = index
-
-      manuscripts.sort(lowestPriorityFirst)
-
-      for (const [index, manuscript] of manuscripts.entries()) {
-        if (manuscript.priority !== index) {
-          saveModel({
-            ...manuscript,
-            priority: index,
-          }).catch((error) => {
-            console.error(error)
-          })
-        }
-      }
-    },
-    [saveModel, manuscripts]
-  )
-
-  if (!sortedManuscripts) {
-    return null
-  }
 
   return (
     <PageSidebar
@@ -105,26 +37,13 @@ const ManuscriptSidebar: React.FunctionComponent<Props> = ({
       sidebarTitle={''}
       sidebarFooter={''}
     >
-      {sortedManuscripts.map((item, index) => (
-        <SortableManuscript
-          key={item._id}
-          index={index}
-          item={item}
-          setIndex={setIndex}
-        >
-          {selected && item._id === manuscript._id ? (
-            <ManuscriptOutline
-              manuscript={manuscript}
-              doc={state?.doc || null}
-              view={view}
-              selected={selected}
-              capabilities={can}
-            />
-          ) : (
-            <OutlineManuscript project={project} manuscript={item} doc={doc} />
-          )}
-        </SortableManuscript>
-      ))}
+      <ManuscriptOutline
+        manuscript={manuscript}
+        doc={state?.doc || null}
+        view={view}
+        selected={null}
+        capabilities={can}
+      />
     </PageSidebar>
   )
 }

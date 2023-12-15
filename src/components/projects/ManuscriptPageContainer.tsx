@@ -77,7 +77,6 @@ const ManuscriptPageContainer: React.FC = () => {
 const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
   const [project] = useStore((store) => store.project)
-  const [user] = useStore((store) => store.user)
   const [modelMap] = useStore((store) => store.modelMap)
   const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
@@ -187,14 +186,7 @@ const ManuscriptPageView: React.FC = () => {
 
   return (
     <>
-      <ManuscriptSidebar
-        project={project}
-        manuscript={manuscript}
-        view={view}
-        state={state}
-        user={user}
-        doc={doc}
-      />
+      <ManuscriptSidebar manuscript={manuscript} view={view} state={state} />
 
       <PageWrapper onClick={onAppClick}>
         <Main>

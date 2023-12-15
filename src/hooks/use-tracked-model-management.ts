@@ -23,9 +23,8 @@ import {
   Build,
   Decoder,
   encode,
-  isAffiliationsSectionNode,
-  isContributorsSectionNode,
-  // isCogintributorsSectionNode,
+  isAffiliationsNode,
+  isContributorsNode,
   ManuscriptEditorView,
   ManuscriptNode,
   schema,
@@ -87,7 +86,7 @@ const useTrackedModelManagement = (
 
     const { tr } = state
     doc.descendants((node, pos) => {
-      if (isContributorsSectionNode(node)) {
+      if (isContributorsNode(node)) {
         tr.insert(
           pos + node.nodeSize - 1,
           schema.nodes.contributor.create(
@@ -96,7 +95,7 @@ const useTrackedModelManagement = (
               id: model._id,
             },
             schema.text('_')
-            /* 
+            /*
               quarterback as it is now works incorrectly with empty nodes and updating attributes on them are misinterpreted as deletion
               we either need to update quarterback to work correctly with empty nodes attributes or provide some content for these nodes or
               implement a mechanism that would detect attributes updates on empty nodes and setMeta as we do for metaNodes
@@ -115,7 +114,7 @@ const useTrackedModelManagement = (
     }
     const { tr } = state
     doc.descendants((node, pos) => {
-      if (isAffiliationsSectionNode(node)) {
+      if (isAffiliationsNode(node)) {
         tr.insert(
           pos + node.nodeSize - 1,
           schema.nodes.affiliation.create(
