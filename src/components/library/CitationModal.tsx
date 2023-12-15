@@ -162,7 +162,7 @@ export const CitationModal: React.FC<{
     }, 100)
   }, [selectedIndex])
 
-  const selectedItemTopOffset = 6 // to be able to place the selected item in the middle and allow for some scroll at the top
+  const selectedItemTopOffset = 10 // to be able to place the selected item in the middle and allow for some scroll at the top
   const pageItemsCount = 12
   const topTrigger = 0.2 // says: notify when x% of the offsetHeight remains hidden at the top
   const bottomTrigger = 0.8 // says: notify when x% of the offsetHeight remains hidden at the bottom
@@ -206,6 +206,7 @@ export const CitationModal: React.FC<{
         references[i] && refs.set(i, references[i])
       }
     }
+
     return refs
   }, [firstDisplayIndex, lastDisplayIndex, references])
 
