@@ -51,7 +51,6 @@ export interface ISaveSnapshotResponse {
   snapshot: ManuscriptSnapshot
 }
 
-// PUT /snapshot/:snapshotId
 export type IUpdateSnapshotRequest = {
   name?: string
 }
