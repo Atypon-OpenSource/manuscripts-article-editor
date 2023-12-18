@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.14":
-  version "1.5.14"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.14.tgz#f7209d6cc916f49f7f2b6d4732c97c46eaeb8028"
-  integrity sha512-DuzSeaEdUcZcuJ9hH5wEDrFPaAtHUTgCWyigO3t+7vh1FhsNSvTLGNLLXEFzM5ot8dCnT5pdLofdJ4NlRlWTmg==
+"@manuscripts/body-editor@1.5.15":
+  version "1.5.15"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.15.tgz#d276cba9bb7b718ff66e39a97ac57c924646970b"
+  integrity sha512-qpcaJMdnmYKeXtl0taEGIq6ZRcZtOkAHigM2K56WSkonuWBMcRqY4myGhAp5cYJTuDSG9SQ1ye6WVAW2UcjKLA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1932,7 +1932,7 @@
     "@manuscripts/style-guide" "1.4.6"
     "@manuscripts/title-editor" "^1.1.0"
     "@manuscripts/track-changes-plugin" "^1.7.4"
-    "@manuscripts/transform" "1.5.7"
+    "@manuscripts/transform" "1.5.8"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -2097,10 +2097,10 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-"@manuscripts/transform@1.5.7":
-  version "1.5.7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.7.tgz#c0fb435ced1fa68cfce328046e85971e8ec890b0"
-  integrity sha512-E3X9mm90g1YXKCAdowNEJ5tzRNQvR3imTtl4gPj8w1DtEQ6X9fKwYOHltaPS0XILiJUo7IW5WxxlDMr33Tgejw==
+"@manuscripts/transform@1.5.8":
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.8.tgz#6b6b7f287260d601a82fdf3801ef9b36a769bd52"
+  integrity sha512-Yba0ZkR8jZYvgMzjfiSvYqBi1hVcx9OZZ7Cw4IBzaelECm41cfg9Jbl2zxOzJMsncHO6O99Z6gCuUp3doPbjqg==
   dependencies:
     "@manuscripts/json-schema" "2.2.1"
     debug "^4.3.4"
