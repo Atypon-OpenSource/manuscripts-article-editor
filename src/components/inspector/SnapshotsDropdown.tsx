@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { SnapshotLabel } from '@manuscripts/quarterback-types'
 import { Avatar, SecondaryButton } from '@manuscripts/style-guide'
 import {
   TrackChangesStatus,
@@ -19,7 +18,10 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { useDropdown } from '../../hooks/use-dropdown'
-import { useSnapshotStore } from '../../quarterback/useSnapshotStore'
+import {
+  SnapshotLabel,
+  useSnapshotStore,
+} from '../../quarterback/useSnapshotStore'
 // import { useStore } from 'zustand'
 import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'

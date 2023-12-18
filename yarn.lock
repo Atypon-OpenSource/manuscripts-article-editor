@@ -1994,11 +1994,6 @@
     fontoxpath "^3.28.2"
     prosemirror-model "^1.18.3"
 
-"@manuscripts/quarterback-types@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
-  integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
-
 "@manuscripts/style-guide@1.4.6":
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.6.tgz#758e976410dd24c25865453c42d3cad682783bd4"

@@ -40,7 +40,6 @@
     "@manuscripts/body-editor": "1.5.11",
     "@manuscripts/json-schema": "2.2.1",
     "@manuscripts/library": "1.2.2",
-    "@manuscripts/quarterback-types": "^1.0.0",
     "@manuscripts/style-guide": "1.4.6",
     "@manuscripts/track-changes-plugin": "^1.7.3",
     "@manuscripts/transform": "1.5.5",

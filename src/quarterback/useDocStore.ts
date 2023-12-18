@@ -9,15 +9,28 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ICreateDocResponse,
-  IGetDocumentResponse,
-  ManuscriptDoc,
-} from '@manuscripts/quarterback-types'
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 import Api from '../postgres-data/Api'
+import { JsonValue, SnapshotLabel } from './useSnapshotStore'
+
+export type ManuscriptDocWithSnapshots = ManuscriptDoc & {
+  snapshots: SnapshotLabel[]
+}
+
+export type IGetDocumentResponse = ManuscriptDocWithSnapshots
+
+export type ICreateDocResponse = ManuscriptDocWithSnapshots
+
+export type ManuscriptDoc = {
+  manuscript_model_id: string
+  user_model_id: string
+  project_model_id: string
+  doc: JsonValue
+  createdAt: Date
+  updatedAt: Date
+}
 
 interface CurrentDocument {
   manuscriptID: string

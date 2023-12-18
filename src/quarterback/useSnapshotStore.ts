@@ -9,17 +9,52 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  IGetSnapshotResponse,
-  ISaveSnapshotResponse,
-  IUpdateSnapshotRequest,
-  ManuscriptSnapshot,
-  SnapshotLabel,
-} from '@manuscripts/quarterback-types'
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
 import Api from '../postgres-data/Api'
+
+export type JsonValue =
+  | string
+  | number
+  | boolean
+  | JsonObject
+  | JsonArray
+  | null
+
+type JsonObject = { [Key in string]?: JsonValue }
+
+type JsonArray = Array<JsonValue>
+
+export type ManuscriptSnapshot = {
+  id: string
+  name: string
+  snapshot: JsonValue
+  createdAt: Date
+  doc_id: string
+}
+
+export type IGetSnapshotResponse = ManuscriptSnapshot
+
+export type SnapshotLabel = Pick<
+  ManuscriptSnapshot,
+  'id' | 'name' | 'createdAt'
+>
+
+// POST /snapshot
+export interface ISaveSnapshotRequest {
+  docId: string
+  name: string
+  snapshot: Record<string, any>
+}
+export interface ISaveSnapshotResponse {
+  snapshot: ManuscriptSnapshot
+}
+
+// PUT /snapshot/:snapshotId
+export type IUpdateSnapshotRequest = {
+  name?: string
+}
 
 interface SnapshotState {
   originalPmDoc: Record<string, any> | null
