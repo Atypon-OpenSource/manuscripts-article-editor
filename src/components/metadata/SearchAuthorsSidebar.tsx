@@ -16,12 +16,7 @@ import { UserProfileWithAvatar } from '@manuscripts/transform'
 import React from 'react'
 import styled from 'styled-components'
 
-import { buildAuthorPriority } from '../../lib/authors'
-import {
-  SidebarContent,
-  SidebarEmptyResult,
-  SidebarPersonContainer,
-} from '../Sidebar'
+import { SidebarContent, SidebarPersonContainer } from '../Sidebar'
 import AddAuthorButton from './AddAuthorButton'
 
 const PersonInitial = styled.span`
@@ -44,105 +39,46 @@ const UserDataContainer = styled.div`
   align-items: center;
 `
 
-const TextContainer = styled.div`
-  word-break: break-word;
-`
 interface SearchSidebarProps {
-  searchText: string
   searchResults: UserProfile[]
   addedAuthors: string[]
   authors: Contributor[]
-  handleInvite: (searchText: string) => void
   createAuthor: (
     priority: number,
     person?: UserProfile | null,
     name?: string,
     invitationID?: string
   ) => void
-  isAuthorExist: () => boolean
-  handleCreateAuthor: () => void
 }
 
 const SearchAuthorsSidebar: React.FunctionComponent<SearchSidebarProps> = ({
   createAuthor,
-  handleInvite,
-  searchText,
   searchResults,
   addedAuthors,
   authors,
-  isAuthorExist,
-  handleCreateAuthor,
 }) => (
   <React.Fragment>
-    {!searchResults.length ? (
-      <SidebarContent>
-        {!searchText.includes('@') ? (
-          <SidebarEmptyResult
-            primaryButton={{
-              action: () => handleInvite(searchText),
-              text: 'Add + Invite as Collaborator',
-              tip: {
-                text: `Add ${searchText} to the author list, and send an invitation to grant access to the project`,
-                placement: 'left',
-              },
-            }}
-            secondaryButton={{
-              action: () =>
-                !isAuthorExist()
-                  ? createAuthor(buildAuthorPriority(authors), null, searchText)
-                  : handleCreateAuthor(),
-              text: 'Add to Author List',
-              tip: {
-                text: `Add ${searchText} to the author list.`,
-                placement: 'left',
-              },
-            }}
-            text={
-              <TextContainer>
-                Do you want to invite <strong>{searchText}</strong> as a
-                collaborator?
-              </TextContainer>
-            }
+    <SidebarContent>
+      {searchResults.map((person: UserProfileWithAvatar) => (
+        <SidebarPersonContainer key={person._id}>
+          <UserDataContainer>
+            <Avatar src={person.avatar} size={45} />
+            <PeopleData>
+              <PersonName>
+                <PersonInitial>{person.bibliographicName.given}</PersonInitial>
+                {person.bibliographicName.family}
+              </PersonName>
+            </PeopleData>
+          </UserDataContainer>
+          <AddAuthorButton
+            person={person}
+            isSelected={addedAuthors.includes(person.userID)}
+            createAuthor={createAuthor}
+            authors={authors}
           />
-        ) : (
-          <SidebarEmptyResult
-            primaryButton={{
-              action: () => handleInvite(searchText),
-              text: 'Invite as Collaborator',
-              tip: {
-                text: `Send an invitation to ${searchText} to grant access to the project.`,
-                placement: 'left',
-              },
-            }}
-            text="Do you want to invite a new collaborator?"
-          />
-        )}
-      </SidebarContent>
-    ) : (
-      <SidebarContent>
-        {searchResults.map((person: UserProfileWithAvatar) => (
-          <SidebarPersonContainer key={person._id}>
-            <UserDataContainer>
-              <Avatar src={person.avatar} size={45} />
-              <PeopleData>
-                <PersonName>
-                  <PersonInitial>
-                    {person.bibliographicName.given}
-                  </PersonInitial>
-                  {person.bibliographicName.family}
-                </PersonName>
-              </PeopleData>
-            </UserDataContainer>
-            <AddAuthorButton
-              person={person}
-              isSelected={addedAuthors.includes(person.userID)}
-              createAuthor={createAuthor}
-              authors={authors}
-            />
-          </SidebarPersonContainer>
-        ))}
-      </SidebarContent>
-    )}
+        </SidebarPersonContainer>
+      ))}
+    </SidebarContent>
   </React.Fragment>
 )
 

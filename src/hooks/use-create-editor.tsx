@@ -23,7 +23,7 @@ import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
-import MetadataContainer from '../components/metadata/MetadataContainer'
+import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
 import { useAuthStore } from '../quarterback/useAuthStore'
 import { useDocStore } from '../quarterback/useDocStore'
@@ -176,7 +176,7 @@ export const useCreateEditor = () => {
       ReferencesViewer,
       CitationEditor,
       CitationViewer,
-      MetadataContainer,
+      AuthorsInlineViewContainer,
     },
     subscribeStore: subscribe,
 
