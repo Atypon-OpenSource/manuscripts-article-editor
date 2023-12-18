@@ -23,8 +23,6 @@ import {
   Build,
   Decoder,
   encode,
-  isAffiliationsNode,
-  isContributorsNode,
   ManuscriptEditorView,
   ManuscriptNode,
   schema,
@@ -86,7 +84,7 @@ const useTrackedModelManagement = (
 
     const { tr } = state
     doc.descendants((node, pos) => {
-      if (isContributorsNode(node)) {
+      if (node.type === schema.nodes.contributors) {
         tr.insert(
           pos + node.nodeSize - 1,
           schema.nodes.contributor.create(
@@ -114,7 +112,7 @@ const useTrackedModelManagement = (
     }
     const { tr } = state
     doc.descendants((node, pos) => {
-      if (isAffiliationsNode(node)) {
+      if (node.type === schema.nodes.affiliations) {
         tr.insert(
           pos + node.nodeSize - 1,
           schema.nodes.affiliation.create(
@@ -162,7 +160,7 @@ const useTrackedModelManagement = (
               comments: [...(node.attrs.comments || []), comment._id],
             })
           }
-          if (node.type === schema.nodes.comment_list) {
+          if (node.type === schema.nodes.comments) {
             tr.replaceWith(
               pos,
               pos + node.nodeSize,
