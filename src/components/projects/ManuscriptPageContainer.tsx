@@ -150,7 +150,9 @@ const ManuscriptPageView: React.FC = () => {
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
     doWithThrottle(() => {
+      // @TODO remove zustand editorState store, remove doc from store and only save entire editoreState into the store
       setEditorState(state)
+      storeDispatch({ doc: state.doc })
     }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
