@@ -78,37 +78,12 @@ export default class Api {
     return this.instance.put<T>(path, data)
   }
 
-  getProject = (projectID: string) => {
-    return this.get<Project>(`project/${projectID}`, { types: [] })
-  }
-
-  getProjectCollaborators = (projectID: string) => {
-    return this.get(`project/${projectID}/collaborators`)
-  }
-
   getUser = () => {
     return this.get<UserProfile>(`user`)
   }
 
-  getProjectModels = <T>(projectID: string, types: string[] = []) => {
-    return this.get<T[]>(`project/${projectID}`, { types })
-  }
-
-  deleteProject = (projectID: string) => {
-    return this.delete<boolean>(`project/${projectID}`) // not sure what exactly it sends over
-  }
-
   getManuscript = (containerID: string, manuscriptID: string) =>
     this.get<Model[]>(`project/${containerID}/manuscript/${manuscriptID}`)
-
-  getManuscriptModels = <T>(
-    containerID: string,
-    manuscriptID: string,
-    types: string[]
-  ) =>
-    this.get<T[]>(`project/${containerID}/manuscript/${manuscriptID}`, {
-      types,
-    })
 
   getSectionCategories = () =>
     this.get<SectionCategory[]>('/config?id=section-categories')
