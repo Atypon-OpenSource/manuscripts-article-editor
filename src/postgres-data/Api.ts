@@ -41,13 +41,12 @@ export default class Api {
     })
   }
 
-  get = async <T>(url: string, data?: unknown) => {
+  get = async <T>(url: string) => {
     try {
       const result = await this.instance.get<T>(url, {
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
         },
-        data: data || {},
       })
       return result.data
     } catch (e) {
