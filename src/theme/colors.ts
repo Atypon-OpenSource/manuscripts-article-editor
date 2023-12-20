@@ -43,7 +43,8 @@ export const aliceBlue = '#f2fbfc'
 // export const blue = '#d6e8fc'
 // export const iceBlue = '#e8f2fc'
 // export const linkWaterBlue = '#eff6fe'
-// export const powderBlue = '#f0fafe'
+export const powderBlue = '#DDF3FA'
+export const graphBlue1 = '#20AEDF'
 // export const aliceBlue = '#f2fbff'
 
 /* REDS */
