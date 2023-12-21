@@ -92,7 +92,12 @@ class QuarterbackStepsExchanger extends CollabProvider {
     return jsonSteps.map((s: unknown) => Step.fromJSON(schema, s)) as Step[]
   }
 
-  async sendSteps(version: number, steps: Step[], clientID: string) {
+  async sendSteps(
+    version: number,
+    steps: Step[],
+    clientID: string,
+    flush = false
+  ) {
     // Apply and accumulate new steps
     const stepsJSON: unknown[] = []
     steps.forEach((step) => {
@@ -100,13 +105,17 @@ class QuarterbackStepsExchanger extends CollabProvider {
     })
 
     this.currentVersion = version
-    saveWithThrottle(() => {
-      this.applySteps(this.projectId, this.docId, {
-        steps: stepsJSON,
-        version,
-        clientID,
-      })
-    }, 2000)
+    saveWithThrottle(
+      () => {
+        this.applySteps(this.projectId, this.docId, {
+          steps: stepsJSON,
+          version,
+          clientID,
+        })
+      },
+      2000,
+      flush
+    )
     return Promise.resolve()
   }
 
