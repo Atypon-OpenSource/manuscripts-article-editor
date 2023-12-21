@@ -32,7 +32,6 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
 import {
-  adaptTrackedData,
   trackedJoint,
 } from '../components/track-changes/utils'
 import { setNodeAttrs } from '../lib/node-attrs'
@@ -48,9 +47,7 @@ const useTrackedModelManagement = (
   finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
-    const docJSONed = doc.toJSON()
-    const docClean = adaptTrackedData(docJSONed)
-    const modelsFromPM = encode(schema.nodeFromJSON(docClean))
+    const modelsFromPM = encode(doc)
     // adding supplements from final model map as they are meta (not PM presentable)
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
