@@ -31,9 +31,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
-import {
-  trackedJoint,
-} from '../components/track-changes/utils'
+import { trackedJoint } from '../components/track-changes/utils'
 import { setNodeAttrs } from '../lib/node-attrs'
 import { useStore } from '../store'
 
