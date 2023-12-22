@@ -40,7 +40,6 @@ export const useCreateEditor = () => {
       popper,
       user,
       modelMap,
-      biblio,
       commitAtLoad,
       fileManagement,
       style,
@@ -127,9 +126,6 @@ export const useCreateEditor = () => {
     popper,
     projectID: project._id,
 
-    // refactor the library stuff to a hook-ish type thingy
-    ...biblio,
-
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
     setComment: (comment?: CommentAnnotation) => {
@@ -184,12 +180,6 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    setCiteprocCitations: (citations: Map<string, string>) => {
-      dispatch({ citeprocCitations: citations })
-    },
-    getCiteprocCitations: () => {
-      return getState().citeprocCitations
-    },
   }
 
   const editor = useEditor(
