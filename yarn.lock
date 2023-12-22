@@ -1920,18 +1920,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.16-LEAN-3030":
-  version "1.5.16-LEAN-3030"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.16-LEAN-3030.tgz#0feb3954fb445cddf9a1aaeda95a5c58d7c472ef"
-  integrity sha512-FsX6vh9GQqootFVrlZeX/y7Q7j6DEDYJ/sCGqWZo/UW1xwtL7JYeYf4PInJRZR+fuPeaw1rNd7xelQOjz66/WA==
+"@manuscripts/body-editor@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.0.tgz#77b82b3a7eae2ea2db78a9f032f083b40de6d5ad"
+  integrity sha512-iGjtpYp6DBFRa2skuF5JfhvKaY6WjMsproCfiYxxJlxvovHnZ0Fq/jRCnWaAY9YBfli9+lpdbw4ebXQBu98rkw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/library" "1.2.2-LEAN-3030-6"
-    "@manuscripts/style-guide" "1.4.6-LEAN-3030-5"
+    "@manuscripts/library" "1.3.0"
+    "@manuscripts/style-guide" "1.5.0"
     "@manuscripts/track-changes-plugin" "^1.7.4"
-    "@manuscripts/transform" "1.5.8-LEAN-3030-3"
+    "@manuscripts/transform" "2.0.0"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1980,13 +1980,13 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@1.2.2-LEAN-3030-6":
-  version "1.2.2-LEAN-3030-6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.2-LEAN-3030-6.tgz#1fce5d21b93fabde3394df00d136d440fbd3c1fd"
-  integrity sha512-m9XhgjLurauN0i0jnLG7V5a04LJvye7QkXWh8KSlVrpys8Wtfk8iT1eO2PSsKwP9x/YNYCHmN29Vje61cVthig==
+"@manuscripts/library@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.0.tgz#a5ffa838d32516ed5c69513fe2ef535a8104ec32"
+  integrity sha512-tLJD68GvmcpEcPJGAhmuQL50bCYbz+NeEWmddsf/AALStwgRTwurQx+bZoE8ZRjxyflyBE7cma7EX8ss/WqPmQ==
   dependencies:
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/transform" "1.5.8-LEAN-3030-3"
+    "@manuscripts/transform" "2.0.0"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
@@ -1998,17 +1998,17 @@
   resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
   integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
 
-"@manuscripts/style-guide@1.4.6-LEAN-3030-5":
-  version "1.4.6-LEAN-3030-5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.6-LEAN-3030-5.tgz#a13448996e94f8246c742756a726532b1ee4b632"
-  integrity sha512-/IYGXPArE1TbQiDoeuPPRzStjpfXDU5eVY/LTlBHy2lEEory3v1fEpQdNURu/TqwtHqETYJcN1yw0QXDjelfDw==
+"@manuscripts/style-guide@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.5.0.tgz#f92b0421848829ee9dbe5dd204771694c6c754a1"
+  integrity sha512-XtS1isV4+MMc9g3wQ3uxOOTVYgtQd+DKluWRdce2vSEdf7ulF+AFKufuTphGx4RM0JrVp9tAsuH5lzLFve+m/g==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/transform" "1.5.8-LEAN-3030-3"
+    "@manuscripts/transform" "2.0.0"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -2068,10 +2068,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.5.8-LEAN-3030-3":
-  version "1.5.8-LEAN-3030-3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.8-LEAN-3030-3.tgz#01c97585ab7d7d4e2e2592bd0805ce1ba8f5fe72"
-  integrity sha512-tD6j41S/DdjlvwExMDNFzTc/HYQn5tm5kkvwZ1NkiCROJMiNqxQiebPnxJ6h8Sj7gsPaWWD08j75BJgamhj/AQ==
+"@manuscripts/transform@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.0.0.tgz#0363436b5284f1e4ff1a688e27e0d82592818fa5"
+  integrity sha512-A2kpcaYg+niH0Sgl/QeBlTICHyhVQ2i+T2HkHjS3ONOJl8odL4QvWVVsrEYrSt8phQZTC2SKa1ZNUAYaSCsxlQ==
   dependencies:
     "@manuscripts/json-schema" "2.2.1"
     debug "^4.3.4"
