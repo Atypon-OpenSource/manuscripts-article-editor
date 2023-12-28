@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.1":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.1.tgz#809d9f508f9ccb6654546f6f8e7d45ae201e65d0"
-  integrity sha512-YrPcf8baJSQa8ZAhvuP9ldt48t1qAHSUCEJpI+Z3KhVq7DohvooDGfpnCFUfI2lPGnat1Qwz42C5Aos04Ah9nA==
+"@manuscripts/body-editor@1.6.2":
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.2.tgz#e1cf754caaeb19e9e26099363f63fb6ff01047c5"
+  integrity sha512-oQb3UCLsmsaijn+o0Wxd5NxwdW+RLe9Vg9fUswMvqX5LUJkLKl/VYkFeKTX9lGYe+s/RMKKYCM4oOgRnHAG6/w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
