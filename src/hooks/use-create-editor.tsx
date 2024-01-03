@@ -15,20 +15,13 @@ import { getCapabilities as getActionCapabilities } from '@manuscripts/style-gui
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
-import React, { ReactChild, ReactNode } from 'react'
-import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
 
-import CitationEditor from '../components/library/CitationEditor'
-import { CitationViewer } from '../components/library/CitationViewer'
-import { ReferencesEditor } from '../components/library/ReferencesEditor'
-import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
-import { ThemeProvider } from '../theme/ThemeProvider'
 
 export const useCreateEditor = () => {
   const [
@@ -150,24 +143,10 @@ export const useCreateEditor = () => {
       }
     },
     getModelMap,
-    saveModel,
     deleteModel,
     retrySync,
 
-    renderReactComponent: (child: ReactNode, container: HTMLElement) => {
-      if (child && typeof child !== 'boolean') {
-        ReactDOM.render(
-          <ThemeProvider>{child as ReactChild}</ThemeProvider>,
-          container
-        )
-      }
-    },
-    unmountReactComponent: ReactDOM.unmountComponentAtNode,
     components: {
-      ReferencesEditor,
-      ReferencesViewer,
-      CitationEditor,
-      CitationViewer,
       AuthorsInlineViewContainer,
     },
     subscribeStore: subscribe,
