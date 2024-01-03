@@ -43,7 +43,7 @@
     "@manuscripts/quarterback-types": "^1.0.0",
     "@manuscripts/style-guide": "1.5.0",
     "@manuscripts/title-editor": "^1.1.0",
-    "@manuscripts/track-changes-plugin": "^1.7.4",
+    "@manuscripts/track-changes-plugin": "1.7.4-LEAN-2998",
     "@manuscripts/transform": "2.0.0",
     "@reach/tabs": "^0.11.2",
     "autotrack": "^2.4.1",
