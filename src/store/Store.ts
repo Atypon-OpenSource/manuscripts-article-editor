@@ -79,6 +79,7 @@ export type state = {
 
   editor: ReturnType<typeof useCreateEditor>
   doc: ManuscriptNode
+  initialDocVersion: number
   ancestorDoc: ManuscriptNode
 
   authorsPopupOn?: boolean // toggling authors modal

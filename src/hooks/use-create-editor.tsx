@@ -26,6 +26,7 @@ import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
 import { useAuthStore } from '../quarterback/useAuthStore'
+import { useDocStore } from '../quarterback/useDocStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
@@ -42,8 +43,10 @@ export const useCreateEditor = () => {
       modelMap,
       commitAtLoad,
       fileManagement,
+      initialDocVersion,
       style,
       locale,
+      authToken,
     },
     dispatch,
     getState,
@@ -59,8 +62,10 @@ export const useCreateEditor = () => {
     biblio: store.biblio,
     commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
+    initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
     locale: store.cslLocale,
+    authToken: store.authToken,
   }))
   const { user: trackUser } = useAuthStore()
 
@@ -99,6 +104,8 @@ export const useCreateEditor = () => {
   }
 
   const history = useHistory()
+
+  const { stepsExchanger } = useDocStore()
 
   const editorProps = {
     attributes: {
@@ -180,11 +187,18 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
+    collabProvider: stepsExchanger(
+      manuscript._id,
+      project._id,
+      initialDocVersion,
+      authToken
+    ),
   }
 
   const editor = useEditor(
     ManuscriptsEditor.createState(editorProps),
-    ManuscriptsEditor.createView(editorProps)
+    ManuscriptsEditor.createView(editorProps),
+    editorProps
   )
   return editor
 }
