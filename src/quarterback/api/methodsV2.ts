@@ -10,8 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import type { Maybe } from '@manuscripts/quarterback-types'
+import {
+  EventSourceMessage,
+  fetchEventSource,
+} from '@microsoft/fetch-event-source'
 
 import config from '../../config'
+
 // import { useAuthStore } from '../useAuthStore'
 
 // TODO:: remove this when migrating all api endpoints to v2
@@ -142,4 +147,49 @@ export function del<T>(
     },
     defaultError
   )
+}
+
+export async function listen<T>(
+  path: string,
+  listener: (event: EventSourceMessage) => void,
+  authToken: string,
+  defaultError?: string,
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
+) {
+  await fetchEventSource(`${V2}/${path}`, {
+    onmessage: listener,
+    headers: headers,
+    async onopen(response) {
+      if (
+        response.ok &&
+        response.headers.get('content-type') === 'text/event-stream'
+      ) {
+        console.log('EventSource Connection Opened Ok')
+        return
+      } else if (
+        response.status >= 400 &&
+        response.status < 500 &&
+        response.status !== 429
+      ) {
+        // client-side errors are usually non-retriable:
+        console.error(
+          'EventSource connection error with status: ' + response.status
+        )
+      } else {
+        console.error(
+          'EventSource connection error with status: ' + response.status
+        )
+      }
+    },
+    onclose() {
+      // if the server closes the connection unexpectedly, retry:
+      console.log('EventSource connection closed')
+    },
+    onerror(err) {
+      console.log('EventSource connection error: ' + err)
+    },
+  })
 }

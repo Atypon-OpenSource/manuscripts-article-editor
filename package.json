@@ -30,6 +30,7 @@
     "storybook": "NODE_OPTIONS=--max_old_space_size=6096 start-storybook --config-dir stories/config --port 6006",
     "build-storybook": "NODE_OPTIONS=--max_old_space_size=6096 build-storybook --config-dir stories/config",
     "preversion": "npm-run-all --parallel typecheck lint",
+    "prepare": "husky install",
     "version": "ALLOW_MISSING_VARIABLES=1 yarn build"
   },
   "dependencies": {
@@ -39,11 +40,13 @@
     "@manuscripts/assets": "^0.6.4",
     "@manuscripts/body-editor": "1.6.3-LEAN-2756-1",
     "@manuscripts/json-schema": "2.2.1",
-    "@manuscripts/library": "1.2.2",
+    "@manuscripts/library": "1.3.0",
     "@manuscripts/quarterback-types": "^1.0.0",
-    "@manuscripts/style-guide": "1.4.6",
+    "@manuscripts/style-guide": "1.5.0",
+    "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.7.4",
-    "@manuscripts/transform": "1.5.7",
+    "@manuscripts/transform": "2.0.0",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@reach/tabs": "^0.11.2",
     "autotrack": "^2.4.1",
     "axios": "^1.2.2",
@@ -75,6 +78,7 @@
     "react-spring": "^8.0.25",
     "react-tooltip": "^4.2.10",
     "styled-components": "^5.2.0",
+    "type-fest": "^4.6.0",
     "uuid": "^9.0.0",
     "workbox-window": "^6.5.4",
     "zustand": "^4.2.0"
@@ -162,17 +166,6 @@
     "react-test-renderer": "^17.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.0.5"
-  },
-  "peerDependencies": {
-    "@apollo/client": "^3.7.3",
-    "@apollo/react-hooks": "^4.0.0",
-    "prosemirror-model": "^1.18.3",
-    "prosemirror-state": "^1.4.2",
-    "prosemirror-utils": "^0.9.6",
-    "react": "^17.0.2",
-    "react-dnd": "^11.1.3",
-    "react-dnd-html5-backend": "^11.1.3",
-    "react-dom": "^17.0.2"
   },
   "resolutions": {
     "@types/react": "^17.0.2"
