@@ -79,7 +79,7 @@ export const usePouchStore = create(
       if (!modelMap) {
         return { err: 'modelMap undefined inside usePouchStore', code: 500 }
       }
-      const models = encode(doc, true)
+      const models = encode(doc)
 
       const newModelMap = new Map<string, Model>()
       for (const model of models.values()) {
