@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.2":
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.2.tgz#e1cf754caaeb19e9e26099363f63fb6ff01047c5"
-  integrity sha512-oQb3UCLsmsaijn+o0Wxd5NxwdW+RLe9Vg9fUswMvqX5LUJkLKl/VYkFeKTX9lGYe+s/RMKKYCM4oOgRnHAG6/w==
+"@manuscripts/body-editor@1.6.3":
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.3.tgz#dc5743106b242000c4516825917e34ab44fc6bf0"
+  integrity sha512-i56u+bhxq59G/1PibTG4Zl4SVrodbv46I5pYALxuvxk7uU2TprqhrtDxLsY+yS1XLgYrw6ltI74vZOmN9nOBVA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1942,6 +1942,7 @@
     lodash-es "^4.17.21"
     popper.js "^1.16.1"
     pretty-bytes "^6.0.0"
+    prosemirror-collab "^1.3.1"
     prosemirror-commands "^1.5.0"
     prosemirror-dropcursor "^1.6.1"
     prosemirror-history "^1.3.0"
@@ -13119,6 +13120,13 @@ property-information@^5.0.0, property-information@^5.3.0:
   integrity sha512-YUHSPk+A30YPv+0Qf8i9Mbfe/C0hdPXk1s1jPVToV8pk8BQtpw10ct89Eo7OWkutrwqvT0eicAxlOg3dOAu8JA==
   dependencies:
     xtend "^4.0.0"
+
+prosemirror-collab@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-collab/-/prosemirror-collab-1.3.1.tgz#0e8c91e76e009b53457eb3b3051fb68dad029a33"
+  integrity sha512-4SnynYR9TTYaQVXd/ieUvsVV4PDMBzrq2xPUWutHivDuOshZXqQ5rGbZM84HEaXKbLdItse7weMGOUdDVcLKEQ==
+  dependencies:
+    prosemirror-state "^1.0.0"
 
 prosemirror-commands@^1.0.0, prosemirror-commands@^1.5.0:
   version "1.5.2"

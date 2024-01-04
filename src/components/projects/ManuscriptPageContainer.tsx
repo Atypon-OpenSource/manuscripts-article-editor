@@ -73,7 +73,6 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
-  const [project] = useStore((store) => store.project)
   const [modelMap] = useStore((store) => store.modelMap)
   const [_, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
