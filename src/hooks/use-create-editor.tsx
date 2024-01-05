@@ -47,6 +47,8 @@ export const useCreateEditor = () => {
       style,
       locale,
       authToken,
+      startEditing,
+      selectAuthor,
     },
     dispatch,
     getState,
@@ -66,6 +68,8 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
     authToken: store.authToken,
+    startEditing: store.startEditing,
+    selectAuthor: store.selectAuthor,
   }))
   const { user: trackUser } = useAuthStore()
 
@@ -132,6 +136,9 @@ export const useCreateEditor = () => {
     history,
     popper,
     projectID: project._id,
+
+    openAuthorEditing: () => getState().startEditing(),
+    selectAuthorForEditing: (id: string) => getState().selectAuthor(id),
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
