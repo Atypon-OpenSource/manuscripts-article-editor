@@ -25,6 +25,8 @@ import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
+import { useAuthStore } from '../quarterback/useAuthStore'
+import { useDocStore } from '../quarterback/useDocStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
@@ -39,11 +41,12 @@ export const useCreateEditor = () => {
       popper,
       user,
       modelMap,
-      biblio,
       commitAtLoad,
       fileManagement,
+      initialDocVersion,
       style,
       locale,
+      authToken,
     },
     dispatch,
     getState,
@@ -59,9 +62,12 @@ export const useCreateEditor = () => {
     biblio: store.biblio,
     commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
+    initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
     locale: store.cslLocale,
+    authToken: store.authToken,
   }))
+  const { user: trackUser } = useAuthStore()
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
@@ -99,6 +105,8 @@ export const useCreateEditor = () => {
 
   const history = useHistory()
 
+  const { stepsExchanger } = useDocStore()
+
   const editorProps = {
     attributes: {
       class: 'manuscript-editor',
@@ -110,7 +118,7 @@ export const useCreateEditor = () => {
     plugins: config.quarterback.enabled
       ? [
           trackChangesPlugin({
-            userID: user._id,
+            userID: trackUser.id,
             debug: config.environment === 'development',
           }),
         ]
@@ -124,9 +132,6 @@ export const useCreateEditor = () => {
     history,
     popper,
     projectID: project._id,
-
-    // refactor the library stuff to a hook-ish type thingy
-    ...biblio,
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
@@ -182,17 +187,18 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    setCiteprocCitations: (citations: Map<string, string>) => {
-      dispatch({ citeprocCitations: citations })
-    },
-    getCiteprocCitations: () => {
-      return getState().citeprocCitations
-    },
+    collabProvider: stepsExchanger(
+      manuscript._id,
+      project._id,
+      initialDocVersion,
+      authToken
+    ),
   }
 
   const editor = useEditor(
     ManuscriptsEditor.createState(editorProps),
-    ManuscriptsEditor.createView(editorProps)
+    ManuscriptsEditor.createView(editorProps),
+    editorProps
   )
   return editor
 }

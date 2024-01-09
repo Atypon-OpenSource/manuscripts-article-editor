@@ -43,7 +43,6 @@ import {
 import { useCreateEditor } from '../hooks/use-create-editor'
 import Api from '../postgres-data/Api'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
-import { BiblioTools } from './BiblioTools'
 import { TokenData } from './TokenData'
 
 export interface TokenActions {
@@ -83,6 +82,7 @@ export type state = {
 
   editor: ReturnType<typeof useCreateEditor>
   doc: ManuscriptNode
+  initialDocVersion: number
   ancestorDoc: ManuscriptNode
 
   authorsPopupOn?: boolean // toggling authors modal
@@ -141,7 +141,6 @@ export type state = {
 
   library: Map<string, BibliographyItem>
   projectLibraryCollections: Map<string, LibraryCollection>
-  biblio: BiblioTools
   template?: ManuscriptTemplate
   bundle?: Bundle
   cslLocale?: string

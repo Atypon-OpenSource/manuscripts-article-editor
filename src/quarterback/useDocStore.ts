@@ -12,25 +12,9 @@
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
-import Api from '../postgres-data/Api'
-import { JsonValue, SnapshotLabel } from './useSnapshotStore'
-
-export type ManuscriptDocWithSnapshots = ManuscriptDoc & {
-  snapshots: SnapshotLabel[]
-}
-
-export type IGetDocumentResponse = ManuscriptDocWithSnapshots
-
-export type ICreateDocResponse = ManuscriptDocWithSnapshots
-
-export type ManuscriptDoc = {
-  manuscript_model_id: string
-  user_model_id: string
-  project_model_id: string
-  doc: JsonValue
-  createdAt: Date
-  updatedAt: Date
-}
+import * as docApi from './api/document'
+import QuarterbackStepsExchanger from './QuarterbackStepsExchanger'
+import { ManuscriptDoc, StepsPayload } from './types'
 
 interface CurrentDocument {
   manuscriptID: string
@@ -41,82 +25,153 @@ interface DocState {
   quarterbackDoc: ManuscriptDoc | null
 }
 
-export const useDocStore = (api: Api) =>
-  create(
-    combine(
-      {
-        currentDocument: null,
-        quarterbackDoc: null,
-      } as DocState,
-      (set) => ({
-        setCurrentDocument: (manuscriptID: string, projectID: string) => {
-          set({ currentDocument: { manuscriptID, projectID } })
-        },
-        getDocument: async (projectID: string, manuscriptID: string) => {
-          const resp = await api.get<IGetDocumentResponse>(
-            `doc/${projectID}/manuscript/${manuscriptID}`
-          )
-          if (resp) {
-            set({ quarterbackDoc: resp })
-          }
-          return resp
-        },
-        createDocument: async (manuscriptID: string, projectID: string) => {
-          const resp = await api.post<ICreateDocResponse>(
-            `doc/${projectID}/manuscript/${manuscriptID}`,
-            {
-              manuscript_model_id: manuscriptID,
-              project_model_id: projectID,
-              doc: {},
-            }
-          )
-
-          if (resp) {
-            set({
-              currentDocument: { manuscriptID, projectID },
-              quarterbackDoc: resp,
-            })
-          }
-          return resp
-        },
-        updateDocument: async (
-          projectID: string,
-          manuscriptID: string,
-          doc: Record<string, any>
+export const useDocStore = create(
+  combine(
+    {
+      currentDocument: null,
+      quarterbackDoc: null,
+    } as DocState,
+    (set, get) => ({
+      setCurrentDocument: (manuscriptID: string, projectID: string) => {
+        set({ currentDocument: { manuscriptID, projectID } })
+      },
+      getDocument: async (
+        projectID: string,
+        manuscriptID: string,
+        authToken: string
+      ) => {
+        const resp = await docApi.getDocument(
+          projectID,
+          manuscriptID,
+          authToken
+        )
+        if ('data' in resp) {
+          set({ quarterbackDoc: resp.data })
+        }
+        return resp
+      },
+      createDocument: async (
+        manuscriptID: string,
+        projectID: string,
+        authToken: string
+      ) => {
+        const resp = await docApi.createDocument(
+          {
+            manuscript_model_id: manuscriptID,
+            project_model_id: projectID,
+            doc: {},
+          },
+          authToken
+        )
+        if ('data' in resp) {
+          set({
+            currentDocument: { manuscriptID, projectID },
+            quarterbackDoc: resp.data,
+          })
+        }
+        return resp
+      },
+      stepsExchanger(
+        docId: string,
+        projectId: string,
+        lastVersion: number,
+        authToken: string,
+        isAuthed = true
+      ) {
+        if (!isAuthed) {
+          return
+        }
+        const applySteps = async (
+          projectId: string,
+          docId: string,
+          payload: StepsPayload
         ) => {
-          const resp = await api.put<boolean>(
-            `doc/${projectID}/manuscript/${manuscriptID}`,
-            { doc }
+          const resp = await docApi.applySteps(
+            projectId,
+            docId,
+            authToken,
+            payload
           )
-          if (resp) {
-            set((state) => {
-              const { quarterbackDoc } = state
-              if (quarterbackDoc) {
-                return {
-                  quarterbackDoc: {
-                    ...quarterbackDoc,
-                    doc,
-                  },
-                }
+          if ('data' in resp) {
+            return resp.data
+          }
+        }
+
+        const getStepsSince = async (
+          projectId: string,
+          docId: string,
+          version: number
+        ) => {
+          const resp = await docApi.stepsSince(
+            projectId,
+            docId,
+            version,
+            authToken
+          )
+          if ('data' in resp) {
+            return resp.data
+          }
+        }
+
+        return new QuarterbackStepsExchanger(
+          docId,
+          projectId,
+          lastVersion,
+          applySteps,
+          getStepsSince,
+          docApi.listenStepUpdates,
+          authToken
+        )
+      },
+      updateDocument: async (
+        projectID: string,
+        manuscriptID: string,
+        doc: Record<string, any>,
+        authToken: string
+      ) => {
+        const resp = await docApi.updateDocument(
+          projectID,
+          manuscriptID,
+          authToken,
+          {
+            doc,
+          }
+        )
+        if ('data' in resp) {
+          set((state) => {
+            const { quarterbackDoc } = state
+            if (quarterbackDoc) {
+              return {
+                quarterbackDoc: {
+                  ...quarterbackDoc,
+                  doc,
+                },
               }
-              return state
-            })
-          }
-          return resp
-        },
-        deleteDocument: async (projectID: string, manuscriptID: string) => {
-          const resp = await api.delete<boolean>(
-            `doc/${projectID}/manuscript/${manuscriptID}`
+            }
+            return state
+          })
+        }
+        return resp
+      },
+      deleteDocument: async (
+        projectID: string,
+        manuscriptID: string,
+        authToken: string
+      ) => {
+        const resp = await docApi.deleteDocument(
+          projectID,
+          manuscriptID,
+          authToken
+        )
+        if ('data' in resp) {
+          set((state) =>
+            state.quarterbackDoc?.manuscript_model_id === manuscriptID
+              ? { quarterbackDoc: null }
+              : state
           )
-          if (resp) {
-            set((state) =>
-              state.quarterbackDoc?.manuscript_model_id === manuscriptID
-                ? { quarterbackDoc: null }
-                : state
-            )
-          }
-          return resp
-        },
-      })
-    )
+        }
+        return resp
+      },
+    })
   )
+)

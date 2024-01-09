@@ -9,16 +9,37 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { BibliographyItem } from '@manuscripts/json-schema'
-import { CitationProvider } from '@manuscripts/library'
+import { ManuscriptNode } from '@manuscripts/transform'
 
-export interface BiblioTools {
-  getCitationProvider: () => CitationProvider | undefined
-  getLibraryItem: (id: string) => BibliographyItem | undefined
-  setLibraryItem: (item: BibliographyItem) => void
-  removeLibraryItem: (id: string) => void
-  matchLibraryItemByIdentifier: (
-    item: BibliographyItem
-  ) => BibliographyItem | undefined
-  filterLibraryItems: (query: string) => Promise<BibliographyItem[]>
+import { builderFn, StoreDataSourceStrategy } from '../store'
+
+export default class QuarterbackDataSource implements StoreDataSourceStrategy {
+  loadDoc: (
+    manuscriptID: string,
+    projectID: string,
+    doc: ManuscriptNode | undefined
+  ) => Promise<{ doc: ManuscriptNode; version: number } | undefined>
+  constructor(loadDoc: QuarterbackDataSource['loadDoc']) {
+    this.loadDoc = loadDoc
+  }
+  build: builderFn = async (state, next) => {
+    if (state.projectID && state.manuscriptID && state.doc) {
+      const res = await this.loadDoc(
+        state.manuscriptID,
+        state.projectID,
+        state.doc
+      )
+      if (res?.doc && res.version) {
+        if (res.doc) {
+          next({
+            ...state,
+            doc: res.doc,
+            initialDocVersion: res.version,
+          })
+          return
+        }
+      }
+    }
+    next(state)
+  }
 }

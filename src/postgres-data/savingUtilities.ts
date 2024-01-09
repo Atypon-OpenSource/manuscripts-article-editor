@@ -15,13 +15,24 @@ import { useRef } from 'react'
 let throttled = () => null
 let timeout: number
 
-export const saveWithThrottle = (fn: () => any, interval = 4000) => {
+export const saveWithThrottle = (
+  fn: () => any,
+  interval = 4000,
+  flush = false
+) => {
   throttled = fn
+  const action = () => {
+    throttled()
+    window.clearTimeout(timeout)
+    timeout = 0
+  }
+  if (flush) {
+    action()
+    return
+  }
   if (!timeout) {
     timeout = window.setTimeout(() => {
-      throttled()
-      window.clearTimeout(timeout)
-      timeout = 0
+      action()
     }, interval)
   }
 }

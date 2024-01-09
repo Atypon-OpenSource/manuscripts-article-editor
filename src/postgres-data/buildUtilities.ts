@@ -12,7 +12,6 @@
 
 import {
   BibliographyItem,
-  Bundle,
   Correction,
   LibraryCollection,
   Manuscript,
@@ -31,7 +30,6 @@ import {
 
 import Api from '../postgres-data/Api'
 import { ContainedIDs, ContainerIDs, state } from '../store'
-import { Biblio } from './Bibilo'
 import { saveWithThrottle } from './savingUtilities'
 
 const buildUtilities = (
@@ -345,20 +343,6 @@ const buildUtilities = (
     })
   }
 
-  let biblioUtils
-  const data = getData()
-
-  if (data.manuscript && data.library) {
-    const bundle = data.manuscript?.bundle // TODO: infer bundle from prototype if manuscript.bundle is undefined ?
-      ? (data?.modelMap?.get(data.manuscript.bundle) as Bundle)
-      : null
-    biblioUtils = new Biblio(
-      bundle,
-      data.library,
-      data.manuscript.primaryLanguageCode || 'eng'
-    )
-  }
-
   const createUser = async (profile: Build<UserProfile>) => {
     await saveModel(profile)
     return Promise.resolve()
@@ -377,7 +361,6 @@ const buildUtilities = (
     updateBiblioItem,
     bulkUpdate,
     createUser,
-    biblio: biblioUtils?.getTools(),
   }
 }
 export default buildUtilities

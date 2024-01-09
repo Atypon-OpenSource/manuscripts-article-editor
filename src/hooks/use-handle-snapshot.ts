@@ -56,7 +56,7 @@ export const useHandleSnapshot = (storeExists = true) => {
             .catch(() =>
               reject(new Error('Cannot save to api. Check connection.'))
             )
-        }, 1000) // to avoid potentially saving before the changes are applied
+        }, 900) // to avoid potentially saving before the changes are applied
       })
     }
   }

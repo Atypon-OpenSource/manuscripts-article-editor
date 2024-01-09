@@ -9,9 +9,59 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
+// eslint-disable-next-line import/no-unresolved
+import { JsonValue } from 'type-fest'
 
-export const trackedJoint = ':dataTracked:'
+export type ManuscriptSnapshot = {
+  id: string
+  name: string
+  snapshot: JsonValue
+  createdAt: Date
+  doc_id: string
+}
 
-export const stripTracked = (id: string) => {
-  return id.split(trackedJoint)[0]
+export type ManuscriptDoc = {
+  manuscript_model_id: string
+  user_model_id: string
+  project_model_id: string
+  doc: JsonValue
+  createdAt: Date
+  updatedAt: Date
+  version: number
+}
+export type SnapshotLabel = Pick<
+  ManuscriptSnapshot,
+  'id' | 'name' | 'createdAt'
+>
+
+export type ManuscriptDocWithSnapshots = ManuscriptDoc & {
+  snapshots: SnapshotLabel[]
+}
+
+export type UpdateDocumentRequest = {
+  doc: Record<string, any>
+}
+
+export interface CreateDocRequest {
+  manuscript_model_id: string
+  project_model_id: string
+  doc: Record<string, any>
+}
+
+export type StepsPayload = {
+  steps: unknown[]
+  version: number
+  clientID: number | string
+}
+
+export type AppliedStepsResponse = {
+  lastVersion?: number
+  steps?: number
+  error?: string
+}
+
+export type StepsSinceResponse = {
+  steps: unknown[]
+  version: number
+  clientIDs: number[]
 }

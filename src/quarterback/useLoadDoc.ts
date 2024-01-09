@@ -10,41 +10,70 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { schema } from '@manuscripts/transform'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 
 import config from '../config'
-import Api from '../postgres-data/Api'
+import { updateDocument } from './api/document'
 import { useDocStore } from './useDocStore'
 import { useSnapshotStore } from './useSnapshotStore'
 
 export const useLoadDoc = (authToken: string) => {
-  const api = new Api()
-  api.setToken(authToken)
+  const { createDocument, getDocument, setCurrentDocument } = useDocStore()
+  const { init: initSnapshots, setSnapshots } = useSnapshotStore()
 
-  const { createDocument, getDocument, setCurrentDocument } = useDocStore(api)()
-  const { init: initSnapshots, setSnapshots } = useSnapshotStore(api)()
-
-  return async function loadDoc(manuscriptID: string, projectID: string) {
+  return async function loadDoc(
+    manuscriptID: string,
+    projectID: string,
+    existingDoc: ManuscriptNode
+  ) {
     if (!config.quarterback.enabled) {
       return undefined
     }
     setCurrentDocument(manuscriptID, projectID)
-    const found = await getDocument(projectID, manuscriptID)
+    const found = await getDocument(projectID, manuscriptID, authToken)
     let doc
-    if (found) {
+    let version = 0
+    if ('data' in found) {
+      let empty = true
+      for (const _ in found.data.doc as object) {
+        empty = false
+        break
+      }
+
+      if (empty) {
+        await updateDocument(projectID, manuscriptID, authToken, {
+          doc: existingDoc.toJSON(),
+        })
+      }
+
       initSnapshots()
-      setSnapshots(found.snapshots)
-      doc = found.doc
-    } else {
+      setSnapshots(found.data.snapshots)
+      doc = found.data.doc
+      version = found.data.version
+    } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
-      createDocument(manuscriptID, projectID)
+      const res = await createDocument(manuscriptID, projectID, authToken)
+      if ('data' in res) {
+        doc = res.data.doc
+        version = res.data.version
+      }
+      if ('err' in res) {
+        console.error('Unable to create new document: ' + res.err)
+      }
+
+      const update = await updateDocument(projectID, manuscriptID, authToken, {
+        doc: existingDoc.toJSON(),
+      })
+      if ('err' in update) {
+        console.error('Unable to create new document: ' + update.err)
+      }
     }
     if (
       doc !== null &&
       typeof doc === 'object' &&
       Object.keys(doc).length !== 0
     ) {
-      return schema.nodeFromJSON(doc)
+      return { doc: schema.nodeFromJSON(doc), version }
     }
     return undefined
   }

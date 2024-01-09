@@ -23,9 +23,6 @@ import {
   Build,
   Decoder,
   encode,
-  isAffiliationsSectionNode,
-  isContributorsSectionNode,
-  // isCogintributorsSectionNode,
   ManuscriptEditorView,
   ManuscriptNode,
   schema,
@@ -34,10 +31,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
-import {
-  adaptTrackedData,
-  trackedJoint,
-} from '../components/track-changes/utils'
+import { trackedJoint } from '../components/track-changes/utils'
 import { setNodeAttrs } from '../lib/node-attrs'
 import { useStore } from '../store'
 
@@ -51,9 +45,7 @@ const useTrackedModelManagement = (
   finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
-    const docJSONed = doc.toJSON()
-    const docClean = adaptTrackedData(docJSONed)
-    const modelsFromPM = encode(schema.nodeFromJSON(docClean))
+    const modelsFromPM = encode(doc)
     // adding supplements from final model map as they are meta (not PM presentable)
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
@@ -87,7 +79,7 @@ const useTrackedModelManagement = (
 
     const { tr } = state
     doc.descendants((node, pos) => {
-      if (isContributorsSectionNode(node)) {
+      if (node.type === schema.nodes.contributors) {
         tr.insert(
           pos + node.nodeSize - 1,
           schema.nodes.contributor.create(
@@ -96,7 +88,7 @@ const useTrackedModelManagement = (
               id: model._id,
             },
             schema.text('_')
-            /* 
+            /*
               quarterback as it is now works incorrectly with empty nodes and updating attributes on them are misinterpreted as deletion
               we either need to update quarterback to work correctly with empty nodes attributes or provide some content for these nodes or
               implement a mechanism that would detect attributes updates on empty nodes and setMeta as we do for metaNodes
@@ -115,7 +107,7 @@ const useTrackedModelManagement = (
     }
     const { tr } = state
     doc.descendants((node, pos) => {
-      if (isAffiliationsSectionNode(node)) {
+      if (node.type === schema.nodes.affiliations) {
         tr.insert(
           pos + node.nodeSize - 1,
           schema.nodes.affiliation.create(
@@ -163,7 +155,7 @@ const useTrackedModelManagement = (
               comments: [...(node.attrs.comments || []), comment._id],
             })
           }
-          if (node.type === schema.nodes.comment_list) {
+          if (node.type === schema.nodes.comments) {
             tr.replaceWith(
               pos,
               pos + node.nodeSize,
