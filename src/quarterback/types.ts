@@ -65,3 +65,19 @@ export type StepsSinceResponse = {
   version: number
   clientIDs: number[]
 }
+
+export type IGetSnapshotResponse = ManuscriptSnapshot
+
+// POST /snapshot
+export interface ISaveSnapshotRequest {
+  docId: string
+  name: string
+  snapshot: Record<string, any>
+}
+export interface ISaveSnapshotResponse {
+  snapshot: ManuscriptSnapshot
+}
+
+export type IUpdateSnapshotRequest = {
+  name?: string
+}

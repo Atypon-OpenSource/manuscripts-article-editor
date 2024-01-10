@@ -23,19 +23,19 @@ import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
-import { useEditorStore } from './useEditorStore'
 
 export function TrackChangesPanel() {
-  const { execCmd, trackState } = useEditorStore()
-  const { changeSet } = trackState || {}
   const [sortBy, setSortBy] = useState('Date')
 
-  const [{ editorSelectedSuggestion, editor }, dispatch] = useStore(
+  const [{ editorSelectedSuggestion, editor, trackState }, dispatch] = useStore(
     (store) => ({
       editorSelectedSuggestion: store.editorSelectedSuggestion,
       editor: store.editor,
+      trackState: store.trackState,
     })
   )
+
+  const { changeSet } = trackState || {}
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSortBy(event.currentTarget.value)
@@ -48,7 +48,11 @@ export function TrackChangesPanel() {
         ids.push(child.id)
       })
     }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+    editor.view &&
+      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)(
+        editor.view.state,
+        editor.view.dispatch
+      )
   }
   function handleRejectChange(c: TrackedChange) {
     const ids = [c.id]
@@ -57,7 +61,11 @@ export function TrackChangesPanel() {
         ids.push(child.id)
       })
     }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
+    editor.view &&
+      trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids)(
+        editor.view.state,
+        editor.view.dispatch
+      )
   }
   function handleResetChange(c: TrackedChange) {
     const ids = [c.id]
@@ -66,7 +74,11 @@ export function TrackChangesPanel() {
         ids.push(child.id)
       })
     }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids))
+    editor.view &&
+      trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids)(
+        editor.view.state,
+        editor.view.dispatch
+      )
   }
 
   function handleAcceptPending() {
@@ -75,7 +87,11 @@ export function TrackChangesPanel() {
     }
     const { changeSet } = trackState
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+    editor.view &&
+      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)(
+        editor.view.state,
+        editor.view.dispatch
+      )
   }
 
   const isSelectedSuggestion = (suggestion: TrackedChange) => {

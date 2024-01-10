@@ -9,37 +9,130 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { Model } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
+import { ContainedModel, encode, ManuscriptNode } from '@manuscripts/transform'
+import isEqual from 'lodash-es/isEqual'
+import { EditorView } from 'prosemirror-view'
 
-import { useEditorStore } from '../components/track-changes/useEditorStore'
+import { post } from '../quarterback/api/methodsV2'
 import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
-import { usePouchStore } from '../quarterback/usePouchStore'
-import { useSnapshotStore } from '../quarterback/useSnapshotStore'
+import { ISaveSnapshotResponse } from '../quarterback/types'
 import { useStore } from '../store'
 
-export const useHandleSnapshot = (storeExists = true) => {
-  const { execCmd } = useEditorStore()
-  const [{ api, projectID, manuscriptID }] = useStore((store) => ({
+export type Ok<T> = {
+  data: T
+}
+export type Error = {
+  err: string
+  code: number
+}
+export type Maybe<T> = Ok<T> | Error
+
+const EXCLUDED_KEYS = [
+  'id',
+  '_id',
+  '_rev',
+  '_revisions',
+  'sessionID',
+  'createdAt',
+  'updatedAt',
+  'owners',
+  'manuscriptID',
+  'containerID',
+  'src',
+  'minWordCountRequirement',
+  'maxWordCountRequirement',
+  'minCharacterCountRequirement',
+  'maxCharacterCountRequirement',
+] as (keyof Model)[]
+
+const hasChanged = (a: Model, b: Model): boolean => {
+  return !!Object.keys(a).find((key: keyof Model) => {
+    if (EXCLUDED_KEYS.includes(key)) {
+      return false
+    }
+    return !isEqual(a[key], b[key])
+  })
+}
+
+const saveDoc = async (
+  doc: ManuscriptNode,
+  modelMap: Map<string, Model>,
+  bulkUpdate: (models: ContainedModel[]) => Promise<void>
+): Promise<Maybe<boolean>> => {
+  if (!modelMap) {
+    return {
+      err: 'modelMap undefined inside usePouchStore',
+      code: 500,
+    }
+  }
+  const models = encode(doc)
+
+  const newModelMap = new Map()
+  for (const model of models.values()) {
+    const oldModel = modelMap.get(model._id)
+
+    if (!oldModel) {
+      newModelMap.set(model._id, model)
+    } else if (hasChanged(model, oldModel)) {
+      const nextModel = {
+        ...oldModel,
+        ...model,
+      }
+      newModelMap.set(nextModel._id, nextModel)
+    }
+  }
+  try {
+    await bulkUpdate([...newModelMap.values()])
+    return { data: true }
+  } catch (e) {
+    return { err: `Failed to save model: ${e}`, code: 500 }
+  }
+}
+
+export const useHandleSnapshot = (view?: EditorView) => {
+  const [
+    { projectID, manuscriptID, modelMap, bulkUpdate, authToken, snapshotsMap },
+    dispatch,
+  ] = useStore((store) => ({
     projectID: store.projectID,
     manuscriptID: store.manuscriptID,
-    api: store.api,
+    authToken: store.authToken,
+    snapshotsMap: store.snapshotsMap,
+    modelMap: store.modelMap,
+    bulkUpdate: store.bulkUpdate,
   }))
-  const { saveSnapshot } = useSnapshotStore(api)()
   const can = usePermissions()
   const canApplySaveChanges = can.applySaveChanges
 
-  if (!storeExists) {
-    return null
+  const saveSnapshot = async (projectID: string, manuscriptID: string) => {
+    const resp = await post<ISaveSnapshotResponse>(
+      `snapshot/${projectID}/manuscript/${manuscriptID}`,
+      authToken,
+      {
+        docID: manuscriptID,
+        name: new Date().toLocaleString('sv'),
+      }
+    )
+
+    if ('data' in resp) {
+      const { snapshot } = resp.data
+      dispatch({
+        snapshotsMap: snapshotsMap.set(snapshot.id, snapshot),
+      })
+    }
+    return resp
   }
 
   return async () => {
     const resp = await saveSnapshot(projectID, manuscriptID)
-    if (resp) {
-      execCmd(trackCommands.applyAndRemoveChanges())
+    if (resp && view) {
+      trackCommands.applyAndRemoveChanges()(view.state, view.dispatch)
       return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
-          const state = useEditorStore.getState().editorState
+          const state = view.state
           if (!state) {
             reject(new Error('State is not available'))
             return
@@ -47,9 +140,8 @@ export const useHandleSnapshot = (storeExists = true) => {
           if (!canApplySaveChanges) {
             return resolve()
           }
-          usePouchStore
-            .getState()
-            .saveDoc(getDocWithoutTrackContent(state))
+
+          saveDoc(getDocWithoutTrackContent(state), modelMap, bulkUpdate)
             .then(() => {
               resolve()
             })

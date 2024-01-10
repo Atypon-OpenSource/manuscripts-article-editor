@@ -23,8 +23,8 @@ export default class PsSource implements StoreDataSourceStrategy {
   data: Partial<state>
   utilities: ReturnType<typeof buildUtilities>
   files: FileAttachment[]
-  constructor(files: FileAttachment[], api: Api) {
-    this.api = api
+  constructor(files: FileAttachment[]) {
+    this.api = new Api()
     this.files = files
     // import api
     // get user and all the data

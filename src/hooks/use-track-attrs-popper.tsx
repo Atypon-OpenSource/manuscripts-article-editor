@@ -21,18 +21,18 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
 import EditIcon from '../components/projects/icons/EditIcon'
-import { useEditorStore } from '../components/track-changes/useEditorStore'
 import { filterAttrsChange } from '../lib/attrs-change-filter'
 import { useStore } from '../store'
 import { ThemeProvider } from '../theme/ThemeProvider'
 
 export default () => {
-  const { trackState, execCmd } = useEditorStore()
-
-  const [{ selectedAttrsChange, popper }, dispatch] = useStore((store) => ({
-    selectedAttrsChange: store.selectedAttrsChange,
-    popper: store.popper,
-  }))
+  const [{ selectedAttrsChange, popper, view, trackState }, dispatch] =
+    useStore((store) => ({
+      selectedAttrsChange: store.selectedAttrsChange,
+      popper: store.popper,
+      view: store.view,
+      trackState: store.trackState,
+    }))
 
   const cleanSelectedChange = useCallback(() => {
     const previousSelection = document.querySelector(`.track-attrs-popper`)
@@ -69,7 +69,7 @@ export default () => {
             changeId={changeId}
             updateState={(cmd) => {
               cleanSelectedChange()
-              execCmd(cmd)
+              view && cmd(view.state, view.dispatch)
             }}
           />
         </ThemeProvider>,
@@ -78,7 +78,7 @@ export default () => {
       popper.show(attrTrackingButton, popperContainer)
       dispatch({ selectedAttrsChange: changeId })
     },
-    [cleanSelectedChange, dispatch, execCmd, popper, trackState]
+    [cleanSelectedChange, dispatch, view, popper, trackState]
   )
 
   return useCallback(

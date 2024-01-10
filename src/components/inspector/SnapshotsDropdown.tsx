@@ -11,18 +11,17 @@
  */
 import { Avatar, SecondaryButton } from '@manuscripts/style-guide'
 import {
+  trackChangesPluginKey,
   TrackChangesStatus,
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
+import { EditorState } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { useDropdown } from '../../hooks/use-dropdown'
-import {
-  SnapshotLabel,
-  useSnapshotStore,
-} from '../../quarterback/useSnapshotStore'
-// import { useStore } from 'zustand'
+import { get } from '../../quarterback/api/methodsV2'
+import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
 import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'
 import {
@@ -31,45 +30,103 @@ import {
   DropdownContainer,
   DropdownToggle,
 } from '../nav/Dropdown'
-import { useEditorStore } from '../track-changes/useEditorStore'
 
 export const SnapshotsDropdown: React.FC = () => {
   const { wrapperRef, toggleOpen, isOpen } = useDropdown()
-  const [api] = useStore((store) => store.api)
-  const snapshotStore = useSnapshotStore(api)()
-  const { snapshots, inspectedSnapshot } = snapshotStore
-  const { docToJSON, execCmd, hydrateDocFromJSON } = useEditorStore()
+  const [
+    {
+      view,
+      doc,
+      originalPmDoc,
+      authToken,
+      snapshotsMap,
+      snapshots,
+      inspectedSnapshotId,
+    },
+    dispatch,
+  ] = useStore((store) => ({
+    view: store.view,
+    doc: store.doc,
+    originalPmDoc: store.originalPmDoc,
+    authToken: store.authToken,
+    snapshotsMap: store.snapshotsMap,
+    snapshots: store.snapshots,
+    inspectedSnapshotId: store.inspectedSnapshotId,
+  }))
 
   const sortedSnapshots = snapshots.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )
 
   const isBeingInspected = useCallback(
-    (snap: SnapshotLabel) => inspectedSnapshot?.id === snap.id,
-    [inspectedSnapshot]
+    (snap: SnapshotLabel) => inspectedSnapshotId === snap.id,
+    [inspectedSnapshotId]
   )
 
+  const hydrateDocFromJSON = (doc: Record<string, any>) => {
+    const state = EditorState.create({
+      doc: view.state.schema.nodeFromJSON(doc),
+      plugins: view.state.plugins,
+    })
+    view && view.updateState(state)
+    const trackState = view
+      ? trackChangesPluginKey.getState(view.state)
+      : undefined
+    dispatch({ trackState })
+  }
+
+  const inspectSnapshot = async (id: string) => {
+    const inspected = snapshotsMap.get(id)
+
+    if (inspected) {
+      dispatch({ inspectedSnapshotId: id })
+      return { data: inspected }
+    }
+
+    const resp = await get<IGetSnapshotResponse>(`snapshot/${id}`, authToken)
+    if ('data' in resp) {
+      dispatch({
+        snapshotsMap: snapshotsMap.set(id, resp.data),
+        inspectedSnapshotId: resp.data.id,
+      })
+      return resp
+    }
+  }
+
   async function handleInspectSnapshot(snap: SnapshotLabel) {
-    if (!inspectedSnapshot) {
-      snapshotStore.setOriginalPmDoc(docToJSON())
+    if (!inspectedSnapshotId) {
+      dispatch({
+        originalPmDoc: doc.toJSON(),
+      })
     } else if (isBeingInspected(snap)) {
       handleResumeEditing()
       return
     }
-    const resp = await snapshotStore.inspectSnapshot(snap.id)
+
+    const resp = await inspectSnapshot(snap.id)
     if (resp) {
-      hydrateDocFromJSON(resp)
-      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
+      hydrateDocFromJSON(resp.data.snapshot as Record<string, any>)
+      trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots)(
+        view.state,
+        view.dispatch
+      )
     }
   }
   function handleResumeEditing() {
-    snapshotStore.resumeEditing()
-    const { originalPmDoc } = snapshotStore
+    dispatch({
+      inspectedSnapshotId: null,
+    })
+
     if (originalPmDoc) {
       hydrateDocFromJSON(originalPmDoc)
     }
-    execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
+    trackCommands.setTrackingStatus(TrackChangesStatus.enabled)(
+      view.state,
+      view.dispatch
+    )
   }
+
+  const inspectedSnapshot = snapshotsMap.get(inspectedSnapshotId)
 
   return (
     <SnapshotContainer>

@@ -38,7 +38,6 @@ import { useDrop } from 'react-dnd'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
-import { useEditorStore } from '../track-changes/useEditorStore'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
@@ -47,10 +46,10 @@ interface Props {
 const EditorElement: React.FC<Props> = ({ editor }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
-  const [{ deleteModel }] = useStore((store) => ({
+  const [{ deleteModel, trackState }] = useStore((store) => ({
     deleteModel: store.deleteModel,
+    trackState: store.trackState,
   }))
-  const { execCmd, trackState } = useEditorStore()
 
   const [, drop] = useDrop({
     accept: 'file',
@@ -129,9 +128,13 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           ids.push(child.id)
         })
       }
-      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+      view &&
+        trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)(
+          view.state,
+          view.dispatch
+        )
     },
-    [execCmd]
+    [view]
   )
   const handleRejectChange = useCallback(
     (c: TrackedChange) => {
@@ -141,9 +144,13 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           ids.push(child.id)
         })
       }
-      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
+      view &&
+        trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids)(
+          view.state,
+          view.dispatch
+        )
     },
-    [execCmd]
+    [view]
   )
 
   const findChange = (changeSet: ChangeSet, changeId: string) => {

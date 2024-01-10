@@ -1920,7 +1920,7 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.6.5":
+"@manuscripts/body-editor@1.6.5":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.5.tgz#6c84000d06600f67ab873aaa20f700f050ac2f8f"
   integrity sha512-FChlN5C/OyKYiLNYrzJUQ970o2vOxAfK2kpaHDQEe47dFdmFqNISk0MzZwTc7EsXtzYq3UfsaE7GGENBTnzyOQ==

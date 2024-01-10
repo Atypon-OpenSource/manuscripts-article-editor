@@ -21,7 +21,8 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
+import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
@@ -31,11 +32,9 @@ import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
-import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useStore } from '../../store'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
-import { useEditorStore } from '../track-changes/useEditorStore'
 import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
 import {
   EditorBody,
@@ -77,19 +76,12 @@ const ManuscriptPageView: React.FC = () => {
   const [_, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
-  const [deleteModel] = useStore((store) => store.deleteModel)
-  const [collaboratorsById] = useStore(
-    (store) => store.collaboratorsById || new Map()
-  )
+  const [{ trackState, deleteModel }] = useStore((store) => ({
+    trackState: store.trackState,
+    deleteModel: store.deleteModel,
+  }))
 
   const can = usePermissions()
-
-  const handleSnapshot = useHandleSnapshot()
-
-  useEffect(() => {
-    storeDispatch({ handleSnapshot })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const editor = useCreateEditor()
 
@@ -97,6 +89,13 @@ const ManuscriptPageView: React.FC = () => {
   useWindowUnloadEffect(undefined, preventUnload)
 
   const { state, dispatch, view } = editor
+
+  const handleSnapshot = useHandleSnapshot(view)
+
+  useEffect(() => {
+    storeDispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view])
 
   const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
     useTrackedModelManagement(
@@ -124,14 +123,6 @@ const ManuscriptPageView: React.FC = () => {
     getTrackModel,
   ])
 
-  const { setUsers } = useCommentStore()
-  const { init: initEditor, setEditorState, trackState } = useEditorStore()
-  useLayoutEffect(
-    () => setUsers(collaboratorsById),
-    [collaboratorsById, setUsers]
-  )
-  useLayoutEffect(() => view && initEditor(view), [view, initEditor])
-
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackState || {}
     return changeSet && changeSet.pending.length > 0
@@ -147,10 +138,12 @@ const ManuscriptPageView: React.FC = () => {
 
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
+    const trackState = view
+      ? trackChangesPluginKey.getState(view.state)
+      : undefined
+
     doWithThrottle(() => {
-      // @TODO remove zustand editorState store, remove doc from store and only save entire editoreState into the store
-      setEditorState(state)
-      storeDispatch({ doc: state.doc })
+      storeDispatch({ doc: state.doc, trackState })
     }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])

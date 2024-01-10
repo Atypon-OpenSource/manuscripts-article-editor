@@ -33,15 +33,17 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/style-guide'
+import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   ContainedModel,
+  ManuscriptEditorView,
   ManuscriptNode,
   ModelAttachment,
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
-import Api from '../postgres-data/Api'
+import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
 
@@ -72,8 +74,6 @@ export type state = {
   manuscriptID: string
   projectID: string
   userID?: string
-
-  api: Api
 
   project: Project
   manuscript: Manuscript
@@ -129,6 +129,13 @@ export type state = {
   notes?: ManuscriptNote[]
 
   tags?: Tag[]
+
+  trackState?: TrackChangesState
+  view: ManuscriptEditorView
+
+  snapshots: SnapshotLabel[]
+  snapshotsMap: Map<string, ManuscriptSnapshot>
+  inspectedSnapshotId: string
 
   permittedActions: string[]
 
