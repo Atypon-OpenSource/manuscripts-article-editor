@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptsEditor, useEditor } from '@manuscripts/body-editor'
+import { useEditor } from '@manuscripts/body-editor'
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
@@ -106,7 +106,7 @@ export const useCreateEditor = () => {
 
   const { stepsExchanger } = useDocStore()
 
-  const editorProps = {
+  const props = {
     attributes: {
       class: 'manuscript-editor',
       lang: 'en-GB',
@@ -196,10 +196,6 @@ export const useCreateEditor = () => {
     ),
   }
 
-  const editor = useEditor(
-    ManuscriptsEditor.createState(editorProps),
-    ManuscriptsEditor.createView(editorProps),
-    editorProps
-  )
+  const editor = useEditor(props)
   return editor
 }
