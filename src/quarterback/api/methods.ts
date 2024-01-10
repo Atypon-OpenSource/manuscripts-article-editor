@@ -9,13 +9,13 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import type { Maybe } from '@manuscripts/quarterback-types'
 import {
   EventSourceMessage,
   fetchEventSource,
 } from '@microsoft/fetch-event-source'
 
 import config from '../../config'
+import { Maybe } from '../../hooks/use-handle-snapshot'
 
 type FetchOptions = {
   method: string

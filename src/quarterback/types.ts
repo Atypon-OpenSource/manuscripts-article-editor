@@ -68,16 +68,18 @@ export type StepsSinceResponse = {
 
 export type IGetSnapshotResponse = ManuscriptSnapshot
 
-// POST /snapshot
-export interface ISaveSnapshotRequest {
-  docId: string
-  name: string
-  snapshot: Record<string, any>
-}
 export interface ISaveSnapshotResponse {
   snapshot: ManuscriptSnapshot
 }
 
-export type IUpdateSnapshotRequest = {
-  name?: string
+export interface ICreateDocRequest {
+  manuscript_model_id: string
+  project_model_id: string
+  doc: Record<string, any>
+}
+export type ICreateDocResponse = ManuscriptDocWithSnapshots
+
+export type IUpdateDocumentRequest = {
+  doc: Record<string, any>
+  version?: number
 }
