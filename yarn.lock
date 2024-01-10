@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.6":
-  version "1.6.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.6.tgz#084eb4b8e581d1bb3cae6458b604f43a922777aa"
-  integrity sha512-Kpw+1bUh2r05eHDIRArgHdFVC48RQolz3Om+XZzYU+GTmljR7IJIT6QItqOmXH2W9C11psm78IGNpogwyiH1aw==
+"@manuscripts/body-editor@1.6.6-LEAN-3083":
+  version "1.6.6-LEAN-3083"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.6-LEAN-3083.tgz#4b8b938a025f8c12ab165bb3fd596936f800b25f"
+  integrity sha512-GDno0LnITSg7gdHNNPw+YxcCFku/0It2gMDDNmX61gkNWueMlRNI8IvdywixHJLkY3XE3xXZmylyNsQLqzCH8A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1931,7 +1931,7 @@
     "@manuscripts/library" "1.3.0"
     "@manuscripts/style-guide" "1.5.0"
     "@manuscripts/track-changes-plugin" "^1.7.5"
-    "@manuscripts/transform" "2.0.0"
+    "@manuscripts/transform" "2.0.1-LEAN-3083-5"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -2038,6 +2038,45 @@
     tooltip.js "^1.3.3"
     typeface-lato "^1.1.13"
 
+"@manuscripts/style-guide@1.5.0-LEAN-3083":
+  version "1.5.0-LEAN-3083"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.5.0-LEAN-3083.tgz#1a8b43eca0fe75fa3bf93702dc46c612db82f376"
+  integrity sha512-Gg8mq7NDSbZbaOpwGKB8ZvUPTimI/QyB3JHgKdZweDDdLv0mTppZf3ShRmvpvl+pKqwNfa1qToBn8VNk5ZmYiQ==
+  dependencies:
+    "@apollo/client" "^3.7.3"
+    "@formatjs/intl-relativetimeformat" "^4.5.9"
+    "@formatjs/intl-utils" "^2.2.0"
+    "@manuscripts/assets" "^0.6.2"
+    "@manuscripts/json-schema" "2.2.1"
+    "@manuscripts/transform" "2.0.0"
+    "@reach/tabs" "^0.11.2"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    lodash-es "^4.17.21"
+    prosemirror-commands "^1.5.0"
+    prosemirror-history "^1.3.0"
+    prosemirror-inputrules "^1.2.0"
+    prosemirror-keymap "^1.2.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-state "^1.4.2"
+    prosemirror-transform "^1.7.0"
+    react "^17.0.2"
+    react-color "^2.19.3"
+    react-dnd "^11.1.3"
+    react-dnd-html5-backend "^11.1.3"
+    react-dom "^17.0.2"
+    react-intl "^3.12.0"
+    react-modal "^3.11.2"
+    react-modern-calendar-datepicker "^3.1.3"
+    react-popper "^1.3.11"
+    react-router-dom "^5.2.0"
+    react-select "^5.7.3"
+    react-sizeme "^2.6.12"
+    react-tooltip "^4.2.11"
+    styled-components "^5.2.0"
+    tooltip.js "^1.3.3"
+    typeface-lato "^1.1.13"
+
 "@manuscripts/title-editor@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/title-editor/-/title-editor-1.1.0.tgz#fcf1820b2037706e60a3b71776bd34edf6fa69c2"
@@ -2073,6 +2112,20 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.0.0.tgz#0363436b5284f1e4ff1a688e27e0d82592818fa5"
   integrity sha512-A2kpcaYg+niH0Sgl/QeBlTICHyhVQ2i+T2HkHjS3ONOJl8odL4QvWVVsrEYrSt8phQZTC2SKa1ZNUAYaSCsxlQ==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.1"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.0.1-LEAN-3083-5":
+  version "2.0.1-LEAN-3083-5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.0.1-LEAN-3083-5.tgz#989fa808f1dba0faa2fd4ba0990a155ff6800c12"
+  integrity sha512-JW7chMjmJT8SG5ATeHzhnUcB3ivQWXZBKF0rU2gtqBPvWuPL4An1ccgX+09QLs/E90ztBYcJVBZs2egjv1mw9Q==
   dependencies:
     "@manuscripts/json-schema" "2.2.1"
     debug "^4.3.4"

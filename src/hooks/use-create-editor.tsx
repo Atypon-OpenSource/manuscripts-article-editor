@@ -84,7 +84,7 @@ export const useCreateEditor = () => {
     we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
     Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
     */
-    return getState().saveModel(model)
+    return getState().saveModel(model) as Promise<any>
   }
 
   const deleteModel = (id: string) => {
