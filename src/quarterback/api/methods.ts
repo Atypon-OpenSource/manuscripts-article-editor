@@ -17,11 +17,6 @@ import {
 
 import config from '../../config'
 
-// import { useAuthStore } from '../useAuthStore'
-
-// TODO:: remove this when migrating all api endpoints to v2
-const V2 = config.api.url.replace('/api/v1', '/api/v2')
-
 type FetchOptions = {
   method: string
   headers: Record<string, string>
@@ -46,7 +41,7 @@ export async function wrappedFetch<T>(
 ): Promise<Maybe<T>> {
   let resp
   try {
-    resp = await fetch(`${V2}/${path}`, options)
+    resp = await fetch(`${config.api.url}/${path}`, options)
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
@@ -159,7 +154,7 @@ export async function listen<T>(
     ...getAuthHeader(authToken),
   }
 ) {
-  await fetchEventSource(`${V2}/${path}`, {
+  await fetchEventSource(`${config.api.url}/${path}`, {
     onmessage: listener,
     headers: headers,
     async onopen(response) {

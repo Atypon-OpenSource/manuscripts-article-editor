@@ -16,7 +16,7 @@ import { ContainedModel, encode, ManuscriptNode } from '@manuscripts/transform'
 import isEqual from 'lodash-es/isEqual'
 import { EditorView } from 'prosemirror-view'
 
-import { post } from '../quarterback/api/methodsV2'
+import { post } from '../quarterback/api/methods'
 import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
 import { ISaveSnapshotResponse } from '../quarterback/types'
 import { useStore } from '../store'

@@ -20,7 +20,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { useDropdown } from '../../hooks/use-dropdown'
-import { get } from '../../quarterback/api/methodsV2'
+import { get } from '../../quarterback/api/methods'
 import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
 import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'

@@ -21,7 +21,7 @@ import {
   StepsPayload,
   StepsSinceResponse,
 } from '../types'
-import { del, get, listen, post, put } from './methodsV2'
+import { del, get, listen, post, put } from './methods'
 
 export const getDocument = (
   projectID: string,
