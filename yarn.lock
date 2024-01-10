@@ -1920,18 +1920,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.2-LEAN-3074-0":
-  version "1.6.2-LEAN-3074-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.2-LEAN-3074-0.tgz#8136cac3c80632959809429d132a6c8dee62a1c7"
-  integrity sha512-bHWGpHfJeSiB5125lIMsWqcjIWpCBE/Hg0ixr2DfwvQXigGxsrq+ynK1e3r3sBb1vtiXmmLYTU2ICETxItJFVg==
+"@manuscripts/body-editor@1.6.6":
+  version "1.6.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.6.tgz#084eb4b8e581d1bb3cae6458b604f43a922777aa"
+  integrity sha512-Kpw+1bUh2r05eHDIRArgHdFVC48RQolz3Om+XZzYU+GTmljR7IJIT6QItqOmXH2W9C11psm78IGNpogwyiH1aw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/library" "1.3.0-LEAN-3074-0"
-    "@manuscripts/style-guide" "1.5.0-LEAN-3074-0"
-    "@manuscripts/track-changes-plugin" "^1.7.4"
-    "@manuscripts/transform" "2.0.0-LEAN-3074-2"
+    "@manuscripts/library" "1.3.0"
+    "@manuscripts/style-guide" "1.5.0"
+    "@manuscripts/track-changes-plugin" "^1.7.5"
+    "@manuscripts/transform" "2.0.0"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
@@ -1942,6 +1942,7 @@
     lodash-es "^4.17.21"
     popper.js "^1.16.1"
     pretty-bytes "^6.0.0"
+    prosemirror-collab "^1.3.1"
     prosemirror-commands "^1.5.0"
     prosemirror-dropcursor "^1.6.1"
     prosemirror-history "^1.3.0"
@@ -2052,10 +2053,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.7.4":
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.4.tgz#bc6d37198eb6982ac77ae36cec7d0f3c98addcca"
-  integrity sha512-vE3urSp5BWgWd2ESmBNOJrU2s3hqnfgCATuM7VOQdyzjlgCNBe84+eqROrfdO3eYpGCsMcyVx7Cvro1BoZlnMQ==
+"@manuscripts/track-changes-plugin@^1.7.5":
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.5.tgz#4beddd3d4a24e02879adedb88a0cb24613c20889"
+  integrity sha512-2u/pamyAnvFk0nxsqVTjM6LIyBIo5nGQIYnDjwOzfN8QKM0Q0sBjW/FZB4f6Lj5VWl+04/tM67/Npq1LsDtMTA==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -2111,6 +2112,11 @@
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
+
+"@microsoft/fetch-event-source@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
+  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -13115,6 +13121,13 @@ property-information@^5.0.0, property-information@^5.3.0:
   dependencies:
     xtend "^4.0.0"
 
+prosemirror-collab@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-collab/-/prosemirror-collab-1.3.1.tgz#0e8c91e76e009b53457eb3b3051fb68dad029a33"
+  integrity sha512-4SnynYR9TTYaQVXd/ieUvsVV4PDMBzrq2xPUWutHivDuOshZXqQ5rGbZM84HEaXKbLdItse7weMGOUdDVcLKEQ==
+  dependencies:
+    prosemirror-state "^1.0.0"
+
 prosemirror-commands@^1.0.0, prosemirror-commands@^1.5.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/prosemirror-commands/-/prosemirror-commands-1.5.2.tgz#e94aeea52286f658cd984270de9b4c3fff580852"
@@ -15731,6 +15744,11 @@ type-fest@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
+
+type-fest@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.6.0.tgz#9c575f7e20530defef4f9cdc5e2c85d6e4ea0fc9"
+  integrity sha512-rLjWJzQFOq4xw7MgJrCZ6T1jIOvvYElXT12r+y0CC6u67hegDHaxcPqb2fZHOGlqxugGQPNB1EnTezjBetkwkw==
 
 type-is@~1.6.18:
   version "1.6.18"

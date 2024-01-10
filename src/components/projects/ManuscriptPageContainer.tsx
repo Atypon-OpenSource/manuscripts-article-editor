@@ -21,8 +21,6 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
-import { ManuscriptEditorState } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -34,7 +32,6 @@ import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useCommentStore } from '../../quarterback/useCommentStore'
-import { useDocStore } from '../../quarterback/useDocStore'
 import { useStore } from '../../store'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
@@ -76,16 +73,14 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const [manuscript] = useStore((store) => store.manuscript)
-  const [project] = useStore((store) => store.project)
   const [modelMap] = useStore((store) => store.modelMap)
-  const [manuscriptID, storeDispatch] = useStore((store) => store.manuscriptID)
+  const [_, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
   const [collaboratorsById] = useStore(
     (store) => store.collaboratorsById || new Map()
   )
-  const [authToken] = useStore((store) => store.authToken)
 
   const can = usePermissions()
 
@@ -130,7 +125,6 @@ const ManuscriptPageView: React.FC = () => {
   ])
 
   const { setUsers } = useCommentStore()
-  const { updateDocument } = useDocStore()
   const { init: initEditor, setEditorState, trackState } = useEditorStore()
   useLayoutEffect(
     () => setUsers(collaboratorsById),
@@ -151,26 +145,13 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch({ editor, view })
   }, [storeDispatch, view]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // @TODO - remove this once testing is completed
-  const throttle = useMemo(() => {
-    const location = new URLSearchParams(window.location.search)
-    return parseInt(location.get('throttle') || '') || 3000
-  }, [])
-
-  const saveDocument = (state: ManuscriptEditorState) => {
-    // @TODO - remove this once testing is completed
-    console.log('Saving to quarteback with throttle: ' + throttle)
-    storeDispatch({ doc: state.doc })
-    updateDocument(project._id, manuscriptID, state.doc.toJSON(), authToken)
-  }
-
   const doWithThrottle = useDoWithThrottle()
-
   useEffect(() => {
-    const { trackState } = setEditorState(state)
-    if (trackState && trackState.status !== TrackChangesStatus.viewSnapshots) {
-      doWithThrottle(() => saveDocument(state), throttle)
-    }
+    doWithThrottle(() => {
+      // @TODO remove zustand editorState store, remove doc from store and only save entire editoreState into the store
+      setEditorState(state)
+      storeDispatch({ doc: state.doc })
+    }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 

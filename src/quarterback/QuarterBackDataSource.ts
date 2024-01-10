@@ -9,52 +9,37 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { ManuscriptNode } from '@manuscripts/transform'
 
-import { useRef } from 'react'
+import { builderFn, StoreDataSourceStrategy } from '../store'
 
-let throttled = () => null
-let timeout: number
-
-export const saveWithThrottle = (
-  fn: () => any,
-  interval = 4000,
-  flush = false
-) => {
-  throttled = fn
-  const action = () => {
-    throttled()
-    window.clearTimeout(timeout)
-    timeout = 0
+export default class QuarterbackDataSource implements StoreDataSourceStrategy {
+  loadDoc: (
+    manuscriptID: string,
+    projectID: string,
+    doc: ManuscriptNode | undefined
+  ) => Promise<{ doc: ManuscriptNode; version: number } | undefined>
+  constructor(loadDoc: QuarterbackDataSource['loadDoc']) {
+    this.loadDoc = loadDoc
   }
-  if (flush) {
-    action()
-    return
-  }
-  if (!timeout) {
-    timeout = window.setTimeout(() => {
-      action()
-    }, interval)
-  }
-}
-
-export const useDoWithThrottle = () => {
-  const throttled = useRef(() => null)
-  const timeout = useRef<number>()
-
-  const doWithThrottle = (fn: () => any, interval = 4000) => {
-    throttled.current = fn
-    if (!timeout.current) {
-      throttled.current()
-      throttled.current = () => {
-        return null
+  build: builderFn = async (state, next) => {
+    if (state.projectID && state.manuscriptID && state.doc) {
+      const res = await this.loadDoc(
+        state.manuscriptID,
+        state.projectID,
+        state.doc
+      )
+      if (res?.doc && res.version) {
+        if (res.doc) {
+          next({
+            ...state,
+            doc: res.doc,
+            initialDocVersion: res.version,
+          })
+          return
+        }
       }
-      timeout.current = window.setTimeout(() => {
-        throttled.current()
-        window.clearTimeout(timeout.current)
-        timeout.current = 0
-      }, interval)
     }
+    next(state)
   }
-
-  return doWithThrottle
 }
