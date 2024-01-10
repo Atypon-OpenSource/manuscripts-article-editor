@@ -210,24 +210,6 @@ const PageWrapper = styled.div`
   display: flex;
   flex: 2;
   overflow: hidden;
-
-  .edit_authors_button {
-    display: initial;
-    color: ${(props) => props.theme.colors.button.secondary.color.default};
-    background: ${(props) =>
-      props.theme.colors.button.secondary.background.default};
-    border-color: ${(props) =>
-      props.theme.colors.button.secondary.border.default};
-
-    &:not([disabled]):hover,
-    &:not([disabled]):focus {
-      color: ${(props) => props.theme.colors.button.secondary.color.hover};
-      background: ${(props) =>
-        props.theme.colors.button.secondary.background.hover};
-      border-color: ${(props) =>
-        props.theme.colors.button.secondary.border.hover};
-    }
-  }
 `
 
 export default ManuscriptPageContainer

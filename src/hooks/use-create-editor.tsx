@@ -23,7 +23,6 @@ import CitationEditor from '../components/library/CitationEditor'
 import { CitationViewer } from '../components/library/CitationViewer'
 import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
-import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
 import { useAuthStore } from '../quarterback/useAuthStore'
 import { useDocStore } from '../quarterback/useDocStore'
@@ -47,8 +46,6 @@ export const useCreateEditor = () => {
       style,
       locale,
       authToken,
-      startEditing,
-      selectAuthor,
     },
     dispatch,
     getState,
@@ -68,8 +65,6 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
     authToken: store.authToken,
-    startEditing: store.startEditing,
-    selectAuthor: store.selectAuthor,
   }))
   const { user: trackUser } = useAuthStore()
 
@@ -179,7 +174,6 @@ export const useCreateEditor = () => {
       ReferencesViewer,
       CitationEditor,
       CitationViewer,
-      AuthorsInlineViewContainer,
     },
     subscribeStore: subscribe,
 

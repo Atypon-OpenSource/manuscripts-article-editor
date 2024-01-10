@@ -147,8 +147,12 @@ export const buildAuthorsAndAffiliations = (
   data: Array<Contributor | Affiliation>
 ) => {
   const authors = data.filter(isContributor)
+
   const affiliations = data.filter(isAffiliation)
-  const sortedAuthors = buildSortedContributors(authors)
+  //  sorted authors
+  const sortedAuthors = authors.sort(ascendingPriority)
+
+  // array of unique affiliations IDs based on the order give by authors
   const sortedAffiliationIDs = buildSortedAffiliationIDs(sortedAuthors)
   const affiliationsMap = buildAffiliationsMap(
     sortedAffiliationIDs,
