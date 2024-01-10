@@ -15,7 +15,6 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
-import { ManuscriptToolbar } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
@@ -25,7 +24,6 @@ import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
@@ -35,7 +33,6 @@ import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
-import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
 import {
   EditorBody,
   EditorContainer,
@@ -44,8 +41,15 @@ import {
 } from './EditorContainer'
 import EditorElement from './EditorElement'
 import Inspector from './Inspector'
+import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+
+export const ManuscriptMenusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, permittedActions }] = useStore((state) => {
@@ -165,18 +169,13 @@ const ManuscriptPageView: React.FC = () => {
             <EditorContainerInner>
               <AuthorModalViews />
               <EditorHeader>
-                <ApplicationMenuContainer>
-                  <ApplicationMenus
-                    editor={editor}
-                    contentEditable={can.editArticle}
-                  />
-                </ApplicationMenuContainer>
+                <ManuscriptMenusContainer>
+                  <ManuscriptMenus editor={editor} />
+                </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && (
                   <ManuscriptToolbar
                     state={state}
-                    can={can}
                     dispatch={dispatch}
-                    footnotesEnabled={config.features.footnotes}
                     view={view}
                   />
                 )}

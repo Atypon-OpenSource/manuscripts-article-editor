@@ -35,6 +35,8 @@ interface Config {
     commenting: boolean
     DOI: boolean
     runningTitle: boolean
+    tableEditing: boolean
+    pullQuotes: boolean
   }
   support: {
     email: string
@@ -63,6 +65,8 @@ const config = {
     commenting: isTrue(process.env.FEATURE_COMMENTS),
     DOI: isTrue(process.env.FEATURE_DOI),
     runningTitle: isTrue(process.env.FEATURE_RUNNING_TITLE),
+    tableEditing: isTrue(process.env.FEATURE_TABLE_EDITING),
+    pullQuotes: isTrue(process.env.FEATURE_PULL_QUOTES),
   },
   support: {
     email: process.env.SUPPORT_EMAIL || 'support@manuscriptsapp.com',
