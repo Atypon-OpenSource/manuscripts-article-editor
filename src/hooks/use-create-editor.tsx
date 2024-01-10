@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptsEditor, useEditor } from '@manuscripts/body-editor'
+import { useEditor } from '@manuscripts/body-editor'
 import { CommentAnnotation, Model } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
@@ -25,7 +25,8 @@ import { ReferencesEditor } from '../components/library/ReferencesEditor'
 import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
-import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
+import { useAuthStore } from '../quarterback/useAuthStore'
+import { useDocStore } from '../quarterback/useDocStore'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { ThemeProvider } from '../theme/ThemeProvider'
@@ -66,6 +67,7 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     authToken: store.authToken,
   }))
+  const { user: trackUser } = useAuthStore()
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
@@ -103,7 +105,9 @@ export const useCreateEditor = () => {
 
   const history = useHistory()
 
-  const editorProps = {
+  const { stepsExchanger } = useDocStore()
+
+  const props = {
     attributes: {
       class: 'manuscript-editor',
       lang: 'en-GB',
@@ -114,7 +118,7 @@ export const useCreateEditor = () => {
     plugins: config.quarterback.enabled
       ? [
           trackChangesPlugin({
-            userID: user._id,
+            userID: trackUser.id,
             debug: config.environment === 'development',
           }),
         ]
@@ -191,10 +195,6 @@ export const useCreateEditor = () => {
     ),
   }
 
-  const editor = useEditor(
-    ManuscriptsEditor.createState(editorProps),
-    ManuscriptsEditor.createView(editorProps),
-    editorProps
-  )
+  const editor = useEditor(props)
   return editor
 }
