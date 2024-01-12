@@ -35,6 +35,7 @@ import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
+import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
@@ -50,6 +51,8 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
     deleteModel: store.deleteModel,
     trackState: store.trackState,
   }))
+
+  const execCmd = useExecCmd()
 
   const [, drop] = useDrop({
     accept: 'file',
@@ -128,13 +131,9 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           ids.push(child.id)
         })
       }
-      view &&
-        trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)(
-          view.state,
-          view.dispatch
-        )
+      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
     },
-    [view]
+    [execCmd]
   )
   const handleRejectChange = useCallback(
     (c: TrackedChange) => {
@@ -144,13 +143,9 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           ids.push(child.id)
         })
       }
-      view &&
-        trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids)(
-          view.state,
-          view.dispatch
-        )
+      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
     },
-    [view]
+    [execCmd]
   )
 
   const findChange = (changeSet: ChangeSet, changeId: string) => {

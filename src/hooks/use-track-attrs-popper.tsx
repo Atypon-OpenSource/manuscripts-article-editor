@@ -25,14 +25,21 @@ import { filterAttrsChange } from '../lib/attrs-change-filter'
 import { useStore } from '../store'
 import { ThemeProvider } from '../theme/ThemeProvider'
 
+export const useExecCmd = () => {
+  const [view] = useStore((store) => store.view)
+  return (cmd: Command) => cmd(view.state, view.dispatch)
+}
+
 export default () => {
-  const [{ selectedAttrsChange, popper, view, trackState }, dispatch] =
-    useStore((store) => ({
+  const [{ selectedAttrsChange, popper, trackState }, dispatch] = useStore(
+    (store) => ({
       selectedAttrsChange: store.selectedAttrsChange,
       popper: store.popper,
-      view: store.view,
       trackState: store.trackState,
-    }))
+    })
+  )
+
+  const execCmd = useExecCmd()
 
   const cleanSelectedChange = useCallback(() => {
     const previousSelection = document.querySelector(`.track-attrs-popper`)
@@ -69,7 +76,7 @@ export default () => {
             changeId={changeId}
             updateState={(cmd) => {
               cleanSelectedChange()
-              view && cmd(view.state, view.dispatch)
+              execCmd(cmd)
             }}
           />
         </ThemeProvider>,
@@ -78,7 +85,7 @@ export default () => {
       popper.show(attrTrackingButton, popperContainer)
       dispatch({ selectedAttrsChange: changeId })
     },
-    [cleanSelectedChange, dispatch, view, popper, trackState]
+    [trackState, popper, dispatch, cleanSelectedChange, execCmd]
   )
 
   return useCallback(

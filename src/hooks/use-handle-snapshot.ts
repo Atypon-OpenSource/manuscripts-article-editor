@@ -9,88 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Model } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
-import { ContainedModel, encode, ManuscriptNode } from '@manuscripts/transform'
-import isEqual from 'lodash-es/isEqual'
 import { EditorView } from 'prosemirror-view'
 
+import { saveDoc } from '../postgres-data/savingUtilities'
 import { post } from '../quarterback/api/methods'
 import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
 import { ISaveSnapshotResponse } from '../quarterback/types'
 import { useStore } from '../store'
-
-export type Ok<T> = {
-  data: T
-}
-export type Error = {
-  err: string
-  code: number
-}
-export type Maybe<T> = Ok<T> | Error
-
-const EXCLUDED_KEYS = [
-  'id',
-  '_id',
-  '_rev',
-  '_revisions',
-  'sessionID',
-  'createdAt',
-  'updatedAt',
-  'owners',
-  'manuscriptID',
-  'containerID',
-  'src',
-  'minWordCountRequirement',
-  'maxWordCountRequirement',
-  'minCharacterCountRequirement',
-  'maxCharacterCountRequirement',
-] as (keyof Model)[]
-
-const hasChanged = (a: Model, b: Model): boolean => {
-  return !!Object.keys(a).find((key: keyof Model) => {
-    if (EXCLUDED_KEYS.includes(key)) {
-      return false
-    }
-    return !isEqual(a[key], b[key])
-  })
-}
-
-const saveDoc = async (
-  doc: ManuscriptNode,
-  modelMap: Map<string, Model>,
-  bulkUpdate: (models: ContainedModel[]) => Promise<void>
-): Promise<Maybe<boolean>> => {
-  if (!modelMap) {
-    return {
-      err: 'modelMap undefined inside usePouchStore',
-      code: 500,
-    }
-  }
-  const models = encode(doc)
-
-  const newModelMap = new Map()
-  for (const model of models.values()) {
-    const oldModel = modelMap.get(model._id)
-
-    if (!oldModel) {
-      newModelMap.set(model._id, model)
-    } else if (hasChanged(model, oldModel)) {
-      const nextModel = {
-        ...oldModel,
-        ...model,
-      }
-      newModelMap.set(nextModel._id, nextModel)
-    }
-  }
-  try {
-    await bulkUpdate([...newModelMap.values()])
-    return { data: true }
-  } catch (e) {
-    return { err: `Failed to save model: ${e}`, code: 500 }
-  }
-}
+import { useExecCmd } from './use-track-attrs-popper'
 
 export const useHandleSnapshot = (view?: EditorView) => {
   const [
@@ -126,10 +54,12 @@ export const useHandleSnapshot = (view?: EditorView) => {
     return resp
   }
 
+  const execCmd = useExecCmd()
+
   return async () => {
     const resp = await saveSnapshot(projectID, manuscriptID)
     if (resp && view) {
-      trackCommands.applyAndRemoveChanges()(view.state, view.dispatch)
+      execCmd(trackCommands.applyAndRemoveChanges())
       return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
           const state = view.state

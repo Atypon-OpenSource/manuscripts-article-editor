@@ -95,7 +95,7 @@ const ManuscriptPageView: React.FC = () => {
   useEffect(() => {
     storeDispatch({ handleSnapshot })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view])
+  }, [view?.state])
 
   const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
     useTrackedModelManagement(

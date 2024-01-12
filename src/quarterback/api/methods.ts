@@ -15,7 +15,7 @@ import {
 } from '@microsoft/fetch-event-source'
 
 import config from '../../config'
-import { Maybe } from '../../hooks/use-handle-snapshot'
+import { Maybe } from '../../postgres-data/savingUtilities'
 
 type FetchOptions = {
   method: string

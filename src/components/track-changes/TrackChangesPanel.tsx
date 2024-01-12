@@ -19,6 +19,7 @@ import {
 import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
+import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
@@ -35,6 +36,8 @@ export function TrackChangesPanel() {
     })
   )
 
+  const execCmd = useExecCmd()
+
   const { changeSet } = trackState || {}
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -48,11 +51,7 @@ export function TrackChangesPanel() {
         ids.push(child.id)
       })
     }
-    editor.view &&
-      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)(
-        editor.view.state,
-        editor.view.dispatch
-      )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
   function handleRejectChange(c: TrackedChange) {
     const ids = [c.id]
@@ -61,11 +60,7 @@ export function TrackChangesPanel() {
         ids.push(child.id)
       })
     }
-    editor.view &&
-      trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids)(
-        editor.view.state,
-        editor.view.dispatch
-      )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
   }
   function handleResetChange(c: TrackedChange) {
     const ids = [c.id]
@@ -74,11 +69,7 @@ export function TrackChangesPanel() {
         ids.push(child.id)
       })
     }
-    editor.view &&
-      trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids)(
-        editor.view.state,
-        editor.view.dispatch
-      )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids))
   }
 
   function handleAcceptPending() {
@@ -87,11 +78,7 @@ export function TrackChangesPanel() {
     }
     const { changeSet } = trackState
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
-    editor.view &&
-      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)(
-        editor.view.state,
-        editor.view.dispatch
-      )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
 
   const isSelectedSuggestion = (suggestion: TrackedChange) => {

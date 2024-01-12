@@ -20,6 +20,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { useDropdown } from '../../hooks/use-dropdown'
+import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { get } from '../../quarterback/api/methods'
 import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
 import { useStore } from '../../store'
@@ -53,6 +54,8 @@ export const SnapshotsDropdown: React.FC = () => {
     snapshots: store.snapshots,
     inspectedSnapshotId: store.inspectedSnapshotId,
   }))
+
+  const execCmd = useExecCmd()
 
   const sortedSnapshots = snapshots.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -106,10 +109,7 @@ export const SnapshotsDropdown: React.FC = () => {
     const resp = await inspectSnapshot(snap.id)
     if (resp) {
       hydrateDocFromJSON(resp.data.snapshot as Record<string, any>)
-      trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots)(
-        view.state,
-        view.dispatch
-      )
+      execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
     }
   }
   function handleResumeEditing() {
@@ -120,10 +120,7 @@ export const SnapshotsDropdown: React.FC = () => {
     if (originalPmDoc) {
       hydrateDocFromJSON(originalPmDoc)
     }
-    trackCommands.setTrackingStatus(TrackChangesStatus.enabled)(
-      view.state,
-      view.dispatch
-    )
+    execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
   }
 
   const inspectedSnapshot = snapshotsMap.get(inspectedSnapshotId)
