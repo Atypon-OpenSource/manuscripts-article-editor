@@ -22,12 +22,21 @@ import { useExecCmd } from './use-track-attrs-popper'
 
 export const useHandleSnapshot = (view?: EditorView) => {
   const [
-    { projectID, manuscriptID, modelMap, bulkUpdate, authToken, snapshotsMap },
+    {
+      projectID,
+      manuscriptID,
+      modelMap,
+      bulkUpdate,
+      authToken,
+      snapshots,
+      snapshotsMap,
+    },
     dispatch,
   ] = useStore((store) => ({
     projectID: store.projectID,
     manuscriptID: store.manuscriptID,
     authToken: store.authToken,
+    snapshots: store.snapshots,
     snapshotsMap: store.snapshotsMap,
     modelMap: store.modelMap,
     bulkUpdate: store.bulkUpdate,
@@ -46,9 +55,10 @@ export const useHandleSnapshot = (view?: EditorView) => {
     )
 
     if ('data' in resp) {
-      const { snapshot } = resp.data
+      const { snapshot, ...label } = resp.data.snapshot
       dispatch({
-        snapshotsMap: snapshotsMap.set(snapshot.id, snapshot),
+        snapshots: [...snapshots, label],
+        snapshotsMap: snapshotsMap.set(label.id, resp.data.snapshot),
       })
     }
     return resp

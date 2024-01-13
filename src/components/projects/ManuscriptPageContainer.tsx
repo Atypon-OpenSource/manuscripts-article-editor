@@ -76,10 +76,7 @@ const ManuscriptPageView: React.FC = () => {
   const [_, storeDispatch] = useStore((store) => store.manuscriptID)
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
-  const [{ trackState, deleteModel }] = useStore((store) => ({
-    trackState: store.trackState,
-    deleteModel: store.deleteModel,
-  }))
+  const [deleteModel] = useStore((store) => store.deleteModel)
 
   const can = usePermissions()
 
@@ -124,9 +121,9 @@ const ManuscriptPageView: React.FC = () => {
   ])
 
   const hasPendingSuggestions = useMemo(() => {
-    const { changeSet } = trackState || {}
+    const { changeSet } = trackChangesPluginKey.getState(state) || {}
     return changeSet && changeSet.pending.length > 0
-  }, [trackState])
+  }, [state])
 
   useEffect(() => {
     storeDispatch({ hasPendingSuggestions })

@@ -16,6 +16,7 @@ import {
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
 import { Command } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 import React, { useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
@@ -26,8 +27,11 @@ import { useStore } from '../store'
 import { ThemeProvider } from '../theme/ThemeProvider'
 
 export const useExecCmd = () => {
-  const [view] = useStore((store) => store.view)
-  return (cmd: Command) => cmd(view.state, view.dispatch)
+  const [storeView] = useStore((store) => store.view)
+  return (cmd: Command, hookView?: EditorView) => {
+    const view = storeView || hookView
+    cmd(view.state, view.dispatch)
+  }
 }
 
 export default () => {
