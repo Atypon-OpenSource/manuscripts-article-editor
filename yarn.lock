@@ -1920,10 +1920,17 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
+<<<<<<< HEAD
 "@manuscripts/body-editor@1.6.6-LEAN-3083":
   version "1.6.6-LEAN-3083"
   resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.6-LEAN-3083.tgz#4b8b938a025f8c12ab165bb3fd596936f800b25f"
   integrity sha512-GDno0LnITSg7gdHNNPw+YxcCFku/0It2gMDDNmX61gkNWueMlRNI8IvdywixHJLkY3XE3xXZmylyNsQLqzCH8A==
+=======
+"@manuscripts/body-editor@1.6.7":
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.7.tgz#cfb99009c05bfcd1ac3f9152d22803fe5cb68223"
+  integrity sha512-80qx6z/C6EeuMvlXhSqc3OGDs3LyDtp1oXbT+pT6nTTgXT1cUuVrCjZK7HvAzlK4D/kyTeLjkscsckHP0oEiBw==
+>>>>>>> 5446a6d4b64de4205d25c897278d652be2615ed1
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
