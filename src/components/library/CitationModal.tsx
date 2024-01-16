@@ -216,6 +216,7 @@ export const CitationModal: React.FC<{
 
   return (
     <StyledModal
+      data-cy="citations-modal"
       isOpen={editCitation}
       onRequestClose={stopEditing}
       shouldCloseOnOverlayClick={true}
