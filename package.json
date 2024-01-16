@@ -51,7 +51,6 @@
     "axios": "^1.2.2",
     "blob-to-buffer": "^1.2.9",
     "broadcast-channel": "^5.0.2",
-    "fuzzysort": "^2.0.4",
     "graphql": "^15.8.0",
     "graphql-tag": "^2.11.0",
     "history": "^4.10.1",
