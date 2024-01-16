@@ -167,10 +167,15 @@ const ManuscriptPageView: React.FC = () => {
 
   return (
     <>
-      <ManuscriptSidebar manuscript={manuscript} view={view} state={state} />
+      <ManuscriptSidebar
+        data-cy="manuscript-sidebar"
+        manuscript={manuscript}
+        view={view}
+        state={state}
+      />
 
       <PageWrapper onClick={onAppClick}>
-        <Main>
+        <Main data-cy="editor-main">
           <EditorContainer>
             <EditorContainerInner>
               <AuthorModalViews />
@@ -199,7 +204,7 @@ const ManuscriptPageView: React.FC = () => {
             </EditorContainerInner>
           </EditorContainer>
         </Main>
-        <Inspector editor={editor} />
+        <Inspector data-cy="inspector" editor={editor} />
       </PageWrapper>
     </>
   )

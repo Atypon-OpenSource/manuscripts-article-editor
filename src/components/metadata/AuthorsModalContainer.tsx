@@ -77,6 +77,7 @@ class AuthorsModalContainer extends React.Component<Props, State> {
 
     return (
       <AuthorsModal
+        data-cy="authors-editing-modal"
         authors={authors}
         authorAffiliations={authorAffiliations}
         affiliations={affiliations}
