@@ -80,6 +80,9 @@ export const ManuscriptMenus: React.FC<ApplicationMenusProps> = ({
     if (!config.features.tableEditing && id === 'format-table') {
       spec.isEnabled = false
     }
+    if (!config.features.tableEditing && id === 'insert-table-element') {
+      spec.isEnabled = false
+    }
     if (!config.features.pullQuotes && id === 'insert-pullquote') {
       spec.isEnabled = false
     }
