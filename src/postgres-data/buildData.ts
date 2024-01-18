@@ -271,13 +271,10 @@ export default async function buildData(
     api
   )
 
-  const projects = await api.getUserProjects()
-
   const derivedData = getDrivedData(projectID, manuscriptData)
   const doc = createDoc(manuscriptData, manuscriptData.modelMap)
 
   return {
-    projects: projects,
     manuscripts: [manuscriptData.manuscript],
     /* Wierd array? In lean workflow there is always only one project and a single manuscrit in it.
       These arrays have to be provided for components compatibility that shouldn't be changed as it is possible that it will change

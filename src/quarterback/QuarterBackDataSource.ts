@@ -12,13 +12,21 @@
 import { ManuscriptNode } from '@manuscripts/transform'
 
 import { builderFn, StoreDataSourceStrategy } from '../store'
+import { ManuscriptSnapshot, SnapshotLabel } from './types'
 
 export default class QuarterbackDataSource implements StoreDataSourceStrategy {
   loadDoc: (
     manuscriptID: string,
     projectID: string,
     doc: ManuscriptNode | undefined
-  ) => Promise<{ doc: ManuscriptNode; version: number } | undefined>
+  ) => Promise<
+    | {
+        doc: ManuscriptNode
+        version: number
+        snapshots: SnapshotLabel[]
+      }
+    | undefined
+  >
   constructor(loadDoc: QuarterbackDataSource['loadDoc']) {
     this.loadDoc = loadDoc
   }
@@ -35,11 +43,17 @@ export default class QuarterbackDataSource implements StoreDataSourceStrategy {
             ...state,
             doc: res.doc,
             initialDocVersion: res.version,
+            snapshots: res.snapshots,
+            snapshotsMap: new Map<string, ManuscriptSnapshot>(),
           })
           return
         }
       }
     }
-    next(state)
+    next({
+      ...state,
+      snapshots: [],
+      snapshotsMap: new Map<string, ManuscriptSnapshot>(),
+    })
   }
 }

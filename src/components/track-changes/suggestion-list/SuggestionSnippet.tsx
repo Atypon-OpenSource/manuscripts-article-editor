@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfile } from '@manuscripts/quarterback-types'
+import { UserProfile } from '@manuscripts/json-schema'
 import { Avatar } from '@manuscripts/style-guide'
 import {
   CHANGE_OPERATION,
