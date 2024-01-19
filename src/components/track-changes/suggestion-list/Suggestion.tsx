@@ -17,7 +17,7 @@ import styled from 'styled-components'
 
 import { useStore } from '../../../store'
 import { Accept, Back, Reject } from './Icons'
-import { AvatarContainer, SuggestionSnippet, Time } from './SuggestionSnippet'
+import { SuggestionSnippet } from './SuggestionSnippet'
 
 interface Props {
   suggestion: TrackedChange
@@ -165,6 +165,7 @@ export const Suggestion: React.FC<Props> = ({
 
 const Actions = styled.div`
   display: flex;
+  gap: ${(props) => props.theme.grid.unit * 2}px;
   visibility: hidden;
 `
 
@@ -175,22 +176,41 @@ const Wrapper = styled.li<{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: ${(props) => props.theme.grid.unit * 3}px
+  gap: ${(props) => props.theme.grid.unit * 4}px;
+  padding: ${(props) => props.theme.grid.unit * 1.5}px
     ${(props) => props.theme.grid.unit * 2}px !important;
-  border-top: 1px solid ${(props) => props.theme.colors.background.secondary};
+  min-height: 28px;
+  margin-bottom: 6px;
+  border: ${(props) =>
+    props.isFocused
+      ? `1px solid ${props.theme.colors.border.tracked.active}`
+      : `1px solid ${props.theme.colors.border.tracked.default}`};
+  box-shadow: ${(props) =>
+    props.isFocused
+      ? `-4px 0 0 0  ${props.theme.colors.border.tracked.active}`
+      : `none`};
   list-style-type: none;
+  font-size: ${(props) => props.theme.font.size.small};
 
   /* FocusHandle should cover entire card: */
   position: relative;
+  color: ${(props) => props.theme.colors.text.primary};
   background: ${(props) =>
     props.isFocused
-      ? props.theme.colors.background.fifth + ' !important'
-      : 'transparent'};
+      ? props.theme.colors.background.tracked.active + ' !important'
+      : props.theme.colors.background.tracked.default};
+
+  ${(props) =>
+    props.isFocused
+      ? `${Actions} {
+        visibility: visible;
+      }`
+      : ''}
 
   &:hover {
-    background: ${(props) => props.theme.colors.background.fifth} !important;
+    background: ${(props) => props.theme.colors.background.tracked.hover};
 
-    ${AvatarContainer}, ${Actions}, ${Time} {
+    ${Actions} {
       visibility: visible;
     }
   }
@@ -200,29 +220,30 @@ const FocusHandle = styled.a<{
   isDisabled: boolean
 }>`
   display: flex;
+  gap: ${(props) => props.theme.grid.unit * 1}px;
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
   color: inherit;
   text-decoration: none;
   pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
-  opacity: ${(props) => (props.isDisabled ? 0.5 : 1)};
   overflow: hidden;
 `
 
 const Action = styled.button`
   background-color: transparent;
-  margin: 0 ${(props) => props.theme.grid.unit * 2}px;
   border: 1px solid transparent;
   border-radius: 50%;
   padding: 0;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   position: relative;
   z-index: 1;
-  width: ${(props) => props.theme.grid.unit * 6}px;
-  height: ${(props) => props.theme.grid.unit * 6}px;
+  width: ${(props) => props.theme.grid.unit * 7}px;
+  height: ${(props) => props.theme.grid.unit * 7}px;
 
   &[disabled] {
     cursor: not-allowed;
@@ -232,17 +253,17 @@ const Action = styled.button`
   &:not([disabled]):hover {
     &[aria-pressed='true'] {
       path {
-        stroke: #1a9bc7;
+        stroke: ${(props) => props.theme.colors.brand.medium};
       }
     }
 
     &[aria-pressed='false'] {
       path {
-        fill: #1a9bc7;
+        fill: ${(props) => props.theme.colors.brand.medium};
       }
     }
-    background: #f2fbfc;
-    border: 1px solid #c9c9c9;
+    background: ${(props) => props.theme.colors.background.selected};
+    border: 1px solid ${(props) => props.theme.colors.border.tracked.default};
   }
 
   &:focus {
@@ -252,9 +273,9 @@ const Action = styled.button`
 
 const Container = styled.div`
   .tooltip {
-    border-radius: 6px;
+    border-radius: ${(props) => props.theme.grid.unit * 1.5}px;
     padding: ${(props) => props.theme.grid.unit * 2}px;
     max-width: ${(props) => props.theme.grid.unit * 15}px;
-    font-size: ${(props) => props.theme.grid.unit * 3}px;
+    font-size: ${(props) => props.theme.font.size.small};
   }
 `
