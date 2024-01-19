@@ -13,15 +13,9 @@ import ArrowDown from '@manuscripts/assets/react/ArrowDownBlack'
 import OrderedList from '@manuscripts/assets/react/ToolbarIconOrderedList'
 import { ToolbarButtonConfig } from '@manuscripts/body-editor'
 import { DropdownList, useDropdown } from '@manuscripts/style-guide'
-import { skipTracking } from '@manuscripts/track-changes-plugin'
-import {
-  ManuscriptEditorView,
-  ManuscriptNode,
-  schema,
-} from '@manuscripts/transform'
-import { NodeRange } from 'prosemirror-model'
-import { EditorState, Selection, Transaction } from 'prosemirror-state'
-import React, { useCallback } from 'react'
+import { ManuscriptEditorView } from '@manuscripts/transform'
+import { EditorState, Transaction } from 'prosemirror-state'
+import React from 'react'
 import styled from 'styled-components'
 
 import { ListButton, ListStyle, ListStyleButton } from './ListToolbarItemStyles'
@@ -30,8 +24,8 @@ import { ToolbarItem } from './ManuscriptToolbar'
 export const ListStyleSelector: React.FC<{
   disabled: boolean
   styles: ListStyle[]
-  handleClick: (style: ListStyle) => void
-}> = ({ disabled, styles, handleClick }) => {
+  onClick: (style: ListStyle) => void
+}> = ({ disabled, styles, onClick }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
   return (
@@ -43,7 +37,7 @@ export const ListStyleSelector: React.FC<{
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
           <ListContainer>
             {styles.map((style, index) => (
-              <StyleBlock key={index} onClick={() => handleClick(style)}>
+              <StyleBlock key={index} onClick={() => onClick(style)}>
                 {style.items.map((style, index) => (
                   <BlockItem key={index}>
                     <Label>{style}</Label>
@@ -123,33 +117,11 @@ export const OrderedListToolbarItem: React.FC<{
    *  * if the selection is on list will change just the list type and
    *    **in case it's nested list will change just the lists at the same level**
    */
-  const handleClick = useCallback(
-    (style) => {
-      if (!dispatch) {
-        return
-      }
-
-      const type = style.type
-      const { $from, $to } = state.selection
-      const range = $from.blockRange($to)
-      const isListNode =
-        range &&
-        schema.nodes.ordered_list.compatibleContent(
-          $from.node(range.depth - 1).type
-        )
-
-      if (!isListNode) {
-        const options = config.options
-        if (options) {
-          options[type](state, dispatch, { listStyleType: type })
-          view && view.focus()
-        }
-      } else {
-        updateListStyle(state, dispatch, range, type)
-      }
-    },
-    [config, dispatch, state, view]
-  )
+  const handleClick = (style: ListStyle) => {
+    const type = style.type
+    config.options?.[type](state, dispatch)
+    view && view.focus()
+  }
 
   return (
     <ToolbarItem>
@@ -167,7 +139,7 @@ export const OrderedListToolbarItem: React.FC<{
       </ListButton>
       <ListStyleSelector
         disabled={!isEnabled}
-        handleClick={handleClick}
+        onClick={handleClick}
         styles={[
           { items: ['1.', '2.', '3.'], type: 'order' },
           { items: ['A.', 'B.', 'C.'], type: 'alpha-upper' },
@@ -177,75 +149,5 @@ export const OrderedListToolbarItem: React.FC<{
         ]}
       />
     </ToolbarItem>
-  )
-}
-
-/**
- *  Will use node depth as an indicator for the list level, and `sharedDepth` will
- *  give us all depths for the selection so we can find the parent list
- *  After that will look at the nodes in the parent list and just update
- *  the list that had the same level to the target level user has selected
- */
-export const updateListStyle = (
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-  range: NodeRange,
-  type: string
-) => {
-  const { $from } = state.selection
-  const tr = state.tr
-  const targetLevel = range.depth - 1
-  const selectionDepth = $from.sharedDepth(state.selection.to)
-  const parentListDepth =
-    [...Array(selectionDepth)].findIndex((_, index) => {
-      const node = $from.node(index + 1)
-      return (
-        node.type === schema.nodes.ordered_list ||
-        node.type === schema.nodes.bullet_list
-      )
-    }) + 1
-  const parentListNode = $from.node(parentListDepth)
-  const parentListPos = $from.before(parentListDepth)
-
-  if (parentListDepth === targetLevel) {
-    replaceToOrderList(
-      parentListPos,
-      parentListPos + parentListNode.nodeSize,
-      parentListNode
-    )
-  } else {
-    parentListNode.descendants((node, pos) => {
-      if (
-        (node.type === schema.nodes.ordered_list ||
-          node.type === schema.nodes.bullet_list) &&
-        state.doc.resolve(parentListPos + pos + node.nodeSize).depth ===
-          targetLevel
-      ) {
-        replaceToOrderList(
-          parentListPos + pos,
-          parentListPos + pos + node.nodeSize,
-          node
-        )
-      }
-    })
-  }
-
-  function replaceToOrderList(from: number, to: number, node: ManuscriptNode) {
-    tr.replaceRangeWith(
-      from,
-      to,
-      schema.nodes.ordered_list.create(
-        {
-          ...node.attrs,
-          listStyleType: type,
-        },
-        node.content,
-        node.marks
-      )
-    )
-  }
-
-  dispatch(
-    skipTracking(tr).setSelection(Selection.near(tr.doc.resolve($from.pos)))
   )
 }

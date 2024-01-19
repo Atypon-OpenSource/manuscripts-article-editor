@@ -12,6 +12,7 @@
 
 import { getEditorMenus, useEditor } from '@manuscripts/body-editor'
 import {
+  Capabilities,
   isMenuSeparator,
   Menus,
   MenuSeparator,
@@ -19,7 +20,7 @@ import {
   useMenus,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import config from '../../config'
 
@@ -27,41 +28,58 @@ interface ApplicationMenusProps {
   editor: ReturnType<typeof useEditor>
 }
 
-const processMenu = (
-  specs: MenuSpec[],
-  fn: (spec: MenuSpec) => MenuSpec | undefined
-) => {
-  return specs
-    .map((spec) => {
-      const processed = fn(spec)
-      if (processed) {
-        if (processed.submenu) {
-          processed.submenu = processSubmenu(processed.submenu, fn)
-        }
-        return processed
-      }
-    })
-    .filter(Boolean) as MenuSpec[]
+const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
+  if (spec.id === 'insert' || spec.id === 'edit') {
+    return can.editArticle
+  }
+  if (spec.id === 'format') {
+    return can.formatArticle
+  }
+  return true
 }
 
-const processSubmenu = (
-  specs: (MenuSpec | MenuSeparator)[],
-  fn: (spec: MenuSpec) => MenuSpec | undefined
+const isMenuEnabled = (spec: MenuSpec) => {
+  if (spec.id === 'format-table' || spec.id === 'insert-table-element') {
+    return config.features.tableEditing
+  }
+  if (spec.id === 'insert-pullquote') {
+    return config.features.pullQuotes
+  }
+  return spec.isEnabled
+}
+
+const filterSubmenu = (
+  spec: MenuSpec | MenuSeparator,
+  can: Capabilities
+): MenuSpec | MenuSeparator | undefined => {
+  if (isMenuSeparator(spec)) {
+    return spec
+  }
+  return filterMenu(spec, can)
+}
+
+const filterMenu = (
+  spec: MenuSpec,
+  can: Capabilities
+): MenuSpec | undefined => {
+  if (!isAccessGranted(spec, can)) {
+    return undefined
+  }
+  const submenu = spec.submenu?.map((m) => filterSubmenu(m, can))
+  return {
+    ...spec,
+    isEnabled: isMenuEnabled(spec),
+    submenu: submenu?.filter(Boolean),
+  } as MenuSpec
+}
+
+const getFilteredMenus = (
+  editor: ReturnType<typeof useEditor>,
+  can: Capabilities
 ) => {
-  return specs
-    .map((spec) => {
-      if (isMenuSeparator(spec)) {
-        return spec
-      }
-      const processed = fn(spec)
-      if (processed) {
-        if (processed.submenu) {
-          processed.submenu = processSubmenu(processed.submenu, fn)
-        }
-        return processed
-      }
-    })
-    .filter(Boolean) as (MenuSpec | MenuSeparator)[]
+  return getEditorMenus(editor)
+    .map((m) => filterMenu(m, can))
+    .filter(Boolean) as MenuSpec[]
 }
 
 export const ManuscriptMenus: React.FC<ApplicationMenusProps> = ({
@@ -69,25 +87,7 @@ export const ManuscriptMenus: React.FC<ApplicationMenusProps> = ({
 }) => {
   const can = usePermissions()
 
-  const specs = processMenu(getEditorMenus(editor), (spec: MenuSpec) => {
-    const id = spec.id
-    if (!can.editArticle && (id === 'insert' || id === 'edit')) {
-      return undefined
-    }
-    if (!can.formatArticle && id === 'format') {
-      return undefined
-    }
-    if (!config.features.tableEditing && id === 'format-table') {
-      spec.isEnabled = false
-    }
-    if (!config.features.tableEditing && id === 'insert-table-element') {
-      spec.isEnabled = false
-    }
-    if (!config.features.pullQuotes && id === 'insert-pullquote') {
-      spec.isEnabled = false
-    }
-    return spec
-  })
+  const specs = useMemo(() => getFilteredMenus(editor, can), [can, editor])
 
   const { menus, ref, handleClick } = useMenus(specs)
   return <Menus menus={menus} innerRef={ref} handleClick={handleClick} />
