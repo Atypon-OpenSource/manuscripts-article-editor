@@ -33,7 +33,6 @@ import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
-import { useEditorStore } from '../track-changes/useEditorStore'
 import {
   EditorBody,
   EditorContainer,
