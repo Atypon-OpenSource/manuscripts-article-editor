@@ -19,7 +19,7 @@ import ApproveAllButton from './track-changes/ApproveAllButton'
 
 const Section = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
-  font-size: ${(props) => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.small};
   margin: ${(props) => props.theme.grid.unit * 6}px
     ${(props) => props.theme.grid.unit * 7}px 0;
 `
@@ -71,9 +71,7 @@ export const ExpanderButton = styled(IconButton).attrs(() => ({
 `
 
 const Content = styled.div`
-  margin: ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 8}px;
+  margin: 0;
 `
 
 interface Props {

@@ -33,14 +33,17 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/style-guide'
+import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   ContainedModel,
+  ManuscriptEditorView,
   ManuscriptNode,
   ModelAttachment,
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
 
@@ -126,6 +129,13 @@ export type state = {
   notes?: ManuscriptNote[]
 
   tags?: Tag[]
+
+  trackState?: TrackChangesState
+  view: ManuscriptEditorView
+
+  snapshots: SnapshotLabel[]
+  snapshotsMap: Map<string, ManuscriptSnapshot>
+  inspectedSnapshotId: string
 
   permittedActions: string[]
 

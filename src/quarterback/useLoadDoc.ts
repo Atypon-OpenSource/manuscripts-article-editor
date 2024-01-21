@@ -14,13 +14,10 @@ import { ManuscriptNode, schema } from '@manuscripts/transform'
 
 import config from '../config'
 import { updateDocument } from './api/document'
-import { useDocStore } from './useDocStore'
-import { useSnapshotStore } from './useSnapshotStore'
+import * as docApi from './api/document'
+import { SnapshotLabel } from './types'
 
 export const useLoadDoc = (authToken: string) => {
-  const { createDocument, getDocument, setCurrentDocument } = useDocStore()
-  const { init: initSnapshots, setSnapshots } = useSnapshotStore()
-
   return async function loadDoc(
     manuscriptID: string,
     projectID: string,
@@ -29,10 +26,10 @@ export const useLoadDoc = (authToken: string) => {
     if (!config.quarterback.enabled) {
       return undefined
     }
-    setCurrentDocument(manuscriptID, projectID)
-    const found = await getDocument(projectID, manuscriptID, authToken)
+    const found = await docApi.getDocument(projectID, manuscriptID, authToken)
     let doc
     let version = 0
+    let snapshots: SnapshotLabel[] = []
     if ('data' in found) {
       let empty = true
       for (const _ in found.data.doc as object) {
@@ -46,16 +43,23 @@ export const useLoadDoc = (authToken: string) => {
         })
       }
 
-      initSnapshots()
-      setSnapshots(found.data.snapshots)
+      snapshots = found.data.snapshots
       doc = found.data.doc
       version = found.data.version
     } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
-      const res = await createDocument(manuscriptID, projectID, authToken)
+      const res = await docApi.createDocument(
+        {
+          manuscript_model_id: manuscriptID,
+          project_model_id: projectID,
+          doc: {},
+        },
+        authToken
+      )
       if ('data' in res) {
         doc = res.data.doc
         version = res.data.version
+        snapshots = res.data.snapshots
       }
       if ('err' in res) {
         console.error('Unable to create new document: ' + res.err)
@@ -73,7 +77,7 @@ export const useLoadDoc = (authToken: string) => {
       typeof doc === 'object' &&
       Object.keys(doc).length !== 0
     ) {
-      return { doc: schema.nodeFromJSON(doc), version }
+      return { doc: schema.nodeFromJSON(doc), version, snapshots }
     }
     return undefined
   }
