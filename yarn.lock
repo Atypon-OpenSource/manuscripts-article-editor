@@ -1920,16 +1920,16 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.12-LEAN-3074-0":
-  version "1.6.12-LEAN-3074-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.12-LEAN-3074-0.tgz#9f2bf9d6c2fa71279a096d1aedc9d89e89c670eb"
-  integrity sha512-JaRr7IHiTO3wfVHTLzbeuZ3Jvc5VZZtYcuwD14E9KHh9FYDb7+hKwS9UCd61wovpS0pI/3cWu0WPyqdeNvUaMQ==
+"@manuscripts/body-editor@1.6.12-LEAN-3074-1":
+  version "1.6.12-LEAN-3074-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.12-LEAN-3074-1.tgz#eded9ff313d334f0ea3c1bed5677a82da0fc828c"
+  integrity sha512-KXrEFyrU4vSgL68CboP8l4F0DfDyaExSfovT0w0QjUpaVCPrK0/3kbGokntBSC2ffwqqnqv3VpQBpQcp4xULfA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
-    "@manuscripts/json-schema" "2.2.1"
+    "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.1-LEAN-3074-0"
-    "@manuscripts/style-guide" "1.6.0-LEAN-3074-0"
+    "@manuscripts/style-guide" "1.6.0-LEAN-3074-1"
     "@manuscripts/track-changes-plugin" "^1.7.5"
     "@manuscripts/transform" "2.0.3-LEAN-3074-0"
     astrocite-eutils "^0.16.4"
@@ -1999,16 +1999,16 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.6.0-LEAN-3074-0":
-  version "1.6.0-LEAN-3074-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.6.0-LEAN-3074-0.tgz#81af65a573d1a8c63ed0b5e8bbf8095f93ebba63"
-  integrity sha512-Nug3x8+RAcKGJIPvGRAZgHuy6b1RuR1vPFzsSiH0j/9HmRE4EzWHTh2l44ilfYsQ+RnI0tSNmAhjRxX2al3sXw==
+"@manuscripts/style-guide@1.6.0-LEAN-3074-1":
+  version "1.6.0-LEAN-3074-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.6.0-LEAN-3074-1.tgz#a9eba2a582f303be636021b2bda88dab5ef0db9e"
+  integrity sha512-Fsk92zifHwUx4BEDhUQLVlLLzd/sks4LcXFDoI+xZjrkDQ+6Wm9zsHMiFKOlFrCAW0XdOSIdrbDa7BWNdaEOlg==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
     "@manuscripts/assets" "^0.6.2"
-    "@manuscripts/json-schema" "2.2.1"
+    "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/transform" "2.0.3-LEAN-3074-0"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
