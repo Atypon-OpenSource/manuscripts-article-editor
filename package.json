@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "1.9.2-LEAN-3074-0",
+  "version": "1.9.2-LEAN-3074-1",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
