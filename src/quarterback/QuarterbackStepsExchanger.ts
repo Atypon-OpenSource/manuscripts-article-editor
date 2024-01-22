@@ -14,6 +14,7 @@ import { schema } from '@manuscripts/transform'
 import { Step } from 'prosemirror-transform'
 
 import { saveWithThrottle } from '../postgres-data/savingUtilities'
+import * as docApi from './api/document'
 import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
 
 class QuarterbackStepsExchanger extends CollabProvider {
@@ -137,4 +138,46 @@ class QuarterbackStepsExchanger extends CollabProvider {
   }
 }
 
+export const stepsExchanger = (
+  docId: string,
+  projectId: string,
+  lastVersion: number,
+  authToken: string,
+  isAuthed = true
+) => {
+  if (!isAuthed) {
+    return
+  }
+  const applySteps = async (
+    projectId: string,
+    docId: string,
+    payload: StepsPayload
+  ) => {
+    const resp = await docApi.applySteps(projectId, docId, authToken, payload)
+    if ('data' in resp) {
+      return resp.data
+    }
+  }
+
+  const getStepsSince = async (
+    projectId: string,
+    docId: string,
+    version: number
+  ) => {
+    const resp = await docApi.stepsSince(projectId, docId, version, authToken)
+    if ('data' in resp) {
+      return resp.data
+    }
+  }
+
+  return new QuarterbackStepsExchanger(
+    docId,
+    projectId,
+    lastVersion,
+    applySteps,
+    getStepsSince,
+    docApi.listenStepUpdates,
+    authToken
+  )
+}
 export default QuarterbackStepsExchanger

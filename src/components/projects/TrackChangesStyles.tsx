@@ -16,7 +16,6 @@ import styled from 'styled-components'
 
 import config from '../../config'
 import { useStore } from '../../store'
-import { useEditorStore } from '../track-changes/useEditorStore'
 
 const TrackChangesOn = styled.div`
 
@@ -85,9 +84,11 @@ const trackChangesCssSelector = (ids: string[]) => {
 }
 
 export const TrackChangesStyles: React.FC = ({ children }) => {
-  const { trackState } = useEditorStore()
   const can = usePermissions()
-  const [user] = useStore((store) => store.user)
+  const [{ user, trackState }] = useStore((store) => ({
+    user: store.user,
+    trackState: store.trackState,
+  }))
 
   const { changeSet } = trackState || {}
   const suggestedChangesSelector = trackChangesCssSelector(

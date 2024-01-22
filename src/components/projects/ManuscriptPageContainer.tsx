@@ -15,28 +15,24 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
-import { ManuscriptToolbar } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
+import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
-import { useCommentStore } from '../../quarterback/useCommentStore'
 import { useStore } from '../../store'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
-import { useEditorStore } from '../track-changes/useEditorStore'
-import { ApplicationMenuContainer, ApplicationMenus } from './ApplicationMenus'
 import {
   EditorBody,
   EditorContainer,
@@ -45,8 +41,16 @@ import {
 } from './EditorContainer'
 import EditorElement from './EditorElement'
 import Inspector from './Inspector'
+import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
+import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+
+export const ManuscriptMenusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, permittedActions }] = useStore((state) => {
@@ -78,18 +82,8 @@ const ManuscriptPageView: React.FC = () => {
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
-  const [collaboratorsById] = useStore(
-    (store) => store.collaboratorsById || new Map()
-  )
 
   const can = usePermissions()
-
-  const handleSnapshot = useHandleSnapshot()
-
-  useEffect(() => {
-    storeDispatch({ handleSnapshot })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const editor = useCreateEditor()
 
@@ -97,6 +91,13 @@ const ManuscriptPageView: React.FC = () => {
   useWindowUnloadEffect(undefined, preventUnload)
 
   const { state, dispatch, view } = editor
+
+  const handleSnapshot = useHandleSnapshot(view)
+
+  useEffect(() => {
+    storeDispatch({ handleSnapshot })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view?.state])
 
   const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
     useTrackedModelManagement(
@@ -124,18 +125,10 @@ const ManuscriptPageView: React.FC = () => {
     getTrackModel,
   ])
 
-  const { setUsers } = useCommentStore()
-  const { init: initEditor, setEditorState, trackState } = useEditorStore()
-  useLayoutEffect(
-    () => setUsers(collaboratorsById),
-    [collaboratorsById, setUsers]
-  )
-  useLayoutEffect(() => view && initEditor(view), [view, initEditor])
-
   const hasPendingSuggestions = useMemo(() => {
-    const { changeSet } = trackState || {}
+    const { changeSet } = trackChangesPluginKey.getState(state) || {}
     return changeSet && changeSet.pending.length > 0
-  }, [trackState])
+  }, [state])
 
   useEffect(() => {
     storeDispatch({ hasPendingSuggestions })
@@ -147,10 +140,12 @@ const ManuscriptPageView: React.FC = () => {
 
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
+    const trackState = view
+      ? trackChangesPluginKey.getState(view.state)
+      : undefined
+
     doWithThrottle(() => {
-      // @TODO remove zustand editorState store, remove doc from store and only save entire editoreState into the store
-      setEditorState(state)
-      storeDispatch({ doc: state.doc })
+      storeDispatch({ doc: state.doc, trackState })
     }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
@@ -180,18 +175,13 @@ const ManuscriptPageView: React.FC = () => {
             <EditorContainerInner>
               <AuthorModalViews />
               <EditorHeader>
-                <ApplicationMenuContainer>
-                  <ApplicationMenus
-                    editor={editor}
-                    contentEditable={can.editArticle}
-                  />
-                </ApplicationMenuContainer>
+                <ManuscriptMenusContainer>
+                  <ManuscriptMenus editor={editor} />
+                </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && (
                   <ManuscriptToolbar
                     state={state}
-                    can={can}
                     dispatch={dispatch}
-                    footnotesEnabled={config.features.footnotes}
                     view={view}
                   />
                 )}

@@ -40,6 +40,11 @@ export const theme: DefaultTheme = {
       success: colors.peppermintGreen,
       warning: colors.butteryYellow,
       selected: colors.aliceBlue,
+      tracked: {
+        active: colors.powderBlue,
+        default: colors.white,
+        hover: colors.seashellGrey,
+      },
     },
     border: {
       error: colors.mandysRed,
@@ -53,6 +58,11 @@ export const theme: DefaultTheme = {
         active: colors.manuscriptsLight,
         default: colors.mercuryGrey,
         hover: colors.manuscriptsLight,
+      },
+      tracked: {
+        active: colors.graphBlue1,
+        default: colors.greyLight,
+        hover: colors.greyLight,
       },
     },
     brand: {

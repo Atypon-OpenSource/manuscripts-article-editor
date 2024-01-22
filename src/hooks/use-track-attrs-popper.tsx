@@ -16,23 +16,34 @@ import {
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
 import { Command } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 import React, { useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
 import EditIcon from '../components/projects/icons/EditIcon'
-import { useEditorStore } from '../components/track-changes/useEditorStore'
 import { filterAttrsChange } from '../lib/attrs-change-filter'
 import { useStore } from '../store'
 import { ThemeProvider } from '../theme/ThemeProvider'
 
-export default () => {
-  const { trackState, execCmd } = useEditorStore()
+export const useExecCmd = () => {
+  const [storeView] = useStore((store) => store.view)
+  return (cmd: Command, hookView?: EditorView) => {
+    const view = storeView || hookView
+    cmd(view.state, view.dispatch)
+  }
+}
 
-  const [{ selectedAttrsChange, popper }, dispatch] = useStore((store) => ({
-    selectedAttrsChange: store.selectedAttrsChange,
-    popper: store.popper,
-  }))
+export default () => {
+  const [{ selectedAttrsChange, popper, trackState }, dispatch] = useStore(
+    (store) => ({
+      selectedAttrsChange: store.selectedAttrsChange,
+      popper: store.popper,
+      trackState: store.trackState,
+    })
+  )
+
+  const execCmd = useExecCmd()
 
   const cleanSelectedChange = useCallback(() => {
     const previousSelection = document.querySelector(`.track-attrs-popper`)
@@ -78,7 +89,7 @@ export default () => {
       popper.show(attrTrackingButton, popperContainer)
       dispatch({ selectedAttrsChange: changeId })
     },
-    [cleanSelectedChange, dispatch, execCmd, popper, trackState]
+    [trackState, popper, dispatch, cleanSelectedChange, execCmd]
   )
 
   return useCallback(

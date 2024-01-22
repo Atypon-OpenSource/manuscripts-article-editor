@@ -11,31 +11,68 @@
  */
 import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
+import { EditorView } from 'prosemirror-view'
 
-import { useEditorStore } from '../components/track-changes/useEditorStore'
+import { saveDoc } from '../postgres-data/savingUtilities'
+import { post } from '../quarterback/api/methods'
 import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
-import { usePouchStore } from '../quarterback/usePouchStore'
-import { useSnapshotStore } from '../quarterback/useSnapshotStore'
+import { ISaveSnapshotResponse } from '../quarterback/types'
 import { useStore } from '../store'
+import { useExecCmd } from './use-track-attrs-popper'
 
-export const useHandleSnapshot = (storeExists = true) => {
-  const { execCmd, docToJSON } = useEditorStore()
-  const { saveSnapshot } = useSnapshotStore()
+export const useHandleSnapshot = (view?: EditorView) => {
+  const [
+    {
+      projectID,
+      manuscriptID,
+      modelMap,
+      bulkUpdate,
+      authToken,
+      snapshots,
+      snapshotsMap,
+    },
+    dispatch,
+  ] = useStore((store) => ({
+    projectID: store.projectID,
+    manuscriptID: store.manuscriptID,
+    authToken: store.authToken,
+    snapshots: store.snapshots,
+    snapshotsMap: store.snapshotsMap,
+    modelMap: store.modelMap,
+    bulkUpdate: store.bulkUpdate,
+  }))
   const can = usePermissions()
   const canApplySaveChanges = can.applySaveChanges
-  const [authToken] = useStore((store) => store.authToken)
 
-  if (!storeExists) {
-    return null
+  const saveSnapshot = async (projectID: string, manuscriptID: string) => {
+    const resp = await post<ISaveSnapshotResponse>(
+      `snapshot/${projectID}/manuscript/${manuscriptID}`,
+      authToken,
+      {
+        docID: manuscriptID,
+        name: new Date().toLocaleString('sv'),
+      }
+    )
+
+    if ('data' in resp) {
+      const { snapshot, ...label } = resp.data.snapshot
+      dispatch({
+        snapshots: [...snapshots, label],
+        snapshotsMap: snapshotsMap.set(label.id, resp.data.snapshot),
+      })
+    }
+    return resp
   }
 
+  const execCmd = useExecCmd()
+
   return async () => {
-    const resp = await saveSnapshot(docToJSON(), authToken)
-    if ('data' in resp) {
+    const resp = await saveSnapshot(projectID, manuscriptID)
+    if (resp && view) {
       execCmd(trackCommands.applyAndRemoveChanges())
       return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
-          const state = useEditorStore.getState().editorState
+          const state = view.state
           if (!state) {
             reject(new Error('State is not available'))
             return
@@ -43,9 +80,8 @@ export const useHandleSnapshot = (storeExists = true) => {
           if (!canApplySaveChanges) {
             return resolve()
           }
-          usePouchStore
-            .getState()
-            .saveDoc(getDocWithoutTrackContent(state))
+
+          saveDoc(getDocWithoutTrackContent(state), modelMap, bulkUpdate)
             .then(() => {
               resolve()
             })
