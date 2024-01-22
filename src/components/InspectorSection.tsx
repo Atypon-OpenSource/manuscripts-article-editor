@@ -11,16 +11,15 @@
  */
 
 import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import { usePermissions } from '@manuscripts/style-guide'
+import { IconButton, usePermissions } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { ExpanderButton } from './metadata/Metadata'
 import ApproveAllButton from './track-changes/ApproveAllButton'
 
 const Section = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
-  font-size: ${(props) => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.small};
   margin: ${(props) => props.theme.grid.unit * 6}px
     ${(props) => props.theme.grid.unit * 7}px 0;
 `
@@ -52,10 +51,27 @@ export const Field = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
+export const ExpanderButton = styled(IconButton).attrs(() => ({
+  size: 20,
+  defaultColor: true,
+}))`
+  border: none;
+  border-radius: 50%;
+
+  &:focus,
+  &:hover {
+    &:not([disabled]) {
+      background: ${(props) => props.theme.colors.background.fifth};
+    }
+  }
+
+  svg circle {
+    stroke: ${(props) => props.theme.colors.border.secondary};
+  }
+`
+
 const Content = styled.div`
-  margin: ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 8}px;
+  margin: 0;
 `
 
 interface Props {

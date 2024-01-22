@@ -10,7 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { CommentAnnotation, Model, ObjectTypes } from '@manuscripts/json-schema'
+import {
+  Affiliation,
+  CommentAnnotation,
+  Contributor,
+  // Contributor,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/json-schema'
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
   Build,
@@ -24,10 +31,7 @@ import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
-import {
-  adaptTrackedData,
-  trackedJoint,
-} from '../components/track-changes/utils'
+import { trackedJoint } from '../components/track-changes/utils'
 import { setNodeAttrs } from '../lib/node-attrs'
 import { useStore } from '../store'
 
@@ -41,9 +45,7 @@ const useTrackedModelManagement = (
   finalModelMap: Map<string, Model>
 ) => {
   const modelMap = useMemo(() => {
-    const docJSONed = doc.toJSON()
-    const docClean = adaptTrackedData(docJSONed)
-    const modelsFromPM = encode(schema.nodeFromJSON(docClean))
+    const modelsFromPM = encode(doc)
     // adding supplements from final model map as they are meta (not PM presentable)
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
@@ -68,6 +70,58 @@ const useTrackedModelManagement = (
       return !!matchedTrackedId
       // check and identify precise dataTracked version
     }
+  }
+
+  const createContributorNode = (model: Partial<Contributor>) => {
+    if (!view) {
+      throw Error('View not available')
+    }
+
+    const { tr } = state
+    doc.descendants((node, pos) => {
+      if (node.type === schema.nodes.contributors) {
+        tr.insert(
+          pos + node.nodeSize - 1,
+          schema.nodes.contributor.create(
+            {
+              ...model,
+              id: model._id,
+            },
+            schema.text('_')
+            /*
+              quarterback as it is now works incorrectly with empty nodes and updating attributes on them are misinterpreted as deletion
+              we either need to update quarterback to work correctly with empty nodes attributes or provide some content for these nodes or
+              implement a mechanism that would detect attributes updates on empty nodes and setMeta as we do for metaNodes
+            */
+          )
+        )
+        view.dispatch(tr)
+        return false
+      }
+    })
+  }
+
+  const createAffiliationNode = (model: Partial<Affiliation>) => {
+    if (!view) {
+      throw Error('View not available')
+    }
+    const { tr } = state
+    doc.descendants((node, pos) => {
+      if (node.type === schema.nodes.affiliations) {
+        tr.insert(
+          pos + node.nodeSize - 1,
+          schema.nodes.affiliation.create(
+            {
+              ...model,
+              id: model._id,
+            },
+            schema.text('_')
+          )
+        )
+        view.dispatch(tr)
+        return false
+      }
+    })
   }
 
   const saveCommentNode = useCallback(
@@ -101,7 +155,7 @@ const useTrackedModelManagement = (
               comments: [...(node.attrs.comments || []), comment._id],
             })
           }
-          if (node.type === schema.nodes.comment_list) {
+          if (node.type === schema.nodes.comments) {
             tr.replaceWith(
               pos,
               pos + node.nodeSize,
@@ -224,8 +278,17 @@ const useTrackedModelManagement = (
         }
 
         if (!foundInDoc) {
-          // ...that is if there is no node in the prosemirror doc for that id, that update final model. This is needed until we implement tracking on metadata
-          saveModel(model)
+          if (model.objectType === ObjectTypes.Contributor) {
+            createContributorNode(model as unknown as Contributor)
+            // return saveContributorNode(model as unknown as Contributor)
+          } else if (model.objectType === ObjectTypes.Affiliation) {
+            createAffiliationNode(model as unknown as Affiliation)
+          } else {
+            // ...that is if there is no node in the prosemirror doc for that id,
+            // that update final model.
+            // This is needed until we implement tracking on metadata
+            saveModel(model)
+          }
         }
       }
       return Promise.resolve(model)
@@ -240,14 +303,17 @@ const useTrackedModelManagement = (
         return deleteCommentNode(modelMap.get(id) as CommentAnnotation)
       }
 
+      const base = id.split(trackedJoint)
+
       if (modelMap.has(id)) {
-        modelMap.delete(id)
         doc.descendants((node, pos) => {
-          if (node.attrs.id === id) {
+          if (
+            node.attrs.id === id ||
+            matchByTrackVersion(node, base[0], base[1] || '')
+          ) {
             const { tr } = state
             tr.delete(pos, pos + node.nodeSize)
             dispatch(tr)
-            dispatchStore({ trackModelMap: modelMap })
           }
         })
       } else {
@@ -256,6 +322,7 @@ const useTrackedModelManagement = (
 
       return Promise.resolve(id)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       modelMap,
       deleteCommentNode,
@@ -264,7 +331,7 @@ const useTrackedModelManagement = (
       dispatch,
       dispatchStore,
       deleteModel,
-    ] // will loop rerenders probably because of modelMap
+    ]
   )
 
   const getTrackModel = useCallback(

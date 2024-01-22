@@ -14,7 +14,6 @@ import {
   Affiliation,
   Contributor,
   ContributorRole,
-  Project,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { AuthorAffiliation, AuthorValues } from '@manuscripts/style-guide'
@@ -22,18 +21,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { AffiliationMap } from '../../lib/authors'
-import { TokenActions, useStore } from '../../store'
 import { ModalBody, StyledModalMain } from '../Sidebar'
 import AddAuthorsSidebar from './AddAuthorsSidebar'
 import { AuthorFormContainer } from './AuthorFormContainer'
-import { InvitationValues } from './AuthorInvitationForm'
-import {
-  AddAuthorsPage,
-  AuthorDetailsPage,
-  InviteCollaboratorsModal,
-} from './AuthorsPage'
+import { AddAuthorsPage, AuthorDetailsPage } from './AuthorsPage'
 import AuthorsSidebar from './AuthorsSidebar'
-import InviteAuthorsSidebar from './InviteAuthorsSidebar'
 
 export const ScrollableModalMain = styled(StyledModalMain)`
   overflow-y: auto;
@@ -45,26 +37,17 @@ interface AuthorsProps {
   affiliations: AffiliationMap
   selectedAuthor: Contributor | null
   isRemoveAuthorOpen: boolean
-  project: Project
   removeAuthor: (data: Contributor) => void
   selectAuthor: (data: Contributor) => void
-  updateAuthor: (author: Contributor, email: string) => void
   openAddAuthors: () => void
   addAuthorAffiliation: (affiliation: Affiliation | string) => void
   removeAuthorAffiliation: (affiliation: Affiliation) => void
   updateAffiliation: (affiliation: Affiliation) => void
-  isRejected: (invitationID: string) => boolean
-  getAuthorName: (author: Contributor) => string
   handleSaveAuthor: (values: AuthorValues) => Promise<void>
   handleRemoveAuthor: () => void
   handleDrop: (oldIndex: number, newIndex: number) => void
-  getSidebarItemDecorator?: (authorID: string) => JSX.Element | null
-  tokenActions: TokenActions
-  invitationSent: boolean
-  handleDismiss: () => void
   contributorRoles: ContributorRole[]
   createContributorRole: (name: string) => Promise<ContributorRole>
-  allowInvitingAuthors: boolean
 }
 
 export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
@@ -80,19 +63,10 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
   removeAuthorAffiliation,
   updateAffiliation,
   handleDrop,
-  getSidebarItemDecorator,
   isRemoveAuthorOpen,
   handleRemoveAuthor,
-  isRejected,
-  project,
-  updateAuthor,
-  getAuthorName,
-  tokenActions,
-  invitationSent,
-  handleDismiss,
   contributorRoles,
   createContributorRole,
-  allowInvitingAuthors,
 }) => (
   <ModalBody>
     <AuthorsSidebar
@@ -102,9 +76,6 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
       selectedAuthor={selectedAuthor}
       openAddAuthors={openAddAuthors}
       handleDrop={handleDrop}
-      getSidebarItemDecorator={getSidebarItemDecorator}
-      invitationSent={invitationSent}
-      handleDismiss={handleDismiss}
     />
     <ScrollableModalMain>
       {selectedAuthor ? (
@@ -121,14 +92,8 @@ export const AuthorsModal: React.FunctionComponent<AuthorsProps> = ({
           isRemoveAuthorOpen={isRemoveAuthorOpen}
           handleRemoveAuthor={handleRemoveAuthor}
           removeAuthor={removeAuthor}
-          isRejected={isRejected}
-          project={project}
-          updateAuthor={updateAuthor}
-          getAuthorName={getAuthorName}
-          tokenActions={tokenActions}
           contributorRoles={contributorRoles}
           createContributorRole={createContributorRole}
-          allowInvitingAuthors={allowInvitingAuthors}
         />
       ) : (
         <AuthorDetailsPage />
@@ -141,16 +106,12 @@ interface AddAuthorsProps {
   nonAuthors: UserProfile[]
   authors: Contributor[]
   numberOfAddedAuthors: number
-  searchingAuthors: boolean
   searchText: string
   addedAuthors: string[]
   searchResults: UserProfile[]
   isCreateAuthorOpen: boolean
-  isAuthorExist: () => boolean
   handleAddingDoneCancel: () => void
   handleSearchChange: (event: React.FormEvent<HTMLInputElement>) => void
-  handleSearchFocus: () => void
-  handleInvite: (searchText: string) => void
   handleCreateAuthor: () => void
   createAuthor: (
     priority: number,
@@ -165,15 +126,11 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
   authors,
   addedAuthors,
   numberOfAddedAuthors,
-  searchingAuthors,
   searchResults,
   searchText,
   createAuthor,
   handleAddingDoneCancel,
   handleSearchChange,
-  handleSearchFocus,
-  handleInvite,
-  isAuthorExist,
   isCreateAuthorOpen,
   handleCreateAuthor,
 }) => (
@@ -182,16 +139,12 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
       authors={authors}
       nonAuthors={nonAuthors}
       numberOfAddedAuthors={numberOfAddedAuthors}
-      isSearching={searchingAuthors}
       searchText={searchText}
       addedAuthors={addedAuthors}
       handleDoneCancel={handleAddingDoneCancel}
       createAuthor={createAuthor}
       handleSearchChange={handleSearchChange}
-      handleSearchFocus={handleSearchFocus}
       searchResults={searchResults}
-      handleInvite={handleInvite}
-      isAuthorExist={isAuthorExist}
       isCreateAuthorOpen={isCreateAuthorOpen}
       handleCreateAuthor={handleCreateAuthor}
     />
@@ -200,35 +153,3 @@ export const AddAuthorsModal: React.FunctionComponent<AddAuthorsProps> = ({
     </StyledModalMain>
   </ModalBody>
 )
-
-interface InviteAuthorsProps {
-  invitationValues: InvitationValues
-  handleInviteCancel: () => void
-  handleInvitationSubmit: (values: InvitationValues) => Promise<void>
-  invitationSent: boolean
-}
-
-export const InviteAuthorsModal: React.FunctionComponent<
-  InviteAuthorsProps
-> = ({
-  invitationValues,
-  handleInviteCancel,
-  handleInvitationSubmit,
-  invitationSent,
-}) => {
-  const [tokenActions] = useStore((store) => store.tokenActions)
-  return (
-    <ModalBody>
-      <InviteAuthorsSidebar
-        invitationValues={invitationValues}
-        handleCancel={handleInviteCancel}
-        handleSubmit={handleInvitationSubmit}
-        invitationSent={invitationSent}
-        tokenActions={tokenActions}
-      />
-      <StyledModalMain>
-        <InviteCollaboratorsModal />
-      </StyledModalMain>
-    </ModalBody>
-  )
-}

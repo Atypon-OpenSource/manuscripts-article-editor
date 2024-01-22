@@ -10,18 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Model } from '@manuscripts/json-schema'
+import { ContainedModel, encode, ManuscriptNode } from '@manuscripts/transform'
+import isEqual from 'lodash-es/isEqual'
 import { useRef } from 'react'
 
 let throttled = () => null
 let timeout: number
 
-export const saveWithThrottle = (fn: () => any, interval = 4000) => {
+export const saveWithThrottle = (
+  fn: () => any,
+  interval = 4000,
+  flush = false
+) => {
   throttled = fn
+  const action = () => {
+    throttled()
+    window.clearTimeout(timeout)
+    timeout = 0
+  }
+  if (flush) {
+    action()
+    return
+  }
   if (!timeout) {
     timeout = window.setTimeout(() => {
-      throttled()
-      window.clearTimeout(timeout)
-      timeout = 0
+      action()
     }, interval)
   }
 }
@@ -46,4 +60,75 @@ export const useDoWithThrottle = () => {
   }
 
   return doWithThrottle
+}
+
+export type Ok<T> = {
+  data: T
+}
+export type Error = {
+  err: string
+  code: number
+}
+export type Maybe<T> = Ok<T> | Error
+
+const EXCLUDED_KEYS = [
+  'id',
+  '_id',
+  '_rev',
+  '_revisions',
+  'sessionID',
+  'createdAt',
+  'updatedAt',
+  'owners',
+  'manuscriptID',
+  'containerID',
+  'src',
+  'minWordCountRequirement',
+  'maxWordCountRequirement',
+  'minCharacterCountRequirement',
+  'maxCharacterCountRequirement',
+] as (keyof Model)[]
+
+const hasChanged = (a: Model, b: Model): boolean => {
+  return !!Object.keys(a).find((key: keyof Model) => {
+    if (EXCLUDED_KEYS.includes(key)) {
+      return false
+    }
+    return !isEqual(a[key], b[key])
+  })
+}
+
+export const saveDoc = async (
+  doc: ManuscriptNode,
+  modelMap: Map<string, Model>,
+  bulkUpdate: (models: ContainedModel[]) => Promise<void>
+): Promise<Maybe<boolean>> => {
+  if (!modelMap) {
+    return {
+      err: 'modelMap undefined inside usePouchStore',
+      code: 500,
+    }
+  }
+  const models = encode(doc)
+
+  const newModelMap = new Map()
+  for (const model of models.values()) {
+    const oldModel = modelMap.get(model._id)
+
+    if (!oldModel) {
+      newModelMap.set(model._id, model)
+    } else if (hasChanged(model, oldModel)) {
+      const nextModel = {
+        ...oldModel,
+        ...model,
+      }
+      newModelMap.set(nextModel._id, nextModel)
+    }
+  }
+  try {
+    await bulkUpdate([...newModelMap.values()])
+    return { data: true }
+  } catch (e) {
+    return { err: `Failed to save model: ${e}`, code: 500 }
+  }
 }

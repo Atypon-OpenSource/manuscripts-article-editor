@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  Affiliation,
   BibliographyItem,
   CommentAnnotation,
-  Contributor,
-  ContributorRole,
   Correction,
   LibraryCollection,
   ManuscriptNote,
@@ -31,7 +28,7 @@ import {
   isManuscript,
 } from '@manuscripts/transform'
 
-import { buildAuthorsAndAffiliations } from '../lib/authors'
+import { getMetaData } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
@@ -228,14 +225,10 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
   if (!data.modelMap || !projectID) {
     return null
   }
-
   const storeData: Partial<state> = {
     snapshotID: null,
     library: new Map<string, BibliographyItem>(),
   }
-
-  const affiliationAndContributors: (Contributor | Affiliation)[] = []
-  const contributorRoles: ContributorRole[] = []
 
   // eslint-disable-next-line no-unsafe-optional-chaining
   for (const model of data.modelMap?.values()) {
@@ -248,21 +241,10 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
         model as LibraryCollection
       )
     }
-
-    if (
-      model.objectType === ObjectTypes.Affiliation ||
-      model.objectType === ObjectTypes.Contributor
-    ) {
-      affiliationAndContributors.push(model as Affiliation) // or Contributor
-    }
-    if (model.objectType === ObjectTypes.ContributorRole) {
-      contributorRoles.push(model as ContributorRole)
-    }
   }
-  storeData.authorsAndAffiliations = buildAuthorsAndAffiliations(
-    affiliationAndContributors
-  )
-  storeData.contributorRoles = contributorRoles
+  const metaData = getMetaData(data.modelMap)
+  storeData.authorsAndAffiliations = metaData?.authorsAndAffiliations
+  storeData.contributorRoles = metaData?.contributorRoles
   return storeData
 }
 
@@ -289,13 +271,10 @@ export default async function buildData(
     api
   )
 
-  const projects = await api.getUserProjects()
-
   const derivedData = getDrivedData(projectID, manuscriptData)
   const doc = createDoc(manuscriptData, manuscriptData.modelMap)
 
   return {
-    projects: projects,
     manuscripts: [manuscriptData.manuscript],
     /* Wierd array? In lean workflow there is always only one project and a single manuscrit in it.
       These arrays have to be provided for components compatibility that shouldn't be changed as it is possible that it will change

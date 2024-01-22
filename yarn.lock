@@ -1920,29 +1920,27 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.5.9":
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.5.9.tgz#955d08433e6fc3dc22fba23d4b42087cff45890a"
-  integrity sha512-iHfMf/MTCshNB3wA1YZuOeEJonhzWmEJKzANYuxGFBTnetZpXONlRCGigsfqzjPtiB1d2fLb4FE6QEcjFRtfGw==
+"@manuscripts/body-editor@1.6.12":
+  version "1.6.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.12.tgz#757d7d0ea0987bf0b2ec6a3eec28beea68cf2234"
+  integrity sha512-qWzGoD+vRuIFb3Kwr9bVuQc23SZoUbcINGPV3mFiqFGLN0a1Yv9CgozTBEI4JS/j3xy7QzPPFUBJdUN+ymqwMw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/library" "1.2.2"
-    "@manuscripts/style-guide" "1.4.5"
-    "@manuscripts/title-editor" "^1.1.0"
-    "@manuscripts/track-changes-plugin" "^1.7.3"
-    "@manuscripts/transform" "1.5.4"
+    "@manuscripts/library" "1.3.0"
+    "@manuscripts/style-guide" "1.6.0"
+    "@manuscripts/track-changes-plugin" "^1.7.5"
+    "@manuscripts/transform" "2.0.1"
     astrocite-eutils "^0.16.4"
     axios "^1.2.2"
     codemirror "^5.58.1"
     dompurify "^2.4.1"
-    formik "^2.2.9"
     grapheme-splitter "^1.0.4"
     history "^4.10.1"
     lodash-es "^4.17.21"
     popper.js "^1.16.1"
-    pretty-bytes "^6.0.0"
+    prosemirror-collab "^1.3.1"
     prosemirror-commands "^1.5.0"
     prosemirror-dropcursor "^1.6.1"
     prosemirror-history "^1.3.0"
@@ -1981,35 +1979,30 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/library@1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.2.2.tgz#2859429b6372e1a62b661167e1fdc43d5b6da730"
-  integrity sha512-BzXxnUZq3aGM2FFTbXSlHJA9u9AyQTZXDBs7EA7EWc0o7iIUtF2RlsmPcIH5IiMzsgVv3wNyB7Im0tHvOmcveA==
+"@manuscripts/library@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.0.tgz#a5ffa838d32516ed5c69513fe2ef535a8104ec32"
+  integrity sha512-tLJD68GvmcpEcPJGAhmuQL50bCYbz+NeEWmddsf/AALStwgRTwurQx+bZoE8ZRjxyflyBE7cma7EX8ss/WqPmQ==
   dependencies:
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/transform" "1.5.4"
+    "@manuscripts/transform" "2.0.0"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
     prosemirror-model "^1.18.3"
 
-"@manuscripts/quarterback-types@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/quarterback-types/-/quarterback-types-1.0.0.tgz#712732cd21a129f1b2e9eaeec0f4d9ef14eeb557"
-  integrity sha512-HYmlLWS35vW399ZjVhByRSNcnOpVklg48pbPRhpBUotSSaTl/zO+koV1no9knMVFnhYkAqGhJC4YSmnPKxnw6g==
-
-"@manuscripts/style-guide@1.4.5":
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.4.5.tgz#bd9d807fe08f71f6550228fa3f3ddef1e242560a"
-  integrity sha512-j5JuyGn7t4b0yluQhiXMLnKR7Nyvhb0TN3GckpjFSBkLfn1u7L7pIr+7z4Wm+y+zYu8WF2CKIFszGRAVaoFnEw==
+"@manuscripts/style-guide@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.6.0.tgz#24fe3cd856adce273c88a76a532b37afbb0c9f68"
+  integrity sha512-1ddySE/LqV+lVeVd+uBwzOXN52fUuevmVmgks/GIvRARiNFmMcPxtICNLLQ2/cWqVzN97rNBBi8dzpdRx/D/4A==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
     "@formatjs/intl-utils" "^2.2.0"
     "@manuscripts/assets" "^0.6.2"
     "@manuscripts/json-schema" "2.2.1"
-    "@manuscripts/transform" "1.5.4"
+    "@manuscripts/transform" "2.0.0"
     "@reach/tabs" "^0.11.2"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -2053,10 +2046,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.7.3":
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.3.tgz#e19a0d8bd3b3482f5c4316ee4865e6e57811e7c4"
-  integrity sha512-VOXffxaRw0O80GKauOASb4wFNfwNP2bZ8JOVo0wuH1sUQFPpklSbxMBO/d5u+TNFgOTM1jUmvHxaQJpjnklJjg==
+"@manuscripts/track-changes-plugin@^1.7.5":
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.5.tgz#4beddd3d4a24e02879adedb88a0cb24613c20889"
+  integrity sha512-2u/pamyAnvFk0nxsqVTjM6LIyBIo5nGQIYnDjwOzfN8QKM0Q0sBjW/FZB4f6Lj5VWl+04/tM67/Npq1LsDtMTA==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -2069,10 +2062,24 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@1.5.4":
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.5.4.tgz#8afba262486414448a4741f052a10c663aeb94d7"
-  integrity sha512-Tjq9ZfXz54M5T+11eLm7KGsI14Fc/B8xh96q2AitlWFu0hvbpXO2q8SafIQNLrORutaHcQMCt6ApYEb/IgqeHg==
+"@manuscripts/transform@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.0.0.tgz#0363436b5284f1e4ff1a688e27e0d82592818fa5"
+  integrity sha512-A2kpcaYg+niH0Sgl/QeBlTICHyhVQ2i+T2HkHjS3ONOJl8odL4QvWVVsrEYrSt8phQZTC2SKa1ZNUAYaSCsxlQ==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.1"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.0.1.tgz#a62b0a3a13c5c8922a13654b6b801b545aa09be0"
+  integrity sha512-pif1LXBbT4P2MuTNeRXs847CfrpqrXPc3BeUM/3bLzU/MgZqfLdQtdrbxHLzbg9FSdMvlAnNSzTDWCCgtQD1rg==
   dependencies:
     "@manuscripts/json-schema" "2.2.1"
     debug "^4.3.4"
@@ -2112,6 +2119,11 @@
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
+
+"@microsoft/fetch-event-source@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
+  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -12990,11 +13002,6 @@ prettier@^2.8.1:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
   integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==
 
-pretty-bytes@^6.0.0:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-6.1.1.tgz#38cd6bb46f47afbf667c202cfc754bffd2016a3b"
-  integrity sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==
-
 pretty-error@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/pretty-error/-/pretty-error-2.1.2.tgz#be89f82d81b1c86ec8fdfbc385045882727f93b6"
@@ -13115,6 +13122,13 @@ property-information@^5.0.0, property-information@^5.3.0:
   integrity sha512-YUHSPk+A30YPv+0Qf8i9Mbfe/C0hdPXk1s1jPVToV8pk8BQtpw10ct89Eo7OWkutrwqvT0eicAxlOg3dOAu8JA==
   dependencies:
     xtend "^4.0.0"
+
+prosemirror-collab@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-collab/-/prosemirror-collab-1.3.1.tgz#0e8c91e76e009b53457eb3b3051fb68dad029a33"
+  integrity sha512-4SnynYR9TTYaQVXd/ieUvsVV4PDMBzrq2xPUWutHivDuOshZXqQ5rGbZM84HEaXKbLdItse7weMGOUdDVcLKEQ==
+  dependencies:
+    prosemirror-state "^1.0.0"
 
 prosemirror-commands@^1.0.0, prosemirror-commands@^1.5.0:
   version "1.5.2"
@@ -15733,6 +15747,11 @@ type-fest@^0.8.1:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
+type-fest@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.6.0.tgz#9c575f7e20530defef4f9cdc5e2c85d6e4ea0fc9"
+  integrity sha512-rLjWJzQFOq4xw7MgJrCZ6T1jIOvvYElXT12r+y0CC6u67hegDHaxcPqb2fZHOGlqxugGQPNB1EnTezjBetkwkw==
+
 type-is@~1.6.18:
   version "1.6.18"
   resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131"
@@ -16150,11 +16169,6 @@ use-isomorphic-layout-effect@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.1.2.tgz#497cefb13d863d687b08477d9e5a164ad8c1a6fb"
   integrity sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==
-
-use-sync-external-store@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
-  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 use@^3.1.0:
   version "3.1.1"
@@ -16990,13 +17004,6 @@ zen-observable@0.8.15:
   version "0.8.15"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
-
-zustand@^4.2.0:
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.4.6.tgz#03c78e3e2686c47095c93714c0c600b72a6512bd"
-  integrity sha512-Rb16eW55gqL4W2XZpJh0fnrATxYEG3Apl2gfHTyDSE965x/zxslTikpNch0JgNjJA9zK6gEFW8Fl6d1rTZaqgg==
-  dependencies:
-    use-sync-external-store "1.2.0"
 
 zwitch@^1.0.0:
   version "1.0.5"

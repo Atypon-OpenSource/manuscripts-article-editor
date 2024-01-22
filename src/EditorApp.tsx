@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -21,9 +21,8 @@ import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
-import { useAuthStore } from './quarterback/useAuthStore'
+import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
 import { useLoadDoc } from './quarterback/useLoadDoc'
-import { usePouchStore } from './quarterback/usePouchStore'
 import {
   BasicSource,
   createStore,
@@ -64,19 +63,9 @@ const EditorApp: React.FC<Props> = ({
   const userID = getCurrentUserId()
 
   const [store, setStore] = useState<GenericStore>()
-  const { setUser } = useAuthStore()
-  const { init: initPouchStore } = usePouchStore()
-
-  useMemo(() => {
-    const user = store?.state?.user
-    if (user) {
-      setUser(user._id, user.bibliographicName.given || user.userID)
-    } else {
-      setUser()
-    }
-  }, [store?.state?.user, setUser])
 
   const loadDoc = useLoadDoc(authToken)
+  const quarterBackSource = new QuarterbackDataSource(loadDoc)
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
@@ -90,24 +79,13 @@ const EditorApp: React.FC<Props> = ({
       authToken || ''
     )
     const mainSource = new PsSource(files)
-    Promise.all([
-      loadDoc(manuscriptID, projectID),
-      createStore(
-        [basicSource, mainSource],
-        undefined,
-        undefined,
-        parentObserver
-      ),
-    ])
-      .then(([doc, store]) => {
-        // if no doc found in track changes backend, the one produced from manuscripts backend will be used (store.doc)
-        if (doc) {
-          store.setState((s) => ({ ...s, doc }))
-        }
-        initPouchStore({
-          getModels: () => store.state?.modelMap,
-          bulkUpdate: store.state?.bulkUpdate,
-        })
+    createStore(
+      [basicSource, mainSource, quarterBackSource],
+      undefined,
+      undefined,
+      parentObserver
+    )
+      .then((store) => {
         setStore(store)
       })
       .catch((e) => {

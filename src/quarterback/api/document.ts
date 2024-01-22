@@ -9,28 +9,31 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ICreateDocRequest,
-  ICreateDocResponse,
-  IGetDocumentResponse,
-  IUpdateDocumentRequest,
-} from '@manuscripts/quarterback-types'
+import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
-import { del, get, post, put } from './methodsV2'
+import {
+  AppliedStepsResponse,
+  ICreateDocRequest,
+  IUpdateDocumentRequest,
+  ManuscriptDocWithSnapshots,
+  StepsPayload,
+  StepsSinceResponse,
+} from '../types'
+import { del, get, listen, post, put } from './methods'
 
 export const getDocument = (
   projectID: string,
   manuscriptID: string,
   authToken: string
 ) =>
-  get<IGetDocumentResponse>(
+  get<ManuscriptDocWithSnapshots>(
     `doc/${projectID}/manuscript/${manuscriptID}`,
     authToken,
     'Fetching document failed'
   )
 
 export const createDocument = (payload: ICreateDocRequest, authToken: string) =>
-  post<ICreateDocResponse>(
+  post<ManuscriptDocWithSnapshots>(
     `doc/${payload.project_model_id}/manuscript/${payload.manuscript_model_id}`,
     authToken,
     payload,
@@ -60,3 +63,59 @@ export const deleteDocument = (
     authToken,
     'Deleting document failed'
   )
+
+export const applySteps = (
+  projectId: string,
+  docId: string,
+  authToken: string,
+  payload: StepsPayload
+) =>
+  post<AppliedStepsResponse>(
+    `doc/${projectId}/manuscript/${docId}/steps`,
+    authToken,
+    payload,
+    'Creating document failed'
+  )
+
+export const stepsSince = (
+  projectId: string,
+  docId: string,
+  version: number,
+  authToken: string
+) =>
+  get<StepsSinceResponse>(
+    `doc/${projectId}/manuscript/${docId}/version/${version}`,
+    authToken,
+    `Fetching steps since version ${version}`
+  )
+
+export const listenStepUpdates = (
+  projectID: string,
+  manuscriptID: string,
+  dataListener: (
+    version: number,
+    steps: unknown[],
+    clientIDs: number[]
+  ) => void,
+  authToken: string
+) => {
+  const listener = (event: EventSourceMessage) => {
+    if (event.data) {
+      const data = JSON.parse(event.data)
+      if (
+        typeof data.version != 'undefined' &&
+        data.steps &&
+        Array.isArray(data.steps) &&
+        data.clientIDs
+      ) {
+        dataListener(data.version, data.steps, data.clientIDs)
+      }
+    }
+  }
+
+  listen(
+    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
+    listener,
+    authToken
+  )
+}

@@ -17,7 +17,6 @@ import { AddAuthorsModal } from './AuthorsModals'
 
 interface State {
   isCreateAuthorOpen: boolean
-  searchingAuthors: boolean
   searchText: string
   searchResults: UserProfile[]
 }
@@ -28,7 +27,6 @@ interface Props {
   addedAuthors: string[]
   numberOfAddedAuthors: number
   handleAddingDoneCancel: () => void
-  handleInvite: (searchText: string) => void
   createAuthor: (
     priority: number,
     person?: UserProfile | null,
@@ -40,14 +38,12 @@ interface Props {
 export class AddAuthorsModalContainer extends React.Component<Props, State> {
   public state = {
     isCreateAuthorOpen: false,
-    searchingAuthors: false,
     searchText: '',
     searchResults: [],
   }
 
   public render() {
-    const { isCreateAuthorOpen, searchResults, searchText, searchingAuthors } =
-      this.state
+    const { isCreateAuthorOpen, searchResults, searchText } = this.state
 
     const {
       numberOfAddedAuthors,
@@ -56,7 +52,6 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
       authors,
       handleAddingDoneCancel,
       nonAuthors,
-      handleInvite,
     } = this.props
 
     return (
@@ -68,12 +63,8 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
         isCreateAuthorOpen={isCreateAuthorOpen}
         searchResults={searchResults}
         searchText={searchText}
-        searchingAuthors={searchingAuthors}
         createAuthor={createAuthor}
-        isAuthorExist={this.isAuthorExist}
         handleAddingDoneCancel={handleAddingDoneCancel}
-        handleInvite={handleInvite}
-        handleSearchFocus={this.handleSearchFocus}
         handleSearchChange={this.handleSearchChange}
         handleCreateAuthor={this.handleCreateAuthor}
       />
@@ -90,11 +81,6 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
       isCreateAuthorOpen: !this.state.isCreateAuthorOpen,
     })
   }
-
-  private handleSearchFocus = () =>
-    this.setState({
-      searchingAuthors: !this.state.searchingAuthors,
-    })
 
   private handleSearchChange = (event: React.FormEvent<HTMLInputElement>) => {
     this.setState({ searchText: event.currentTarget.value })
@@ -128,22 +114,5 @@ export class AddAuthorsModalContainer extends React.Component<Props, State> {
     })
 
     this.setState({ searchResults })
-  }
-
-  private isAuthorExist = () => {
-    const name = this.state.searchText
-    const [given, ...family] = name.split(' ')
-    const authors = this.props.authors
-    for (const author of authors) {
-      if (
-        author.bibliographicName.given!.toLowerCase() === given.toLowerCase() &&
-        author.bibliographicName.family!.toLowerCase() ===
-          family.join(' ').toLowerCase()
-      ) {
-        return true
-      }
-    }
-
-    return false
   }
 }

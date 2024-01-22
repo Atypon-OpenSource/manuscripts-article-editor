@@ -10,37 +10,74 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { schema } from '@manuscripts/transform'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 
 import config from '../config'
-import { useDocStore } from './useDocStore'
-import { useSnapshotStore } from './useSnapshotStore'
+import { updateDocument } from './api/document'
+import * as docApi from './api/document'
+import { SnapshotLabel } from './types'
 
 export const useLoadDoc = (authToken: string) => {
-  const { createDocument, getDocument, setCurrentDocument } = useDocStore()
-  const { init: initSnapshots, setSnapshots } = useSnapshotStore()
-
-  return async function loadDoc(manuscriptID: string, projectID: string) {
+  return async function loadDoc(
+    manuscriptID: string,
+    projectID: string,
+    existingDoc: ManuscriptNode
+  ) {
     if (!config.quarterback.enabled) {
       return undefined
     }
-    setCurrentDocument(manuscriptID, projectID)
-    const found = await getDocument(projectID, manuscriptID, authToken)
+    const found = await docApi.getDocument(projectID, manuscriptID, authToken)
     let doc
+    let version = 0
+    let snapshots: SnapshotLabel[] = []
     if ('data' in found) {
-      initSnapshots()
-      setSnapshots(found.data.snapshots)
+      let empty = true
+      for (const _ in found.data.doc as object) {
+        empty = false
+        break
+      }
+
+      if (empty) {
+        await updateDocument(projectID, manuscriptID, authToken, {
+          doc: existingDoc.toJSON(),
+        })
+      }
+
+      snapshots = found.data.snapshots
       doc = found.data.doc
+      version = found.data.version
     } else if ('err' in found && found.code === 404) {
       // Create an empty doc that will be replaced with whatever document is currently being edited
-      createDocument(manuscriptID, projectID, authToken)
+      const res = await docApi.createDocument(
+        {
+          manuscript_model_id: manuscriptID,
+          project_model_id: projectID,
+          doc: {},
+        },
+        authToken
+      )
+      if ('data' in res) {
+        doc = res.data.doc
+        version = res.data.version
+        snapshots = res.data.snapshots
+      }
+      if ('err' in res) {
+        console.error('Unable to create new document: ' + res.err)
+      }
+
+      const update = await updateDocument(projectID, manuscriptID, authToken, {
+        doc: existingDoc.toJSON(),
+      })
+      if ('err' in update) {
+        console.error('Unable to create new document: ' + update.err)
+      }
     }
     if (
       doc !== null &&
       typeof doc === 'object' &&
       Object.keys(doc).length !== 0
     ) {
-      return schema.nodeFromJSON(doc)
+      return { doc: schema.nodeFromJSON(doc), version, snapshots }
     }
     return undefined
   }

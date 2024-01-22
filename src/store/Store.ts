@@ -33,16 +33,18 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/style-guide'
+import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   ContainedModel,
+  ManuscriptEditorView,
   ManuscriptNode,
   ModelAttachment,
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
-import { BiblioTools } from './BiblioTools'
 import { TokenData } from './TokenData'
 
 export interface TokenActions {
@@ -80,7 +82,10 @@ export type state = {
 
   editor: ReturnType<typeof useCreateEditor>
   doc: ManuscriptNode
+  initialDocVersion: number
   ancestorDoc: ManuscriptNode
+
+  authorsPopupOn?: boolean // toggling authors modal
 
   modelMap: Map<string, Model>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
@@ -119,10 +124,18 @@ export type state = {
   collaboratorsById?: Map<string, UserProfile>
 
   authorsAndAffiliations: AuthorData
+  trackedAuthorsAndAffiliations?: AuthorData
 
   notes?: ManuscriptNote[]
 
   tags?: Tag[]
+
+  trackState?: TrackChangesState
+  view: ManuscriptEditorView
+
+  snapshots: SnapshotLabel[]
+  snapshotsMap: Map<string, ManuscriptSnapshot>
+  inspectedSnapshotId: string
 
   permittedActions: string[]
 
@@ -135,7 +148,6 @@ export type state = {
 
   library: Map<string, BibliographyItem>
   projectLibraryCollections: Map<string, LibraryCollection>
-  biblio: BiblioTools
   template?: ManuscriptTemplate
   bundle?: Bundle
   cslLocale?: string
