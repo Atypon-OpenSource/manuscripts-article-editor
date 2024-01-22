@@ -103,8 +103,8 @@ export default class Api {
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
 
-  getCollaborators = (containerID: string) =>
-    this.get<UserCollaborator[]>(`/project/${containerID}/collaborators`)
+  getUserProfiles = (containerID: string) =>
+    this.get<UserCollaborator[]>(`/project/${containerID}/userProfiles`)
 
   signUpAndGetToken = async (
     username: string,
