@@ -216,6 +216,7 @@ export const CitationModal: React.FC<{
 
   return (
     <StyledModal
+      data-cy="citations-modal"
       isOpen={editCitation}
       onRequestClose={stopEditing}
       shouldCloseOnOverlayClick={true}
@@ -251,7 +252,10 @@ export const CitationModal: React.FC<{
           <ReferencesSidebar>
             <SidebarHeader title={'References'} />
             <ReferencesSidebarContent ref={ref}>
-              <ReferencesInnerWrapper style={{ paddingTop: '0px' }}>
+              <ReferencesInnerWrapper
+                data-cy="references-list"
+                style={{ paddingTop: '0px' }}
+              >
                 {[...displayableRefs.entries()].map(([index, item]) => (
                   <ReferenceButton
                     key={index}

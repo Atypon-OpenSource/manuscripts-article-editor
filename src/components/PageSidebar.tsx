@@ -46,7 +46,7 @@ const PageSidebar: React.FunctionComponent<Props> = ({
     minSize={minSize || 300}
     resizerButton={ResizingOutlinerButton}
   >
-    <Sidebar data-cy={'sidebar'}>
+    <Sidebar data-cy="sidebar">
       {sidebarTitle}
       <SidebarContent>{children}</SidebarContent>
       {sidebarFooter && <SidebarFooter>{sidebarFooter}</SidebarFooter>}
