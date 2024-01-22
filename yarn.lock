@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.13":
-  version "1.6.13"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.13.tgz#6d1c87ff6f0fffc07604294033be822c473c3f3d"
-  integrity sha512-jb2ccXUTHM6pkBVtMKhlK0MX7E+dtDJDWE8EtjeFqk3BWLkxuPvZcc6+5R0aZJ7tuzgJaXciCDkkHyc1z6xeLA==
+"@manuscripts/body-editor@1.6.13-LEAN-3071-v0-0":
+  version "1.6.13-LEAN-3071-v0-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.13-LEAN-3071-v0-0.tgz#d5d89199e338f31b0e2cb3948c2a95e86d519272"
+  integrity sha512-N4v8S1ASE3DYF0sZE/ozULtxSvkySLQBtRHVzhaDPhQY2CvJGyGjA24WAW/TNnpiVN20nf8mmkRZkGdgl7Tyeg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -2099,21 +2099,6 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
-
-"@manuscripts/transform@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.0.4.tgz#340777265162dd1ff810133bcedb3b2a24995f16"
-  integrity sha512-Gx5MQ2HWw6/e88rJ7Id3e3kyaoWMx60crLntf/gJ/eZ9i93Es9UfPaZpXX4WqSAc2x3z7dMJ9JWwTfQSFXsRvg==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.2"
-    "@manuscripts/library" "1.3.2"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    mathjax-full "^3.2.2"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@2.0.4":
   version "2.0.4"
