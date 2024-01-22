@@ -75,12 +75,10 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const can = usePermissions()
 
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   return (
     <>
       <Panel
+        data-cy="inspector"
         name={'inspector'}
         minSize={400}
         direction={'row'}
@@ -92,20 +90,20 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
             <InspectorTabList>
-              <InspectorTab>Content</InspectorTab>
-              <InspectorTab>Comments</InspectorTab>
+              <InspectorTab data-cy="content-button">Content</InspectorTab>
+              <InspectorTab data-cy="comments-button">Comments</InspectorTab>
               {config.quarterback.enabled && (
-                <InspectorTab>History</InspectorTab>
+                <InspectorTab data-cy="history-button">History</InspectorTab>
               )}
               {config.features.fileManagement && (
-                <InspectorTab>Files</InspectorTab>
+                <InspectorTab data-cy="files-button">Files</InspectorTab>
               )}
             </InspectorTabList>
             <PaddedInspectorTabPanels>
-              <InspectorTabPanel key="Content">
+              <InspectorTabPanel key="Content" data-cy="content">
                 <ContentTab state={state} dispatch={dispatch} key="content" />
               </InspectorTabPanel>
-              <InspectorTabPanel key="Comments">
+              <InspectorTabPanel key="Comments" data-cy="comments">
                 <CommentsTab
                   selected={selection}
                   editor={editor}
@@ -113,12 +111,12 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                 />
               </InspectorTabPanel>
               {config.quarterback.enabled && (
-                <InspectorTabPanel key="History">
+                <InspectorTabPanel key="History" data-cy="history">
                   <TrackChangesPanel key="track-changes" />
                 </InspectorTabPanel>
               )}
               {config.features.fileManagement && (
-                <InspectorTabPanel key="Files">
+                <InspectorTabPanel key="Files" data-cy="files">
                   <FileManager
                     can={can}
                     files={store.files}

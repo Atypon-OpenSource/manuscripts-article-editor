@@ -110,7 +110,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
       </SearchContainer>
 
       {searchText === '' ? (
-        <SidebarContent>
+        <SidebarContent data-cy="non-authors-list">
           {nonAuthors.map((person: UserProfileWithAvatar) => (
             <SidebarPersonContainer key={person._id}>
               <UserDataContainer>
@@ -135,6 +135,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
         </SidebarContent>
       ) : isCreateAuthorOpen ? (
         <CreateAuthorPageContainer
+          data-cy="create-author-dialog"
           authors={authors}
           createAuthor={createAuthor}
           isOpen={isCreateAuthorOpen}
@@ -143,6 +144,7 @@ const AddAuthorsSidebar: React.FunctionComponent<Props> = ({
         />
       ) : (
         <SearchAuthorsSidebar
+          data-cy="search-authors-sidebar"
           addedAuthors={addedAuthors}
           createAuthor={createAuthor}
           searchResults={searchResults}
