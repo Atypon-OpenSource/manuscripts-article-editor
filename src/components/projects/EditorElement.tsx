@@ -35,10 +35,10 @@ import { NodeSelection, Transaction } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
+import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
-import { useEditorStore } from '../track-changes/useEditorStore'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
@@ -47,10 +47,12 @@ interface Props {
 const EditorElement: React.FC<Props> = ({ editor }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
-  const [{ deleteModel }] = useStore((store) => ({
+  const [{ deleteModel, trackState }] = useStore((store) => ({
     deleteModel: store.deleteModel,
+    trackState: store.trackState,
   }))
-  const { execCmd, trackState } = useEditorStore()
+
+  const execCmd = useExecCmd()
 
   const [, drop] = useDrop({
     accept: 'file',

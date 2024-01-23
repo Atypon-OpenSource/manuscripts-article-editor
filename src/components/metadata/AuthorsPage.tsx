@@ -164,19 +164,3 @@ export const AuthorDetailsPage: React.FunctionComponent = () => (
     </InnerContainer>
   </OuterContainer>
 )
-
-export const InviteCollaboratorsModal: React.FunctionComponent = () => (
-  <OuterContainer>
-    <InnerContainer>
-      <Placeholder>
-        <InvitationPlaceholder />
-      </Placeholder>
-
-      <Action>Invite New Collaborator</Action>
-
-      <Message>
-        <InviteCollaboratorsMessage />
-      </Message>
-    </InnerContainer>
-  </OuterContainer>
-)

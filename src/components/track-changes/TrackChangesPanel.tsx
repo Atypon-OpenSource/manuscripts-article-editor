@@ -19,40 +19,26 @@ import {
 import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
-import { useAuthStore } from '../../quarterback/useAuthStore'
-import { useCommentStore } from '../../quarterback/useCommentStore'
-import { useDocStore } from '../../quarterback/useDocStore'
+import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
-import { useEditorStore } from './useEditorStore'
 
 export function TrackChangesPanel() {
-  const { user, authenticate } = useAuthStore()
-  const { execCmd, trackState } = useEditorStore()
-  const { listComments } = useCommentStore()
-  const { currentDocument } = useDocStore()
-  const { changeSet } = trackState || {}
   const [sortBy, setSortBy] = useState('Date')
 
-  const [{ editorSelectedSuggestion, editor }, dispatch] = useStore(
+  const [{ editorSelectedSuggestion, editor, trackState }, dispatch] = useStore(
     (store) => ({
       editorSelectedSuggestion: store.editorSelectedSuggestion,
       editor: store.editor,
+      trackState: store.trackState,
     })
   )
 
-  useEffect(() => {
-    async function loginListComments(docId: string) {
-      await authenticate()
-      // Comments for individual changes, example in old code & quarterback example. Not in use atm 8.9.2022
-      await listComments(docId)
-    }
-    currentDocument && loginListComments(currentDocument.manuscriptID)
-    execCmd(trackCommands.setUserID(user.id))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, execCmd])
+  const execCmd = useExecCmd()
+
+  const { changeSet } = trackState || {}
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSortBy(event.currentTarget.value)
@@ -144,6 +130,7 @@ export function TrackChangesPanel() {
       <SnapshotsDropdown />
       <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
       <SuggestionList
+        data-cy="suggestions"
         changes={changeSet?.pending || []}
         title="Suggestions"
         sortBy={sortBy}
@@ -156,6 +143,7 @@ export function TrackChangesPanel() {
         handleClickSuggestion={handleClickSuggestion}
       />
       <SuggestionList
+        data-cy="suggestions-accepted"
         changes={changeSet?.accepted || []}
         title="Approved Suggestions"
         sortBy={sortBy}
@@ -165,6 +153,7 @@ export function TrackChangesPanel() {
         handleClickSuggestion={handleClickSuggestion}
       />
       <SuggestionList
+        data-cy="suggestions-rejected"
         changes={changeSet?.rejected || []}
         title="Rejected Suggestions"
         sortBy={sortBy}

@@ -9,8 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfile } from '@manuscripts/quarterback-types'
-import { Avatar } from '@manuscripts/style-guide'
+
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
@@ -18,27 +17,12 @@ import {
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
-
-import { getUserRole } from '../../../lib/roles'
-import { useStore } from '../../../store'
-import { FormattedDateTime } from '../../FormattedDateTime'
 
 export const SuggestionSnippet: React.FC<{
   suggestion: TrackedChange
 }> = ({ suggestion }) => {
-  const [project] = useStore((store) => store.project)
-  const [collaboratorsById] = useStore(
-    (store) => store.collaboratorsById || new Map()
-  )
   const { dataTracked } = suggestion
-  const userID =
-    dataTracked.status === CHANGE_STATUS.pending
-      ? dataTracked.authorID
-      : dataTracked.reviewedByID
-  const userProfile = collaboratorsById.get(userID) as UserProfile
-  const timestamp = dataTracked.updatedAt / 1000
 
   const changeTitle = (c: TrackedChange) => {
     if (ChangeSet.isTextChange(c)) {
@@ -64,54 +48,6 @@ export const SuggestionSnippet: React.FC<{
           changeTitle(suggestion)
         )}
       </SnippetText>
-      {userProfile ? (
-        <AvatarContainer key={suggestion.id}>
-          <div data-tip={true} data-for={suggestion.id}>
-            <Avatar size={22} />
-          </div>
-          <ReactTooltip
-            id={suggestion.id}
-            place="bottom"
-            effect="solid"
-            offset={{ top: 4 }}
-            className="tooltip"
-          >
-            <TooltipHeader>
-              {dataTracked.status === CHANGE_STATUS.pending
-                ? 'Created by'
-                : dataTracked.status === CHANGE_STATUS.accepted
-                ? 'Approved by'
-                : 'Rejected by'}
-            </TooltipHeader>
-
-            <Name>
-              {userProfile.bibliographicName.given +
-                ' ' +
-                userProfile.bibliographicName.family}
-            </Name>
-            {getUserRole(project, userProfile.userID)}
-
-            <DateTime>
-              {FormattedDateTime({
-                date: timestamp,
-                options: { year: 'numeric', month: 'numeric', day: 'numeric' },
-              })}
-              ,{' '}
-              {FormattedDateTime({
-                date: timestamp,
-                options: { hour: 'numeric', minute: 'numeric' },
-              })}
-            </DateTime>
-          </ReactTooltip>
-        </AvatarContainer>
-      ) : null}
-      <Time>
-        {' '}
-        {FormattedDateTime({
-          date: timestamp,
-          options: { hour: 'numeric', minute: 'numeric' },
-        })}
-      </Time>
     </>
   )
 }
@@ -123,46 +59,9 @@ const Text = styled.div`
 const SnippetText = styled(Text)<{
   isRejected: boolean
 }>`
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-right: ${(props) => props.theme.grid.unit}px;
   color: ${(props) => props.theme.colors.text.primary};
-  opacity: ${(props) => (props.isRejected ? 0.5 : 1)};
-`
-
-const TooltipHeader = styled(Text)`
-  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
-`
-
-const Name = styled.div`
-  font-size: ${(props) => props.theme.font.size.normal};
-  line-height: ${(props) => props.theme.font.lineHeight.normal};
-  font-weight: 700;
-`
-const DateTime = styled(Text)`
-  font-weight: 700;
-  margin-top: ${(props) => props.theme.grid.unit * 2}px;
-`
-export const AvatarContainer = styled.div`
-  margin-right: ${(props) => props.theme.grid.unit}px;
-  position: relative;
-  visibility: hidden;
-  .tooltip {
-    border-radius: 6px;
-    padding: ${(props) => props.theme.grid.unit * 4}px;
-  }
-
-  & img {
-    border: 1px solid transparent;
-  }
-
-  &:hover {
-    & img {
-      border: 1px solid #bce7f6;
-    }
-  }
-`
-export const Time = styled.span`
-  visibility: hidden;
 `

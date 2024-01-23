@@ -9,18 +9,20 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { SnapshotLabel } from '@manuscripts/quarterback-types'
 import { Avatar, SecondaryButton } from '@manuscripts/style-guide'
 import {
+  trackChangesPluginKey,
   TrackChangesStatus,
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
+import { EditorState } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { useDropdown } from '../../hooks/use-dropdown'
-import { useSnapshotStore } from '../../quarterback/useSnapshotStore'
-// import { useStore } from 'zustand'
+import { useExecCmd } from '../../hooks/use-track-attrs-popper'
+import { get } from '../../quarterback/api/methods'
+import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
 import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'
 import {
@@ -29,45 +31,99 @@ import {
   DropdownContainer,
   DropdownToggle,
 } from '../nav/Dropdown'
-import { useEditorStore } from '../track-changes/useEditorStore'
 
 export const SnapshotsDropdown: React.FC = () => {
   const { wrapperRef, toggleOpen, isOpen } = useDropdown()
-  const snapshotStore = useSnapshotStore()
-  const { snapshots, inspectedSnapshot } = snapshotStore
-  const { docToJSON, execCmd, hydrateDocFromJSON } = useEditorStore()
-  const [authToken] = useStore((store) => store.authToken)
+  const [
+    {
+      view,
+      doc,
+      originalPmDoc,
+      authToken,
+      snapshotsMap,
+      snapshots,
+      inspectedSnapshotId,
+    },
+    dispatch,
+  ] = useStore((store) => ({
+    view: store.view,
+    doc: store.doc,
+    originalPmDoc: store.originalPmDoc,
+    authToken: store.authToken,
+    snapshotsMap: store.snapshotsMap,
+    snapshots: store.snapshots,
+    inspectedSnapshotId: store.inspectedSnapshotId,
+  }))
+
+  const execCmd = useExecCmd()
 
   const sortedSnapshots = snapshots.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )
 
   const isBeingInspected = useCallback(
-    (snap: SnapshotLabel) => inspectedSnapshot?.id === snap.id,
-    [inspectedSnapshot]
+    (snap: SnapshotLabel) => inspectedSnapshotId === snap.id,
+    [inspectedSnapshotId]
   )
 
+  const hydrateDocFromJSON = (doc: Record<string, any>) => {
+    const state = EditorState.create({
+      doc: view.state.schema.nodeFromJSON(doc),
+      plugins: view.state.plugins,
+    })
+    view && view.updateState(state)
+    const trackState = view
+      ? trackChangesPluginKey.getState(view.state)
+      : undefined
+    dispatch({ trackState })
+  }
+
+  const inspectSnapshot = async (id: string) => {
+    const inspected = snapshotsMap.get(id)
+
+    if (inspected) {
+      dispatch({ inspectedSnapshotId: id })
+      return { data: inspected }
+    }
+
+    const resp = await get<IGetSnapshotResponse>(`snapshot/${id}`, authToken)
+    if ('data' in resp) {
+      dispatch({
+        snapshotsMap: snapshotsMap.set(id, resp.data),
+        inspectedSnapshotId: resp.data.id,
+      })
+      return resp
+    }
+  }
+
   async function handleInspectSnapshot(snap: SnapshotLabel) {
-    if (!inspectedSnapshot) {
-      snapshotStore.setOriginalPmDoc(docToJSON())
+    if (!inspectedSnapshotId) {
+      dispatch({
+        originalPmDoc: doc.toJSON(),
+      })
     } else if (isBeingInspected(snap)) {
       handleResumeEditing()
       return
     }
-    const resp = await snapshotStore.inspectSnapshot(snap.id, authToken)
-    if ('data' in resp) {
-      hydrateDocFromJSON(resp.data.snapshot as any)
+
+    const resp = await inspectSnapshot(snap.id)
+    if (resp) {
+      hydrateDocFromJSON(resp.data.snapshot as Record<string, any>)
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
     }
   }
   function handleResumeEditing() {
-    snapshotStore.resumeEditing()
-    const { originalPmDoc } = snapshotStore
+    dispatch({
+      inspectedSnapshotId: null,
+    })
+
     if (originalPmDoc) {
       hydrateDocFromJSON(originalPmDoc)
     }
     execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
   }
+
+  const inspectedSnapshot = snapshotsMap.get(inspectedSnapshotId)
 
   return (
     <SnapshotContainer>

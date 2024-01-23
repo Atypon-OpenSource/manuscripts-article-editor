@@ -15,20 +15,11 @@ import { getCapabilities as getActionCapabilities } from '@manuscripts/style-gui
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
-import React, { ReactChild, ReactNode } from 'react'
-import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router'
-
-import CitationEditor from '../components/library/CitationEditor'
-import { CitationViewer } from '../components/library/CitationViewer'
-import { ReferencesEditor } from '../components/library/ReferencesEditor'
-import { ReferencesViewer } from '../components/library/ReferencesViewer'
 import config from '../config'
-import { useAuthStore } from '../quarterback/useAuthStore'
-import { useDocStore } from '../quarterback/useDocStore'
+import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
-import { ThemeProvider } from '../theme/ThemeProvider'
 
 export const useCreateEditor = () => {
   const [
@@ -66,7 +57,6 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     authToken: store.authToken,
   }))
-  const { user: trackUser } = useAuthStore()
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
@@ -104,8 +94,6 @@ export const useCreateEditor = () => {
 
   const history = useHistory()
 
-  const { stepsExchanger } = useDocStore()
-
   const props = {
     attributes: {
       class: 'manuscript-editor',
@@ -117,7 +105,7 @@ export const useCreateEditor = () => {
     plugins: config.quarterback.enabled
       ? [
           trackChangesPlugin({
-            userID: trackUser.id,
+            userID: user._id,
             debug: config.environment === 'development',
           }),
         ]
@@ -156,25 +144,8 @@ export const useCreateEditor = () => {
       }
     },
     getModelMap,
-    saveModel,
     deleteModel,
     retrySync,
-
-    renderReactComponent: (child: ReactNode, container: HTMLElement) => {
-      if (child && typeof child !== 'boolean') {
-        ReactDOM.render(
-          <ThemeProvider>{child as ReactChild}</ThemeProvider>,
-          container
-        )
-      }
-    },
-    unmountReactComponent: ReactDOM.unmountComponentAtNode,
-    components: {
-      ReferencesEditor,
-      ReferencesViewer,
-      CitationEditor,
-      CitationViewer,
-    },
     subscribeStore: subscribe,
 
     ancestorDoc: ancestorDoc,
