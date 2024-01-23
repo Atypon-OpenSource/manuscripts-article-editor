@@ -16,6 +16,7 @@ import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
+
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
