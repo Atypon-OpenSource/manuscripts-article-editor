@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ModalMain } from '@manuscripts/style-guide'
 import styled, { css } from 'styled-components'
 
 const SidebarCommonStyles = css`
@@ -40,7 +39,7 @@ export const ModalSidebar = styled.div`
   width: 340px;
 `
 
-export const StyledModalMain = styled(ModalMain)`
+export const StyledModalMain = styled.div`
   box-sizing: border-box;
   max-width: 60vw;
   width: 480px;
