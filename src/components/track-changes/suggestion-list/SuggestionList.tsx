@@ -14,10 +14,12 @@ import React from 'react'
 
 import { InspectorSection } from '../../InspectorSection'
 import { Suggestion } from './Suggestion'
+import styled from 'styled-components'
 
 interface IProps {
   changes: TrackedChange[]
   title: string
+  type: string
   sortBy: string
   handleAcceptChange(c: TrackedChange): void
   handleRejectChange(c: TrackedChange): void
@@ -30,6 +32,7 @@ export const SuggestionList = (props: IProps) => {
   const {
     changes,
     title,
+    type,
     sortBy,
     handleAcceptChange,
     handleRejectChange,
@@ -52,16 +55,25 @@ export const SuggestionList = (props: IProps) => {
       title={title.concat(changes.length ? ` (${changes.length})` : '')}
       approveAll={handleAcceptPending}
     >
-      {sortedChanges.map((c: TrackedChange, i: number) => (
-        <Suggestion
-          suggestion={c}
-          handleAccept={handleAcceptChange}
-          handleReject={handleRejectChange}
-          handleReset={handleResetChange}
-          handleClickSuggestion={handleClickSuggestion}
-          key={c.id}
-        />
-      ))}
+      <List data-cy="suggestions-list" data-cy-type={type}>
+        {sortedChanges.map((c: TrackedChange, i: number) => (
+          <Suggestion
+            suggestion={c}
+            handleAccept={handleAcceptChange}
+            handleReject={handleRejectChange}
+            handleReset={handleResetChange}
+            handleClickSuggestion={handleClickSuggestion}
+            key={c.id}
+          />
+        ))}
+      </List>
     </InspectorSection>
   )
 }
+
+const List = styled.ul`
+  list-style: none;
+  font-size: inherit;
+  padding: 0;
+  margin: 0;
+`
