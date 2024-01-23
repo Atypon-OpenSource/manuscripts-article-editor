@@ -13,7 +13,6 @@
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import ContributorDetails from '@manuscripts/assets/react/ContributorDetailsPlaceholder'
-import InvitationPlaceholder from '@manuscripts/assets/react/InvitationPlaceholder'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
@@ -42,15 +41,6 @@ const AddedAuthorsMessage: React.FunctionComponent<{
     id={'added_authors'}
     defaultMessage={`You added {addedCount, number} {addedCount, plural, one {author} other {authors}}`}
     values={{ addedCount }}
-  />
-)
-
-const InviteCollaboratorsMessage = () => (
-  <FormattedMessage
-    id={'invite_collaborators'}
-    defaultMessage={
-      'You can invite collaborators by sending email to the users you want to add.'
-    }
   />
 )
 
