@@ -82,7 +82,11 @@ export const Suggestion: React.FC<Props> = ({
   }, [isSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Wrapper isFocused={isSelectedSuggestion} ref={wrapperRef}>
+    <Wrapper
+      data-cy="suggestion"
+      isFocused={isSelectedSuggestion}
+      ref={wrapperRef}
+    >
       <FocusHandle
         href="#"
         onClick={(e) => {
@@ -95,7 +99,7 @@ export const Suggestion: React.FC<Props> = ({
         <SuggestionSnippet suggestion={suggestion} />
       </FocusHandle>
 
-      <Actions>
+      <Actions data-cy="suggestion-actions">
         <>
           {canRejectOwnSuggestion && (
             <Container>
