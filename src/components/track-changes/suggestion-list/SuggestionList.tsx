@@ -11,10 +11,10 @@
  */
 import { TrackedChange } from '@manuscripts/track-changes-plugin'
 import React from 'react'
+import styled from 'styled-components'
 
 import { InspectorSection } from '../../InspectorSection'
 import { Suggestion } from './Suggestion'
-import styled from 'styled-components'
 
 interface IProps {
   changes: TrackedChange[]
