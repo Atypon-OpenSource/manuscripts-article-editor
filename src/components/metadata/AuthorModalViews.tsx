@@ -175,8 +175,6 @@ const AuthorModalViews: React.FC = () => {
 
   const metaData = useMemo(() => {
     const data = getMetaData(trackModelMap)
-    // data?.authorsAndAffiliations.authors.filter((author) => {})
-    console.log(data)
     return data
   }, [trackModelMap])
 
