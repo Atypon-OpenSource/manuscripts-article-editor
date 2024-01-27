@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { isDeleted } from '@manuscripts/body-editor'
 import {
   Affiliation,
   CommentAnnotation,
@@ -18,7 +17,6 @@ import {
   Model,
   ObjectTypes,
 } from '@manuscripts/json-schema'
-import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   Decoder,
@@ -27,7 +25,6 @@ import {
   ManuscriptNode,
   schema,
 } from '@manuscripts/transform'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { useCallback, useMemo } from 'react'
 
@@ -58,17 +55,6 @@ const useTrackedModelManagement = (
     finalModelMap.forEach((model) => {
       if (model.objectType === ObjectTypes.Supplement) {
         modelsFromPM.set(model._id, model)
-      }
-    })
-
-    // @TODO - integrate into adaptTrackedData to avoid repeated interation
-    doc.descendants((node) => {
-      if (node.attrs.id && node.attrs.dataTracked) {
-        // deleting nodes from model map that considered deleted due to current track changes status so they won't be visible in inspector and other UI
-        if (isDeleted(node)) {
-          modelsFromPM.delete(node.attrs.id)
-          return true
-        }
       }
     })
 
