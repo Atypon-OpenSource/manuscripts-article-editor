@@ -1920,10 +1920,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.15-LEAN-3071-v0-0":
-  version "1.6.15-LEAN-3071-v0-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.15-LEAN-3071-v0-0.tgz#b7c52a5f17ec322fbab47c38c5c52875f05dac54"
-  integrity sha512-1nArw5Apois5KPzbyXrVuIOJkQvyUni7IrXp5DzWhxuIAxtleYzdP6Mqpvce4r7A8rNEG7cKnS4boOYdjcCyHA==
+"@manuscripts/body-editor@1.6.16":
+  version "1.6.16"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.16.tgz#dac549c1ebea0251a66d1f5581aece66cc0929c6"
+  integrity sha512-+lx9a+/C8Cs2kVD4aTMC9bF2A4nQiaBWIl62dSYdso1EgtqkB5WRx5AUl50AY2H4Oc3KtzxWUbpSHdNMGBPkTw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1995,6 +1995,46 @@
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.0.tgz#7b67a86569a963ec11e5ad2c2fce080f7c54957f"
   integrity sha512-7f+x2v0rhv9OWUnOqo6oHmAZ75ljgtrEJ21/n5TdKjHT3f9gH5Cat5WnITTetmTtgcmCWrRJa2uMfXkJo9Teqw==
+  dependencies:
+    "@apollo/client" "^3.7.3"
+    "@formatjs/intl-relativetimeformat" "^4.5.9"
+    "@formatjs/intl-utils" "^2.2.0"
+    "@manuscripts/assets" "^0.6.2"
+    "@manuscripts/json-schema" "^2.2.2"
+    "@manuscripts/transform" "2.0.4"
+    "@reach/tabs" "^0.11.2"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash-es "^4.17.21"
+    prosemirror-commands "^1.5.0"
+    prosemirror-history "^1.3.0"
+    prosemirror-inputrules "^1.2.0"
+    prosemirror-keymap "^1.2.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-state "^1.4.2"
+    prosemirror-transform "^1.7.0"
+    react "^17.0.2"
+    react-color "^2.19.3"
+    react-dnd "^11.1.3"
+    react-dnd-html5-backend "^11.1.3"
+    react-dom "^17.0.2"
+    react-intl "^3.12.0"
+    react-modal "^3.11.2"
+    react-modern-calendar-datepicker "^3.1.3"
+    react-popper "^1.3.11"
+    react-router-dom "^5.2.0"
+    react-select "^5.7.3"
+    react-sizeme "^2.6.12"
+    react-tooltip "^4.2.11"
+    styled-components "^5.2.0"
+    tooltip.js "^1.3.3"
+    typeface-lato "^1.1.13"
+
+"@manuscripts/style-guide@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.1.tgz#8c8ffb10d1bf25cfeb6aa8e46fb5c8692c2e4b86"
+  integrity sha512-3dEfbxFFkiD1yRUv2x00jq2Yh5V+4JizaXObzSWy+IH+3AJYYlQLfc1wlKuh7OJzfeJywjJZIvYLxjACnlJcHQ==
   dependencies:
     "@apollo/client" "^3.7.3"
     "@formatjs/intl-relativetimeformat" "^4.5.9"
