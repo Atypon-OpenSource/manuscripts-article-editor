@@ -9,9 +9,9 @@
     "README.md",
     "package.json"
   ],
-  "main": "dist/cjs",
-  "module": "dist/es",
-  "types": "dist/types",
+  "main": "dist/cjs/src",
+  "module": "dist/es/src",
+  "types": "dist/types/src",
   "scripts": {
     "dev": "concurrently 'yarn:build:* --watch'",
     "build": "concurrently 'yarn:build:*'",
