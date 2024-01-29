@@ -73,6 +73,7 @@ export const ContentTab: React.FC<{
 
       {section && (
         <SectionInspector
+          data-cy={section.category || 'generic-section'}
           key={section._id}
           section={section}
           sectionNode={sectionNode}

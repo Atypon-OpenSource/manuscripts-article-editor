@@ -130,6 +130,7 @@ export function TrackChangesPanel() {
       <SnapshotsDropdown />
       <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
       <SuggestionList
+        type="all"
         changes={changeSet?.pending || []}
         title="Suggestions"
         sortBy={sortBy}
@@ -142,6 +143,7 @@ export function TrackChangesPanel() {
         handleClickSuggestion={handleClickSuggestion}
       />
       <SuggestionList
+        type="accepted"
         changes={changeSet?.accepted || []}
         title="Approved Suggestions"
         sortBy={sortBy}
@@ -151,6 +153,7 @@ export function TrackChangesPanel() {
         handleClickSuggestion={handleClickSuggestion}
       />
       <SuggestionList
+        type="rejected"
         changes={changeSet?.rejected || []}
         title="Rejected Suggestions"
         sortBy={sortBy}
