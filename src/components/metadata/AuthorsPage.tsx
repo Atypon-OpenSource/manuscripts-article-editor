@@ -17,7 +17,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const AddAuthorsMessage = () => (
-  <span>Add authors to your author list from your collaborators, or invite new ones</span>
+  <span>
+    Add authors to your author list from your collaborators, or invite new ones
+  </span>
 )
 const SelectAuthorMessage = () => (
   <span>Select an author from the list to display their details here.</span>

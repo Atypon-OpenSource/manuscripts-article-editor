@@ -12,13 +12,20 @@
 
 import { PopperManager } from '@manuscripts/body-editor'
 import {
+  BibliographyItem,
+  Bundle,
   CommentAnnotation,
+  ContainerInvitation,
   ContributorRole,
+  LibraryCollection,
   Manuscript,
   ManuscriptNote,
+  ManuscriptTemplate,
   Model,
   Project,
+  ProjectInvitation,
   SectionCategory,
+  Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
 import {
@@ -32,6 +39,7 @@ import {
   ContainedModel,
   ManuscriptEditorView,
   ManuscriptNode,
+  ModelAttachment,
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
@@ -45,7 +53,11 @@ export interface TokenActions {
 }
 
 export type action = { action?: string; [key: string]: any }
-
+export type ImportError = { error: boolean; message: string }
+export type ImportOk = { ok: boolean }
+export type bulkCreate = <T>(
+  models: Array<Build<T> & ContainerIDs & ModelAttachment>
+) => Promise<Array<ImportError | ImportOk>>
 export interface ContainerIDs {
   containerID?: string
   manuscriptID?: string
@@ -65,6 +77,7 @@ export type state = {
 
   project: Project
   manuscript: Manuscript
+  manuscripts?: Manuscript[]
   user: UserProfile // probably should be optional
 
   editor: ReturnType<typeof useCreateEditor>
@@ -93,11 +106,18 @@ export type state = {
   tokenData: TokenData
 
   // TODO remove
+  projectInvitations?: ProjectInvitation[]
+  containerInvitations?: ContainerInvitation[]
+  getInvitation?: (
+    invitingUserID: string,
+    invitedEmail: string
+  ) => Promise<ContainerInvitation>
   tokenActions: TokenActions
 
   snapshotID: string | null
   handleSnapshot?: () => Promise<void>
 
+  comments?: CommentAnnotation[]
   newComments: Map<string, CommentAnnotation>
   collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
@@ -107,6 +127,8 @@ export type state = {
   trackedAuthorsAndAffiliations?: AuthorData
 
   notes?: ManuscriptNote[]
+
+  tags?: Tag[]
 
   trackState?: TrackChangesState
   view: ManuscriptEditorView
@@ -124,11 +146,16 @@ export type state = {
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
 
+  library: Map<string, BibliographyItem>
+  projectLibraryCollections: Map<string, LibraryCollection>
+  template?: ManuscriptTemplate
+  bundle?: Bundle
+  cslLocale?: string
+  cslStyle?: string
+  citeprocCitations: Map<string, string>
+
   sectionCategories: SectionCategory[]
   contributorRoles: ContributorRole[]
-
-  cslStyle?: string
-  cslLocale?: string
 
   popper: PopperManager
 }

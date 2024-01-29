@@ -10,13 +10,23 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  getModelMap,
+  BibliographyItem,
+  CommentAnnotation,
+  Correction,
+  LibraryCollection,
+  ManuscriptNote,
   Model,
   ObjectTypes,
   Project,
+  Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { Decoder, isManuscript } from '@manuscripts/transform'
+import {
+  Decoder,
+  getModelData,
+  isCommentAnnotation,
+  isManuscript,
+} from '@manuscripts/transform'
 
 import { getMetaData } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
@@ -24,6 +34,82 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
 import Api from './Api'
+
+export const buildModelMap = async (
+  docs: Model[]
+): Promise<Map<string, Model>> => {
+  const items: Map<string, Model> = new Map()
+  const output: Map<string, Model> = new Map()
+
+  await Promise.all(
+    docs.map(async (doc) => {
+      items.set(doc._id, doc)
+      output.set(doc._id, getModelData(doc))
+    })
+  )
+
+  // for (const model of output.values()) {
+  // @TODO images are not stored in the manuscripts api under the LW mode, but managed in the LW store.
+  // we still however need to support local image management
+
+  // if (isFigure(model)) {
+  //   if (model.listingAttachment) {
+  //     const { listingID, attachmentKey } = model.listingAttachment
+
+  //     const listingDoc = items.get(listingID)
+
+  //     if (listingDoc) {
+  //       model.src = await getAttachment(listingDoc, attachmentKey)
+  //     }
+  //   } else {
+  //     const figureDoc = items.get(model._id)
+
+  //     if (figureDoc) {
+  //       model.src = await getAttachment(figureDoc, 'image')
+  //     }
+  //   }
+  // }
+
+  // TODO: enable once tables can be images
+  // else if (isTable(model)) {
+  //   if (model.listingAttachment) {
+  //     const { listingID, attachmentKey } = model.listingAttachment
+  //     const listingDoc = items.get(listingID)
+  //
+  //     if (listingDoc) {
+  //       model.src = await getAttachment(listingDoc, attachmentKey)
+  //     }
+  //   } else {
+  //     const tableDoc = items.get(model._id)!
+  //     model.src = await getAttachment(tableDoc, 'image')
+  //   }
+  // }
+  // if (isUserProfile(model)) {
+  //   const userProfileDoc = items.get(model._id)
+
+  //   if (userProfileDoc) {
+  //     model.avatar = await getAttachment(userProfileDoc, 'image')
+  //   }
+  // }
+  // }
+
+  return output
+}
+
+const isTag = (model: Model) => model.objectType === ObjectTypes.Tag
+const isCorrection = (model: Model) =>
+  model.objectType === ObjectTypes.Correction
+const isManuscriptNote = (model: Model) =>
+  model.objectType === ObjectTypes.ManuscriptNote
+
+// Project data come along with the manuscript data. We may return to this so it's commented for now.
+// const getProjectData = async (projectID: string, api: Api) => {
+//   const project = await api.getProject(projectID)
+//   if (project) {
+//     return project
+//   }
+//   throw new Error("Can't find the project by ID")
+// }
 
 const buildDocsMap = <T extends Model>(docs: T[]) => {
   const docsMap = new Map<string, any>()
@@ -46,12 +132,37 @@ const getManuscriptData = async (
   for (const model of models) {
     if (model.objectType === ObjectTypes.Project) {
       data.project = model as Project
-    } else if (isManuscript(model)) {
+      continue
+    }
+    if (isManuscript(model)) {
       data.manuscript = model
+      continue
+    }
+    if (isManuscriptNote(model)) {
+      data.notes = data.notes
+        ? ([...data.notes, model] as ManuscriptNote[])
+        : ([model] as ManuscriptNote[])
+      continue
+    }
+    if (isTag(model)) {
+      data.tags = data.tags
+        ? ([...data.tags, model] as Tag[])
+        : ([model] as Tag[])
+      continue
+    }
+    if (isCorrection(model)) {
+      data.corrections = data.corrections
+        ? ([...data.corrections, model] as Correction[])
+        : ([model] as Correction[])
+    }
+    if (isCommentAnnotation(model)) {
+      data.comments = data.comments
+        ? ([...data.comments, model] as CommentAnnotation[])
+        : ([model] as CommentAnnotation[])
     }
   }
-  data.notes = []
-  data.modelMap = getModelMap(models || [])
+  data.commits = data.commits || []
+  data.modelMap = await buildModelMap(models || [])
 
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
@@ -61,10 +172,13 @@ const getManuscriptData = async (
   ])
 
   const bundle = await api.getBundle(template)
+  const cslStyle = await api.getCSLStyle(bundle)
 
   data.sectionCategories = sectionCategories || []
-  data.cslStyle = await api.getCSLStyle(bundle)
+  data.template = template
+  data.bundle = bundle
   data.cslLocale = cslLocale
+  data.cslStyle = cslStyle
 
   return data
 }
@@ -113,8 +227,21 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
   }
   const storeData: Partial<state> = {
     snapshotID: null,
+    library: new Map<string, BibliographyItem>(),
   }
 
+  // eslint-disable-next-line no-unsafe-optional-chaining
+  for (const model of data.modelMap?.values()) {
+    if (model.objectType === ObjectTypes.BibliographyItem) {
+      storeData.library!.set(model._id, model as BibliographyItem)
+    }
+    if (model.objectType === ObjectTypes.LibraryCollection) {
+      storeData.projectLibraryCollections!.set(
+        model._id,
+        model as LibraryCollection
+      )
+    }
+  }
   const metaData = getMetaData(data.modelMap)
   storeData.authorsAndAffiliations = metaData?.authorsAndAffiliations
   storeData.contributorRoles = metaData?.contributorRoles
