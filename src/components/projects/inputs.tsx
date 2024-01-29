@@ -7,37 +7,18 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React, { useCallback } from 'react'
+import { TextField } from '@manuscripts/style-guide'
+import { InputHTMLAttributes } from 'react'
+import styled from 'styled-components'
 
-import { useSyncedData } from '../../hooks/use-synced-data'
-import { MediumTextField } from './inputs'
-
-export const DOIInput: React.FC<{
-  value?: string
-  handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
-    string | undefined
-  >(value, handleChange, 500)
-
-  const handleInputChange = useCallback(
-    (event) => {
-      handleLocalChange(event.target.value || undefined)
-    },
-    [handleLocalChange]
-  )
-
-  return (
-    <MediumTextField
-      value={currentValue}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      onChange={handleInputChange}
-      onFocus={() => setEditing(true)}
-      onBlur={() => setEditing(false)}
-    />
-  )
-}
+export const MediumTextField = styled(TextField).attrs<
+  InputHTMLAttributes<HTMLInputElement>
+>({
+  type: 'text',
+})`
+  padding: 8px;
+  font-size: 1em;
+`

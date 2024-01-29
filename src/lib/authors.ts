@@ -28,6 +28,12 @@ export interface AffiliationData {
   data: Affiliation
 }
 
+export interface AuthorData {
+  authors: Contributor[]
+  affiliations: AffiliationMap
+  authorAffiliations: Map<string, AffiliationData[]>
+}
+
 export const buildSortedContributors = (contributors: Contributor[]) =>
   contributors.sort(ascendingPriority)
 
