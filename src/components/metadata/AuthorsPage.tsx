@@ -13,46 +13,21 @@
 import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import ContributorDetails from '@manuscripts/assets/react/ContributorDetailsPlaceholder'
-import InvitationPlaceholder from '@manuscripts/assets/react/InvitationPlaceholder'
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 const AddAuthorsMessage = () => (
-  <FormattedMessage
-    id={'add_authors'}
-    defaultMessage={
-      'Add authors to your author list from your collaborators, or invite new ones'
-    }
-  />
+  <span>
+    Add authors to your author list from your collaborators, or invite new ones
+  </span>
 )
 const SelectAuthorMessage = () => (
-  <FormattedMessage
-    id={'select_author'}
-    defaultMessage={
-      'Select an author from the list to display their details here.'
-    }
-  />
+  <span>Select an author from the list to display their details here.</span>
 )
 
 const AddedAuthorsMessage: React.FunctionComponent<{
   addedCount: number
-}> = ({ addedCount }) => (
-  <FormattedMessage
-    id={'added_authors'}
-    defaultMessage={`You added {addedCount, number} {addedCount, plural, one {author} other {authors}}`}
-    values={{ addedCount }}
-  />
-)
-
-const InviteCollaboratorsMessage = () => (
-  <FormattedMessage
-    id={'invite_collaborators'}
-    defaultMessage={
-      'You can invite collaborators by sending email to the users you want to add.'
-    }
-  />
-)
+}> = ({ addedCount }) => <span>Authors added</span>
 
 const OuterContainer = styled.div`
   display: flex;
@@ -161,22 +136,6 @@ export const AuthorDetailsPage: React.FunctionComponent = () => (
           <SelectAuthorMessage />
         </Message>
       </React.Fragment>
-    </InnerContainer>
-  </OuterContainer>
-)
-
-export const InviteCollaboratorsModal: React.FunctionComponent = () => (
-  <OuterContainer>
-    <InnerContainer>
-      <Placeholder>
-        <InvitationPlaceholder />
-      </Placeholder>
-
-      <Action>Invite New Collaborator</Action>
-
-      <Message>
-        <InviteCollaboratorsMessage />
-      </Message>
     </InnerContainer>
   </OuterContainer>
 )
