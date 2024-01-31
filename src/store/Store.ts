@@ -34,7 +34,6 @@ import {
   ContainedModel,
   ManuscriptEditorView,
   ManuscriptNode,
-  ModelAttachment,
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
@@ -48,11 +47,7 @@ export interface TokenActions {
 }
 
 export type action = { action?: string; [key: string]: any }
-export type ImportError = { error: boolean; message: string }
-export type ImportOk = { ok: boolean }
-export type bulkCreate = <T>(
-  models: Array<Build<T> & ContainerIDs & ModelAttachment>
-) => Promise<Array<ImportError | ImportOk>>
+
 export interface ContainerIDs {
   containerID?: string
   manuscriptID?: string
@@ -65,7 +60,6 @@ export interface ContainedIDs {
 }
 
 export type state = {
-  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
