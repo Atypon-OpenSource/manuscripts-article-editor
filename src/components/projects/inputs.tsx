@@ -10,40 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextArea, TextField } from '@manuscripts/style-guide'
-import { range } from 'lodash-es'
-import React, { InputHTMLAttributes } from 'react'
+import { TextField } from '@manuscripts/style-guide'
+import { InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
-
-export const NumberField = styled(TextField).attrs({
-  type: 'number',
-  min: 1,
-  step: 1,
-  pattern: '[0-9]+',
-})`
-  width: 100px;
-  padding: ${(props) => props.theme.grid.unit}px
-    ${(props) => props.theme.grid.unit * 2}px;
-  font-size: 1em;
-`
-
-export const SmallNumberField = styled(TextField).attrs({
-  type: 'number',
-})`
-  width: 50px;
-  padding: 2px ${(props) => props.theme.grid.unit * 2}px;
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
-  font-size: 0.75em;
-`
-
-export const SmallTextField = styled(TextField).attrs({
-  type: 'text',
-})`
-  width: 25px;
-  padding: 2px 4px;
-  margin-right: 4px;
-  font-size: 0.75em;
-`
 
 export const MediumTextField = styled(TextField).attrs<
   InputHTMLAttributes<HTMLInputElement>
@@ -52,39 +21,4 @@ export const MediumTextField = styled(TextField).attrs<
 })`
   padding: 8px;
   font-size: 1em;
-`
-
-export const MediumTextArea = styled(TextArea)`
-  padding: 8px;
-  font-size: 1em;
-`
-
-export const SpacingRange: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
-  list,
-  ...props
-}) => (
-  <>
-    <StyleRange type={'range'} step={2} list={list} {...props} />
-
-    <datalist id={list}>
-      {range(Number(props.min), Number(props.max), Number(props.step)).map(
-        (i) => (
-          <option key={i}>{i}</option>
-        )
-      )}
-    </datalist>
-  </>
-)
-
-export const StyleRange = styled.input`
-  flex: 1;
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
-`
-
-export const StyleSelect = styled.select`
-  flex: 1;
-`
-
-export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
 `

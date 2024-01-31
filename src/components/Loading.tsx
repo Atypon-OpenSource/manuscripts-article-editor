@@ -10,8 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
-import Modal from 'react-modal'
 import styled from 'styled-components'
 
 export const Loading = styled.div`
@@ -32,35 +30,3 @@ export const LoadingPage = styled(Loading)`
   height: 100vh;
   opacity: 1;
 `
-
-export const LoadingOverlay: React.FC = ({ children }) => (
-  <Modal
-    isOpen={true}
-    style={{
-      overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'white',
-        zIndex: 20,
-      },
-      content: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: 0,
-        overflow: 'auto',
-        border: 'none',
-      },
-    }}
-  >
-    {children}
-  </Modal>
-)
