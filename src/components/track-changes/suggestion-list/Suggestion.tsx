@@ -9,10 +9,9 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { usePermissions } from '@manuscripts/style-guide'
+import { Tooltip, usePermissions } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 
 import { useStore } from '../../../store'
@@ -82,7 +81,11 @@ export const Suggestion: React.FC<Props> = ({
   }, [isSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Wrapper isFocused={isSelectedSuggestion} ref={wrapperRef}>
+    <Wrapper
+      data-cy="suggestion"
+      isFocused={isSelectedSuggestion}
+      ref={wrapperRef}
+    >
       <FocusHandle
         href="#"
         onClick={(e) => {
@@ -95,7 +98,7 @@ export const Suggestion: React.FC<Props> = ({
         <SuggestionSnippet suggestion={suggestion} />
       </FocusHandle>
 
-      <Actions>
+      <Actions data-cy="suggestion-actions">
         <>
           {canRejectOwnSuggestion && (
             <Container>
@@ -107,8 +110,7 @@ export const Suggestion: React.FC<Props> = ({
                     : handleReject(suggestion)
                 }
                 aria-pressed={isRejected}
-                data-tip={true}
-                data-for={isRejected ? 'back' : 'reject'}
+                data-tooltip-id={isRejected ? 'back-tooltip' : 'reject-tooltip'}
               >
                 {isRejected ? (
                   <Back color="#353535" />
@@ -116,15 +118,15 @@ export const Suggestion: React.FC<Props> = ({
                   <Reject color="#353535" />
                 )}
               </Action>
-              <ReactTooltip
-                id={isRejected ? 'back' : 'reject'}
-                place="bottom"
-                effect="solid"
-                offset={{ top: 10 }}
-                className="tooltip"
-              >
-                {(isRejected && 'Back to suggestions') || 'Reject'}
-              </ReactTooltip>
+              {isRejected ? (
+                <Tooltip id="back-tooltip" place="bottom">
+                  Back to suggestions
+                </Tooltip>
+              ) : (
+                <Tooltip id="reject-tooltip" place="bottom">
+                  Reject
+                </Tooltip>
+              )}
             </Container>
           )}
           {can.handleSuggestion && (
@@ -138,7 +140,7 @@ export const Suggestion: React.FC<Props> = ({
                 }
                 aria-pressed={isAccepted}
                 data-tip={true}
-                data-for={isAccepted ? 'back' : 'accept'}
+                data-for={isAccepted ? 'back-tooltip' : 'approve-tooltip'}
               >
                 {isAccepted ? (
                   <Back color="#353535" />
@@ -146,15 +148,15 @@ export const Suggestion: React.FC<Props> = ({
                   <Accept color="#353535" />
                 )}
               </Action>
-              <ReactTooltip
-                id={isAccepted ? 'back' : 'accept'}
-                place="bottom"
-                effect="solid"
-                offset={{ top: 10 }}
-                className="tooltip"
-              >
-                {(isAccepted && 'Back to suggestions') || 'Approve'}
-              </ReactTooltip>
+              {isAccepted ? (
+                <Tooltip id="back-tooltip" place="bottom">
+                  Back to suggestions
+                </Tooltip>
+              ) : (
+                <Tooltip id="approve-tooltip" place="bottom">
+                  Approve
+                </Tooltip>
+              )}
             </Container>
           )}
         </>

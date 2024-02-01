@@ -14,28 +14,20 @@ import AddedIcon from '@manuscripts/assets/react/AddedIcon'
 import AuthorPlaceholder from '@manuscripts/assets/react/AuthorPlaceholder'
 import ContributorDetails from '@manuscripts/assets/react/ContributorDetailsPlaceholder'
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 const AddAuthorsMessage = () => (
-  <FormattedMessage
-    id={'add_authors'}
-    defaultMessage={
-      'Add authors to your author list from your collaborators, or invite new ones'
-    }
-  />
+  <span>
+    Add authors to your author list from your collaborators, or invite new ones
+  </span>
 )
 const SelectAuthorMessage = () => (
-  <FormattedMessage
-    id={'select_author'}
-    defaultMessage={
-      'Select an author from the list to display their details here.'
-    }
-  />
+  <span>Select an author from the list to display their details here.</span>
 )
 
 const AddedAuthorsMessage: React.FunctionComponent<{
   addedCount: number
+<<<<<<< HEAD
 }> = ({ addedCount }) => (
   <FormattedMessage
     id={'added_authors'}
@@ -43,6 +35,9 @@ const AddedAuthorsMessage: React.FunctionComponent<{
     values={{ addedCount }}
   />
 )
+=======
+}> = ({ addedCount }) => <span>Authors added</span>
+>>>>>>> 092f397e159b9208bed722884be875d4222bf92a
 
 const OuterContainer = styled.div`
   display: flex;

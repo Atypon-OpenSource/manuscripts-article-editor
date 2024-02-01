@@ -10,11 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { configure } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
 import { v4 as uuid } from 'uuid'
-
-configure({ adapter: new Adapter() })
 
 process.env.MANUSCRIPTS_API_URL = 'https://127.0.0.1/'
 

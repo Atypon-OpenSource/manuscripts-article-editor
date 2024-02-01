@@ -12,7 +12,7 @@
 
 import { Model } from '@manuscripts/json-schema'
 import { ContainedModel, encode, ManuscriptNode } from '@manuscripts/transform'
-import isEqual from 'lodash-es/isEqual'
+import { isEqual } from 'lodash'
 import { useRef } from 'react'
 
 let throttled = () => null

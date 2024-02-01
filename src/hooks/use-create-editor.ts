@@ -26,7 +26,6 @@ export const useCreateEditor = () => {
   const [
     {
       doc,
-      ancestorDoc,
       manuscript,
       project,
       popper,
@@ -44,13 +43,11 @@ export const useCreateEditor = () => {
     subscribe,
   ] = useStore((store) => ({
     doc: store.doc,
-    ancestorDoc: store.ancestorDoc,
     manuscript: store.manuscript,
     project: store.project,
     popper: store.popper,
     user: store.user,
     modelMap: store.modelMap,
-    biblio: store.biblio,
     commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
     initialDocVersion: store.initialDocVersion,
@@ -149,7 +146,6 @@ export const useCreateEditor = () => {
     retrySync,
     subscribeStore: subscribe,
 
-    ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
     theme,
     getCapabilities: () => {
