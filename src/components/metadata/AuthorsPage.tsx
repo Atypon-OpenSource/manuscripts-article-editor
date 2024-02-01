@@ -27,17 +27,7 @@ const SelectAuthorMessage = () => (
 
 const AddedAuthorsMessage: React.FunctionComponent<{
   addedCount: number
-<<<<<<< HEAD
-}> = ({ addedCount }) => (
-  <FormattedMessage
-    id={'added_authors'}
-    defaultMessage={`You added {addedCount, number} {addedCount, plural, one {author} other {authors}}`}
-    values={{ addedCount }}
-  />
-)
-=======
 }> = ({ addedCount }) => <span>Authors added</span>
->>>>>>> 092f397e159b9208bed722884be875d4222bf92a
 
 const OuterContainer = styled.div`
   display: flex;
