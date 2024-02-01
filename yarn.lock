@@ -1512,27 +1512,16 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-<<<<<<< HEAD
-"@manuscripts/body-editor@1.6.15-LEAN-3083-4":
-  version "1.6.15-LEAN-3083-4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.15-LEAN-3083-4.tgz#c128d22a04ea86ea13b7f82f35df4c24b8fefb4b"
-  integrity sha512-AQpfD8VDGITu3MEJjOHMePaZcv5WawFMwTw29om7XjjMxI0D9FAf/B3wTkj+hJDP8/iZs9H1HOIB04CaZE3nOQ==
-=======
-"@manuscripts/body-editor@1.6.19":
-  version "1.6.19"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.19.tgz#8ed2289a9f0eb4b395348f64ac2ce0ea60ecb433"
-  integrity sha512-3DSItmWTDbX9HxXylVWXNXyiHI8Ajg5R5NEookmQRpenIY+AUrjdGvVloP4Yu8t2SsPj1fboIBlh7es9OzfgOQ==
->>>>>>> 092f397e159b9208bed722884be875d4222bf92a
+"@manuscripts/body-editor@1.6.19-LEAN-3083":
+  version "1.6.19-LEAN-3083"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.19-LEAN-3083.tgz#d640fb3cbddf7cc7345cb14502d926be9a374aba"
+  integrity sha512-NO2hD+dMLYAQBmMSfZblG/3NPfNawQ1TFA4nCilCPsMseIwhL955f11xR3LmULRBmXoC3G3QJ69PIP99Dlda2w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.2"
-<<<<<<< HEAD
-    "@manuscripts/style-guide" "1.7.0-LEAN-3083"
-=======
-    "@manuscripts/style-guide" "1.7.2"
->>>>>>> 092f397e159b9208bed722884be875d4222bf92a
+    "@manuscripts/style-guide" "1.7.2-LEAN-3083"
     "@manuscripts/track-changes-plugin" "^1.7.5"
     "@manuscripts/transform" "2.0.4-LEAN-3083-2"
     astrocite-eutils "^0.16.4"
@@ -1594,17 +1583,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-<<<<<<< HEAD
-"@manuscripts/style-guide@1.7.0-LEAN-3083":
-  version "1.7.0-LEAN-3083"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.0-LEAN-3083.tgz#58cac15ce8cd0f84e6516d585b927db7f3d50297"
-  integrity sha512-yznV5AsT+uKgVZQ9TBHQLRk7kBqehnqNku1bXbA8tXf5fTbyGSxQ6tqCx2HOLXqz/cKhb0kK83PjIsXm3rgTxw==
-=======
-"@manuscripts/style-guide@1.7.2":
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.2.tgz#c7899539e0324ac4d745ab42aea8fbdf1900f66f"
-  integrity sha512-YeDEk3CzfDhxQ7ULcaoEZNik+loFyhGm8veDTWGBGnAbGIqjwN/BIEaTyQZ8egiJV/GKvar/QTbZRwNjIj0PPg==
->>>>>>> 092f397e159b9208bed722884be875d4222bf92a
+"@manuscripts/style-guide@1.7.2-LEAN-3083":
+  version "1.7.2-LEAN-3083"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.2-LEAN-3083.tgz#41f6b9efaa1954cc714f7cc0b3f997ec152e5af0"
+  integrity sha512-3t3qry5yW7evRE9dxJ7EFsxaxjafZDkUwx7ao0+6VQHN47LzKSLmT9LiZchuSFbBj7vFzkt6hnxG1XksXs/jfQ==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
@@ -1673,7 +1655,6 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-<<<<<<< HEAD
 "@manuscripts/transform@2.0.4-LEAN-3083-2":
   version "2.0.4-LEAN-3083-2"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.0.4-LEAN-3083-2.tgz#634660668fdbc2451cd31af35c1ec7a322093457"
@@ -1704,38 +1685,6 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-"@mdx-js/mdx@^1.6.22":
-  version "1.6.22"
-  resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-1.6.22.tgz#8a723157bf90e78f17dc0f27995398e6c731f1ba"
-  integrity sha512-AMxuLxPz2j5/6TpF/XSdKpQP1NlG0z11dFOlq+2IP/lSgl11GY8ji6S/rgsViN/L0BDvHvUMruRb7ub+24LUYA==
-  dependencies:
-    "@babel/core" "7.12.9"
-    "@babel/plugin-syntax-jsx" "7.12.1"
-    "@babel/plugin-syntax-object-rest-spread" "7.8.3"
-    "@mdx-js/util" "1.6.22"
-    babel-plugin-apply-mdx-type-prop "1.6.22"
-    babel-plugin-extract-import-names "1.6.22"
-    camelcase-css "2.0.1"
-    detab "2.0.4"
-    hast-util-raw "6.0.1"
-    lodash.uniq "4.5.0"
-    mdast-util-to-hast "10.0.1"
-    remark-footnotes "2.0.0"
-    remark-mdx "1.6.22"
-    remark-parse "8.0.3"
-    remark-squeeze-paragraphs "4.0.0"
-    style-to-object "0.3.0"
-    unified "9.2.0"
-    unist-builder "2.0.3"
-    unist-util-visit "2.0.3"
-
-"@mdx-js/util@1.6.22":
-  version "1.6.22"
-  resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
-  integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
-
-=======
->>>>>>> 092f397e159b9208bed722884be875d4222bf92a
 "@microsoft/fetch-event-source@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
