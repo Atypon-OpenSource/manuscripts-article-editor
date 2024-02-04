@@ -16,7 +16,6 @@ import {
   Model,
   Project,
   SectionCategory,
-  UserCollaborator,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { Build, ContainedModel } from '@manuscripts/transform'
@@ -104,7 +103,7 @@ export default class Api {
       : undefined
 
   getUserProfiles = (containerID: string) =>
-    this.get<UserCollaborator[]>(`/project/${containerID}/userProfiles`)
+    this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
 
   signUpAndGetToken = async (
     username: string,
