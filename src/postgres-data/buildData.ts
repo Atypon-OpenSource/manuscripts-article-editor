@@ -190,9 +190,9 @@ const getCollaboratorsData = async (
   api: Api
 ) => {
   const collabsData: Partial<state> = {}
-  const collaboratorsProfiles = await api.getCollaborators(projectID)
-  if (collaboratorsProfiles) {
-    const collaborators = buildDocsMap(collaboratorsProfiles)
+  const userProfiles = await api.getUserProfiles(projectID)
+  if (userProfiles) {
+    const collaborators = buildDocsMap(userProfiles)
     if (user) {
       collabsData.collaboratorsProfiles = buildCollaboratorProfiles(
         collaborators,

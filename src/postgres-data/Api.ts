@@ -16,7 +16,6 @@ import {
   Model,
   Project,
   SectionCategory,
-  UserCollaborator,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { Build, ContainedModel } from '@manuscripts/transform'
@@ -103,8 +102,8 @@ export default class Api {
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
 
-  getCollaborators = (containerID: string) =>
-    this.get<UserCollaborator[]>(`/project/${containerID}/collaborators`)
+  getUserProfiles = (containerID: string) =>
+    this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
 
   signUpAndGetToken = async (
     username: string,
