@@ -1512,16 +1512,16 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.6.19-LEAN-3281-0":
-  version "1.6.19-LEAN-3281-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.19-LEAN-3281-0.tgz#08cddda6bc963d0a93a952af518b98b584076308"
-  integrity sha512-Rakx6chIbBjeYdZaLYmdYSWsXqNsNutdo3GZn4p+Fy7NVB8aOjFF55sMMWyl/JBSBWLnhpiDZEmsW2Pik7OBmQ==
+"@manuscripts/body-editor@1.6.20":
+  version "1.6.20"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.6.20.tgz#0fdc17eacde97cd8e3341a4f5507d2c9803f1b71"
+  integrity sha512-85ecSvycSk2+SRxHF+p96ypczoHkLvuBOC1yJlWkEgpsMjBOJ8HWZKNwHfMxMyAy+0m79YqXwS3/r2l13d669g==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.2"
-    "@manuscripts/style-guide" "1.7.2-LEAN-3281-0"
+    "@manuscripts/style-guide" "1.7.3"
     "@manuscripts/track-changes-plugin" "^1.7.5"
     "@manuscripts/transform" "2.0.4"
     astrocite-eutils "^0.16.4"
@@ -1583,10 +1583,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.7.2-LEAN-3281-0":
-  version "1.7.2-LEAN-3281-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.2-LEAN-3281-0.tgz#f2168aa6bd63003c2c58fdef37666ac4b4e6854c"
-  integrity sha512-OlfAjQo5YxMFfKv1ILXxQ77aaDT6ycUcxLFrwRZthBr7TdUt8RJ3Vz/p80JOZ11Hwk2rwU/UrpCxCPv99fG/Kw==
+"@manuscripts/style-guide@1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.3.tgz#5586d67c4feba08adc6668a6d8acd4bcf5331476"
+  integrity sha512-WhCAmmantSMr2gaQ28z20evaRMmMZl7bPS12DhI6pOQbuPcCYYTGv0DdC/pKmPWAv765du92fl4Cpp8vUWlKIw==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
