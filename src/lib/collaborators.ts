@@ -10,25 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Project, UserProfile } from '@manuscripts/json-schema'
-import { UserProfileWithAvatar } from '@manuscripts/transform'
-
-export const buildCollaborators = (
-  project: Project,
-  collaborators: Map<string, UserProfile>
-): UserProfile[] => {
-  const getCollaborator = (id: string) => collaborators.get(id)!
-
-  return [
-    ...project.owners.map(getCollaborator),
-    ...project.writers.map(getCollaborator),
-    ...project.viewers.map(getCollaborator),
-  ].filter((_) => _)
-}
+import { UserProfile } from '@manuscripts/json-schema'
 
 export const buildCollaboratorProfiles = (
   collaborators: Map<string, UserProfile>,
-  user: UserProfileWithAvatar,
+  user: UserProfile,
   key: keyof UserProfile = 'userID'
 ) => {
   const profiles: Map<string, UserProfile> = new Map()

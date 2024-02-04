@@ -10,11 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { SecondaryButton } from '@manuscripts/style-guide'
+import { SecondaryButton, useDropdown } from '@manuscripts/style-guide'
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-import { useDropdown } from '../../hooks/use-dropdown'
 import {
   Dropdown,
   DropdownButtonContainer,
@@ -46,9 +45,9 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
         {isOpen && (
           <DropdownList direction={'right'} minWidth={100}>
             <Option
-              onClick={(event) => {
-                handleSort(event)
-                toggleOpen()
+              onClick={(e) => {
+                handleSort(e)
+                toggleOpen(e)
               }}
               key={'Date'}
               value={'Date'}
@@ -56,9 +55,9 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
               Date
             </Option>
             <Option
-              onClick={(event) => {
-                handleSort(event)
-                toggleOpen()
+              onClick={(e) => {
+                handleSort(e)
+                toggleOpen(e)
               }}
               key={'in Context'}
               value={'in Context'}
