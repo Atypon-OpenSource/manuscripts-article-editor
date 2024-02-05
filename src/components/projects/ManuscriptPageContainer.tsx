@@ -101,7 +101,6 @@ const ManuscriptPageView: React.FC = () => {
 
   useLayoutEffect(() => {
     const trackState = trackChangesPluginKey.getState(state)
-    console.log(trackState)
     if (trackState) {
       // set init tracking state
       storeDispatch({ trackState })
