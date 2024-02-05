@@ -10,20 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { UserCollaborator, UserProfile } from '@manuscripts/json-schema'
+import { UserProfile } from '@manuscripts/json-schema'
 
 export const buildCollaboratorProfiles = (
-  collaborators: Map<string, UserCollaborator>,
+  collaborators: Map<string, UserProfile>,
   user: UserProfile,
   key: keyof UserProfile = 'userID'
 ) => {
   const profiles: Map<string, UserProfile> = new Map()
 
   for (const collaborator of collaborators.values()) {
-    profiles.set(
-      collaborator.collaboratorProfile[key] as string,
-      collaborator.collaboratorProfile
-    )
+    profiles.set(collaborator[key] as string, collaborator)
   }
   profiles.set(user[key] as string, user)
   return profiles
