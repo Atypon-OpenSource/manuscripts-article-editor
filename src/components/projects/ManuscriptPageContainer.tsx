@@ -27,10 +27,10 @@ import styled from 'styled-components'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
-import useTrackedModelManagement from '../../hooks/use-tracked-model-management'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
+import useTrackedModelManagement from '../../tracked-models/use-tracked-model-management'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
 import {
@@ -212,24 +212,6 @@ const PageWrapper = styled.div`
   display: flex;
   flex: 2;
   overflow: hidden;
-
-  .edit_authors_button {
-    display: initial;
-    color: ${(props) => props.theme.colors.button.secondary.color.default};
-    background: ${(props) =>
-      props.theme.colors.button.secondary.background.default};
-    border-color: ${(props) =>
-      props.theme.colors.button.secondary.border.default};
-
-    &:not([disabled]):hover,
-    &:not([disabled]):focus {
-      color: ${(props) => props.theme.colors.button.secondary.color.hover};
-      background: ${(props) =>
-        props.theme.colors.button.secondary.background.hover};
-      border-color: ${(props) =>
-        props.theme.colors.button.secondary.border.hover};
-    }
-  }
 `
 
 export default ManuscriptPageContainer

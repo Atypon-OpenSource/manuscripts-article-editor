@@ -25,7 +25,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { getMetaData, reorderAuthors } from '../../lib/authors'
 import { useStore } from '../../store'
-import { stripTracked } from '../track-changes/utils'
 import { AddAuthorsModalContainer } from './AddAuthorsModalContainer'
 import AuthorsModalContainer from './AuthorsModalContainer'
 
@@ -119,11 +118,11 @@ const AuthorModalViews: React.FC = () => {
     dispatch({ authorsPopupOn: true })
   }, [dispatch])
 
-  const selectAuthor = useCallback((author: Contributor) => {
+  const selectAuthor = useCallback((author: Contributor | string) => {
     // TODO: make this switch without deselecting
     setState((state) => ({
       ...state,
-      selectedAuthor: stripTracked(author._id),
+      selectedAuthor: typeof author === 'string' ? author : author._id,
     }))
   }, [])
 
@@ -174,7 +173,10 @@ const AuthorModalViews: React.FC = () => {
       })
   }
 
-  const metaData = useMemo(() => getMetaData(trackModelMap), [trackModelMap])
+  const metaData = useMemo(() => {
+    const data = getMetaData(trackModelMap)
+    return data
+  }, [trackModelMap])
 
   useEffect(() => {
     dispatch({

@@ -165,6 +165,8 @@ class AuthorsModalContainer extends React.Component<Props, State> {
       ),
     }
 
+    console.log(nextAuthor)
+
     await this.props.saveTrackModel<Contributor>(nextAuthor)
   }
 
