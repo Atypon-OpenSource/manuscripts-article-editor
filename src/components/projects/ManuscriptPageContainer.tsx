@@ -21,7 +21,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { useCreateEditor } from '../../hooks/use-create-editor'
@@ -99,6 +99,15 @@ const ManuscriptPageView: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view?.state])
 
+  useLayoutEffect(() => {
+    const trackState = trackChangesPluginKey.getState(state)
+    if (trackState) {
+      // set init tracking state
+      storeDispatch({ trackState })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
     useTrackedModelManagement(
       doc,
@@ -140,9 +149,7 @@ const ManuscriptPageView: React.FC = () => {
 
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
-    const trackState = view
-      ? trackChangesPluginKey.getState(view.state)
-      : undefined
+    const trackState = trackChangesPluginKey.getState(state)
 
     doWithThrottle(() => {
       storeDispatch({ doc: state.doc, trackState })
