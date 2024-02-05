@@ -16,7 +16,7 @@ import './lib/fonts'
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
-import React, { Suspense, useEffect, useMemo } from 'react'
+import React, { Suspense, useMemo } from 'react'
 
 import { LoadingPage } from './components/Loading'
 import tokenHandler from './lib/token'
