@@ -16,7 +16,7 @@ import './lib/fonts'
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, useMemo } from 'react'
 
 import { LoadingPage } from './components/Loading'
 import tokenHandler from './lib/token'
@@ -50,7 +50,7 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
   permittedActions,
   authToken,
 }) => {
-  useEffect(() => {
+  useMemo(() => {
     if (authToken) {
       tokenHandler.remove()
       tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
