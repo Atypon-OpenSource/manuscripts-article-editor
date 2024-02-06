@@ -15,7 +15,9 @@ import {
   CommentAnnotation,
   Contributor,
   Model,
+  Supplement,
 } from '@manuscripts/json-schema'
+import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
@@ -23,14 +25,10 @@ import { EditorView } from 'prosemirror-view'
 
 export const createContributorNode = (
   model: Partial<Contributor>,
-  view: EditorView | undefined,
+  view: EditorView,
   doc: ProsemirrorNode,
   state: EditorState
 ) => {
-  if (!view) {
-    throw Error('View not available')
-  }
-
   const { tr } = state
   doc.descendants((node, pos) => {
     if (node.type === schema.nodes.contributors) {
@@ -57,13 +55,10 @@ export const createContributorNode = (
 
 export const createAffiliationNode = (
   model: Partial<Affiliation>,
-  view: EditorView | undefined,
+  view: EditorView,
   doc: ProsemirrorNode,
   state: EditorState
 ) => {
-  if (!view) {
-    throw Error('View not available')
-  }
   const { tr } = state
   doc.descendants((node, pos) => {
     if (node.type === schema.nodes.affiliations) {
@@ -85,15 +80,11 @@ export const createAffiliationNode = (
 
 export const saveComment = (
   comment: CommentAnnotation,
-  view: EditorView | undefined,
+  view: EditorView,
   doc: ProsemirrorNode,
   state: EditorState,
   modelMap: Map<string, Model>
 ) => {
-  if (!view) {
-    throw Error('View not available')
-  }
-
   const documentComment = {
     id: comment._id,
     contents: comment.contents,
@@ -147,14 +138,10 @@ export const saveComment = (
 
 export const deleteComment = (
   comment: CommentAnnotation,
-  view: EditorView | undefined,
+  view: EditorView,
   doc: ProsemirrorNode,
   state: EditorState
 ) => {
-  if (!view) {
-    throw Error('View not available')
-  }
-
   const { tr } = state
   const isHighlightComment =
     comment.selector && comment.selector.from !== comment.selector.to
@@ -181,4 +168,31 @@ export const deleteComment = (
     }
   })
   return Promise.resolve(comment._id)
+}
+
+export const createSupplementNode = (
+  view: EditorView,
+  doc: ProsemirrorNode,
+  supplement: Supplement
+) => {
+  doc.descendants((node, pos) => {
+    if (node.type === schema.nodes.supplements) {
+      view.dispatch(
+        skipTracking(
+          view.state.tr.insert(
+            pos + node.nodeSize - 1,
+            schema.nodes.supplement.create({
+              id: supplement._id,
+              href: supplement.href,
+              mimeType: supplement.MIME?.split('/')[0],
+              mimeSubType: supplement.MIME?.split('/')[1],
+              title: supplement.title,
+            })
+          )
+        )
+      )
+      return false
+    }
+  })
+  return Promise.resolve(supplement)
 }
