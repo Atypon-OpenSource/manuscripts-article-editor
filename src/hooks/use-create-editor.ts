@@ -17,7 +17,6 @@ import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
 
-import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
@@ -73,7 +72,7 @@ export const useCreateEditor = () => {
     we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
     Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
     */
-    return getState().saveModel(model)
+    return getState().saveModel(model) as Promise<any>
   }
 
   const deleteModel = (id: string) => {
@@ -119,6 +118,9 @@ export const useCreateEditor = () => {
     popper,
     projectID: project._id,
 
+    openAuthorEditing: () => getState().startEditing(),
+    selectAuthorForEditing: (id: string) => getState().selectAuthor(id),
+
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
     setComment: (comment?: CommentAnnotation) => {
@@ -142,10 +144,6 @@ export const useCreateEditor = () => {
     getModelMap,
     deleteModel,
     retrySync,
-
-    components: {
-      AuthorsInlineViewContainer,
-    },
     subscribeStore: subscribe,
 
     commit: commitAtLoad || null,

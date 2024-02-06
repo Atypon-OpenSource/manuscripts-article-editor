@@ -69,7 +69,7 @@ export const useHandleSnapshot = (view?: EditorView) => {
   return async () => {
     const resp = await saveSnapshot(projectID, manuscriptID)
     if (resp && view) {
-      execCmd(trackCommands.applyAndRemoveChanges())
+      execCmd(trackCommands.applyAndRemoveChanges(), view)
       return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
           const state = view.state
