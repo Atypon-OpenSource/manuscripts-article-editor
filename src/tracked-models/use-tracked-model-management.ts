@@ -18,7 +18,6 @@ import {
   ObjectTypes,
   Supplement,
 } from '@manuscripts/json-schema'
-import { skipTracking } from '@manuscripts/track-changes-plugin'
 import {
   Build,
   Decoder,
@@ -40,14 +39,6 @@ import {
   deleteComment,
   saveComment,
 } from './creators'
-
-const skipNodeTracking = (tr: Transaction, node: ManuscriptNode) => {
-  if (node.type === schema.nodes.supplement) {
-    return skipTracking(tr)
-  }
-
-  return tr
-}
 
 const useTrackedModelManagement = (
   doc: ManuscriptNode,
@@ -173,7 +164,7 @@ const useTrackedModelManagement = (
           if (node.attrs.id === id) {
             const { tr } = state
             tr.delete(pos, pos + node.nodeSize)
-            dispatch(skipNodeTracking(tr, node))
+            dispatch(tr)
           }
         })
       } else {
