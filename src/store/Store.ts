@@ -29,7 +29,6 @@ import {
   UserProfile,
 } from '@manuscripts/json-schema'
 import {
-  AuthorData,
   FileAttachment,
   FileManagement,
 } from '@manuscripts/style-guide'
@@ -122,9 +121,6 @@ export type state = {
   collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
-
-  authorsAndAffiliations: AuthorData
-  trackedAuthorsAndAffiliations?: AuthorData
 
   notes?: ManuscriptNote[]
 
