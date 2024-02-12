@@ -17,7 +17,6 @@ import { Build, buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
 
-import AuthorsInlineViewContainer from '../components/metadata/AuthorsInlineViewContainer'
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
@@ -27,7 +26,6 @@ export const useCreateEditor = () => {
   const [
     {
       doc,
-      ancestorDoc,
       manuscript,
       project,
       popper,
@@ -45,13 +43,11 @@ export const useCreateEditor = () => {
     subscribe,
   ] = useStore((store) => ({
     doc: store.doc,
-    ancestorDoc: store.ancestorDoc,
     manuscript: store.manuscript,
     project: store.project,
     popper: store.popper,
     user: store.user,
     modelMap: store.modelMap,
-    biblio: store.biblio,
     commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
     initialDocVersion: store.initialDocVersion,
@@ -76,7 +72,7 @@ export const useCreateEditor = () => {
     we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
     Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
     */
-    return getState().saveModel(model)
+    return getState().saveModel(model) as Promise<any>
   }
 
   const deleteModel = (id: string) => {
@@ -122,6 +118,9 @@ export const useCreateEditor = () => {
     popper,
     projectID: project._id,
 
+    openAuthorEditing: () => getState().startEditing(),
+    selectAuthorForEditing: (id: string) => getState().selectAuthor(id),
+
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
     setComment: (comment?: CommentAnnotation) => {
@@ -145,13 +144,8 @@ export const useCreateEditor = () => {
     getModelMap,
     deleteModel,
     retrySync,
-
-    components: {
-      AuthorsInlineViewContainer,
-    },
     subscribeStore: subscribe,
 
-    ancestorDoc: ancestorDoc,
     commit: commitAtLoad || null,
     theme,
     getCapabilities: () => {

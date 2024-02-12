@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Avatar, SecondaryButton } from '@manuscripts/style-guide'
+import { Avatar, SecondaryButton, useDropdown } from '@manuscripts/style-guide'
 import {
   trackChangesPluginKey,
   TrackChangesStatus,
@@ -19,7 +19,6 @@ import { EditorState } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useDropdown } from '../../hooks/use-dropdown'
 import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { get } from '../../quarterback/api/methods'
 import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
@@ -157,11 +156,11 @@ export const SnapshotsDropdown: React.FC = () => {
         {isOpen && (
           <SnapshotsList top={25} direction={'left'} minWidth={100}>
             <Element
-              onClick={() => {
+              onClick={(e) => {
                 if (inspectedSnapshot) {
                   handleResumeEditing()
                 }
-                toggleOpen()
+                toggleOpen(e)
               }}
               key={'current'}
             >
@@ -177,9 +176,9 @@ export const SnapshotsDropdown: React.FC = () => {
             {sortedSnapshots.map((snapshot) => {
               return (
                 <Element
-                  onClick={() => {
+                  onClick={(e) => {
                     handleInspectSnapshot(snapshot)
-                    toggleOpen()
+                    toggleOpen(e)
                   }}
                   key={snapshot.id}
                 >

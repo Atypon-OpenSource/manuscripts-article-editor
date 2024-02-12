@@ -12,14 +12,12 @@
 
 import './lib/analytics'
 import './lib/fonts'
-import './channels'
 
 import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
-import React, { useEffect } from 'react'
+import React, { Suspense, useMemo } from 'react'
 
-import { IntlProvider } from './components/IntlHookableProvider'
 import { LoadingPage } from './components/Loading'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
@@ -32,7 +30,6 @@ export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export * from './store/ParentObserver'
 export { getUserRole } from './lib/roles'
-export { SaveStatusController } from './components/projects/SaveStatusController'
 
 export interface ManuscriptEditorAppProps {
   fileManagement: FileManagement
@@ -53,7 +50,7 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
   permittedActions,
   authToken,
 }) => {
-  useEffect(() => {
+  useMemo(() => {
     if (authToken) {
       tokenHandler.remove()
       tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
@@ -73,27 +70,25 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
 
   return (
     <>
-      <IntlProvider>
-        <ThemeProvider>
-          <React.Suspense
-            fallback={
-              <LoadingPage className={'loader'}>
-                <AppIcon />
-              </LoadingPage>
-            }
-          >
-            <Main
-              fileManagement={fileManagement}
-              files={files}
-              authToken={authToken || ''}
-              parentObserver={parentObserver}
-              manuscriptID={manuscriptID}
-              projectID={projectID}
-              permittedActions={permittedActions}
-            />
-          </React.Suspense>
-        </ThemeProvider>
-      </IntlProvider>
+      <ThemeProvider>
+        <Suspense
+          fallback={
+            <LoadingPage className={'loader'}>
+              <AppIcon />
+            </LoadingPage>
+          }
+        >
+          <Main
+            fileManagement={fileManagement}
+            files={files}
+            authToken={authToken || ''}
+            parentObserver={parentObserver}
+            manuscriptID={manuscriptID}
+            projectID={projectID}
+            permittedActions={permittedActions}
+          />
+        </Suspense>
+      </ThemeProvider>
       <div id="menu"></div>
       <div id="notifications"></div>
       <div id="size"></div>
