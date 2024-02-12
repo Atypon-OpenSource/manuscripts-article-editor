@@ -114,8 +114,8 @@ export function TrackChangesPanel() {
       } else {
         selection = NodeSelection.create(view.state.tr.doc, suggestion.from)
       }
-      editorDispatch(view.state.tr.setSelection(selection).scrollIntoView())
       editor.view && editor.view.focus()
+      editorDispatch(view.state.tr.setSelection(selection).scrollIntoView())
     }
     dispatch({ selectedSuggestion: suggestion.id })
   }
