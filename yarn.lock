@@ -1512,10 +1512,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.2-LEAN-3093":
-  version "1.7.2-LEAN-3093"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.2-LEAN-3093.tgz#5cc361b2a78ed0d3e0c78e82d7aebe0a721e3883"
-  integrity sha512-x9BNadzMQT7IlSYZYBdqUxTQ+Z8fBvy8u5TXLSNDI6DG5A3O1pFifRWZBLs56Nq6lrTsFlmiN4xYvV3+5+S2lQ==
+"@manuscripts/body-editor@1.7.3-LEAN-3092-0":
+  version "1.7.3-LEAN-3092-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.3-LEAN-3092-0.tgz#d0df26ccb59ecf9801a4322276c4c9a0f869c482"
+  integrity sha512-UEWNpxi++y9w7Fz5D+vXoS22WBkB6/v68cUu3QuXWixd45YsRRQJOdBolkde4fgNSw9r3B/QFBUxHkKslqaaew==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1564,7 +1564,7 @@
     eslint-config-prettier "^8.5.0"
     prettier "^2.8.1"
 
-"@manuscripts/json-schema@2.2.2-LEAN-3094-1":
+"@manuscripts/json-schema@2.2.2-LEAN-3094-1", "@manuscripts/json-schema@^2.2.2-LEAN-3094-1":
   version "2.2.2-LEAN-3094-1"
   resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.2-LEAN-3094-1.tgz#f79d1a568a7aa8c9402ece8327bc13387ac705f1"
   integrity sha512-k0k4BbGJRgKh9mJWrKrsyVF5aijFbtiS1DtZE9j6GkkHwcLwQeQKspCiGi8jWIPaaFG8crW0LGVhGeuwdsmLzA==
