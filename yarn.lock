@@ -1609,6 +1609,32 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
+"@manuscripts/style-guide@1.7.4-LEAN-3336-11":
+  version "1.7.4-LEAN-3336-11"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.4-LEAN-3336-11.tgz#84f31f5a09d845c999fb3327edacce72d574a8c3"
+  integrity sha512-2q84XPazjDWix6I9keW20UM4W4qdHOTT5qTAEVUCSTuoQNruW+z1BNy1ek12/qKRZx9PimwJ84P7QD+M0OxK2g==
+  dependencies:
+    "@manuscripts/assets" "^0.6.4"
+    "@manuscripts/json-schema" "^2.2.2"
+    "@manuscripts/transform" "2.1.1-LEAN-3336-11"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    react "^17.0.2"
+    react-dnd "^11.1.3"
+    react-dnd-html5-backend "^11.1.3"
+    react-dom "^17.0.2"
+    react-is "^17.0.2"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
+
 "@manuscripts/title-editor@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/title-editor/-/title-editor-1.1.0.tgz#fcf1820b2037706e60a3b71776bd34edf6fa69c2"
@@ -1644,6 +1670,22 @@
   version "2.1.1-LEAN-3336-10"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.1-LEAN-3336-10.tgz#b1e61e2a5f31ab357a47c96de1cbaa8bf164eada"
   integrity sha512-j9rjg5LmJcIdwyWJRBBGpqxKXlQyZDYNJkm5a2NCQSMagILHFVOBT+6kPpUkLO+VpJJiOmGsmmOorBfghePSxQ==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.2"
+    "@manuscripts/library" "1.3.2"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.8.1"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.1.1-LEAN-3336-11":
+  version "2.1.1-LEAN-3336-11"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.1-LEAN-3336-11.tgz#a94a7319fb55a97fc3b9360b621619eedf514d5b"
+  integrity sha512-KG82AkZXFcMeJO+c41QrxUO+Zio3SNhZ0K/cogo4S/GbwNIoNcBtN44Py2j5dnuYWakDLh3lXNEucdDQqGsB5A==
   dependencies:
     "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.2"
