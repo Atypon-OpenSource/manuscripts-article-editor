@@ -82,7 +82,7 @@ const ManuscriptPageView: React.FC = () => {
   const [doc] = useStore((store) => store.doc)
   const [saveModel] = useStore((store) => store.saveModel)
   const [deleteModel] = useStore((store) => store.deleteModel)
-  const [permittedActions] = useStore((store) => store.permittedActions)
+
   const can = usePermissions()
 
   const editor = useCreateEditor()
@@ -144,15 +144,15 @@ const ManuscriptPageView: React.FC = () => {
   }, [storeDispatch, hasPendingSuggestions])
 
   useEffect(() => {
-    storeDispatch({ editor, view })
-  }, [storeDispatch, view, permittedActions]) // eslint-disable-line react-hooks/exhaustive-deps
+    storeDispatch({ editor })
+  }, [storeDispatch, view]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
     const trackState = trackChangesPluginKey.getState(state)
 
     doWithThrottle(() => {
-      storeDispatch({ doc: state.doc, trackState })
+      storeDispatch({ doc: state.doc, trackState, view })
     }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
