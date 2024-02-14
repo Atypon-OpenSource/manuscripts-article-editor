@@ -1512,18 +1512,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.2-LEAN-3336-8":
-  version "1.7.2-LEAN-3336-8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.2-LEAN-3336-8.tgz#c4f7c166613173966168578e050764a1218e08bf"
-  integrity sha512-Axt2Ie9hiK6b3lXr9ZMBBdTXw8EDUYWaKDcbMFFScvbo+55yvTZo3VUpOlhJNJjYUKLYDqGaiGu99LKegvCoIA==
+"@manuscripts/body-editor@1.7.2-LEAN-3336-9":
+  version "1.7.2-LEAN-3336-9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.2-LEAN-3336-9.tgz#a702781055748477a67afba3ee928a8e0d496e68"
+  integrity sha512-PWuwi0CxtjmhkkpWYGQTjT+wijuZ7+obSRGNgZ6yQmFf68fyTNO1/y4K0Ij/8iOh7muYgFLmdPxFQL92kVKSeA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.2"
-    "@manuscripts/style-guide" "1.7.4-LEAN-3336-7"
+    "@manuscripts/style-guide" "1.7.4-LEAN-3336-8"
     "@manuscripts/track-changes-plugin" "^1.7.5"
-    "@manuscripts/transform" "2.1.1-LEAN-3336-7"
+    "@manuscripts/transform" "2.1.1-LEAN-3336-8"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1541,7 +1541,7 @@
     prosemirror-model "^1.18.3"
     prosemirror-schema-list "^1.2.2"
     prosemirror-state "^1.4.2"
-    prosemirror-tables "^1.3.0"
+    prosemirror-tables "^1.3.5"
     prosemirror-transform "^1.7.0"
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.29.1"
@@ -1583,14 +1583,14 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.7.4-LEAN-3336-7":
-  version "1.7.4-LEAN-3336-7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.4-LEAN-3336-7.tgz#588a39bbf257fdfd17b522c34635a8c85cd06f90"
-  integrity sha512-lLm/OoNnQZ9/DJMirG50UewLXPgWFyRE9yuA8MVzh8lTWS/UlSIUpmvp99Mq5t19NqEYeUhLk4QJPek9AnYQpQ==
+"@manuscripts/style-guide@1.7.4-LEAN-3336-8":
+  version "1.7.4-LEAN-3336-8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.4-LEAN-3336-8.tgz#ba2e88c30c515fbe9928e580fb46e5f8fd514d43"
+  integrity sha512-RirV9M1WzA36gbpEde4rFk0Sl8kmH9y/fJRnsvogaLcPFNlUnqtZu6w4YT7iE2fB0uC5sIWnK6eFJiZ814zxdA==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
-    "@manuscripts/transform" "2.1.1-LEAN-3336-7"
+    "@manuscripts/transform" "2.1.1-LEAN-3336-8"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1640,10 +1640,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.1.1-LEAN-3336-7":
-  version "2.1.1-LEAN-3336-7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.1-LEAN-3336-7.tgz#be37f26ecd3f4f0f2d4b7967ed0582ca86595f49"
-  integrity sha512-Xsx6FPb8Lz0m1zLHvb/UiIdipnLxRMO7xVxnvqKz/cmQ8EBFvwwhyavdCXtnLZLtLf4SYw9pyQBksMu73eLPUw==
+"@manuscripts/transform@2.1.1-LEAN-3336-8":
+  version "2.1.1-LEAN-3336-8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.1-LEAN-3336-8.tgz#6b8ea7bc6393f273de4f904605095e644b55c2b8"
+  integrity sha512-KUHLo3QWl09MYCkVVciG1EnzZRWixKYPYFNdoDs0ZWr1m05AoUFK3+OeEpahHFLAKoblVZjdUV4p5SbxN6bsrA==
   dependencies:
     "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.2"
@@ -1651,7 +1651,7 @@
     jszip "^3.10.1"
     mathjax-full "^3.2.2"
     mime "^3.0.0"
-    prosemirror-model "^1.18.3"
+    prosemirror-model "^1.8.1"
     prosemirror-tables "^1.3.5"
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
@@ -6335,7 +6335,7 @@ prosemirror-state@^1.0.0, prosemirror-state@^1.2.2, prosemirror-state@^1.3.1, pr
     prosemirror-transform "^1.0.0"
     prosemirror-view "^1.27.0"
 
-prosemirror-tables@^1.3.0, prosemirror-tables@^1.3.5:
+prosemirror-tables@^1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/prosemirror-tables/-/prosemirror-tables-1.3.5.tgz#80f03394f5b9991f9693bcb3a90b6dba6b16254d"
   integrity sha512-JSZ2cCNlApu/ObAhdPyotrjBe2cimniniTpz60YXzbL0kZ+47nEYk2LWbfKU2lKpBkUNquta2PjteoNi4YCluQ==
