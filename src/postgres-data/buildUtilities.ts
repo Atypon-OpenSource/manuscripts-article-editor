@@ -300,6 +300,7 @@ const buildUtilities = (
       ObjectTypes.Corresponding,
       ObjectTypes.Project,
       ObjectTypes.Manuscript,
+      ObjectTypes.FootnotesOrder,
     ]
 
     const modelMap = new Map<string, Model>()
