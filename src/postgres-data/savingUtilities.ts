@@ -12,7 +12,6 @@
 
 import { Model } from '@manuscripts/json-schema'
 import { ContainedModel, encode, ManuscriptNode } from '@manuscripts/transform'
-import { isEqual } from 'lodash'
 import { useRef } from 'react'
 
 let throttled = () => null
@@ -71,37 +70,39 @@ export type Error = {
 }
 export type Maybe<T> = Ok<T> | Error
 
-const EXCLUDED_KEYS = [
-  'id',
-  '_id',
-  '_rev',
-  '_revisions',
-  'sessionID',
-  'createdAt',
-  'updatedAt',
-  'owners',
-  'manuscriptID',
-  'containerID',
-  'src',
-  'minWordCountRequirement',
-  'maxWordCountRequirement',
-  'minCharacterCountRequirement',
-  'maxCharacterCountRequirement',
-] as (keyof Model)[]
+// const EXCLUDED_KEYS = [
+//   'id',
+//   '_id',
+//   '_rev',
+//   '_revisions',
+//   'sessionID',
+//   'createdAt',
+//   'updatedAt',
+//   'owners',
+//   'manuscriptID',
+//   'containerID',
+//   'src',
+//   'minWordCountRequirement',
+//   'maxWordCountRequirement',
+//   'minCharacterCountRequirement',
+//   'maxCharacterCountRequirement',
+// ] as (keyof Model)[]
 
-const hasChanged = (a: Model, b: Model): boolean => {
-  return !!Object.keys(a).find((key: keyof Model) => {
-    if (EXCLUDED_KEYS.includes(key)) {
-      return false
-    }
-    return !isEqual(a[key], b[key])
-  })
-}
+// const hasChanged = (a: Model, b: Model): boolean => {
+//   return !!Object.keys(a).find((key: keyof Model) => {
+//     if (EXCLUDED_KEYS.includes(key)) {
+//       return false
+//     }
+//     return !isEqual(a[key], b[key])
+//   })
+// }
 
 export const saveDoc = async (
   doc: ManuscriptNode,
   modelMap: Map<string, Model>,
-  bulkUpdate: (models: ContainedModel[]) => Promise<void>
+  bulkUpdate: (
+    models: Array<ContainedModel> | Partial<Model>[]
+  ) => Promise<void>
 ): Promise<Maybe<boolean>> => {
   if (!modelMap) {
     return {
@@ -111,22 +112,9 @@ export const saveDoc = async (
   }
   const models = encode(doc)
 
-  const newModelMap = new Map()
-  for (const model of models.values()) {
-    const oldModel = modelMap.get(model._id)
-
-    if (!oldModel) {
-      newModelMap.set(model._id, model)
-    } else if (hasChanged(model, oldModel)) {
-      const nextModel = {
-        ...oldModel,
-        ...model,
-      }
-      newModelMap.set(nextModel._id, nextModel)
-    }
-  }
   try {
-    await bulkUpdate([...newModelMap.values()])
+    console.log('trying bulk update')
+    await bulkUpdate([...models.values()])
     return { data: true }
   } catch (e) {
     return { err: `Failed to save model: ${e}`, code: 500 }

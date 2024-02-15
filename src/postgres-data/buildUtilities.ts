@@ -296,7 +296,19 @@ const buildUtilities = (
       )
     }
 
-    const modelMap = new Map(data.modelMap)
+    const nonPMModelsTypes = [
+      ObjectTypes.Corresponding,
+      ObjectTypes.Project,
+      ObjectTypes.Manuscript,
+    ]
+
+    const modelMap = new Map<string, Model>()
+
+    for (const [id, oldModel] of data.modelMap) {
+      if (nonPMModelsTypes.some((t) => t == oldModel.objectType)) {
+        modelMap.set(id, oldModel)
+      }
+    }
 
     for (const model of items) {
       // NOTE: this is needed because the local state is updated before saving
