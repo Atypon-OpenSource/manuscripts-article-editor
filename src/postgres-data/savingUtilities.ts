@@ -70,33 +70,6 @@ export type Error = {
 }
 export type Maybe<T> = Ok<T> | Error
 
-// const EXCLUDED_KEYS = [
-//   'id',
-//   '_id',
-//   '_rev',
-//   '_revisions',
-//   'sessionID',
-//   'createdAt',
-//   'updatedAt',
-//   'owners',
-//   'manuscriptID',
-//   'containerID',
-//   'src',
-//   'minWordCountRequirement',
-//   'maxWordCountRequirement',
-//   'minCharacterCountRequirement',
-//   'maxCharacterCountRequirement',
-// ] as (keyof Model)[]
-
-// const hasChanged = (a: Model, b: Model): boolean => {
-//   return !!Object.keys(a).find((key: keyof Model) => {
-//     if (EXCLUDED_KEYS.includes(key)) {
-//       return false
-//     }
-//     return !isEqual(a[key], b[key])
-//   })
-// }
-
 export const saveDoc = async (
   doc: ManuscriptNode,
   modelMap: Map<string, Model>,
@@ -113,7 +86,6 @@ export const saveDoc = async (
   const models = encode(doc)
 
   try {
-    console.log('trying bulk update')
     await bulkUpdate([...models.values()])
     return { data: true }
   } catch (e) {
