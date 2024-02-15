@@ -128,7 +128,7 @@ export default class Api {
     manuscriptId: string,
     models: Model[]
   ) => {
-    return this.put(`project/${projectId}/manuscript${manuscriptId}/replace`, {
+    return this.put(`project/${projectId}/manuscript/${manuscriptId}/replace`, {
       data: models,
     })
   }
