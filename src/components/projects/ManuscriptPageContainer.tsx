@@ -152,7 +152,7 @@ const ManuscriptPageView: React.FC = () => {
     const trackState = trackChangesPluginKey.getState(state)
 
     doWithThrottle(() => {
-      storeDispatch({ doc: state.doc, trackState, view })
+      storeDispatch({ doc: state.doc, trackState })
     }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
@@ -177,14 +177,6 @@ const ManuscriptPageView: React.FC = () => {
       />
 
       <PageWrapper onClick={onAppClick}>
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            handleSnapshot()
-          }}
-        >
-          Create Snapshot
-        </button>
         <Main data-cy="editor-main">
           <EditorContainer>
             <EditorContainerInner>
