@@ -67,15 +67,15 @@ const buildUtilities = (
   }
 
   const bulkPersistentManuscriptSave = (models: ManuscriptModel[]) => {
-    // const clearedModels = models.filter((model) => {
-    //   return model.objectType !== ObjectTypes.Project
-    // })
+    const clearedModels = models.filter((model) => {
+      return model.objectType !== ObjectTypes.Project
+    })
 
     const data = getData()
 
     if (data.projectID && data.manuscriptID) {
       return api
-        .replaceProject(data.projectID, data.manuscriptID, models)
+        .replaceProject(data.projectID, data.manuscriptID, clearedModels)
         .then(() => {
           return true // not sure what will be returned at this point
         })
