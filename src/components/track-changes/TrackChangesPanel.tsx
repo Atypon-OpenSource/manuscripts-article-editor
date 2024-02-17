@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { SET_SUGGESTION_ID } from '@manuscripts/body-editor'
 import {
   CHANGE_STATUS,
   ChangeSet,
@@ -115,7 +116,12 @@ export function TrackChangesPanel() {
         selection = NodeSelection.create(view.state.tr.doc, suggestion.from)
       }
       editor.view && editor.view.focus()
-      editorDispatch(view.state.tr.setSelection(selection).scrollIntoView())
+      editorDispatch(
+        view.state.tr
+          .setSelection(selection)
+          .scrollIntoView()
+          .setMeta(SET_SUGGESTION_ID, suggestion.id)
+      )
     }
     dispatch({ selectedSuggestion: suggestion.id })
   }
