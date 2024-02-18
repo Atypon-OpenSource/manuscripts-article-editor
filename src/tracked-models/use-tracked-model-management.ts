@@ -51,16 +51,7 @@ const useTrackedModelManagement = (
 ) => {
   const modelMap = useMemo(() => {
     const adaptedDoc = adaptTrackedData(doc.toJSON())
-    const modelsFromPM = encode(schema.nodeFromJSON(adaptedDoc))
-
-    // adding supplements from final model map as they are meta (not PM presentable)
-    finalModelMap.forEach((model) => {
-      if (model.objectType === ObjectTypes.Supplement) {
-        modelsFromPM.set(model._id, model)
-      }
-    })
-
-    return modelsFromPM
+    return encode(schema.nodeFromJSON(adaptedDoc))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc, finalModelMap])
 
