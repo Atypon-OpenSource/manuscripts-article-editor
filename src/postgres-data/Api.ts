@@ -123,6 +123,16 @@ export default class Api {
     return this.put(`project/${projectId}`, { data: models })
   }
 
+  replaceProject = (
+    projectId: string,
+    manuscriptId: string,
+    models: Model[]
+  ) => {
+    return this.put(`project/${projectId}/manuscript/${manuscriptId}/replace`, {
+      data: models,
+    })
+  }
+
   createProject = (projectId: string, title: string) => {
     return this.post<Project>(`project/${projectId}`, { title })
   }
