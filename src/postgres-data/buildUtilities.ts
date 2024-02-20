@@ -67,9 +67,6 @@ const buildUtilities = (
   }
 
   const bulkPersistentManuscriptSave = (models: ManuscriptModel[]) => {
-    // const onlyManuscriptModels = models.filter((model) => {
-    //   return isManuscript(model) || model.manuscriptID === data.manuscriptID
-    // })
     const clearedModels = models.filter((model) => {
       return model.objectType !== ObjectTypes.Project
     })
@@ -78,7 +75,7 @@ const buildUtilities = (
 
     if (data.projectID && data.manuscriptID) {
       return api
-        .saveProject(data.projectID, clearedModels)
+        .replaceProject(data.projectID, data.manuscriptID, clearedModels)
         .then(() => {
           return true // not sure what will be returned at this point
         })
@@ -296,7 +293,20 @@ const buildUtilities = (
       )
     }
 
-    const modelMap = new Map(data.modelMap)
+    const nonPMModelsTypes = [
+      ObjectTypes.Corresponding,
+      ObjectTypes.Project,
+      ObjectTypes.Manuscript,
+      ObjectTypes.FootnotesOrder,
+    ]
+
+    const modelMap = new Map<string, Model>()
+
+    for (const [id, oldModel] of data.modelMap) {
+      if (nonPMModelsTypes.some((t) => t == oldModel.objectType)) {
+        modelMap.set(id, oldModel)
+      }
+    }
 
     for (const model of items) {
       // NOTE: this is needed because the local state is updated before saving
