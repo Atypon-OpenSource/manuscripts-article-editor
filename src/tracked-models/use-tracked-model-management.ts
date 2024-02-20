@@ -169,6 +169,7 @@ const useTrackedModelManagement = (
       modelMap,
       deleteCommentNode,
       doc,
+      view,
       state,
       dispatch,
       dispatchStore,
