@@ -17,7 +17,6 @@ import {
   Model,
   Supplement,
 } from '@manuscripts/json-schema'
-import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
@@ -178,17 +177,15 @@ export const createSupplementNode = (
   doc.descendants((node, pos) => {
     if (node.type === schema.nodes.supplements) {
       view.dispatch(
-        skipTracking(
-          view.state.tr.insert(
-            pos + node.nodeSize - 1,
-            schema.nodes.supplement.create({
-              id: supplement._id,
-              href: supplement.href,
-              mimeType: supplement.MIME?.split('/')[0],
-              mimeSubType: supplement.MIME?.split('/')[1],
-              title: supplement.title,
-            })
-          )
+        view.state.tr.insert(
+          pos + node.nodeSize - 1,
+          schema.nodes.supplement.create({
+            id: supplement._id,
+            href: supplement.href,
+            mimeType: supplement.MIME?.split('/')[0],
+            mimeSubType: supplement.MIME?.split('/')[1],
+            title: supplement.title,
+          })
         )
       )
       return false
