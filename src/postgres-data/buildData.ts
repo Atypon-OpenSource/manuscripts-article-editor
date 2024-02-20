@@ -114,7 +114,9 @@ const isManuscriptNote = (model: Model) =>
 const buildDocsMap = <T extends Model>(docs: T[]) => {
   const docsMap = new Map<string, any>()
   for (const doc of docs) {
-    docsMap.set(doc._id, doc)
+    if (doc) {
+      docsMap.set(doc._id, doc)
+    }
   }
   return docsMap
 }
