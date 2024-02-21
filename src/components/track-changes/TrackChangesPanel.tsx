@@ -10,13 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { SET_SUGGESTION_ID } from '@manuscripts/body-editor'
 import {
   CHANGE_STATUS,
   ChangeSet,
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { NodeSelection, Selection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
 import { useExecCmd } from '../../hooks/use-track-attrs-popper'
@@ -40,11 +41,24 @@ export function TrackChangesPanel() {
 
   const { changeSet } = trackState || {}
 
+  const cleanTextSelection = () => {
+    const { view, dispatch } = editor
+    if (view && view.state.selection instanceof TextSelection) {
+      view.focus()
+      dispatch(
+        view.state.tr.setSelection(
+          Selection.near(view.state.doc.resolve(view.state.selection.anchor))
+        )
+      )
+    }
+  }
+
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSortBy(event.currentTarget.value)
   }
 
   function handleAcceptChange(c: TrackedChange) {
+    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -54,6 +68,7 @@ export function TrackChangesPanel() {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
   function handleRejectChange(c: TrackedChange) {
+    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -63,6 +78,7 @@ export function TrackChangesPanel() {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
   }
   function handleResetChange(c: TrackedChange) {
+    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -76,6 +92,7 @@ export function TrackChangesPanel() {
     if (!trackState) {
       return
     }
+    cleanTextSelection()
     const { changeSet } = trackState
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
@@ -114,8 +131,13 @@ export function TrackChangesPanel() {
       } else {
         selection = NodeSelection.create(view.state.tr.doc, suggestion.from)
       }
-      editorDispatch(view.state.tr.setSelection(selection).scrollIntoView())
       editor.view && editor.view.focus()
+      editorDispatch(
+        view.state.tr
+          .setSelection(selection)
+          .scrollIntoView()
+          .setMeta(SET_SUGGESTION_ID, suggestion.id)
+      )
     }
     dispatch({ selectedSuggestion: suggestion.id })
   }
