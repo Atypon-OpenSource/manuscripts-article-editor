@@ -80,7 +80,7 @@ const useTrackedModelManagement = (
       }
 
       if (model.objectType === ObjectTypes.Supplement) {
-        return createSupplementNode(view, doc, model as unknown as Supplement)
+        return createSupplementNode(view, model as unknown as Supplement)
       }
 
       if (model._id) {

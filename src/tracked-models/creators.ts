@@ -171,10 +171,9 @@ export const deleteComment = (
 
 export const createSupplementNode = (
   view: EditorView,
-  doc: ProsemirrorNode,
   supplement: Supplement
 ) => {
-  doc.descendants((node, pos) => {
+  view.state.doc.descendants((node, pos) => {
     if (node.type === schema.nodes.supplements) {
       view.dispatch(
         view.state.tr.insert(
