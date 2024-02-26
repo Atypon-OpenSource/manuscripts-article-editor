@@ -20,7 +20,6 @@ const normalizeURL = (url: string | undefined) => {
 
 interface Config {
   environment: string
-  serviceworker: boolean
   analytics: {
     id?: string
   }
@@ -50,7 +49,6 @@ interface Config {
 
 const config = {
   environment: process.env.NODE_ENV,
-  serviceworker: isTrue(process.env.SERVICEWORKER_ENABLED),
   analytics: {
     id: process.env.GOOGLE_ANALYTICS_ID,
   },
