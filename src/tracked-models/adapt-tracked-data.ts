@@ -15,7 +15,7 @@ import {
   CHANGE_STATUS,
   TrackedAttrs,
 } from '@manuscripts/track-changes-plugin'
-import { ManuscriptNode, schema } from '@manuscripts/transform'
+import { ManuscriptNode } from '@manuscripts/transform'
 
 const hasTrackingData = (node: ManuscriptNode) => {
   return !!node?.attrs?.dataTracked
@@ -101,7 +101,7 @@ export const adaptTrackedData = (docJSONed: unknown) => {
         // removing supplement nodes in case insert rejected,
         // not sure if we will need to do it for other nodes
         if (
-          child.type === schema.nodes.supplement &&
+          (child.type as any) === 'supplement' &&
           lastChange.operation == CHANGE_OPERATION.insert &&
           lastChange.status === CHANGE_STATUS.rejected
         ) {
