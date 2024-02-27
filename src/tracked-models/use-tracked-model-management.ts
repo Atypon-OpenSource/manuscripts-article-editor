@@ -16,6 +16,7 @@ import {
   Contributor,
   Model,
   ObjectTypes,
+  Supplement,
 } from '@manuscripts/json-schema'
 import {
   Build,
@@ -34,6 +35,7 @@ import { adaptTrackedData } from './adapt-tracked-data'
 import {
   createAffiliationNode,
   createContributorNode,
+  createSupplementNode,
   deleteComment,
   saveComment,
 } from './creators'
@@ -49,36 +51,36 @@ const useTrackedModelManagement = (
 ) => {
   const modelMap = useMemo(() => {
     const adaptedDoc = adaptTrackedData(doc.toJSON())
-    const modelsFromPM = encode(schema.nodeFromJSON(adaptedDoc))
-
-    // adding supplements from final model map as they are meta (not PM presentable)
-    finalModelMap.forEach((model) => {
-      if (model.objectType === ObjectTypes.Supplement) {
-        modelsFromPM.set(model._id, model)
-      }
-    })
-
-    return modelsFromPM
+    return encode(schema.nodeFromJSON(adaptedDoc))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc, finalModelMap])
 
   const [, dispatchStore] = useStore()
 
   const saveCommentNode = useCallback(
-    (comment: CommentAnnotation) =>
+    (comment: CommentAnnotation, view: ManuscriptEditorView) =>
       saveComment(comment, view, doc, state, modelMap),
-    [doc, modelMap, state, view]
+    [doc, modelMap, state]
   )
 
   const deleteCommentNode = useCallback(
-    (comment: CommentAnnotation) => deleteComment(comment, view, doc, state),
-    [doc, state, view]
+    (comment: CommentAnnotation, view: ManuscriptEditorView) =>
+      deleteComment(comment, view, doc, state),
+    [doc, state]
   )
 
   const saveTrackModel = useCallback(
     <T extends Model>(model: T | Build<T> | Partial<T>) => {
+      if (!view) {
+        throw Error('View not available')
+      }
+
       if (model.objectType === ObjectTypes.CommentAnnotation) {
-        return saveCommentNode(model as unknown as CommentAnnotation)
+        return saveCommentNode(model as unknown as CommentAnnotation, view)
+      }
+
+      if (model.objectType === ObjectTypes.Supplement) {
+        return createSupplementNode(view, model as unknown as Supplement)
       }
 
       if (model._id) {
@@ -140,8 +142,12 @@ const useTrackedModelManagement = (
 
   const deleteTrackModel = useCallback(
     (id: string) => {
+      if (!view) {
+        throw Error('View not available')
+      }
+
       if (modelMap.get(id)?.objectType === ObjectTypes.CommentAnnotation) {
-        return deleteCommentNode(modelMap.get(id) as CommentAnnotation)
+        return deleteCommentNode(modelMap.get(id) as CommentAnnotation, view)
       }
 
       if (modelMap.has(id)) {
@@ -163,6 +169,7 @@ const useTrackedModelManagement = (
       modelMap,
       deleteCommentNode,
       doc,
+      view,
       state,
       dispatch,
       dispatchStore,
