@@ -1512,16 +1512,16 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.6":
-  version "1.7.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.6.tgz#1a36c000ff899d7a381c8a2003b3e76f8ff144db"
-  integrity sha512-BD6eonO/h3Z24S0J0lBO6hl0WmvoPbJU+Q7vi9gebXQHAMyO1l2/8aaoN+MJrTayM+D3NXta7PHqZJTX2GOgHg==
+"@manuscripts/body-editor@1.7.8":
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.8.tgz#c92fb66f65ad4a5f127f94b9513b98b4b539b26d"
+  integrity sha512-hr46WnhfvThJTdp/9/4LedsGPdmOX+yiR9vFQjFtYhG8QpjVjK7GIhIEvTP2MTmyPds1evW2ihwr1pyoB7IN5w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.2"
-    "@manuscripts/style-guide" "1.7.4"
+    "@manuscripts/style-guide" "1.7.5"
     "@manuscripts/track-changes-plugin" "^1.7.5"
     "@manuscripts/transform" "2.1.1"
     astrocite-eutils "^0.16.4"
@@ -1583,10 +1583,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.7.4":
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.4.tgz#b37c1cd663276913a7f646cd367613d83e55b64d"
-  integrity sha512-05WbF83JcpYlnGVjRRfmUbbxZlBI2jHnr7/yKk/6Husv/o8PbI5OL5n3DAAXxcWMtUvMX0/GxhI14pImHGf0SA==
+"@manuscripts/style-guide@1.7.5":
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.5.tgz#2ae8c695a566d65c108aa522ee0af4f82b3d032f"
+  integrity sha512-VVDXkxkk57sib6GhyD5GQuwiqO3N0aCxuICXAAEBqGyaCrFBwJ5mefS5QG/MynyxHCmWHcUElcxkZ6consnMLw==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.2"
