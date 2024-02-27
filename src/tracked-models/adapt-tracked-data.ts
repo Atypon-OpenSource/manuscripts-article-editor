@@ -15,7 +15,7 @@ import {
   CHANGE_STATUS,
   TrackedAttrs,
 } from '@manuscripts/track-changes-plugin'
-import { ManuscriptNode } from '@manuscripts/transform'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 
 const hasTrackingData = (node: ManuscriptNode) => {
   return !!node?.attrs?.dataTracked
@@ -97,6 +97,17 @@ export const adaptTrackedData = (docJSONed: unknown) => {
         ) {
           return false
         }
+
+        // removing supplement nodes in case insert rejected,
+        // not sure if we will need to do it for other nodes
+        if (
+          child.type === schema.nodes.supplement &&
+          lastChange.operation == CHANGE_OPERATION.insert &&
+          lastChange.status === CHANGE_STATUS.rejected
+        ) {
+          return false
+        }
+
         // @ts-ignore
         child.attrs = deepCloneAttrs(child.attrs) || {} // @TODO: needs refactoring, in case when there is a dataTracked attribute, we deep copy attributes 2 times.
         return true
