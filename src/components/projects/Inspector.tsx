@@ -37,7 +37,7 @@ interface Props {
 const Inspector: React.FC<Props> = ({ editor }) => {
   const [store] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
-    deleteModel: store.deleteModel,
+    deleteTrackModel: store.deleteTrackModel,
     trackModelMap: store.trackModelMap,
     fileManagement: store.fileManagement,
     files: store.files,
@@ -124,7 +124,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                     modelMap={store.trackModelMap}
                     // @ts-ignore
                     saveModel={store.saveTrackModel}
-                    deleteModel={store.deleteModel}
+                    deleteModel={store.deleteTrackModel}
                     fileManagement={store.fileManagement}
                   />
                 </InspectorTabPanel>
