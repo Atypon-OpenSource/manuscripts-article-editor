@@ -10,10 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { useEditor } from '@manuscripts/body-editor'
-import { CommentAnnotation, Model } from '@manuscripts/json-schema'
+import { CommentAnnotation } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
-import { Build, buildContribution } from '@manuscripts/transform'
+import { buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
 
@@ -60,32 +60,13 @@ export const useCreateEditor = () => {
     getActionCapabilities(project, user, undefined, permittedActions)
   )
 
-  const getModelMap = () => {
-    return getState().modelMap
-  }
-
-  const saveModel = <T extends Model>(model: T | Build<T> | Partial<T>) => {
-    /*
-    Models plugin in the prosemirror-editor calls saveModel when there is a change on a model (aux objects, citations, references),
-    but only if requested in a transaction so it happens only in a couple of cases.
-    This shouldn't be happening with the track-changes enabled. With the way things are currently,
-    we might need to implement filtering to avoid updates on the models that are trackable with track-changes.
-    Once metadata are trackable saveModel (for final modelMap) shouldn't be available to the editor at all.
-    */
-    return getState().saveModel(model) as Promise<any>
-  }
-
-  const deleteModel = (id: string) => {
-    return getState().deleteModel(id)
-  }
-
   const retrySync = (componentIDs: string[]) => {
     componentIDs.forEach((id) => {
       const model = modelMap.get(id)
       if (!model) {
         return
       }
-      saveModel(model)
+      getState().saveModel(model)
     })
     return Promise.resolve()
   }
@@ -141,8 +122,6 @@ export const useCreateEditor = () => {
         dispatch({ selectedSuggestion: undefined })
       }
     },
-    getModelMap,
-    deleteModel,
     retrySync,
     subscribeStore: subscribe,
 
