@@ -247,9 +247,6 @@ The service is configured using environment variables, `.env.example` file place
   <dt>PUBLISH_TEMPLATES</dt>
   <dd>If set to '1', enables the ability to publish template.</dd>
 
-  <dt>SERVICEWORKER_ENABLED</dt>
-  <dd>When set to '1', application is built with its [service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) enabled. Essential for offline support.</dd>
-
   <dt>SHACKLES_ENABLED</dt>
   <dd>If set to '1', enables the ability to show history (snapshots).</dd>
 
