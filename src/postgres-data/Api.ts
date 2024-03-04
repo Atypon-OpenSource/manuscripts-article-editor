@@ -154,9 +154,9 @@ export default class Api {
     projectID: string,
     data: Array<Build<ContainedModel> & ContainedIDs>
   ) => {
-      await this.put(`project/${projectID}`, {
-        data,
-      })
-      return data
-    }
+    await this.put(`project/${projectID}`, {
+      data,
+    })
+    return data
+  }
 }
