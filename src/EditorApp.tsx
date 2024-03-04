@@ -14,7 +14,6 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { NotificationProvider } from './components/NotificationProvider'
 import { Page } from './components/Page'
 import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
@@ -100,13 +99,11 @@ const EditorApp: React.FC<Props> = ({
   return store ? (
     <GenericStoreProvider store={store}>
       <Router>
-        <NotificationProvider>
-          <Page>
-            <Wrapper>
-              <ManuscriptPageContainer />
-            </Wrapper>
-          </Page>
-        </NotificationProvider>
+        <Page>
+          <Wrapper>
+            <ManuscriptPageContainer />
+          </Wrapper>
+        </Page>
       </Router>
     </GenericStoreProvider>
   ) : (

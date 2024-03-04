@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "1.9.27-LEAN-3092-2",
+  "version": "1.9.29-LEAN-3092-0",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -61,11 +61,9 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "react-select": "^5.7.3",
-    "react-spring": "^8.0.25",
     "styled-components": "^5.2.0",
     "type-fest": "^4.6.0",
-    "uuid": "^9.0.0",
-    "workbox-window": "^6.5.4"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
