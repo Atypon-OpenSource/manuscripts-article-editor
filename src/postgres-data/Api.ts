@@ -123,16 +123,6 @@ export default class Api {
     return this.put(`project/${projectId}`, { data: models })
   }
 
-  replaceProject = (
-    projectId: string,
-    manuscriptId: string,
-    models: Model[]
-  ) => {
-    return this.put(`project/${projectId}/manuscript/${manuscriptId}/replace`, {
-      data: models,
-    })
-  }
-
   createProject = (projectId: string, title: string) => {
     return this.post<Project>(`project/${projectId}`, { title })
   }
@@ -164,9 +154,9 @@ export default class Api {
     projectID: string,
     data: Array<Build<ContainedModel> & ContainedIDs>
   ) => {
-    await this.put(`project/${projectID}`, {
-      data,
-    })
-    return data
-  }
+      await this.put(`project/${projectID}`, {
+        data,
+      })
+      return data
+    }
 }
