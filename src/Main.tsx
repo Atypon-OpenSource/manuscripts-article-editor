@@ -15,7 +15,6 @@ import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import { ServiceWorker } from './components/ServiceWorker'
 import EditorApp from './EditorApp'
 import { ISubject } from './store/ParentObserver'
 import { GlobalStyle } from './theme/theme'
@@ -44,7 +43,6 @@ const Main: React.FC<Props> = ({
 }) => (
   <DndProvider backend={HTML5Backend}>
     <GlobalStyle />
-    <ServiceWorker />
     <EditorApp
       fileManagement={fileManagement}
       files={files}
