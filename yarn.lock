@@ -1570,7 +1570,7 @@
     eslint-config-prettier "^8.5.0"
     prettier "^2.8.1"
 
-"@manuscripts/json-schema@^2.2.2", "@manuscripts/json-schema@^2.2.4":
+"@manuscripts/json-schema@^2.2.4":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.4.tgz#490ae5ac0187ff52626d509ceb557872a3956b8f"
   integrity sha512-7IPaLiDQyY1RnYmuQNqU+Jnv1zn6rf74aEPhUXJxYvkC3GvDGvN2JPnQ5As7gl9rHUrqPsK8ywUhi4vLIaUQvg==
@@ -1578,17 +1578,6 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
     uuid "^9.0.0"
-
-"@manuscripts/library@1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.2.tgz#ce7984a5073a96b1b48485fccbd3656acc230d47"
-  integrity sha512-V02zF+t9Y3O9D3druRNYr1AwMAEwE/4/+udbx6rU4PxWmHwscyVBk3FtVpfZtDTV+UaUrzXCu6wrMaP98yFvkQ==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.2"
-    astrocite-bibtex "^0.16.4"
-    astrocite-ris "^0.16.4"
-    citeproc "^2.4.62"
-    fontoxpath "^3.28.2"
 
 "@manuscripts/library@^1.3.3":
   version "1.3.3"
@@ -1657,21 +1646,6 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
-
-"@manuscripts/transform@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.1.tgz#ac76a8ab9bba14d336d53f9ee1b5e9c6b8663606"
-  integrity sha512-WxQ61keqX/nl0IH/H78eIAksw6BcUpUwcpW5q15TZxLyEzqIArPVBnfm31lcxuWwUjfJTXX/ZjGS3d7YI7ddyQ==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.2"
-    "@manuscripts/library" "1.3.2"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    mathjax-full "^3.2.2"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@^2.1.2":
   version "2.1.2"
