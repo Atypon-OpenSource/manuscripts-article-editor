@@ -1512,18 +1512,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.9-LEAN-3352-0":
-  version "1.7.9-LEAN-3352-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.9-LEAN-3352-0.tgz#3ac276d0542bb1f1d7c54f2a2dfb00fb10bb19aa"
-  integrity sha512-pllTOr0NPB3lWSX/rRK7pcxNbK2pL8++bMTeJJUn+ozQD3D9Th/bW0Pw2xF/1QX2FWtpsdvfPuCoSZl3xG1few==
+"@manuscripts/body-editor@1.7.9-LEAN-3352-1":
+  version "1.7.9-LEAN-3352-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.9-LEAN-3352-1.tgz#3b617a087b04e494ebec5f6c949c3c34616a0429"
+  integrity sha512-S9PJtHACoBfSR3DmHpqWfRuYHbQF4MBD8ZBPbd6XhG9s9mCM/Kt7vulFia1CRPk7W0tqnNGaiZNPe4BNAr1CMQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.4"
     "@manuscripts/library" "^1.3.3"
-    "@manuscripts/style-guide" "1.7.6-LEAN-3352-0"
+    "@manuscripts/style-guide" "1.7.6-LEAN-3352-1"
     "@manuscripts/track-changes-plugin" "^1.7.5"
-    "@manuscripts/transform" "2.1.1-LEAN-3352-2"
+    "@manuscripts/transform" "2.1.1-LEAN-3352-3"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1583,14 +1583,14 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.7.6-LEAN-3352-0":
-  version "1.7.6-LEAN-3352-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.6-LEAN-3352-0.tgz#7e1bb74452a224fdfabbc230ac14b115daf828e1"
-  integrity sha512-QdUsO7nyP7J/zwNnsFgOa/eZODGzfYsW4/ADfY8bYdE67mC2fSydhXTNejuVZAOdv8P2TB3SlaYlB9jmL99zPA==
+"@manuscripts/style-guide@1.7.6-LEAN-3352-1":
+  version "1.7.6-LEAN-3352-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.6-LEAN-3352-1.tgz#a7bcb55d75ec88c31f6c71cd4ee456d6face77d1"
+  integrity sha512-SiOu+9UqL7zZjnbkgxK5SbWNl43jvfT9ODHQSPBUWhbO5q6kA6h/CV6TAuWXUwKQzhpD4PI0BHsmbHlbbLnviw==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.4"
-    "@manuscripts/transform" "2.1.1-LEAN-3352-2"
+    "@manuscripts/transform" "2.1.1-LEAN-3352-3"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1640,10 +1640,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.1.1-LEAN-3352-2":
-  version "2.1.1-LEAN-3352-2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.1-LEAN-3352-2.tgz#80db9e52c5be96e4ab24ce61a5fcb4034f55b300"
-  integrity sha512-Zj5jS55ciINzLGeTlwtg8QXKyJuatXDNx+78NZQYrF1XgWluNovKtnDsYkwb9OJr0q/0WHYCIEmHicDbsRol2A==
+"@manuscripts/transform@2.1.1-LEAN-3352-3":
+  version "2.1.1-LEAN-3352-3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.1-LEAN-3352-3.tgz#1c50236947c48a2f680c71c2229f9ae83d491b9b"
+  integrity sha512-71s/t3ED7aDGuyyauiPGZSP4Gvp9EEMTaXejtO5dziwiG4Ii/GN5Hz+QvBq/Z0+Gy3+Q5vudW7N2UVu4CzhD8g==
   dependencies:
     "@manuscripts/json-schema" "^2.2.4"
     "@manuscripts/library" "^1.3.3"
