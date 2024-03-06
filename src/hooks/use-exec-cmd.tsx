@@ -15,10 +15,12 @@ import { EditorView } from 'prosemirror-view'
 
 import { useStore } from '../store'
 
-export const useExecCmd = () => {
+const useExecCmd = () => {
   const [storeView] = useStore((store) => store.view)
   return (cmd: Command, hookView?: EditorView) => {
     const view = storeView || hookView
     cmd(view.state, view.dispatch)
   }
 }
+
+export default useExecCmd

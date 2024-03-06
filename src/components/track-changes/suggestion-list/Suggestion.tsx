@@ -14,8 +14,8 @@ import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import TrackModal from '../../../hooks/TrackModal'
 import { useStore } from '../../../store'
+import TrackModal from '../../track-changes/TrackModal'
 import { Accept, Back, Reject } from './Icons'
 import { SuggestionSnippet } from './SuggestionSnippet'
 

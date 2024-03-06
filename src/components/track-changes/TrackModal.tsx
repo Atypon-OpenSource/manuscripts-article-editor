@@ -26,15 +26,12 @@ import React, {
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 
-import EditIcon from '../components/projects/icons/EditIcon'
-import {
-  Accept,
-  Reject,
-} from '../components/track-changes/suggestion-list/Icons'
-import { Action } from '../components/track-changes/suggestion-list/Suggestion'
-import { filterAttrsChange } from '../lib/attrs-change-filter'
-import { useStore } from '../store'
-import { useExecCmd } from './use-track-attrs-popper'
+import useExecCmd from '../../hooks/use-exec-cmd'
+import { filterAttrsChange } from '../../lib/attrs-change-filter'
+import { useStore } from '../../store'
+import EditIcon from '../projects/icons/EditIcon'
+import { Accept, Reject } from '../track-changes/suggestion-list/Icons'
+import { Action } from '../track-changes/suggestion-list/Suggestion'
 
 interface Props {
   changeId: string
@@ -56,7 +53,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const [{ selectedAttrsChange, trackState, files }, dispatch] = useStore(
     (store) => ({
       selectedAttrsChange: store.selectedAttrsChange,
-      popper: store.popper,
       trackState: store.trackState,
       files: store.files,
     })
