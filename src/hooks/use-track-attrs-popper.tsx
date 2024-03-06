@@ -25,6 +25,7 @@ import EditIcon from '../components/projects/icons/EditIcon'
 import { filterAttrsChange } from '../lib/attrs-change-filter'
 import { useStore } from '../store'
 import { ThemeProvider } from '../theme/ThemeProvider'
+import _ from 'lodash'
 
 export const useExecCmd = () => {
   const [storeView] = useStore((store) => store.view)
@@ -34,210 +35,200 @@ export const useExecCmd = () => {
   }
 }
 
-export default () => {
-  const [{ selectedAttrsChange, popper, trackState }, dispatch] = useStore(
-    (store) => ({
-      selectedAttrsChange: store.selectedAttrsChange,
-      popper: store.popper,
-      trackState: store.trackState,
-    })
-  )
+// export default () => {
+//   const [{ selectedAttrsChange, popper, trackState }, dispatch] = useStore(
+//     (store) => ({
+//       selectedAttrsChange: store.selectedAttrsChange,
+//       popper: store.popper,
+//       trackState: store.trackState,
+//     })
+//   )
 
-  const execCmd = useExecCmd()
+//   const execCmd = useExecCmd()
 
-  const cleanSelectedChange = useCallback(() => {
-    const previousSelection = document.querySelector(`.track-attrs-popper`)
-    previousSelection && ReactDOM.unmountComponentAtNode(previousSelection)
-    popper.destroy()
-    document
-      .querySelector('.attrs-popper-button-active')
-      ?.classList.replace('attrs-popper-button-active', 'attrs-popper-button')
-    dispatch({ selectedAttrsChange: undefined })
-  }, [dispatch, popper])
+//   const cleanSelectedChange = useCallback(() => {
+//     const previousSelection = document.querySelector(`.track-attrs-popper`)
+//     previousSelection && ReactDOM.unmountComponentAtNode(previousSelection)
+//     popper.destroy()
+//     document
+//       .querySelector('.attrs-popper-button-active')
+//       ?.classList.replace('attrs-popper-button-active', 'attrs-popper-button')
+//     dispatch({ selectedAttrsChange: undefined })
+//   }, [dispatch, popper])
 
-  const renderAttrsChangePopper = useCallback(
-    (changeId: string, attrTrackingButton: HTMLButtonElement) => {
-      if (!trackState) {
-        return
-      }
+//   const renderAttrsChangePopper = useCallback(
+//     (changeId: string, anchor: HTMLElement) => {
+//       if (!trackState) {
+//         return
+//       }
 
-      attrTrackingButton.classList.replace(
-        'attrs-popper-button',
-        'attrs-popper-button-active'
-      )
+//       const change = trackState.changeSet.get(changeId)
 
-      const { newAttrs, oldAttrs } = filterAttrsChange(
-        trackState.changeSet.get(changeId) as NodeAttrChange
-      )
+//       if (change?.type !== 'node-attr-change') {
+//         return
+//       }
 
-      const popperContainer = document.createElement('div')
-      popperContainer.className = 'track-attrs-popper'
-      ReactDOM.render(
-        <ThemeProvider>
-          <TrackAttrsPopperContent
-            newAttrs={newAttrs}
-            oldAttrs={oldAttrs}
-            changeId={changeId}
-            updateState={(cmd) => {
-              cleanSelectedChange()
-              execCmd(cmd)
-            }}
-          />
-        </ThemeProvider>,
-        popperContainer
-      )
-      popper.show(attrTrackingButton, popperContainer)
-      dispatch({ selectedAttrsChange: changeId })
-    },
-    [trackState, popper, dispatch, cleanSelectedChange, execCmd]
-  )
+//       const { newAttrs, oldAttrs } = filterAttrsChange(change as NodeAttrChange)
 
-  return useCallback(
-    (e: React.MouseEvent) => {
-      const attrTrackingButton = (e.target as HTMLElement).closest(
-        '.attrs-popper-button,.attrs-popper-button-active'
-      ) as HTMLButtonElement | null
+//       const popperContainer = document.createElement('div')
+//       popperContainer.className = 'track-attrs-popper'
+//       ReactDOM.render(
+//         <ThemeProvider>
+//           <TrackAttrsPopperContent
+//             newAttrs={newAttrs}
+//             oldAttrs={oldAttrs}
+//             changeId={changeId}
+//             updateState={(cmd) => {
+//               cleanSelectedChange()
+//               execCmd(cmd)
+//             }}
+//           />
+//         </ThemeProvider>,
+//         popperContainer
+//       )
+//       popper.show(anchor, popperContainer)
+//       dispatch({ selectedAttrsChange: changeId })
+//     },
+//     [trackState, popper, dispatch, cleanSelectedChange, execCmd]
+//   )
 
-      cleanSelectedChange()
+//   return useCallback(
+//     (changeId: string, anchor: HTMLElement) => {
+//       cleanSelectedChange()
+//       if (selectedAttrsChange !== changeId) {
+//         renderAttrsChangePopper(changeId, anchor)
+//       } else {
+//         dispatch({ selectedAttrsChange: undefined })
+//       }
+//     },
+//     [
+//       cleanSelectedChange,
+//       dispatch,
+//       renderAttrsChangePopper,
+//       selectedAttrsChange,
+//     ]
+//   )
+// }
 
-      if (attrTrackingButton) {
-        const changeId = attrTrackingButton.value
+// export const TrackAttrsPopperContent: React.FC<{
+//   newAttrs: Record<string, { label: string; value: string }>
+//   oldAttrs: Record<string, { label: string; value: string }>
+//   changeId: string
+//   updateState: (cmd: Command) => void
+// }> = ({ newAttrs, oldAttrs, changeId, updateState }) => {
+//   const approveChange = () => {
+//     updateState(
+//       trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, [changeId])
+//     )
+//   }
 
-        if (selectedAttrsChange !== changeId) {
-          renderAttrsChangePopper(changeId, attrTrackingButton)
-        } else {
-          dispatch({ selectedAttrsChange: undefined })
-        }
-      }
-    },
-    [
-      cleanSelectedChange,
-      dispatch,
-      renderAttrsChangePopper,
-      selectedAttrsChange,
-    ]
-  )
-}
+//   const rejectChange = () => {
+//     updateState(
+//       trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, [changeId])
+//     )
+//   }
 
-export const TrackAttrsPopperContent: React.FC<{
-  newAttrs: Record<string, { label: string; value: string }>
-  oldAttrs: Record<string, { label: string; value: string }>
-  changeId: string
-  updateState: (cmd: Command) => void
-}> = ({ newAttrs, oldAttrs, changeId, updateState }) => {
-  const approveChange = () => {
-    updateState(
-      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, [changeId])
-    )
-  }
+//   return (
+//     <>
+//       <Header>
+//         <LabelContainer>
+//           <EditIcon />
+//           <Label>Changed</Label>
+//         </LabelContainer>
+//         <ButtonGroup>
+//           <RejectButton onClick={rejectChange}>Reject</RejectButton>
+//           <TrackChangesButton onClick={approveChange}>
+//             Approve
+//           </TrackChangesButton>
+//         </ButtonGroup>
+//       </Header>
 
-  const rejectChange = () => {
-    updateState(
-      trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, [changeId])
-    )
-  }
+//       <ChangesList>
+//         {Object.entries(oldAttrs).map(([key], index) => (
+//           <Attribute key={index}>
+//             <AttributeLabel>{oldAttrs[key].label}:</AttributeLabel>
+//             {newAttrs[key].value &&
+//               !_.isEqual(oldAttrs[key].value, newAttrs[key].value) && (
+//                 <OldAttribute>{oldAttrs[key].value}</OldAttribute>
+//               )}
+//             <AttributeValue>
+//               {newAttrs[key].value || oldAttrs[key].value}
+//             </AttributeValue>
+//           </Attribute>
+//         ))}
+//       </ChangesList>
+//     </>
+//   )
+// }
 
-  return (
-    <>
-      <Header>
-        <LabelContainer>
-          <EditIcon />
-          <Label>Changed</Label>
-        </LabelContainer>
-        <ButtonGroup>
-          <RejectButton onClick={rejectChange}>Reject</RejectButton>
-          <TrackChangesButton onClick={approveChange}>
-            Approve
-          </TrackChangesButton>
-        </ButtonGroup>
-      </Header>
+// export const TrackChangesButton = styled(TextButton)`
+//   font-size: ${(props) => props.theme.font.size.normal};
+//   color: ${(props) => props.theme.colors.text.tertiary};
+//   text-decoration: underline;
+//   margin-right: ${(props) => props.theme.grid.unit * 2}px;
 
-      <ChangesList>
-        {Object.entries(oldAttrs).map(([key], index) => (
-          <Attribute key={index}>
-            <AttributeLabel>{oldAttrs[key].label}:</AttributeLabel>
-            {newAttrs[key].value &&
-              oldAttrs[key].value !== newAttrs[key].value && (
-                <OldAttribute>{oldAttrs[key].value}</OldAttribute>
-              )}
-            <AttributeValue>
-              {newAttrs[key].value || oldAttrs[key].value}
-            </AttributeValue>
-          </Attribute>
-        ))}
-      </ChangesList>
-    </>
-  )
-}
+//   &:hover,
+//   &:focus {
+//     color: ${(props) => props.theme.colors.text.tertiary} !important;
+//   }
+// `
 
-export const TrackChangesButton = styled(TextButton)`
-  font-size: ${(props) => props.theme.font.size.normal};
-  color: ${(props) => props.theme.colors.text.tertiary};
-  text-decoration: underline;
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
+// const RejectButton = styled(TrackChangesButton)`
+//   color: ${(props) => props.theme.colors.text.secondary};
+// `
 
-  &:hover,
-  &:focus {
-    color: ${(props) => props.theme.colors.text.tertiary} !important;
-  }
-`
+// const Header = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding: 16px;
+// `
 
-const RejectButton = styled(TrackChangesButton)`
-  color: ${(props) => props.theme.colors.text.secondary};
-`
+// const Label = styled.div`
+//   color: ${(props) => props.theme.colors.text.primary};
+//   font-size: ${(props) => props.theme.font.size.medium};
+//   font-weight: ${(props) => props.theme.font.weight.normal};
+//   line-height: ${(props) => props.theme.font.lineHeight.large};
+//   font-style: normal;
+//   padding: 2px;
+// `
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-`
+// const LabelContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+//   padding: 4px;
+// `
 
-const Label = styled.div`
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: ${(props) => props.theme.font.size.medium};
-  font-weight: ${(props) => props.theme.font.weight.normal};
-  line-height: ${(props) => props.theme.font.lineHeight.large};
-  font-style: normal;
-  padding: 2px;
-`
+// const Attribute = styled.div`
+//   padding: ${(props) => props.theme.grid.unit * 3}px;
+//   cursor: pointer;
 
-const LabelContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 4px;
-`
+//   &:hover {
+//     background: ${(props) => props.theme.colors.background.fifth};
+//   }
+// `
 
-const Attribute = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 3}px;
-  cursor: pointer;
+// const AttributeLabel = styled.div`
+//   color: ${(props) => props.theme.colors.text.primary};
+//   font-size: ${(props) => props.theme.font.size.small};
+//   font-weight: ${(props) => props.theme.font.weight.bold};
+//   font-style: normal;
+//   line-height: 16px;
+// `
 
-  &:hover {
-    background: ${(props) => props.theme.colors.background.fifth};
-  }
-`
+// const AttributeValue = styled(AttributeLabel)`
+//   font-weight: ${(props) => props.theme.font.weight.normal};
+// `
 
-const AttributeLabel = styled.div`
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: ${(props) => props.theme.font.size.small};
-  font-weight: ${(props) => props.theme.font.weight.bold};
-  font-style: normal;
-  line-height: 16px;
-`
+// const OldAttribute = styled(AttributeValue)`
+//   text-decoration: line-through;
+// `
 
-const AttributeValue = styled(AttributeLabel)`
-  font-weight: ${(props) => props.theme.font.weight.normal};
-`
-
-const OldAttribute = styled(AttributeValue)`
-  text-decoration: line-through;
-`
-
-const ChangesList = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 4}px;
-  max-height: ${(props) => props.theme.grid.unit * 124}px;
-  background: ${(props) => props.theme.colors.background.secondary};
-  overflow-y: scroll;
-  overflow-x: hidden;
-`
+// const ChangesList = styled.div`
+//   padding: ${(props) => props.theme.grid.unit * 2}px
+//     ${(props) => props.theme.grid.unit * 4}px;
+//   max-height: ${(props) => props.theme.grid.unit * 124}px;
+//   background: ${(props) => props.theme.colors.background.secondary};
+//   overflow-y: scroll;
+//   overflow-x: hidden;
+// `
