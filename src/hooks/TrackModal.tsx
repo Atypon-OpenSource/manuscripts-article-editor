@@ -15,25 +15,26 @@ import {
   NodeAttrChange,
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
+import _ from 'lodash'
 import React, {
-  MutableRefObject,
   forwardRef,
+  MutableRefObject,
   useEffect,
   useMemo,
   useState,
 } from 'react'
+import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 
 import EditIcon from '../components/projects/icons/EditIcon'
-import { filterAttrsChange } from '../lib/attrs-change-filter'
-import { useStore } from '../store'
-import _ from 'lodash'
-import { useExecCmd } from './use-track-attrs-popper'
-import { usePopper } from 'react-popper'
 import {
   Accept,
   Reject,
 } from '../components/track-changes/suggestion-list/Icons'
+import { Action } from '../components/track-changes/suggestion-list/Suggestion'
+import { filterAttrsChange } from '../lib/attrs-change-filter'
+import { useStore } from '../store'
+import { useExecCmd } from './use-track-attrs-popper'
 
 interface Props {
   changeId: string
@@ -153,12 +154,12 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
             <Label>Changed</Label>
           </LabelContainer>
           <ButtonGroup>
-            <RejectButton onClick={rejectChange}>
+            <Action onClick={rejectChange}>
               <Reject color="#353535" />
-            </RejectButton>
-            <TrackChangesButton onClick={approveChange}>
+            </Action>
+            <Action onClick={approveChange}>
               <Accept color="#353535" />
-            </TrackChangesButton>
+            </Action>
           </ButtonGroup>
         </Header>
 
@@ -218,10 +219,6 @@ export const TrackChangesButton = styled(TextButton)`
   &:focus {
     color: ${(props) => props.theme.colors.text.tertiary} !important;
   }
-`
-
-const RejectButton = styled(TrackChangesButton)`
-  color: ${(props) => props.theme.colors.text.secondary};
 `
 
 const Header = styled.div`

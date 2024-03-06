@@ -14,10 +14,10 @@ import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import TrackModal from '../../../hooks/TrackModal'
 import { useStore } from '../../../store'
 import { Accept, Back, Reject } from './Icons'
 import { SuggestionSnippet } from './SuggestionSnippet'
-import TrackModal from '../../../hooks/TrackModal'
 
 interface Props {
   suggestion: TrackedChange
@@ -249,7 +249,7 @@ const FocusHandle = styled.a<{
   overflow: hidden;
 `
 
-const Action = styled.button`
+export const Action = styled.button`
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
