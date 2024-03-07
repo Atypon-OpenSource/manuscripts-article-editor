@@ -1511,18 +1511,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.11":
-  version "1.7.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.11.tgz#8ea5b59d205b450b39765c5bf222ca0c0c2cb358"
-  integrity sha512-5LhY8ZSeFrxG7xkiL2FWiqWDdz2NgtuZrsQGm+X4WPq2jaxEnxzc6+r0CmrMP+/lMvVhdbCYSC5hxJGe8aGIPg==
+"@manuscripts/body-editor@1.7.13-LEAN-3340-2":
+  version "1.7.13-LEAN-3340-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.13-LEAN-3340-2.tgz#9f893f541bf807c041c95d60807edb7804a8d834"
+  integrity sha512-efpSYWyTnQ9VA/k0ADCPTfW3YhXkJMwfTYf96kAvFIWF8HVQPDkZND3D1yaE771eWVG4YPORztnX/jueZA63eA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.4"
     "@manuscripts/library" "^1.3.3"
-    "@manuscripts/style-guide" "^1.7.6"
+    "@manuscripts/style-guide" "1.7.8"
     "@manuscripts/track-changes-plugin" "^1.7.5"
-    "@manuscripts/transform" "^2.1.2"
+    "@manuscripts/transform" "2.1.3"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1593,6 +1593,32 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
+"@manuscripts/style-guide@1.7.8":
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.8.tgz#172b5d2b05f9f4ff139c23428f2142d38f82eb1b"
+  integrity sha512-xVMyru0QH26/FLPnw2X+XXBSzBOftUwFrVeiKvPw+5jCLe6Hx5MEcu5UFey6GvCM66QDZjZWwZoHdlI+aHG0lQ==
+  dependencies:
+    "@manuscripts/assets" "^0.6.4"
+    "@manuscripts/json-schema" "^2.2.4"
+    "@manuscripts/transform" "2.1.3"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    react "^17.0.2"
+    react-dnd "^11.1.3"
+    react-dnd-html5-backend "^11.1.3"
+    react-dom "^17.0.2"
+    react-is "^17.0.2"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
+
 "@manuscripts/style-guide@^1.7.6":
   version "1.7.6"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.6.tgz#09dc585ce5f478ca78fe1fb6b0f73ffb6c7cee19"
@@ -1657,6 +1683,21 @@
   dependencies:
     "@manuscripts/json-schema" "^2.2.2"
     "@manuscripts/library" "1.3.2"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.3.tgz#2c97c515e872162f82b2c21366625fc826335106"
+  integrity sha512-1uUz5OrL4mh5T/RjmnHbhW2+d9K2SkXdx/qtPH6rQcxt+X/rCuv2NjGclveHyoOV4Y2YuICYXIoHKdYsDucv/g==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.4"
+    "@manuscripts/library" "^1.3.3"
     debug "^4.3.4"
     jszip "^3.10.1"
     mathjax-full "^3.2.2"
