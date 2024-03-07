@@ -75,7 +75,7 @@ const buildUtilities = (
 
     if (data.projectID && data.manuscriptID) {
       return api
-        .replaceProject(data.projectID, data.manuscriptID, clearedModels)
+        .saveProject(data.projectID, clearedModels)
         .then(() => {
           return true // not sure what will be returned at this point
         })

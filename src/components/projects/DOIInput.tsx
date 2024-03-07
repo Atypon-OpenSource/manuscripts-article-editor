@@ -35,6 +35,7 @@ export const DOIInput: React.FC<{
       value={currentValue}
       pattern={'^10.[0-9]+/'}
       placeholder={'10.'}
+      readOnly={true}
       onChange={handleInputChange}
       onFocus={() => setEditing(true)}
       onBlur={() => setEditing(false)}
