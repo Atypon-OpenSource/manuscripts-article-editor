@@ -45,8 +45,6 @@ export const Suggestion: React.FC<Props> = ({
 
   const [suggestionClicked, setSuggestionClicked] = useState(false)
 
-  // const trackAttrsPopper = useTrackAttrsPopper()
-
   const canRejectOwnSuggestion = useMemo(() => {
     if (
       can.handleSuggestion ||
