@@ -48,6 +48,9 @@ function isValidValue(val: any) {
   return false
 }
 
+const modalWidth = 368
+const modalXOffset = 90
+
 export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const { changeId, isVisible, setVisible } = props
   const [{ selectedAttrsChange, trackState, files }, dispatch] = useStore(
@@ -68,11 +71,10 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
 
   const inputRef = ref as MutableRefObject<HTMLInputElement>
 
-  const offset = -(inputRef.current.getBoundingClientRect().width + 40)
-
   const virtualReference = useMemo(() => {
     return {
       getBoundingClientRect() {
+        console.log(inputRef)
         const original = inputRef.current.getBoundingClientRect()
         const rectLike = {} as Mutable<DOMRect>
         for (const x in original) {
@@ -81,6 +83,9 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
           rectLike[k] = original[k]
         }
         rectLike.top -= rectLike.height
+        rectLike.right = rectLike.left
+        rectLike.left -= modalWidth + modalXOffset
+        rectLike.width = modalWidth + modalXOffset
         return rectLike
       },
     }
@@ -89,14 +94,14 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
   const { styles, attributes } = usePopper(virtualReference, popperElement, {
     strategy: 'fixed',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [offset, 0], // Adjust the offset as needed
-        },
-      },
-    ],
+    // modifiers: [
+    //   {
+    //     name: 'offset',
+    //     options: {
+    //       offset: [0, offset], // Adjust the offset as needed
+    //     },
+    //   },
+    // ],
   })
 
   useEffect(() => {
@@ -197,7 +202,7 @@ const DeleteLabel = styled.span`
 `
 
 const TrackModalWrapper = styled.div`
-  width: 368px;
+  width: ${modalWidth}px;
   min-height: 136px:
   max-height: 380px;
   border-radius: ${(props) => props.theme.grid.radius.default};
