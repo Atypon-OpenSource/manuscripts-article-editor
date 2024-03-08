@@ -94,14 +94,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
   const { styles, attributes } = usePopper(virtualReference, popperElement, {
     strategy: 'fixed',
-    // modifiers: [
-    //   {
-    //     name: 'offset',
-    //     options: {
-    //       offset: [0, offset], // Adjust the offset as needed
-    //     },
-    //   },
-    // ],
   })
 
   useEffect(() => {
