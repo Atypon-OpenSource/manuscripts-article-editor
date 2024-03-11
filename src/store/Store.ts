@@ -28,10 +28,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import {
-  FileAttachment,
-  FileManagement,
-} from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,
