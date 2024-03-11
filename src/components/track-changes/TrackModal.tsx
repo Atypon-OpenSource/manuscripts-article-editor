@@ -74,7 +74,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const virtualReference = useMemo(() => {
     return {
       getBoundingClientRect() {
-        console.log(inputRef)
         const original = inputRef.current.getBoundingClientRect()
         const rectLike = {} as Mutable<DOMRect>
         for (const x in original) {
