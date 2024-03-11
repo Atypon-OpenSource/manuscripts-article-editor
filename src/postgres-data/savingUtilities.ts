@@ -20,13 +20,15 @@ let timeout: number
 export const saveWithThrottle = (
   fn: () => any,
   interval = 4000,
-  flush = false
+  flush = false,
+  onDone?: () => void
 ) => {
   throttled = fn
   const action = () => {
     throttled()
     window.clearTimeout(timeout)
     timeout = 0
+    onDone && onDone()
   }
   if (flush) {
     action()
