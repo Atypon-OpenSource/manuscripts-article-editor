@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { PopperManager } from '@manuscripts/body-editor'
 import {
   BibliographyItem,
   Bundle,
@@ -156,8 +155,6 @@ export type state = {
 
   sectionCategories: SectionCategory[]
   contributorRoles: ContributorRole[]
-
-  popper: PopperManager
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

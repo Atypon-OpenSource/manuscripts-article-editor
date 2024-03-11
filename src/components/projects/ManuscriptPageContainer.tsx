@@ -21,12 +21,11 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
-import React, { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
-import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
 import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
@@ -157,16 +156,6 @@ const ManuscriptPageView: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
-  const trackAttrsPopper = useTrackAttrsPopper()
-
-  const onAppClick = useCallback(
-    (e: React.MouseEvent) => {
-      // TODO:: handle dropdown list for figure and file inspector
-      trackAttrsPopper(e)
-    },
-    [trackAttrsPopper]
-  )
-
   return (
     <>
       <ManuscriptSidebar
@@ -176,7 +165,7 @@ const ManuscriptPageView: React.FC = () => {
         state={state}
       />
 
-      <PageWrapper onClick={onAppClick}>
+      <PageWrapper>
         <Main data-cy="editor-main">
           <EditorContainer>
             <EditorContainerInner>

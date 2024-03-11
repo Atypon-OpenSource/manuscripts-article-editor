@@ -28,7 +28,6 @@ export const useCreateEditor = () => {
       doc,
       manuscript,
       project,
-      popper,
       user,
       modelMap,
       commitAtLoad,
@@ -45,7 +44,6 @@ export const useCreateEditor = () => {
     doc: store.doc,
     manuscript: store.manuscript,
     project: store.project,
-    popper: store.popper,
     user: store.user,
     modelMap: store.modelMap,
     commitAtLoad: store.commitAtLoad,
@@ -96,7 +94,6 @@ export const useCreateEditor = () => {
     },
     environment: config.environment,
     history,
-    popper,
     projectID: project._id,
 
     openAuthorEditing: () => getState().startEditing(),

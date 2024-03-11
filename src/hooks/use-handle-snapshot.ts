@@ -18,7 +18,7 @@ import { post } from '../quarterback/api/methods'
 import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
 import { ISaveSnapshotResponse } from '../quarterback/types'
 import { useStore } from '../store'
-import { useExecCmd } from './use-track-attrs-popper'
+import useExecCmd from './use-exec-cmd'
 
 export const useHandleSnapshot = (view?: EditorView) => {
   const [

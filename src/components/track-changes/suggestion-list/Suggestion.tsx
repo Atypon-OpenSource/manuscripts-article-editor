@@ -15,6 +15,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../../store'
+import TrackModal from '../../track-changes/TrackModal'
 import { Accept, Back, Reject } from './Icons'
 import { SuggestionSnippet } from './SuggestionSnippet'
 
@@ -68,14 +69,19 @@ export const Suggestion: React.FC<Props> = ({
     return !!(selectedSuggestion && selectedSuggestion === suggestion.id)
   }, [selectedSuggestion, suggestion])
 
+  const [trackModalVisible, setModalVisible] = useState(false)
+
   useEffect(() => {
-    if (isSelectedSuggestion && wrapperRef.current && !suggestionClicked) {
-      const wrapperRefElement = wrapperRef.current
-      wrapperRefElement.scrollIntoView({
-        behavior: 'auto',
-        block: 'start',
-        inline: 'start',
-      })
+    if (isSelectedSuggestion && wrapperRef.current) {
+      setModalVisible(true)
+      if (!suggestionClicked) {
+        const wrapperRefElement = wrapperRef.current
+        wrapperRefElement.scrollIntoView({
+          behavior: 'auto',
+          block: 'start',
+          inline: 'start',
+        })
+      }
     }
     setSuggestionClicked(false)
   }, [isSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -91,6 +97,7 @@ export const Suggestion: React.FC<Props> = ({
         onClick={(e) => {
           e.preventDefault()
           setSuggestionClicked(true)
+          setModalVisible(true)
           handleClickSuggestion(suggestion)
         }}
         isDisabled={isRejected}
@@ -161,6 +168,14 @@ export const Suggestion: React.FC<Props> = ({
           )}
         </>
       </Actions>
+      {trackModalVisible && (
+        <TrackModal
+          ref={wrapperRef}
+          isVisible={trackModalVisible}
+          changeId={suggestion.id}
+          setVisible={setModalVisible}
+        />
+      )}
     </Wrapper>
   )
 }
@@ -232,7 +247,7 @@ const FocusHandle = styled.a<{
   overflow: hidden;
 `
 
-const Action = styled.button`
+export const Action = styled.button`
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 50%;
