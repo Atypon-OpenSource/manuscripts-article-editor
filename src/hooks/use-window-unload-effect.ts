@@ -18,7 +18,8 @@ import { useCallback, useEffect, useRef } from 'react'
 
 export const useWindowUnloadEffect = (
   effect?: () => void,
-  preventUnload?: boolean
+  preventUnload?: boolean,
+  beforeUnload?: () => void
 ) => {
   const handleUnload = useCallback(
     (e: BeforeUnloadEvent) => {
@@ -26,10 +27,11 @@ export const useWindowUnloadEffect = (
 
       if (preventUnload) {
         e.preventDefault()
+        beforeUnload && beforeUnload()
         return (e.returnValue = 'You may have unsaved changes')
       }
     },
-    [effect, preventUnload]
+    [effect, preventUnload, beforeUnload]
   )
   const storedHandler = useRef(handleUnload)
   useEffect(() => {

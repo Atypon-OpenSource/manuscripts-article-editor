@@ -17,6 +17,10 @@ import { saveWithThrottle } from '../postgres-data/savingUtilities'
 import * as docApi from './api/document'
 import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
 
+export interface ThrottlingControl {
+  (currentlyThrottling: boolean, onUnload?: () => void): void
+}
+
 class QuarterbackStepsExchanger extends CollabProvider {
   private static _instance: QuarterbackStepsExchanger | null // react uncontrolled function call protection
 
@@ -31,11 +35,15 @@ class QuarterbackStepsExchanger extends CollabProvider {
   // @ts-ignore
   private projectId: string
 
+  private flushImmediate?: () => void
+
   getStepsSince: (
     projectId: string,
     docId: string,
     version: number
   ) => Promise<StepsSinceResponse | undefined>
+
+  throttlingControl: ThrottlingControl
 
   constructor(
     docId: string,
@@ -53,7 +61,8 @@ class QuarterbackStepsExchanger extends CollabProvider {
       ) => void,
       authToken: string
     ) => void,
-    authToken: string
+    authToken: string,
+    throttlingControl: ThrottlingControl
   ) {
     if (QuarterbackStepsExchanger._instance) {
       return QuarterbackStepsExchanger._instance
@@ -63,6 +72,8 @@ class QuarterbackStepsExchanger extends CollabProvider {
     this.applySteps = applySteps
     this.docId = docId
     this.projectId = projectId
+
+    this.throttlingControl = throttlingControl
 
     this.currentVersion = startingVersion
     this.getStepsSince = getStepsSince
@@ -106,7 +117,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     })
 
     this.currentVersion = version
-    saveWithThrottle(
+    this.flushImmediate = saveWithThrottle(
       () => {
         this.applySteps(this.projectId, this.docId, {
           steps: stepsJSON,
@@ -115,8 +126,12 @@ class QuarterbackStepsExchanger extends CollabProvider {
         })
       },
       2000,
-      flush
+      flush,
+      () => {
+        this.throttlingControl(false)
+      }
     )
+    this.throttlingControl(true, this.flushImmediate)
     return Promise.resolve()
   }
 
@@ -143,6 +158,7 @@ export const stepsExchanger = (
   projectId: string,
   lastVersion: number,
   authToken: string,
+  throttlingControl: ThrottlingControl,
   isAuthed = true
 ) => {
   if (!isAuthed) {
@@ -177,7 +193,8 @@ export const stepsExchanger = (
     applySteps,
     getStepsSince,
     docApi.listenStepUpdates,
-    authToken
+    authToken,
+    throttlingControl
   )
 }
 export default QuarterbackStepsExchanger

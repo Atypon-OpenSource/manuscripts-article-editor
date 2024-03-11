@@ -145,6 +145,7 @@ export type state = {
 
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
+  beforeUnload?: () => void
 
   library: Map<string, BibliographyItem>
   projectLibraryCollections: Map<string, LibraryCollection>

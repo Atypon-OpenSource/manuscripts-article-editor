@@ -88,7 +88,8 @@ const ManuscriptPageView: React.FC = () => {
   const editor = useCreateEditor()
 
   const [preventUnload] = useStore((store) => store.preventUnload)
-  useWindowUnloadEffect(undefined, preventUnload)
+  const [beforeUnload] = useStore((store) => store.beforeUnload)
+  useWindowUnloadEffect(undefined, preventUnload, beforeUnload)
 
   const { state, dispatch, view } = editor
 

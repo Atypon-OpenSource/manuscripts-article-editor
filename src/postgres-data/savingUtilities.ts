@@ -37,6 +37,10 @@ export const saveWithThrottle = (
       action()
     }, interval)
   }
+
+  return () => {
+    action()
+  }
 }
 
 export const useDoWithThrottle = () => {
