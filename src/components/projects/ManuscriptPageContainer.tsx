@@ -44,6 +44,7 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+import UtilitiesEffects from '../UtilitiesEffects'
 
 export const ManuscriptMenusContainer = styled.div`
   display: flex;
@@ -86,11 +87,11 @@ const ManuscriptPageView: React.FC = () => {
 
   const editor = useCreateEditor()
 
-  console.count('UPDATED')
-
   const { state, dispatch, view } = editor
 
   const handleSnapshot = useHandleSnapshot(view)
+
+  console.count('UPDATED')
 
   useEffect(() => {
     storeDispatch({ handleSnapshot })
@@ -200,8 +201,8 @@ const ManuscriptPageView: React.FC = () => {
           </EditorContainer>
         </Main>
         <Inspector data-cy="inspector" editor={editor} />
+        <UtilitiesEffects />
       </PageWrapper>
-      <Utilities></Utilities>
     </>
   )
 }

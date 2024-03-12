@@ -27,7 +27,7 @@ import {
   schema,
 } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { setNodeAttrs } from '../lib/node-attrs'
 import { useStore } from '../store'

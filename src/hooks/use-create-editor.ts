@@ -28,7 +28,6 @@ export const useCreateEditor = () => {
       doc,
       manuscript,
       project,
-      popper,
       user,
       modelMap,
       commitAtLoad,
@@ -45,7 +44,6 @@ export const useCreateEditor = () => {
     doc: store.doc,
     manuscript: store.manuscript,
     project: store.project,
-    popper: store.popper,
     user: store.user,
     modelMap: store.modelMap,
     commitAtLoad: store.commitAtLoad,
@@ -71,6 +69,7 @@ export const useCreateEditor = () => {
     return Promise.resolve()
   }
 
+
   const history = useHistory()
 
   const props = {
@@ -81,7 +80,15 @@ export const useCreateEditor = () => {
       tabindex: '2',
     },
     doc,
-    plugins: [],
+    plugins: config.quarterback.enabled
+      ? [
+          trackChangesPlugin({
+            userID: user._id,
+            initialStatus: ,
+            debug: config.environment === 'development',
+          }),
+        ]
+      : [],
     locale: manuscript?.primaryLanguageCode || 'en-GB',
     cslProps: {
       style,
@@ -89,7 +96,6 @@ export const useCreateEditor = () => {
     },
     environment: config.environment,
     history,
-    popper,
     projectID: project._id,
 
     openAuthorEditing: () => getState().startEditing(),

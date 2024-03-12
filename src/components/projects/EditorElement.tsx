@@ -39,7 +39,6 @@ import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
-import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 
 interface Props {
   editor: ReturnType<typeof useEditor>
@@ -54,8 +53,6 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
   }))
 
   const execCmd = useExecCmd()
-
-  useWindowUnloadEffect()
 
   const [, drop] = useDrop({
     accept: 'file',

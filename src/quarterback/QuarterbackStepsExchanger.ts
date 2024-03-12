@@ -129,25 +129,25 @@ class QuarterbackStepsExchanger extends CollabProvider {
     this.flushImmediate = this.debounce(
       () => {
         console.log('FN CALLED !+!+!+!')
-        // this.applySteps(this.projectId, this.docId, {
-        //   steps: stepsJSON,
-        //   version,
-        //   clientID,
-        // })
+        this.applySteps(this.projectId, this.docId, {
+          steps: stepsJSON,
+          version,
+          clientID,
+        })
       },
       1000,
       flush,
       () => {
-        if (this.throttleState !== false) {
-          this.throttleState = false
-          this.throttlingControl(this.throttleState)
-        }
+        // if (this.throttleState !== false) {
+        // this.throttleState = false
+        this.throttlingControl(false)
+        // }
       }
     )
-    if (this.throttleState !== true) {
-      this.throttleState = true
-      this.throttlingControl(true)
-    }
+    // if (this.throttleState !== true) {
+    //   this.throttleState = true
+    this.throttlingControl(true)
+    // }
 
     return Promise.resolve()
   }
