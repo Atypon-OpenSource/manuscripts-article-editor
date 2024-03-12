@@ -69,7 +69,6 @@ export const useCreateEditor = () => {
     return Promise.resolve()
   }
 
-
   const history = useHistory()
 
   const props = {
@@ -84,7 +83,6 @@ export const useCreateEditor = () => {
       ? [
           trackChangesPlugin({
             userID: user._id,
-            initialStatus: ,
             debug: config.environment === 'development',
           }),
         ]
