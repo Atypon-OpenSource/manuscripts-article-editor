@@ -13,7 +13,10 @@ import { CollabProvider } from '@manuscripts/body-editor'
 import { schema } from '@manuscripts/transform'
 import { Step } from 'prosemirror-transform'
 
-import { saveWithThrottle } from '../postgres-data/savingUtilities'
+import {
+  saveWithDebounce,
+  saveWithThrottle,
+} from '../postgres-data/savingUtilities'
 import * as docApi from './api/document'
 import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
 
@@ -44,6 +47,10 @@ class QuarterbackStepsExchanger extends CollabProvider {
   ) => Promise<StepsSinceResponse | undefined>
 
   throttlingControl: ThrottlingControl
+
+  debounce: ReturnType<typeof saveWithDebounce>
+
+  throttleState: boolean
 
   constructor(
     docId: string,
@@ -76,9 +83,11 @@ class QuarterbackStepsExchanger extends CollabProvider {
     this.throttlingControl = throttlingControl
 
     this.currentVersion = startingVersion
+    this.debounce = saveWithDebounce()
     this.getStepsSince = getStepsSince
 
     this.sendSteps = this.sendSteps.bind(this)
+    this.throttlingControl(false, this.flushOnExit)
 
     listenToSteps(
       projectId,
@@ -117,22 +126,34 @@ class QuarterbackStepsExchanger extends CollabProvider {
     })
 
     this.currentVersion = version
-    this.flushImmediate = saveWithThrottle(
+    this.flushImmediate = this.debounce(
       () => {
-        this.applySteps(this.projectId, this.docId, {
-          steps: stepsJSON,
-          version,
-          clientID,
-        })
+        console.log('FN CALLED !+!+!+!')
+        // this.applySteps(this.projectId, this.docId, {
+        //   steps: stepsJSON,
+        //   version,
+        //   clientID,
+        // })
       },
-      2000,
+      1000,
       flush,
       () => {
-        this.throttlingControl(false, undefined)
+        if (this.throttleState !== false) {
+          this.throttleState = false
+          this.throttlingControl(this.throttleState)
+        }
       }
     )
-    this.throttlingControl(true, this.flushImmediate)
+    if (this.throttleState !== true) {
+      this.throttleState = true
+      this.throttlingControl(true)
+    }
+
     return Promise.resolve()
+  }
+
+  flushOnExit() {
+    this.flushImmediate && this.flushImmediate()
   }
 
   onNewSteps(listener: CollabProvider['newStepsListener']) {

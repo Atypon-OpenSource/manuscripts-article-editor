@@ -12,15 +12,16 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 
+import { useStore } from '../store'
+
 /**
  * This will run the provided Effect when the tab is closed (ie the window unmounts)
  */
 
-export const useWindowUnloadEffect = (
-  effect?: () => void,
-  preventUnload?: boolean,
-  beforeUnload?: () => void
-) => {
+export const useWindowUnloadEffect = (effect?: () => void) => {
+  const [preventUnload] = useStore((store) => store.preventUnload)
+  const [beforeUnload] = useStore((store) => store.beforeUnload)
+
   const handleUnload = useCallback(
     (e: BeforeUnloadEvent) => {
       effect && effect()

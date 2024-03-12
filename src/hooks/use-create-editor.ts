@@ -81,14 +81,7 @@ export const useCreateEditor = () => {
       tabindex: '2',
     },
     doc,
-    plugins: config.quarterback.enabled
-      ? [
-          trackChangesPlugin({
-            userID: user._id,
-            debug: config.environment === 'development',
-          }),
-        ]
-      : [],
+    plugins: [],
     locale: manuscript?.primaryLanguageCode || 'en-GB',
     cslProps: {
       style,
@@ -141,7 +134,11 @@ export const useCreateEditor = () => {
       initialDocVersion,
       authToken,
       (preventUnload, beforeUnload) => {
-        dispatch({ preventUnload, beforeUnload })
+        if (beforeUnload !== undefined) {
+          dispatch({ preventUnload, beforeUnload })
+        } else {
+          dispatch({ preventUnload })
+        }
       }
     ),
   }

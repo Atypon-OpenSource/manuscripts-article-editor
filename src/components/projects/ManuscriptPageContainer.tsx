@@ -27,7 +27,6 @@ import styled from 'styled-components'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import useTrackAttrsPopper from '../../hooks/use-track-attrs-popper'
-import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
 import useTrackedModelManagement from '../../tracked-models/use-tracked-model-management'
@@ -87,9 +86,7 @@ const ManuscriptPageView: React.FC = () => {
 
   const editor = useCreateEditor()
 
-  const [preventUnload] = useStore((store) => store.preventUnload)
-  const [beforeUnload] = useStore((store) => store.beforeUnload)
-  useWindowUnloadEffect(undefined, preventUnload, beforeUnload)
+  console.count('UPDATED')
 
   const { state, dispatch, view } = editor
 
@@ -204,6 +201,7 @@ const ManuscriptPageView: React.FC = () => {
         </Main>
         <Inspector data-cy="inspector" editor={editor} />
       </PageWrapper>
+      <Utilities></Utilities>
     </>
   )
 }

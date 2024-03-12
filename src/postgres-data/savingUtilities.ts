@@ -45,6 +45,36 @@ export const saveWithThrottle = (
   }
 }
 
+export const saveWithDebounce = () => {
+  let timeout: number
+  return (
+    fn: () => any,
+    interval = 4000,
+    flush = false,
+    onDone?: () => void
+  ) => {
+    const action = () => {
+      fn()
+      window.clearTimeout(timeout)
+      timeout = 0
+      onDone && onDone()
+    }
+    if (flush) {
+      action()
+      return
+    }
+
+    clearTimeout(timeout)
+    timeout = window.setTimeout(() => {
+      action()
+    }, interval)
+
+    return () => {
+      action()
+    }
+  }
+}
+
 export const useDoWithThrottle = () => {
   const throttled = useRef(() => null)
   const timeout = useRef<number>()
