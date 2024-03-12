@@ -40,7 +40,6 @@ export const useStore = <T>(
       setState((currentState) => {
         const newState = selector(newStoreState)
         if (!deeperEqual(newState, currentState)) {
-          console.log(selector)
           return newState
         }
         return currentState

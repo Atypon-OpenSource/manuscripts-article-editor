@@ -91,8 +91,6 @@ const ManuscriptPageView: React.FC = () => {
 
   const handleSnapshot = useHandleSnapshot(view)
 
-  console.count('UPDATED')
-
   useEffect(() => {
     storeDispatch({ handleSnapshot })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,7 +150,7 @@ const ManuscriptPageView: React.FC = () => {
 
     doWithThrottle(() => {
       storeDispatch({ doc: state.doc, trackState, view })
-    }, 500)
+    }, 200)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 

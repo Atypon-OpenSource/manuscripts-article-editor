@@ -13,10 +13,7 @@ import { CollabProvider } from '@manuscripts/body-editor'
 import { schema } from '@manuscripts/transform'
 import { Step } from 'prosemirror-transform'
 
-import {
-  saveWithDebounce,
-  saveWithThrottle,
-} from '../postgres-data/savingUtilities'
+import { saveWithDebounce } from '../postgres-data/savingUtilities'
 import * as docApi from './api/document'
 import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
 
@@ -87,7 +84,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     this.getStepsSince = getStepsSince
 
     this.sendSteps = this.sendSteps.bind(this)
-    this.throttlingControl(false, this.flushOnExit)
+    this.throttlingControl(false, this.flushOnExit.bind(this))
 
     listenToSteps(
       projectId,
@@ -128,7 +125,6 @@ class QuarterbackStepsExchanger extends CollabProvider {
     this.currentVersion = version
     this.flushImmediate = this.debounce(
       () => {
-        console.log('FN CALLED !+!+!+!')
         this.applySteps(this.projectId, this.docId, {
           steps: stepsJSON,
           version,

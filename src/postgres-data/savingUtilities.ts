@@ -27,7 +27,6 @@ export const saveWithThrottle = (
   const action = () => {
     throttled()
     window.clearTimeout(timeout)
-    timeout = 0
     onDone && onDone()
   }
   if (flush) {
@@ -46,6 +45,7 @@ export const saveWithThrottle = (
 }
 
 export const saveWithDebounce = () => {
+  console.log('Initialised debounce')
   let timeout: number
   return (
     fn: () => any,
@@ -55,12 +55,11 @@ export const saveWithDebounce = () => {
   ) => {
     const action = () => {
       fn()
-      window.clearTimeout(timeout)
-      timeout = 0
       onDone && onDone()
     }
     if (flush) {
       action()
+      clearTimeout(timeout)
       return
     }
 
@@ -71,6 +70,7 @@ export const saveWithDebounce = () => {
 
     return () => {
       action()
+      clearTimeout(timeout)
     }
   }
 }
