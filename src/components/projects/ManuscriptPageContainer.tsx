@@ -32,6 +32,7 @@ import { useStore } from '../../store'
 import useTrackedModelManagement from '../../tracked-models/use-tracked-model-management'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
+import UtilitiesEffects from '../UtilitiesEffects'
 import {
   EditorBody,
   EditorContainer,
@@ -44,7 +45,6 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
-import UtilitiesEffects from '../UtilitiesEffects'
 
 export const ManuscriptMenusContainer = styled.div`
   display: flex;
