@@ -134,16 +134,10 @@ class QuarterbackStepsExchanger extends CollabProvider {
       1000,
       flush,
       () => {
-        // if (this.throttleState !== false) {
-        // this.throttleState = false
         this.throttlingControl(false)
-        // }
       }
     )
-    // if (this.throttleState !== true) {
-    //   this.throttleState = true
     this.throttlingControl(true)
-    // }
 
     return Promise.resolve()
   }
