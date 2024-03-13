@@ -1572,32 +1572,12 @@
     deepmerge "^4.3.1"
     uuid "^9.0.0"
 
-"@manuscripts/json-schema@^2.2.4-LEAN-3376-0":
-  version "2.2.4-LEAN-3376-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.4-LEAN-3376-0.tgz#397b92ecc792aedbe8650601ce1026acaa760dc9"
-  integrity sha512-Kn3i9FGv7o+zhu1dCCKYsvWyR/NbOexEyFjqqvCkwYIIW0foYoYRJCkGqQYh9Dr0Jz8AWI2HRJW290+lVD83ng==
-  dependencies:
-    ajv "^8.12.0"
-    deepmerge "^4.3.1"
-    uuid "^9.0.0"
-
 "@manuscripts/library@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.3.tgz#7273bab40fbae1ca332d6ec8404d1557b353d36f"
   integrity sha512-ugUftCbsSEWKm9fm8eW9MZIuM+FwIsEPAt56l+GQLRtLWftaizqcIHwfxhijk/oEOtYVybP2rh2t1d1EnnXz3Q==
   dependencies:
     "@manuscripts/json-schema" "^2.2.4"
-    astrocite-bibtex "^0.16.4"
-    astrocite-ris "^0.16.4"
-    citeproc "^2.4.62"
-    fontoxpath "^3.28.2"
-
-"@manuscripts/library@^1.3.3-LEAN-3376-0":
-  version "1.3.3-LEAN-3376-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.3-LEAN-3376-0.tgz#9cf8031dca628ab327f500552f7ce620f946ef8d"
-  integrity sha512-xFF/Bx3iJifozN10/8RcsuOR+GD0kTsYy6pjaVIqa8G5yIWe1o5gxQZfATzA9UuP17nV0Uj7hMYwNNdqsQ22+Q==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.4-LEAN-3376-0"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
