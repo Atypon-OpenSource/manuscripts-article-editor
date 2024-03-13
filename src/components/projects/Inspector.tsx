@@ -110,7 +110,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                   key="comments"
                 />
               </InspectorTabPanel>
-              {config.quarterback.enabled && (
+              {!can.editNotTracked && (
                 <InspectorTabPanel key="History" data-cy="history">
                   <TrackChangesPanel key="track-changes" />
                 </InspectorTabPanel>
