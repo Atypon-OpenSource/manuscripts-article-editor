@@ -31,8 +31,12 @@ export const createContributorNode = (
   const { tr } = state
   doc.descendants((node, pos) => {
     if (node.type === schema.nodes.contributors) {
+      let insertPos = pos + node.nodeSize - 1
+      if (node.lastChild?.type === schema.nodes.author_notes) {
+        insertPos = insertPos - node.lastChild.nodeSize
+      }
       tr.insert(
-        pos + node.nodeSize - 1,
+        insertPos,
         schema.nodes.contributor.create(
           {
             ...model,
