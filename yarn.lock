@@ -1512,18 +1512,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.14-LEAN-3376-0":
-  version "1.7.14-LEAN-3376-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.14-LEAN-3376-0.tgz#487c38526754e40ffdf3ec2a1048519e7e96cbff"
-  integrity sha512-ljDdFTqgl2wcYBfvx++EDIM+lCCfQYkhLm+jU8H2dYdfv9QL+U0sRuBFNSAtWuM7DrRLuRkxaFS65T7pd6pYUw==
+"@manuscripts/body-editor@1.7.14-LEAN-3376-4":
+  version "1.7.14-LEAN-3376-4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.14-LEAN-3376-4.tgz#c33b74725a64df0b73fd2cff3dc33fc678225152"
+  integrity sha512-+4pM4GdxmVi/H/2U5vHwyJoYiau0zvBuUpYDBL7suSBt2EhA2pIckgX5D+mMl++3HkyjQp377DG0Avl3MclpXg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "2.2.4-LEAN-3376-1"
     "@manuscripts/library" "1.3.3-LEAN-3376-1"
-    "@manuscripts/style-guide" "1.7.9-LEAN-3376-0"
-    "@manuscripts/track-changes-plugin" "^1.7.5"
-    "@manuscripts/transform" "2.1.3-LEAN-3376-5"
+    "@manuscripts/style-guide" "1.7.9-LEAN-3376-1"
+    "@manuscripts/track-changes-plugin" "^1.7.6"
+    "@manuscripts/transform" "2.1.3-LEAN-3376-6"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1609,6 +1609,32 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
+"@manuscripts/style-guide@1.7.9-LEAN-3376-1":
+  version "1.7.9-LEAN-3376-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.9-LEAN-3376-1.tgz#76c6f5e7d2ee6d4970f8e71ce0d4ccc5123f9316"
+  integrity sha512-tT9qJI7rWmEncR1auO0pfpRwDBjshoLZrsPF4cgKHrn3HA6MEQBs4tk+ENuowqwbXOtcmnuXtgqSW/ykwzeovw==
+  dependencies:
+    "@manuscripts/assets" "^0.6.4"
+    "@manuscripts/json-schema" "2.2.4-LEAN-3376-1"
+    "@manuscripts/transform" "2.1.3-LEAN-3376-6"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    react "^17.0.2"
+    react-dnd "^11.1.3"
+    react-dnd-html5-backend "^11.1.3"
+    react-dom "^17.0.2"
+    react-is "^17.0.2"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
+
 "@manuscripts/title-editor@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/title-editor/-/title-editor-1.1.0.tgz#fcf1820b2037706e60a3b71776bd34edf6fa69c2"
@@ -1624,10 +1650,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.7.5":
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.5.tgz#4beddd3d4a24e02879adedb88a0cb24613c20889"
-  integrity sha512-2u/pamyAnvFk0nxsqVTjM6LIyBIo5nGQIYnDjwOzfN8QKM0Q0sBjW/FZB4f6Lj5VWl+04/tM67/Npq1LsDtMTA==
+"@manuscripts/track-changes-plugin@^1.7.6":
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.6.tgz#b094b62f926d80835c03b7407c21d174c68f330e"
+  integrity sha512-EJkeZv9LzISVDpGj39CwDCG5m+HfOE3Y3DU0xnz1Srcv/Lk3IMRNnQRDUbdO+YQJKTX6TlsoutC7VIuxlt7DXQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1644,6 +1670,22 @@
   version "2.1.3-LEAN-3376-5"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.3-LEAN-3376-5.tgz#f29580b3c54dd9343fcc24ae52956cc85be34d54"
   integrity sha512-GHx9EkyfYCwZfK15R7MuHDiKoSBfvd7JNWsNoiDIFFAi8WxCsjtfKqs7wO7zt6zb3ImruL6aGRVJh/WJ5+Xagg==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.4-LEAN-3376-1"
+    "@manuscripts/library" "1.3.3-LEAN-3376-1"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mathjax-full "^3.2.2"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.1.3-LEAN-3376-6":
+  version "2.1.3-LEAN-3376-6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.3-LEAN-3376-6.tgz#da151dc6b6d4dff4c74e5db2a88dc69ce4f01ae9"
+  integrity sha512-7XIpxrmZE137VxidOpGXo9o1Y5V86oMakOPmDMnO/idpF9zeHfC3hnhoMwcLWs050feqNWcA5yU1Uo8sOIrtBw==
   dependencies:
     "@manuscripts/json-schema" "2.2.4-LEAN-3376-1"
     "@manuscripts/library" "1.3.3-LEAN-3376-1"
