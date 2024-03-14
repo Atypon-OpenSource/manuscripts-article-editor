@@ -47,7 +47,9 @@ export function TrackChangesPanel() {
       view.focus()
       dispatch(
         view.state.tr.setSelection(
-          Selection.near(view.state.doc.resolve(view.state.selection.anchor))
+          Selection.near(
+            view.state.tr.doc.resolve(view.state.tr.selection.anchor)
+          )
         )
       )
     }
