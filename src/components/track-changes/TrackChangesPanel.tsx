@@ -17,14 +17,10 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import {
-  Command,
-  NodeSelection,
-  Selection,
-  TextSelection,
-} from 'prosemirror-state'
+import { NodeSelection, Selection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
+import { useExecCmd } from '../../hooks/use-track-attrs-popper'
 import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
@@ -41,20 +37,19 @@ export function TrackChangesPanel() {
     })
   )
 
+  const execCmd = useExecCmd()
+
   const { changeSet } = trackState || {}
 
-  const cleanTextSelection = (trackChangesCommand: Command) => {
+  const cleanTextSelection = () => {
     const { view, dispatch } = editor
-    if (view) {
-      if (view.state.selection instanceof TextSelection) {
-        view.focus()
-        dispatch(
-          view.state.tr.setSelection(
-            Selection.near(view.state.doc.resolve(view.state.selection.anchor))
-          )
+    if (view && view.state.selection instanceof TextSelection) {
+      view.focus()
+      dispatch(
+        view.state.tr.setSelection(
+          Selection.near(view.state.doc.resolve(view.state.selection.anchor))
         )
-      }
-      trackChangesCommand(view.state, dispatch)
+      )
     }
   }
 
@@ -63,48 +58,44 @@ export function TrackChangesPanel() {
   }
 
   function handleAcceptChange(c: TrackedChange) {
+    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
         ids.push(child.id)
       })
     }
-    cleanTextSelection(
-      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)
-    )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
   function handleRejectChange(c: TrackedChange) {
+    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
         ids.push(child.id)
       })
     }
-    cleanTextSelection(
-      trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids)
-    )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
   }
   function handleResetChange(c: TrackedChange) {
+    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
         ids.push(child.id)
       })
     }
-    cleanTextSelection(
-      trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids)
-    )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids))
   }
 
   function handleAcceptPending() {
     if (!trackState) {
       return
     }
+    cleanTextSelection()
     const { changeSet } = trackState
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
-    cleanTextSelection(
-      trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids)
-    )
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
 
   const isSelectedSuggestion = (suggestion: TrackedChange) => {
