@@ -60,7 +60,6 @@ export function TrackChangesPanel() {
   }
 
   function handleAcceptChange(c: TrackedChange) {
-    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -68,9 +67,9 @@ export function TrackChangesPanel() {
       })
     }
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+    cleanTextSelection()
   }
   function handleRejectChange(c: TrackedChange) {
-    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -78,9 +77,9 @@ export function TrackChangesPanel() {
       })
     }
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
+    cleanTextSelection()
   }
   function handleResetChange(c: TrackedChange) {
-    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -88,16 +87,17 @@ export function TrackChangesPanel() {
       })
     }
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids))
+    cleanTextSelection()
   }
 
   function handleAcceptPending() {
     if (!trackState) {
       return
     }
-    cleanTextSelection()
     const { changeSet } = trackState
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+    cleanTextSelection()
   }
 
   const isSelectedSuggestion = (suggestion: TrackedChange) => {
