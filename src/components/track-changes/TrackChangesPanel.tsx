@@ -29,25 +29,25 @@ import { SuggestionList } from './suggestion-list/SuggestionList'
 export function TrackChangesPanel() {
   const [sortBy, setSortBy] = useState('Date')
 
-  const [{ editorSelectedSuggestion, doc, editor, trackState }, dispatch] =
-    useStore((store) => ({
+  const [{ editorSelectedSuggestion, view, trackState }, dispatch] = useStore(
+    (store) => ({
       editorSelectedSuggestion: store.editorSelectedSuggestion,
-      doc: store.doc,
-      editor: store.editor,
+      view: store.view,
       trackState: store.trackState,
-    }))
+    })
+  )
 
   const execCmd = useExecCmd()
 
   const { changeSet } = trackState || {}
 
   const cleanTextSelection = () => {
-    const { view, dispatch } = editor
+    const { state, dispatch } = view
     if (view && view.state.selection instanceof TextSelection) {
       view.focus()
       dispatch(
-        view.state.tr.setSelection(
-          Selection.near(doc.resolve(view.state.selection.anchor))
+        state.tr.setSelection(
+          Selection.near(state.doc.resolve(view.state.selection.anchor))
         )
       )
     }
@@ -119,7 +119,6 @@ export function TrackChangesPanel() {
   }
 
   const handleClickSuggestion = (suggestion: TrackedChange) => {
-    const { view, dispatch: editorDispatch } = editor
     if (view) {
       let selection
       if (suggestion.type === 'text-change') {
@@ -131,8 +130,8 @@ export function TrackChangesPanel() {
       } else {
         selection = NodeSelection.create(view.state.tr.doc, suggestion.from)
       }
-      editor.view && editor.view.focus()
-      editorDispatch(
+      view && view.focus()
+      view.dispatch(
         view.state.tr
           .setSelection(selection)
           .scrollIntoView()
