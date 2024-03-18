@@ -50,6 +50,8 @@ export function TrackChangesPanel() {
           Selection.near(state.doc.resolve(view.state.selection.anchor))
         )
       )
+      tr.setMeta('CLEAR_SUGGESTION_ID', true)
+      dispatch(tr)
     }
   }
 
