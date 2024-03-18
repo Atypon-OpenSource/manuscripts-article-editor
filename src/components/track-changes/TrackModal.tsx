@@ -10,11 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 import { ButtonGroup, TextButton } from '@manuscripts/style-guide'
-import {
-  CHANGE_STATUS,
-  NodeAttrChange,
-  trackCommands,
-} from '@manuscripts/track-changes-plugin'
+import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import _ from 'lodash'
 import React, {
   forwardRef,
@@ -26,17 +22,15 @@ import React, {
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 
-import useExecCmd from '../../hooks/use-exec-cmd'
 import { filterAttrsChange } from '../../lib/attrs-change-filter'
 import { useStore } from '../../store'
 import EditIcon from '../projects/icons/EditIcon'
-import { Accept, Reject } from '../track-changes/suggestion-list/Icons'
-import { Action } from '../track-changes/suggestion-list/Suggestion'
 
 interface Props {
   changeId: string
   isVisible: boolean
   setVisible: (to: boolean) => void
+  children?: React.ReactChild
 }
 
 type PropRef = HTMLElement
@@ -52,7 +46,8 @@ const modalWidth = 368
 const modalXOffset = 90
 
 export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
-  const { changeId, isVisible, setVisible } = props
+  const { changeId, isVisible, setVisible, children } = props
+
   const [{ selectedAttrsChange, trackState, files }, dispatch] = useStore(
     (store) => ({
       selectedAttrsChange: store.selectedAttrsChange,
@@ -60,8 +55,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
       files: store.files,
     })
   )
-
-  const execCmd = useExecCmd()
 
   useEffect(() => {
     if (selectedAttrsChange == changeId) {
@@ -112,12 +105,14 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!trackState || !isVisible) {
+    console.log('Not trackState or not visible')
     return null
   }
 
   const change = trackState.changeSet.get(changeId)
 
   if (change?.type !== 'node-attr-change') {
+    console.log('Not an attrr change')
     return null
   }
 
@@ -125,13 +120,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
     change as NodeAttrChange,
     files
   )
-  const approveChange = () => {
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, [changeId]))
-  }
-
-  const rejectChange = () => {
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, [changeId]))
-  }
 
   return (
     <div
@@ -145,14 +133,7 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
             <EditIcon />
             <Label>Changed</Label>
           </LabelContainer>
-          <ButtonGroup>
-            <Action onClick={rejectChange}>
-              <Reject color="#353535" />
-            </Action>
-            <Action onClick={approveChange}>
-              <Accept color="#353535" />
-            </Action>
-          </ButtonGroup>
+          <ButtonGroup>{children ? children : null}</ButtonGroup>
         </Header>
 
         <ChangesList>

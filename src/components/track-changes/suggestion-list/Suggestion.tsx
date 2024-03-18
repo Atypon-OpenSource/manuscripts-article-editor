@@ -9,15 +9,15 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+
 import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../../store'
 import TrackModal from '../../track-changes/TrackModal'
-import { Accept, Back, Reject } from './Icons'
 import { SuggestionSnippet } from './SuggestionSnippet'
+import SuggestionActions from './SuggestionActions'
 
 interface Props {
   suggestion: TrackedChange
@@ -34,36 +34,14 @@ export const Suggestion: React.FC<Props> = ({
   handleReset,
   handleClickSuggestion,
 }) => {
-  const [{ user, selectedSuggestion }] = useStore((store) => ({
+  const [{ selectedSuggestion }] = useStore((store) => ({
     user: store.user,
     selectedSuggestion: store.selectedSuggestion,
   }))
 
-  const can = usePermissions()
-
   const wrapperRef = useRef<HTMLLIElement>(null)
 
   const [suggestionClicked, setSuggestionClicked] = useState(false)
-
-  const canRejectOwnSuggestion = useMemo(() => {
-    if (
-      can.handleSuggestion ||
-      (can.rejectOwnSuggestion &&
-        suggestion.dataTracked.status === CHANGE_STATUS.pending &&
-        suggestion.dataTracked.authorID === user?._id)
-    ) {
-      return true
-    }
-    return false
-  }, [suggestion, can, user?._id])
-
-  const isRejected = useMemo(() => {
-    return suggestion.dataTracked.status === CHANGE_STATUS.rejected
-  }, [suggestion])
-
-  const isAccepted = useMemo(() => {
-    return suggestion.dataTracked.status === CHANGE_STATUS.accepted
-  }, [suggestion])
 
   const isSelectedSuggestion = useMemo(() => {
     return !!(selectedSuggestion && selectedSuggestion === suggestion.id)
@@ -100,89 +78,40 @@ export const Suggestion: React.FC<Props> = ({
           setModalVisible(true)
           handleClickSuggestion(suggestion)
         }}
-        isDisabled={isRejected}
+        isDisabled={suggestion.dataTracked.status === CHANGE_STATUS.rejected}
       >
         <SuggestionSnippet suggestion={suggestion} />
       </FocusHandle>
 
-      <Actions data-cy="suggestion-actions">
-        <>
-          {canRejectOwnSuggestion && (
-            <Container>
-              <Action
-                type="button"
-                onClick={() =>
-                  isRejected
-                    ? handleReset(suggestion)
-                    : handleReject(suggestion)
-                }
-                aria-pressed={isRejected}
-                data-tooltip-id={isRejected ? 'back-tooltip' : 'reject-tooltip'}
-              >
-                {isRejected ? (
-                  <Back color="#353535" />
-                ) : (
-                  <Reject color="#353535" />
-                )}
-              </Action>
-              {isRejected ? (
-                <Tooltip id="back-tooltip" place="bottom">
-                  Back to suggestions
-                </Tooltip>
-              ) : (
-                <Tooltip id="reject-tooltip" place="bottom">
-                  Reject
-                </Tooltip>
-              )}
-            </Container>
-          )}
-          {can.handleSuggestion && (
-            <Container>
-              <Action
-                type="button"
-                onClick={() =>
-                  isAccepted
-                    ? handleReset(suggestion)
-                    : handleAccept(suggestion)
-                }
-                aria-pressed={isAccepted}
-                data-tip={true}
-                data-for={isAccepted ? 'back-tooltip' : 'approve-tooltip'}
-              >
-                {isAccepted ? (
-                  <Back color="#353535" />
-                ) : (
-                  <Accept color="#353535" />
-                )}
-              </Action>
-              {isAccepted ? (
-                <Tooltip id="back-tooltip" place="bottom">
-                  Back to suggestions
-                </Tooltip>
-              ) : (
-                <Tooltip id="approve-tooltip" place="bottom">
-                  Approve
-                </Tooltip>
-              )}
-            </Container>
-          )}
-        </>
+      <Actions>
+        <SuggestionActions
+          suggestion={suggestion}
+          handleAccept={handleAccept}
+          handleReject={handleReject}
+          handleReset={handleReset}
+        />
       </Actions>
+
       {trackModalVisible && (
         <TrackModal
           ref={wrapperRef}
           isVisible={trackModalVisible}
           changeId={suggestion.id}
           setVisible={setModalVisible}
-        />
+        >
+          <SuggestionActions
+            suggestion={suggestion}
+            handleAccept={handleAccept}
+            handleReject={handleReject}
+            handleReset={handleReset}
+          />
+        </TrackModal>
       )}
     </Wrapper>
   )
 }
 
 const Actions = styled.div`
-  display: flex;
-  gap: ${(props) => props.theme.grid.unit * 2}px;
   visibility: hidden;
 `
 
@@ -245,54 +174,4 @@ const FocusHandle = styled.a<{
   text-decoration: none;
   pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
   overflow: hidden;
-`
-
-export const Action = styled.button`
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-  z-index: 1;
-  width: ${(props) => props.theme.grid.unit * 7}px;
-  height: ${(props) => props.theme.grid.unit * 7}px;
-
-  &[disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-
-  &:not([disabled]):hover {
-    &[aria-pressed='true'] {
-      path {
-        stroke: ${(props) => props.theme.colors.brand.medium};
-      }
-    }
-
-    &[aria-pressed='false'] {
-      path {
-        fill: ${(props) => props.theme.colors.brand.medium};
-      }
-    }
-    background: ${(props) => props.theme.colors.background.selected};
-    border: 1px solid ${(props) => props.theme.colors.border.tracked.default};
-  }
-
-  &:focus {
-    outline: none;
-  }
-`
-
-const Container = styled.div`
-  .tooltip {
-    border-radius: ${(props) => props.theme.grid.unit * 1.5}px;
-    padding: ${(props) => props.theme.grid.unit * 2}px;
-    max-width: ${(props) => props.theme.grid.unit * 15}px;
-    font-size: ${(props) => props.theme.font.size.small};
-  }
 `

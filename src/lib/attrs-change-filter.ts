@@ -71,7 +71,7 @@ const bibliographyAttrsFilter = (
           })
         case 'bibliographicName':
           filteredAttrs[key] = {
-            label: getLabel(key),
+            label: 'Given Name / Family name',
             value: displayBibliographicName(value),
           }
           return
