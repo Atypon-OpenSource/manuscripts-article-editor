@@ -43,12 +43,10 @@ export function TrackChangesPanel() {
 
   const cleanTextSelection = () => {
     const { state, dispatch } = view
-    if (view && view.state.selection instanceof TextSelection) {
+    if (state.selection instanceof TextSelection) {
       view.focus()
-      dispatch(
-        state.tr.setSelection(
-          Selection.near(state.doc.resolve(view.state.selection.anchor))
-        )
+      const tr = view.state.tr.setSelection(
+        Selection.near(view.state.doc.resolve(view.state.selection.anchor))
       )
       tr.setMeta('CLEAR_SUGGESTION_ID', true)
       dispatch(tr)
