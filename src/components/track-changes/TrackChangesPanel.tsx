@@ -41,14 +41,13 @@ export function TrackChangesPanel() {
 
   const { changeSet } = trackState || {}
 
-  const { view, dispatch: pmDispatch } = editor
-  console.log(editor, doc)
   const cleanTextSelection = () => {
+    const { view, dispatch } = editor
     if (view && view.state.selection instanceof TextSelection) {
       view.focus()
-      pmDispatch(
+      dispatch(
         view.state.tr.setSelection(
-          Selection.near(view.state.doc.resolve(view.state.selection.anchor))
+          Selection.near(doc.resolve(view.state.selection.anchor))
         )
       )
     }
