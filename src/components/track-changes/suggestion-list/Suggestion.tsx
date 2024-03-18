@@ -16,8 +16,8 @@ import styled from 'styled-components'
 
 import { useStore } from '../../../store'
 import TrackModal from '../../track-changes/TrackModal'
-import { SuggestionSnippet } from './SuggestionSnippet'
 import SuggestionActions from './SuggestionActions'
+import { SuggestionSnippet } from './SuggestionSnippet'
 
 interface Props {
   suggestion: TrackedChange

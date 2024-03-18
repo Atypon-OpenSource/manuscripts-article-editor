@@ -11,12 +11,12 @@
  */
 import { Tooltip, usePermissions } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
+import { uniqueId } from 'lodash'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../../store'
 import { Accept, Back, Reject } from './Icons'
-import { uniqueId } from 'lodash'
 
 interface Props {
   suggestion: TrackedChange
