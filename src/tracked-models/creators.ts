@@ -32,7 +32,7 @@ export const createContributorNode = (
   doc.descendants((node, pos) => {
     if (node.type === schema.nodes.contributors) {
       tr.insert(
-        pos,
+        pos + 1,
         schema.nodes.contributor.create(
           {
             ...model,
