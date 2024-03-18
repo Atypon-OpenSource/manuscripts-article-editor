@@ -1512,10 +1512,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.24":
-  version "1.7.24"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.24.tgz#21a8b6d717388831a10e20d14c4ccc03e385b85f"
-  integrity sha512-15Y/lFoqrl9g4w2pMapAc+AvpipnV9tSLayk2Ep1VRwtv6KKOLjUTV4m9VlJCT4rVKKGlqfhyo9jNk6TL9gn1w==
+"@manuscripts/body-editor@^1.7.24-LEAN-3338-0":
+  version "1.7.24-LEAN-3338-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.24-LEAN-3338-0.tgz#d79f6adf6d241c9dee3277a0f27e1bc49aac0cc2"
+  integrity sha512-4UyxqRNPy0Mi81O+ITgvdwnlI5Gzbor8PMX6RBKhn0queV0Mf+FSyN+25V6ZnCj2gC1uW/GGzl4op9+JPfchYQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1523,7 +1523,7 @@
     "@manuscripts/library" "^1.3.5"
     "@manuscripts/style-guide" "1.8.1"
     "@manuscripts/track-changes-plugin" "1.7.8"
-    "@manuscripts/transform" "^2.1.6"
+    "@manuscripts/transform" "^2.1.8"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1646,6 +1646,21 @@
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.6.tgz#6ba4d11216f5c3a00d1e9acbff5741045ea8fdd6"
   integrity sha512-tU9UiMmdY1cGaLS6R1A8VSHvfflCQW5yGLZdw9POW8saGliB59P+NR0q2YahPVA/Glluevw3/QsbkksSmdMc7g==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.6"
+    "@manuscripts/library" "^1.3.5"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@^2.1.8":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.8.tgz#495e8771178f9a0cbd1e58aa5e978119e4a42cc9"
+  integrity sha512-ynjnSfwiLX2l5Pw99+7MIKMgFBUfVpk+nqCv22ZvhtOoi0P8ErzO+z9TUTygTwShlt4+fV6ZT/1hFAyAraK+Tw==
   dependencies:
     "@manuscripts/json-schema" "^2.2.6"
     "@manuscripts/library" "^1.3.5"
