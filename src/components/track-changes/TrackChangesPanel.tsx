@@ -17,7 +17,7 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { NodeSelection, Selection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
 import { useExecCmd } from '../../hooks/use-track-attrs-popper'
@@ -29,28 +29,29 @@ import { SuggestionList } from './suggestion-list/SuggestionList'
 export function TrackChangesPanel() {
   const [sortBy, setSortBy] = useState('Date')
 
-  const [{ editorSelectedSuggestion, editor, trackState }, dispatch] = useStore(
-    (store) => ({
+  const [{ editorSelectedSuggestion, doc, editor, trackState }, dispatch] =
+    useStore((store) => ({
       editorSelectedSuggestion: store.editorSelectedSuggestion,
+      doc: store.doc,
       editor: store.editor,
       trackState: store.trackState,
-    })
-  )
+    }))
 
   const execCmd = useExecCmd()
 
   const { changeSet } = trackState || {}
 
+  const { view, dispatch: pmDispatch } = editor
+  console.log(editor, doc)
   const cleanTextSelection = () => {
-    // const { view, dispatch } = editor
-    // if (view && view.state.selection instanceof TextSelection) {
-    //   view.focus()
-    //   dispatch(
-    //     view.state.tr.setSelection(
-    //       Selection.near(view.state.doc.resolve(view.state.selection.anchor))
-    //     )
-    //   )
-    // }
+    if (view && view.state.selection instanceof TextSelection) {
+      view.focus()
+      pmDispatch(
+        view.state.tr.setSelection(
+          Selection.near(view.state.doc.resolve(view.state.selection.anchor))
+        )
+      )
+    }
   }
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
