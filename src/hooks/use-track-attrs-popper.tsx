@@ -27,7 +27,7 @@ import { useStore } from '../store'
 import { ThemeProvider } from '../theme/ThemeProvider'
 
 export const useExecCmd = () => {
-  const [storeView] = useStore((store) => store.view)
+  const [storeView] = useStore((store) => store.view || store.editor.view)
   return (cmd: Command, hookView?: EditorView) => {
     const view = storeView || hookView
     cmd(view.state, view.dispatch)
