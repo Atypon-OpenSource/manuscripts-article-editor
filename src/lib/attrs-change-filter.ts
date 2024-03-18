@@ -56,7 +56,7 @@ const bibliographyAttrsFilter = (
   files: FileAttachment[]
 ) => {
   const filteredAttrs: Record<string, { label: string; value: string }> = {}
-  const excludedKeys = ['id', 'paragraphStyle', 'role', 'dataTracked']
+  const excludedKeys = ['id', 'paragraphStyle', 'dataTracked']
 
   Object.entries(attrs)
     .filter(([key]) => !excludedKeys.includes(key))
@@ -81,6 +81,12 @@ const bibliographyAttrsFilter = (
             value: (value as BibliographicName[])
               ?.map(displayBibliographicName)
               .join(', '),
+          })
+
+        case 'role':
+          return (filteredAttrs[key] = {
+            label: 'Include in Authors List',
+            value: value === 'author' ? 'Yes' : 'No',
           })
 
         case 'src':

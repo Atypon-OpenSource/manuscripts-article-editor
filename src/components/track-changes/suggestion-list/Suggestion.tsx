@@ -74,11 +74,12 @@ export const Suggestion: React.FC<Props> = ({
         href="#"
         onClick={(e) => {
           e.preventDefault()
-          setSuggestionClicked(true)
+          if (suggestion.dataTracked.status !== CHANGE_STATUS.rejected) {
+            setSuggestionClicked(true)
+            handleClickSuggestion(suggestion)
+          }
           setModalVisible(true)
-          handleClickSuggestion(suggestion)
         }}
-        isDisabled={suggestion.dataTracked.status === CHANGE_STATUS.rejected}
       >
         <SuggestionSnippet suggestion={suggestion} />
       </FocusHandle>
@@ -162,9 +163,7 @@ const Wrapper = styled.li<{
   }
 `
 
-const FocusHandle = styled.a<{
-  isDisabled: boolean
-}>`
+const FocusHandle = styled.a`
   display: flex;
   gap: ${(props) => props.theme.grid.unit * 1}px;
   width: 100%;
@@ -172,6 +171,5 @@ const FocusHandle = styled.a<{
   align-items: center;
   color: inherit;
   text-decoration: none;
-  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
   overflow: hidden;
 `
