@@ -145,6 +145,7 @@ export type state = {
 
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
+  beforeUnload?: () => void
 
   library: Map<string, BibliographyItem>
   projectLibraryCollections: Map<string, LibraryCollection>
@@ -240,7 +241,7 @@ export class GenericStore implements Store {
     this.setState({ ...this.state, ...(state as state) })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
-      // @TODO provide the chance for the data sources to cancel the action optionally
+      // provide a way for the data sources to cancel the action optionally
       // by default the actions are not supposed to be cancelled
       this.sources.map(
         (source) =>
@@ -291,11 +292,6 @@ export class GenericStore implements Store {
         )
       )
     }
-    // return new Promise((resolve: () => void, reject) => {
-    //   setTimeout(() => {
-    //     resolve()
-    //   }, 5000)
-    // })
   }
   unmount() {
     if (this.unmountHandler) {
