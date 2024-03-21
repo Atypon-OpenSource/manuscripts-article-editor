@@ -1641,6 +1641,21 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
+"@manuscripts/transform@2.1.5-LEAN-3321":
+  version "2.1.5-LEAN-3321"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.5-LEAN-3321.tgz#588221a792faa12ff3828c1d3ca5e8c0e38f8b94"
+  integrity sha512-4wzYtephLXXVGuhPApjWy+vfFcb5zcwBdXaapa3oLEFtoJCLkGmekpmXNK6CiDkcwdiRxgiuk/E/a2hJw+wPGw==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.5"
+    "@manuscripts/library" "^1.3.4"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
 "@manuscripts/transform@^2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.5.tgz#de7eee323e152b6ed5a39beedf3cbf5aab9c1817"
