@@ -21,11 +21,11 @@ import {
   ManuscriptEditorView,
 } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
-import { OrderedListToolbarItem } from './OrderedListToolbarItem'
+import { ListToolbarItem } from './ListToolbarItem'
 
 export const ToolbarItem = styled.div`
   display: inline-flex;
@@ -110,6 +110,8 @@ export const ManuscriptToolbar: React.FC<{
     return item.isEnabled(state)
   }
 
+  const openContextList = useState<string | undefined>(undefined)
+
   return (
     <ToolbarContainer>
       <ToolbarGroup>
@@ -130,9 +132,11 @@ export const ManuscriptToolbar: React.FC<{
               }
             })
             .map(([key, item]) =>
-              key === 'ordered_list' ? (
-                <OrderedListToolbarItem
+              key === 'ordered_list' || key === 'bullet_list' ? (
+                <ListToolbarItem
                   key={key}
+                  type={key}
+                  contextList={openContextList}
                   state={state}
                   dispatch={dispatch}
                   view={view}

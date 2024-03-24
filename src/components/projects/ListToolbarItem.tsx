@@ -11,8 +11,9 @@
  */
 import ArrowDown from '@manuscripts/assets/react/ArrowDownBlack'
 import OrderedList from '@manuscripts/assets/react/ToolbarIconOrderedList'
+import BulletList from '@manuscripts/assets/react/ToolbarIconUnorderedList'
 import { ToolbarButtonConfig } from '@manuscripts/body-editor'
-import { DropdownList, useDropdown } from '@manuscripts/style-guide'
+import { DropdownList } from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
@@ -21,26 +22,41 @@ import styled from 'styled-components'
 import { ListButton, ListStyle, ListStyleButton } from './ListToolbarItemStyles'
 import { ToolbarItem } from './ManuscriptToolbar'
 
+type ContextListState = [
+  openList: string | undefined,
+  setOpenList: React.Dispatch<React.SetStateAction<string | undefined>>
+]
+
 export const ListStyleSelector: React.FC<{
   disabled: boolean
   styles: ListStyle[]
+  type: string
+  contextList: ContextListState
   onClick: (style: ListStyle) => void
-}> = ({ disabled, styles, onClick }) => {
-  const { isOpen, toggleOpen, wrapperRef } = useDropdown()
+}> = ({ disabled, styles, type, contextList, onClick }) => {
+  const [openList, setOpenList] = contextList
+
+  const toggleOpen = () => {
+    if (openList === type) {
+      setOpenList(undefined)
+    } else {
+      setOpenList(type)
+    }
+  }
 
   return (
-    <Container onClick={(e) => !disabled && toggleOpen(e)} ref={wrapperRef}>
+    <Container onClick={() => !disabled && toggleOpen()}>
       <ListStyleButton disabled={disabled}>
         <ArrowDown />
       </ListStyleButton>
-      {isOpen && (
+      {openList === type && (
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
           <ListContainer>
             {styles.map((style, index) => (
               <StyleBlock key={index} onClick={() => onClick(style)}>
                 {style.items.map((style, index) => (
                   <BlockItem key={index}>
-                    <Label>{style}</Label>
+                    <Label hide={style === '-'}>{style}</Label>
                     <Block />
                   </BlockItem>
                 ))}
@@ -95,20 +111,23 @@ const Block = styled.div`
   background: ${(props) => props.theme.colors.border.tertiary};
 `
 
-const Label = styled.div`
+const Label = styled.div<{ hide?: boolean }>`
   font-family: Lato, serif;
   font-size: ${(props) => props.theme.font.size.small};
   font-weight: ${(props) => props.theme.font.weight.normal};
   line-height: ${(props) => props.theme.font.lineHeight.small};
   font-style: normal;
+  color: ${(props) => (props.hide && 'white') || 'initial'};
 `
 
-export const OrderedListToolbarItem: React.FC<{
+export const ListToolbarItem: React.FC<{
   state: EditorState
+  type: 'ordered_list' | 'bullet_list'
+  contextList: ContextListState
   dispatch: (tr: Transaction) => void
   view?: ManuscriptEditorView
   config: ToolbarButtonConfig
-}> = ({ state, dispatch, view, config }) => {
+}> = ({ state, type, contextList, dispatch, view, config }) => {
   const isEnabled = !config.isEnabled || config.isEnabled(state)
 
   /**
@@ -123,6 +142,23 @@ export const OrderedListToolbarItem: React.FC<{
     view && view.focus()
   }
 
+  const { icon, styles } = (type === 'ordered_list' && {
+    icon: <OrderedList />,
+    styles: [
+      { items: ['1.', '2.', '3.'], type: 'order' },
+      { items: ['A.', 'B.', 'C.'], type: 'alpha-upper' },
+      { items: ['a.', 'b.', 'c.'], type: 'alpha-lower' },
+      { items: ['I.', 'II.', 'III.'], type: 'roman-upper' },
+      { items: ['i.', 'ii.', 'iii.'], type: 'roman-lower' },
+    ] as ListStyle[],
+  }) || {
+    icon: <BulletList />,
+    styles: [
+      { items: ['•', '•', '•'], type: 'bullet' },
+      { items: ['-', '-', '-'], type: 'simple' },
+    ],
+  }
+
   return (
     <ToolbarItem>
       <ListButton
@@ -135,18 +171,14 @@ export const OrderedListToolbarItem: React.FC<{
           view && view.focus()
         }}
       >
-        <OrderedList />
+        {icon}
       </ListButton>
       <ListStyleSelector
         disabled={!isEnabled}
         onClick={handleClick}
-        styles={[
-          { items: ['1.', '2.', '3.'], type: 'order' },
-          { items: ['A.', 'B.', 'C.'], type: 'alpha-upper' },
-          { items: ['a.', 'b.', 'c.'], type: 'alpha-lower' },
-          { items: ['I.', 'II.', 'III.'], type: 'roman-upper' },
-          { items: ['i.', 'ii.', 'iii.'], type: 'roman-lower' },
-        ]}
+        styles={styles}
+        type={type}
+        contextList={contextList}
       />
     </ToolbarItem>
   )
