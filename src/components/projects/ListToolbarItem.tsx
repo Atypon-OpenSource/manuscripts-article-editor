@@ -13,10 +13,10 @@ import ArrowDown from '@manuscripts/assets/react/ArrowDownBlack'
 import OrderedList from '@manuscripts/assets/react/ToolbarIconOrderedList'
 import BulletList from '@manuscripts/assets/react/ToolbarIconUnorderedList'
 import { ToolbarButtonConfig } from '@manuscripts/body-editor'
-import { DropdownList } from '@manuscripts/style-guide'
+import { DropdownList, useDropdown } from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { ListButton, ListStyle, ListStyleButton } from './ListToolbarItemStyles'
@@ -34,23 +34,31 @@ export const ListStyleSelector: React.FC<{
   contextList: ContextListState
   onClick: (style: ListStyle) => void
 }> = ({ disabled, styles, type, contextList, onClick }) => {
+  const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const [openList, setOpenList] = contextList
 
-  const toggleOpen = () => {
+  const handleOnClick = (e: React.MouseEvent) => {
     if (openList === type) {
       setOpenList(undefined)
     } else {
       setOpenList(type)
+      !isOpen && toggleOpen(e)
     }
   }
 
+  useEffect(() => {
+    if (!isOpen && openList === type) {
+      setOpenList(undefined)
+    }
+  }, [isOpen, openList, setOpenList, type])
+
   return (
-    <Container onClick={() => !disabled && toggleOpen()}>
+    <Container onClick={(e) => !disabled && handleOnClick(e)} ref={wrapperRef}>
       <ListStyleButton disabled={disabled}>
         <ArrowDown />
       </ListStyleButton>
       {openList === type && (
-        <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
+        <DropdownList direction={'right'} top={6} onClick={handleOnClick}>
           <ListContainer>
             {styles.map((style, index) => (
               <StyleBlock key={index} onClick={() => onClick(style)}>
