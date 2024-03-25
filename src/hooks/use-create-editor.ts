@@ -136,7 +136,14 @@ export const useCreateEditor = () => {
       manuscript._id,
       project._id,
       initialDocVersion,
-      authToken
+      authToken,
+      (preventUnload, beforeUnload) => {
+        if (beforeUnload !== undefined) {
+          dispatch({ preventUnload, beforeUnload })
+        } else {
+          dispatch({ preventUnload })
+        }
+      }
     ),
   }
 

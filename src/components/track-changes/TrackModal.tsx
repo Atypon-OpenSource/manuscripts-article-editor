@@ -35,8 +35,12 @@ interface Props {
 
 type PropRef = HTMLElement
 
-function isValidValue(val: any) {
+function isValidValue(val: any, oldVal: any) {
   if (val || typeof val === 'boolean') {
+    if ((val === false || val === 'No') && !oldVal) {
+      // if old attribute was undefined (i.e. falsy) and it's not "false" - don't consider it to be a change
+      return false
+    }
     return true
   }
   return false
@@ -136,7 +140,7 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
 
         <ChangesList>
           {Object.entries(newAttrs).map(([key], index) =>
-            isValidValue(newAttrs[key].value) &&
+            isValidValue(newAttrs[key].value, oldAttrs[key]?.value) &&
             (!oldAttrs[key] ||
               !_.isEqual(oldAttrs[key].value, newAttrs[key].value)) ? (
               <Attribute key={index}>

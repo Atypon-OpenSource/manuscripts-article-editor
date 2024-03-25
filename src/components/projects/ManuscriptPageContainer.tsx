@@ -26,12 +26,12 @@ import styled from 'styled-components'
 
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
-import { useWindowUnloadEffect } from '../../hooks/use-window-unload-effect'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
 import useTrackedModelManagement from '../../tracked-models/use-tracked-model-management'
 import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
+import UtilitiesEffects from '../UtilitiesEffects'
 import {
   EditorBody,
   EditorContainer,
@@ -85,9 +85,6 @@ const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
 
   const editor = useCreateEditor()
-
-  const [preventUnload] = useStore((store) => store.preventUnload)
-  useWindowUnloadEffect(undefined, preventUnload)
 
   const { state, dispatch, view } = editor
 
@@ -152,7 +149,7 @@ const ManuscriptPageView: React.FC = () => {
 
     doWithThrottle(() => {
       storeDispatch({ doc: state.doc, trackState, view })
-    }, 500)
+    }, 200)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
@@ -191,6 +188,7 @@ const ManuscriptPageView: React.FC = () => {
           </EditorContainer>
         </Main>
         <Inspector data-cy="inspector" editor={editor} />
+        <UtilitiesEffects />
       </PageWrapper>
     </>
   )
