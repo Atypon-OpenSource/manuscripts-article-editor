@@ -105,14 +105,12 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!trackState || !isVisible) {
-    console.log('Not trackState or not visible')
     return null
   }
 
   const change = trackState.changeSet.get(changeId)
 
   if (change?.type !== 'node-attr-change') {
-    console.log('Not an attrr change')
     return null
   }
 
