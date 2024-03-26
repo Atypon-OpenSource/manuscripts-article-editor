@@ -30,6 +30,7 @@ export const useHandleSnapshot = (view?: EditorView) => {
       authToken,
       snapshots,
       snapshotsMap,
+      beforeUnload,
     },
     dispatch,
   ] = useStore((store) => ({
@@ -40,6 +41,7 @@ export const useHandleSnapshot = (view?: EditorView) => {
     snapshotsMap: store.snapshotsMap,
     modelMap: store.modelMap,
     bulkUpdate: store.bulkUpdate,
+    beforeUnload: store.beforeUnload,
   }))
   const can = usePermissions()
   const canApplySaveChanges = can.applySaveChanges
@@ -67,6 +69,8 @@ export const useHandleSnapshot = (view?: EditorView) => {
   const execCmd = useExecCmd()
 
   return async () => {
+    // if there is a pending throttle or potentially other pending action, we need to make sure it's done before we proceed wrapping the current step
+    beforeUnload && beforeUnload()
     const resp = await saveSnapshot(projectID, manuscriptID)
     if (resp && view) {
       execCmd(trackCommands.applyAndRemoveChanges(), view)
