@@ -148,7 +148,7 @@ const ManuscriptPageView: React.FC = () => {
     const trackState = trackChangesPluginKey.getState(state)
 
     doWithThrottle(() => {
-      storeDispatch({ doc: state.doc, trackState, view })
+      storeDispatch({ doc: state.doc, trackState, view, editor })
     }, 200)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
