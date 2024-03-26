@@ -1512,22 +1512,23 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.19-LEAN-3143-1":
-  version "1.7.19-LEAN-3143-1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.19-LEAN-3143-1.tgz#1a9d38455226e6ce837939fe4b84b65a42765864"
-  integrity sha512-P8NdiXdBvoTWS58HtwpqhJTbrAMXwnAbkBaZ4dDlxsbXQV6cQC3+bbJO75kKRW24gJqK8eVugS0fU0MxNNqFGg==
+"@manuscripts/body-editor@^1.7.22":
+  version "1.7.22"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.22.tgz#97cabf5e68dfa351ecf1bac288f5022330e95d30"
+  integrity sha512-zFVDmKEcs7EDWsVcIc4D8/wORKd56tCGaySPi0+KEBkSwl7Iuv/tUPJLCgjWuwrczTpLoo/29YAIfTC9ucrt/g==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.6"
     "@manuscripts/library" "^1.3.5"
-    "@manuscripts/style-guide" "^1.7.11"
+    "@manuscripts/style-guide" "^1.8.0"
     "@manuscripts/track-changes-plugin" "^1.7.7"
     "@manuscripts/transform" "^2.1.6"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
     dompurify "^2.4.1"
+    formik "^2.2.9"
     grapheme-splitter "^1.0.4"
     history "^4.10.1"
     mathjax-full "^3.2.2"
@@ -1584,10 +1585,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@^1.7.11":
-  version "1.7.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.11.tgz#d27f67240accd557cd33e5eb67fa42cbb7b54178"
-  integrity sha512-yufyQjhZC9lDljES/O63c5zcRlVXULcJTwJddI7/1NrVgLSGa5Zz8Ovc8fYLmQmxS9Pa+iqkb3ivHcYl2P9Q7Q==
+"@manuscripts/style-guide@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.0.tgz#7dd8ebff3d033ec291e86df04626c1a02e1aaad9"
+  integrity sha512-a0hMj5mV4ss89yvUazLhkCYlnkckzpOhJ85yOFlVFQrTF8XcPQumhc4IZD1u6P6tMHcXQAdtd7NcBv3h7HRT2w==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.6"
@@ -1640,6 +1641,21 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@2.1.7-LEAN-3321":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.7.tgz#bd3080166de9d1ee1f7521031937d81d77366c4c"
+  integrity sha512-VbyQI7qwFt8rB1XihgX8EtkgGfPKzJ59vq42UY/2AR9vM1lM1qILe793ukFYRj2TpIW8XnENkQHshuuMCG/HjA==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.6"
+    "@manuscripts/library" "^1.3.5"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@^2.1.6":
   version "2.1.6"
