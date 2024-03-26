@@ -16,49 +16,26 @@ import { ToolbarButtonConfig } from '@manuscripts/body-editor'
 import { DropdownList, useDropdown } from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { ListButton, ListStyle, ListStyleButton } from './ListToolbarItemStyles'
 import { ToolbarItem } from './ManuscriptToolbar'
 
-type ContextListState = [
-  openList: string | undefined,
-  setOpenList: React.Dispatch<React.SetStateAction<string | undefined>>
-]
-
 export const ListStyleSelector: React.FC<{
   disabled: boolean
   styles: ListStyle[]
-  type: string
-  contextList: ContextListState
   onClick: (style: ListStyle) => void
-}> = ({ disabled, styles, type, contextList, onClick }) => {
+}> = ({ disabled, styles, onClick }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
-  const [openList, setOpenList] = contextList
-
-  const handleOnClick = (e: React.MouseEvent) => {
-    if (openList === type) {
-      setOpenList(undefined)
-    } else {
-      setOpenList(type)
-      !isOpen && toggleOpen(e)
-    }
-  }
-
-  useEffect(() => {
-    if (!isOpen && openList === type) {
-      setOpenList(undefined)
-    }
-  }, [isOpen, openList, setOpenList, type])
 
   return (
-    <Container onClick={(e) => !disabled && handleOnClick(e)} ref={wrapperRef}>
+    <Container onClick={(e) => !disabled && toggleOpen(e)} ref={wrapperRef}>
       <ListStyleButton disabled={disabled}>
         <ArrowDown />
       </ListStyleButton>
-      {openList === type && (
-        <DropdownList direction={'right'} top={6} onClick={handleOnClick}>
+      {isOpen && (
+        <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
           <ListContainer>
             {styles.map((style, index) => (
               <StyleBlock key={index} onClick={() => onClick(style)}>
@@ -131,11 +108,10 @@ const Label = styled.div<{ hide?: boolean }>`
 export const ListToolbarItem: React.FC<{
   state: EditorState
   type: 'ordered_list' | 'bullet_list'
-  contextList: ContextListState
   dispatch: (tr: Transaction) => void
   view?: ManuscriptEditorView
   config: ToolbarButtonConfig
-}> = ({ state, type, contextList, dispatch, view, config }) => {
+}> = ({ state, type, dispatch, view, config }) => {
   const isEnabled = !config.isEnabled || config.isEnabled(state)
 
   /**
@@ -185,8 +161,6 @@ export const ListToolbarItem: React.FC<{
         disabled={!isEnabled}
         onClick={handleClick}
         styles={styles}
-        type={type}
-        contextList={contextList}
       />
     </ToolbarItem>
   )
