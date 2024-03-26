@@ -99,9 +99,6 @@ export const useCreateEditor = () => {
     history,
     projectID: project._id,
 
-    openAuthorEditing: () => getState().startEditing(),
-    selectAuthorForEditing: (id: string) => getState().selectAuthor(id),
-
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
     setComment: (comment?: CommentAnnotation) => {
