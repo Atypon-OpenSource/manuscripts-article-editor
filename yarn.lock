@@ -1512,10 +1512,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.23":
-  version "1.7.23"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.23.tgz#ec65ad3581def1360a65329e4d61bbd3211de45f"
-  integrity sha512-qdpspfwbG0Cec+ZQ6IMN7bdWnZcMdii79KQOLfja6Zoj4Ziur3VlxehALhUdWnckTNjhdEzKCPVlrfKtIhbykg==
+"@manuscripts/body-editor@1.7.23-LEAN-3321-2":
+  version "1.7.23-LEAN-3321-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.23-LEAN-3321-2.tgz#0b8461796c889780f8790cf5595ca2c30df4cdf3"
+  integrity sha512-d/bL0DXdXmc6Q00TxoFSL6CztGOIUfyVNMq9r21yL5zKSDMRZLa4beZ1sHV/pmbzb3t1mCejPTWBsKYPVh8ySA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1523,7 +1523,7 @@
     "@manuscripts/library" "^1.3.5"
     "@manuscripts/style-guide" "^1.8.0"
     "@manuscripts/track-changes-plugin" "^1.7.7"
-    "@manuscripts/transform" "^2.1.6"
+    "@manuscripts/transform" "2.1.7-LEAN-3321"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1641,6 +1641,21 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@2.1.7-LEAN-3321":
+  version "2.1.7-LEAN-3321"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.7-LEAN-3321.tgz#d68c006515536fddb70b0246de90bc2615b02109"
+  integrity sha512-O747NXlcqQMS+yw7tJT8fQlHMOj4+1gKrkGrHAM8JNXyqZ0R55CNUgVD68Vuiv0qIZ7Lzk+BoZyAIYMvUMyE+Q==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.6"
+    "@manuscripts/library" "^1.3.5"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@^2.1.6":
   version "2.1.6"
