@@ -92,7 +92,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
             <InspectorTabList>
               <InspectorTab data-cy="content-button">Content</InspectorTab>
               <InspectorTab data-cy="comments-button">Comments</InspectorTab>
-              {config.quarterback.enabled && (
+              {!can.editWithoutTracking && (
                 <InspectorTab data-cy="history-button">History</InspectorTab>
               )}
               {config.features.fileManagement && (
