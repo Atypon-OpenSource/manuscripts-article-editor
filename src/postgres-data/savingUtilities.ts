@@ -20,13 +20,14 @@ let timeout: number
 export const saveWithThrottle = (
   fn: () => any,
   interval = 4000,
-  flush = false
+  flush = false,
+  onDone?: () => void
 ) => {
   throttled = fn
   const action = () => {
     throttled()
     window.clearTimeout(timeout)
-    timeout = 0
+    onDone && onDone()
   }
   if (flush) {
     action()
@@ -36,6 +37,40 @@ export const saveWithThrottle = (
     timeout = window.setTimeout(() => {
       action()
     }, interval)
+  }
+
+  return () => {
+    action()
+  }
+}
+
+export const saveWithDebounce = () => {
+  let timeout: number
+  return (
+    fn: () => any,
+    interval = 4000,
+    flush = false,
+    onDone?: () => void
+  ) => {
+    const action = () => {
+      fn()
+      onDone && onDone()
+    }
+    if (flush) {
+      action()
+      clearTimeout(timeout)
+      return
+    }
+
+    clearTimeout(timeout)
+    timeout = window.setTimeout(() => {
+      action()
+    }, interval)
+
+    return () => {
+      action()
+      clearTimeout(timeout)
+    }
   }
 }
 

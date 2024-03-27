@@ -15,14 +15,13 @@ import deeperEqual from '../lib/deeper-equal'
 import { dispatch, GenericStore, state } from './Store'
 import { useGenericStore } from './StoreContext'
 // import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector';
-
+type Selector<T> = (r: state) => state | T
 export const useStore = <T>(
-  selector = (r: state): state | T => r
+  selector?: Selector<T>
 ): [T, dispatch, () => state, GenericStore['subscribe']] => {
   const store = useGenericStore()
-  const [state, setState] = useState(
-    selector ? () => selector(store.state!) : store.state
-  )
+  const init = selector ? () => selector(store.state!) : store.state
+  const [state, setState] = useState(init)
 
   // @TODO - in react 18 these hooks usage will have to be replaced with this to work correctly with the concurrent rendering
   //   const state = useSyncExternalStoreWithSelector(
@@ -34,19 +33,21 @@ export const useStore = <T>(
   //   );
 
   useLayoutEffect(() => {
+    if (!selector) {
+      return
+    }
     const unsubscribe = store.subscribe((newStoreState: state) => {
-      if (selector) {
-        const selectedState = selector(newStoreState)
-        if (!deeperEqual(selectedState, state)) {
-          setState(() => selectedState)
+      setState((currentState) => {
+        const newState = selector(newStoreState)
+        if (!deeperEqual(newState, currentState)) {
+          return newState
         }
-      } else {
-        setState(() => newStoreState)
-      }
+        return currentState
+      })
     })
     return () => unsubscribe && unsubscribe()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // @TODO reconsider disabling exhaustive-deps
+  }, [])
   // @ts-ignore
   return [state, store.dispatchAction, store.getState, store.subscribe]
 }

@@ -28,7 +28,6 @@ import {
   isManuscript,
 } from '@manuscripts/transform'
 
-import { getMetaData } from '../lib/authors'
 import { buildCollaboratorProfiles } from '../lib/collaborators'
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
@@ -244,9 +243,6 @@ export const getDrivedData = (projectID: string, data: Partial<state>) => {
       )
     }
   }
-  const metaData = getMetaData(data.modelMap)
-  storeData.authorsAndAffiliations = metaData?.authorsAndAffiliations
-  storeData.contributorRoles = metaData?.contributorRoles
   return storeData
 }
 
