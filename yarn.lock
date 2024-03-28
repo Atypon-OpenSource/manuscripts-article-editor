@@ -1512,18 +1512,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.24":
-  version "1.7.24"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.24.tgz#21a8b6d717388831a10e20d14c4ccc03e385b85f"
-  integrity sha512-15Y/lFoqrl9g4w2pMapAc+AvpipnV9tSLayk2Ep1VRwtv6KKOLjUTV4m9VlJCT4rVKKGlqfhyo9jNk6TL9gn1w==
+"@manuscripts/body-editor@1.7.17-LEAN-3429-1":
+  version "1.7.17-LEAN-3429-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.17-LEAN-3429-1.tgz#00110b8e88d85b60712aa29f00415b782b0d7781"
+  integrity sha512-6+rDaxvxQYIrflE4RrpikFIrtjnuoxgOGmCEJ6MCZ28TuwXq/Dx9hAqKYXUKQw+lcGaAqfa9aISkjZEY/cROBw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
-    "@manuscripts/json-schema" "^2.2.6"
-    "@manuscripts/library" "^1.3.5"
-    "@manuscripts/style-guide" "1.8.1"
-    "@manuscripts/track-changes-plugin" "1.7.8"
-    "@manuscripts/transform" "^2.1.6"
+    "@manuscripts/json-schema" "^2.2.5"
+    "@manuscripts/library" "^1.3.4"
+    "@manuscripts/style-guide" "1.8.1-LEAN-3429-0"
+    "@manuscripts/track-changes-plugin" "^1.7.6"
+    "@manuscripts/transform" "^2.1.5"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1565,7 +1565,7 @@
     eslint-config-prettier "^8.5.0"
     prettier "^2.8.1"
 
-"@manuscripts/json-schema@^2.2.6":
+"@manuscripts/json-schema@^2.2.5", "@manuscripts/json-schema@^2.2.6":
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.6.tgz#383b4f74bcfb6b3795255c092965a0052f8466d1"
   integrity sha512-Lz7zJClr8r6pyzwe1rNc9TBMKXIFpZyyBfylWPZ6Rfxx1NX44iA7ROj1/F2l/Qs9QeP7nXX5k+nR+VqLUf7l/A==
@@ -1574,7 +1574,7 @@
     deepmerge "^4.3.1"
     uuid "^9.0.0"
 
-"@manuscripts/library@^1.3.5":
+"@manuscripts/library@^1.3.4", "@manuscripts/library@^1.3.5":
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.5.tgz#eea1c1343431c8de325ca7280dd04542f57f178e"
   integrity sha512-vI9PQSMGkmlvBBD/Lyqoh8jx+9ML9/4e7Qdrfj1aE+gaZzGR4REj2hWhKhj+PLd2sjBp8lKyWl0XE/gS+4pwLA==
@@ -1585,10 +1585,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.8.1", "@manuscripts/style-guide@^1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.1.tgz#347c5561e8e18fb62616ebef33b480e3c7ba85f2"
-  integrity sha512-L7zzebewM8p/d+a5Vck90qICfmi0RiWeJwP5atXSMUWhuYnHuGu7ZiPGBBix8xO49the0W6MKGJRfl/TXrBLmQ==
+"@manuscripts/style-guide@1.8.1-LEAN-3429-0":
+  version "1.8.1-LEAN-3429-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.1-LEAN-3429-0.tgz#49b1405f1964c1f7456b1a90416d66209b7b93ae"
+  integrity sha512-NyJBdjlBKQ7fNrcgZOYli3QOoIkQpbY1cZ1WpcSpk+7inbrBL1UylcoJz3M2KdQeg6NcHFm8FYqLqYhWZQkVMQ==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.6"
@@ -1626,7 +1626,7 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.8", "@manuscripts/track-changes-plugin@^1.7.8":
+"@manuscripts/track-changes-plugin@^1.7.6", "@manuscripts/track-changes-plugin@^1.7.8":
   version "1.7.8"
   resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.8.tgz#dd6e1743310c0860b89f00df753eae81f535ed48"
   integrity sha512-pENKJRtT1sC/YzRf8ncLzuXn//2pY4LhBTOhBENf1E9fGX2HGXBGErFnW4TDBkudtERFc/WBmZwP0bzHgsJGdg==
@@ -1641,6 +1641,21 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@^2.1.5":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.8.tgz#495e8771178f9a0cbd1e58aa5e978119e4a42cc9"
+  integrity sha512-ynjnSfwiLX2l5Pw99+7MIKMgFBUfVpk+nqCv22ZvhtOoi0P8ErzO+z9TUTygTwShlt4+fV6ZT/1hFAyAraK+Tw==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.6"
+    "@manuscripts/library" "^1.3.5"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@^2.1.6":
   version "2.1.6"
