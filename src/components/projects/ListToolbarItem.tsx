@@ -30,7 +30,7 @@ export const ListStyleSelector: React.FC<{
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
   return (
-    <Container onClick={(e) => !disabled && toggleOpen(e)} ref={wrapperRef}>
+    <Container onClick={(e) => !disabled && toggleOpen()} ref={wrapperRef}>
       <ListStyleButton disabled={disabled}>
         <ArrowDown />
       </ListStyleButton>
