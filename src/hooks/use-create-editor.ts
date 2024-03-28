@@ -85,11 +85,6 @@ export const useCreateEditor = () => {
       style,
       locale,
     },
-<<<<<<< HEAD
-    environment: config.environment,
-=======
-    popper,
->>>>>>> 5cb11bc59bf0f81133bc22aec252a2774e1a4bf7
     history,
     projectID: project._id,
 
