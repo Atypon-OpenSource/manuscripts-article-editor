@@ -47,7 +47,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
             <Option
               onClick={(e) => {
                 handleSort(e)
-                toggleOpen(e)
+                toggleOpen()
               }}
               key={'Date'}
               value={'Date'}
@@ -57,7 +57,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
             <Option
               onClick={(e) => {
                 handleSort(e)
-                toggleOpen(e)
+                toggleOpen()
               }}
               key={'in Context'}
               value={'in Context'}

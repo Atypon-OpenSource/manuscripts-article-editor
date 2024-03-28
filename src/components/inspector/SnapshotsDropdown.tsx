@@ -160,7 +160,7 @@ export const SnapshotsDropdown: React.FC = () => {
                 if (inspectedSnapshot) {
                   handleResumeEditing()
                 }
-                toggleOpen(e)
+                toggleOpen()
               }}
               key={'current'}
             >
@@ -178,7 +178,7 @@ export const SnapshotsDropdown: React.FC = () => {
                 <Element
                   onClick={(e) => {
                     handleInspectSnapshot(snapshot)
-                    toggleOpen(e)
+                    toggleOpen()
                   }}
                   key={snapshot.id}
                 >
