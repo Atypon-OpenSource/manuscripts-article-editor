@@ -1512,22 +1512,23 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.18":
-  version "1.7.18"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.18.tgz#9f3cd9eeaed9f228f6055620487df33ee3828b30"
-  integrity sha512-GmBdcG3IXvhJaQAm2GiZcjSky9IAx6I8QusrDyyDykOS0YPjXM4Y/YUqr7ElhJBGR3Pmoq70vN/hWx7FeZPiog==
+"@manuscripts/body-editor@^1.7.24":
+  version "1.7.24"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.24.tgz#21a8b6d717388831a10e20d14c4ccc03e385b85f"
+  integrity sha512-15Y/lFoqrl9g4w2pMapAc+AvpipnV9tSLayk2Ep1VRwtv6KKOLjUTV4m9VlJCT4rVKKGlqfhyo9jNk6TL9gn1w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.6"
     "@manuscripts/library" "^1.3.5"
-    "@manuscripts/style-guide" "^1.7.11"
-    "@manuscripts/track-changes-plugin" "^1.7.6"
+    "@manuscripts/style-guide" "1.8.1"
+    "@manuscripts/track-changes-plugin" "1.7.8"
     "@manuscripts/transform" "^2.1.6"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
     dompurify "^2.4.1"
+    formik "^2.2.9"
     grapheme-splitter "^1.0.4"
     history "^4.10.1"
     mathjax-full "^3.2.2"
@@ -1584,10 +1585,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@^1.7.11":
-  version "1.7.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.7.11.tgz#d27f67240accd557cd33e5eb67fa42cbb7b54178"
-  integrity sha512-yufyQjhZC9lDljES/O63c5zcRlVXULcJTwJddI7/1NrVgLSGa5Zz8Ovc8fYLmQmxS9Pa+iqkb3ivHcYl2P9Q7Q==
+"@manuscripts/style-guide@1.8.1", "@manuscripts/style-guide@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.1.tgz#347c5561e8e18fb62616ebef33b480e3c7ba85f2"
+  integrity sha512-L7zzebewM8p/d+a5Vck90qICfmi0RiWeJwP5atXSMUWhuYnHuGu7ZiPGBBix8xO49the0W6MKGJRfl/TXrBLmQ==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.6"
@@ -1625,10 +1626,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@^1.7.6":
-  version "1.7.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.6.tgz#b094b62f926d80835c03b7407c21d174c68f330e"
-  integrity sha512-EJkeZv9LzISVDpGj39CwDCG5m+HfOE3Y3DU0xnz1Srcv/Lk3IMRNnQRDUbdO+YQJKTX6TlsoutC7VIuxlt7DXQ==
+"@manuscripts/track-changes-plugin@1.7.8", "@manuscripts/track-changes-plugin@^1.7.8":
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.8.tgz#dd6e1743310c0860b89f00df753eae81f535ed48"
+  integrity sha512-pENKJRtT1sC/YzRf8ncLzuXn//2pY4LhBTOhBENf1E9fGX2HGXBGErFnW4TDBkudtERFc/WBmZwP0bzHgsJGdg==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
