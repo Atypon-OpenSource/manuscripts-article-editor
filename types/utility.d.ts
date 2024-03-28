@@ -10,30 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import styled from 'styled-components'
-
-export const OptionWrapper = styled.div<{ focused?: boolean }>`
-  padding-left: ${(props) => props.theme.grid.unit * 4}px;
-  padding-top: ${(props) => props.theme.grid.unit * 2}px;
-  padding-bottom: ${(props) => props.theme.grid.unit * 2}px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  background-color: ${(props) =>
-    props.focused ? props.theme.colors.background.fifth : 'transparent'};
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.background.fifth};
-    g {
-      fill: ${(props) => props.theme.colors.text.secondary};
-    }
-  }
-`
-export const OuterContainer = styled.div`
-  width: 100%;
-`
-
-export const Container = styled.div`
-  position: relative;
-`
+type Mutable<Type> = {
+  -readonly [Key in keyof Type]: Type[Key]
+}
