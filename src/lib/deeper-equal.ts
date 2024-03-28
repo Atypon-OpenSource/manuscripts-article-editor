@@ -17,9 +17,14 @@ const deeperEqual = (prev: any, next: any) => {
   }
   switch (prev.constructor.name) {
     case 'Object':
-      // if (next.constructor.name === 'Object') {
-      // }
-      return prev === next // @TODO implement better check maybe
+      // @ts-ignore
+      return !Object.keys(prev).find((i) => {
+        if (next[i] !== prev[i]) {
+          return true
+        }
+        return false
+      })
+
     case 'Map': // important for modelMap
       if (prev == next) {
         return true

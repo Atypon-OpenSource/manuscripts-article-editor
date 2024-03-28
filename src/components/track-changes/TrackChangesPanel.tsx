@@ -45,11 +45,11 @@ export function TrackChangesPanel() {
     const { view, dispatch } = editor
     if (view && view.state.selection instanceof TextSelection) {
       view.focus()
-      dispatch(
-        view.state.tr.setSelection(
-          Selection.near(view.state.doc.resolve(view.state.selection.anchor))
-        )
+      const tr = view.state.tr.setSelection(
+        Selection.near(view.state.doc.resolve(view.state.selection.anchor))
       )
+      tr.setMeta('CLEAR_SUGGESTION_ID', true)
+      dispatch(tr)
     }
   }
 

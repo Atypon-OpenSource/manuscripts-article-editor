@@ -27,7 +27,6 @@ export const useCreateEditor = () => {
       doc,
       manuscript,
       project,
-      popper,
       user,
       modelMap,
       commitAtLoad,
@@ -36,6 +35,7 @@ export const useCreateEditor = () => {
       style,
       locale,
       authToken,
+      popper,
     },
     dispatch,
     getState,
@@ -44,7 +44,6 @@ export const useCreateEditor = () => {
     doc: store.doc,
     manuscript: store.manuscript,
     project: store.project,
-    popper: store.popper,
     user: store.user,
     modelMap: store.modelMap,
     commitAtLoad: store.commitAtLoad,
@@ -53,6 +52,7 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
     authToken: store.authToken,
+    popper: store.popper,
   }))
 
   const getCapabilities = memoize((project, user, permittedActions) =>
@@ -87,12 +87,9 @@ export const useCreateEditor = () => {
       style,
       locale,
     },
-    history,
     popper,
+    history,
     projectID: project._id,
-
-    openAuthorEditing: () => getState().startEditing(),
-    selectAuthorForEditing: (id: string) => getState().selectAuthor(id),
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
@@ -131,7 +128,14 @@ export const useCreateEditor = () => {
       manuscript._id,
       project._id,
       initialDocVersion,
-      authToken
+      authToken,
+      (preventUnload, beforeUnload) => {
+        if (beforeUnload !== undefined) {
+          dispatch({ preventUnload, beforeUnload })
+        } else {
+          dispatch({ preventUnload })
+        }
+      }
     ),
   }
 
