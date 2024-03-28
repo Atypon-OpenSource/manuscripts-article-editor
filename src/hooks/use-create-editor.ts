@@ -12,7 +12,6 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { CommentAnnotation } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
-import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
@@ -79,25 +78,20 @@ export const useCreateEditor = () => {
       tabindex: '2',
     },
     doc,
-    plugins: config.quarterback.enabled
-      ? [
-          trackChangesPlugin({
-            userID: user._id,
-            debug: config.environment === 'development',
-          }),
-        ]
-      : [],
+    userID: user._id,
+    debug: config.environment === 'development',
     locale: manuscript?.primaryLanguageCode || 'en-GB',
     cslProps: {
       style,
       locale,
     },
+<<<<<<< HEAD
     environment: config.environment,
+=======
+    popper,
+>>>>>>> 5cb11bc59bf0f81133bc22aec252a2774e1a4bf7
     history,
     projectID: project._id,
-
-    openAuthorEditing: () => getState().startEditing(),
-    selectAuthorForEditing: (id: string) => getState().selectAuthor(id),
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,

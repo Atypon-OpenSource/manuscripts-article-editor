@@ -29,7 +29,6 @@ import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
 import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
 import useTrackedModelManagement from '../../tracked-models/use-tracked-model-management'
-import AuthorModalViews from '../metadata/AuthorModalViews'
 import { Main } from '../Page'
 import UtilitiesEffects from '../UtilitiesEffects'
 import {
@@ -148,7 +147,7 @@ const ManuscriptPageView: React.FC = () => {
     const trackState = trackChangesPluginKey.getState(state)
 
     doWithThrottle(() => {
-      storeDispatch({ doc: state.doc, trackState, view })
+      storeDispatch({ doc: state.doc, trackState, view, editor })
     }, 200)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
@@ -166,7 +165,6 @@ const ManuscriptPageView: React.FC = () => {
         <Main data-cy="editor-main">
           <EditorContainer>
             <EditorContainerInner>
-              <AuthorModalViews />
               <EditorHeader>
                 <ManuscriptMenusContainer>
                   <ManuscriptMenus editor={editor} />
