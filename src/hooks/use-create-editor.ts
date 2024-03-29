@@ -35,7 +35,6 @@ export const useCreateEditor = () => {
       style,
       locale,
       authToken,
-      popper,
     },
     dispatch,
     getState,
@@ -52,7 +51,6 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
     authToken: store.authToken,
-    popper: store.popper,
   }))
 
   const getCapabilities = memoize((project, user, permittedActions) =>
@@ -87,7 +85,6 @@ export const useCreateEditor = () => {
       style,
       locale,
     },
-    popper,
     history,
     projectID: project._id,
 

@@ -19,7 +19,7 @@ import { EditorState } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useExecCmd } from '../../hooks/use-track-attrs-popper'
+import useExecCmd from '../../hooks/use-exec-cmd'
 import { get } from '../../quarterback/api/methods'
 import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
 import { useStore } from '../../store'
