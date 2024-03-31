@@ -20,7 +20,7 @@ import {
 import { NodeSelection, Selection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
-import { useExecCmd } from '../../hooks/use-track-attrs-popper'
+import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
