@@ -7,33 +7,20 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
+import _ from 'lodash'
+import { Command } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 
-import styled from 'styled-components'
+import { useStore } from '../store'
 
-export const OptionWrapper = styled.div<{ focused?: boolean }>`
-  padding-left: ${(props) => props.theme.grid.unit * 4}px;
-  padding-top: ${(props) => props.theme.grid.unit * 2}px;
-  padding-bottom: ${(props) => props.theme.grid.unit * 2}px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  background-color: ${(props) =>
-    props.focused ? props.theme.colors.background.fifth : 'transparent'};
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.background.fifth};
-    g {
-      fill: ${(props) => props.theme.colors.text.secondary};
-    }
+const useExecCmd = () => {
+  const [storeView] = useStore((store) => store.view)
+  return (cmd: Command, hookView?: EditorView) => {
+    const view = storeView || hookView
+    cmd(view.state, view.dispatch)
   }
-`
-export const OuterContainer = styled.div`
-  width: 100%;
-`
+}
 
-export const Container = styled.div`
-  position: relative;
-`
+export default useExecCmd
