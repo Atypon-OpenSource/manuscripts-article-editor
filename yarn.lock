@@ -1504,10 +1504,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.26-LEAN-3321-0":
-  version "1.7.26-LEAN-3321-0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.26-LEAN-3321-0.tgz#47fd5f6a6bc5157e103f95a3f0e379869a3cd487"
-  integrity sha512-4dWKk27gRTvlXcy4pTB6FDGSTKgZ+4EToAVByWDTJyZBP36Fgm1nChd6QMPNtALGX/L2xMnvH4m5K46vh9JU3Q==
+"@manuscripts/body-editor@1.7.26-LEAN-3321-1":
+  version "1.7.26-LEAN-3321-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.26-LEAN-3321-1.tgz#8520704e6f2ab1d94f8c7df41ad2d687e13befe4"
+  integrity sha512-n56Mh+TOul1NRDNioy5EwthhjksYrL1ploUdBw/k+Q6YpmXlZb7USHw/BRD3k0o6yhWJpn2G/0o8n9C2qONSxg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1515,7 +1515,7 @@
     "@manuscripts/library" "^1.3.5"
     "@manuscripts/style-guide" "1.8.2"
     "@manuscripts/track-changes-plugin" "1.7.8"
-    "@manuscripts/transform" "2.1.9-LEAN-3321"
+    "@manuscripts/transform" "2.1.7-LEAN-3321"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1638,21 +1638,6 @@
   version "2.1.7-LEAN-3321"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.7-LEAN-3321.tgz#d68c006515536fddb70b0246de90bc2615b02109"
   integrity sha512-O747NXlcqQMS+yw7tJT8fQlHMOj4+1gKrkGrHAM8JNXyqZ0R55CNUgVD68Vuiv0qIZ7Lzk+BoZyAIYMvUMyE+Q==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.6"
-    "@manuscripts/library" "^1.3.5"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-tables "^1.3.5"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
-
-"@manuscripts/transform@2.1.9-LEAN-3321":
-  version "2.1.9-LEAN-3321"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.9-LEAN-3321.tgz#1be53c468173755bf63c32490ce08af48a76b537"
-  integrity sha512-WAVm7lON0NTrCzZP7AtzFo4zGMFMPGXtj4t69viesO6kKVBb46aGmDJjE1KNPlnB8Xlj2CFVtqhL0gioo2pEAQ==
   dependencies:
     "@manuscripts/json-schema" "^2.2.6"
     "@manuscripts/library" "^1.3.5"
