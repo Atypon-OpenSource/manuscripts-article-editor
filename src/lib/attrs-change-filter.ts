@@ -11,6 +11,7 @@
  */
 
 import {
+  Affiliation,
   BibliographicDate,
   BibliographicName,
   Model,
@@ -25,12 +26,21 @@ import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
  */
 export const filterAttrsChange = (
   attrsChange: NodeAttrChange,
-  files: FileAttachment[]
+  files: FileAttachment[],
+  affiliations: Affiliation[]
 ) => {
   // TODO:: use attrsChange.nodeType when adding filter for other nodes
   return {
-    newAttrs: bibliographyAttrsFilter(attrsChange.newAttrs, files),
-    oldAttrs: bibliographyAttrsFilter(attrsChange.oldAttrs, files),
+    newAttrs: bibliographyAttrsFilter(
+      attrsChange.newAttrs,
+      files,
+      affiliations
+    ),
+    oldAttrs: bibliographyAttrsFilter(
+      attrsChange.oldAttrs,
+      files,
+      affiliations
+    ),
   }
 }
 
@@ -40,7 +50,7 @@ function displayBibliographicName(value: unknown) {
 }
 
 const getLabel = (key: string) =>
-  key.replace(/[a-z][A-Z]|^./g, (match) => {
+  key.replace(/[a-z][A-Z,0-9]|^./g, (match) => {
     if (match.length == 1) {
       return match.toUpperCase()
     } else {
@@ -52,8 +62,9 @@ const getLabel = (key: string) =>
   })
 
 const bibliographyAttrsFilter = (
-  attrs: Record<string, Model | Model[] | string>,
-  files: FileAttachment[]
+  attrs: Record<string, Model | Model[] | string | string[]>,
+  files: FileAttachment[],
+  affiliations: Affiliation[]
 ) => {
   const filteredAttrs: Record<string, { label: string; value: string }> = {}
   const excludedKeys = ['id', 'paragraphStyle', 'dataTracked']
@@ -69,12 +80,24 @@ const bibliographyAttrsFilter = (
               bibliographyItemTypes.get(value as CSL.ItemType) ||
               (value as string),
           })
+
         case 'bibliographicName':
           filteredAttrs[key] = {
             label: 'Given Name / Family name',
             value: displayBibliographicName(value),
           }
           return
+        case 'affiliations':
+          return (filteredAttrs[key] = {
+            label: getLabel(key),
+            value: (value as string[])
+              ?.map((id) => {
+                const affiliation = affiliations.find((aff) => aff._id === id)
+                return affiliation?.institution || 'Unknown'
+              })
+              .join(', '),
+          })
+
         case 'author':
           return (filteredAttrs[key] = {
             label: getLabel(key),
@@ -111,6 +134,18 @@ const bibliographyAttrsFilter = (
             label: 'Corresponding Author',
             value: value ? 'Yes' : 'No',
           })
+        case 'addressLine1':
+          filteredAttrs[key] = {
+            label: 'Street Address',
+            value: value as string,
+          }
+          return
+        case 'institution':
+          filteredAttrs[key] = {
+            label: 'Institution Name',
+            value: value as string,
+          }
+          return
         default:
           return (filteredAttrs[key] = {
             label: getLabel(key),
