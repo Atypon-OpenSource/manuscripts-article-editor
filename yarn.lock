@@ -1504,7 +1504,7 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.27":
+"@manuscripts/body-editor@^1.7.27":
   version "1.7.27"
   resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.27.tgz#e2da8d5152fce4fb56ff161263c22c5c06843a7d"
   integrity sha512-zYrfNoR5oUb/rWDxizG6m8Ri9W9r+Tgg6H6tGDqjgeUSGX0lNHRQxwV3a8xwmi1J3xyImqFE/cfwUKu3DqoJYA==
