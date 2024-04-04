@@ -1504,18 +1504,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.28":
-  version "1.7.28"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.28.tgz#7a8ed5cd136e9f6c6836054bcca50175898dca2d"
-  integrity sha512-4xPFM2+1b0Aob+yrtS7OvB9BIoZHIrIqB3JCYr+bRnVLYeyMOdDaj8TPukLkongkyma0sIsJqL4vetUXiBoWMQ==
+"@manuscripts/body-editor@1.7.28-LEAN-3143-0":
+  version "1.7.28-LEAN-3143-0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.28-LEAN-3143-0.tgz#ac97c0dafda47f831140daabf4a7381def70e92e"
+  integrity sha512-uBDcG094ueejR1x2qQ/37ERVXHgaS/BXvvAGXs5W9uhfUuO3/JsTsPfpiownsARIIqKaHBEqY1b0RikrBA3jCA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
-    "@manuscripts/style-guide" "^1.8.3"
-    "@manuscripts/track-changes-plugin" "1.7.8"
-    "@manuscripts/transform" "^2.1.10"
+    "@manuscripts/style-guide" "1.8.3-LEAN-3143-1"
+    "@manuscripts/track-changes-plugin" "1.7.9"
+    "@manuscripts/transform" "2.1.10-LEAN-3321"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1577,14 +1577,14 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@^1.8.3":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.3.tgz#41e5765d58c859f09392df3df80d46ac63a6921c"
-  integrity sha512-Jvm9Hyb9Gt9U2PKy6VPBgrtvrfeUgYucGnoOR3pDwGgdvjNUKGcZrIeei8aVCWy7Jxauzh0kM7MhmXotvrlAig==
+"@manuscripts/style-guide@1.8.3-LEAN-3143-1":
+  version "1.8.3-LEAN-3143-1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.3-LEAN-3143-1.tgz#3a16cc596f32b43781ffb66c4b82b34e144cd5f0"
+  integrity sha512-LbPvQeWnWwHsD0Hn2vZWMzPMJJUylnlcdB3VqXXpIDJ3ASY2Vfwq+/hTL+zTv1EUiX+JTvjUduEfFPm0iEIg1g==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.7"
-    "@manuscripts/transform" "^2.1.10"
+    "@manuscripts/transform" "2.1.10-LEAN-3321"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1618,23 +1618,7 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.8":
-  version "1.7.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.8.tgz#dd6e1743310c0860b89f00df753eae81f535ed48"
-  integrity sha512-pENKJRtT1sC/YzRf8ncLzuXn//2pY4LhBTOhBENf1E9fGX2HGXBGErFnW4TDBkudtERFc/WBmZwP0bzHgsJGdg==
-  dependencies:
-    debug "^4.3.4"
-    prosemirror-commands "^1.5.0"
-    prosemirror-example-setup "^1.2.1"
-    prosemirror-history "^1.3.0"
-    prosemirror-keymap "^1.2.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-schema-list "^1.2.2"
-    prosemirror-state "^1.4.2"
-    prosemirror-transform "^1.7.0"
-    prosemirror-view "^1.29.1"
-
-"@manuscripts/track-changes-plugin@^1.7.9":
+"@manuscripts/track-changes-plugin@1.7.9", "@manuscripts/track-changes-plugin@^1.7.9":
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.9.tgz#6f66facee6218f14c956b1c0d127a6ff20ced170"
   integrity sha512-YHZhekaH22jgFbf//bPimK5a48LulHkTz9wA63NEqxcht/NZAcWClACDIugrW9CIIBYFkcmnMSD5WKIijKU2SQ==
@@ -1654,21 +1638,6 @@
   version "2.1.10-LEAN-3321"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.10-LEAN-3321.tgz#830cf5c9e84e0640c8c7b897660601e132ebd9b8"
   integrity sha512-o1dQej3ooR1HXG+9WQm8QoHRGEyxCDxAgscVTyGNS1o5QJkUVE10sfxQpsq4T6gqA+QAS4IKw7+Lwjb1vHFtHQ==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.7"
-    "@manuscripts/library" "^1.3.6"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-tables "^1.3.5"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
-
-"@manuscripts/transform@^2.1.10":
-  version "2.1.10"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.10.tgz#eb53473d38c7a9bb0b7695a01857d9f05f4f8241"
-  integrity sha512-RRvxckUgBiiJdNPoeKPDBaC2SsEU4hlScak3svyu5vznFo0FUj6rLWfRMhV2f2J22xo6/kBGIreECsjbGjlDyg==
   dependencies:
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
