@@ -9,8 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
+import { Affiliation, ObjectTypes } from '@manuscripts/json-schema'
 import { ButtonGroup, TextButton } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
+import { getModelsByType } from '@manuscripts/transform'
 import _ from 'lodash'
 import React, {
   forwardRef,
@@ -25,8 +27,6 @@ import styled from 'styled-components'
 import { filterAttrsChange } from '../../lib/attrs-change-filter'
 import { useStore } from '../../store'
 import EditIcon from '../projects/icons/EditIcon'
-import { getModelsByType } from '@manuscripts/transform'
-import { Affiliation, ObjectTypes } from '@manuscripts/json-schema'
 
 interface Props {
   changeId: string
