@@ -1504,7 +1504,7 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@^1.7.28-LEAN-3150":
+"@manuscripts/body-editor@1.7.28-LEAN-3150":
   version "1.7.28-LEAN-3150"
   resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.28-LEAN-3150.tgz#0985141f9bd5984531d413d3bdcffebf821fab6f"
   integrity sha512-rjL+JNPgjuLVKLnTpq3R76jou/myAkvdZjImLn4JDXIrAsz3KLDafSMEyQolrZlWSZ2JEUtWsupDN1eG62rT+w==
