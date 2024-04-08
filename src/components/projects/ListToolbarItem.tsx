@@ -11,8 +11,19 @@
  */
 import ArrowDown from '@manuscripts/assets/react/ArrowDownBlack'
 import OrderedList from '@manuscripts/assets/react/ToolbarIconOrderedList'
+import BulletList from '@manuscripts/assets/react/ToolbarIconUnorderedList'
 import { ToolbarButtonConfig } from '@manuscripts/body-editor'
-import { DropdownList, useDropdown } from '@manuscripts/style-guide'
+import {
+  Block,
+  BlockItem,
+  bulletListContextMenu,
+  DropdownList,
+  Label,
+  ListContainer,
+  orderedListContextMenu,
+  StyleBlock,
+  useDropdown,
+} from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
@@ -29,7 +40,7 @@ export const ListStyleSelector: React.FC<{
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
   return (
-    <Container onClick={(e) => !disabled && toggleOpen(e)} ref={wrapperRef}>
+    <Container onClick={(e) => !disabled && toggleOpen()} ref={wrapperRef}>
       <ListStyleButton disabled={disabled}>
         <ArrowDown />
       </ListStyleButton>
@@ -37,10 +48,16 @@ export const ListStyleSelector: React.FC<{
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
           <ListContainer>
             {styles.map((style, index) => (
-              <StyleBlock key={index} onClick={() => onClick(style)}>
+              <StyleBlock
+                key={index}
+                onClick={() => {
+                  toggleOpen()
+                  onClick(style)
+                }}
+              >
                 {style.items.map((style, index) => (
                   <BlockItem key={index}>
-                    <Label>{style}</Label>
+                    <Label hide={style === '-'}>{style}</Label>
                     <Block />
                   </BlockItem>
                 ))}
@@ -57,58 +74,13 @@ const Container = styled.div`
   display: flex;
 `
 
-const ListContainer = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 4}px;
-  display: grid;
-  grid-template-columns:
-    ${(props) => props.theme.grid.unit * 21}px
-    ${(props) => props.theme.grid.unit * 21}px;
-  gap: 6px;
-`
-
-const StyleBlock = styled.div`
-  border: 1px solid ${(props) => props.theme.colors.border.tertiary};
-  padding: ${(props) => props.theme.grid.unit * 2}px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  row-gap: ${(props) => props.theme.grid.unit * 2}px;
-
-  &:hover {
-    background: ${(props) => props.theme.colors.button.default.border.hover};
-  }
-
-  &:active {
-    border-color: ${(props) => props.theme.colors.border.primary};
-  }
-`
-
-const BlockItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-`
-
-const Block = styled.div`
-  height: 3px;
-  width: ${(props) => props.theme.grid.unit * 14}px;
-  background: ${(props) => props.theme.colors.border.tertiary};
-`
-
-const Label = styled.div`
-  font-family: Lato, serif;
-  font-size: ${(props) => props.theme.font.size.small};
-  font-weight: ${(props) => props.theme.font.weight.normal};
-  line-height: ${(props) => props.theme.font.lineHeight.small};
-  font-style: normal;
-`
-
-export const OrderedListToolbarItem: React.FC<{
+export const ListToolbarItem: React.FC<{
   state: EditorState
+  type: 'ordered_list' | 'bullet_list'
   dispatch: (tr: Transaction) => void
   view?: ManuscriptEditorView
   config: ToolbarButtonConfig
-}> = ({ state, dispatch, view, config }) => {
+}> = ({ state, type, dispatch, view, config }) => {
   const isEnabled = !config.isEnabled || config.isEnabled(state)
 
   /**
@@ -123,6 +95,14 @@ export const OrderedListToolbarItem: React.FC<{
     view && view.focus()
   }
 
+  const { icon, styles } = (type === 'ordered_list' && {
+    icon: <OrderedList />,
+    styles: orderedListContextMenu as ListStyle[],
+  }) || {
+    icon: <BulletList />,
+    styles: bulletListContextMenu as ListStyle[],
+  }
+
   return (
     <ToolbarItem>
       <ListButton
@@ -135,18 +115,12 @@ export const OrderedListToolbarItem: React.FC<{
           view && view.focus()
         }}
       >
-        <OrderedList />
+        {icon}
       </ListButton>
       <ListStyleSelector
         disabled={!isEnabled}
         onClick={handleClick}
-        styles={[
-          { items: ['1.', '2.', '3.'], type: 'order' },
-          { items: ['A.', 'B.', 'C.'], type: 'alpha-upper' },
-          { items: ['a.', 'b.', 'c.'], type: 'alpha-lower' },
-          { items: ['I.', 'II.', 'III.'], type: 'roman-upper' },
-          { items: ['i.', 'ii.', 'iii.'], type: 'roman-lower' },
-        ]}
+        styles={styles}
       />
     </ToolbarItem>
   )
