@@ -25,7 +25,7 @@ import styled from 'styled-components'
 import { filterAttrsChange } from '../../lib/attrs-change-filter'
 import { useStore } from '../../store'
 import EditIcon from '../projects/icons/EditIcon'
-import { affiliations, getModelsByType } from '@manuscripts/transform'
+import { getModelsByType } from '@manuscripts/transform'
 import { Affiliation, ObjectTypes } from '@manuscripts/json-schema'
 
 interface Props {
