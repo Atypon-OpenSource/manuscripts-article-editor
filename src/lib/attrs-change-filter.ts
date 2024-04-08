@@ -146,6 +146,7 @@ const bibliographyAttrsFilter = (
             value: value as string,
           }
           return
+
         default:
           return (filteredAttrs[key] = {
             label: getLabel(key),
