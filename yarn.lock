@@ -1649,6 +1649,21 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
+"@manuscripts/transform@2.1.10-LEAN-3321-2":
+  version "2.1.10-LEAN-3321-2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.10-LEAN-3321-2.tgz#d330337a66101d6c53e3d43a85f54e44e25f5667"
+  integrity sha512-Pc0JErMdKOHDA54whMHy3BoHvXFGLkLJkTK+94Shq/+a2lGbcbN2thg3TgZvp0aaDgOa6zWQd6rZjmRgTmbI3w==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/library" "^1.3.6"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
 "@microsoft/fetch-event-source@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
