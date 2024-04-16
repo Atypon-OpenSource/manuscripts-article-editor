@@ -19,7 +19,7 @@ import { EditorState } from 'prosemirror-state'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useExecCmd } from '../../hooks/use-track-attrs-popper'
+import useExecCmd from '../../hooks/use-exec-cmd'
 import { get } from '../../quarterback/api/methods'
 import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
 import { useStore } from '../../store'
@@ -160,7 +160,7 @@ export const SnapshotsDropdown: React.FC = () => {
                 if (inspectedSnapshot) {
                   handleResumeEditing()
                 }
-                toggleOpen(e)
+                toggleOpen()
               }}
               key={'current'}
             >
@@ -178,7 +178,7 @@ export const SnapshotsDropdown: React.FC = () => {
                 <Element
                   onClick={(e) => {
                     handleInspectSnapshot(snapshot)
-                    toggleOpen(e)
+                    toggleOpen()
                   }}
                   key={snapshot.id}
                 >

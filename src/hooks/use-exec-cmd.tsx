@@ -7,38 +7,25 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
+import { Command } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 
-import React, { useCallback } from 'react'
+import { useStore } from '../store'
 
-import { useSyncedData } from '../../hooks/use-synced-data'
-import { MediumTextField } from './inputs'
-
-export const DOIInput: React.FC<{
-  value?: string
-  handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
-    string | undefined
-  >(value, handleChange, 500)
-
-  const handleInputChange = useCallback(
-    (event) => {
-      handleLocalChange(event.target.value || undefined)
-    },
-    [handleLocalChange]
+const useExecCmd = () => {
+  const [storeView] = useStore(
+    (store) =>
+      store.view || {
+        state: store.editor?.state,
+        dispatch: store.editor?.dispatch,
+      }
   )
-
-  return (
-    <MediumTextField
-      value={currentValue}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      readOnly={true}
-      onChange={handleInputChange}
-      onFocus={() => setEditing(true)}
-      onBlur={() => setEditing(false)}
-    />
-  )
+  return (cmd: Command, hookView?: EditorView) => {
+    const view = storeView || hookView
+    cmd(view.state, view.dispatch)
+  }
 }
+
+export default useExecCmd

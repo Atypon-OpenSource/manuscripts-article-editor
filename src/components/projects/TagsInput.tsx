@@ -37,22 +37,3 @@ export const OuterContainer = styled.div`
 export const Container = styled.div`
   position: relative;
 `
-const PopperContent = styled.div`
-  border: 1px solid ${(props) => props.theme.colors.text.muted};
-  border-radius: ${(props) => props.theme.grid.radius.small};
-  box-shadow: ${(props) => props.theme.shadow.dropShadow};
-  background: ${(props) => props.theme.colors.background.primary};
-  padding: ${(props) => props.theme.grid.unit * 2}px;
-
-  .chrome-picker {
-    box-shadow: none !important;
-    width: unset !important;
-  }
-`
-export const EditingPopper = styled(PopperContent)`
-  width: fit-content;
-  max-width: 200px;
-  min-width: 140px;
-  height: fit-content;
-  padding: ${(props) => props.theme.grid.unit * 4}px;
-`

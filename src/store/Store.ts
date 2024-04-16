@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { PopperManager } from '@manuscripts/body-editor'
 import {
   BibliographyItem,
   Bundle,
@@ -28,11 +27,7 @@ import {
   Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
-import {
-  AuthorData,
-  FileAttachment,
-  FileManagement,
-} from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,
@@ -123,9 +118,6 @@ export type state = {
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
 
-  authorsAndAffiliations: AuthorData
-  trackedAuthorsAndAffiliations?: AuthorData
-
   notes?: ManuscriptNote[]
 
   tags?: Tag[]
@@ -145,6 +137,7 @@ export type state = {
 
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
+  beforeUnload?: () => void
 
   library: Map<string, BibliographyItem>
   projectLibraryCollections: Map<string, LibraryCollection>
@@ -156,8 +149,6 @@ export type state = {
 
   sectionCategories: SectionCategory[]
   contributorRoles: ContributorRole[]
-
-  popper: PopperManager
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
@@ -240,7 +231,7 @@ export class GenericStore implements Store {
     this.setState({ ...this.state, ...(state as state) })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
-      // @TODO provide the chance for the data sources to cancel the action optionally
+      // provide a way for the data sources to cancel the action optionally
       // by default the actions are not supposed to be cancelled
       this.sources.map(
         (source) =>
@@ -291,11 +282,6 @@ export class GenericStore implements Store {
         )
       )
     }
-    // return new Promise((resolve: () => void, reject) => {
-    //   setTimeout(() => {
-    //     resolve()
-    //   }, 5000)
-    // })
   }
   unmount() {
     if (this.unmountHandler) {

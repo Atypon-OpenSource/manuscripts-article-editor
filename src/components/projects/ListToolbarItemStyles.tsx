@@ -46,6 +46,7 @@ export const ListButton = styled.button.attrs({
   ${buttonCss};
   padding: 2px ${(props) => props.theme.grid.unit * 1}px 2px
     ${(props) => props.theme.grid.unit * 3}px;
+  border-right: 0;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 `
@@ -57,6 +58,8 @@ export const ListStyleButton = styled.button.attrs({
 }>`
   ${buttonCss};
   border-left: 0;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
   svg {
     width: 8px;
   }

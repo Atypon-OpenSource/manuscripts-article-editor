@@ -10,41 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptOutline, useEditor } from '@manuscripts/body-editor'
-import { Manuscript } from '@manuscripts/json-schema'
-import { usePermissions } from '@manuscripts/style-guide'
-import { ManuscriptEditorView } from '@manuscripts/transform'
-import React from 'react'
+import { useWindowUnloadEffect } from '../hooks/use-window-unload-effect'
 
-import PageSidebar from '../PageSidebar'
-
-interface Props {
-  state: ReturnType<typeof useEditor>['state']
-  manuscript: Manuscript
-  view?: ManuscriptEditorView
+const UtilitiesEffects = () => {
+  useWindowUnloadEffect()
+  return null
 }
 
-const ManuscriptSidebar: React.FC<Props> = ({ state, manuscript, view }) => {
-  const can = usePermissions()
-
-  return (
-    <PageSidebar
-      direction={'row'}
-      hideWhen={'max-width: 900px'}
-      minSize={260}
-      name={'sidebar'}
-      side={'end'}
-      sidebarTitle={''}
-      sidebarFooter={''}
-    >
-      <ManuscriptOutline
-        manuscript={manuscript}
-        doc={state?.doc || null}
-        view={view}
-        can={can}
-      />
-    </PageSidebar>
-  )
-}
-
-export default ManuscriptSidebar
+export default UtilitiesEffects

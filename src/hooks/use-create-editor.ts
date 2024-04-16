@@ -12,7 +12,6 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { CommentAnnotation } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
-import { trackChangesPlugin } from '@manuscripts/track-changes-plugin'
 import { buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
@@ -28,7 +27,6 @@ export const useCreateEditor = () => {
       doc,
       manuscript,
       project,
-      popper,
       user,
       modelMap,
       commitAtLoad,
@@ -45,7 +43,6 @@ export const useCreateEditor = () => {
     doc: store.doc,
     manuscript: store.manuscript,
     project: store.project,
-    popper: store.popper,
     user: store.user,
     modelMap: store.modelMap,
     commitAtLoad: store.commitAtLoad,
@@ -81,26 +78,15 @@ export const useCreateEditor = () => {
       tabindex: '2',
     },
     doc,
-    plugins: config.quarterback.enabled
-      ? [
-          trackChangesPlugin({
-            userID: user._id,
-            debug: config.environment === 'development',
-          }),
-        ]
-      : [],
+    userID: user._id,
+    debug: config.environment === 'development',
     locale: manuscript?.primaryLanguageCode || 'en-GB',
     cslProps: {
       style,
       locale,
     },
-    environment: config.environment,
     history,
-    popper,
     projectID: project._id,
-
-    openAuthorEditing: () => getState().startEditing(),
-    selectAuthorForEditing: (id: string) => getState().selectAuthor(id),
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
@@ -139,7 +125,14 @@ export const useCreateEditor = () => {
       manuscript._id,
       project._id,
       initialDocVersion,
-      authToken
+      authToken,
+      (preventUnload, beforeUnload) => {
+        if (beforeUnload !== undefined) {
+          dispatch({ preventUnload, beforeUnload })
+        } else {
+          dispatch({ preventUnload })
+        }
+      }
     ),
   }
 

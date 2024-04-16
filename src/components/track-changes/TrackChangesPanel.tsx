@@ -20,7 +20,7 @@ import {
 import { NodeSelection, Selection, TextSelection } from 'prosemirror-state'
 import React, { useEffect, useState } from 'react'
 
-import { useExecCmd } from '../../hooks/use-track-attrs-popper'
+import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
@@ -45,11 +45,11 @@ export function TrackChangesPanel() {
     const { view, dispatch } = editor
     if (view && view.state.selection instanceof TextSelection) {
       view.focus()
-      dispatch(
-        view.state.tr.setSelection(
-          Selection.near(view.state.doc.resolve(view.state.selection.anchor))
-        )
+      const tr = view.state.tr.setSelection(
+        Selection.near(view.state.doc.resolve(view.state.selection.anchor))
       )
+      tr.setMeta('CLEAR_SUGGESTION_ID', true)
+      dispatch(tr)
     }
   }
 
