@@ -52,7 +52,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const comment = store.isThereNewComments || store.selectedComment
   const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
 
-  const [tabIndex, setTabIndex] = useState(0)
+  const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
 
