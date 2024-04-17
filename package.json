@@ -42,7 +42,7 @@
     "@manuscripts/style-guide": "1.8.4-LEAN-3344-1",
     "@manuscripts/title-editor": "^1.1.0",
     "@manuscripts/track-changes-plugin": "^1.7.9",
-    "@manuscripts/transform": "^2.1.10",
+    "@manuscripts/transform": "^2.1.11",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@popperjs/core": "^2.11.8",
     "@reach/tabs": "^0.18.0",
