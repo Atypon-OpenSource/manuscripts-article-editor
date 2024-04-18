@@ -9,8 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
+import { Affiliation, ObjectTypes } from '@manuscripts/json-schema'
 import { ButtonGroup, TextButton } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
+import { getModelsByType } from '@manuscripts/transform'
 import _ from 'lodash'
 import React, {
   forwardRef,
@@ -52,13 +54,13 @@ const modalXOffset = 90
 export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const { changeId, isVisible, setVisible, children } = props
 
-  const [{ selectedAttrsChange, trackState, files }, dispatch] = useStore(
-    (store) => ({
+  const [{ selectedAttrsChange, trackState, files, trackModelMap }, dispatch] =
+    useStore((store) => ({
       selectedAttrsChange: store.selectedAttrsChange,
       trackState: store.trackState,
       files: store.files,
-    })
-  )
+      trackModelMap: store.trackModelMap,
+    }))
 
   useEffect(() => {
     if (selectedAttrsChange == changeId) {
@@ -118,9 +120,15 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
     return null
   }
 
+  const affiliations = getModelsByType<Affiliation>(
+    trackModelMap,
+    ObjectTypes.Affiliation
+  )
+
   const { newAttrs, oldAttrs } = filterAttrsChange(
     change as NodeAttrChange,
-    files
+    files,
+    affiliations
   )
 
   return (
