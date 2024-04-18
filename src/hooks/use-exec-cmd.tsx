@@ -9,14 +9,19 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
-import _ from 'lodash'
 import { Command } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 
 import { useStore } from '../store'
 
 const useExecCmd = () => {
-  const [storeView] = useStore((store) => store.view)
+  const [storeView] = useStore(
+    (store) =>
+      store.view || {
+        state: store.editor?.state,
+        dispatch: store.editor?.dispatch,
+      }
+  )
   return (cmd: Command, hookView?: EditorView) => {
     const view = storeView || hookView
     cmd(view.state, view.dispatch)

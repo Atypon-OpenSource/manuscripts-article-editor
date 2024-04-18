@@ -1504,18 +1504,18 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.7.28-LEAN-3150-2":
-  version "1.7.28-LEAN-3150-2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.28-LEAN-3150-2.tgz#fa6d97a89d45eab345a82a24add08814e850d017"
-  integrity sha512-b4vjMRC3Ikar0Ds4/D0+k+423DLciGyBkU77ao2qC+4ffhI42HTWaS1I5JdMMXv4qprxsXs97H9yI2iegGmZQg==
+"@manuscripts/body-editor@1.7.32":
+  version "1.7.32"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.7.32.tgz#9a71732af399b2d3e620966aeec7b0e8c08b1f61"
+  integrity sha512-7W7RZ9fQJ2phslRRJe2W5TKPOkp440QOF25xzY+pCVMfvVdS9xxefiXpMlIZMi8TDQNeJL6CrZoCFDbQeWK11g==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
-    "@manuscripts/style-guide" "^1.8.3"
-    "@manuscripts/track-changes-plugin" "1.7.8"
-    "@manuscripts/transform" "2.1.10-LEAN-3150"
+    "@manuscripts/style-guide" "1.8.4"
+    "@manuscripts/track-changes-plugin" "1.7.9"
+    "@manuscripts/transform" "2.1.12"
     astrocite-eutils "^0.16.4"
     axios "^1.6.7"
     codemirror "^5.58.1"
@@ -1540,8 +1540,8 @@
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.29.1"
     react "^17.0.2"
-    react-dnd "^11.1.3"
-    react-dnd-html5-backend "^11.1.3"
+    react-dnd "^16.0.1"
+    react-dnd-html5-backend "^16.0.1"
     react-dom "^17.0.2"
     react-is "^17.0.2"
     react-router-dom "^5.3.4"
@@ -1577,10 +1577,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@^1.8.3":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.3.tgz#41e5765d58c859f09392df3df80d46ac63a6921c"
-  integrity sha512-Jvm9Hyb9Gt9U2PKy6VPBgrtvrfeUgYucGnoOR3pDwGgdvjNUKGcZrIeei8aVCWy7Jxauzh0kM7MhmXotvrlAig==
+"@manuscripts/style-guide@1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.8.4.tgz#d73b383f54f075601b4446f07c991201891b04e5"
+  integrity sha512-CPunUF+PZM5C12ZzPFeuxY3kC7cSFlUwIkoPNOa79IKJnbNuismFAZR/VQfJ1nIHRj/kQKH/Gzuiap+OnK5ePg==
   dependencies:
     "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.7"
@@ -1591,8 +1591,8 @@
     fuzzysort "^2.0.4"
     lodash "^4.17.21"
     react "^17.0.2"
-    react-dnd "^11.1.3"
-    react-dnd-html5-backend "^11.1.3"
+    react-dnd "^16.0.1"
+    react-dnd-html5-backend "^16.0.1"
     react-dom "^17.0.2"
     react-is "^17.0.2"
     react-modal "^3.16.1"
@@ -1618,10 +1618,10 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.8", "@manuscripts/track-changes-plugin@^1.7.8":
-  version "1.7.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.8.tgz#dd6e1743310c0860b89f00df753eae81f535ed48"
-  integrity sha512-pENKJRtT1sC/YzRf8ncLzuXn//2pY4LhBTOhBENf1E9fGX2HGXBGErFnW4TDBkudtERFc/WBmZwP0bzHgsJGdg==
+"@manuscripts/track-changes-plugin@1.7.9", "@manuscripts/track-changes-plugin@^1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.9.tgz#6f66facee6218f14c956b1c0d127a6ff20ced170"
+  integrity sha512-YHZhekaH22jgFbf//bPimK5a48LulHkTz9wA63NEqxcht/NZAcWClACDIugrW9CIIBYFkcmnMSD5WKIijKU2SQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1634,10 +1634,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.1.10-LEAN-3150":
-  version "2.1.10-LEAN-3150"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.10-LEAN-3150.tgz#232567b186d64be81e635345b05a834ae6e29841"
-  integrity sha512-8IMO2d5LYCwO5F6BfilpLWk9GXvkVD0iVT0HsjPOKvcq0l/Hx/uRqKSBtfUpzrZytl0AcYJcg5aaowQCsKYlTw==
+"@manuscripts/transform@2.1.12":
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.1.12.tgz#860acc87f76d99886167e30cb9b5e2228dde4285"
+  integrity sha512-BvuY3MhAxxaz04TQglnwRWGiNQCo7tWeLKy2fDu56oK+3PeoG+hiqo81K/vnzSSmzT310j9J4FHfAJMTDw5alw==
   dependencies:
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
@@ -1768,30 +1768,15 @@
   resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.18.0.tgz#4f3cebe093dd436eeaff633809bf0f68f4f9d2ee"
   integrity sha512-KdVMdpTgDyK8FzdKO9SCpiibuy/kbv3pwgfXshTI6tEcQT1OOwj7BAksnzGC0rPz0UholwC+AgkqEl3EJX3M1A==
 
-"@react-dnd/asap@^4.0.0":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@react-dnd/asap/-/asap-4.0.1.tgz#5291850a6b58ce6f2da25352a64f1b0674871aab"
-  integrity sha512-kLy0PJDDwvwwTXxqTFNAAllPHD73AycE9ypWeln/IguoGBEbvFcPDbCV03G52bEcC5E+YgupBE0VzHGdC8SIXg==
-
 "@react-dnd/asap@^5.0.1":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@react-dnd/asap/-/asap-5.0.2.tgz#1f81f124c1cd6f39511c11a881cfb0f715343488"
   integrity sha512-WLyfoHvxhs0V9U+GTsGilGgf2QsPl6ZZ44fnv0/b8T3nQyvzxidxsg/ZltbWssbsRDlYW8UKSQMTGotuTotZ6A==
 
-"@react-dnd/invariant@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@react-dnd/invariant/-/invariant-2.0.0.tgz#09d2e81cd39e0e767d7da62df9325860f24e517e"
-  integrity sha512-xL4RCQBCBDJ+GRwKTFhGUW8GXa4yoDfJrPbLblc3U09ciS+9ZJXJ3Qrcs/x2IODOdIE5kQxvMmE2UKyqUictUw==
-
 "@react-dnd/invariant@^4.0.1":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@react-dnd/invariant/-/invariant-4.0.2.tgz#b92edffca10a26466643349fac7cdfb8799769df"
   integrity sha512-xKCTqAK/FFauOM9Ta2pswIyT3D8AQlfrYdOi/toTPEhqCuAs1v5tcJ3Y08Izh1cJ5Jchwy9SeAXmMg6zrKs2iw==
-
-"@react-dnd/shallowequal@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@react-dnd/shallowequal/-/shallowequal-2.0.0.tgz#a3031eb54129f2c66b2753f8404266ec7bf67f0a"
-  integrity sha512-Pc/AFTdwZwEKJxFJvlxrSmGe/di+aAOBn60sremrpLo6VI/6cmiUYNNwlI5KNYttg7uypzA3ILPMPgxB2GYZEg==
 
 "@react-dnd/shallowequal@^4.0.1":
   version "4.0.2"
@@ -3180,15 +3165,6 @@ dir-glob@^3.0.1:
   integrity sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==
   dependencies:
     path-type "^4.0.0"
-
-dnd-core@^11.1.3:
-  version "11.1.3"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-11.1.3.tgz#f92099ba7245e49729d2433157031a6267afcc98"
-  integrity sha512-QugF55dNW+h+vzxVJ/LSJeTeUw9MCJ2cllhmVThVPEtF16ooBkxj0WBE5RB+AceFxMFo1rO6bJKXtqKl+JNnyA==
-  dependencies:
-    "@react-dnd/asap" "^4.0.0"
-    "@react-dnd/invariant" "^2.0.0"
-    redux "^4.0.4"
 
 dnd-core@^16.0.1:
   version "16.0.1"
@@ -6416,13 +6392,6 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-react-dnd-html5-backend@^11.1.3:
-  version "11.1.3"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-11.1.3.tgz#2749f04f416ec230ea193f5c1fbea2de7dffb8f7"
-  integrity sha512-/1FjNlJbW/ivkUxlxQd7o3trA5DE33QiRZgxent3zKme8DwF4Nbw3OFVhTRFGaYhHFNL1rZt6Rdj1D78BjnNLw==
-  dependencies:
-    dnd-core "^11.1.3"
-
 react-dnd-html5-backend@^16.0.1:
   version "16.0.1"
   resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-16.0.1.tgz#87faef15845d512a23b3c08d29ecfd34871688b6"
@@ -6436,16 +6405,6 @@ react-dnd-test-backend@^16.0.1:
   integrity sha512-sUsQKMmoachP3AGaHLZD4JZWq2dHPoiLRG3YVuC0gXJtGENk3PVR+uRIrml7BEnnTyv+RVeoNK2ziL38Ggh8cw==
   dependencies:
     dnd-core "^16.0.1"
-
-react-dnd@^11.1.3:
-  version "11.1.3"
-  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-11.1.3.tgz#f9844f5699ccc55dfc81462c2c19f726e670c1af"
-  integrity sha512-8rtzzT8iwHgdSC89VktwhqdKKtfXaAyC4wiqp0SywpHG12TTLvfOoL6xNEIUWXwIEWu+CFfDn4GZJyynCEuHIQ==
-  dependencies:
-    "@react-dnd/shallowequal" "^2.0.0"
-    "@types/hoist-non-react-statics" "^3.3.1"
-    dnd-core "^11.1.3"
-    hoist-non-react-statics "^3.3.0"
 
 react-dnd@^16.0.1:
   version "16.0.1"
@@ -6631,7 +6590,7 @@ readable-stream@^3.0.2:
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
 
-redux@^4.0.4, redux@^4.2.0:
+redux@^4.2.0:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.1.tgz#c08f4306826c49b5e9dc901dee0452ea8fce6197"
   integrity sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==
