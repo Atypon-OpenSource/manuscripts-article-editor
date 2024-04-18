@@ -124,7 +124,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
     trackModelMap,
     ObjectTypes.Affiliation
   )
-  console.log(change)
 
   const { newAttrs, oldAttrs } = filterAttrsChange(
     change as NodeAttrChange,
