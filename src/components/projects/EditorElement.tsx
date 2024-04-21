@@ -344,6 +344,16 @@ const addNewFigure = (
     id: generateID(ObjectTypes.Figure),
   }) as FigureNode
   const tr = view.state.tr.insert(pos, figure)
+
+  view.state.doc.descendants((node, pos) => {
+    if (
+      node.type === schema.nodes.supplement &&
+      node.attrs.href === attrs.src
+    ) {
+      tr.delete(pos, pos + node.nodeSize)
+    }
+  })
+
   dispatch(tr)
 }
 
