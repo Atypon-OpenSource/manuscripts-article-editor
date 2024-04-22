@@ -85,7 +85,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={comment !== undefined || suggestion !== undefined}
+        forceOpen={true}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
