@@ -46,6 +46,7 @@ export const saveWithThrottle = (
 
 export const saveWithDebounce = () => {
   let timeout: number
+
   return (
     fn: () => any,
     interval = 4000,
