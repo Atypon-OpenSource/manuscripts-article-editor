@@ -48,7 +48,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
   const [{ deleteModel, trackState }] = useStore((store) => ({
-    deleteModel: store.deleteModel,
+    deleteModel: store.deleteTrackModel,
     trackState: store.trackState,
   }))
 
@@ -108,7 +108,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           }
           default: {
             const transaction = view.state.tr.setSelection(
-              new NodeSelection(resolvedPos)
+              NodeSelection.near(resolvedPos)
             )
             view.focus()
             dispatch(transaction)
@@ -117,7 +117,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           }
         }
         if (model) {
-          await deleteModel(model.id)
+          await deleteModel(model._id)
         }
       }
     },
@@ -344,16 +344,6 @@ const addNewFigure = (
     id: generateID(ObjectTypes.Figure),
   }) as FigureNode
   const tr = view.state.tr.insert(pos, figure)
-
-  view.state.doc.descendants((node, pos) => {
-    if (
-      node.type === schema.nodes.supplement &&
-      node.attrs.href === attrs.src
-    ) {
-      tr.delete(pos, pos + node.nodeSize)
-    }
-  })
-
   dispatch(tr)
 }
 
