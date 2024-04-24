@@ -199,17 +199,11 @@ export const deleteSupplementNode = (
 ) => {
   const tr = view.state.tr
   tr.doc.descendants((node, pos) => {
-    if (node.type === schema.nodes.supplements) {
-      node.forEach((child, childPos, offset) => {
-        if (supplement._id === child.attrs.id) {
-          tr.delete(
-            pos + offset + childPos,
-            pos + offset + childPos + child.nodeSize
-          )
-        }
-      })
-    } else {
-      return false
+    if (
+      node.type === schema.nodes.supplement &&
+      supplement._id === node.attrs.id
+    ) {
+      tr.delete(pos, pos + node.nodeSize)
     }
   })
 
