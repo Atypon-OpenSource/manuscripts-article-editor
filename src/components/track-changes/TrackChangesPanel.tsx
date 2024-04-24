@@ -27,7 +27,7 @@ import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 
 export function TrackChangesPanel() {
-  const [sortBy, setSortBy] = useState('Date')
+  const [sortBy, setSortBy] = useState('in Context')
 
   const [{ editorSelectedSuggestion, editor, trackState }, dispatch] = useStore(
     (store) => ({
