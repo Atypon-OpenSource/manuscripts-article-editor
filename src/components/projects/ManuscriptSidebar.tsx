@@ -41,8 +41,7 @@ const ManuscriptSidebar: React.FC<Props> = ({ state, manuscript, view }) => {
         manuscript={manuscript}
         doc={state?.doc || null}
         view={view}
-        selected={null}
-        capabilities={can}
+        can={can}
       />
     </PageSidebar>
   )
