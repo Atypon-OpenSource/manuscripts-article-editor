@@ -294,7 +294,6 @@ const buildUtilities = (
     }
 
     const nonPMModelsTypes = [
-      ObjectTypes.Corresponding,
       ObjectTypes.Project,
       ObjectTypes.Manuscript,
     ]
