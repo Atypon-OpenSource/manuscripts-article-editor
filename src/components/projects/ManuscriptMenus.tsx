@@ -40,10 +40,10 @@ const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
 
 const isMenuEnabled = (spec: MenuSpec) => {
   if (spec.id === 'format-table' || spec.id === 'insert-table-element') {
-    return config.features.tableEditing
+    return config.features.tableEditing && spec.isEnabled
   }
   if (spec.id === 'insert-pullquote') {
-    return config.features.pullQuotes
+    return config.features.pullQuotes && spec.isEnabled
   }
   return spec.isEnabled
 }
