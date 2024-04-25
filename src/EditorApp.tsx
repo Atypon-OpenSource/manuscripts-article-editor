@@ -15,8 +15,8 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Page } from './components/Page'
-import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
+import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
 import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
@@ -107,7 +107,7 @@ const EditorApp: React.FC<Props> = ({
       </Router>
     </GenericStoreProvider>
   ) : (
-    <ProjectPlaceholder />
+    <ManuscriptPlaceholder />
   )
 }
 
