@@ -17,7 +17,7 @@ import {
 } from '@manuscripts/json-schema'
 import { ButtonGroup, TextButton } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
-import { ManuscriptNode, getModelsByType } from '@manuscripts/transform'
+import { getModelsByType, ManuscriptNode } from '@manuscripts/transform'
 import _ from 'lodash'
 import React, {
   forwardRef,

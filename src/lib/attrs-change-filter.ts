@@ -22,9 +22,9 @@ import { bibliographyItemTypes } from '@manuscripts/library'
 import { FileAttachment } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
-  ManuscriptNode,
   isCitationNode,
   isInlineFootnoteNode,
+  ManuscriptNode,
 } from '@manuscripts/transform'
 
 /**
