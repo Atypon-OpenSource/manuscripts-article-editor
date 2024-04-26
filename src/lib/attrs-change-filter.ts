@@ -14,32 +14,48 @@ import {
   Affiliation,
   BibliographicDate,
   BibliographicName,
+  BibliographyItem,
+  Footnote,
   Model,
 } from '@manuscripts/json-schema'
 import { bibliographyItemTypes } from '@manuscripts/library'
 import { FileAttachment } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
+import {
+  ManuscriptNode,
+  isCitationNode,
+  isInlineFootnoteNode,
+} from '@manuscripts/transform'
 
 /**
  * Filter PN node attributes to show for comparing them with old change
  * @param attrsChange
  */
 export const filterAttrsChange = (
+  modelOfChange: ManuscriptNode,
   attrsChange: NodeAttrChange,
   files: FileAttachment[],
-  affiliations: Affiliation[]
+  affiliations: Affiliation[],
+  references: BibliographyItem[],
+  footnotes: Footnote[]
 ) => {
   // TODO:: use attrsChange.nodeType when adding filter for other nodes
   return {
-    newAttrs: bibliographyAttrsFilter(
+    newAttrs: createAttrsDisplay(
+      modelOfChange,
       attrsChange.newAttrs,
       files,
-      affiliations
+      affiliations,
+      references,
+      footnotes
     ),
-    oldAttrs: bibliographyAttrsFilter(
+    oldAttrs: createAttrsDisplay(
+      modelOfChange,
       attrsChange.oldAttrs,
       files,
-      affiliations
+      affiliations,
+      references,
+      footnotes
     ),
   }
 }
@@ -61,10 +77,13 @@ const getLabel = (key: string) =>
     }
   })
 
-const bibliographyAttrsFilter = (
+const createAttrsDisplay = (
+  modelOfChange: ManuscriptNode,
   attrs: Record<string, Model | Model[] | string | string[]>,
   files: FileAttachment[],
-  affiliations: Affiliation[]
+  affiliations: Affiliation[],
+  references: BibliographyItem[],
+  footnotes: Footnote[]
 ) => {
   const filteredAttrs: Record<string, { label: string; value: string }> = {}
   const excludedKeys = ['id', 'paragraphStyle', 'dataTracked']
@@ -86,6 +105,40 @@ const bibliographyAttrsFilter = (
             label: 'Given Name / Family name',
             value: displayBibliographicName(value),
           }
+          return
+        case 'rids':
+          if (isInlineFootnoteNode(modelOfChange)) {
+            const limit = 50
+            filteredAttrs[key] = {
+              label: 'Footnote',
+              value: footnotes.reduce((acc, fn) => {
+                const rids = value as string[]
+                if (rids.includes(fn._id)) {
+                  const fnText =
+                    fn.contents.substring(0, limit) +
+                    (fn.contents.length > limit ? '...' : '')
+                  return acc ? acc + ', ' + fnText : fnText
+                }
+                return acc
+              }, ''),
+            }
+          }
+
+          if (isCitationNode(modelOfChange)) {
+            filteredAttrs[key] = {
+              label: 'Reference',
+              value: references.reduce((acc, ref) => {
+                const rids = value as string[]
+                if (rids.includes(ref._id)) {
+                  const refText = ref.title || ref.DOI || ''
+                  return acc ? acc + ', \n' + refText : refText
+                }
+
+                return acc
+              }, ''),
+            }
+          }
+
           return
         case 'affiliations':
           return (filteredAttrs[key] = {
@@ -117,7 +170,7 @@ const bibliographyAttrsFilter = (
             label: 'File',
             value: files.find((f) => f.id === value)?.name || (value as string),
           })
-        case 'issued':
+        case 'year':
           return (filteredAttrs[key] = {
             label: getLabel(key),
             value: ((value as BibliographicDate)?.['date-parts'] || []).join(
