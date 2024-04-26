@@ -120,6 +120,31 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
 
   const change = trackState?.changeSet.get(changeId)
 
+  const nodeOfChange = useMemo(() => {
+    let foundNode: ManuscriptNode | null = null
+    if (!trackState || change?.type !== 'node-attr-change') {
+      return foundNode
+    }
+    const attrChange = change as NodeAttrChange
+    doc.descendants((node) => {
+      if (foundNode) {
+        return true
+      }
+      if (
+        node.attrs.id === attrChange.newAttrs.id ||
+        node.attrs.id === attrChange.oldAttrs.id
+      ) {
+        foundNode = node
+      }
+    })
+
+    return foundNode
+  }, [doc, trackState, change])
+
+  if (!nodeOfChange || !isVisible || !change) {
+    return null
+  }
+
   const affiliations = getModelsByType<Affiliation>(
     trackModelMap,
     ObjectTypes.Affiliation
@@ -134,39 +159,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
     trackModelMap,
     ObjectTypes.Footnote
   )
-
-  const attrChange = change as NodeAttrChange
-
-  const nodeOfChange = useMemo(() => {
-    let foundNode: ManuscriptNode | null = null
-    doc.descendants((node) => {
-      if (foundNode) {
-        return true
-      }
-      if (
-        node.attrs.id === attrChange.newAttrs.id ||
-        node.attrs.id === attrChange.oldAttrs.id
-      ) {
-        foundNode = node
-      }
-    })
-
-    return foundNode
-  }, [doc, attrChange.newAttrs.id, attrChange.oldAttrs.id])
-
-  if (!trackState || !isVisible) {
-    return null
-  }
-  if (change?.type !== 'node-attr-change') {
-    return null
-  }
-
-  if (!nodeOfChange) {
-    console.error(
-      "Unable to find model corresponding to this change. Modal won't render."
-    )
-    return null
-  }
 
   const { newAttrs, oldAttrs } = filterAttrsChange(
     nodeOfChange,
