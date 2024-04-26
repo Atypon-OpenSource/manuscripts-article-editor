@@ -170,9 +170,9 @@ const createAttrsDisplay = (
             label: 'File',
             value: files.find((f) => f.id === value)?.name || (value as string),
           })
-        case 'year':
+        case 'issued':
           return (filteredAttrs[key] = {
-            label: getLabel(key),
+            label: 'year',
             value: ((value as BibliographicDate)?.['date-parts'] || []).join(
               '/'
             ),
