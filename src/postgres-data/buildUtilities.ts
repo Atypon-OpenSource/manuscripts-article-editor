@@ -293,11 +293,7 @@ const buildUtilities = (
       )
     }
 
-    const nonPMModelsTypes = [
-      ObjectTypes.Corresponding,
-      ObjectTypes.Project,
-      ObjectTypes.Manuscript,
-    ]
+    const nonPMModelsTypes = [ObjectTypes.Project, ObjectTypes.Manuscript]
 
     const modelMap = new Map<string, Model>()
 
