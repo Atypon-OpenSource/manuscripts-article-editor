@@ -37,6 +37,7 @@ import {
   createContributorNode,
   createSupplementNode,
   deleteComment,
+  deleteSupplementNode,
   saveComment,
 } from './creators'
 
@@ -148,6 +149,10 @@ const useTrackedModelManagement = (
 
       if (modelMap.get(id)?.objectType === ObjectTypes.CommentAnnotation) {
         return deleteCommentNode(modelMap.get(id) as CommentAnnotation, view)
+      }
+
+      if (modelMap.get(id)?.objectType === ObjectTypes.Supplement) {
+        return deleteSupplementNode(view, modelMap.get(id) as Supplement)
       }
 
       if (modelMap.has(id)) {

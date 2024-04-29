@@ -195,3 +195,22 @@ export const createSupplementNode = (
   })
   return Promise.resolve(supplement)
 }
+
+export const deleteSupplementNode = (
+  view: EditorView,
+  supplement: Supplement
+) => {
+  const tr = view.state.tr
+  tr.doc.descendants((node, pos) => {
+    if (
+      node.type === schema.nodes.supplement &&
+      supplement._id === node.attrs.id
+    ) {
+      tr.delete(pos, pos + node.nodeSize)
+    }
+  })
+
+  view.dispatch(tr)
+
+  return Promise.resolve(supplement)
+}
