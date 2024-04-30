@@ -24,14 +24,15 @@ import {
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import {
-  FigureElementNode,
   FigureNode,
   generateID,
   ManuscriptEditorView,
+  ManuscriptResolvedPos,
   schema,
 } from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
+import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
@@ -48,7 +49,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
   const { onRender, view, dispatch } = editor
   const [error, setError] = useState('')
   const [{ deleteModel, trackState }] = useStore((store) => ({
-    deleteModel: store.deleteModel,
+    deleteModel: store.deleteTrackModel,
     trackState: store.trackState,
   }))
 
@@ -74,9 +75,11 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           src: file.id,
         }
 
-        switch (resolvedPos.parent.type) {
+        const targetNode =
+          view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
+        switch (targetNode.type) {
           case schema.nodes.figure: {
-            const figure = resolvedPos.parent as FigureNode
+            const figure = targetNode as FigureNode
             if (isEmptyFigureNode(figure)) {
               setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
             } else {
@@ -87,14 +90,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           case schema.nodes.figcaption:
           case schema.nodes.caption:
           case schema.nodes.caption_title: {
-            addFigureAtFigCaptionPosition(
-              editor,
-              resolvedPos.parent,
-              resolvedPos.pos,
-              attrs,
-              new NodeSelection(resolvedPos),
-              file
-            )
+            addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
             break
           }
           case schema.nodes.figure_element: {
@@ -108,7 +104,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           }
           default: {
             const transaction = view.state.tr.setSelection(
-              new NodeSelection(resolvedPos)
+              NodeSelection.near(resolvedPos)
             )
             view.focus()
             dispatch(transaction)
@@ -117,7 +113,7 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
           }
         }
         if (model) {
-          await deleteModel(model.id)
+          await deleteModel(model._id)
         }
       }
     },
@@ -221,16 +217,13 @@ const EditorElement: React.FC<Props> = ({ editor }) => {
 }
 
 /**
- *   Will get figureElement node and position of figcaption.
- *   then check if the current figure empty to update it's external file.
- *   if not will add a new Figure above figcaption node
+ *   Will add figure at the end of figureElement if there is no figure is empty,
+ *   if we have one of the figure empty form image will assign the new image for it
  */
 const addFigureAtFigCaptionPosition = (
   editor: ReturnType<typeof useEditor>,
-  node: ProsemirrorNode,
-  pos: number,
+  resolvePos: ManuscriptResolvedPos,
   attrs: Record<string, unknown>,
-  nodeSelection: NodeSelection,
   file: FileAttachment
 ) => {
   const { view, dispatch } = editor
@@ -238,56 +231,36 @@ const addFigureAtFigCaptionPosition = (
     return
   }
 
-  const getFigureElementWithFigcaptionPos = () => {
-    let figureElement, figcaptionPos
-    if (
-      node.type === schema.nodes.caption ||
-      node.type === schema.nodes.caption_title
-    ) {
-      const figcaptionPos = findParentElement(
-        NodeSelection.create(view.state.doc, pos)
-      )?.start
-      figureElement = figcaptionPos
-        ? findParentElement(NodeSelection.create(view.state.doc, figcaptionPos))
-        : undefined
+  const nodeWithPos = findParentNodeClosestToPos(
+    resolvePos,
+    (node) => node.type === schema.nodes.figure_element
+  )
+
+  if (nodeWithPos) {
+    const figures = flatten(nodeWithPos.node).filter(
+      ({ node }) => node.type === schema.nodes.figure
+    )
+    const emptyFigure = figures.find(({ node }) =>
+      isEmptyFigureNode(node as FigureNode)
+    )
+
+    if (emptyFigure) {
+      setNodeAttrs(view.state, dispatch, emptyFigure.node.attrs.id, attrs)
     } else {
-      figureElement = findParentElement(
-        NodeSelection.create(view.state.doc, pos)
+      const lastChild = figures.at(-1)
+      addNewFigure(
+        view,
+        dispatch,
+        attrs,
+        (lastChild &&
+          nodeWithPos.pos + lastChild.pos + lastChild.node.nodeSize + 1) ||
+          nodeWithPos.pos + 1
       )
     }
-    if (
-      !figureElement ||
-      figureElement?.node.type !== schema.nodes.figure_element
-    ) {
-      return undefined
-    }
-
-    figureElement.node.forEach((node, pos) => {
-      if (node.type === schema.nodes.figcaption) {
-        figcaptionPos = pos
-      }
-    })
-    return figcaptionPos
-      ? {
-          node: figureElement.node as FigureElementNode,
-          pos: figureElement.pos + figcaptionPos,
-        }
-      : undefined
-  }
-
-  const nodeWithPos = getFigureElementWithFigcaptionPos()
-  if (nodeWithPos) {
-    const figure = getMatchingChild(
-      nodeWithPos.node,
-      (node) => node.type === node.type.schema.nodes.figure
-    ) as FigureNode
-    if (isEmptyFigureNode(figure)) {
-      setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
-    } else {
-      addNewFigure(view, dispatch, attrs, nodeWithPos.pos)
-    }
   } else {
-    const transaction = view.state.tr.setSelection(nodeSelection)
+    const transaction = view.state.tr.setSelection(
+      NodeSelection.near(resolvePos)
+    )
     view.focus()
     dispatch(transaction)
     insertFileAsFigure(file, view.state, dispatch)
