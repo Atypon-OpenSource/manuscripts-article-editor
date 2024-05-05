@@ -9,10 +9,15 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
-import { Affiliation, ObjectTypes } from '@manuscripts/json-schema'
+import {
+  Affiliation,
+  BibliographyItem,
+  Footnote,
+  ObjectTypes,
+} from '@manuscripts/json-schema'
 import { ButtonGroup, TextButton } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
-import { getModelsByType } from '@manuscripts/transform'
+import { getModelsByType, ManuscriptNode } from '@manuscripts/transform'
 import _ from 'lodash'
 import React, {
   forwardRef,
@@ -54,13 +59,16 @@ const modalXOffset = 90
 export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const { changeId, isVisible, setVisible, children } = props
 
-  const [{ selectedAttrsChange, trackState, files, trackModelMap }, dispatch] =
-    useStore((store) => ({
-      selectedAttrsChange: store.selectedAttrsChange,
-      trackState: store.trackState,
-      files: store.files,
-      trackModelMap: store.trackModelMap,
-    }))
+  const [
+    { selectedAttrsChange, trackState, files, trackModelMap, doc },
+    dispatch,
+  ] = useStore((store) => ({
+    selectedAttrsChange: store.selectedAttrsChange,
+    trackState: store.trackState,
+    files: store.files,
+    trackModelMap: store.trackModelMap,
+    doc: store.doc,
+  }))
 
   useEffect(() => {
     if (selectedAttrsChange == changeId) {
@@ -110,13 +118,30 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!trackState || !isVisible) {
-    return null
-  }
+  const change = trackState?.changeSet.get(changeId)
 
-  const change = trackState.changeSet.get(changeId)
+  const nodeOfChange = useMemo(() => {
+    let foundNode: ManuscriptNode | null = null
+    if (!trackState || change?.type !== 'node-attr-change') {
+      return foundNode
+    }
+    const attrChange = change as NodeAttrChange
+    doc.descendants((node) => {
+      if (foundNode) {
+        return true
+      }
+      if (
+        node.attrs.id === attrChange.newAttrs.id ||
+        node.attrs.id === attrChange.oldAttrs.id
+      ) {
+        foundNode = node
+      }
+    })
 
-  if (change?.type !== 'node-attr-change') {
+    return foundNode
+  }, [doc, trackState, change])
+
+  if (!nodeOfChange || !isVisible || !change) {
     return null
   }
 
@@ -125,10 +150,23 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
     ObjectTypes.Affiliation
   )
 
+  const references = getModelsByType<BibliographyItem>(
+    trackModelMap,
+    ObjectTypes.BibliographyItem
+  )
+
+  const footnotes = getModelsByType<Footnote>(
+    trackModelMap,
+    ObjectTypes.Footnote
+  )
+
   const { newAttrs, oldAttrs } = filterAttrsChange(
+    nodeOfChange,
     change as NodeAttrChange,
     files,
-    affiliations
+    affiliations,
+    references,
+    footnotes
   )
 
   return (
@@ -155,12 +193,12 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
                 <AttributeLabel>{newAttrs[key].label}:</AttributeLabel>
                 {oldAttrs[key]?.value ? (
                   <div>
-                    <DeleteLabel>Delete: </DeleteLabel>
+                    <DeleteLabel>Deleted: </DeleteLabel>
                     <OldAttribute>{oldAttrs[key].value}</OldAttribute>
                   </div>
                 ) : null}
                 <div>
-                  <InsertLabel>Insert: </InsertLabel>
+                  <InsertLabel>Inserted: </InsertLabel>
                   <AttributeValue>
                     {newAttrs[key].value || oldAttrs[key].value}
                   </AttributeValue>
