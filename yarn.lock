@@ -1649,7 +1649,7 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-"@manuscripts/transform@^2.2.1":
+"@manuscripts/transform@2.2.1", "@manuscripts/transform@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.2.1.tgz#fd9e5553c8130d41c068053de825da3b7255ca96"
   integrity sha512-x/vcXSLsxBba3Fh/qoL+xLfj96S3/Ux1CkCuj2T4OV/8qx7ZmdwleIbHogvAit5hSjbAZDCxgTryBg0oRzeqFA==
