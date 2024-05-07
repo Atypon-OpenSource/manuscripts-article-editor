@@ -12,7 +12,7 @@
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
 import { FileManager, usePermissions } from '@manuscripts/style-guide'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
@@ -41,7 +41,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     trackModelMap: store.trackModelMap,
     fileManagement: store.fileManagement,
     files: store.files,
-    isThereNewComments: store.newComments.size > 0,
+    isThereNewComments: store.newComments.size,
     selectedComment: store.selectedComment,
     selectedSuggestion: store.selectedSuggestion,
     editorSelectedSuggestion: store.editorSelectedSuggestion,
@@ -51,20 +51,26 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const comment = store.isThereNewComments || store.selectedComment
   const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
-
-  const [tabIndex, setTabIndex] = useState(1)
+  const [forceOpen, setForceOpen] = useState(true);
+  const [tabIndex, setTabIndex] = useState(0)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
 
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
+      if (!forceOpen) {
+        setForceOpen(true);
+      }
     }
   }, [comment])
 
   useEffect(() => {
     if (suggestion) {
       setTabIndex(SUGGESTIONS_TAB_INDEX)
+      if (!forceOpen) {
+        setForceOpen(true);
+      }
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
 
@@ -74,7 +80,9 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   )
 
   const can = usePermissions()
-
+  const handleSetForceOpenState = useCallback((state:boolean) => {
+    setForceOpen(state);
+  },[])
   return (
     <>
       <Panel
@@ -85,7 +93,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={true}
+        forceOpen={forceOpen}
+        setForceOpen={handleSetForceOpenState}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
