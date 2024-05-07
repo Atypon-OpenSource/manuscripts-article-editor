@@ -40,7 +40,7 @@ interface PanelProps {
   side: ResizerSide
   hideWhen?: string
   forceOpen?: boolean
-  setForceOpen?: (state: boolean)=>void
+  setForceOpen?: (state: boolean) => void
   resizerButton?: React.ComponentType<ResizerButtonInnerProps>
 }
 
