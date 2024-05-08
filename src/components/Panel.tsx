@@ -80,7 +80,7 @@ const Panel: React.FC<PanelProps> = (props) => {
 
   const comment = store.isThereNewComments || store.selectedComment
   const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
- 
+
   useLayoutEffect(() => {
     const { name } = props
     const data = { ...layout.get(name), collapsed: false }
