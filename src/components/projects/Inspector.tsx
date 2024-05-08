@@ -12,7 +12,7 @@
 
 import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
 import { FileManager, usePermissions } from '@manuscripts/style-guide'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
@@ -51,26 +51,19 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const comment = store.isThereNewComments || store.selectedComment
   const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
-  const [forceOpen, setForceOpen] = useState(true)
-  const [tabIndex, setTabIndex] = useState(0)
+  const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
-      if (!forceOpen) {
-        setForceOpen(true)
-      }
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, [comment])
 
   useEffect(() => {
     if (suggestion) {
       setTabIndex(SUGGESTIONS_TAB_INDEX)
-      if (!forceOpen) {
-        setForceOpen(true)
-      }
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
   const selection = useMemo(
     () => state && findParentNodeWithIdValue(state.selection),
@@ -78,9 +71,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   )
 
   const can = usePermissions()
-  const handleSetForceOpenState = useCallback((state: boolean) => {
-    setForceOpen(state)
-  }, [])
   return (
     <>
       <Panel
@@ -91,8 +81,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={forceOpen}
-        setForceOpen={handleSetForceOpenState}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>

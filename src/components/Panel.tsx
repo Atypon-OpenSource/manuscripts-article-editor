@@ -70,26 +70,24 @@ const Panel: React.FC<PanelProps> = (props) => {
     hidden: false,
   })
 
-  const forceOpen = useRef<boolean>()
   const hideWhenQuery = useRef<MediaQueryList>()
-  const [_, dispatch] = useStore((store) => ({
+  const [store, dispatch] = useStore((store) => ({
     selectedComment: store.selectedComment,
     selectedSuggestion: store.selectedSuggestion,
     editorSelectedSuggestion: store.editorSelectedSuggestion,
+    isThereNewComments: store.newComments.size,
   }))
 
+  const comment = store.isThereNewComments || store.selectedComment
+  const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
+ 
   useLayoutEffect(() => {
-    if (forceOpen.current !== props.forceOpen) {
-      updateState(layout.get(props.name), props.forceOpen)
-      forceOpen.current = props.forceOpen
-    }
-    if (props.forceOpen) {
-      const { name } = props
-      const data = { ...layout.get(name), collapsed: false }
-      layout.set(name, data)
-    }
+    const { name } = props
+    const data = { ...layout.get(name), collapsed: false }
+    layout.set(name, data)
+    updateState(data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.forceOpen, props.name])
+  }, [comment, suggestion])
 
   useEffect(() => {
     if (props.hideWhen) {
