@@ -39,8 +39,6 @@ interface PanelProps {
   direction: ResizerDirection
   side: ResizerSide
   hideWhen?: string
-  forceOpen?: boolean
-  setForceOpen?: (state: boolean) => void
   resizerButton?: React.ComponentType<ResizerButtonInnerProps>
 }
 
@@ -123,15 +121,12 @@ const Panel: React.FC<PanelProps> = (props) => {
       collapsed,
     }))
 
-    if (forceOpen === false && data.collapsed === true) {
-      props.setForceOpen && props.setForceOpen(false)
+    if (data.collapsed === true) {
       dispatch({
         selectedComment: undefined,
         selectedSuggestion: undefined,
         editorSelectedSuggestion: undefined,
       })
-    } else {
-      props.setForceOpen && props.setForceOpen(true)
     }
   }
 
