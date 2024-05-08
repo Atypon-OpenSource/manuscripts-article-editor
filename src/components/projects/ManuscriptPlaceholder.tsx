@@ -9,9 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { PlaceholderKit } from '@manuscripts/assets'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+
+import placeholderImg from './icons/placeholder.png'
 
 const Container = styled.div`
   height: 100%;
@@ -22,36 +23,10 @@ const Container = styled.div`
   align-items: center;
 `
 
-const REFRESH_RATE = 25
-const TIME_INCREMENT = 0.001
-const SYMBOL_ROTATION_MULTIPLIER = 6
-const CROSS_ROTATION_MULTIPLIER = 0.5
-
 export const ManuscriptPlaceholder: React.FC = () => {
-  const [time, setTime] = useState(0)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    const handle = setInterval(() => {
-      setTime((t) => t + TIME_INCREMENT)
-    }, REFRESH_RATE)
-    return () => clearInterval(handle)
-  }, [])
-
-  if (canvasRef.current) {
-    PlaceholderKit.clearCanvas(canvasRef.current)
-    PlaceholderKit.drawProgressIndication(canvasRef.current, time, 0, false)
-    PlaceholderKit.drawProjectSymbols(
-      canvasRef.current,
-      time,
-      SYMBOL_ROTATION_MULTIPLIER,
-      CROSS_ROTATION_MULTIPLIER
-    )
-  }
-
   return (
     <Container>
-      <canvas ref={canvasRef} width={375} height={375} />
+      <img width={375} height={375} src={placeholderImg} alt={'Placeholder'} />
     </Container>
   )
 }
