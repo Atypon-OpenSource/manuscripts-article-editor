@@ -12,7 +12,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import placeholderImg from './icons/placeholder.png'
+import placeholderImg from './icons/placeholder.webp'
 
 const Container = styled.div`
   height: 100%;
