@@ -49,6 +49,15 @@ const Wrapper = styled.div`
   font-family: Lato, sans-serif;
 `
 
+const PlaceholderWrapper = styled.div`
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
 const EditorApp: React.FC<Props> = ({
   parentObserver,
   manuscriptID,
@@ -107,7 +116,9 @@ const EditorApp: React.FC<Props> = ({
       </Router>
     </GenericStoreProvider>
   ) : (
-    <ManuscriptPlaceholder />
+    <PlaceholderWrapper>
+      <ManuscriptPlaceholder />
+    </PlaceholderWrapper>
   )
 }
 
