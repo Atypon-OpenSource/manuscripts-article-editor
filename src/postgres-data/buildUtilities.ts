@@ -16,45 +16,40 @@ import {
   ContainedModel,
   ContainedProps,
   isManuscriptModel,
-  ManuscriptModel,
 } from '@manuscripts/transform'
 
 import Api from '../postgres-data/Api'
 import { ContainerIDs, state } from '../store'
 import { saveWithThrottle } from './savingUtilities'
 
-const buildUtilities = (
-  getData: () => Partial<state>,
-  api: Api,
-  updateState: (state: Partial<state>) => void
+export const buildUtilities = (
+  getState: () => Partial<state>,
+  updateState: (state: Partial<state>) => void,
+  api: Api
 ) => {
   const getModel = <T extends Model>(id: string) => {
-    const data = getData()
-    if (!data.modelMap) {
+    const state = getState()
+    if (!state.modelMap) {
       return
     }
-    return data.modelMap.get(id) as T | undefined
+    return state.modelMap.get(id) as T | undefined
   }
 
-  const bulkPersistentManuscriptSave = (models: ManuscriptModel[]) => {
-    const clearedModels = models.filter((model) => {
-      return model.objectType !== ObjectTypes.Project
-    })
+  const saveModels = async (models: Model[]) => {
+    const state = getState()
 
-    const data = getData()
-
-    if (data.projectID && data.manuscriptID) {
-      return api
-        .saveProject(data.projectID, clearedModels)
-        .then(() => {
-          return true // not sure what will be returned at this point
-        })
-        .catch((e) => {
-          return false
-        })
-    } else {
-      return Promise.reject(false)
+    if (state.projectID && state.manuscriptID) {
+      try {
+        const filtered = models.filter(
+          (m) => m.objectType !== ObjectTypes.Project
+        )
+        await api.saveProject(state.projectID, filtered)
+        return true
+      } catch (e) {
+        return false
+      }
     }
+    return false
   }
 
   const saveModel = async <T extends Model>(
@@ -64,22 +59,20 @@ const buildUtilities = (
       throw new Error('Model ID required')
     }
 
-    const data = getData()
-    if (!data.modelMap || !data.manuscriptID || !data.projectID) {
-      throw new Error(
-        'State misses important element. Unable to savel a model.'
-      )
+    const state = getState()
+    if (!state.modelMap || !state.manuscriptID || !state.projectID) {
+      throw new Error('Unable to save model due to incomplete data')
     }
 
     const containedModel = model as T & ContainedProps
 
     // NOTE: this is needed because the local state is updated before saving
     const containerIDs: ContainerIDs = {
-      containerID: data.projectID,
+      containerID: state.projectID,
     }
 
     if (isManuscriptModel(containedModel)) {
-      containerIDs.manuscriptID = data.manuscriptID
+      containerIDs.manuscriptID = state.manuscriptID
     }
 
     const newModel = {
@@ -87,7 +80,7 @@ const buildUtilities = (
       ...containerIDs,
     }
 
-    const modelMap = new Map(data.modelMap)
+    const modelMap = new Map(state.modelMap)
     modelMap.set(containedModel._id, newModel)
 
     updateState({
@@ -99,9 +92,7 @@ const buildUtilities = (
       updateState({
         savingProcess: 'saving',
       })
-      const result = await bulkPersistentManuscriptSave([
-        ...modelMap.values(),
-      ] as ManuscriptModel[])
+      const result = await saveModels([...modelMap.values()])
 
       updateState({
         savingProcess: result ? 'saved' : 'failed',
@@ -112,20 +103,16 @@ const buildUtilities = (
   }
 
   const deleteModel = async (id: string) => {
-    const data = getData()
-    if (data.modelMap) {
-      const modelMap = new Map(data.modelMap)
+    const state = getState()
+    if (state.modelMap) {
+      const modelMap = new Map(state.modelMap)
       modelMap.delete(id)
-
-      // data.modelMap.delete(id)
 
       updateState({
         modelMap: modelMap,
         savingProcess: 'saving',
       })
-      const result = await bulkPersistentManuscriptSave([
-        ...modelMap.values(),
-      ] as ManuscriptModel[])
+      const result = await saveModels([...modelMap.values()])
       updateState({
         savingProcess: result ? 'saved' : 'failed',
       })
@@ -135,38 +122,31 @@ const buildUtilities = (
   }
 
   const saveManuscript = async (manuscriptData: Partial<Manuscript>) => {
-    try {
-      const data = getData()
-      if (!data.modelMap || !data.manuscriptID) {
-        throw new Error('Unable to save manuscript due to incomplete data')
-      }
-      const prevManuscript = data.modelMap.get(data.manuscriptID)
-      await saveModel({
-        ...prevManuscript,
-        ...manuscriptData,
-      })
-    } catch (e) {
-      console.log(e)
+    const state = getState()
+    if (!state.modelMap || !state.manuscriptID) {
+      throw new Error('Unable to save manuscript due to incomplete data')
     }
+    const prevManuscript = state.modelMap.get(state.manuscriptID)
+    await saveModel({
+      ...prevManuscript,
+      ...manuscriptData,
+    })
   }
 
-  // async ( model: T | Build<T> | Partial<T>
   const bulkUpdate = async (
     items: ContainedModel[] | Build<Model>[] | Partial<Model>[]
   ) => {
-    const data = getData()
+    const state = getState()
 
-    if (!data.modelMap || !data.manuscriptID || !data.projectID) {
-      throw new Error(
-        'State misses important element. Unable to savel a model.'
-      )
+    if (!state.modelMap || !state.manuscriptID || !state.projectID) {
+      throw new Error('Unable to save due to incomplete data')
     }
 
     const nonPMModelsTypes = [ObjectTypes.Project, ObjectTypes.Manuscript]
 
     const modelMap = new Map<string, Model>()
 
-    for (const [id, oldModel] of data.modelMap) {
+    for (const [id, oldModel] of state.modelMap) {
       if (nonPMModelsTypes.some((t) => t == oldModel.objectType)) {
         modelMap.set(id, oldModel)
       }
@@ -175,7 +155,7 @@ const buildUtilities = (
     for (const model of items) {
       // NOTE: this is needed because the local state is updated before saving
       const containerIDs: ContainerIDs = {
-        containerID: data.projectID,
+        containerID: state.projectID,
       }
 
       if (!model._id) {
@@ -185,7 +165,7 @@ const buildUtilities = (
       const containedModel = model as Model & ContainedProps
 
       if (isManuscriptModel(containedModel)) {
-        containerIDs.manuscriptID = data.manuscriptID
+        containerIDs.manuscriptID = state.manuscriptID
       }
 
       const newModel = {
@@ -200,9 +180,7 @@ const buildUtilities = (
         updateState({
           savingProcess: 'saving',
         })
-        const result = await bulkPersistentManuscriptSave([
-          ...modelMap.values(),
-        ] as ManuscriptModel[])
+        const result = await saveModels([...modelMap.values()])
 
         if (result) {
           resolve()
@@ -225,4 +203,3 @@ const buildUtilities = (
     bulkUpdate,
   }
 }
-export default buildUtilities
