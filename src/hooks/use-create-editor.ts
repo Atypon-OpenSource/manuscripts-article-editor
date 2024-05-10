@@ -29,7 +29,6 @@ export const useCreateEditor = () => {
       project,
       user,
       modelMap,
-      commitAtLoad,
       fileManagement,
       initialDocVersion,
       style,
@@ -38,14 +37,12 @@ export const useCreateEditor = () => {
     },
     dispatch,
     getState,
-    subscribe,
   ] = useStore((store) => ({
     doc: store.doc,
     manuscript: store.manuscript,
     project: store.project,
     user: store.user,
     modelMap: store.modelMap,
-    commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
     initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
@@ -109,9 +106,7 @@ export const useCreateEditor = () => {
       }
     },
     retrySync,
-    subscribeStore: subscribe,
 
-    commit: commitAtLoad || null,
     theme,
     getCapabilities: () => {
       const state = getState()

@@ -41,12 +41,8 @@ export interface ContainerIDs {
   templateID?: string
 }
 
-export interface ContainedIDs {
-  containerID: string
-  manuscriptID?: string
-}
-
 export type state = {
+  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
