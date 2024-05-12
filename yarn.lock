@@ -1504,10 +1504,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.9.4-LEAN-3584.1":
-  version "1.9.4-LEAN-3584.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.4-LEAN-3584.1.tgz#fe426b32256f35bfb6dc99e88b448c6999313b22"
-  integrity sha512-fEOl5adl7JiAlZ++89AF0b0ktLqvf1wkL7TwRt65ZI8pdIjWRRgK02RXGw4q3miITYnUv061l5Zk/Dhik+mubQ==
+"@manuscripts/body-editor@1.9.4-LEAN-3584.0":
+  version "1.9.4-LEAN-3584.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.4-LEAN-3584.0.tgz#abcd0386cdc1e58dcac5cbf8bebea4f55f82a6ec"
+  integrity sha512-ug3OoJJn6ysoGENXbs8Fyr0Kf6nwuQk+qSWCiWv29uobQElLucZXJ73zGgkL+q1ExuHDUAYaHZNIYd/rRoOv/A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1602,6 +1602,32 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
+"@manuscripts/style-guide@1.12.3":
+  version "1.12.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.3.tgz#b8f7b6a8cf05c5f89a4156418ae53011010e7e5e"
+  integrity sha512-Xm1LFKlJ1Mt/rARow6lz47dI46cIB39gJ47As7Bq7qdOJGCL60ht0/MttWJ51K3HKM3lUVA4g2dfuGcPV8ZICg==
+  dependencies:
+    "@manuscripts/assets" "^0.6.4"
+    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/transform" "2.3.3"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    react "^17.0.2"
+    react-dnd "^16.0.1"
+    react-dnd-html5-backend "^16.0.1"
+    react-dom "^17.0.2"
+    react-is "^17.0.2"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
+
 "@manuscripts/title-editor@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/title-editor/-/title-editor-1.1.0.tgz#fcf1820b2037706e60a3b71776bd34edf6fa69c2"
@@ -1637,6 +1663,21 @@
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.2.tgz#350b1e7c0457329a3df26ed659f37ba1ec892bc4"
   integrity sha512-uznNViPXux+d6X0wLCfXQUobW2cimcSYtZMtMZ8K46CmF0hDFYUkZQ6KVN90TPG/9RJ7yrWByZq7o4+crMX0SA==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/library" "^1.3.6"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.3.tgz#133e6cc0ffcd29b62f9d223f9470ca66eb6ba879"
+  integrity sha512-yEQg1Dfu5zypvRzBsS6SqaItLxfW/biJ945XYF9RHdNJSi5C+dKKrrZTLOmN5lCX9IubnMY9U7VnY68HzafR3A==
   dependencies:
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
