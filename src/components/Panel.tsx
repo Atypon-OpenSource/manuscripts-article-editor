@@ -16,7 +16,7 @@ import {
   ResizerSide,
   RoundIconButton,
 } from '@manuscripts/style-guide'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import layout, { Pane } from '../lib/layout'
@@ -69,23 +69,31 @@ const Panel: React.FC<PanelProps> = (props) => {
   })
 
   const hideWhenQuery = useRef<MediaQueryList>()
+  const firstRender = useRef(true)
   const [store, dispatch] = useStore((store) => ({
     selectedComment: store.selectedComment,
     selectedSuggestion: store.selectedSuggestion,
     editorSelectedSuggestion: store.editorSelectedSuggestion,
-    isThereNewComments: store.newComments.size,
+    isThereNewComments: store.newComments,
   }))
 
-  const comment = store.isThereNewComments || store.selectedComment
-  const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
+  const newComment = store.isThereNewComments
+  const selectedComment = store.selectedComment || newComment.size > 0
+  const selectedSuggestion =
+    store.selectedSuggestion || store.editorSelectedSuggestion
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const { name } = props
-    const data = { ...layout.get(name), collapsed: false }
-    layout.set(name, data)
-    updateState(data)
+    if (name === 'inspector' && !firstRender.current) {
+      const data = {
+        ...layout.get(name),
+        collapsed: !selectedComment && !selectedSuggestion ? true : false,
+      }
+      layout.set(name, data)
+      updateState(data)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comment, suggestion])
+  }, [selectedComment, selectedSuggestion])
 
   useEffect(() => {
     if (props.hideWhen) {
@@ -109,11 +117,14 @@ const Panel: React.FC<PanelProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function updateState(data: Pane, forceOpen = false) {
+  function updateState(data: Pane) {
     const { minSize } = props
     const { hidden } = state
     const size = Math.max(minSize || 0, data.size)
-    const collapsed = !forceOpen && (data.collapsed || hidden)
+    const collapsed = data.collapsed || hidden
+    if (firstRender.current) {
+      firstRender.current = false
+    }
     setState((state) => ({
       ...state,
       originalSize: size,
@@ -126,6 +137,7 @@ const Panel: React.FC<PanelProps> = (props) => {
         selectedComment: undefined,
         selectedSuggestion: undefined,
         editorSelectedSuggestion: undefined,
+        isThereNewComments: newComment.clear(),
       })
     }
   }
