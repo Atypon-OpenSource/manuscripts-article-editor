@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Manuscript, Model, ObjectTypes } from '@manuscripts/json-schema'
 import {
-  Build,
-  ContainedModel,
-  ContainedProps,
-  isManuscriptModel,
-} from '@manuscripts/transform'
+  Manuscript,
+  manuscriptIDTypes,
+  Model,
+  ObjectTypes,
+} from '@manuscripts/json-schema'
+import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 
 import Api from '../postgres-data/Api'
 import { ContainerIDs, state } from '../store'
@@ -26,7 +26,44 @@ export const buildUtilities = (
   getState: () => Partial<state>,
   updateState: (state: Partial<state>) => void,
   api: Api
-) => {
+): Partial<state> => {
+  const excludeTypes = new Set([ObjectTypes.Manuscript, ObjectTypes.Project])
+
+  const updateContainerIDs = (
+    model: Model,
+    projectID: string,
+    manuscriptID: string
+  ) => {
+    const containerIDs: ContainerIDs = {
+      containerID: projectID,
+    }
+
+    if (!model._id) {
+      throw new Error('Model ID required')
+    }
+
+    if (manuscriptIDTypes.has(model.objectType)) {
+      containerIDs.manuscriptID = manuscriptID
+    }
+
+    return {
+      ...model,
+      ...containerIDs,
+    }
+  }
+
+  const saveProject = async (models: Model[], projectID: string) => {
+    try {
+      const filtered = models.filter(
+        (m) => m.objectType !== ObjectTypes.Project
+      )
+      await api.saveProject(projectID, filtered)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
   const getModel = <T extends Model>(id: string) => {
     const state = getState()
     if (!state.modelMap) {
@@ -35,53 +72,38 @@ export const buildUtilities = (
     return state.modelMap.get(id) as T | undefined
   }
 
-  const saveModels = async (models: Model[]) => {
+  const saveModels = async (
+    models: Model[] | Build<Model>[] | Partial<Model>[],
+    excludeIDs?: Set<string>
+  ) => {
     const state = getState()
+    const projectID = state.projectID
+    const manuscriptID = state.manuscriptID
 
-    if (state.projectID && state.manuscriptID) {
-      try {
-        const filtered = models.filter(
-          (m) => m.objectType !== ObjectTypes.Project
-        )
-        await api.saveProject(state.projectID, filtered)
-        return true
-      } catch (e) {
-        return false
+    if (!state.modelMap || !manuscriptID || !projectID) {
+      throw new Error('Unable to save due to incomplete data')
+    }
+
+    const modelMap = new Map<string, Model>()
+
+    for (const [id, model] of state.modelMap) {
+      const type = model.objectType as ObjectTypes
+      if (!excludeTypes.has(type) && !excludeIDs?.has(id)) {
+        modelMap.set(id, model)
       }
     }
-    return false
-  }
 
-  const saveModel = async <T extends Model>(
-    model: T | Build<T> | Partial<T>
-  ) => {
-    if (!model._id) {
-      throw new Error('Model ID required')
+    for (const model of models) {
+      if (!model._id) {
+        throw new Error('Model ID required')
+      }
+      const updated = updateContainerIDs(
+        model as Model,
+        projectID,
+        manuscriptID
+      )
+      modelMap.set(model._id, updated)
     }
-
-    const state = getState()
-    if (!state.modelMap || !state.manuscriptID || !state.projectID) {
-      throw new Error('Unable to save model due to incomplete data')
-    }
-
-    const containedModel = model as T & ContainedProps
-
-    // NOTE: this is needed because the local state is updated before saving
-    const containerIDs: ContainerIDs = {
-      containerID: state.projectID,
-    }
-
-    if (isManuscriptModel(containedModel)) {
-      containerIDs.manuscriptID = state.manuscriptID
-    }
-
-    const newModel = {
-      ...containedModel,
-      ...containerIDs,
-    }
-
-    const modelMap = new Map(state.modelMap)
-    modelMap.set(containedModel._id, newModel)
 
     updateState({
       modelMap,
@@ -92,106 +114,60 @@ export const buildUtilities = (
       updateState({
         savingProcess: 'saving',
       })
-      const result = await saveModels([...modelMap.values()])
+
+      const result = await saveProject([...modelMap.values()], projectID)
 
       updateState({
         savingProcess: result ? 'saved' : 'failed',
         preventUnload: false,
       })
     })
-    return newModel
+  }
+
+  const saveModel = async <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ): Promise<T> => {
+    await saveModels([model])
+    //is this actually needed?
+    return model as T
   }
 
   const deleteModel = async (id: string) => {
-    const state = getState()
-    if (state.modelMap) {
-      const modelMap = new Map(state.modelMap)
-      modelMap.delete(id)
-
-      updateState({
-        modelMap: modelMap,
-        savingProcess: 'saving',
-      })
-      const result = await saveModels([...modelMap.values()])
-      updateState({
-        savingProcess: result ? 'saved' : 'failed',
-      })
-    }
-
+    await saveModels([], new Set([id]))
     return id
   }
 
-  const saveManuscript = async (manuscriptData: Partial<Manuscript>) => {
+  const saveManuscript = async (manuscript: Partial<Manuscript>) => {
     const state = getState()
     if (!state.modelMap || !state.manuscriptID) {
       throw new Error('Unable to save manuscript due to incomplete data')
     }
-    const prevManuscript = state.modelMap.get(state.manuscriptID)
+    const previous = state.modelMap.get(state.manuscriptID)
     await saveModel({
-      ...prevManuscript,
-      ...manuscriptData,
+      ...previous,
+      ...manuscript,
     })
   }
 
-  const bulkUpdate = async (
-    items: ContainedModel[] | Build<Model>[] | Partial<Model>[]
-  ) => {
+  const saveDoc = async (doc: ManuscriptNode) => {
+    const models = encode(doc)
+    await saveModels([...models.values()])
+  }
+
+  const createSnapshot = async () => {
     const state = getState()
-
-    if (!state.modelMap || !state.manuscriptID || !state.projectID) {
-      throw new Error('Unable to save due to incomplete data')
+    const projectID = state.projectID
+    const manuscriptID = state.manuscriptID
+    const snapshots = state.snapshots
+    const snapshotsMap = state.snapshotsMap
+    if (!projectID || !manuscriptID || !snapshots || !snapshotsMap) {
+      throw new Error('Unable to create snapshot due to incomplete data')
     }
-
-    const nonPMModelsTypes = [ObjectTypes.Project, ObjectTypes.Manuscript]
-
-    const modelMap = new Map<string, Model>()
-
-    for (const [id, oldModel] of state.modelMap) {
-      if (nonPMModelsTypes.some((t) => t == oldModel.objectType)) {
-        modelMap.set(id, oldModel)
-      }
-    }
-
-    for (const model of items) {
-      // NOTE: this is needed because the local state is updated before saving
-      const containerIDs: ContainerIDs = {
-        containerID: state.projectID,
-      }
-
-      if (!model._id) {
-        throw new Error('Model ID required')
-      }
-
-      const containedModel = model as Model & ContainedProps
-
-      if (isManuscriptModel(containedModel)) {
-        containerIDs.manuscriptID = state.manuscriptID
-      }
-
-      const newModel = {
-        ...containedModel,
-        ...containerIDs,
-      }
-      modelMap.set(containedModel._id, newModel)
-    }
-
-    return new Promise<void>((resolve, reject) => {
-      saveWithThrottle(async () => {
-        updateState({
-          savingProcess: 'saving',
-        })
-        const result = await saveModels([...modelMap.values()])
-
-        if (result) {
-          resolve()
-        } else {
-          reject()
-        }
-
-        updateState({
-          savingProcess: result ? 'saved' : 'failed',
-        })
-      })
+    const data = await api.createSnapshot(projectID, manuscriptID)
+    const { snapshot, ...label } = data.snapshot
+    updateState({
+      snapshots: [...snapshots, label],
+      snapshotsMap: snapshotsMap.set(label.id, data.snapshot),
     })
   }
 
@@ -200,6 +176,8 @@ export const buildUtilities = (
     deleteModel,
     saveManuscript,
     getModel,
-    bulkUpdate,
+    saveModels,
+    saveDoc,
+    createSnapshot,
   }
 }

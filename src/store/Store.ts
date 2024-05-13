@@ -23,7 +23,6 @@ import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,
-  ContainedModel,
   ManuscriptEditorView,
   ManuscriptNode,
 } from '@manuscripts/transform'
@@ -36,7 +35,7 @@ import { TokenData } from './TokenData'
 export type action = { action?: string; [key: string]: any }
 
 export interface ContainerIDs {
-  containerID?: string
+  containerID: string
   manuscriptID?: string
   templateID?: string
 }
@@ -58,7 +57,7 @@ export type state = {
   modelMap: Map<string, Model>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
-  bulkUpdate: (models: ContainedModel[]) => Promise<void>
+  saveModels: (models: Model[]) => Promise<void>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   // track changes doc state changes
   saveTrackModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
@@ -82,6 +81,7 @@ export type state = {
 
   snapshots: SnapshotLabel[]
   snapshotsMap: Map<string, ManuscriptSnapshot>
+  createSnapshot: () => Promise<void>
   inspectedSnapshotId: string
 
   permittedActions: string[]

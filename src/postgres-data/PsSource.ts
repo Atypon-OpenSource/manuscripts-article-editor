@@ -46,16 +46,8 @@ export default class PsSource implements StoreDataSourceStrategy {
     }
     next({ ...state, ...this.data, ...this.utilities })
   }
-  afterAction: StoreDataSourceStrategy['afterAction'] = (
-    state,
-    prev,
-    setState
-  ) => {
+  afterAction = (state: state) => {
     this.data = state // keep up to date for utility function
-    if (typeof state.modelMap === 'undefined') {
-      return
-    }
-    return
   }
   updateStore = (setState: stateSetter) => {
     this.updateState = setState

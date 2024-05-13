@@ -20,6 +20,7 @@ import {
 import axios, { AxiosInstance } from 'axios'
 
 import config from '../config'
+import { ISaveSnapshotResponse } from '../quarterback/types'
 
 export default class Api {
   instance: AxiosInstance
@@ -108,5 +109,15 @@ export default class Api {
 
   createProject = (projectId: string, title: string) => {
     return this.post<Project>(`project/${projectId}`, { title })
+  }
+
+  createSnapshot = (projectID: string, manuscriptID: string) => {
+    return this.post<ISaveSnapshotResponse>(
+      `snapshot/${projectID}/manuscript/${manuscriptID}`,
+      {
+        docID: manuscriptID,
+        name: new Date().toLocaleString('sv'),
+      }
+    )
   }
 }
