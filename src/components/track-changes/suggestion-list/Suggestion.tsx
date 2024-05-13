@@ -15,7 +15,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../../store'
-import TrackModal from '../../track-changes/TrackModal'
+import TrackModal from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
 
