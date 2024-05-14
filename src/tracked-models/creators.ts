@@ -17,6 +17,7 @@ import {
   Model,
   Supplement,
 } from '@manuscripts/json-schema'
+import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
@@ -99,7 +100,7 @@ export const saveComment = (
 
   const { tr } = state
   doc.descendants((node, pos) => {
-    if (isNewComment || isHighlightComment) {
+    if (isNewComment) {
       /** for new comments will update target comments array with the comment id
        *  and add comment node to the comment list node
        * */
@@ -109,28 +110,30 @@ export const saveComment = (
           comments: [...(node.attrs.comments || []), comment._id],
         })
       }
+
       if (node.type === schema.nodes.comments) {
-        tr.replaceWith(
-          pos,
-          pos + node.nodeSize,
-          node.content.addToEnd(schema.nodes.comment.create(documentComment))
+        skipTracking(
+          tr.replaceWith(
+            pos,
+            pos + node.nodeSize,
+            node.content.addToEnd(schema.nodes.comment.create(documentComment))
+          )
         )
-        tr.setMeta('track-changes-skip-tracking', true)
-        view.dispatch(tr)
         return false
       }
     } else {
-      if (node.attrs.id === comment._id) {
-        tr.setNodeMarkup(pos, undefined, {
-          ...documentComment,
-        })
-        tr.setMeta('track-changes-skip-tracking', true)
+      if (node.attrs.id === comment._id && node.type === schema.nodes.comment) {
+        skipTracking(
+          tr.setNodeMarkup(pos, undefined, {
+            ...documentComment,
+          })
+        )
 
-        view.dispatch(tr)
         return false
       }
     }
   })
+  view.dispatch(tr)
 
   return Promise.resolve(comment as Model)
 }
@@ -190,5 +193,24 @@ export const createSupplementNode = (
       return false
     }
   })
+  return Promise.resolve(supplement)
+}
+
+export const deleteSupplementNode = (
+  view: EditorView,
+  supplement: Supplement
+) => {
+  const tr = view.state.tr
+  tr.doc.descendants((node, pos) => {
+    if (
+      node.type === schema.nodes.supplement &&
+      supplement._id === node.attrs.id
+    ) {
+      tr.delete(pos, pos + node.nodeSize)
+    }
+  })
+
+  view.dispatch(tr)
+
   return Promise.resolve(supplement)
 }
