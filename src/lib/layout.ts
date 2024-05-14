@@ -23,7 +23,7 @@ export interface Layout {
 
 const initialValues: { [key: string]: Partial<Pane> } = {
   inspector: {
-    collapsed: true,
+    collapsed: false,
   },
   sidebar: {
     size: 250,
