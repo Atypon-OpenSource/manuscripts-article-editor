@@ -41,7 +41,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     trackModelMap: store.trackModelMap,
     fileManagement: store.fileManagement,
     files: store.files,
-    isThereNewComments: store.newComments.size > 0,
+    isThereNewComments: store.newComments.size,
     selectedComment: store.selectedComment,
     selectedSuggestion: store.selectedSuggestion,
     editorSelectedSuggestion: store.editorSelectedSuggestion,
@@ -51,11 +51,9 @@ const Inspector: React.FC<Props> = ({ editor }) => {
 
   const comment = store.isThereNewComments || store.selectedComment
   const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
-
-  const [tabIndex, setTabIndex] = useState(0)
+  const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
-
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -67,14 +65,12 @@ const Inspector: React.FC<Props> = ({ editor }) => {
       setTabIndex(SUGGESTIONS_TAB_INDEX)
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
-
   const selection = useMemo(
     () => state && findParentNodeWithIdValue(state.selection),
     [state]
   )
 
   const can = usePermissions()
-
   return (
     <>
       <Panel
@@ -85,7 +81,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
         side={'start'}
         hideWhen={'max-width: 900px'}
         resizerButton={ResizingInspectorButton}
-        forceOpen={comment !== undefined || suggestion !== undefined}
       >
         <InspectorContainer>
           <InspectorTabs index={tabIndex} onChange={setTabIndex}>
