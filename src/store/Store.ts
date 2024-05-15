@@ -60,7 +60,9 @@ export type state = {
   saveModels: (models: Model[]) => Promise<void>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   // track changes doc state changes
-  saveTrackModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
+  saveTrackModel: <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ) => Promise<T>
   trackModelMap: Map<string, Model>
   deleteTrackModel: (id: string) => Promise<string>
 
