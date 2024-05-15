@@ -54,6 +54,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     user: store.user,
     collaborators: store.collaborators || new Map<string, UserProfile>(),
     collaboratorsById: store.collaboratorsById,
+    //removed from the store but left here to limit scope of changes.
     keywords: new Map(),
     manuscriptID: store.manuscriptID,
     saveTrackModel: store.saveTrackModel,

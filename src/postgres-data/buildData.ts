@@ -65,7 +65,9 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
   const profiles = await api.getUserProfiles(projectID)
   if (profiles) {
     for (const profile of profiles) {
-      profilesById.set(profile._id, profile)
+      if (profile) {
+        profilesById.set(profile._id, profile)
+      }
     }
   }
   return {
