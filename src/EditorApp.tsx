@@ -15,8 +15,8 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Page } from './components/Page'
-import { ProjectPlaceholder } from './components/Placeholders'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
+import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
 import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
@@ -47,6 +47,15 @@ const Wrapper = styled.div`
   height: 100%;
   overflow: hidden;
   font-family: Lato, sans-serif;
+`
+
+const PlaceholderWrapper = styled.div`
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `
 
 const EditorApp: React.FC<Props> = ({
@@ -107,7 +116,9 @@ const EditorApp: React.FC<Props> = ({
       </Router>
     </GenericStoreProvider>
   ) : (
-    <ProjectPlaceholder />
+    <PlaceholderWrapper>
+      <ManuscriptPlaceholder />
+    </PlaceholderWrapper>
   )
 }
 
