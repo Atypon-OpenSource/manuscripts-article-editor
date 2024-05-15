@@ -1504,10 +1504,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.9.10-LEAN-3508.0":
-  version "1.9.10-LEAN-3508.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.10-LEAN-3508.0.tgz#962d596408ba8100e9846c3a16d509ca95db758a"
-  integrity sha512-2FFwCAlrTRFvFOVAN3ikJg3/zDZPPtye+Ko76Hbc1s+vefOwEUbLv/CKouNH9xfOGcexsiP16+CGE9Lo841U7w==
+"@manuscripts/body-editor@1.9.9":
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.9.tgz#9be09c1614d5825dd248b1707967f389852f42e6"
+  integrity sha512-guQw6DCty49zKmThbgM+tgZytS9+/vtug7Cx9I/VyHlyuWBP21c1ABHzq0XjRfw9e8SfdCy9CWL+ZLdM43WN1w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1617,7 +1617,7 @@
     react-dom "^17.0.2"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.10", "@manuscripts/track-changes-plugin@^1.7.10":
+"@manuscripts/track-changes-plugin@1.7.10":
   version "1.7.10"
   resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.10.tgz#f29dfc31ec2f8126617bd91f6b04f4b5be38b9d3"
   integrity sha512-bohh+U9WsLRZNEBF3Kno5JAaRippDCUsLWM4zMpwYZFLHktCjsZa1GVlLHahSs2Ou8nYevgg/tuHK1g6+IvUxw==
