@@ -100,7 +100,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
               <InspectorTabPanel key="Content" data-cy="content">
                 <ContentTab state={state} dispatch={dispatch} key="content" />
               </InspectorTabPanel>
-              {tabIndex == SUGGESTIONS_TAB_INDEX && (
+              {tabIndex == COMMENTS_TAB_INDEX && (
                 <InspectorTabPanel key="Comments" data-cy="comments">
                   <CommentsTab
                     selected={selection}
