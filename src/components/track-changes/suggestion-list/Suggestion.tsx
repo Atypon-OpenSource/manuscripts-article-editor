@@ -64,8 +64,6 @@ export const Suggestion: React.FC<Props> = ({
     setSuggestionClicked(false)
   }, [isSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // return null
-
   return (
     <Wrapper
       data-cy="suggestion"
