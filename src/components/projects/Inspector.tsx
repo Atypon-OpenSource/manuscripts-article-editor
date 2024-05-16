@@ -54,11 +54,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
-<<<<<<< HEAD
   const FILES_TAB_INDEX = 3
 
-=======
->>>>>>> bc7e91f5ae2bfbbb5736907ec8130ccbf898731d
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
