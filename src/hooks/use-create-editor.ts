@@ -10,15 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { useEditor } from '@manuscripts/body-editor'
-import { CommentAnnotation } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
-import { buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
 
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
-import { useStore } from '../store'
+import {state, useStore} from '../store'
 import { theme } from '../theme/theme'
 
 export const useCreateEditor = () => {
@@ -90,18 +88,16 @@ export const useCreateEditor = () => {
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setComment: (comment?: CommentAnnotation) => {
-      if (comment) {
-        const state = getState()
-        const contribution = buildContribution(state.user._id)
-        comment.contributions = [contribution]
-        dispatch({
-          newComments: new Map([...state.newComments, [comment._id, comment]]),
-        })
+    setSelectedComment: (commentID?: string, isNew?: boolean) => {
+      const update: Partial<state> = {
+        selectedCommentID: commentID
       }
+      if (commentID && isNew) {
+        const state = getState()
+        update.newComments = new Set([...state.newComments, commentID])
+      }
+      dispatch(update)
     },
-    setSelectedComment: (commentId?: string) =>
-      dispatch({ selectedComment: commentId }),
     setEditorSelectedSuggestion: (suggestionId?: string) => {
       dispatch({ editorSelectedSuggestion: suggestionId })
       if (!suggestionId) {

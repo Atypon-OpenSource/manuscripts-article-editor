@@ -9,21 +9,19 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+
 import {
-  commentScroll,
-  isHighlightComment,
-  isThereSelector,
-} from '@manuscripts/body-editor'
-import { CommentAnnotation, UserProfile } from '@manuscripts/json-schema'
+  CommentAnnotation,
+  UserProfile
+} from '@manuscripts/json-schema'
 import {
-  CommentTarget,
+  CommentTarget, CommentType,
   CommentWrapper,
   NoteBodyContainer,
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { buildKeyword } from '@manuscripts/transform'
-import { TextSelection } from 'prosemirror-state'
+import {buildKeyword} from '@manuscripts/transform'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -35,6 +33,13 @@ import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useStore } from '../../store'
 import * as Pattern from './CommentListPatterns'
 import { HighlightedText } from './HighlightedText'
+import {
+  getCommentMarkerID
+} from "@manuscripts/body-editor";
+import {
+  commentsKey
+} from "@manuscripts/body-editor";
+import {scrollIntoViewIfNeeded} from "../../lib/scroll";
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
@@ -43,6 +48,7 @@ interface Props {
 export const CommentList: React.FC<Props> = ({ editor }) => {
   const [
     {
+      selectedCommentID,
       newComments,
       user,
       collaborators,
@@ -50,8 +56,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
       keywords,
       saveTrackModel,
     },
+    dispatch,
   ] = useStore((store) => ({
-    notes: store.notes,
+    selectedCommentID: store.selectedCommentID,
     user: store.user,
     collaborators: store.collaborators || new Map<string, UserProfile>(),
     collaboratorsById: store.collaboratorsById,
@@ -62,6 +69,16 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   }))
   const { state, view } = editor
 
+  const setSelectedCommentID = (id?: string) => {
+    const comments = commentsKey.getState(state)
+    if (comments && id) {
+      id = comments.commentIDs.get(id) || id
+    }
+    dispatch({
+      selectedCommentID: id,
+    })
+  }
+
   const createKeyword = useCallback(
     (name: string) => saveTrackModel(buildKeyword(name)),
     [saveTrackModel]
@@ -71,65 +88,44 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     Pattern.CommentFilter.ALL
   )
 
-  const [selectedHighlightId, setSelectedHighlightId] = useState<string>()
-
   const { comments, saveComment, setResolved, createReply, deleteComment } =
-    useCommentOperation(view, setSelectedHighlightId)
+    useCommentOperation(view, setSelectedCommentID)
 
   const commentsLabels = useCommentLabel()
 
-  /**
-   * check if the selection pointing to a highlight node
-   */
   useEffect(() => {
-    const childCount = state.selection.$from.parent.content.childCount
-    const nodeIndex = state.selection.$from.index()
-
-    if (state.selection instanceof TextSelection && childCount > nodeIndex) {
-      const nodeBeforePos = state.selection.$from.posAtIndex(nodeIndex - 1)
-      const nodeAfterPos = state.selection.$from.posAtIndex(nodeIndex + 1)
-      const nodeBeforeNode = state.doc.nodeAt(nodeBeforePos)
-      const nodeAfterNode = state.doc.nodeAt(nodeAfterPos)
-      if (
-        nodeBeforeNode &&
-        nodeAfterNode &&
-        nodeBeforeNode.type === state.schema.nodes.highlight_marker &&
-        nodeAfterNode.type === state.schema.nodes.highlight_marker
-      ) {
-        setSelectedHighlightId(nodeAfterNode.attrs.id)
-        return
-      }
+    document.querySelectorAll('.selected-comment').forEach((e) => e.classList.remove('selected-comment'))
+    if (!selectedCommentID) {
+      return
     }
-    setSelectedHighlightId(undefined)
-  }, [state])
-
-  useEffect(() => {
-    if (selectedHighlightId) {
-      commentScroll(selectedHighlightId, 'inspector', true)
+    const markerID = getCommentMarkerID(selectedCommentID)
+    const marker = document.getElementById(markerID)
+    if (marker) {
+      marker.classList.add('selected-comment')
+      scrollIntoViewIfNeeded(marker)
     }
-  }, [selectedHighlightId])
+  }, [selectedCommentID])
 
-  const onFocusOut = useCallback(
-    (id: string, content: string) => {
-      if (id && newComments.has(id) && content.length < 1) {
-        deleteComment(id)
-      }
-      return true
-    },
-    [deleteComment, newComments]
-  )
-
-  const scrollIntoHighlight = (comment: CommentAnnotation) => {
-    const commentId = isThereSelector(comment.selector)
-      ? comment._id
-      : comment.target
-    commentScroll(commentId, 'editor', isHighlightComment(comment))
-    setSelectedHighlightId(undefined)
+  const onFocusOut = (id: string, content: string) => {
+    if (id && newComments.has(id) && content.length < 1) {
+      deleteComment(id)
+    }
+    return true
   }
 
   const isNew = (comment: CommentAnnotation) => newComments.has(comment._id)
 
+  const isSelected = (comment: CommentType) => {
+    const comments = commentsKey.getState(state)
+    if (!comments) {
+      return false
+    }
+    return selectedCommentID === comments.commentIDs.get(comment._id)
+  }
+
   const can = usePermissions()
+
+  const selectedCommentStyle = selectedCommentID ? `#${CSS.escape(getCommentMarkerID(selectedCommentID))}.highlight { background-color: #ffe0b2 !important; }` : ''
 
   if (!comments.length) {
     return <Pattern.EmptyCommentsListPlaceholder />
@@ -137,6 +133,9 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
 
   return (
     <React.Fragment>
+      <style>
+        {selectedCommentStyle}
+      </style>
       <Pattern.SeeResolvedCheckbox
         isEmpty={!comments.length}
         commentFilter={commentFilter}
@@ -154,12 +153,8 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
               {selectedNoteData.map(({ comment, children }) => (
                 <Pattern.Thread key={comment._id}>
                   <NoteBodyContainer
-                    id={
-                      isThereSelector(comment.selector)
-                        ? comment._id
-                        : comment.target
-                    }
-                    isSelected={false}
+                    id={`${comment._id}-card`}
+                    isSelected={isSelected(comment)}
                     isNew={isNew(comment as CommentAnnotation)}
                   >
                     <CommentWrapper
@@ -173,7 +168,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                       }
                       listKeywords={keywords}
                       saveComment={saveComment}
-                      scrollIntoHighlight={scrollIntoHighlight}
+                      scrollIntoHighlight={() => setSelectedCommentID(comment._id)}
                       onFocusOut={onFocusOut}
                       handleCreateReply={createReply}
                       can={can}
@@ -185,7 +180,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                         state={state}
                         commentsLabels={commentsLabels}
                         comment={comment as CommentAnnotation}
-                        onClick={scrollIntoHighlight}
+                        onClick={() => setSelectedCommentID(comment._id)}
                       />
                     </CommentWrapper>
                   </NoteBodyContainer>

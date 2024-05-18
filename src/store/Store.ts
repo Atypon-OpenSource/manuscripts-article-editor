@@ -113,7 +113,8 @@ export type state = {
   handleSnapshot?: () => Promise<void>
 
   comments?: CommentAnnotation[]
-  newComments: Map<string, CommentAnnotation>
+  selectedCommentID?: string
+  newComments: Set<string>
   collaborators?: Map<string, UserProfile>
   collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
