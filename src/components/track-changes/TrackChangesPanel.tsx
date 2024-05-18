@@ -10,15 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { SET_SUGGESTION_ID } from '@manuscripts/body-editor'
 import {
   CHANGE_STATUS,
   ChangeSet,
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import { NodeSelection, Selection, TextSelection } from 'prosemirror-state'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
@@ -29,36 +27,28 @@ import { SuggestionList } from './suggestion-list/SuggestionList'
 export function TrackChangesPanel() {
   const [sortBy, setSortBy] = useState('in Context')
 
-  const [{ editorSelectedSuggestion, editor, trackState }, dispatch] = useStore(
+  const [{ trackState }, dispatch] = useStore(
     (store) => ({
-      editorSelectedSuggestion: store.editorSelectedSuggestion,
       editor: store.editor,
       trackState: store.trackState,
     })
   )
 
+  const setSelectedSuggestion = (suggestion: TrackedChange) => {
+    dispatch({
+      selectedSuggestionID: suggestion.id
+    })
+  }
+
   const execCmd = useExecCmd()
 
   const { changeSet } = trackState || {}
-
-  const cleanTextSelection = () => {
-    const { view, dispatch } = editor
-    if (view && view.state.selection instanceof TextSelection) {
-      view.focus()
-      const tr = view.state.tr.setSelection(
-        Selection.near(view.state.doc.resolve(view.state.selection.anchor))
-      )
-      tr.setMeta('CLEAR_SUGGESTION_ID', true)
-      dispatch(tr)
-    }
-  }
 
   function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setSortBy(event.currentTarget.value)
   }
 
   function handleAcceptChange(c: TrackedChange) {
-    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -68,7 +58,6 @@ export function TrackChangesPanel() {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
   function handleRejectChange(c: TrackedChange) {
-    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -78,7 +67,6 @@ export function TrackChangesPanel() {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
   }
   function handleResetChange(c: TrackedChange) {
-    cleanTextSelection()
     const ids = [c.id]
     if (c.type === 'node-change') {
       c.children.forEach((child) => {
@@ -92,60 +80,14 @@ export function TrackChangesPanel() {
     if (!trackState) {
       return
     }
-    cleanTextSelection()
     const { changeSet } = trackState
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }
 
-  const isSelectedSuggestion = (suggestion: TrackedChange) => {
-    return !!(
-      suggestion.id === editorSelectedSuggestion ||
-      (suggestion.type === 'node-change' &&
-        suggestion.children.find((change) => {
-          return change.id === editorSelectedSuggestion
-        }))
-    )
-  }
-
-  const checkSelectedSuggestion = (suggestionList?: TrackedChange[]) => {
-    if (suggestionList) {
-      suggestionList.forEach((suggestion) => {
-        if (isSelectedSuggestion(suggestion)) {
-          dispatch({ selectedSuggestion: suggestion.id })
-        }
-      })
-    }
-  }
-
   const handleClickSuggestion = (suggestion: TrackedChange) => {
-    const { view, dispatch: editorDispatch } = editor
-    if (view) {
-      let selection
-      if (suggestion.type === 'text-change') {
-        selection = TextSelection.create(
-          view.state.tr.doc,
-          suggestion.from,
-          suggestion.to
-        )
-      } else {
-        selection = NodeSelection.create(view.state.tr.doc, suggestion.from)
-      }
-      editor.view && editor.view.focus()
-      editorDispatch(
-        view.state.tr
-          .setSelection(selection)
-          .scrollIntoView()
-          .setMeta(SET_SUGGESTION_ID, suggestion.id)
-      )
-    }
-    dispatch({ selectedSuggestion: suggestion.id })
+    setSelectedSuggestion(suggestion)
   }
-
-  useEffect(() => {
-    checkSelectedSuggestion(changeSet?.pending)
-    checkSelectedSuggestion(changeSet?.accepted)
-  }, [changeSet, editorSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

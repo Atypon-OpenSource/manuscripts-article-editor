@@ -89,12 +89,6 @@ export const useCreateEditor = () => {
     },
     setSelectedComment: (commentId?: string) =>
       dispatch({ selectedComment: commentId }),
-    setEditorSelectedSuggestion: (suggestionId?: string) => {
-      dispatch({ editorSelectedSuggestion: suggestionId })
-      if (!suggestionId) {
-        dispatch({ selectedSuggestion: undefined })
-      }
-    },
     subscribeStore: subscribe,
 
     commit: commitAtLoad || null,

@@ -30,6 +30,7 @@ import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
+import {SelectionStyles} from "../SelectionStyles";
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
@@ -43,14 +44,13 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     files: store.files,
     isThereNewComments: store.newComments.size,
     selectedComment: store.selectedComment,
-    selectedSuggestion: store.selectedSuggestion,
-    editorSelectedSuggestion: store.editorSelectedSuggestion,
+    selectedSuggestionID: store.selectedSuggestionID,
   }))
 
   const { state, dispatch } = editor
 
   const comment = store.isThereNewComments || store.selectedComment
-  const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
+  const suggestion = store.selectedSuggestionID
   const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
@@ -75,6 +75,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const can = usePermissions()
   return (
     <>
+      <SelectionStyles />
       <Panel
         data-cy="inspector"
         name={'inspector'}

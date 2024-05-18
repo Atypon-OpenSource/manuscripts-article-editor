@@ -131,9 +131,8 @@ export type state = {
 
   permittedActions: string[]
 
-  selectedSuggestion?: string
+  selectedSuggestionID?: string
   selectedAttrsChange?: string
-  editorSelectedSuggestion?: string
 
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
