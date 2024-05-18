@@ -27,16 +27,14 @@ import { SuggestionList } from './suggestion-list/SuggestionList'
 export function TrackChangesPanel() {
   const [sortBy, setSortBy] = useState('in Context')
 
-  const [{ trackState }, dispatch] = useStore(
-    (store) => ({
-      editor: store.editor,
-      trackState: store.trackState,
-    })
-  )
+  const [{ trackState }, dispatch] = useStore((store) => ({
+    editor: store.editor,
+    trackState: store.trackState,
+  }))
 
   const setSelectedSuggestion = (suggestion: TrackedChange) => {
     dispatch({
-      selectedSuggestionID: suggestion.id
+      selectedSuggestionID: suggestion.id,
     })
   }
 

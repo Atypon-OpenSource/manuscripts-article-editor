@@ -11,7 +11,7 @@
  */
 
 import { TrackedChange } from '@manuscripts/track-changes-plugin'
-import React, {useRef, useState} from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../../store'
@@ -46,22 +46,15 @@ export const Suggestion: React.FC<Props> = ({
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     dispatch({
-      selectedSuggestionID: suggestion.id
+      selectedSuggestionID: suggestion.id,
     })
     setModalVisible(true)
     handleClickSuggestion(suggestion)
   }
 
   return (
-    <Wrapper
-      data-cy="suggestion"
-      isFocused={isSelected}
-      ref={wrapperRef}
-    >
-      <FocusHandle
-        href="#"
-        onClick={handleClick}
-      >
+    <Wrapper data-cy="suggestion" isFocused={isSelected} ref={wrapperRef}>
+      <FocusHandle href="#" onClick={handleClick}>
         <SuggestionSnippet suggestion={suggestion} />
       </FocusHandle>
 

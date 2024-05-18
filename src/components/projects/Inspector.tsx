@@ -27,10 +27,10 @@ import {
 } from '../Inspector'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
+import { SelectionStyles } from '../SelectionStyles'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
-import {SelectionStyles} from "../SelectionStyles";
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
