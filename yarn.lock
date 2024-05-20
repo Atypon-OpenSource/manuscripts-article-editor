@@ -1504,10 +1504,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.9.12":
-  version "1.9.12"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.12.tgz#eb9c9edb4f9faf8565e2a3403c3fc17a16606fc9"
-  integrity sha512-e8jF3icimdDhYWNAcmeoQWsmKfYJJlDJffx5cgSzNvby/RBvM5VQ5VMWH1ruo66D2Jj8aXSDSUFyUjt7EWy0kg==
+"@manuscripts/body-editor@1.9.13":
+  version "1.9.13"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.13.tgz#5da7cb691933affda941c13fb9b0466bcf1a70f4"
+  integrity sha512-C3PjsgC580sqQR5QDBto2ZK9sbJF28tF0z0WuTmTpewBiAly5PqB5y35scwP+FiuikMmEE7a5snDAZ/1QbLANw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1575,6 +1575,32 @@
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
+
+"@manuscripts/style-guide@1.12.4":
+  version "1.12.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.4.tgz#52e01f736abc61a9d1b6b0a536758abca68f7955"
+  integrity sha512-ORuHvtTRo2r7jEXS9XSarSCifk+u2THnigEAFrtdl2weV9yfOq7omgMBuQOZ0sU1RjUYpg32GwWjGY/qVK1DNA==
+  dependencies:
+    "@manuscripts/assets" "^0.6.4"
+    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/transform" "2.3.3"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    react "^17.0.2"
+    react-dnd "^16.0.1"
+    react-dnd-html5-backend "^16.0.1"
+    react-dom "^17.0.2"
+    react-is "^17.0.2"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
 
 "@manuscripts/style-guide@1.12.5-LEAN-3571.0":
   version "1.12.5-LEAN-3571.0"
