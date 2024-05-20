@@ -11,7 +11,6 @@
  */
 import { Tooltip, usePermissions } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
-import { uniqueId } from 'lodash'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -52,11 +51,8 @@ const SuggestionAction: React.FC<Props> = ({
     return false
   }, [suggestion, can, user?._id])
 
-  const unique = uniqueId()
-
-  const uid = (id = '') => id + '-' + unique
-  const rejectTooltip = uid('back-tooltip')
-  const approveTooltip = uid('approve-tooltip')
+  const rejectTooltip = 'back-tooltip' + '-' + suggestion.id
+  const approveTooltip = 'approve-tooltip' + '-' + suggestion.id
 
   return (
     <Actions data-cy="suggestion-actions">
