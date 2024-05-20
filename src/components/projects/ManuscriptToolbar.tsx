@@ -15,7 +15,7 @@ import {
   toolbar,
   ToolbarButtonConfig,
 } from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
+import { Tooltip, usePermissions } from '@manuscripts/style-guide'
 import {
   ManuscriptEditorState,
   ManuscriptEditorView,
@@ -142,7 +142,7 @@ export const ManuscriptToolbar: React.FC<{
               ) : (
                 <ToolbarItem key={key}>
                   <ToolbarButton
-                    title={item.title}
+                    data-tooltip-id={item.title}
                     data-active={item.isActive && item.isActive(state)}
                     disabled={!isEnabled(key, item, state)}
                     onMouseDown={(event) => {
@@ -153,6 +153,9 @@ export const ManuscriptToolbar: React.FC<{
                   >
                     {item.content}
                   </ToolbarButton>
+                  <Tooltip id={item.title} place="bottom">
+                    {item.title}
+                  </Tooltip>
                 </ToolbarItem>
               )
             )}
