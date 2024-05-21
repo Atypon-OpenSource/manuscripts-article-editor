@@ -23,9 +23,9 @@ import {
 
 interface Props {
   sortBy: string
-  handleSort: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  setSortBy: (sortBy: string) => void
 }
-export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
+export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
   return (
@@ -46,7 +46,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
           <DropdownList direction={'right'} minWidth={100}>
             <Option
               onClick={(e) => {
-                handleSort(e)
+                setSortBy('Date')
                 toggleOpen()
               }}
               key={'Date'}
@@ -56,7 +56,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, handleSort }) => {
             </Option>
             <Option
               onClick={(e) => {
-                handleSort(e)
+                setSortBy('in Context')
                 toggleOpen()
               }}
               key={'in Context'}

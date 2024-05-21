@@ -27,7 +27,6 @@ import {
 } from '../Inspector'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
-import { SelectionStyles } from '../SelectionStyles'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
@@ -75,7 +74,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const can = usePermissions()
   return (
     <>
-      <SelectionStyles />
       <Panel
         data-cy="inspector"
         name={'inspector'}

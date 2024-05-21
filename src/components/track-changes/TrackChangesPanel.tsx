@@ -16,6 +16,7 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
+import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
@@ -24,105 +25,97 @@ import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 
-export function TrackChangesPanel() {
+export const TrackChangesPanel: React.FC = () => {
   const [sortBy, setSortBy] = useState('in Context')
 
-  const [{ trackState }, dispatch] = useStore((store) => ({
+  const [{ editor, trackState, selectedSuggestionID }] = useStore((store) => ({
     editor: store.editor,
     trackState: store.trackState,
+    selectedSuggestionID: store.selectedSuggestionID,
   }))
 
   const setSelectedSuggestion = (suggestion: TrackedChange) => {
-    dispatch({
-      selectedSuggestionID: suggestion.id,
-    })
+    const state = editor.state
+    const view = editor.view
+    const tr = state.tr
+    if (suggestion.type === 'text-change') {
+      const pos = suggestion.to - 1
+      tr.setSelection(TextSelection.create(state.doc, pos, pos))
+    } else {
+      tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
+    }
+    view?.dispatch(tr.scrollIntoView())
   }
 
   const execCmd = useExecCmd()
 
   const { changeSet } = trackState || {}
 
-  function handleSort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    setSortBy(event.currentTarget.value)
+  const setChangeStatus = (change: TrackedChange, status: CHANGE_STATUS) => {
+    const ids = [change.id]
+    if (change.type === 'node-change') {
+      change.children.forEach((child) => {
+        ids.push(child.id)
+      })
+    }
+    execCmd(trackCommands.setChangeStatuses(status, ids))
   }
 
-  function handleAcceptChange(c: TrackedChange) {
-    const ids = [c.id]
-    if (c.type === 'node-change') {
-      c.children.forEach((child) => {
-        ids.push(child.id)
-      })
-    }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
-  }
-  function handleRejectChange(c: TrackedChange) {
-    const ids = [c.id]
-    if (c.type === 'node-change') {
-      c.children.forEach((child) => {
-        ids.push(child.id)
-      })
-    }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
-  }
-  function handleResetChange(c: TrackedChange) {
-    const ids = [c.id]
-    if (c.type === 'node-change') {
-      c.children.forEach((child) => {
-        ids.push(child.id)
-      })
-    }
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.pending, ids))
+  const handleAccept = (change: TrackedChange) => {
+    setChangeStatus(change, CHANGE_STATUS.accepted)
   }
 
-  function handleAcceptPending() {
-    if (!trackState) {
+  const handleReject = (change: TrackedChange) => {
+    setChangeStatus(change, CHANGE_STATUS.rejected)
+  }
+
+  const handleReset = (change: TrackedChange) => {
+    setChangeStatus(change, CHANGE_STATUS.pending)
+  }
+
+  const handleAcceptAll = () => {
+    if (!changeSet) {
       return
     }
-    const { changeSet } = trackState
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
-  }
-
-  const handleClickSuggestion = (suggestion: TrackedChange) => {
-    setSelectedSuggestion(suggestion)
   }
 
   return (
     <>
       <SnapshotsDropdown />
-      <SortByDropdown sortBy={sortBy} handleSort={handleSort} />
+      <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
         changes={changeSet?.pending || []}
+        selectionID={selectedSuggestionID}
         title="Suggestions"
         sortBy={sortBy}
-        handleAcceptChange={handleAcceptChange}
-        handleRejectChange={handleRejectChange}
-        handleResetChange={handleResetChange}
-        handleAcceptPending={
-          changeSet?.pending.length ? handleAcceptPending : undefined
-        }
-        handleClickSuggestion={handleClickSuggestion}
+        onAccept={handleAccept}
+        onReject={handleReject}
+        onReset={handleReset}
+        onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
+        onSelect={setSelectedSuggestion}
       />
       <SuggestionList
         type="accepted"
         changes={changeSet?.accepted || []}
         title="Approved Suggestions"
         sortBy={sortBy}
-        handleAcceptChange={handleAcceptChange}
-        handleRejectChange={handleRejectChange}
-        handleResetChange={handleResetChange}
-        handleClickSuggestion={handleClickSuggestion}
+        onAccept={handleAccept}
+        onReject={handleReject}
+        onReset={handleReset}
+        onSelect={setSelectedSuggestion}
       />
       <SuggestionList
         type="rejected"
         changes={changeSet?.rejected || []}
         title="Rejected Suggestions"
         sortBy={sortBy}
-        handleAcceptChange={handleAcceptChange}
-        handleRejectChange={handleRejectChange}
-        handleResetChange={handleResetChange}
-        handleClickSuggestion={handleClickSuggestion}
+        onAccept={handleAccept}
+        onReject={handleReject}
+        onReset={handleReset}
+        onSelect={setSelectedSuggestion}
       />
     </>
   )

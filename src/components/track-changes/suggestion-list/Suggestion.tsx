@@ -14,42 +14,34 @@ import { TrackedChange } from '@manuscripts/track-changes-plugin'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { useStore } from '../../../store'
 import TrackModal from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
 
 interface Props {
   suggestion: TrackedChange
-  handleAccept: (c: TrackedChange) => void
-  handleReject: (c: TrackedChange) => void
-  handleReset: (c: TrackedChange) => void
-  handleClickSuggestion(c: TrackedChange): void
+  isSelected: boolean
+  onAccept: () => void
+  onReject: () => void
+  onReset: () => void
+  onSelect(): void
 }
 
 export const Suggestion: React.FC<Props> = ({
   suggestion,
-  handleAccept,
-  handleReject,
-  handleReset,
-  handleClickSuggestion,
+  isSelected,
+  onAccept,
+  onReject,
+  onReset,
+  onSelect,
 }) => {
-  const [{ selectedSuggestionID }, dispatch] = useStore((store) => ({
-    selectedSuggestionID: store.selectedSuggestionID,
-  }))
-
   const wrapperRef = useRef(null)
   const [trackModalVisible, setModalVisible] = useState(false)
 
-  const isSelected = suggestion.id === selectedSuggestionID
-
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    dispatch({
-      selectedSuggestionID: suggestion.id,
-    })
     setModalVisible(true)
-    handleClickSuggestion(suggestion)
+    onSelect()
   }
 
   return (
@@ -61,9 +53,9 @@ export const Suggestion: React.FC<Props> = ({
       <Actions>
         <SuggestionActions
           suggestion={suggestion}
-          handleAccept={handleAccept}
-          handleReject={handleReject}
-          handleReset={handleReset}
+          handleAccept={onAccept}
+          handleReject={onReject}
+          handleReset={onReset}
         />
       </Actions>
 
@@ -76,9 +68,9 @@ export const Suggestion: React.FC<Props> = ({
         >
           <SuggestionActions
             suggestion={suggestion}
-            handleAccept={handleAccept}
-            handleReject={handleReject}
-            handleReset={handleReset}
+            handleAccept={onAccept}
+            handleReject={onReject}
+            handleReset={onReset}
           />
         </TrackModal>
       )}
