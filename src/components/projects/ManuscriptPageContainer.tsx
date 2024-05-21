@@ -43,6 +43,9 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+import {
+  selectedSuggestionKey
+} from "@manuscripts/body-editor";
 
 export const ManuscriptMenusContainer = styled.div`
   display: flex;
@@ -139,6 +142,12 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch,
     getTrackModel,
   ])
+
+  useEffect(() => {
+    const selection = selectedSuggestionKey.getState(state)
+    storeDispatch({ selectedSuggestionID: selection?.suggestion?.id })
+  }, [storeDispatch, state])
+
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackChangesPluginKey.getState(state) || {}

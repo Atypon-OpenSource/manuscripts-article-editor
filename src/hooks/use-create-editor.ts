@@ -74,11 +74,6 @@ export const useCreateEditor = () => {
     },
     history,
     projectID: project._id,
-    setSelectedSuggestionID: (id?: string) => {
-      dispatch({
-        selectedSuggestionID: id,
-      })
-    },
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
