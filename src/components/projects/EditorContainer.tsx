@@ -30,7 +30,7 @@ export const EditorContainerInner = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 960px;
+  width: 100%;
   max-width: 100%;
   background: ${(props) => props.theme.colors.background.primary};
   border-bottom: none;
@@ -38,15 +38,9 @@ export const EditorContainerInner = styled.div`
 `
 
 export const EditorHeader = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 4}px
-    ${(props) => props.theme.grid.unit * 14}px 0;
   background: ${(props) => props.theme.colors.background.primary};
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) ${(props) => props.theme.grid.unit * 4}px
-  );
   z-index: 5;
+  border-bottom: 1px solid #f2f2f2;
 `
 
 export const EditorBody = styled.div`
@@ -54,4 +48,8 @@ export const EditorBody = styled.div`
   overflow-y: auto;
   padding: ${(props) => props.theme.grid.unit * 5}px
     ${(props) => props.theme.grid.unit * 2}px 0;
+  max-width: ${(props) => props.theme.grid.editorMaxWidth}px;
+  @media (min-width: ${(props) => props.theme.grid.tablet}px) {
+    margin: 0 auto;
+  }
 `

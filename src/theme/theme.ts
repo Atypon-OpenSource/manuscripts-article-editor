@@ -197,6 +197,7 @@ export const theme: DefaultTheme = {
     smallDesktop: 1024,
     desktop: 1280,
     largeDesktop: 1920,
+    editorMaxWidth: 960,
   },
   shadow: {
     boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.05)',
