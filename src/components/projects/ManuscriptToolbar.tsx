@@ -41,7 +41,8 @@ const ToolbarButton = styled.button.attrs({
     props['data-active'] ? '#eee' : props.theme.colors.background.primary};
   border: 1px solid ${(props) => props.theme.colors.border.secondary};
   cursor: pointer;
-  padding: 2px ${(props) => props.theme.grid.unit * 3}px;
+  padding: ${(props) => props.theme.grid.unit * 2 - 1}px
+    ${(props) => props.theme.grid.unit * 2 - 1}px;
   display: inline-flex;
   align-items: center;
   transition: 0.2s all;
@@ -65,12 +66,20 @@ export const ToolbarContainer = styled.div`
   margin: ${(props) => props.theme.grid.unit}px;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  gap: ${(props) => props.theme.grid.unit * 2}px;
+  width: 100%;
+  max-width: ${(props) => props.theme.grid.editorMaxWidth}px;
+  margin: 0 auto;
+  padding: ${(props) => props.theme.grid.unit * 2.5}px
+    ${(props) => props.theme.grid.unit * 5}px
+    ${(props) => props.theme.grid.unit * 2.5}px
+    ${(props) => props.theme.grid.unit * 15}px;
+  box-sizing: border-box;
 `
 
 export const ToolbarGroup = styled.div`
   display: flex;
-  margin-right: ${(props) => props.theme.grid.unit * 2}px;
-  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
   white-space: nowrap;
 
   & ${ToolbarItem} button {
