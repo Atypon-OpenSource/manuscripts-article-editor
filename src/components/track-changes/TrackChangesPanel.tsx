@@ -116,7 +116,9 @@ export const TrackChangesPanel: React.FC = () => {
         onAccept={handleAccept}
         onReject={handleReject}
         onReset={handleReset}
-        onSelect={() => {}}
+        onSelect={() => {
+          /* noop */
+        }}
       />
     </>
   )

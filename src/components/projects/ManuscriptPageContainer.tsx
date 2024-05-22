@@ -15,6 +15,7 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
+import { selectedSuggestionKey } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
@@ -43,9 +44,6 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
-import {
-  selectedSuggestionKey
-} from "@manuscripts/body-editor";
 
 export const ManuscriptMenusContainer = styled.div`
   display: flex;
@@ -147,7 +145,6 @@ const ManuscriptPageView: React.FC = () => {
     const selection = selectedSuggestionKey.getState(state)
     storeDispatch({ selectedSuggestionID: selection?.suggestion?.id })
   }, [storeDispatch, state])
-
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackChangesPluginKey.getState(state) || {}
