@@ -44,6 +44,7 @@ export const TrackChangesPanel: React.FC = () => {
     } else {
       tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
     }
+    view?.focus()
     view?.dispatch(tr.scrollIntoView())
   }
 
@@ -115,7 +116,7 @@ export const TrackChangesPanel: React.FC = () => {
         onAccept={handleAccept}
         onReject={handleReject}
         onReset={handleReset}
-        onSelect={setSelectedSuggestion}
+        onSelect={() => {}}
       />
     </>
   )
