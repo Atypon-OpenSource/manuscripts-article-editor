@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { Section } from '@manuscripts/json-schema'
-import { Title } from '@manuscripts/title-editor'
+import { RichText } from '@manuscripts/style-guide'
 import { SectionNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { findParentNode } from 'prosemirror-utils'
@@ -86,7 +86,7 @@ export const SectionInspector: React.FC<{
   const currentSectionCategory = chooseSectionCategory(section)
   return (
     <InspectorSection title={'Section'}>
-      {section.title && <StyledTitle value={section.title} />}
+      {section.title && <SectionTitle value={section.title} />}
 
       {isEditableSectionCategoryID(currentSectionCategory) && (
         <>
@@ -106,7 +106,7 @@ export const SectionInspector: React.FC<{
   )
 }
 
-const StyledTitle = styled(Title)`
+const SectionTitle = styled(RichText)`
   color: ${(props) => props.theme.colors.text.primary};
   margin: 4px 0;
 `
