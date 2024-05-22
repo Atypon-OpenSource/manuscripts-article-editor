@@ -133,8 +133,6 @@ const Panel: React.FC<PanelProps> = (props) => {
     if (data.collapsed === true) {
       dispatch({
         selectedComment: undefined,
-        selectedSuggestion: undefined,
-        editorSelectedSuggestion: undefined,
         isThereNewComments: newComment.clear(),
       })
     }
