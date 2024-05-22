@@ -1504,10 +1504,10 @@
   dependencies:
     "@inline-svg-unique-id/react" "^1.2.3"
 
-"@manuscripts/body-editor@1.9.21-LEAN-3633.1":
-  version "1.9.21-LEAN-3633.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.21-LEAN-3633.1.tgz#70929c22f77f4853ab46f8d62006df2e1abd48dc"
-  integrity sha512-AIurtVXODAUqaV7jw+Pc4Wdz37GyVdyo+t6wcslZzZK9mMKb1uiRNRUFTKifJ6cDrpBZhGrr/D+rpoI2hV+3Lg==
+"@manuscripts/body-editor@1.9.21-LEAN-3633.2":
+  version "1.9.21-LEAN-3633.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.21-LEAN-3633.2.tgz#107eca88f69e78cce9e06a7aa88cab7feb0efbd1"
+  integrity sha512-JsrLOndetvox2xCT47t2d7+AqerUSzKGOhDrdiQnhRSVGk0RdAivvbeSTxJfAjqJLA5gp2q1/IeGhcXbfzIaBA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/assets" "^0.6.4"
@@ -1628,21 +1628,6 @@
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.3.tgz#133e6cc0ffcd29b62f9d223f9470ca66eb6ba879"
   integrity sha512-yEQg1Dfu5zypvRzBsS6SqaItLxfW/biJ945XYF9RHdNJSi5C+dKKrrZTLOmN5lCX9IubnMY9U7VnY68HzafR3A==
-  dependencies:
-    "@manuscripts/json-schema" "^2.2.7"
-    "@manuscripts/library" "^1.3.6"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-tables "^1.3.5"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
-
-"@manuscripts/transform@2.3.3-LEAN-3519-1":
-  version "2.3.3-LEAN-3519-1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.3-LEAN-3519-1.tgz#5be07b181a938eef1ffc2cb558df88e1d3c896bd"
-  integrity sha512-rhUOEOyUccAaOaeOfizO8f5a597JgWPWU7HK9h/AfSjfLaMX39If/Kf9ZM/yERKm7ai8OUu7eF1rB6fEbZoB4Q==
   dependencies:
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
