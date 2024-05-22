@@ -22,6 +22,7 @@ import {
   ListContainer,
   orderedListContextMenu,
   StyleBlock,
+  Tooltip,
   useDropdown,
 } from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
@@ -106,7 +107,7 @@ export const ListToolbarItem: React.FC<{
   return (
     <ToolbarItem>
       <ListButton
-        title={config.title}
+        data-tooltip-id={config.title}
         data-active={config.isActive && config.isActive(state)}
         disabled={!isEnabled}
         onMouseDown={(event) => {
@@ -117,6 +118,9 @@ export const ListToolbarItem: React.FC<{
       >
         {icon}
       </ListButton>
+      <Tooltip id={config.title} place="bottom">
+        {config.title}
+      </Tooltip>
       <ListStyleSelector
         disabled={!isEnabled}
         onClick={handleClick}
