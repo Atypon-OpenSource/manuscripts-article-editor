@@ -57,7 +57,7 @@ const modalWidth = 368
 const modalXOffset = 90
 
 export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
-  const { changeId, isVisible, setVisible, children } = props
+  const { changeId, isVisible, setVisible } = props
 
   const [
     { selectedAttrsChange, trackState, files, trackModelMap, doc },
