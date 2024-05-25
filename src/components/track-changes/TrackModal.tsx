@@ -15,7 +15,7 @@ import {
   Footnote,
   ObjectTypes,
 } from '@manuscripts/json-schema'
-import { ButtonGroup, TextButton } from '@manuscripts/style-guide'
+import { TextButton } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import { getModelsByType, ManuscriptNode } from '@manuscripts/transform'
 import _ from 'lodash'
@@ -181,7 +181,6 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
             <EditIcon />
             <Label>Changed</Label>
           </LabelContainer>
-          <ButtonGroup>{children ? children : null}</ButtonGroup>
         </Header>
 
         <ChangesList>
