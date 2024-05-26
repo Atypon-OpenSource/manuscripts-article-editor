@@ -1240,11 +1240,6 @@
   resolved "https://registry.yarnpkg.com/@iarna/word-count/-/word-count-1.1.2.tgz#e4a82b4fa8df0fe8b31e07263a175b5390925713"
   integrity sha512-kHU3aSVe9u3uAnBHGmEJ+Pj1aDJTAJMgiG2H3GIBrKgZkAKCMEB8AzLMeYzyLoldB45KbK6C+aB8I3rbSoxioQ==
 
-"@inline-svg-unique-id/react@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/@inline-svg-unique-id/react/-/react-1.2.3.tgz"
-  integrity sha512-Tf6u4pTdkeN4BLuh4aHNFDrKxUoiNbCglou3IDem7x0KRCt/rrhRgLljx85X2k5aAUdLvDhQcpeKVePFarF+8w==
-
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz"
@@ -1497,20 +1492,12 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/assets@^0.6.4":
-  version "0.6.4"
-  resolved "https://registry.npmjs.org/@manuscripts/assets/-/assets-0.6.4.tgz"
-  integrity sha512-80GfG1Gm9PodmBf8vA+Uy1Piu3tvagsXjwrJXq2+vo572s+4p269msyQym3gztQGo+810aVmoAaeqYJg0z5/zw==
-  dependencies:
-    "@inline-svg-unique-id/react" "^1.2.3"
-
-"@manuscripts/body-editor@1.9.22-LEAN-2089.0":
-  version "1.9.22-LEAN-2089.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.22-LEAN-2089.0.tgz#15f489b95e186d51d8322446b10771b0a46aed5c"
-  integrity sha512-UTsphvZIM76fQT2Fwv9RI1uNiXylixP028pQobVzLlolsFH+JLDPNjL79+eZNu08O7kUgH7y5MW84GHnxKE2Kw==
+"@manuscripts/body-editor@1.9.22-LEAN-2089.1":
+  version "1.9.22-LEAN-2089.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.9.22-LEAN-2089.1.tgz#162fa85f6b3639ff5f3b3eda4f544db5d044f85e"
+  integrity sha512-RTHuOt8Ox2zWYBnzCj8uYB5+m8L5sh/hKuux8YydB29ExU6iNdeZH62cF57A5NwloRr4Tr7bwNCeisDw3fQMUw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
-    "@manuscripts/assets" "^0.6.4"
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
     "@manuscripts/style-guide" "1.12.7-LEAN-2089.0"
@@ -7008,7 +6995,16 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -7090,7 +7086,7 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -7103,6 +7099,13 @@ strip-ansi@^3.0.0:
   integrity sha512-VhumSSbBqDTP8p2ZLKj40UjBCV4+v8bUSEpUb4KjRgWk9pbqGF4REFj6KEagidb2f/M6AzC0EmFyDNGaw9OCzg==
   dependencies:
     ansi-regex "^2.0.0"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -7792,7 +7795,16 @@ wicked-good-xpath@1.3.0:
   resolved "https://registry.npmjs.org/wicked-good-xpath/-/wicked-good-xpath-1.3.0.tgz"
   integrity sha512-Gd9+TUn5nXdwj/hFsPVx5cuHHiF5Bwuc30jZ4+ronF1qHK5O7HD0sgmXWSEgwKquT3ClLoKPVbO6qGwVwLzvAw==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
