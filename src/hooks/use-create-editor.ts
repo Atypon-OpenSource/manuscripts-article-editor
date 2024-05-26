@@ -28,7 +28,6 @@ export const useCreateEditor = () => {
       manuscript,
       project,
       user,
-      commitAtLoad,
       fileManagement,
       initialDocVersion,
       style,
@@ -37,13 +36,11 @@ export const useCreateEditor = () => {
     },
     dispatch,
     getState,
-    subscribe,
   ] = useStore((store) => ({
     doc: store.doc,
     manuscript: store.manuscript,
     project: store.project,
     user: store.user,
-    commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
     initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
@@ -95,9 +92,7 @@ export const useCreateEditor = () => {
         dispatch({ selectedSuggestion: undefined })
       }
     },
-    subscribeStore: subscribe,
 
-    commit: commitAtLoad || null,
     theme,
     getCapabilities: () => {
       const state = getState()
