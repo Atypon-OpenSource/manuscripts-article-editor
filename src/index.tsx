@@ -13,7 +13,6 @@
 import './lib/analytics'
 import './lib/fonts'
 
-import AppIcon from '@manuscripts/assets/react/AppIcon'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
 import React, { Suspense, useMemo } from 'react'
@@ -72,11 +71,7 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
     <>
       <ThemeProvider>
         <Suspense
-          fallback={
-            <LoadingPage className={'loader'}>
-              <AppIcon />
-            </LoadingPage>
-          }
+          fallback={<LoadingPage className={'loader'}>Loading...</LoadingPage>}
         >
           <Main
             fileManagement={fileManagement}

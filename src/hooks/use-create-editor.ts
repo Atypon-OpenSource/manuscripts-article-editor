@@ -28,7 +28,6 @@ export const useCreateEditor = () => {
       manuscript,
       project,
       user,
-      modelMap,
       fileManagement,
       initialDocVersion,
       style,
@@ -42,7 +41,6 @@ export const useCreateEditor = () => {
     manuscript: store.manuscript,
     project: store.project,
     user: store.user,
-    modelMap: store.modelMap,
     fileManagement: store.fileManagement,
     initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
@@ -53,17 +51,6 @@ export const useCreateEditor = () => {
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
   )
-
-  const retrySync = (componentIDs: string[]) => {
-    componentIDs.forEach((id) => {
-      const model = modelMap.get(id)
-      if (!model) {
-        return
-      }
-      getState().saveModel(model)
-    })
-    return Promise.resolve()
-  }
 
   const history = useHistory()
 
@@ -105,7 +92,6 @@ export const useCreateEditor = () => {
         dispatch({ selectedSuggestion: undefined })
       }
     },
-    retrySync,
 
     theme,
     getCapabilities: () => {

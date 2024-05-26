@@ -54,6 +54,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
+  const FILES_TAB_INDEX = 3
+
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -98,30 +100,38 @@ const Inspector: React.FC<Props> = ({ editor }) => {
               <InspectorTabPanel key="Content" data-cy="content">
                 <ContentTab state={state} dispatch={dispatch} key="content" />
               </InspectorTabPanel>
-              <InspectorTabPanel key="Comments" data-cy="comments">
-                <CommentsTab
-                  selected={selection}
-                  editor={editor}
-                  key="comments"
-                />
-              </InspectorTabPanel>
+              {
+                <InspectorTabPanel key="Comments" data-cy="comments">
+                  {tabIndex == COMMENTS_TAB_INDEX && (
+                    <CommentsTab
+                      selected={selection}
+                      editor={editor}
+                      key="comments"
+                    />
+                  )}
+                </InspectorTabPanel>
+              }
               {!can.editWithoutTracking && (
                 <InspectorTabPanel key="History" data-cy="history">
-                  <TrackChangesPanel key="track-changes" />
+                  {tabIndex == SUGGESTIONS_TAB_INDEX && (
+                    <TrackChangesPanel key="track-changes" />
+                  )}
                 </InspectorTabPanel>
               )}
               {config.features.fileManagement && (
                 <InspectorTabPanel key="Files" data-cy="files">
-                  <FileManager
-                    can={can}
-                    files={store.files}
-                    enableDragAndDrop={true}
-                    modelMap={store.trackModelMap}
-                    // @ts-ignore
-                    saveModel={store.saveTrackModel}
-                    deleteModel={store.deleteTrackModel}
-                    fileManagement={store.fileManagement}
-                  />
+                  {tabIndex == FILES_TAB_INDEX && (
+                    <FileManager
+                      can={can}
+                      files={store.files}
+                      enableDragAndDrop={true}
+                      modelMap={store.trackModelMap}
+                      // @ts-ignore
+                      saveModel={store.saveTrackModel}
+                      deleteModel={store.deleteTrackModel}
+                      fileManagement={store.fileManagement}
+                    />
+                  )}
                 </InspectorTabPanel>
               )}
             </PaddedInspectorTabPanels>
