@@ -87,10 +87,12 @@ const Panel: React.FC<PanelProps> = (props) => {
       //we should not close the inspector automatically when
       //things are deselected
       if (data.collapsed && (selectedComment || selectedSuggestion)) {
-        updateState(layout.set(name, {
-          ...data,
-          collapsed: false
-        }))
+        updateState(
+          layout.set(name, {
+            ...data,
+            collapsed: false,
+          })
+        )
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
