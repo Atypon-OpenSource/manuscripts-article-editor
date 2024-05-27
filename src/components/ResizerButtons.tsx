@@ -10,18 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import InspectorHandle from '@manuscripts/assets/react/InspectorHandle'
-import OutlineViewHandle from '@manuscripts/assets/react/OutlineViewHandle'
+import {
+  HandleInspectorIcon,
+  HandleOutlineIcon,
+} from '@manuscripts/style-guide'
 import React from 'react'
 import styled, { css } from 'styled-components'
 
 import { ResizerButton, ResizerButtonInnerProps } from './Panel'
 
-export const ResizingOutlinerButton: React.FunctionComponent<
-  ResizerButtonInnerProps
-> = ({ ...props }) => (
+export const ResizingOutlinerButton: React.FC<ResizerButtonInnerProps> = (
+  props
+) => (
   <ResizerButton {...props}>
-    <OutlineViewHandle />
+    <HandleOutlineIcon />
   </ResizerButton>
 )
 
@@ -31,11 +33,11 @@ const collapsedStyling = css`
   border-bottom-right-radius: 0;
 `
 
-const UnstyledResizingInspectorButton: React.FunctionComponent<
-  ResizerButtonInnerProps
-> = ({ ...props }) => (
+const UnstyledResizingInspectorButton: React.FC<ResizerButtonInnerProps> = (
+  props
+) => (
   <ResizerButton {...props}>
-    <InspectorHandle />
+    <HandleInspectorIcon />
   </ResizerButton>
 )
 

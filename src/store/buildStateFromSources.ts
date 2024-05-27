@@ -21,7 +21,7 @@ export type builderFn = (
 export function buildStateFromSources(
   builders: StoreDataSourceStrategy[],
   setState: stateSetter
-): Partial<state> {
+): Promise<Partial<state>> {
   return new Promise((resolve, reject) => {
     let futureState = {}
     let i = 0
