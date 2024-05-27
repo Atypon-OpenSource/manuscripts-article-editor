@@ -92,7 +92,7 @@ export const ListToolbarItem: React.FC<{
    */
   const handleClick = (style: ListStyle) => {
     const type = style.type
-    config.options?.[type](state, dispatch)
+    config.options?.[type](state, dispatch, view)
     view && view.focus()
   }
 
@@ -112,7 +112,7 @@ export const ListToolbarItem: React.FC<{
         disabled={!isEnabled}
         onMouseDown={(event) => {
           event.preventDefault()
-          config.run(state, dispatch)
+          config.run(state, dispatch, view)
           view && view.focus()
         }}
       >
