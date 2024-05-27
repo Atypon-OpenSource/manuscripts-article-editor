@@ -23,9 +23,6 @@ export const useLoadDoc = (authToken: string) => {
     projectID: string,
     existingDoc: ManuscriptNode
   ) {
-    if (!config.quarterback.enabled) {
-      return undefined
-    }
     const found = await docApi.getDocument(projectID, manuscriptID, authToken)
     let doc
     let version = 0
