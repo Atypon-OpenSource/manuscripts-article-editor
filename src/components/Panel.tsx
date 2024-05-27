@@ -83,12 +83,15 @@ const Panel: React.FC<PanelProps> = (props) => {
   useEffect(() => {
     const { name } = props
     if (name === 'inspector' && !firstRender.current) {
-      const data = {
-        ...layout.get(name),
-        collapsed: !selectedComment && !selectedSuggestion,
+      const data = layout.get(name)
+      //we should not close the inspector automatically when
+      //things are deselected
+      if (data.collapsed && (selectedComment || selectedSuggestion)) {
+        updateState(layout.set(name, {
+          ...data,
+          collapsed: false
+        }))
       }
-      layout.set(name, data)
-      updateState(data)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedComment, selectedSuggestion])

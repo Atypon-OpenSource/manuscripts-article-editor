@@ -39,7 +39,7 @@ export const TrackChangesPanel: React.FC = () => {
     const view = editor.view
     const tr = state.tr
     if (suggestion.type === 'text-change') {
-      const pos = suggestion.to - 1
+      const pos = suggestion.to
       tr.setSelection(TextSelection.create(state.doc, pos, pos))
     } else {
       tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
