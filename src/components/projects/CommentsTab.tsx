@@ -44,7 +44,7 @@ export const CommentsTab: React.FC<{
     user: store.user,
     collaborators: store.collaborators || new Map(),
     collaboratorsById: store.collaboratorsById,
-    keywords: store.keywords,
+    keywords: new Map(),
     saveTrackModel: store.saveTrackModel,
     deleteModel: store.deleteModel,
   }))
