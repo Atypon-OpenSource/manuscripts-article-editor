@@ -10,8 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import SearchIconNoBGc from '@manuscripts/assets/react/SearchIconNoBG'
-import { TextField } from '@manuscripts/style-guide'
+import { SearchIcon, TextField } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -95,7 +94,7 @@ class Search extends React.Component<SearchInterface, State> {
         onBlur={this.handleSearchBlur}
       >
         <SearchIconContainer active={isSearchHovered || isSearchFocused}>
-          <SearchIconNoBGc />
+          <SearchIcon />
         </SearchIconContainer>
 
         <SearchText

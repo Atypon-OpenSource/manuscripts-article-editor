@@ -10,8 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Model } from '@manuscripts/json-schema'
-import { ContainedModel, encode, ManuscriptNode } from '@manuscripts/transform'
 import { useRef } from 'react'
 
 let throttled = () => null
@@ -79,7 +77,7 @@ export const useDoWithThrottle = () => {
   const throttled = useRef(() => null)
   const timeout = useRef<number>()
 
-  const doWithThrottle = (fn: () => any, interval = 4000) => {
+  return (fn: () => any, interval = 4000) => {
     throttled.current = fn
     if (!timeout.current) {
       throttled.current()
@@ -92,39 +90,5 @@ export const useDoWithThrottle = () => {
         timeout.current = 0
       }, interval)
     }
-  }
-
-  return doWithThrottle
-}
-
-export type Ok<T> = {
-  data: T
-}
-export type Error = {
-  err: string
-  code: number
-}
-export type Maybe<T> = Ok<T> | Error
-
-export const saveDoc = async (
-  doc: ManuscriptNode,
-  modelMap: Map<string, Model>,
-  bulkUpdate: (
-    models: Array<ContainedModel> | Partial<Model>[]
-  ) => Promise<void>
-): Promise<Maybe<boolean>> => {
-  if (!modelMap) {
-    return {
-      err: 'modelMap undefined inside usePouchStore',
-      code: 500,
-    }
-  }
-  const models = encode(doc)
-
-  try {
-    await bulkUpdate([...models.values()])
-    return { data: true }
-  } catch (e) {
-    return { err: `Failed to save model: ${e}`, code: 500 }
   }
 }

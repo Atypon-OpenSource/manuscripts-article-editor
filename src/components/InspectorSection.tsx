@@ -10,8 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import ArrowDownBlue from '@manuscripts/assets/react/ArrowDownBlue'
-import { IconButton, usePermissions } from '@manuscripts/style-guide'
+import {
+  ArrowDownCircleIcon,
+  IconButton,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -102,7 +105,7 @@ export const InspectorSection: React.FC<Props> = ({
             transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
           }}
         >
-          <ArrowDownBlue />
+          <ArrowDownCircleIcon />
         </ExpanderButton>
       </Heading>
       {expanded && <Content>{children}</Content>}

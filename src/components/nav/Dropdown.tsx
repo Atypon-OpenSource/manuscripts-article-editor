@@ -10,8 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import ArrowDownUp from '@manuscripts/assets/react/ArrowDownUp'
-import { SecondaryButton } from '@manuscripts/style-guide'
+import { ArrowUpIcon, SecondaryButton } from '@manuscripts/style-guide'
 import styled from 'styled-components'
 
 export const DropdownContainer = styled.div`
@@ -47,13 +46,9 @@ interface DropdownProps {
   isOpen: boolean
 }
 
-export const DropdownToggle = styled(ArrowDownUp)`
+export const DropdownToggle = styled(ArrowUpIcon)`
   margin-left: 6px;
   transform: rotate(180deg);
-
-  path {
-    stroke: currentColor;
-  }
 
   &.open {
     transform: rotate(0deg);
