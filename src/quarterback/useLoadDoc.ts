@@ -12,7 +12,6 @@
 
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 
-import config from '../config'
 import { updateDocument } from './api/document'
 import * as docApi from './api/document'
 import { SnapshotLabel } from './types'
