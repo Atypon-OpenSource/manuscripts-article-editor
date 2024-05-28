@@ -61,18 +61,11 @@ export const Suggestion: React.FC<Props> = ({
 
       {trackModalVisible && (
         <TrackModal
+          ref={wrapperRef}
           isVisible={trackModalVisible}
           changeId={suggestion.id}
           setVisible={setModalVisible}
-          ref={wrapperRef}
-        >
-          <SuggestionActions
-            suggestion={suggestion}
-            handleAccept={onAccept}
-            handleReject={onReject}
-            handleReset={onReset}
-          />
-        </TrackModal>
+        ></TrackModal>
       )}
     </Wrapper>
   )
