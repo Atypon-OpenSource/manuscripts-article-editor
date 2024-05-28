@@ -11,18 +11,18 @@
  */
 import { FileAttachment } from '@manuscripts/style-guide'
 
-import deeperEqual from '../lib/deeper-equal'
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import Api from './Api'
-import buildData, { getDrivedData } from './buildData'
-import buildUtilities from './buildUtilities'
+import { buildData } from './buildData'
+import { buildUtilities } from './buildUtilities'
 
 export default class PsSource implements StoreDataSourceStrategy {
   api: Api
   data: Partial<state>
-  utilities: ReturnType<typeof buildUtilities>
+  utilities: Partial<state>
   files: FileAttachment[]
+
   constructor(files: FileAttachment[]) {
     this.api = new Api()
     this.files = files
@@ -42,31 +42,12 @@ export default class PsSource implements StoreDataSourceStrategy {
     }
     if (state.manuscriptID && state.projectID) {
       this.data = await buildData(state.projectID, state.manuscriptID, this.api)
-      this.utilities = buildUtilities(() => this.data, this.api, setState)
+      this.utilities = buildUtilities(() => this.data, setState, this.api)
     }
     next({ ...state, ...this.data, ...this.utilities })
   }
-  afterAction: StoreDataSourceStrategy['afterAction'] = (
-    state,
-    prev,
-    setState
-  ) => {
+  afterAction = (state: state) => {
     this.data = state // keep up to date for utility function
-    if (typeof state.modelMap === 'undefined') {
-      return
-    }
-
-    if (!deeperEqual(state.modelMap, prev.modelMap)) {
-      setState((state) => {
-        const newState = {
-          ...state,
-          ...getDrivedData(state.projectID, state),
-        }
-        this.data = newState
-        return newState
-      })
-    }
-    return
   }
   updateStore = (setState: stateSetter) => {
     this.updateState = setState
