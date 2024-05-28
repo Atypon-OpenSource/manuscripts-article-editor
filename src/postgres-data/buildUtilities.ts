@@ -27,7 +27,7 @@ export const buildUtilities = (
   updateState: (state: Partial<state>) => void,
   api: Api
 ): Partial<state> => {
-  const excludeTypes = new Set([ObjectTypes.Project])
+  const excludeTypes = new Set([ObjectTypes.Manuscript, ObjectTypes.Project])
 
   const updateContainerIDs = (
     model: Model,
