@@ -27,7 +27,10 @@ export const buildUtilities = (
   updateState: (state: Partial<state>) => void,
   api: Api
 ): Partial<state> => {
-  const excludeTypes = new Set([ObjectTypes.Manuscript, ObjectTypes.Project])
+  const nonPMModelsTypes = new Set([
+    ObjectTypes.Manuscript,
+    ObjectTypes.Project,
+  ])
 
   const updateContainerIDs = (
     model: Model,
@@ -88,7 +91,7 @@ export const buildUtilities = (
 
     for (const [id, model] of state.modelMap) {
       const type = model.objectType as ObjectTypes
-      if (!excludeTypes.has(type) && !excludeIDs?.has(id)) {
+      if (nonPMModelsTypes.has(type) || !excludeIDs?.has(id)) {
         modelMap.set(id, model)
       }
     }
