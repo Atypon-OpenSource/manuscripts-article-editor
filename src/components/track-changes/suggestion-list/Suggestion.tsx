@@ -11,12 +11,19 @@
  */
 
 import { TrackedChange } from '@manuscripts/track-changes-plugin'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import TrackModal from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
+
+const scrollIntoView = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect()
+  if (rect.bottom > window.innerHeight || rect.top < 150) {
+    element.scrollIntoView()
+  }
+}
 
 interface Props {
   suggestion: TrackedChange
@@ -35,7 +42,7 @@ export const Suggestion: React.FC<Props> = ({
   onReset,
   onSelect,
 }) => {
-  const wrapperRef = useRef(null)
+  const wrapperRef = useRef<HTMLLIElement>(null)
   const [trackModalVisible, setModalVisible] = useState(false)
 
   const handleClick = (e: React.MouseEvent) => {
@@ -43,6 +50,12 @@ export const Suggestion: React.FC<Props> = ({
     setModalVisible(true)
     onSelect()
   }
+
+  useEffect(() => {
+    if (isSelected && wrapperRef.current) {
+      scrollIntoView(wrapperRef.current)
+    }
+  }, [isSelected])
 
   return (
     <Wrapper data-cy="suggestion" isFocused={isSelected} ref={wrapperRef}>
