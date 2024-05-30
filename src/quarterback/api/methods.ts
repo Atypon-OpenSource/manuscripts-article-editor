@@ -27,10 +27,7 @@ type FetchOptions = {
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  'Transform-Version': getVersion(),
 }
-
-//const debouncedAuth = false
 
 export function getAuthHeader(authToken: string) {
   return authToken && { Authorization: `Bearer ${authToken}` }
@@ -166,7 +163,9 @@ export async function listen<T>(
       ) {
         if (response.headers.get('transform-version') !== getVersion()) {
           console.warn(
-            'Warning! Manuscripts-transform version is different on backend!'
+            `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on backend (${response.headers.get(
+              'transform-version'
+            )})`
           )
         }
         console.log('EventSource Connection Opened Ok')
