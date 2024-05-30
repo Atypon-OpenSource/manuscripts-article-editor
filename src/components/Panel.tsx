@@ -72,25 +72,28 @@ const Panel: React.FC<PanelProps> = (props) => {
   const firstRender = useRef(true)
   const [store, dispatch] = useStore((store) => ({
     selectedComment: store.selectedComment,
-    selectedSuggestion: store.selectedSuggestion,
-    editorSelectedSuggestion: store.editorSelectedSuggestion,
+    selectedSuggestionID: store.selectedSuggestionID,
     isThereNewComments: store.newComments,
   }))
 
   const newComment = store.isThereNewComments
+  const selectedSuggestion = store.selectedSuggestionID
   const selectedComment = store.selectedComment || newComment.size > 0
-  const selectedSuggestion =
-    store.selectedSuggestion || store.editorSelectedSuggestion
 
   useEffect(() => {
     const { name } = props
     if (name === 'inspector' && !firstRender.current) {
-      const data = {
-        ...layout.get(name),
-        collapsed: !selectedComment && !selectedSuggestion ? true : false,
+      const data = layout.get(name)
+      //we should not close the inspector automatically when
+      //things are deselected
+      if (data.collapsed && (selectedComment || selectedSuggestion)) {
+        updateState(
+          layout.set(name, {
+            ...data,
+            collapsed: false,
+          })
+        )
       }
-      layout.set(name, data)
-      updateState(data)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedComment, selectedSuggestion])
@@ -135,8 +138,6 @@ const Panel: React.FC<PanelProps> = (props) => {
     if (data.collapsed === true) {
       dispatch({
         selectedComment: undefined,
-        selectedSuggestion: undefined,
-        editorSelectedSuggestion: undefined,
         isThereNewComments: newComment.clear(),
       })
     }

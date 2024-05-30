@@ -154,8 +154,8 @@ export const ManuscriptToolbar: React.FC<{
                     data-tooltip-id={item.title}
                     data-active={item.isActive && item.isActive(state)}
                     disabled={!isEnabled(key, item, state)}
-                    onMouseDown={(event) => {
-                      event.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault()
                       item.run(state, dispatch)
                       view && view.focus()
                     }}
