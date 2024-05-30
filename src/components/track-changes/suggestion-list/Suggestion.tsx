@@ -99,14 +99,7 @@ export const Suggestion: React.FC<Props> = ({
           isVisible={trackModalVisible}
           changeId={suggestion.id}
           setVisible={setModalVisible}
-        >
-          <SuggestionActions
-            suggestion={suggestion}
-            handleAccept={handleAccept}
-            handleReject={handleReject}
-            handleReset={handleReset}
-          />
-        </TrackModal>
+        ></TrackModal>
       )}
     </Wrapper>
   )

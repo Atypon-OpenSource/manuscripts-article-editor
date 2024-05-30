@@ -11,127 +11,102 @@
  */
 
 import {
-  BibliographyItem,
-  Correction,
-  LibraryCollection,
   Manuscript,
+  manuscriptIDTypes,
   Model,
   ObjectTypes,
-  Project,
-  UserProfile,
 } from '@manuscripts/json-schema'
-import {
-  Build,
-  ContainedModel,
-  ContainedProps,
-  isManuscriptModel,
-  ManuscriptModel,
-} from '@manuscripts/transform'
+import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 
 import Api from '../postgres-data/Api'
-import { ContainedIDs, ContainerIDs, state } from '../store'
+import { ContainerIDs, state } from '../store'
 import { saveWithThrottle } from './savingUtilities'
 
-const buildUtilities = (
-  getData: () => Partial<state>,
-  api: Api,
-  updateState: (state: Partial<state>) => void
-) => {
-  const getModel = <T extends Model>(id: string) => {
-    const data = getData()
-    if (!data.modelMap) {
-      return
-    }
-    return data.modelMap.get(id) as T | undefined
-  }
+export const buildUtilities = (
+  getState: () => Partial<state>,
+  updateState: (state: Partial<state>) => void,
+  api: Api
+): Partial<state> => {
+  const nonPMModelsTypes = new Set([
+    ObjectTypes.Manuscript,
+    ObjectTypes.Project,
+  ])
 
-  //   const bulkUpdate = async (items: Array<ContainedModel>): Promise<void> => {
-  //     for (const value of items) {
-  //       const containerIDs: ContainerIDs = {
-  //         containerID: this.containerID,
-  //       }
-  //       if (isManuscriptModel(value)) {
-  //         containerIDs.manuscriptID = this.manuscriptID
-  //       }
-  //       await this.collection.save(value, containerIDs, true)
-  //     }
-  //   }
-
-  const bulkPersistentProjectSave = (models: ManuscriptModel[]) => {
-    // combine entire project and overwrite?
-    const onlyProjectModels = models.filter((model) => !model.manuscriptID)
-    const data = getData()
-    if (data.projectID && data.manuscriptID) {
-      api.saveProject(data.projectID, onlyProjectModels)
-    }
-  }
-
-  const bulkPersistentManuscriptSave = (models: ManuscriptModel[]) => {
-    const clearedModels = models.filter((model) => {
-      return model.objectType !== ObjectTypes.Project
-    })
-
-    const data = getData()
-
-    if (data.projectID && data.manuscriptID) {
-      return api
-        .saveProject(data.projectID, clearedModels)
-        .then(() => {
-          return true // not sure what will be returned at this point
-        })
-        .catch((e) => {
-          return false
-        })
-    } else {
-      return Promise.reject(false)
-    }
-  }
-
-  const saveModel = async <T extends Model>(
-    model: T | Build<T> | Partial<T>
+  const updateContainerIDs = (
+    model: Model,
+    projectID: string,
+    manuscriptID: string
   ) => {
+    const containerIDs: ContainerIDs = {
+      containerID: projectID,
+    }
+
     if (!model._id) {
       throw new Error('Model ID required')
     }
 
-    const data = getData()
-    if (!data.modelMap || !data.manuscriptID || !data.projectID) {
-      throw new Error(
-        'State misses important element. Unable to savel a model.'
-      )
+    if (manuscriptIDTypes.has(model.objectType)) {
+      containerIDs.manuscriptID = manuscriptID
     }
 
-    const containedModel = model as T & ContainedProps
-
-    // NOTE: this is needed because the local state is updated before saving
-    const containerIDs: ContainerIDs = {
-      containerID: data.projectID,
-    }
-
-    if (isManuscriptModel(containedModel)) {
-      containerIDs.manuscriptID = data.manuscriptID
-    }
-
-    const newModel = {
-      ...containedModel,
+    return {
+      ...model,
       ...containerIDs,
     }
+  }
 
-    const modelMap = new Map(data.modelMap)
-    modelMap.set(containedModel._id, newModel)
+  const saveProject = async (models: Model[], projectID: string) => {
+    try {
+      const filtered = models.filter(
+        (m) => m.objectType !== ObjectTypes.Project
+      )
+      await api.saveProject(projectID, filtered)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
 
-    // data.modelMap.set(containedModel._id, newModel)
+  const getModel = <T extends Model>(id: string) => {
+    const state = getState()
+    if (!state.modelMap) {
+      return
+    }
+    return state.modelMap.get(id) as T | undefined
+  }
 
-    // const { attachment, ...containedModeldata } = containedModel as T &
-    //   ContainedProps &
-    //   ModelAttachment
-    // TODO: containedModeldata.contents = serialized DOM wrapper for bibliography
-    // const result = await this.collection.save(containedModeldata, containerIDs)
-    // under this new API we won' save the model separately but rather trigger a bulk save once in a while
-    // if (attachment) {
-    //   await this.collection.putAttachment(result._id, attachment)
-    // }
-    // return result as T & ContainedProps
+  const saveModels = async (
+    models: Model[] | Build<Model>[] | Partial<Model>[],
+    excludeIDs?: Set<string>
+  ) => {
+    const state = getState()
+    const projectID = state.projectID
+    const manuscriptID = state.manuscriptID
+
+    if (!state.modelMap || !manuscriptID || !projectID) {
+      throw new Error('Unable to save due to incomplete data')
+    }
+
+    const modelMap = new Map<string, Model>()
+
+    for (const [id, model] of state.modelMap) {
+      const type = model.objectType as ObjectTypes
+      if (nonPMModelsTypes.has(type) || !excludeIDs?.has(id)) {
+        modelMap.set(id, model)
+      }
+    }
+
+    for (const model of models) {
+      if (!model._id) {
+        throw new Error('Model ID required')
+      }
+      const updated = updateContainerIDs(
+        model as Model,
+        projectID,
+        manuscriptID
+      )
+      modelMap.set(model._id, updated)
+    }
 
     updateState({
       modelMap,
@@ -142,230 +117,70 @@ const buildUtilities = (
       updateState({
         savingProcess: 'saving',
       })
-      const result = await bulkPersistentManuscriptSave([
-        ...modelMap.values(),
-      ] as ManuscriptModel[])
+
+      const result = await saveProject([...modelMap.values()], projectID)
 
       updateState({
         savingProcess: result ? 'saved' : 'failed',
         preventUnload: false,
       })
     })
-    return newModel
   }
 
-  const saveProjectModel = <T extends Model>(model: T | Build<T>) => {
-    if (!model._id) {
-      throw new Error('Model ID required.')
-    }
-
-    const data = getData()
-    if (!data.modelMap || !data.projectID) {
-      throw new Error(
-        'State misses important element. Unable to savel a model.'
-      )
-    }
-    const containedModel = {
-      ...model,
-      containerID: data.projectID,
-    } as T & ContainedProps
-    const map = data.modelMap // potential time discrepancy bug
-
-    updateState({
-      modelMap: map.set(model._id, containedModel),
-    })
-
-    saveWithThrottle(() => {
-      if (data.modelMap) {
-        bulkPersistentProjectSave([
-          ...data.modelMap.values(),
-        ] as ManuscriptModel[])
-      }
-    })
-
-    return containedModel
+  const saveModel = async <T extends Model>(
+    model: T | Build<T> | Partial<T>
+  ): Promise<T> => {
+    await saveModels([model])
+    //is this actually needed?
+    return model as T
   }
 
   const deleteModel = async (id: string) => {
-    const data = getData()
-    if (data.modelMap) {
-      const modelMap = new Map(data.modelMap)
-      modelMap.delete(id)
-
-      // data.modelMap.delete(id)
-
-      updateState({
-        modelMap: modelMap,
-        savingProcess: 'saving',
-      })
-      const result = await bulkPersistentManuscriptSave([
-        ...modelMap.values(),
-      ] as ManuscriptModel[])
-      updateState({
-        savingProcess: result ? 'saved' : 'failed',
-      })
-    }
-
+    await saveModels([], new Set([id]))
     return id
   }
 
-  const saveManuscript = async (manuscriptData: Partial<Manuscript>) => {
-    try {
-      const data = getData()
-      if (!data.modelMap || !data.manuscriptID) {
-        throw new Error('Unable to save manuscript due to incomplete data')
-      }
-      const prevManuscript = data.modelMap.get(data.manuscriptID)
-      return saveModel({
-        ...prevManuscript,
-        ...manuscriptData,
-      }).then(() => undefined)
-    } catch (e) {
-      console.log(e)
+  const saveManuscript = async (manuscript: Partial<Manuscript>) => {
+    const state = getState()
+    if (!state.modelMap || !state.manuscriptID) {
+      throw new Error('Unable to save manuscript due to incomplete data')
     }
-  }
-
-  const saveNewManuscript = async (
-    // this is only for development purposes, in LW there should be no direct insertion of manuscripts by user
-    dependencies: Array<Build<ContainedModel> & ContainedIDs>,
-    containerID: string, // ignoring for now because API doesn't support an compulsory containerID
-    manuscript: Build<Manuscript>,
-    newProject?: Build<Project>
-  ) => {
-    if (newProject) {
-      const project = await api.createProject(
-        containerID,
-        newProject.title || 'Untitled'
-      )
-      if (project) {
-        await api.createNewManuscript(project._id, manuscript._id)
-        dependencies.forEach((dep) => {
-          dep.containerID = project._id
-        })
-        await api.saveProjectData(project._id, dependencies)
-        return manuscript
-      } else {
-        throw new Error('Unable to create new project')
-      }
-    }
-    // else {
-    // currently not supporting multiple manuscripts in a project
-    // }
-    return Promise.resolve(manuscript)
-  }
-
-  const saveBiblioItem = async (
-    item: Build<BibliographyItem>,
-    projectID: string
-  ) => {
-    return saveProjectModel(item)
-  }
-
-  const updateBiblioItem = (item: BibliographyItem) => {
-    return saveModel(item) // difference between modelMap and projectModelMap are those different? should we store project level data in a different map?
-    // return this.collection.update(item._id, item)
-  }
-
-  const deleteBiblioItem = (item: BibliographyItem) => {
-    return Promise.resolve(getData().modelMap?.delete(item._id) || false)
-  }
-
-  const saveCorrection = (correction: Correction) => {
-    return saveModel(correction)
-  }
-
-  const createProjectLibraryCollection = async (
-    libraryCollection: Build<LibraryCollection>,
-    projectID?: string
-  ) => {
-    saveProjectModel(libraryCollection)
-  }
-
-  // async ( model: T | Build<T> | Partial<T>
-  const bulkUpdate = async (
-    items: Array<ContainedModel> | Build<Model>[] | Partial<Model>[]
-  ) => {
-    const data = getData()
-
-    if (!data.modelMap || !data.manuscriptID || !data.projectID) {
-      throw new Error(
-        'State misses important element. Unable to savel a model.'
-      )
-    }
-
-    const nonPMModelsTypes = [ObjectTypes.Project, ObjectTypes.Manuscript]
-
-    const modelMap = new Map<string, Model>()
-
-    for (const [id, oldModel] of data.modelMap) {
-      if (nonPMModelsTypes.some((t) => t == oldModel.objectType)) {
-        modelMap.set(id, oldModel)
-      }
-    }
-
-    for (const model of items) {
-      // NOTE: this is needed because the local state is updated before saving
-      const containerIDs: ContainerIDs = {
-        containerID: data.projectID,
-      }
-
-      if (!model._id) {
-        throw new Error('Model ID required')
-      }
-
-      const containedModel = model as Model & ContainedProps
-
-      if (isManuscriptModel(containedModel)) {
-        containerIDs.manuscriptID = data.manuscriptID
-      }
-
-      const newModel = {
-        ...containedModel,
-        ...containerIDs,
-      }
-      modelMap.set(containedModel._id, newModel)
-    }
-
-    return new Promise<void>((resolve, reject) => {
-      saveWithThrottle(async () => {
-        updateState({
-          savingProcess: 'saving',
-        })
-        const result = await bulkPersistentManuscriptSave([
-          ...modelMap.values(),
-        ] as ManuscriptModel[])
-
-        if (result) {
-          resolve()
-        } else {
-          reject()
-        }
-
-        updateState({
-          savingProcess: result ? 'saved' : 'failed',
-        })
-      })
+    const previous = state.modelMap.get(state.manuscriptID)
+    await saveModel({
+      ...previous,
+      ...manuscript,
     })
   }
 
-  const createUser = async (profile: Build<UserProfile>) => {
-    await saveModel(profile)
-    return Promise.resolve()
+  const saveDoc = async (doc: ManuscriptNode) => {
+    const models = encode(doc)
+    await saveModels([...models.values()])
+  }
+
+  const createSnapshot = async () => {
+    const state = getState()
+    const projectID = state.projectID
+    const manuscriptID = state.manuscriptID
+    const snapshots = state.snapshots
+    const snapshotsMap = state.snapshotsMap
+    if (!projectID || !manuscriptID || !snapshots || !snapshotsMap) {
+      throw new Error('Unable to create snapshot due to incomplete data')
+    }
+    const data = await api.createSnapshot(projectID, manuscriptID)
+    const { snapshot, ...label } = data.snapshot
+    updateState({
+      snapshots: [...snapshots, label],
+      snapshotsMap: snapshotsMap.set(label.id, data.snapshot),
+    })
   }
 
   return {
     saveModel,
     deleteModel,
     saveManuscript,
-    saveNewManuscript,
     getModel,
-    saveCorrection,
-    createProjectLibraryCollection,
-    saveBiblioItem,
-    deleteBiblioItem,
-    updateBiblioItem,
-    bulkUpdate,
-    createUser,
+    saveModels,
+    saveDoc,
+    createSnapshot,
   }
 }
-export default buildUtilities

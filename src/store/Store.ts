@@ -11,30 +11,20 @@
  */
 
 import {
-  BibliographyItem,
-  Bundle,
   CommentAnnotation,
-  ContainerInvitation,
-  ContributorRole,
-  LibraryCollection,
   Manuscript,
   ManuscriptNote,
-  ManuscriptTemplate,
   Model,
   Project,
-  ProjectInvitation,
   SectionCategory,
-  Tag,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,
-  ContainedModel,
   ManuscriptEditorView,
   ManuscriptNode,
-  ModelAttachment,
 } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
@@ -42,26 +32,12 @@ import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
 
-export interface TokenActions {
-  delete: () => void
-  update: (token: string) => void
-}
-
 export type action = { action?: string; [key: string]: any }
-export type ImportError = { error: boolean; message: string }
-export type ImportOk = { ok: boolean }
-export type bulkCreate = <T>(
-  models: Array<Build<T> & ContainerIDs & ModelAttachment>
-) => Promise<Array<ImportError | ImportOk>>
-export interface ContainerIDs {
-  containerID?: string
-  manuscriptID?: string
-  templateID?: string
-}
 
-export interface ContainedIDs {
+export interface ContainerIDs {
   containerID: string
   manuscriptID?: string
+  templateID?: string
 }
 
 export type state = {
@@ -72,20 +48,16 @@ export type state = {
 
   project: Project
   manuscript: Manuscript
-  manuscripts?: Manuscript[]
   user: UserProfile // probably should be optional
 
   editor: ReturnType<typeof useCreateEditor>
   doc: ManuscriptNode
   initialDocVersion: number
-  ancestorDoc: ManuscriptNode
-
-  authorsPopupOn?: boolean // toggling authors modal
 
   modelMap: Map<string, Model>
   saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
   deleteModel: (id: string) => Promise<string>
-  bulkUpdate: (models: ContainedModel[]) => Promise<void>
+  saveModels: (models: Model[]) => Promise<void>
   saveManuscript: (data: Partial<Manuscript>) => Promise<void>
   // track changes doc state changes
   saveTrackModel: <T extends Model>(
@@ -100,33 +72,18 @@ export type state = {
   authToken: string
   tokenData: TokenData
 
-  // TODO remove
-  projectInvitations?: ProjectInvitation[]
-  containerInvitations?: ContainerInvitation[]
-  getInvitation?: (
-    invitingUserID: string,
-    invitedEmail: string
-  ) => Promise<ContainerInvitation>
-  tokenActions: TokenActions
-
-  snapshotID: string | null
-  handleSnapshot?: () => Promise<void>
-
-  comments?: CommentAnnotation[]
   newComments: Map<string, CommentAnnotation>
   collaborators?: Map<string, UserProfile>
-  collaboratorsProfiles?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
 
   notes?: ManuscriptNote[]
-
-  tags?: Tag[]
 
   trackState?: TrackChangesState
   view: ManuscriptEditorView
 
   snapshots: SnapshotLabel[]
   snapshotsMap: Map<string, ManuscriptSnapshot>
+  createSnapshot: () => Promise<void>
   inspectedSnapshotId: string
 
   permittedActions: string[]
@@ -139,16 +96,10 @@ export type state = {
   preventUnload?: boolean
   beforeUnload?: () => void
 
-  library: Map<string, BibliographyItem>
-  projectLibraryCollections: Map<string, LibraryCollection>
-  template?: ManuscriptTemplate
-  bundle?: Bundle
   cslLocale?: string
   cslStyle?: string
-  citeprocCitations: Map<string, string>
 
   sectionCategories: SectionCategory[]
-  contributorRoles: ContributorRole[]
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
