@@ -16,7 +16,15 @@ import {
 } from '@microsoft/fetch-event-source'
 
 import config from '../../config'
-import { Maybe } from '../../postgres-data/savingUtilities'
+
+type Ok<T> = {
+  data: T
+}
+type Error = {
+  err: string
+  code: number
+}
+type Maybe<T> = Ok<T> | Error
 
 type FetchOptions = {
   method: string

@@ -13,87 +13,47 @@ import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
 import { EditorView } from 'prosemirror-view'
 
-import { saveDoc } from '../postgres-data/savingUtilities'
-import { post } from '../quarterback/api/methods'
 import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
-import { ISaveSnapshotResponse } from '../quarterback/types'
 import { useStore } from '../store'
 import useExecCmd from './use-exec-cmd'
 
 export const useHandleSnapshot = (view?: EditorView) => {
-  const [
-    {
-      projectID,
-      manuscriptID,
-      modelMap,
-      bulkUpdate,
-      authToken,
-      snapshots,
-      snapshotsMap,
-      beforeUnload,
-    },
-    dispatch,
-  ] = useStore((store) => ({
-    projectID: store.projectID,
-    manuscriptID: store.manuscriptID,
-    authToken: store.authToken,
-    snapshots: store.snapshots,
-    snapshotsMap: store.snapshotsMap,
-    modelMap: store.modelMap,
-    bulkUpdate: store.bulkUpdate,
+  const [{ saveDoc, createSnapshot, beforeUnload }] = useStore((store) => ({
+    createSnapshot: store.createSnapshot,
+    saveDoc: store.saveDoc,
     beforeUnload: store.beforeUnload,
   }))
   const can = usePermissions()
   const canApplySaveChanges = can.applySaveChanges
-
-  const saveSnapshot = async (projectID: string, manuscriptID: string) => {
-    const resp = await post<ISaveSnapshotResponse>(
-      `snapshot/${projectID}/manuscript/${manuscriptID}`,
-      authToken,
-      {
-        docID: manuscriptID,
-        name: new Date().toLocaleString('sv'),
-      }
-    )
-
-    if ('data' in resp) {
-      const { snapshot, ...label } = resp.data.snapshot
-      dispatch({
-        snapshots: [...snapshots, label],
-        snapshotsMap: snapshotsMap.set(label.id, resp.data.snapshot),
-      })
-    }
-    return resp
-  }
-
   const execCmd = useExecCmd()
 
   return async () => {
+    if (!view) {
+      return
+    }
     // if there is a pending throttle or potentially other pending action, we need to make sure it's done before we proceed wrapping the current step
     beforeUnload && beforeUnload()
-    const resp = await saveSnapshot(projectID, manuscriptID)
-    if (resp && view) {
-      execCmd(trackCommands.applyAndRemoveChanges(), view)
-      return new Promise<void>((resolve, reject) => {
-        setTimeout(() => {
-          const state = view.state
-          if (!state) {
-            reject(new Error('State is not available'))
-            return
-          }
-          if (!canApplySaveChanges) {
-            return resolve()
-          }
+    await createSnapshot()
+    execCmd(trackCommands.applyAndRemoveChanges(), view)
+    return new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        const state = view.state
+        if (!state) {
+          reject(new Error('State is not available'))
+          return
+        }
+        if (!canApplySaveChanges) {
+          return resolve()
+        }
 
-          saveDoc(getDocWithoutTrackContent(state), modelMap, bulkUpdate)
-            .then(() => {
-              resolve()
-            })
-            .catch(() =>
-              reject(new Error('Cannot save to api. Check connection.'))
-            )
-        }, 900) // to avoid potentially saving before the changes are applied
-      })
-    }
+        saveDoc(getDocWithoutTrackContent(state))
+          .then(() => {
+            resolve()
+          })
+          .catch(() =>
+            reject(new Error('Cannot save to api. Check connection.'))
+          )
+      }, 900) // to avoid potentially saving before the changes are applied
+    })
   }
 }
