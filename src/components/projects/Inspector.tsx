@@ -43,14 +43,13 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     files: store.files,
     isThereNewComments: store.newComments.size,
     selectedComment: store.selectedComment,
-    selectedSuggestion: store.selectedSuggestion,
-    editorSelectedSuggestion: store.editorSelectedSuggestion,
+    selectedSuggestionID: store.selectedSuggestionID,
   }))
 
   const { state, dispatch } = editor
 
   const comment = store.isThereNewComments || store.selectedComment
-  const suggestion = store.selectedSuggestion || store.editorSelectedSuggestion
+  const suggestion = store.selectedSuggestionID
   const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
@@ -100,24 +99,27 @@ const Inspector: React.FC<Props> = ({ editor }) => {
               <InspectorTabPanel key="Content" data-cy="content">
                 <ContentTab state={state} dispatch={dispatch} key="content" />
               </InspectorTabPanel>
-              {tabIndex == COMMENTS_TAB_INDEX && (
+              {
                 <InspectorTabPanel key="Comments" data-cy="comments">
-                  <CommentsTab
-                    selected={selection}
-                    editor={editor}
-                    key="comments"
-                  />
+                  {tabIndex == COMMENTS_TAB_INDEX && (
+                    <CommentsTab
+                      selected={selection}
+                      editor={editor}
+                      key="comments"
+                    />
+                  )}
+                </InspectorTabPanel>
+              }
+              {!can.editWithoutTracking && (
+                <InspectorTabPanel key="History" data-cy="history">
+                  {tabIndex == SUGGESTIONS_TAB_INDEX && (
+                    <TrackChangesPanel key="track-changes" />
+                  )}
                 </InspectorTabPanel>
               )}
-              {!can.editWithoutTracking &&
-                tabIndex == SUGGESTIONS_TAB_INDEX && (
-                  <InspectorTabPanel key="History" data-cy="history">
-                    <TrackChangesPanel key="track-changes" />
-                  </InspectorTabPanel>
-                )}
-              {config.features.fileManagement &&
-                tabIndex == FILES_TAB_INDEX && (
-                  <InspectorTabPanel key="Files" data-cy="files">
+              {config.features.fileManagement && (
+                <InspectorTabPanel key="Files" data-cy="files">
+                  {tabIndex == FILES_TAB_INDEX && (
                     <FileManager
                       can={can}
                       files={store.files}
@@ -128,8 +130,9 @@ const Inspector: React.FC<Props> = ({ editor }) => {
                       deleteModel={store.deleteTrackModel}
                       fileManagement={store.fileManagement}
                     />
-                  </InspectorTabPanel>
-                )}
+                  )}
+                </InspectorTabPanel>
+              )}
             </PaddedInspectorTabPanels>
           </InspectorTabs>
         </InspectorContainer>

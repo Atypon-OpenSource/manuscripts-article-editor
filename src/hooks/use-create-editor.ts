@@ -26,8 +26,6 @@ export const useCreateEditor = () => {
       manuscript,
       project,
       user,
-      modelMap,
-      commitAtLoad,
       fileManagement,
       initialDocVersion,
       style,
@@ -36,14 +34,11 @@ export const useCreateEditor = () => {
     },
     dispatch,
     getState,
-    subscribe,
   ] = useStore((store) => ({
     doc: store.doc,
     manuscript: store.manuscript,
     project: store.project,
     user: store.user,
-    modelMap: store.modelMap,
-    commitAtLoad: store.commitAtLoad,
     fileManagement: store.fileManagement,
     initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
@@ -54,17 +49,6 @@ export const useCreateEditor = () => {
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
   )
-
-  const retrySync = (componentIDs: string[]) => {
-    componentIDs.forEach((id) => {
-      const model = modelMap.get(id)
-      if (!model) {
-        return
-      }
-      getState().saveModel(model)
-    })
-    return Promise.resolve()
-  }
 
   const history = useHistory()
 
@@ -88,27 +72,6 @@ export const useCreateEditor = () => {
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setSelectedComment: (commentID?: string, isNew?: boolean) => {
-      const update: Partial<state> = {
-        selectedCommentID: commentID
-      }
-      if (commentID && isNew) {
-        const state = getState()
-        update.newComments = new Set([...state.newComments, commentID])
-      }
-      dispatch(update)
-    },
-    setEditorSelectedSuggestion: (suggestionId?: string) => {
-      dispatch({ editorSelectedSuggestion: suggestionId })
-      if (!suggestionId) {
-        dispatch({ selectedSuggestion: undefined })
-      }
-    },
-    retrySync,
-    subscribeStore: subscribe,
-
-    commit: commitAtLoad || null,
-    theme,
     getCapabilities: () => {
       const state = getState()
       return getCapabilities(state.project, state.user, state.permittedActions)

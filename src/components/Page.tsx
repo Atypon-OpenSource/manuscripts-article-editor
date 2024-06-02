@@ -21,6 +21,14 @@ export const Main = styled.main`
   flex: 1;
   position: relative;
   box-sizing: border-box;
+  background-color: ${(props) => props.theme.colors.background.primary};
+  background-image: linear-gradient(
+    180deg,
+    rgba(250, 250, 250, 1) 0%,
+    rgba(250, 250, 250, 1) 38px,
+    rgba(255, 255, 255, 1) 38px,
+    rgba(255, 255, 255, 1) 100%
+  );
 `
 
 export const Centered = styled(Main)`

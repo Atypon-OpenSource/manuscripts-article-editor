@@ -44,8 +44,10 @@ export const ListButton = styled.button.attrs({
   'data-active'?: boolean
 }>`
   ${buttonCss};
-  padding: 2px ${(props) => props.theme.grid.unit * 1}px 2px
-    ${(props) => props.theme.grid.unit * 3}px;
+  padding: ${(props) => props.theme.grid.unit * 2 - 1}px
+    ${(props) => props.theme.grid.unit * 1}px
+    ${(props) => props.theme.grid.unit * 2 - 1}px
+    ${(props) => props.theme.grid.unit * 2}px;
   border-right: 0;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;

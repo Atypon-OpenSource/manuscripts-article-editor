@@ -62,7 +62,8 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     user: store.user,
     collaborators: store.collaborators || new Map<string, UserProfile>(),
     collaboratorsById: store.collaboratorsById,
-    keywords: store.keywords,
+    //removed from the store but left here to limit scope of changes.
+    keywords: new Map(),
     manuscriptID: store.manuscriptID,
     saveTrackModel: store.saveTrackModel,
     newComments: store.newComments,
@@ -166,7 +167,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                       listCollaborators={() =>
                         Array.from(collaborators.values())
                       }
-                      listKeywords={keywords}
+                      listKeywords={() => []}
                       saveComment={saveComment}
                       scrollIntoHighlight={() => setSelectedCommentID(comment._id)}
                       onFocusOut={onFocusOut}
@@ -197,7 +198,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                         listCollaborators={() =>
                           Array.from(collaborators.values())
                         }
-                        listKeywords={keywords}
+                        listKeywords={() => []}
                         saveComment={saveComment}
                         handleCreateReply={createReply}
                         can={can}

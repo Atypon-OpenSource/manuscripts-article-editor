@@ -9,11 +9,9 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import ArrowDown from '@manuscripts/assets/react/ArrowDownBlack'
-import OrderedList from '@manuscripts/assets/react/ToolbarIconOrderedList'
-import BulletList from '@manuscripts/assets/react/ToolbarIconUnorderedList'
 import { ToolbarButtonConfig } from '@manuscripts/body-editor'
 import {
+  ArrowDownIcon,
   Block,
   BlockItem,
   bulletListContextMenu,
@@ -22,6 +20,9 @@ import {
   ListContainer,
   orderedListContextMenu,
   StyleBlock,
+  ToolbarOrderedListIcon,
+  ToolbarUnorderedListIcon,
+  Tooltip,
   useDropdown,
 } from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
@@ -42,7 +43,7 @@ export const ListStyleSelector: React.FC<{
   return (
     <Container onClick={(e) => !disabled && toggleOpen()} ref={wrapperRef}>
       <ListStyleButton disabled={disabled}>
-        <ArrowDown />
+        <ArrowDownIcon />
       </ListStyleButton>
       {isOpen && (
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
@@ -96,17 +97,17 @@ export const ListToolbarItem: React.FC<{
   }
 
   const { icon, styles } = (type === 'ordered_list' && {
-    icon: <OrderedList />,
+    icon: <ToolbarOrderedListIcon />,
     styles: orderedListContextMenu as ListStyle[],
   }) || {
-    icon: <BulletList />,
+    icon: <ToolbarUnorderedListIcon />,
     styles: bulletListContextMenu as ListStyle[],
   }
 
   return (
     <ToolbarItem>
       <ListButton
-        title={config.title}
+        data-tooltip-id={config.title}
         data-active={config.isActive && config.isActive(state)}
         disabled={!isEnabled}
         onMouseDown={(event) => {
@@ -117,6 +118,9 @@ export const ListToolbarItem: React.FC<{
       >
         {icon}
       </ListButton>
+      <Tooltip id={config.title} place="bottom">
+        {config.title}
+      </Tooltip>
       <ListStyleSelector
         disabled={!isEnabled}
         onClick={handleClick}

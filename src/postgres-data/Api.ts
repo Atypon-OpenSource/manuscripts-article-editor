@@ -11,18 +11,16 @@
  */
 import {
   Bundle,
-  Manuscript,
   ManuscriptTemplate,
   Model,
   Project,
   SectionCategory,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { Build, ContainedModel } from '@manuscripts/transform'
 import axios, { AxiosInstance } from 'axios'
 
 import config from '../config'
-import { ContainedIDs } from '../store'
+import { ISaveSnapshotResponse } from '../quarterback/types'
 
 export default class Api {
   instance: AxiosInstance
@@ -105,20 +103,6 @@ export default class Api {
   getUserProfiles = (containerID: string) =>
     this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
 
-  signUpAndGetToken = async (
-    username: string,
-    password: string,
-    name: string
-  ) => {
-    await this.post('/registration/signup', {
-      username,
-      password,
-      name,
-    })
-    const result = await this.get<{ token: string; recover: boolean }>('user')
-    return result?.token
-  }
-
   saveProject = (projectId: string, models: Model[]) => {
     return this.put(`project/${projectId}`, { data: models })
   }
@@ -127,36 +111,13 @@ export default class Api {
     return this.post<Project>(`project/${projectId}`, { title })
   }
 
-  createNewManuscript = (
-    projectID: string,
-    manuscriptID: string,
-    templateID = '' // not going to work for now. Needs to be allowed without templateID for dev purposes.
-  ) => {
-    if (!templateID) {
-      templateID =
-        'MPManuscriptTemplate:www-zotero-org-styles-plos-one-PLOS-ONE-Journal-Publication'
-      console.log(
-        "Applying development templateID as there was no real ID provided on new manuscript creation. This is because API doesn't allow no templateID but it used to be allowed on CouchDB"
-      )
-    }
-    return this.post<Manuscript>(
-      `projects/${projectID}/manuscript/${manuscriptID}`,
+  createSnapshot = (projectID: string, manuscriptID: string) => {
+    return this.post<ISaveSnapshotResponse>(
+      `snapshot/${projectID}/manuscript/${manuscriptID}`,
       {
-        templateID,
+        docID: manuscriptID,
+        name: new Date().toLocaleString('sv'),
       }
     )
-  }
-
-  saveProjectData: (
-    projectID: string,
-    data: Array<Build<ContainedModel> & ContainedIDs>
-  ) => Promise<Array<Build<ContainedModel> & ContainedIDs>> = async (
-    projectID: string,
-    data: Array<Build<ContainedModel> & ContainedIDs>
-  ) => {
-    await this.put(`project/${projectID}`, {
-      data,
-    })
-    return data
   }
 }
