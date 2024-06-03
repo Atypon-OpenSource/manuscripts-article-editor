@@ -1492,16 +1492,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.10.3":
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.3.tgz#b726290434e4a4ddacf577001caeada563faa79a"
-  integrity sha512-xat7oqzspK+B/PnRVWZnwM6m/1h7PkOJCImmJRCJ6sjtjneGnCk3qRYZ7Fgc8A8E5zixiQ1Z7dPZI4pNSp5Xww==
+"@manuscripts/body-editor@1.10.5":
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.5.tgz#997e9f98b02b9d61e3b5d59ca669118c0511113a"
+  integrity sha512-HmfhvECp7jdxOGlIWTKLRkW+qtedoAsQOLcBE6W0tgKh49uxYUSX2PjdwT4n26oxNRp23Cdet9f9HEFYLrmyPQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
     "@manuscripts/style-guide" "1.12.8"
-    "@manuscripts/track-changes-plugin" "1.7.11"
+    "@manuscripts/track-changes-plugin" "1.7.12"
     "@manuscripts/transform" "2.3.4"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1594,10 +1594,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.11":
-  version "1.7.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.11.tgz#17aa4a5fcc2429bac37a1be672b0f7453fd3cc24"
-  integrity sha512-g1sa70NpfKIrHQicGd7hEO2jImNhZ7xI9OGYusui6V3vhM4DXdBtKMF9S3nSLsHV7olnHWwBomhus2aVh7DY4w==
+"@manuscripts/track-changes-plugin@1.7.12":
+  version "1.7.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.12.tgz#429abb8e2bce0c647adbd0da09eb2c4a0a2570d1"
+  integrity sha512-Cwdm3V0F20pF0W2xkl9vvzvvvX7mRhLClj/dtbnqfbt6VbxpVw/fQQ4FbK59ZuE2cfB0p0RnhJ7tUe0a5Bk4gw==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
