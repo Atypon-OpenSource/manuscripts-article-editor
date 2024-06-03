@@ -15,6 +15,7 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
+import { selectedSuggestionKey } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
@@ -139,6 +140,11 @@ const ManuscriptPageView: React.FC = () => {
     storeDispatch,
     getTrackModel,
   ])
+
+  useEffect(() => {
+    const selection = selectedSuggestionKey.getState(state)
+    storeDispatch({ selectedSuggestionID: selection?.suggestion?.id })
+  }, [storeDispatch, state])
 
   const hasPendingSuggestions = useMemo(() => {
     const { changeSet } = trackChangesPluginKey.getState(state) || {}
