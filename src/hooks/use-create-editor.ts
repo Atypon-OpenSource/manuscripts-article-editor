@@ -16,7 +16,7 @@ import { useHistory } from 'react-router'
 
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
-import {state, useStore} from '../store'
+import { useStore } from '../store'
 import { theme } from '../theme/theme'
 
 export const useCreateEditor = () => {
@@ -67,6 +67,7 @@ export const useCreateEditor = () => {
       style,
       locale,
     },
+    theme,
     history,
     projectID: project._id,
 

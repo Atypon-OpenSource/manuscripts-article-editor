@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { clearCommentSelection } from '@manuscripts/body-editor'
 import {
   Affiliation,
   CommentAnnotation,
@@ -133,6 +134,7 @@ export const saveComment = (
       }
     }
   })
+  clearCommentSelection(tr)
   view.dispatch(tr)
 
   return Promise.resolve(comment as Model)
@@ -165,6 +167,7 @@ export const deleteComment = (
     if (node.attrs.id === comment._id && node.type === schema.nodes.comment) {
       tr.delete(pos, pos + node.nodeSize)
       tr.setMeta('track-changes-skip-tracking', true)
+      clearCommentSelection(tr)
       view.dispatch(tr)
       return false
     }

@@ -11,54 +11,56 @@
  */
 
 import {
-  CommentAnnotation,
-  UserProfile
-} from '@manuscripts/json-schema'
+  Comment,
+  commentsKey,
+  InlineComment,
+  isNodeComment,
+  setCommentSelection,
+} from '@manuscripts/body-editor'
+import { CommentAnnotation, UserProfile } from '@manuscripts/json-schema'
 import {
-  CommentTarget, CommentType,
+  CommentTarget,
+  CommentType,
   CommentWrapper,
   NoteBodyContainer,
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import {buildKeyword} from '@manuscripts/transform'
-import React, { useCallback, useEffect, useState } from 'react'
+import { buildKeyword } from '@manuscripts/transform'
+import { NodeSelection, TextSelection } from 'prosemirror-state'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
 import {
   default as useCommentOperation,
   useCommentLabel,
 } from '../../hooks/use-comment-manager'
-import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useStore } from '../../store'
 import * as Pattern from './CommentListPatterns'
 import { HighlightedText } from './HighlightedText'
-import {
-  getCommentMarkerID
-} from "@manuscripts/body-editor";
-import {
-  commentsKey
-} from "@manuscripts/body-editor";
-import {scrollIntoViewIfNeeded} from "../../lib/scroll";
 
-interface Props {
-  editor: ReturnType<typeof useCreateEditor>
+const scrollIntoView = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect()
+  if (rect.bottom > window.innerHeight || rect.top < 150) {
+    element.scrollIntoView()
+  }
 }
 
-export const CommentList: React.FC<Props> = ({ editor }) => {
+export const CommentList: React.FC = () => {
   const [
     {
-      selectedCommentID,
-      newComments,
+      editor,
+      selectedCommentKey,
+      newCommentID,
       user,
       collaborators,
       collaboratorsById,
       keywords,
       saveTrackModel,
     },
-    dispatch,
   ] = useStore((store) => ({
-    selectedCommentID: store.selectedCommentID,
+    editor: store.editor,
+    selectedCommentKey: store.selectedCommentKey,
     user: store.user,
     collaborators: store.collaborators || new Map<string, UserProfile>(),
     collaboratorsById: store.collaboratorsById,
@@ -66,18 +68,42 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
     keywords: new Map(),
     manuscriptID: store.manuscriptID,
     saveTrackModel: store.saveTrackModel,
-    newComments: store.newComments,
+    newCommentID: store.newCommentID,
   }))
   const { state, view } = editor
 
-  const setSelectedCommentID = (id?: string) => {
-    const comments = commentsKey.getState(state)
-    if (comments && id) {
-      id = comments.commentIDs.get(id) || id
+  const selectedRef = useCallback((n) => {
+    if (n !== null) {
+      scrollIntoView(n as HTMLElement)
     }
-    dispatch({
-      selectedCommentID: id,
-    })
+  }, [])
+
+  const getComment = (id?: string): Comment | undefined => {
+    if (!id) {
+      return
+    }
+    const com = commentsKey.getState(state)
+    return com?.comments.get(id)
+  }
+
+  const setSelectedCommentID = (id?: string) => {
+    const comment = getComment(id)
+    if (!comment || !view) {
+      return
+    }
+    const tr = state.tr
+    setCommentSelection(tr, comment.key, id, false)
+    if (isNodeComment(comment)) {
+      tr.setSelection(NodeSelection.create(state.doc, comment.target.pos))
+    } else {
+      const range = (comment as InlineComment).range
+      const from = range.pos
+      const to = from + range.size
+      tr.setSelection(TextSelection.create(state.doc, from, to))
+    }
+    tr.scrollIntoView()
+    view.focus()
+    view.dispatch(tr)
   }
 
   const createKeyword = useCallback(
@@ -90,43 +116,23 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
   )
 
   const { comments, saveComment, setResolved, createReply, deleteComment } =
-    useCommentOperation(view, setSelectedCommentID)
+    useCommentOperation()
 
   const commentsLabels = useCommentLabel()
 
-  useEffect(() => {
-    document.querySelectorAll('.selected-comment').forEach((e) => e.classList.remove('selected-comment'))
-    if (!selectedCommentID) {
-      return
-    }
-    const markerID = getCommentMarkerID(selectedCommentID)
-    const marker = document.getElementById(markerID)
-    if (marker) {
-      marker.classList.add('selected-comment')
-      scrollIntoViewIfNeeded(marker)
-    }
-  }, [selectedCommentID])
-
   const onFocusOut = (id: string, content: string) => {
-    if (id && newComments.has(id) && content.length < 1) {
+    if (newCommentID === id && content.length < 1) {
       deleteComment(id)
     }
     return true
   }
 
-  const isNew = (comment: CommentAnnotation) => newComments.has(comment._id)
-
   const isSelected = (comment: CommentType) => {
-    const comments = commentsKey.getState(state)
-    if (!comments) {
-      return false
-    }
-    return selectedCommentID === comments.commentIDs.get(comment._id)
+    const com = commentsKey.getState(state)
+    return selectedCommentKey === com?.comments.get(comment._id)?.key
   }
 
   const can = usePermissions()
-
-  const selectedCommentStyle = selectedCommentID ? `#${CSS.escape(getCommentMarkerID(selectedCommentID))}.highlight { background-color: #ffe0b2 !important; }` : ''
 
   if (!comments.length) {
     return <Pattern.EmptyCommentsListPlaceholder />
@@ -134,9 +140,6 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
 
   return (
     <React.Fragment>
-      <style>
-        {selectedCommentStyle}
-      </style>
       <Pattern.SeeResolvedCheckbox
         isEmpty={!comments.length}
         commentFilter={commentFilter}
@@ -156,7 +159,8 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                   <NoteBodyContainer
                     id={`${comment._id}-card`}
                     isSelected={isSelected(comment)}
-                    isNew={isNew(comment as CommentAnnotation)}
+                    ref={isSelected(comment) ? selectedRef : null}
+                    isNew={comment._id === newCommentID}
                   >
                     <CommentWrapper
                       comment={comment}
@@ -169,13 +173,15 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                       }
                       listKeywords={() => []}
                       saveComment={saveComment}
-                      scrollIntoHighlight={() => setSelectedCommentID(comment._id)}
+                      scrollIntoHighlight={() =>
+                        setSelectedCommentID(comment._id)
+                      }
                       onFocusOut={onFocusOut}
                       handleCreateReply={createReply}
                       can={can}
                       currentUserId={user._id}
                       handleSetResolved={() => setResolved(comment)}
-                      isNew={isNew(comment as CommentAnnotation)}
+                      isNew={comment._id === newCommentID}
                     >
                       <HighlightedText
                         state={state}
@@ -203,7 +209,7 @@ export const CommentList: React.FC<Props> = ({ editor }) => {
                         handleCreateReply={createReply}
                         can={can}
                         currentUserId={user._id}
-                        isNew={isNew(comment as CommentAnnotation)}
+                        isNew={comment._id === newCommentID}
                       />
                     </ReplyBodyContainer>
                   ))}

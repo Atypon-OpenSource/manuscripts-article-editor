@@ -18,32 +18,23 @@ import {
 import {
   buildCommentTree,
   CommentData,
-  CommentType
+  CommentType,
 } from '@manuscripts/style-guide'
 import { getModelsByType } from '@manuscripts/transform'
-import { EditorView } from 'prosemirror-view'
 import { useCallback, useMemo } from 'react'
 
 import { useStore } from '../store'
 
 /**
  * Return CRUD callbacks for the comment_list
- * @param view
- * @param setSelectedHighlightId
  */
-export default (
-  view: EditorView | undefined,
-  setSelectedCommentID: (id?: string) => void
-) => {
-  const [
-    { newComments, doc, modelMap, saveModel, deleteModel },
-    dispatch,
-  ] = useStore((store) => ({
+export default () => {
+  const [{ doc, modelMap, saveModel, deleteModel }] = useStore((store) => ({
+    view: store.view,
     doc: store.doc,
     modelMap: store.trackModelMap,
     saveModel: store.saveTrackModel,
     deleteModel: store.deleteTrackModel,
-    newComments: store.newComments,
   }))
 
   /**
@@ -51,25 +42,21 @@ export default (
    * and add replies for each comment, we do that in *buildCommentTree*
    */
   const items = useMemo<Array<[string, CommentData[]]>>(() => {
-    const models = getModelsByType<CommentAnnotation>(modelMap,ObjectTypes.CommentAnnotation)
+    const models = getModelsByType<CommentAnnotation>(
+      modelMap,
+      ObjectTypes.CommentAnnotation
+    )
     const tree = buildCommentTree(doc, models)
     return Array.from(tree.entries())
   }, [modelMap, doc])
 
-  const removePendingComment = useCallback((comment: CommentType) => {
-      if (newComments.has(comment._id)) {
-        newComments.delete(comment._id)
-        dispatch({
-          newComments: new Set([...newComments]),
-        })
-      }
-    },[dispatch, newComments])
-
-  const saveComment = useCallback(async (comment: CommentType) => {
-    await saveModel(comment)
-    removePendingComment(comment)
-    return comment
-  }, [saveModel, removePendingComment])
+  const saveComment = useCallback(
+    async (comment: CommentType) => {
+      await saveModel(comment)
+      return comment
+    },
+    [saveModel]
+  )
 
   const setResolved = useCallback(
     async (comment) =>
@@ -85,18 +72,10 @@ export default (
   }, [])
 
   const deleteComment = useCallback(
-    async (id: string) => {
-      const comment = modelMap.get(id) as CommentAnnotation
-      await deleteModel(id)
-      removePendingComment(comment)
-      setSelectedCommentID(undefined)
+    (id: string) => {
+      deleteModel(id)
     },
-    [
-      modelMap,
-      deleteModel,
-      removePendingComment,
-      setSelectedCommentID
-    ]
+    [deleteModel]
   )
 
   return {
