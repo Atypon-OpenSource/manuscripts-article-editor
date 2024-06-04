@@ -66,6 +66,16 @@ export const useLoadDoc = (authToken: string) => {
       })
       if ('err' in update) {
         console.error('Unable to create new document: ' + update.err)
+      } else {
+        const found = await docApi.getDocument(
+          projectID,
+          manuscriptID,
+          authToken
+        )
+        if ('data' in found && found.data.doc && found.data.version) {
+          doc = found.data.doc
+          version = found.data.version
+        }
       }
     }
     if (

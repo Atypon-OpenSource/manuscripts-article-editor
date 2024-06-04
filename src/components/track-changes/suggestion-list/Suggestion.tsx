@@ -10,86 +10,65 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { TrackedChange } from '@manuscripts/track-changes-plugin'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { useStore } from '../../../store'
 import TrackModal from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
 
+const scrollIntoView = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect()
+  if (rect.bottom > window.innerHeight || rect.top < 150) {
+    element.scrollIntoView()
+  }
+}
+
 interface Props {
   suggestion: TrackedChange
-  handleAccept: (c: TrackedChange) => void
-  handleReject: (c: TrackedChange) => void
-  handleReset: (c: TrackedChange) => void
-  handleClickSuggestion(c: TrackedChange): void
+  isSelected: boolean
+  onAccept: () => void
+  onReject: () => void
+  onReset: () => void
+  onSelect(): void
 }
 
 export const Suggestion: React.FC<Props> = ({
   suggestion,
-  handleAccept,
-  handleReject,
-  handleReset,
-  handleClickSuggestion,
+  isSelected,
+  onAccept,
+  onReject,
+  onReset,
+  onSelect,
 }) => {
-  const [{ selectedSuggestion }] = useStore((store) => ({
-    user: store.user,
-    selectedSuggestion: store.selectedSuggestion,
-  }))
-
   const wrapperRef = useRef<HTMLLIElement>(null)
-
-  const [suggestionClicked, setSuggestionClicked] = useState(false)
-
-  const isSelectedSuggestion = useMemo(() => {
-    return !!(selectedSuggestion && selectedSuggestion === suggestion.id)
-  }, [selectedSuggestion, suggestion])
-
   const [trackModalVisible, setModalVisible] = useState(false)
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setModalVisible(true)
+    onSelect()
+  }
+
   useEffect(() => {
-    if (isSelectedSuggestion && wrapperRef.current) {
-      setModalVisible(true)
-      if (!suggestionClicked) {
-        const wrapperRefElement = wrapperRef.current
-        wrapperRefElement.scrollIntoView({
-          behavior: 'auto',
-          block: 'start',
-          inline: 'start',
-        })
-      }
+    if (isSelected && wrapperRef.current) {
+      scrollIntoView(wrapperRef.current)
     }
-    setSuggestionClicked(false)
-  }, [isSelectedSuggestion]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isSelected])
 
   return (
-    <Wrapper
-      data-cy="suggestion"
-      isFocused={isSelectedSuggestion}
-      ref={wrapperRef}
-    >
-      <FocusHandle
-        href="#"
-        onClick={(e) => {
-          e.preventDefault()
-          if (suggestion.dataTracked.status !== CHANGE_STATUS.rejected) {
-            setSuggestionClicked(true)
-            handleClickSuggestion(suggestion)
-          }
-          setModalVisible(true)
-        }}
-      >
+    <Wrapper data-cy="suggestion" isFocused={isSelected} ref={wrapperRef}>
+      <FocusHandle href="#" onClick={handleClick}>
         <SuggestionSnippet suggestion={suggestion} />
       </FocusHandle>
 
       <Actions>
         <SuggestionActions
           suggestion={suggestion}
-          handleAccept={handleAccept}
-          handleReject={handleReject}
-          handleReset={handleReset}
+          handleAccept={onAccept}
+          handleReject={onReject}
+          handleReset={onReset}
         />
       </Actions>
 
