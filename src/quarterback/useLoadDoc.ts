@@ -72,7 +72,7 @@ export const useLoadDoc = (authToken: string) => {
           manuscriptID,
           authToken
         )
-        if ('data' in found && found.data.doc && found.data.version) {
+        if ('data' in found && found.data.doc && found.data.version >= 0) {
           doc = found.data.doc
           version = found.data.version
         }
