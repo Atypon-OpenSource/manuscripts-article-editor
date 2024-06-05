@@ -1492,17 +1492,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.10.3-LEAN-3608.2":
-  version "1.10.3-LEAN-3608.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.3-LEAN-3608.2.tgz#c5eb8136b0b70efd0ec0fc618b0d5bd5f931b501"
-  integrity sha512-SLymrPV6PEYevbt1y16Z6076ZuZEZ9ZoWeBmqgb8tAMyokBMoeD52qN/2gHm0P73qd3cDaAKr7RIMyr1tk+jUQ==
+"@manuscripts/body-editor@1.10.6":
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.6.tgz#10c322a05b18820c516608340dead73e14ac4a9a"
+  integrity sha512-urwfgnfIE3UqkS+D+BsO/MK92Rwhx5/MncIE3FT9kUXPy/0QcX8eNYh00lKXLD0RY+HrEynDayzt6mli0p4ugA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
-    "@manuscripts/style-guide" "1.12.9-LEAN-3608.0"
-    "@manuscripts/track-changes-plugin" "1.7.12-LEAN-3608.0"
-    "@manuscripts/transform" "2.3.5-LEAN-3608.2"
+    "@manuscripts/style-guide" "1.12.8"
+    "@manuscripts/track-changes-plugin" "1.7.12"
+    "@manuscripts/transform" "2.3.4"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
     dompurify "^2.4.1"
@@ -1594,10 +1594,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.12-LEAN-3608.0":
-  version "1.7.12-LEAN-3608.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.12-LEAN-3608.0.tgz#ee94379dac325bbcf9259e2b07d534d563eeb262"
-  integrity sha512-QhuoZSDqlgX5fnX5AAPjaUfjT7XsxXCQcaQF9go3LmxK4ncYzW26IjjBgBGKviaOUQ4jOORJnHFOy8sYxeEViQ==
+"@manuscripts/track-changes-plugin@1.7.12":
+  version "1.7.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.12.tgz#429abb8e2bce0c647adbd0da09eb2c4a0a2570d1"
+  integrity sha512-Cwdm3V0F20pF0W2xkl9vvzvvvX7mRhLClj/dtbnqfbt6VbxpVw/fQQ4FbK59ZuE2cfB0p0RnhJ7tUe0a5Bk4gw==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
