@@ -1492,17 +1492,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.10.6":
-  version "1.10.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.6.tgz#10c322a05b18820c516608340dead73e14ac4a9a"
-  integrity sha512-urwfgnfIE3UqkS+D+BsO/MK92Rwhx5/MncIE3FT9kUXPy/0QcX8eNYh00lKXLD0RY+HrEynDayzt6mli0p4ugA==
+"@manuscripts/body-editor@1.10.3-LEAN-3608.5":
+  version "1.10.3-LEAN-3608.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.3-LEAN-3608.5.tgz#2d2b0317181dcc5cd0ed68736ae850c46e8af20b"
+  integrity sha512-yKsVxR94g5Xp6y23xCXswN51GaY2xV2XnRGeYNcNFbeAOXKGWSQtEn1AaUd7jDsrq9ikdOwZg+XMQ28R6ykjqw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
-    "@manuscripts/style-guide" "1.12.8"
-    "@manuscripts/track-changes-plugin" "1.7.12"
-    "@manuscripts/transform" "2.3.4"
+    "@manuscripts/style-guide" "1.12.9-LEAN-3608.0"
+    "@manuscripts/track-changes-plugin" "1.7.13-LEAN-3608.0"
+    "@manuscripts/transform" "2.3.5-LEAN-3608.6"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
     dompurify "^2.4.1"
@@ -1563,6 +1563,37 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
+"@manuscripts/style-guide@1.12.8":
+  version "1.12.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.8.tgz#0fd2719a882cf737a7f9afc117f09c75c89e5a40"
+  integrity sha512-xzoaMIuTvHUEfKsTzFIuhqc0tM9u/L3xCQucmHOgTQlM5r2dGRDjIYLZDkWLz4pT2G2E0NUFLlUXdODnY1SLWw==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/transform" "2.3.4"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    prosemirror-commands "1.5.2"
+    prosemirror-history "1.3.2"
+    prosemirror-keymap "1.2.2"
+    prosemirror-model "1.19.4"
+    prosemirror-state "1.4.3"
+    prosemirror-view "1.32.7"
+    react "^17.0.2"
+    react-dnd "^16.0.1"
+    react-dnd-html5-backend "^16.0.1"
+    react-dom "^17.0.2"
+    react-is "^17.0.2"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
+
 "@manuscripts/style-guide@1.12.9-LEAN-3608.0":
   version "1.12.9-LEAN-3608.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.9-LEAN-3608.0.tgz#e99700f28c16a18c6447de670ebcaa847c3c7fb9"
@@ -1594,10 +1625,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.12":
-  version "1.7.12"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.12.tgz#429abb8e2bce0c647adbd0da09eb2c4a0a2570d1"
-  integrity sha512-Cwdm3V0F20pF0W2xkl9vvzvvvX7mRhLClj/dtbnqfbt6VbxpVw/fQQ4FbK59ZuE2cfB0p0RnhJ7tUe0a5Bk4gw==
+"@manuscripts/track-changes-plugin@1.7.13-LEAN-3608.0":
+  version "1.7.13-LEAN-3608.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.13-LEAN-3608.0.tgz#bd287f67c5d52b41829c838bf95d012fbac638fa"
+  integrity sha512-4BEhpbJR7o3lUBozFwVJt5qK6iz1idpR1QBrxOqmZrkE7UNnWwYx1IPQPWZsy9UJQoSxKkbOYWcQeMi9h4fLpw==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1610,10 +1641,40 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
+"@manuscripts/transform@2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.4.tgz#b58b4c39f78f5108eb2b43362f0391107ff8fcea"
+  integrity sha512-mg9W5HUrY0BIe4DZkDUVCNKoxc8EP9Q3sRqejviONyR8j427tsdBpTIWBmUooJncExrbZxFuUlx3oRr8EYw6Rg==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/library" "^1.3.6"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
 "@manuscripts/transform@2.3.5-LEAN-3608.2":
   version "2.3.5-LEAN-3608.2"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.5-LEAN-3608.2.tgz#82fe990dffc3b305d3f849230c09839a18bd0e81"
   integrity sha512-kAAIyoP9byGqHGyO3Ppg/7XIWs/dGEJnPaHYZj4W15C7ui9O7Jj30SyXbhfyhqitg4F7F/8z+6chDtTQHzk1Zg==
+  dependencies:
+    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/library" "^1.3.6"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.3.5-LEAN-3608.6":
+  version "2.3.5-LEAN-3608.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.5-LEAN-3608.6.tgz#91ed3c7e96e1dd2d4dfa24ac8fcd9c4a061e7974"
+  integrity sha512-zz2iRlj4cVLBHEg8UKUe/LVM4JTsWrhfkL/0RpWYCNNLmtNBsNEJnAKBIEOtnUjvLf9QpdU0+BeJHzr7FwfwtA==
   dependencies:
     "@manuscripts/json-schema" "^2.2.7"
     "@manuscripts/library" "^1.3.6"
