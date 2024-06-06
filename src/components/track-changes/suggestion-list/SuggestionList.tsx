@@ -16,30 +16,31 @@ import styled from 'styled-components'
 import { InspectorSection } from '../../InspectorSection'
 import { Suggestion } from './Suggestion'
 
-interface IProps {
+export interface SuggestionListProps {
   changes: TrackedChange[]
+  selectionID?: string
   title: string
   type: string
   sortBy: string
-  handleAcceptChange(c: TrackedChange): void
-  handleRejectChange(c: TrackedChange): void
-  handleResetChange(c: TrackedChange): void
-  handleAcceptPending?(): void
-  handleClickSuggestion(c: TrackedChange): void
+  onAccept(change: TrackedChange): void
+  onReject(change: TrackedChange): void
+  onReset(change: TrackedChange): void
+  onAcceptAll?(): void
+  onSelect(change: TrackedChange): void
 }
 
-export const SuggestionList = (props: IProps) => {
-  const {
-    changes,
-    title,
-    type,
-    sortBy,
-    handleAcceptChange,
-    handleRejectChange,
-    handleResetChange,
-    handleAcceptPending,
-    handleClickSuggestion,
-  } = props
+export const SuggestionList: React.FC<SuggestionListProps> = ({
+  changes,
+  selectionID,
+  title,
+  type,
+  sortBy,
+  onAccept,
+  onReject,
+  onReset,
+  onAcceptAll,
+  onSelect,
+}) => {
   const changesByDate = (a: TrackedChange, b: TrackedChange) =>
     b.dataTracked.updatedAt - a.dataTracked.updatedAt
 
@@ -53,17 +54,18 @@ export const SuggestionList = (props: IProps) => {
   return (
     <InspectorSection
       title={title.concat(changes.length ? ` (${changes.length})` : '')}
-      approveAll={handleAcceptPending}
+      approveAll={onAcceptAll}
     >
       <List data-cy="suggestions-list" data-cy-type={type}>
-        {sortedChanges.map((c: TrackedChange, i: number) => (
+        {sortedChanges.map((c: TrackedChange) => (
           <Suggestion
-            suggestion={c}
-            handleAccept={handleAcceptChange}
-            handleReject={handleRejectChange}
-            handleReset={handleResetChange}
-            handleClickSuggestion={handleClickSuggestion}
             key={c.id}
+            suggestion={c}
+            isSelected={selectionID === c.id}
+            onAccept={() => onAccept(c)}
+            onReject={() => onReject(c)}
+            onReset={() => onReset(c)}
+            onSelect={() => onSelect(c)}
           />
         ))}
       </List>

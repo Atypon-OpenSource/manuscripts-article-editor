@@ -1492,17 +1492,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.10.1":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.1.tgz#3658eb0e696f4edbb3217bf4d793a7e0ff632f9a"
-  integrity sha512-c1qxEziK7euCHm6B/38bYfgKkghCspqT81TxXcoGQEeXDm6KcmCMoR/c8l5HRIKRO0IBW8UHvFZ5lZ1Zfods3Q==
+"@manuscripts/body-editor@1.10.8":
+  version "1.10.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.8.tgz#9bb2ae06a6f07f03ae0826c71036fc6ea1ee8e59"
+  integrity sha512-Uj168jG+uf0VUgn99MWO9uHALSC2sipkOlBgEHgyvs1OYjoVvYV8/I01Pk7L7UXd6CZUkyRBo8f4IrBmNq8MXg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
-    "@manuscripts/json-schema" "^2.2.7"
-    "@manuscripts/library" "^1.3.6"
-    "@manuscripts/style-guide" "1.12.8"
-    "@manuscripts/track-changes-plugin" "1.7.11"
-    "@manuscripts/transform" "2.3.4"
+    "@manuscripts/json-schema" "2.2.8"
+    "@manuscripts/library" "1.3.7"
+    "@manuscripts/style-guide" "1.12.10"
+    "@manuscripts/track-changes-plugin" "1.7.12"
+    "@manuscripts/transform" "2.3.5"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
     dompurify "^2.4.1"
@@ -1543,33 +1543,33 @@
     eslint-config-prettier "^8.5.0"
     prettier "^2.8.1"
 
-"@manuscripts/json-schema@^2.2.7":
-  version "2.2.7"
-  resolved "https://registry.npmjs.org/@manuscripts/json-schema/-/json-schema-2.2.7.tgz"
-  integrity sha512-IUDH9i7MiNzoLuk6H/bV4xc+5e6oPIsR2oYn56uKvoOKcBuHyii27/1D0RuDnUUczL+Qq0qT8mJXGwU4cCHSpw==
+"@manuscripts/json-schema@2.2.8", "@manuscripts/json-schema@^2.2.8":
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.8.tgz#eb234d8c8dab97ca657cdfa5323ac82e56420ef2"
+  integrity sha512-tmDnjuLViTAvptxkpe4eXaOmwlghm4Zpi58D716AIzhhsqwUCZ7besmi6+It6aPc/wHieCr+N0TnC2BRZNVIRw==
   dependencies:
     ajv "^8.12.0"
     deepmerge "^4.3.1"
     uuid "^9.0.0"
 
-"@manuscripts/library@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.npmjs.org/@manuscripts/library/-/library-1.3.6.tgz"
-  integrity sha512-w5uzCCvPtZQ34YNNE4Rdp+yEEe1o5P8Lm1T5icTupLA1p3V8a/KNk+l7yL5W16O8SEuLVK5qRW/D4Camy6yUxg==
+"@manuscripts/library@1.3.7", "@manuscripts/library@^1.3.7":
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.7.tgz#bdac543cc39dcbb72e7cd466361303429e2f34a1"
+  integrity sha512-LgJCflZSund+Ugojidc4kg/zgmUSEsyt5rKpx90mO0Mqj1AnRRdCSbU3LjrXuFo8sKHx4Xg8BPnsGGvgEsK+CQ==
   dependencies:
-    "@manuscripts/json-schema" "^2.2.7"
+    "@manuscripts/json-schema" "2.2.8"
     astrocite-bibtex "^0.16.4"
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.12.8":
-  version "1.12.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.8.tgz#0fd2719a882cf737a7f9afc117f09c75c89e5a40"
-  integrity sha512-xzoaMIuTvHUEfKsTzFIuhqc0tM9u/L3xCQucmHOgTQlM5r2dGRDjIYLZDkWLz4pT2G2E0NUFLlUXdODnY1SLWw==
+"@manuscripts/style-guide@1.12.10":
+  version "1.12.10"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.10.tgz#f85608993f24329136c5545d5c7c9e23107bfdf3"
+  integrity sha512-EyjKFT12dwXfMUGIZr90U2PUqk6kiKgE2YGAfyR49dFMBcvwUvc9e/Ij/bSnR+Nmyrn+n5CqjiyAQkZ7LNYJDg==
   dependencies:
-    "@manuscripts/json-schema" "^2.2.7"
-    "@manuscripts/transform" "2.3.4"
+    "@manuscripts/json-schema" "2.2.8"
+    "@manuscripts/transform" "2.3.5"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1594,10 +1594,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.11":
-  version "1.7.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.11.tgz#17aa4a5fcc2429bac37a1be672b0f7453fd3cc24"
-  integrity sha512-g1sa70NpfKIrHQicGd7hEO2jImNhZ7xI9OGYusui6V3vhM4DXdBtKMF9S3nSLsHV7olnHWwBomhus2aVh7DY4w==
+"@manuscripts/track-changes-plugin@1.7.12":
+  version "1.7.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.12.tgz#429abb8e2bce0c647adbd0da09eb2c4a0a2570d1"
+  integrity sha512-Cwdm3V0F20pF0W2xkl9vvzvvvX7mRhLClj/dtbnqfbt6VbxpVw/fQQ4FbK59ZuE2cfB0p0RnhJ7tUe0a5Bk4gw==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1610,13 +1610,13 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.4.tgz#b58b4c39f78f5108eb2b43362f0391107ff8fcea"
-  integrity sha512-mg9W5HUrY0BIe4DZkDUVCNKoxc8EP9Q3sRqejviONyR8j427tsdBpTIWBmUooJncExrbZxFuUlx3oRr8EYw6Rg==
+"@manuscripts/transform@2.3.5":
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.5.tgz#909f38dfed8f4a9d5d306e434caaa55ae73041b1"
+  integrity sha512-tMDGnTnBViamiafiIBFirS0ojaZZG4Bz07nerJs/u6H1bHErDVca6flL4kKaWLaHklZ3Fe7ssmivaoxEzGizhg==
   dependencies:
-    "@manuscripts/json-schema" "^2.2.7"
-    "@manuscripts/library" "^1.3.6"
+    "@manuscripts/json-schema" "2.2.8"
+    "@manuscripts/library" "1.3.7"
     debug "^4.3.4"
     jszip "^3.10.1"
     mime "^3.0.0"
@@ -6995,7 +6995,16 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -7077,7 +7086,7 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -7090,6 +7099,13 @@ strip-ansi@^3.0.0:
   integrity sha512-VhumSSbBqDTP8p2ZLKj40UjBCV4+v8bUSEpUb4KjRgWk9pbqGF4REFj6KEagidb2f/M6AzC0EmFyDNGaw9OCzg==
   dependencies:
     ansi-regex "^2.0.0"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -7779,7 +7795,16 @@ wicked-good-xpath@1.3.0:
   resolved "https://registry.npmjs.org/wicked-good-xpath/-/wicked-good-xpath-1.3.0.tgz"
   integrity sha512-Gd9+TUn5nXdwj/hFsPVx5cuHHiF5Bwuc30jZ4+ronF1qHK5O7HD0sgmXWSEgwKquT3ClLoKPVbO6qGwVwLzvAw==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
