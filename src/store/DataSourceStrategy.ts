@@ -43,7 +43,6 @@ export class BasicSource implements StoreDataSourceStrategy {
       permittedActions,
       userID,
       authToken,
-
     }
   }
 
