@@ -9,10 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  EventSourceMessage,
-  fetchEventSource,
-} from '@microsoft/fetch-event-source'
 
 import config from '../../config'
 
@@ -50,6 +46,37 @@ export async function wrappedFetch<T>(
   let resp
   try {
     resp = await fetch(`${config.api.url}/${path}`, options)
+  } catch (err) {
+    // Must be a connection error (?)
+    console.error(err)
+    return { err: 'Connection error', code: 550 }
+  }
+  let data
+  const contentType = resp.headers.get('Content-Type')
+  if (!contentType || contentType.includes('application/json')) {
+    data = await resp.json()
+  } else if (contentType.includes('application/octet-stream')) {
+    data = await resp.arrayBuffer()
+  }
+  if (!resp.ok) {
+    console.error(data?.message || defaultError)
+    return {
+      err: data?.message || defaultError,
+      code: resp.status,
+    }
+  }
+  return { data }
+}
+//host to your websocket server locally, we'll use the orginal wrapped fetch
+
+export async function wrappedFetchTwo<T>(
+  path: string,
+  options: FetchOptions,
+  defaultError = 'Request failed'
+): Promise<Maybe<T>> {
+  let resp
+  try {
+    resp = await fetch(`http://localhost:35553/api/v2/${path}`, options)
   } catch (err) {
     // Must be a connection error (?)
     console.error(err)
@@ -111,6 +138,26 @@ export function post<T>(
     defaultError
   )
 }
+export function postTwo<T>(
+  path: string,
+  authToken: string,
+  payload: any,
+  defaultError?: string,
+  headers: Record<string, string> = {
+    ...DEFAULT_HEADERS,
+    ...getAuthHeader(authToken),
+  }
+): Promise<Maybe<T>> {
+  return wrappedFetchTwo(
+    path,
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+    },
+    defaultError
+  )
+}
 
 export function put<T>(
   path: string,
@@ -153,46 +200,42 @@ export function del<T>(
 }
 
 export async function listen<T>(
-  path: string,
-  listener: (event: EventSourceMessage) => void,
+  url: string,
+  listener: (event: MessageEvent) => void,
   authToken: string,
-  defaultError?: string,
-  headers: Record<string, string> = {
-    ...DEFAULT_HEADERS,
-    ...getAuthHeader(authToken),
-  }
+  projectID: string,
+  manuscriptID: string
 ) {
-  await fetchEventSource(`${config.api.url}/${path}`, {
-    onmessage: listener,
-    headers: headers,
-    async onopen(response) {
-      if (
-        response.ok &&
-        response.headers.get('content-type') === 'text/event-stream'
-      ) {
-        console.log('EventSource Connection Opened Ok')
-        return
-      } else if (
-        response.status >= 400 &&
-        response.status < 500 &&
-        response.status !== 429
-      ) {
-        // client-side errors are usually non-retriable:
-        console.error(
-          'EventSource connection error with status: ' + response.status
-        )
+  let socket: WebSocket | null
+  const connect = () => {
+    if (socket) {
+      socket.close()
+    }
+    socket = new WebSocket(url)
+    socket.onopen = function () {
+      console.log('WebSocket Connection Opened Ok')
+      socket?.send(JSON.stringify({ authToken, projectID, manuscriptID }))
+    }
+    socket.onmessage = function (event) {
+      listener(event)
+    }
+    socket.onerror = function (error) {
+      console.log('WebSocket connection error: ' + error)
+    }
+
+    socket.onclose = function (event) {
+      if (event.wasClean) {
+        console.log('WebSocket connection closed')
       } else {
-        console.error(
-          'EventSource connection error with status: ' + response.status
+        console.log(
+          'WebSocket connection closed with exit code ' +
+            event.code +
+            ' due to ' +
+            event.reason
         )
+        setTimeout(connect, 1000)
       }
-    },
-    onclose() {
-      // if the server closes the connection unexpectedly, retry:
-      console.log('EventSource connection closed')
-    },
-    onerror(err) {
-      console.log('EventSource connection error: ' + err)
-    },
-  })
+    }
+  }
+  connect()
 }

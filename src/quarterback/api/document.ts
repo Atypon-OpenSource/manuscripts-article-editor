@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 import {
   AppliedStepsResponse,
@@ -19,7 +18,7 @@ import {
   StepsPayload,
   StepsSinceResponse,
 } from '../types'
-import { del, get, listen, post, put } from './methods'
+import { del, get, listen, post, postTwo, put } from './methods'
 
 export const getDocument = (
   projectID: string,
@@ -70,7 +69,7 @@ export const applySteps = (
   authToken: string,
   payload: StepsPayload
 ) =>
-  post<AppliedStepsResponse>(
+  postTwo<AppliedStepsResponse>(
     `doc/${projectId}/manuscript/${docId}/steps`,
     authToken,
     payload,
@@ -99,23 +98,23 @@ export const listenStepUpdates = (
   ) => void,
   authToken: string
 ) => {
-  const listener = (event: EventSourceMessage) => {
-    if (event.data) {
-      const data = JSON.parse(event.data)
-      if (
-        typeof data.version != 'undefined' &&
-        data.steps &&
-        Array.isArray(data.steps) &&
-        data.clientIDs
-      ) {
-        dataListener(data.version, data.steps, data.clientIDs)
-      }
+  const listener = (event: MessageEvent) => {
+    const data = JSON.parse(event.data)
+    if (
+      typeof data.version != 'undefined' &&
+      data.steps &&
+      Array.isArray(data.steps) &&
+      data.clientIDs
+    ) {
+      dataListener(data.version, data.steps, data.clientIDs)
     }
   }
-
+  //host to your websocket server locally, but to manuscripts api in production
   listen(
-    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
+    `ws://localhost:35553/api/v2/doc/${projectID}/manuscript/${manuscriptID}/listen`,
     listener,
-    authToken
+    authToken,
+    projectID,
+    manuscriptID
   )
 }
