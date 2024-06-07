@@ -41,6 +41,7 @@ export const useLoadDoc = (authToken: string) => {
       if (empty) {
         await updateDocument(projectID, manuscriptID, authToken, {
           doc: existingDoc.toJSON(),
+          schema_version: getVersion(),
         })
       }
 
