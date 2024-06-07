@@ -10,13 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptNode, schema } from '@manuscripts/transform'
+import { getVersion, ManuscriptNode, schema } from '@manuscripts/transform'
 
 import config from '../config'
 import { updateDocument } from './api/document'
 import * as docApi from './api/document'
 import { SnapshotLabel } from './types'
-import { getVersion } from '@manuscripts/transform'
 
 export const useLoadDoc = (authToken: string) => {
   return async function loadDoc(
