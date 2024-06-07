@@ -16,6 +16,7 @@ import config from '../config'
 import { updateDocument } from './api/document'
 import * as docApi from './api/document'
 import { SnapshotLabel } from './types'
+import { getVersion } from '@manuscripts/transform'
 
 export const useLoadDoc = (authToken: string) => {
   return async function loadDoc(
@@ -53,6 +54,7 @@ export const useLoadDoc = (authToken: string) => {
           manuscript_model_id: manuscriptID,
           project_model_id: projectID,
           doc: {},
+          schema_version: getVersion(),
         },
         authToken
       )
@@ -67,6 +69,7 @@ export const useLoadDoc = (authToken: string) => {
 
       const update = await updateDocument(projectID, manuscriptID, authToken, {
         doc: existingDoc.toJSON(),
+        schema_version: getVersion(),
       })
       if ('err' in update) {
         console.error('Unable to create new document: ' + update.err)
