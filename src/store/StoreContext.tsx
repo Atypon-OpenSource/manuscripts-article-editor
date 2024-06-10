@@ -11,27 +11,18 @@
  */
 import React, { createContext, useContext, useEffect } from 'react'
 
-import { GenericStore, reducer, state, Store, StoreDataSourceStrategy } from '.'
-import { ISubject } from './ParentObserver'
+import { AppStateObserver } from '../EditorApp'
+import { GenericStore, StoreDataSourceStrategy } from '.'
 
 const GenericStoreContext = createContext<GenericStore>(new GenericStore())
 
 export const createStore = async (
-  dataSources: StoreDataSourceStrategy[],
-  reducer?: reducer,
-  unmountHandler?: Store['unmountHandler'],
-  parentObserver?: ISubject
+  sources: StoreDataSourceStrategy[],
+  observer?: AppStateObserver
 ) => {
-  const store = new GenericStore(reducer, unmountHandler)
-  await store.init(dataSources)
-
-  parentObserver?.onUpdate((state) =>
-    store.setState({ ...store.state, ...state } as state)
-  )
-  store.subscribe((state) => {
-    parentObserver?.storeObserver(state)
-  })
-
+  const store = new GenericStore()
+  await store.init(sources)
+  store.subscribe(() => observer?.onUpdate())
   return store
 }
 
@@ -40,9 +31,6 @@ interface Props {
 }
 
 export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
-  if (!(store instanceof GenericStore)) {
-    throw new Error('GenericStoreProvider received incorrect store.')
-  }
   useEffect(() => {
     return () => store.unmount()
   }, [store])

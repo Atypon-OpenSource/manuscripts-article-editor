@@ -40,9 +40,17 @@ export default class PsSource implements StoreDataSourceStrategy {
     if (state.userID && state.authToken) {
       this.api.setToken(state.authToken)
     }
-    if (state.manuscriptID && state.projectID) {
-      this.data = await buildData(state.projectID, state.manuscriptID, this.api)
-      this.utilities = buildUtilities(() => this.data, setState, this.api)
+    const projectID = state.projectID
+    const manuscriptID = state.manuscriptID
+    if (manuscriptID && projectID) {
+      this.data = await buildData(projectID, manuscriptID, this.api)
+      this.utilities = buildUtilities(
+        projectID,
+        manuscriptID,
+        () => this.data,
+        setState,
+        this.api
+      )
     }
     next({ ...state, ...this.data, ...this.utilities })
   }
