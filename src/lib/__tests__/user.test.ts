@@ -18,18 +18,19 @@ jest.mock('../token')
 describe('user', () => {
   test('get current user id from token', () => {
     const data: TokenPayload = {
-      expiry: +new Date() + 10000,
-      userId: 'User|test@example.com',
-      userProfileId: 'MPUserProfile:test',
+      id: '123456',
+      email: 'User_test@example.com',
+      deviceID: 'device123',
+      aud: 'your-audience',
+      iss: 'your-issuer',
+      iat: 1616172290,
     }
-
     const token = ['', btoa(JSON.stringify(data)), ''].join('.')
-
     tokenHandler.set(token)
 
     const result = getCurrentUserId()
 
-    expect(result).toBe('User_test@example.com')
+    expect(result).toBe('123456')
 
     tokenHandler.remove()
   })
