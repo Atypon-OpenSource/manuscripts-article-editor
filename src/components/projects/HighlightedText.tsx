@@ -10,13 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  getHighlightTarget,
-  isHighlightComment,
-} from '@manuscripts/body-editor'
 import { CommentAnnotation, ObjectTypes } from '@manuscripts/json-schema'
 import { EditorState } from 'prosemirror-state'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -35,15 +31,6 @@ export const HighlightedText: React.FC<{
   commentsLabels: Map<string, string>
   onClick?: (comment: CommentAnnotation) => void
 }> = React.memo(({ comment, state, commentsLabels, onClick }) => {
-  const getHighlightTextColor = useCallback(
-    (comment: CommentAnnotation) =>
-      !isHighlightComment(comment) ||
-      (state && getHighlightTarget(comment, state))
-        ? '#ffe08b'
-        : '#f9020287',
-    [state]
-  )
-
   const commentLabel = commentsLabels.has(comment.target)
     ? commentsLabels.get(comment.target)
     : comment.originalText
@@ -55,8 +42,7 @@ export const HighlightedText: React.FC<{
   return (
     <Container
       style={{
-        // TODO: should change colour only if highlight markers are deleted?
-        backgroundColor: getHighlightTextColor(comment),
+        backgroundColor: '#ffe08b',
       }}
       onClick={() => onClick && onClick(comment)}
     >

@@ -41,14 +41,13 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     trackModelMap: store.trackModelMap,
     fileManagement: store.fileManagement,
     files: store.files,
-    isThereNewComments: store.newComments.size,
-    selectedComment: store.selectedComment,
+    selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
   }))
 
   const { state, dispatch } = editor
 
-  const comment = store.isThereNewComments || store.selectedComment
+  const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
   const [tabIndex, setTabIndex] = useState(1)
   const COMMENTS_TAB_INDEX = 1

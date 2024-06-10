@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { CommentKey } from '@manuscripts/body-editor'
 import {
-  CommentAnnotation,
   Manuscript,
   ManuscriptNote,
   Model,
@@ -72,7 +72,6 @@ export type state = {
   authToken: string
   tokenData: TokenData
 
-  newComments: Map<string, CommentAnnotation>
   collaborators?: Map<string, UserProfile>
   collaboratorsById?: Map<string, UserProfile>
 
@@ -87,6 +86,9 @@ export type state = {
   inspectedSnapshotId: string
 
   permittedActions: string[]
+
+  selectedCommentKey?: CommentKey
+  newCommentID?: string
 
   selectedSuggestionID?: string
   selectedAttrsChange?: string
