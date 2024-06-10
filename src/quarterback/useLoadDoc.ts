@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptNode, schema } from '@manuscripts/transform'
+import { getVersion, ManuscriptNode, schema } from '@manuscripts/transform'
 
 import config from '../config'
 import { updateDocument } from './api/document'
@@ -40,6 +40,7 @@ export const useLoadDoc = (authToken: string) => {
       if (empty) {
         await updateDocument(projectID, manuscriptID, authToken, {
           doc: existingDoc.toJSON(),
+          schema_version: getVersion(),
         })
       }
 
@@ -53,6 +54,7 @@ export const useLoadDoc = (authToken: string) => {
           manuscript_model_id: manuscriptID,
           project_model_id: projectID,
           doc: {},
+          schema_version: getVersion(),
         },
         authToken
       )
@@ -67,6 +69,7 @@ export const useLoadDoc = (authToken: string) => {
 
       const update = await updateDocument(projectID, manuscriptID, authToken, {
         doc: existingDoc.toJSON(),
+        schema_version: getVersion(),
       })
       if ('err' in update) {
         console.error('Unable to create new document: ' + update.err)
