@@ -10,9 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { useEditor } from '@manuscripts/body-editor'
-import { CommentAnnotation } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
-import { buildContribution } from '@manuscripts/transform'
 import { memoize } from 'lodash'
 import { useHistory } from 'react-router'
 
@@ -69,25 +67,12 @@ export const useCreateEditor = () => {
       style,
       locale,
     },
+    theme,
     history,
     projectID: project._id,
 
     getManuscript: () => manuscript,
     getCurrentUser: () => user,
-    setComment: (comment?: CommentAnnotation) => {
-      if (comment) {
-        const state = getState()
-        const contribution = buildContribution(state.user._id)
-        comment.contributions = [contribution]
-        dispatch({
-          newComments: new Map([...state.newComments, [comment._id, comment]]),
-        })
-      }
-    },
-    setSelectedComment: (commentId?: string) =>
-      dispatch({ selectedComment: commentId }),
-
-    theme,
     getCapabilities: () => {
       const state = getState()
       return getCapabilities(state.project, state.user, state.permittedActions)

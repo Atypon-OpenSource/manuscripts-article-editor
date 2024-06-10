@@ -70,15 +70,10 @@ const Panel: React.FC<PanelProps> = (props) => {
 
   const hideWhenQuery = useRef<MediaQueryList>()
   const firstRender = useRef(true)
-  const [store, dispatch] = useStore((store) => ({
-    selectedComment: store.selectedComment,
+  const [{ selectedCommentKey, selectedSuggestionID }] = useStore((store) => ({
+    selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
-    isThereNewComments: store.newComments,
   }))
-
-  const newComment = store.isThereNewComments
-  const selectedSuggestion = store.selectedSuggestionID
-  const selectedComment = store.selectedComment || newComment.size > 0
 
   useEffect(() => {
     const { name } = props
@@ -86,7 +81,7 @@ const Panel: React.FC<PanelProps> = (props) => {
       const data = layout.get(name)
       //we should not close the inspector automatically when
       //things are deselected
-      if (data.collapsed && (selectedComment || selectedSuggestion)) {
+      if (data.collapsed && (selectedCommentKey || selectedSuggestionID)) {
         updateState(
           layout.set(name, {
             ...data,
@@ -96,7 +91,7 @@ const Panel: React.FC<PanelProps> = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedComment, selectedSuggestion])
+  }, [selectedCommentKey, selectedSuggestionID])
 
   useEffect(() => {
     if (props.hideWhen) {
@@ -134,13 +129,6 @@ const Panel: React.FC<PanelProps> = (props) => {
       size: collapsed ? 0 : size,
       collapsed,
     }))
-
-    if (data.collapsed === true) {
-      dispatch({
-        selectedComment: undefined,
-        isThereNewComments: newComment.clear(),
-      })
-    }
   }
 
   function buildStyle(direction: string | null, size: number): PanelStyle {
