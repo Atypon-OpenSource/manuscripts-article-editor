@@ -15,9 +15,12 @@ import decode from 'jwt-decode'
 import tokenHandler from './token'
 
 export interface TokenPayload {
-  expiry: number
-  userId: string
-  userProfileId: string
+  id: string
+  email: string
+  deviceID: string
+  aud: string
+  iss: string
+  iat: number
 }
 
 export const getCurrentUserId = () => {
@@ -27,7 +30,6 @@ export const getCurrentUserId = () => {
     return null
   }
 
-  const { userId } = decode<TokenPayload>(token)
-
-  return userId.replace('|', '_')
+  const { id } = decode<TokenPayload>(token)
+  return id
 }

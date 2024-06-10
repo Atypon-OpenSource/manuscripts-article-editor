@@ -20,7 +20,7 @@ import React, { Suspense, useMemo } from 'react'
 import { LoadingPage } from './components/Loading'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
-import userID from './lib/user-id'
+import store from './lib/user-id'
 import Main from './Main'
 import { ISubject } from './store/ParentObserver'
 import { ThemeProvider } from './theme/ThemeProvider'
@@ -53,17 +53,17 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
     if (authToken) {
       tokenHandler.remove()
       tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
-      const { userId } = decode<TokenPayload>(authToken)
+      const { id } = decode<TokenPayload>(authToken)
 
-      if (!userId) {
+      if (!id) {
         throw new Error('Invalid token')
       }
 
-      userID.set(userId)
+      store.set(id)
     }
     return () => {
       tokenHandler.remove()
-      userID.remove()
+      store.remove()
     }
   }, [authToken])
 
