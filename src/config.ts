@@ -28,7 +28,6 @@ interface Config {
     headers: Record<string, unknown>
   }
   features: {
-    productionNotes: boolean
     footnotes: boolean
     fileManagement: boolean
     commenting: boolean
@@ -57,7 +56,6 @@ const config = {
     headers: {},
   },
   features: {
-    productionNotes: isTrue(process.env.FEATURE_PRODUCTION_NOTES),
     footnotes: isTrue(process.env.FEATURE_FOOTNOTES),
     fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
     commenting: isTrue(process.env.FEATURE_COMMENTS),
