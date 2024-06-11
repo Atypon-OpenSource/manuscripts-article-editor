@@ -22,7 +22,7 @@ export const createStore = async (
 ) => {
   const store = new GenericStore()
   await store.init(sources)
-  store.subscribe(() => observer?.onUpdate())
+  store.subscribe((state) => observer?.onUpdate(state))
   return store
 }
 

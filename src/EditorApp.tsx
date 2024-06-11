@@ -37,7 +37,7 @@ export type AppStateRef = MutableRefObject<AppState | undefined>
 
 export type AppStateObserver = {
   state: AppStateRef
-  onUpdate: () => void
+  onUpdate: (state: state) => void
 }
 
 export interface EditorAppProps {
