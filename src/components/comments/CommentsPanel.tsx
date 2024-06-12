@@ -19,15 +19,15 @@ import {
   setCommentSelection,
 } from '@manuscripts/body-editor'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
+import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import { buildCommentTrees } from '../../lib/comments'
 import { useStore } from '../../store'
+import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
-import {skipTracking} from "@manuscripts/track-changes-plugin";
-import {CommentsPlaceholder} from "./CommentsPlaceholder";
 
 const Header = styled.div`
   display: flex;
