@@ -11,96 +11,60 @@
  */
 
 import {
-  deleteHighlightMarkers,
-  isHighlightComment,
-  updateCommentAnnotationState,
-} from '@manuscripts/body-editor'
-import {
   CommentAnnotation,
   ElementsOrder,
   ObjectTypes,
 } from '@manuscripts/json-schema'
-import { buildCommentTree, CommentData } from '@manuscripts/style-guide'
+import {
+  buildCommentTree,
+  CommentData,
+  CommentType,
+} from '@manuscripts/style-guide'
 import { getModelsByType } from '@manuscripts/transform'
-import { EditorView } from 'prosemirror-view'
-import { Dispatch, SetStateAction, useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { useStore } from '../store'
 
-const cleanUpSelectedComment = () => {
-  document
-    .querySelectorAll(`.selected-comment`)
-    .forEach((element) => element.classList.remove('selected-comment'))
-}
-
 /**
  * Return CRUD callbacks for the comment_list
- * @param view
- * @param setSelectedHighlightId
  */
-export default (
-  view: EditorView | undefined,
-  setSelectedHighlightId: Dispatch<SetStateAction<string | undefined>>
-) => {
-  const [
-    { newComments, doc, trackModelMap, saveTrackModel, deleteTrackModel },
-    dispatch,
-  ] = useStore((store) => ({
+export default () => {
+  const [{ doc, modelMap, saveModel, deleteModel }] = useStore((store) => ({
+    view: store.view,
     doc: store.doc,
-    trackModelMap: store.trackModelMap,
-    saveTrackModel: store.saveTrackModel,
-    deleteTrackModel: store.deleteTrackModel,
-    newComments: store.newComments,
+    modelMap: store.trackModelMap,
+    saveModel: store.saveTrackModel,
+    deleteModel: store.deleteTrackModel,
   }))
-
-  const newCommentsList = Array.from(newComments.values())
 
   /**
    * Combined new comment(unsaved) with the saved comment.
    * and add replies for each comment, we do that in *buildCommentTree*
    */
   const items = useMemo<Array<[string, CommentData[]]>>(() => {
-    const combinedComments = [
-      ...getModelsByType<CommentAnnotation>(
-        trackModelMap,
-        ObjectTypes.CommentAnnotation
-      ),
-      ...newCommentsList,
-    ]
-    const commentsTreeMap = buildCommentTree(doc, combinedComments)
-    return Array.from(commentsTreeMap.entries())
-  }, [trackModelMap, newCommentsList, doc])
-
-  const removePendingComment = useCallback(
-    (comment: CommentAnnotation) => {
-      if (newComments.has(comment._id)) {
-        newComments.delete(comment._id)
-        dispatch({
-          newComments: new Map([...newComments]),
-        })
-
-        if (view?.state && !isHighlightComment(comment)) {
-          view && updateCommentAnnotationState(view.state, view.dispatch)
-        }
-      }
-      return comment
-    },
-    [dispatch, newComments, view]
-  )
+    const models = getModelsByType<CommentAnnotation>(
+      modelMap,
+      ObjectTypes.CommentAnnotation
+    )
+    const tree = buildCommentTree(doc, models)
+    return Array.from(tree.entries())
+  }, [modelMap, doc])
 
   const saveComment = useCallback(
-    (comment: CommentAnnotation) =>
-      saveTrackModel(comment).then(removePendingComment),
-    [saveTrackModel, removePendingComment]
+    async (comment: CommentType) => {
+      await saveModel(comment)
+      return comment
+    },
+    [saveModel]
   )
 
   const setResolved = useCallback(
     async (comment) =>
-      await saveTrackModel({
+      await saveModel({
         ...comment,
         resolved: !comment.resolved,
       } as CommentAnnotation),
-    [saveTrackModel]
+    [saveModel]
   )
 
   const createReply = useCallback((targetId?: string) => {
@@ -109,28 +73,9 @@ export default (
 
   const deleteComment = useCallback(
     (id: string) => {
-      const comment =
-        newComments.get(id) || (trackModelMap.get(id) as CommentAnnotation)
-
-      return deleteTrackModel(id)
-        .then(() => removePendingComment(comment))
-        .finally(() => {
-          if (isHighlightComment(comment)) {
-            view && deleteHighlightMarkers(id)(view.state, view.dispatch)
-            setSelectedHighlightId(undefined)
-          }
-
-          cleanUpSelectedComment()
-        })
+      deleteModel(id)
     },
-    [
-      newComments,
-      trackModelMap,
-      deleteTrackModel,
-      removePendingComment,
-      view,
-      setSelectedHighlightId,
-    ]
+    [deleteModel]
   )
 
   return {
