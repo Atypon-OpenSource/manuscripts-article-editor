@@ -20,12 +20,14 @@ import {
 } from '@manuscripts/body-editor'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import { NodeSelection, TextSelection } from 'prosemirror-state'
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import { buildCommentTrees } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentThread } from './CommentThread'
+import {skipTracking} from "@manuscripts/track-changes-plugin";
+import {CommentsPlaceholder} from "./CommentsPlaceholder";
 
 const Header = styled.div`
   display: flex;
@@ -36,6 +38,13 @@ const Header = styled.div`
 const CheckboxLabelText = styled.div`
   color: ${(props) => props.theme.colors.text.primary} !important;
 `
+
+const scrollIntoView = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect()
+  if (rect.bottom > window.innerHeight || rect.top < 150) {
+    element.scrollIntoView()
+  }
+}
 
 export const CommentsPanel: React.FC = () => {
   const [{ view, newCommentID, selectedCommentKey }] = useStore((state) => ({
@@ -56,6 +65,12 @@ export const CommentsPanel: React.FC = () => {
       comments ? buildCommentTrees([...comments.values()], newCommentID) : [],
     [comments, newCommentID]
   )
+
+  const selectedRef = useCallback((e) => {
+    if (e) {
+      scrollIntoView(e as HTMLElement)
+    }
+  }, [])
 
   const setSelectedComment = (comment: Comment) => {
     if (!view) {
@@ -84,7 +99,7 @@ export const CommentsPanel: React.FC = () => {
     const tr = view.state.tr
     tr.setNodeMarkup(comment.pos, undefined, attrs)
     clearCommentSelection(tr)
-    view.dispatch(tr)
+    view.dispatch(skipTracking(tr))
   }
 
   const handleDelete = (id: string) => {
@@ -95,7 +110,15 @@ export const CommentsPanel: React.FC = () => {
     const tr = view.state.tr
     tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
     clearCommentSelection(tr)
-    view.dispatch(tr)
+    view.dispatch(skipTracking(tr))
+  }
+
+  if (!view) {
+    return null
+  }
+
+  if (!trees.length) {
+    return <CommentsPlaceholder />
   }
 
   return (
@@ -115,6 +138,7 @@ export const CommentsPanel: React.FC = () => {
         .map((c) => (
           <CommentThread
             key={c.comment.node.attrs.id}
+            ref={selectedCommentKey === c.comment.key ? selectedRef : null}
             tree={c}
             isSelected={selectedCommentKey === c.comment.key}
             onSelect={() => setSelectedComment(c.comment)}

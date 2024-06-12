@@ -27,6 +27,7 @@ export const ActionsIcon = styled.button`
   background: transparent;
   cursor: pointer;
   padding: 0 8px;
+  margin-top: -8px;
   &:focus {
     outline: none;
   }

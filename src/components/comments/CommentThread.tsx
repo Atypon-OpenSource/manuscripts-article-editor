@@ -10,8 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CommentAttrs } from '@manuscripts/body-editor'
-import { Avatar, usePermissions } from '@manuscripts/style-guide'
-import React, { useState } from 'react'
+import {
+  AvatarIcon,
+  RelativeDate,
+  usePermissions,
+} from '@manuscripts/style-guide'
+import React, { forwardRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { buildAuthorName, CommentTree, getAuthorID } from '../../lib/comments'
@@ -29,7 +33,7 @@ const Container = styled.div<{ isSelected?: boolean }>`
 
 const CommentHeader = styled.div`
   display: flex;
-  align-items: center;
+  margin-bottom: 16px;
 `
 
 const CommentMetadata = styled.div`
@@ -39,6 +43,7 @@ const CommentMetadata = styled.div`
 `
 
 const CommentAuthor = styled.div`
+  color: #353535;
   font-weight: 400;
   max-width: 200px;
   white-space: nowrap;
@@ -48,11 +53,18 @@ const CommentAuthor = styled.div`
 
 const CommentTarget = styled.div`
   font-size: 14px;
-  color: #6e6e6e;
-  background-color: #ffe08b;
+  color: #353535;
+  background-color: #ffeebf;
   padding: 4px 8px;
   margin-top: 16px;
   margin-bottom: 16px;
+`
+
+const Timestamp = styled(RelativeDate)`
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #6e6e6e;
 `
 
 export interface CommentThreadProps {
@@ -63,79 +75,84 @@ export interface CommentThreadProps {
   onDelete: (id: string) => void
 }
 
-export const CommentThread: React.FC<CommentThreadProps> = ({
-  tree,
-  isSelected,
-  onSelect,
-  onSave,
-  onDelete,
-}) => {
-  const can = usePermissions()
-  const [{ userID, collaboratorsById }] = useStore((state) => ({
-    userID: state.userID,
-    collaboratorsById: state.collaboratorsById,
-  }))
+export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
+  (props, ref) => {
+    const { tree, isSelected, onSelect, onSave, onDelete } = props
 
-  const authorID = getAuthorID(tree.comment)
-  const authorName = authorID
-    ? buildAuthorName(collaboratorsById.get(authorID))
-    : ''
+    const can = usePermissions()
+    const [{ user, collaboratorsById }] = useStore((state) => ({
+      user: state.user,
+      collaboratorsById: state.collaboratorsById,
+    }))
 
-  const isResolveEnabled =
-    authorID === userID ? can.resolveOwnComment : can.resolveOthersComment
-  const isActionsEnabled =
-    authorID === userID ? can.handleOwnComments : can.handleOthersComments
+    const authorID = getAuthorID(tree.comment)
+    const authorName = authorID
+      ? buildAuthorName(collaboratorsById.get(authorID))
+      : ''
 
-  const [isEditing, setEditing] = useState(false)
+    const timestamp = tree.comment.node.attrs.contributions?.[0].timestamp
 
-  const handleEdit = () => setEditing(true)
+    const isOwn = authorID === user._id
 
-  const handleSave = (contents: string) => {
-    onSave({
-      ...tree.comment.node.attrs,
-      contents,
-    })
-    setEditing(false)
-  }
+    const isResolveEnabled = isOwn
+      ? can.resolveOwnComment
+      : can.resolveOthersComment
 
-  const handleCancel = () => {
-    setEditing(false)
-  }
+    const isActionsEnabled = isOwn
+      ? can.handleOwnComments
+      : can.handleOthersComments
 
-  const handleToggleResolve = () => {
-    onSave({
-      ...tree.comment.node.attrs,
-      resolved: !tree.comment.node.attrs.resolved,
-    })
-  }
+    const [isEditing, setEditing] = useState(false)
 
-  return (
-    <Container data-cy="comment" isSelected={isSelected}>
-      <CommentHeader data-cy="comment-header">
-        {authorName && <Avatar size={20} />}
-        <CommentMetadata>
-          <CommentAuthor>{authorName}</CommentAuthor>
-          {/*<CreatedAt date={0} />*/}
-        </CommentMetadata>
-        <CommentActions
+    const handleEdit = () => setEditing(true)
+
+    const handleSave = (contents: string) => {
+      onSave({
+        ...tree.comment.node.attrs,
+        contents,
+      })
+      setEditing(false)
+    }
+
+    const handleCancel = () => {
+      setEditing(false)
+    }
+
+    const handleToggleResolve = () => {
+      onSave({
+        ...tree.comment.node.attrs,
+        resolved: !tree.comment.node.attrs.resolved,
+      })
+    }
+
+    return (
+      <Container data-cy="comment" isSelected={isSelected} ref={ref}>
+        <CommentHeader data-cy="comment-header">
+          {authorName && <AvatarIcon width={20} height={20} />}
+          <CommentMetadata>
+            <CommentAuthor>{authorName}</CommentAuthor>
+            {timestamp && <Timestamp date={timestamp * 1000} />}
+          </CommentMetadata>
+          <CommentActions
+            comment={tree.comment}
+            isResolveEnabled={isResolveEnabled}
+            isActionsEnabled={isActionsEnabled}
+            onDelete={() => onDelete(tree.comment.node.attrs.id)}
+            onEdit={handleEdit}
+            toggleResolve={handleToggleResolve}
+          />
+        </CommentHeader>
+        {tree.comment.node.attrs.originalText && (
+          <CommentTarget>{tree.comment.node.attrs.originalText}</CommentTarget>
+        )}
+        <CommentBody
           comment={tree.comment}
-          isResolveEnabled={isResolveEnabled}
-          isActionsEnabled={isActionsEnabled}
-          onDelete={() => onDelete(tree.comment.node.attrs.id)}
-          onEdit={handleEdit}
-          toggleResolve={handleToggleResolve}
+          isEditing={tree.isNew || isEditing}
+          onSave={handleSave}
+          onCancel={handleCancel}
+          onSelect={onSelect}
         />
-      </CommentHeader>
-      {tree.comment.node.attrs.originalText && (
-        <CommentTarget>{tree.comment.node.attrs.originalText}</CommentTarget>
-      )}
-      <CommentBody
-        comment={tree.comment}
-        isEditing={tree.isNew || isEditing}
-        onSave={handleSave}
-        onCancel={handleCancel}
-        onSelect={onSelect}
-      />
-    </Container>
-  )
-}
+      </Container>
+    )
+  }
+)

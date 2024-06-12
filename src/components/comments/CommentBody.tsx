@@ -15,7 +15,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import styled from 'styled-components'
 
 const CommentContent = styled.div`
@@ -79,7 +79,7 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
   onCancel,
   onSelect,
 }) => {
-  const editor = useRef<HTMLTextAreaElement>(null)
+  const editor = useRef<HTMLTextAreaElement | null>(null)
 
   const handleSave = () => {
     if (editor.current) {
@@ -87,12 +87,19 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
     }
   }
 
+  const ref = useCallback((e) => {
+    if (e && editor.current !== e) {
+      e.focus()
+    }
+    editor.current = e
+  }, [])
+
   return (
     <>
       {isEditing ? (
         <>
           <CommentEditor
-            ref={editor}
+            ref={ref}
             defaultValue={comment.node.attrs.contents}
           ></CommentEditor>
           <EditorActions>
