@@ -13,42 +13,12 @@
 import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
-import config from '../../config'
-import { useStore } from '../../store'
-import { InspectorSection, Subheading } from '../InspectorSection'
-import { DOIInput } from './DOIInput'
+import { InspectorSection } from '../InspectorSection'
 
 export const ManuscriptInspector: React.FC<{
   state: EditorState
   dispatch: (tr: Transaction) => EditorState | void
   canWrite?: boolean
 }> = () => {
-  const [{ manuscript, saveManuscript }] = useStore((store) => ({
-    manuscript: store.manuscript,
-    doc: store.doc,
-    modelMap: store.trackModelMap,
-    saveManuscript: store.saveManuscript,
-    saveModel: store.saveTrackModel,
-    deleteModel: store.deleteTrackModel,
-    user: store.user,
-    project: store.project,
-  }))
-  return (
-    <InspectorSection title={'Manuscript'}>
-      {config.features.DOI && (
-        <>
-          <Subheading>DOI</Subheading>
-
-          <DOIInput
-            value={manuscript.DOI}
-            handleChange={async (DOI) => {
-              await saveManuscript({
-                DOI,
-              })
-            }}
-          />
-        </>
-      )}
-    </InspectorSection>
-  )
+  return <InspectorSection title={'Manuscript'}></InspectorSection>
 }
