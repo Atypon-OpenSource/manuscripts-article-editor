@@ -15,14 +15,18 @@ import {
   manuscriptIDTypes,
   Model,
   ObjectTypes,
+  Project,
 } from '@manuscripts/json-schema'
 import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 
+import { getUserRole } from '../lib/roles'
 import Api from '../postgres-data/Api'
 import { ContainerIDs, state } from '../store'
 import { saveWithThrottle } from './savingUtilities'
 
 export const buildUtilities = (
+  projectID: string,
+  manuscriptID: string,
   getState: () => Partial<state>,
   updateState: (state: Partial<state>) => void,
   api: Api
@@ -32,11 +36,7 @@ export const buildUtilities = (
     ObjectTypes.Project,
   ])
 
-  const updateContainerIDs = (
-    model: Model,
-    projectID: string,
-    manuscriptID: string
-  ) => {
+  const updateContainerIDs = (model: Model) => {
     const containerIDs: ContainerIDs = {
       containerID: projectID,
     }
@@ -55,7 +55,7 @@ export const buildUtilities = (
     }
   }
 
-  const saveProject = async (models: Model[], projectID: string) => {
+  const saveProject = async (models: Model[]) => {
     try {
       const filtered = models.filter(
         (m) => m.objectType !== ObjectTypes.Project
@@ -80,10 +80,8 @@ export const buildUtilities = (
     excludeIDs?: Set<string>
   ) => {
     const state = getState()
-    const projectID = state.projectID
-    const manuscriptID = state.manuscriptID
 
-    if (!state.modelMap || !manuscriptID || !projectID) {
+    if (!state.modelMap) {
       throw new Error('Unable to save due to incomplete data')
     }
 
@@ -100,11 +98,7 @@ export const buildUtilities = (
       if (!model._id) {
         throw new Error('Model ID required')
       }
-      const updated = updateContainerIDs(
-        model as Model,
-        projectID,
-        manuscriptID
-      )
+      const updated = updateContainerIDs(model as Model)
       modelMap.set(model._id, updated)
     }
 
@@ -118,7 +112,7 @@ export const buildUtilities = (
         savingProcess: 'saving',
       })
 
-      const result = await saveProject([...modelMap.values()], projectID)
+      const result = await saveProject([...modelMap.values()])
 
       updateState({
         savingProcess: result ? 'saved' : 'failed',
@@ -142,10 +136,10 @@ export const buildUtilities = (
 
   const saveManuscript = async (manuscript: Partial<Manuscript>) => {
     const state = getState()
-    if (!state.modelMap || !state.manuscriptID) {
+    if (!state.modelMap) {
       throw new Error('Unable to save manuscript due to incomplete data')
     }
-    const previous = state.modelMap.get(state.manuscriptID)
+    const previous = state.modelMap.get(manuscriptID)
     await saveModel({
       ...previous,
       ...manuscript,
@@ -159,11 +153,9 @@ export const buildUtilities = (
 
   const createSnapshot = async () => {
     const state = getState()
-    const projectID = state.projectID
-    const manuscriptID = state.manuscriptID
     const snapshots = state.snapshots
     const snapshotsMap = state.snapshotsMap
-    if (!projectID || !manuscriptID || !snapshots || !snapshotsMap) {
+    if (!snapshots || !snapshotsMap) {
       throw new Error('Unable to create snapshot due to incomplete data')
     }
     const data = await api.createSnapshot(projectID, manuscriptID)
@@ -171,6 +163,28 @@ export const buildUtilities = (
     updateState({
       snapshots: [...snapshots, label],
       snapshotsMap: snapshotsMap.set(label.id, data.snapshot),
+    })
+  }
+
+  const refreshProject = async () => {
+    const state = getState()
+    const userID = state.userID
+    if (!userID) {
+      return
+    }
+    const models = await api.getManuscript(projectID, manuscriptID)
+    if (!models) {
+      return
+    }
+    const project = models.filter(
+      (m) => m.objectType === ObjectTypes.Project
+    )[0] as Project
+    if (!project) {
+      return
+    }
+    updateState({
+      project,
+      userRole: getUserRole(project, userID),
     })
   }
 
@@ -182,5 +196,6 @@ export const buildUtilities = (
     saveModels,
     saveDoc,
     createSnapshot,
+    refreshProject,
   }
 }

@@ -1492,15 +1492,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.10.10-LEAN-3608.0":
-  version "1.10.10-LEAN-3608.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.10.10-LEAN-3608.0.tgz#c8be1c306a4a9d13213f84a6b21a0d31aad6f47b"
-  integrity sha512-L9d1ugD+TGaBX3N2tDKFYXerKM7yBHS1IubOMsNBOnp/4sRqU3z3Inlfcv7o2BTi8gaszO9qXfGvsdrknnSemA==
+"@manuscripts/body-editor@1.11.5":
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.11.5.tgz#b086139fdcc53e3e8a19f59d0a6584aa64d43466"
+  integrity sha512-RM2UzPdCf71V8xwoZ4syDtWpOKS+oU4iLXwgQl+jSN6RqRT68yLepRvEFiH60vAUMHfl2Ckws4/677S7eOLxtg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.8"
     "@manuscripts/library" "1.3.7"
-    "@manuscripts/style-guide" "1.12.11-LEAN-3608.0"
+    "@manuscripts/style-guide" "1.12.13"
     "@manuscripts/track-changes-plugin" "1.7.12"
     "@manuscripts/transform" "2.3.7-LEAN-3608.1"
     astrocite-eutils "^0.16.4"
@@ -1563,13 +1563,13 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.12.11-LEAN-3608.0":
-  version "1.12.11-LEAN-3608.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.11-LEAN-3608.0.tgz#c120b8ab3c0388d32f9db83eae53487537c5d947"
-  integrity sha512-mUZlMHMRWHeqBcYz6mnqEJmzrhb/cTGxzodkZ5oP4Wd83ENH6Y5CgHLedRzqlTsvP0D+EO3nLf7+0B1azXLxFg==
+"@manuscripts/style-guide@1.12.13":
+  version "1.12.13"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.12.13.tgz#865d9ce4ac01a429875136b39d67d4801715d9be"
+  integrity sha512-UnlVn9abXEC1/7eKyI37d6dZeAnBRThoGx20ZiwRrIWHkXa1Zk7H800qTtSgvqJYseJtFZEP2sdpvGQcfWKo/g==
   dependencies:
     "@manuscripts/json-schema" "2.2.8"
-    "@manuscripts/transform" "2.3.7-LEAN-3608.1"
+    "@manuscripts/transform" "2.3.6"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1610,10 +1610,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.3.7-LEAN-3608.1":
-  version "2.3.7-LEAN-3608.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.7-LEAN-3608.1.tgz#e313fb28b91f7ef2d775a3f7358a7b88bb9f13bc"
-  integrity sha512-mJtBm15QFpZVkYd4pcmfEYq/8AmUIsiwBgpkiBRRmcOSKPvrpOAUAk4fu9xCz5rEcq8stmiJHL/wzXtDfQoHWg==
+"@manuscripts/transform@2.3.6":
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.6.tgz#ff7088ccba704894b4827040380a5c97eba1e87b"
+  integrity sha512-AvU3fLAtYvYpbWpiAkeItxZywPJDJiscCZEoVHfCg9pRLH82EE5j22xhQrLvKEvX9rjTeo3Zjeg9L/Brlt50wA==
   dependencies:
     "@manuscripts/json-schema" "2.2.8"
     "@manuscripts/library" "1.3.7"
