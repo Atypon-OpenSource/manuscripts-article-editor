@@ -37,17 +37,15 @@ export default class QuarterbackDataSource implements StoreDataSourceStrategy {
         state.projectID,
         state.doc
       )
-      if (res?.doc && res.version) {
-        if (res.doc) {
-          next({
-            ...state,
-            doc: res.doc,
-            initialDocVersion: res.version,
-            snapshots: res.snapshots,
-            snapshotsMap: new Map<string, ManuscriptSnapshot>(),
-          })
-          return
-        }
+      if (res?.doc && res.version >= 0) {
+        next({
+          ...state,
+          doc: res.doc,
+          initialDocVersion: res.version,
+          snapshots: res.snapshots,
+          snapshotsMap: new Map<string, ManuscriptSnapshot>(),
+        })
+        return
       }
     }
     next({
