@@ -10,47 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import EditorApp from './EditorApp'
-import { ISubject } from './store/ParentObserver'
+import EditorApp, { EditorAppProps } from './EditorApp'
 import { GlobalStyle } from './theme/theme'
 
-interface Props {
-  fileManagement: FileManagement
-  files: FileAttachment[]
-  parentObserver: ISubject
-  manuscriptID: string
-  projectID: string
-  authToken: string
-  permittedActions: string[]
-}
-
-// projectID="MPProject:E1895468-4DFE-4F17-9B06-5212ECD29555"
-// manuscriptID="MPManuscript:5F6D807F-CECF-45D0-B94C-5CF1361BDF05"
-
-const Main: React.FC<Props> = ({
+const Main: React.FC<EditorAppProps> = ({
   fileManagement,
   files,
-  parentObserver,
   manuscriptID,
   projectID,
   authToken,
   permittedActions,
+  observer,
 }) => (
   <DndProvider backend={HTML5Backend}>
     <GlobalStyle />
     <EditorApp
       fileManagement={fileManagement}
       files={files}
-      parentObserver={parentObserver}
       manuscriptID={manuscriptID}
       projectID={projectID}
       permittedActions={permittedActions}
       authToken={authToken}
+      observer={observer}
     />
   </DndProvider>
 )

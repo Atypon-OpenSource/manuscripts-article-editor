@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
+import React, { MutableRefObject, useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -26,17 +26,28 @@ import {
   createStore,
   GenericStore,
   GenericStoreProvider,
+  state,
 } from './store'
-import { ISubject } from './store/ParentObserver'
 
-interface Props {
+export type AppState = {
+  get: () => state | undefined
+  update: (state: Partial<state>) => void
+}
+export type AppStateRef = MutableRefObject<AppState | undefined>
+
+export type AppStateObserver = {
+  state: AppStateRef
+  onUpdate: (state: state) => void
+}
+
+export interface EditorAppProps {
   fileManagement: FileManagement
   files: FileAttachment[]
-  parentObserver: ISubject
   manuscriptID: string
   projectID: string
   permittedActions: string[]
   authToken: string
+  observer?: AppStateObserver
 }
 
 const Wrapper = styled.div`
@@ -58,14 +69,14 @@ const PlaceholderWrapper = styled.div`
   align-items: center;
 `
 
-const EditorApp: React.FC<Props> = ({
-  parentObserver,
+const EditorApp: React.FC<EditorAppProps> = ({
   manuscriptID,
   projectID,
   permittedActions,
   fileManagement,
   files,
   authToken,
+  observer,
 }) => {
   const userID = getCurrentUserId()
 
@@ -86,12 +97,7 @@ const EditorApp: React.FC<Props> = ({
       authToken || ''
     )
     const mainSource = new PsSource(files)
-    createStore(
-      [basicSource, mainSource, quarterBackSource],
-      undefined,
-      undefined,
-      parentObserver
-    )
+    createStore([basicSource, mainSource, quarterBackSource], observer)
       .then((store) => {
         setStore(store)
       })
@@ -99,11 +105,20 @@ const EditorApp: React.FC<Props> = ({
         console.error(e)
       })
     return () => {
-      parentObserver?.detach()
       store?.unmount()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [manuscriptID, projectID])
+
+  useEffect(() => {
+    if (!observer) {
+      return
+    }
+    observer.state.current = {
+      get: () => store?.getState(),
+      update: (state) => store?.setState(state as state),
+    }
+  }, [observer, store])
 
   return store ? (
     <GenericStoreProvider store={store}>
