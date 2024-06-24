@@ -24,7 +24,7 @@ import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { buildCommentTrees } from '../../lib/comments'
+import { buildCommentTrees, CommentTree } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
@@ -113,6 +113,10 @@ export const CommentsPanel: React.FC = () => {
     view.dispatch(skipTracking(tr))
   }
 
+  const isSelected = (tree: CommentTree) => {
+    return tree && selectedCommentKey === tree.comment.key
+  }
+
   if (!view) {
     return null
   }
@@ -135,12 +139,12 @@ export const CommentsPanel: React.FC = () => {
       </Header>
       {trees
         .filter((c) => showResolved || !c.comment.node.attrs.resolved)
-        .map((c) => (
+        .map((c, i, a) => (
           <CommentThread
             key={c.comment.node.attrs.id}
-            ref={selectedCommentKey === c.comment.key ? selectedRef : null}
+            ref={isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null}
             tree={c}
-            isSelected={selectedCommentKey === c.comment.key}
+            isSelected={isSelected(c)}
             onSelect={() => setSelectedComment(c.comment)}
             onSave={handleSave}
             onDelete={handleDelete}
