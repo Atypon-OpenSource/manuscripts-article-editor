@@ -26,7 +26,7 @@ import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 
-const scrollTo = (element: HTMLElement) => {
+export const scrollToElement = (element: HTMLElement) => {
   const editorBodyElement = document.querySelector('.editor-body')
   const childRect = element.getBoundingClientRect()
   const parentRect = editorBodyElement!.getBoundingClientRect()
@@ -66,7 +66,7 @@ export const TrackChangesPanel: React.FC = () => {
       const bibItemElement = document.querySelector(
         `[id="${node.attrs.id}"]`
       ) as HTMLElement
-      bibItemElement && scrollTo(bibItemElement)
+      bibItemElement && scrollToElement(bibItemElement)
     } else {
       tr.scrollIntoView()
     }

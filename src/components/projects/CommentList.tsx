@@ -26,7 +26,7 @@ import {
   ReplyBodyContainer,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { buildKeyword } from '@manuscripts/transform'
+import { buildKeyword, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
@@ -36,6 +36,7 @@ import {
   useCommentLabel,
 } from '../../hooks/use-comment-manager'
 import { useStore } from '../../store'
+import { scrollToElement } from '../track-changes/TrackChangesPanel'
 import * as Pattern from './CommentListPatterns'
 import { HighlightedText } from './HighlightedText'
 
@@ -101,7 +102,17 @@ export const CommentList: React.FC = () => {
       const to = from + range.size
       tr.setSelection(TextSelection.create(state.doc, from, to))
     }
-    tr.scrollIntoView()
+
+    const node = tr.doc.nodeAt(comment.target.pos)
+
+    if (node && node.type === schema.nodes.bibliography_item) {
+      const bibItemElement = document.querySelector(
+        `[id="${node.attrs.id}"]`
+      ) as HTMLElement
+      bibItemElement && scrollToElement(bibItemElement)
+    } else {
+      tr.scrollIntoView()
+    }
     view.focus()
     view.dispatch(tr)
   }
