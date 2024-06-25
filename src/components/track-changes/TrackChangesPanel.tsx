@@ -16,7 +16,6 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import { schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 
@@ -26,21 +25,6 @@ import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 
-export const scrollToElement = (element: HTMLElement) => {
-  const editorBodyElement = document.querySelector('.editor-body')
-  const childRect = element.getBoundingClientRect()
-  const parentRect = editorBodyElement!.getBoundingClientRect()
-
-  if (childRect.bottom > window.innerHeight || childRect.top < 150) {
-    let childTopOffset = childRect.top - parentRect.top
-    // to center the element vertically within the viewport.
-    childTopOffset =
-      childTopOffset - (window.innerHeight - childRect.height) / 2
-    const scrollToTop = editorBodyElement!.scrollTop + childTopOffset
-
-    editorBodyElement!.scrollTo({ top: scrollToTop, behavior: 'smooth' })
-  }
-}
 export const TrackChangesPanel: React.FC = () => {
   const [sortBy, setSortBy] = useState('in Context')
 
@@ -60,18 +44,9 @@ export const TrackChangesPanel: React.FC = () => {
     } else {
       tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
     }
-    const node = tr.doc.nodeAt(tr.selection.$from.pos)
 
-    if (node && node.type === schema.nodes.bibliography_item) {
-      const bibItemElement = document.querySelector(
-        `[id="${node.attrs.id}"]`
-      ) as HTMLElement
-      bibItemElement && scrollToElement(bibItemElement)
-    } else {
-      tr.scrollIntoView()
-    }
     view?.focus()
-    view?.dispatch(tr)
+    view?.dispatch(tr.scrollIntoView())
   }
 
   const execCmd = useExecCmd()
