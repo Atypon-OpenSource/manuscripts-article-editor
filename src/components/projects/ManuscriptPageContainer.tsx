@@ -206,7 +206,7 @@ const ManuscriptPageView: React.FC = () => {
                   />
                 )}
               </EditorHeader>
-              <EditorBody>
+              <EditorBody className={'editor-body'}>
                 <TrackChangesStyles>
                   <EditorElement editor={editor} />
                 </TrackChangesStyles>
