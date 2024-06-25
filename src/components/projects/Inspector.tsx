@@ -49,6 +49,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
   const [tabIndex, setTabIndex] = useState(1)
+  const CONTENT_TAB_INDEX = 0
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
   const FILES_TAB_INDEX = 3
@@ -90,23 +91,25 @@ const Inspector: React.FC<Props> = ({ editor }) => {
           </InspectorTabList>
           <PaddedInspectorTabPanels>
             <InspectorTabPanel key="Content" data-cy="content">
-              <ContentTab state={state} dispatch={dispatch} key="content" />
+              {tabIndex === CONTENT_TAB_INDEX && (
+                <ContentTab state={state} dispatch={dispatch} key="content" />
+              )}
             </InspectorTabPanel>
             <InspectorTabPanel key="Comments" data-cy="comments">
-              {tabIndex == COMMENTS_TAB_INDEX && (
+              {tabIndex === COMMENTS_TAB_INDEX && (
                 <CommentsPanel key="comments" />
               )}
             </InspectorTabPanel>
             {!can.editWithoutTracking && (
               <InspectorTabPanel key="History" data-cy="history">
-                {tabIndex == SUGGESTIONS_TAB_INDEX && (
+                {tabIndex === SUGGESTIONS_TAB_INDEX && (
                   <TrackChangesPanel key="track-changes" />
                 )}
               </InspectorTabPanel>
             )}
             {config.features.fileManagement && (
               <InspectorTabPanel key="Files" data-cy="files">
-                {tabIndex == FILES_TAB_INDEX && (
+                {tabIndex === FILES_TAB_INDEX && (
                   <FileManager
                     can={can}
                     files={store.files}
