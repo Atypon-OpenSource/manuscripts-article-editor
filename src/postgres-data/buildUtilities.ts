@@ -89,7 +89,7 @@ export const buildUtilities = (
 
     for (const [id, model] of state.modelMap) {
       const type = model.objectType as ObjectTypes
-      if (nonPMModelsTypes.has(type) || !excludeIDs?.has(id)) {
+      if (nonPMModelsTypes.has(type) || (excludeIDs && !excludeIDs.has(id))) {
         modelMap.set(id, model)
       }
     }
