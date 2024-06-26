@@ -12,7 +12,6 @@
 
 import { getVersion, ManuscriptNode, schema } from '@manuscripts/transform'
 
-import config from '../config'
 import { updateDocument } from './api/document'
 import * as docApi from './api/document'
 import { SnapshotLabel } from './types'
@@ -23,9 +22,6 @@ export const useLoadDoc = (authToken: string) => {
     projectID: string,
     existingDoc: ManuscriptNode
   ) {
-    if (!config.quarterback.enabled) {
-      return undefined
-    }
     const found = await docApi.getDocument(projectID, manuscriptID, authToken)
     let doc
     let version = 0
@@ -73,6 +69,16 @@ export const useLoadDoc = (authToken: string) => {
       })
       if ('err' in update) {
         console.error('Unable to create new document: ' + update.err)
+      } else {
+        const found = await docApi.getDocument(
+          projectID,
+          manuscriptID,
+          authToken
+        )
+        if ('data' in found && found.data.doc && found.data.version >= 0) {
+          doc = found.data.doc
+          version = found.data.version
+        }
       }
     }
     if (

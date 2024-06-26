@@ -13,41 +13,35 @@
 import './lib/analytics'
 import './lib/fonts'
 
-import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import decode from 'jwt-decode'
 import React, { Suspense, useMemo } from 'react'
 
 import { LoadingPage } from './components/Loading'
+import { EditorAppProps } from './EditorApp'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
 import store from './lib/user-id'
 import Main from './Main'
-import { ISubject } from './store/ParentObserver'
 import { ThemeProvider } from './theme/ThemeProvider'
 
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
-export * from './store/ParentObserver'
 export { getUserRole } from './lib/roles'
+export type {
+  AppState,
+  AppStateRef,
+  EditorAppProps,
+  AppStateObserver,
+} from './EditorApp'
 
-export interface ManuscriptEditorAppProps {
-  fileManagement: FileManagement
-  files: FileAttachment[]
-  parentObserver: ISubject
-  manuscriptID: string
-  projectID: string
-  permittedActions: string[]
-  authToken?: string
-}
-
-const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
+const ManuscriptEditor: React.FC<EditorAppProps> = ({
   fileManagement,
   files,
-  parentObserver,
   manuscriptID,
   projectID,
   permittedActions,
   authToken,
+  observer,
 }) => {
   useMemo(() => {
     if (authToken) {
@@ -77,10 +71,10 @@ const ManuscriptEditor: React.FC<ManuscriptEditorAppProps> = ({
             fileManagement={fileManagement}
             files={files}
             authToken={authToken || ''}
-            parentObserver={parentObserver}
             manuscriptID={manuscriptID}
             projectID={projectID}
             permittedActions={permittedActions}
+            observer={observer}
           />
         </Suspense>
       </ThemeProvider>
