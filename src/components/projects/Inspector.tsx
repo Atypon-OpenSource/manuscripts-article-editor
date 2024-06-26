@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { findParentNodeWithIdValue } from '@manuscripts/body-editor'
 import { FileManager, usePermissions } from '@manuscripts/style-guide'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useStore } from '../../store'
+import { CommentsPanel } from '../comments/CommentsPanel'
 import {
   InspectorContainer,
   InspectorTab,
@@ -28,7 +28,6 @@ import {
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
-import { CommentsTab } from './CommentsTab'
 import { ContentTab } from './ContentTab'
 
 interface Props {
@@ -50,6 +49,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
   const [tabIndex, setTabIndex] = useState(1)
+  const CONTENT_TAB_INDEX = 0
   const COMMENTS_TAB_INDEX = 1
   const SUGGESTIONS_TAB_INDEX = 2
   const FILES_TAB_INDEX = 3
@@ -65,78 +65,68 @@ const Inspector: React.FC<Props> = ({ editor }) => {
       setTabIndex(SUGGESTIONS_TAB_INDEX)
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
-  const selection = useMemo(
-    () => state && findParentNodeWithIdValue(state.selection),
-    [state]
-  )
 
   const can = usePermissions()
   return (
-    <>
-      <Panel
-        data-cy="inspector"
-        name={'inspector'}
-        minSize={400}
-        direction={'row'}
-        side={'start'}
-        hideWhen={'max-width: 900px'}
-        resizerButton={ResizingInspectorButton}
-      >
-        <InspectorContainer>
-          <InspectorTabs index={tabIndex} onChange={setTabIndex}>
-            <InspectorTabList>
-              <InspectorTab data-cy="content-button">Content</InspectorTab>
-              <InspectorTab data-cy="comments-button">Comments</InspectorTab>
-              {!can.editWithoutTracking && (
-                <InspectorTab data-cy="history-button">History</InspectorTab>
-              )}
-              {config.features.fileManagement && (
-                <InspectorTab data-cy="files-button">Files</InspectorTab>
-              )}
-            </InspectorTabList>
-            <PaddedInspectorTabPanels>
-              <InspectorTabPanel key="Content" data-cy="content">
+    <Panel
+      data-cy="inspector"
+      name={'inspector'}
+      minSize={400}
+      direction={'row'}
+      side={'start'}
+      hideWhen={'max-width: 900px'}
+      resizerButton={ResizingInspectorButton}
+    >
+      <InspectorContainer>
+        <InspectorTabs index={tabIndex} onChange={setTabIndex}>
+          <InspectorTabList>
+            <InspectorTab data-cy="content-button">Content</InspectorTab>
+            <InspectorTab data-cy="comments-button">Comments</InspectorTab>
+            {!can.editWithoutTracking && (
+              <InspectorTab data-cy="history-button">History</InspectorTab>
+            )}
+            {config.features.fileManagement && (
+              <InspectorTab data-cy="files-button">Files</InspectorTab>
+            )}
+          </InspectorTabList>
+          <PaddedInspectorTabPanels>
+            <InspectorTabPanel key="Content" data-cy="content">
+              {tabIndex === CONTENT_TAB_INDEX && (
                 <ContentTab state={state} dispatch={dispatch} key="content" />
+              )}
+            </InspectorTabPanel>
+            <InspectorTabPanel key="Comments" data-cy="comments">
+              {tabIndex === COMMENTS_TAB_INDEX && (
+                <CommentsPanel key="comments" />
+              )}
+            </InspectorTabPanel>
+            {!can.editWithoutTracking && (
+              <InspectorTabPanel key="History" data-cy="history">
+                {tabIndex === SUGGESTIONS_TAB_INDEX && (
+                  <TrackChangesPanel key="track-changes" />
+                )}
               </InspectorTabPanel>
-              {
-                <InspectorTabPanel key="Comments" data-cy="comments">
-                  {tabIndex == COMMENTS_TAB_INDEX && (
-                    <CommentsTab
-                      selected={selection}
-                      editor={editor}
-                      key="comments"
-                    />
-                  )}
-                </InspectorTabPanel>
-              }
-              {!can.editWithoutTracking && (
-                <InspectorTabPanel key="History" data-cy="history">
-                  {tabIndex == SUGGESTIONS_TAB_INDEX && (
-                    <TrackChangesPanel key="track-changes" />
-                  )}
-                </InspectorTabPanel>
-              )}
-              {config.features.fileManagement && (
-                <InspectorTabPanel key="Files" data-cy="files">
-                  {tabIndex == FILES_TAB_INDEX && (
-                    <FileManager
-                      can={can}
-                      files={store.files}
-                      enableDragAndDrop={true}
-                      modelMap={store.trackModelMap}
-                      // @ts-ignore
-                      saveModel={store.saveTrackModel}
-                      deleteModel={store.deleteTrackModel}
-                      fileManagement={store.fileManagement}
-                    />
-                  )}
-                </InspectorTabPanel>
-              )}
-            </PaddedInspectorTabPanels>
-          </InspectorTabs>
-        </InspectorContainer>
-      </Panel>
-    </>
+            )}
+            {config.features.fileManagement && (
+              <InspectorTabPanel key="Files" data-cy="files">
+                {tabIndex === FILES_TAB_INDEX && (
+                  <FileManager
+                    can={can}
+                    files={store.files}
+                    enableDragAndDrop={true}
+                    modelMap={store.trackModelMap}
+                    // @ts-ignore
+                    saveModel={store.saveTrackModel}
+                    deleteModel={store.deleteTrackModel}
+                    fileManagement={store.fileManagement}
+                  />
+                )}
+              </InspectorTabPanel>
+            )}
+          </PaddedInspectorTabPanels>
+        </InspectorTabs>
+      </InspectorContainer>
+    </Panel>
   )
 }
 
