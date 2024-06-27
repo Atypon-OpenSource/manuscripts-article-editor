@@ -18,7 +18,7 @@ jest.mock('../token')
 describe('user', () => {
   test('get current user id from token', () => {
     const data: TokenPayload = {
-      id: '123456',
+      userID: '123456',
       email: 'User_test@example.com',
       deviceID: 'device123',
       aud: 'your-audience',

@@ -15,7 +15,7 @@ import decode from 'jwt-decode'
 import tokenHandler from './token'
 
 export interface TokenPayload {
-  id: string
+  userID: string
   email: string
   deviceID: string
   aud: string
@@ -30,6 +30,6 @@ export const getCurrentUserId = () => {
     return null
   }
 
-  const { id } = decode<TokenPayload>(token)
-  return id
+  const { userID } = decode<TokenPayload>(token)
+  return userID
 }

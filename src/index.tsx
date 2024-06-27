@@ -47,13 +47,13 @@ const ManuscriptEditor: React.FC<EditorAppProps> = ({
     if (authToken) {
       tokenHandler.remove()
       tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
-      const { id } = decode<TokenPayload>(authToken)
+      const { userID } = decode<TokenPayload>(authToken)
 
-      if (!id) {
+      if (!userID) {
         throw new Error('Invalid token')
       }
 
-      store.set(id)
+      store.set(userID)
     }
     return () => {
       tokenHandler.remove()
