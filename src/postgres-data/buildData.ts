@@ -40,7 +40,6 @@ const getManuscriptData = async (
       data.manuscript = model
     }
   }
-  data.notes = []
   data.modelMap = getModelMap(models || [])
 
   const [sectionCategories, cslLocale, template] = await Promise.all([

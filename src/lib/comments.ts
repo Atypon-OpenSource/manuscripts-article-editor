@@ -7,38 +7,41 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { Comment } from '@manuscripts/body-editor'
+import { UserProfile } from '@manuscripts/json-schema'
 
-import React, { useCallback } from 'react'
+export type CommentTree = {
+  comment: Comment
+  isNew: boolean
+  children: CommentTree[]
+}
 
-import { useSyncedData } from '../../hooks/use-synced-data'
-import { MediumTextField } from './inputs'
+export const getAuthorID = (comment: Comment) => {
+  const contributions = comment.node.attrs.contributions
+  if (!contributions?.length) {
+    return undefined
+  }
+  return contributions[0].profileID
+}
 
-export const DOIInput: React.FC<{
-  value?: string
-  handleChange: (value?: string) => void
-}> = ({ value = '', handleChange }) => {
-  const [currentValue, handleLocalChange, setEditing] = useSyncedData<
-    string | undefined
-  >(value, handleChange, 500)
+export const buildCommentTrees = (
+  comments: Comment[],
+  newCommentID?: string
+): CommentTree[] => {
+  return comments.map((c) => ({
+    comment: c,
+    isNew: newCommentID === c.node.attrs.id,
+    children: [],
+  }))
+}
 
-  const handleInputChange = useCallback(
-    (event) => {
-      handleLocalChange(event.target.value || undefined)
-    },
-    [handleLocalChange]
-  )
-
-  return (
-    <MediumTextField
-      value={currentValue}
-      pattern={'^10.[0-9]+/'}
-      placeholder={'10.'}
-      readOnly={true}
-      onChange={handleInputChange}
-      onFocus={() => setEditing(true)}
-      onBlur={() => setEditing(false)}
-    />
-  )
+export const buildAuthorName = (user: UserProfile | undefined) => {
+  if (!user) {
+    return ''
+  }
+  return [user.bibliographicName.given, user.bibliographicName.family]
+    .filter(Boolean)
+    .join(' ')
 }

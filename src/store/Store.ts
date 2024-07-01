@@ -13,7 +13,6 @@
 import { CommentKey } from '@manuscripts/body-editor'
 import {
   Manuscript,
-  ManuscriptNote,
   Model,
   Project,
   SectionCategory,
@@ -72,10 +71,8 @@ export type state = {
   authToken: string
   tokenData: TokenData
 
-  collaborators?: Map<string, UserProfile>
-  collaboratorsById?: Map<string, UserProfile>
-
-  notes?: ManuscriptNote[]
+  collaborators: Map<string, UserProfile>
+  collaboratorsById: Map<string, UserProfile>
 
   trackState?: TrackChangesState
   view: ManuscriptEditorView

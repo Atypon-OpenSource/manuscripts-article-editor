@@ -7,31 +7,12 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  flex: 1;
-  overflow-y: auto;
-`
-
-export const Thread = styled.div`
-  margin: 16px 0;
-`
-
-export const Reply = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 4}px 0
-    ${(props) => props.theme.grid.unit * 2}px;
-  margin-left: ${(props) => props.theme.grid.unit * 4}px;
-  border: 1px solid ${(props) => props.theme.colors.brand.xlight};
-  border-top: none;
-`
-
-export const PlaceholderContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,7 +20,7 @@ export const PlaceholderContainer = styled.div`
   margin-top: 50px;
 `
 
-export const PlaceholderMessage = styled.div`
+export const Message = styled.div`
   font-size: ${(props) => props.theme.font.size.medium};
   font-weight: ${(props) => props.theme.font.weight.light};
   color: ${(props) => props.theme.colors.text.secondary};
@@ -47,76 +28,7 @@ export const PlaceholderMessage = styled.div`
   margin: ${(props) => props.theme.grid.unit * 5}px;
 `
 
-export const ActionHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`
-
-export const LabelText = styled.div`
-  font-family: ${(props) => props.theme.font.family.sans};
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: 14px;
-  line-height: 24px;
-`
-
-export const Checkbox = styled(CheckboxLabel)`
-  div {
-    color: ${(props) => props.theme.colors.text.primary};
-  }
-`
-
-export enum CommentFilter {
-  ALL,
-  UNRESOLVED,
-}
-
-interface SeeResolvedCheckboxProps {
-  isEmpty: boolean
-  commentFilter: CommentFilter
-  setCommentFilter: (filter: CommentFilter) => void
-}
-
-export const SeeResolvedCheckbox: React.FC<SeeResolvedCheckboxProps> = ({
-  isEmpty,
-  commentFilter,
-  setCommentFilter,
-}) => {
-  const handleOnSelectChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) =>
-      setCommentFilter(
-        e.target.checked ? CommentFilter.ALL : CommentFilter.UNRESOLVED
-      ),
-    [setCommentFilter]
-  )
-
-  return (
-    <ActionHeader>
-      {isEmpty ? null : (
-        <Checkbox>
-          <CheckboxField
-            checked={commentFilter === CommentFilter.ALL}
-            onChange={handleOnSelectChange}
-          />
-          <LabelText>See resolved</LabelText>
-        </Checkbox>
-      )}
-    </ActionHeader>
-  )
-}
-
-export const EmptyCommentsListPlaceholder: React.FC = () => {
-  return (
-    <PlaceholderContainer>
-      <EmptyCommentsListGraphic />
-      <PlaceholderMessage>
-        Discuss this manuscript with your collaborators by creating a comment.
-      </PlaceholderMessage>
-    </PlaceholderContainer>
-  )
-}
-
-const EmptyCommentsListGraphic: React.FC = () => (
+const PlaceholderGraphic: React.FC = () => (
   <svg
     width="300"
     height="300"
@@ -142,4 +54,13 @@ const EmptyCommentsListGraphic: React.FC = () => (
       />
     </defs>
   </svg>
+)
+
+export const CommentsPlaceholder: React.FC = () => (
+  <Container>
+    <PlaceholderGraphic />
+    <Message>
+      Discuss this manuscript with your collaborators by creating a comment.
+    </Message>
+  </Container>
 )
