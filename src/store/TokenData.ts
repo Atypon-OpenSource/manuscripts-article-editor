@@ -11,17 +11,13 @@
  */
 
 import decode from 'jwt-decode'
+
+import { TokenPayload } from '../lib/user'
 const storage = window.localStorage
 
 export interface TokenActions {
   delete: () => void
   update: (token: string) => void
-}
-
-interface Payload {
-  expiry: number
-  userId: string
-  userProfileId: string
 }
 
 // TODO: handle token expiry
@@ -59,12 +55,11 @@ export class TokenData {
   }
 
   private parseToken = (token: string) => {
-    const { userId, userProfileId } = decode<Payload>(token)
+    const { userID } = decode<TokenPayload>(token)
 
-    if (userId && userProfileId) {
+    if (userID) {
       this.data = {
-        userID: userId.replace('|', '_'),
-        userProfileID: userProfileId,
+        userID,
       }
     } else {
       this.deleteToken()
@@ -78,7 +73,6 @@ export class TokenData {
     this.token = null
     this.data = {
       userID: undefined,
-      userProfileID: undefined,
     }
   }
 
