@@ -20,7 +20,7 @@ import { LoadingPage } from './components/Loading'
 import { EditorAppProps } from './EditorApp'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
-import userID from './lib/user-id'
+import store from './lib/user-id'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 
@@ -47,17 +47,17 @@ const ManuscriptEditor: React.FC<EditorAppProps> = ({
     if (authToken) {
       tokenHandler.remove()
       tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
-      const { userId } = decode<TokenPayload>(authToken)
+      const { userID } = decode<TokenPayload>(authToken)
 
-      if (!userId) {
+      if (!userID) {
         throw new Error('Invalid token')
       }
 
-      userID.set(userId)
+      store.set(userID)
     }
     return () => {
       tokenHandler.remove()
-      userID.remove()
+      store.remove()
     }
   }, [authToken])
 
