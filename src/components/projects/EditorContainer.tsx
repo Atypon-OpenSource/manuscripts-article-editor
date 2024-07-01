@@ -45,6 +45,7 @@ export const EditorHeader = styled.div`
 
 export const EditorBody = styled.div`
   flex: 1;
+  width: 100%;
   overflow-y: auto;
   padding: ${(props) => props.theme.grid.unit * 5}px
     ${(props) => props.theme.grid.unit * 2}px 0;
