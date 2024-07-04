@@ -9,11 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { getVersion } from '@manuscripts/transform'
-import {
-  EventSourceMessage,
-  fetchEventSource,
-} from '@microsoft/fetch-event-source'
 
 import config from '../../config'
 
@@ -150,55 +145,76 @@ export function del<T>(
     defaultError
   )
 }
-
 export async function listen<T>(
   path: string,
-  listener: (event: EventSourceMessage) => void,
+  listener: (event: MessageEvent) => void,
   authToken: string,
-  defaultError?: string,
-  headers: Record<string, string> = {
-    ...DEFAULT_HEADERS,
-    ...getAuthHeader(authToken),
-  }
+  projectID: string,
+  manuscriptID: string
 ) {
-  await fetchEventSource(`${config.api.url}/${path}`, {
-    onmessage: listener,
-    headers: headers,
-    async onopen(response) {
-      if (
-        response.ok &&
-        response.headers.get('content-type') === 'text/event-stream'
-      ) {
-        if (response.headers.get('Transform-Version') !== getVersion()) {
-          console.warn(
-            `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on backend (${response.headers.get(
-              'Transform-Version'
-            )})`
-          )
-        }
-        console.log('EventSource Connection Opened Ok')
-        return
-      } else if (
-        response.status >= 400 &&
-        response.status < 500 &&
-        response.status !== 429
-      ) {
-        // client-side errors are usually non-retriable:
-        console.error(
-          'EventSource connection error with status: ' + response.status
-        )
-      } else {
-        console.error(
-          'EventSource connection error with status: ' + response.status
-        )
-      }
-    },
-    onclose() {
-      // if the server closes the connection unexpectedly, retry:
-      console.log('EventSource connection closed')
-    },
-    onerror(err) {
-      console.log('EventSource connection error: ' + err)
-    },
-  })
+  let ws: WebSocket
+  const reconnectDelay = 1500
+  const onOpen = () => {
+    console.log('WebSocket Connection Opened Ok')
+    ws.send(JSON.stringify({ authToken, projectID, manuscriptID }))
+  }
+
+  const onClose = (event: CloseEvent) => {
+    console.log('WebSocket closed, reconnecting:', event.code, event.reason)
+    closeWebSocket()
+    setTimeout(join, reconnectDelay)
+  }
+
+  const onError = (event: Event) => {
+    console.error('WebSocket error, reconnecting:', event)
+    closeWebSocket()
+    setTimeout(join, reconnectDelay)
+  }
+
+  const removeListners = () => {
+    try {
+      ws.removeEventListener('open', onOpen)
+      ws.removeEventListener('message', listener)
+      ws.removeEventListener('close', onClose)
+      ws.removeEventListener('error', onError)
+    } catch (error) {
+      console.log('error removing websocket listeners')
+    }
+  }
+
+  const closeWebSocket = () => {
+    try {
+      removeListners()
+      ws.close()
+    } catch (error) {
+      console.log('error closing websocket')
+    }
+  }
+  const rejoin = () => {
+    if (ws) {
+      closeWebSocket()
+    }
+    setTimeout(join, reconnectDelay)
+  }
+
+  const handleWebSocketEvents = () => {
+    if (!ws) {
+      return
+    }
+    ws.addEventListener('open', onOpen)
+    ws.addEventListener('message', listener)
+    ws.addEventListener('close', onClose)
+    ws.addEventListener('error', onError)
+  }
+  const join = () => {
+    const wsUrl = `${config.api.url.replace('http', 'ws')}/${path}`
+    try {
+      ws = new WebSocket(wsUrl)
+      handleWebSocketEvents()
+    } catch (error) {
+      rejoin()
+    }
+  }
+  window.addEventListener('beforeunload', closeWebSocket)
+  join()
 }

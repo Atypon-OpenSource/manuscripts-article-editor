@@ -9,7 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { EventSourceMessage } from '@microsoft/fetch-event-source'
+
+import { getVersion } from '@manuscripts/transform'
 
 import {
   AppliedStepsResponse,
@@ -99,23 +100,27 @@ export const listenStepUpdates = (
   ) => void,
   authToken: string
 ) => {
-  const listener = (event: EventSourceMessage) => {
-    if (event.data) {
-      const data = JSON.parse(event.data)
-      if (
-        typeof data.version != 'undefined' &&
-        data.steps &&
-        Array.isArray(data.steps) &&
-        data.clientIDs
-      ) {
-        dataListener(data.version, data.steps, data.clientIDs)
-      }
+  const listener = (event: MessageEvent) => {
+    const data = JSON.parse(event.data)
+    if (
+      data['Transformer-Version'] &&
+      data['Transformer-Version'] !== getVersion()
+    ) {
+      console.warn(
+        `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on backend (${
+          data['Transformer-Version']
+        })})`
+      )
+    }
+    if (
+      typeof data.version != 'undefined' &&
+      data.steps &&
+      Array.isArray(data.steps) &&
+      data.clientIDs
+    ) {
+      dataListener(data.version, data.steps, data.clientIDs)
     }
   }
 
-  listen(
-    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
-    listener,
-    authToken
-  )
+  listen(`listen/${manuscriptID}`, listener, authToken, projectID, manuscriptID)
 }
