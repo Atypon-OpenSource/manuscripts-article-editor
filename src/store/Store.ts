@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { CommentKey } from '@manuscripts/body-editor'
+import { CommentKey, FileAttachment, FileManagement } from '@manuscripts/body-editor'
 import {
   Manuscript,
   Model,
@@ -18,7 +18,6 @@ import {
   SectionCategory,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   Build,

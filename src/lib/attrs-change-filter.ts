@@ -19,7 +19,7 @@ import {
   Model,
 } from '@manuscripts/json-schema'
 import { bibliographyItemTypes } from '@manuscripts/library'
-import { FileAttachment } from '@manuscripts/style-guide'
+import { FileAttachment } from '@manuscripts/body-editor'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
   isCitationNode,

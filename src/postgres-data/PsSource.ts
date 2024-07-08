@@ -9,13 +9,13 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileAttachment } from '@manuscripts/style-guide'
 
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import Api from './Api'
 import { buildData } from './buildData'
 import { buildUtilities } from './buildUtilities'
+import {FileAttachment} from "@manuscripts/body-editor";
 
 export default class PsSource implements StoreDataSourceStrategy {
   api: Api

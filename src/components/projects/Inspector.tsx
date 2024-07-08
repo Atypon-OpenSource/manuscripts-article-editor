@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileManager, usePermissions } from '@manuscripts/style-guide'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
@@ -29,6 +29,7 @@ import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { ContentTab } from './ContentTab'
+import {FileManager} from "../FileManager/FileManager";
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
@@ -110,16 +111,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
             {config.features.fileManagement && (
               <InspectorTabPanel key="Files" data-cy="files">
                 {tabIndex === FILES_TAB_INDEX && (
-                  <FileManager
-                    can={can}
-                    files={store.files}
-                    enableDragAndDrop={true}
-                    modelMap={store.trackModelMap}
-                    // @ts-ignore
-                    saveModel={store.saveTrackModel}
-                    deleteModel={store.deleteTrackModel}
-                    fileManagement={store.fileManagement}
-                  />
+                  <FileManager key="files" />
                 )}
               </InspectorTabPanel>
             )}
