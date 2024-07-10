@@ -1492,15 +1492,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.13.9":
-  version "1.13.9"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.13.9.tgz#de2477e3402399b9c768248bc5f6b6d329791047"
-  integrity sha512-NJg1Abc2AXytZTDu8mkpn2+0Z/G0sXLXW8v+AjDxmBUgthAUOTxbNYxldj193RqvVPfZhjqTmny3TjOjtnRmnA==
+"@manuscripts/body-editor@1.13.10-LEAN-3720.0":
+  version "1.13.10-LEAN-3720.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.13.10-LEAN-3720.0.tgz#02208c91579250fec52e5098a3f901d9d2bc4063"
+  integrity sha512-EjFtPOG7CWBta/9UpPSoGza0UUeLUy3EOP6l840+f8FGZ/0Lp7/oJCvDGRfyIBkR2RVy+4u5zjhhVPAZz14aWA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
-    "@manuscripts/style-guide" "1.13.8"
+    "@manuscripts/style-guide" "1.13.9-LEAN-3720.0"
     "@manuscripts/track-changes-plugin" "1.7.14"
     "@manuscripts/transform" "2.3.15"
     astrocite-eutils "^0.16.4"
@@ -1563,10 +1563,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.13.8":
-  version "1.13.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.13.8.tgz#1f81acc4d1bd26b5111979d598179faded3a71aa"
-  integrity sha512-JzaS8X9JrKEnuoWpNaJaeFJNF1AkAymShdVKrC4m4a31ke4FM8haalrbd/aBYDhOOCZSk1e39CN6OVgx5LSVZg==
+"@manuscripts/style-guide@1.13.9-LEAN-3720.0":
+  version "1.13.9-LEAN-3720.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.13.9-LEAN-3720.0.tgz#2f255e9d64329a53e97b104ba41824f2ee4b5c16"
+  integrity sha512-q7LIutYfVjNK3Je3b9BTh2YDurnNHP4o4ljsfC9pBw/uSZqrjYWDazQ0dEloVFB3BeC+7LKjgCClC5RkhmkvTw==
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/transform" "2.3.15"
