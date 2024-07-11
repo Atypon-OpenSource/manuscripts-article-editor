@@ -11,18 +11,15 @@
  */
 import React, { createContext, useContext, useEffect } from 'react'
 
-import { AppStateObserver } from '../EditorApp'
 import { GenericStore, StoreDataSourceStrategy } from '.'
 
 const GenericStoreContext = createContext<GenericStore>(new GenericStore())
 
 export const createStore = async (
   sources: StoreDataSourceStrategy[],
-  observer?: AppStateObserver
 ) => {
   const store = new GenericStore()
   await store.init(sources)
-  store.subscribe((state) => observer?.onUpdate(state))
   return store
 }
 
