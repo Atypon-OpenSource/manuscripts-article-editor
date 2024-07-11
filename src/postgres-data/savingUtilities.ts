@@ -12,36 +12,6 @@
 
 import { useRef } from 'react'
 
-let throttled = () => null
-let timeout: number
-
-export const saveWithThrottle = (
-  fn: () => any,
-  interval = 4000,
-  flush = false,
-  onDone?: () => void
-) => {
-  throttled = fn
-  const action = () => {
-    throttled()
-    window.clearTimeout(timeout)
-    onDone && onDone()
-  }
-  if (flush) {
-    action()
-    return
-  }
-  if (!timeout) {
-    timeout = window.setTimeout(() => {
-      action()
-    }, interval)
-  }
-
-  return () => {
-    action()
-  }
-}
-
 export const saveWithDebounce = () => {
   let timeout: number
 

@@ -15,9 +15,7 @@ import { GenericStore, StoreDataSourceStrategy } from '.'
 
 const GenericStoreContext = createContext<GenericStore>(new GenericStore())
 
-export const createStore = async (
-  sources: StoreDataSourceStrategy[],
-) => {
+export const createStore = async (sources: StoreDataSourceStrategy[]) => {
   const store = new GenericStore()
   await store.init(sources)
   return store
