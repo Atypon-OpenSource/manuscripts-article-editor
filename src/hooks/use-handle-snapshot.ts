@@ -33,7 +33,6 @@ export const useHandleSnapshot = (view?: EditorView) => {
     }
     // if there is a pending throttle or potentially other pending action, we need to make sure it's done before we proceed wrapping the current step
     beforeUnload && beforeUnload()
-    console.log('snapshot')
     await createSnapshot()
     execCmd(trackCommands.applyAndRemoveChanges(), view)
     return new Promise<void>((resolve, reject) => {
@@ -47,10 +46,8 @@ export const useHandleSnapshot = (view?: EditorView) => {
           return resolve()
         }
 
-        console.log('before save doc')
         saveDoc(getDocWithoutTrackContent(state))
           .then(() => {
-            console.log('after save doc')
             resolve()
           })
           .catch(() =>
