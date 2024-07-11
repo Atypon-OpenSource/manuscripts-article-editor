@@ -33,14 +33,7 @@ export const FileActions: React.FC<{
   onDetach?: () => void
   move?: Move
   className?: string
-}> = ({
-  sectionType,
-  onDownload,
-  onReplace,
-  onDetach,
-  move,
-  className,
-}) => {
+}> = ({ sectionType, onDownload, onReplace, onDetach, move, className }) => {
   const can = usePermissions()
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const [isMoveDialogOpen, setMoveDialogOpen] = useState<boolean>(false)

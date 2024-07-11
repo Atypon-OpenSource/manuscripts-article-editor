@@ -17,6 +17,7 @@ import config from '../../config'
 import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
+import { FileManager } from '../FileManager/FileManager'
 import {
   InspectorContainer,
   InspectorTab,
@@ -29,7 +30,6 @@ import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { ContentTab } from './ContentTab'
-import {FileManager} from "../FileManager/FileManager";
 
 interface Props {
   editor: ReturnType<typeof useCreateEditor>
@@ -110,9 +110,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
             )}
             {config.features.fileManagement && (
               <InspectorTabPanel key="Files" data-cy="files">
-                {tabIndex === FILES_TAB_INDEX && (
-                  <FileManager key="files" />
-                )}
+                {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
               </InspectorTabPanel>
             )}
           </PaddedInspectorTabPanels>
