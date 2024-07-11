@@ -13,14 +13,13 @@
 import { getVersion } from '@manuscripts/transform'
 
 import {
-  AppliedStepsResponse,
   ICreateDocRequest,
   IUpdateDocumentRequest,
   ManuscriptDocWithSnapshots,
   StepsPayload,
   StepsSinceResponse,
 } from '../types'
-import { del, get, listen, post, put } from './methods'
+import { del, get, listen, post, put, sendWs } from './methods'
 
 export const getDocument = (
   projectID: string,
@@ -71,11 +70,13 @@ export const applySteps = (
   authToken: string,
   payload: StepsPayload
 ) =>
-  post<AppliedStepsResponse>(
-    `doc/${projectId}/manuscript/${docId}/steps`,
-    authToken,
-    payload,
-    'Creating document failed'
+  sendWs(
+    JSON.stringify({
+      projectID: projectId,
+      manuscriptID: docId,
+      payload: payload,
+      authToken: authToken,
+    })
   )
 
 export const stepsSince = (
@@ -102,6 +103,11 @@ export const listenStepUpdates = (
 ) => {
   const listener = (event: MessageEvent) => {
     const data = JSON.parse(event.data)
+
+    if (data.error && data.code) {
+      console.warn(data.error)
+      //call steps since?
+    }
     if (
       data['Transformer-Version'] &&
       data['Transformer-Version'] !== getVersion()
@@ -122,5 +128,9 @@ export const listenStepUpdates = (
     }
   }
 
-  listen(`listen/${manuscriptID}`, listener, authToken, projectID, manuscriptID)
+  listen(
+    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
+    listener,
+    authToken
+  )
 }

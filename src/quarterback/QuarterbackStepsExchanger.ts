@@ -15,7 +15,7 @@ import { Step } from 'prosemirror-transform'
 
 import { saveWithDebounce } from '../postgres-data/savingUtilities'
 import * as docApi from './api/document'
-import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
+import { StepsPayload, StepsSinceResponse } from './types'
 
 export interface ThrottlingControl {
   (currentlyThrottling: boolean, onUnload?: () => void): void
@@ -28,7 +28,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     projectId: string,
     docId: string,
     payload: StepsPayload
-  ) => Promise<AppliedStepsResponse | undefined>
+  ) => void
 
   // @ts-ignore
   private docId: string
@@ -177,15 +177,12 @@ export const stepsExchanger = (
   if (!isAuthed) {
     return
   }
-  const applySteps = async (
+  const applySteps = (
     projectId: string,
     docId: string,
     payload: StepsPayload
   ) => {
-    const resp = await docApi.applySteps(projectId, docId, authToken, payload)
-    if ('data' in resp) {
-      return resp.data
-    }
+    docApi.applySteps(projectId, docId, authToken, payload)
   }
 
   const getStepsSince = async (

@@ -27,6 +27,8 @@ type FetchOptions = {
   body?: string
 }
 
+let ws: WebSocket
+
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -105,6 +107,15 @@ export function post<T>(
     defaultError
   )
 }
+export function sendWs(payload: string) {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    try {
+      ws.send(payload)
+    } catch (error) {
+      console.warn('Error sending message to websocket', error)
+    }
+  }
+}
 
 export function put<T>(
   path: string,
@@ -148,27 +159,23 @@ export function del<T>(
 export async function listen<T>(
   path: string,
   listener: (event: MessageEvent) => void,
-  authToken: string,
-  projectID: string,
-  manuscriptID: string
+  authToken: string
 ) {
-  let ws: WebSocket
   const reconnectDelay = 1500
   const onOpen = () => {
     console.log('WebSocket Connection Opened Ok')
-    ws.send(JSON.stringify({ authToken, projectID, manuscriptID }))
   }
 
   const onClose = (event: CloseEvent) => {
     console.log('WebSocket closed, reconnecting:', event.code, event.reason)
     closeWebSocket()
-    setTimeout(join, reconnectDelay)
+    rejoin()
   }
 
   const onError = (event: Event) => {
     console.error('WebSocket error, reconnecting:', event)
     closeWebSocket()
-    setTimeout(join, reconnectDelay)
+    rejoin()
   }
 
   const removeListners = () => {
@@ -178,7 +185,7 @@ export async function listen<T>(
       ws.removeEventListener('close', onClose)
       ws.removeEventListener('error', onError)
     } catch (error) {
-      console.log('error removing websocket listeners')
+      console.error('Error removing websocket listeners', error)
     }
   }
 
@@ -187,7 +194,7 @@ export async function listen<T>(
       removeListners()
       ws.close()
     } catch (error) {
-      console.log('error closing websocket')
+      console.error('Error closing websocket', error)
     }
   }
   const rejoin = () => {
@@ -207,9 +214,9 @@ export async function listen<T>(
     ws.addEventListener('error', onError)
   }
   const join = () => {
-    const wsUrl = `${config.api.url.replace('http', 'ws')}/${path}`
+    const wsUrl = `${config.api.url}/${path}`
     try {
-      ws = new WebSocket(wsUrl)
+      ws = new WebSocket(wsUrl, authToken)
       handleWebSocketEvents()
     } catch (error) {
       rejoin()
