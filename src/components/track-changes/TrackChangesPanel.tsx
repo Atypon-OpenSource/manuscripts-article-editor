@@ -102,6 +102,7 @@ export const TrackChangesPanel: React.FC = () => {
       <SuggestionList
         type="accepted"
         changes={changeSet?.accepted || []}
+        selectionID={selectedSuggestionID}
         title="Approved Suggestions"
         sortBy={sortBy}
         onAccept={handleAccept}
