@@ -47,7 +47,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
 
   const ga = useMemo(
     () => findGraphicalAbstractFigureElement(view.state.doc),
-    [view]
+    [view.state.doc]
   )
 
   const handleClick = (element: ElementFiles) => {
@@ -88,10 +88,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     if (index === 0 && ga) {
       return 'Graphical Abstract'
     }
-    if (ga) {
+    if (!ga) {
       index++
     }
-    return `Figure ${index + 1}`
+    return `Figure ${index}`
   }
 
   return (
