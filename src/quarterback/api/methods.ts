@@ -159,15 +159,18 @@ export function del<T>(
 export async function listen<T>(
   path: string,
   listener: (event: MessageEvent) => void,
+  projectID: string,
+  manuscriptID: string,
   authToken: string
 ) {
   const reconnectDelay = 1500
   const onOpen = () => {
     console.log('WebSocket Connection Opened Ok')
+    ws.send(JSON.stringify({ authToken, projectID, manuscriptID }))
   }
 
   const onClose = (event: CloseEvent) => {
-    console.log('WebSocket closed, reconnecting:', event.code, event.reason)
+    console.warn('WebSocket closed, reconnecting:', event.code, event.reason)
     closeWebSocket()
     rejoin()
   }
@@ -214,9 +217,9 @@ export async function listen<T>(
     ws.addEventListener('error', onError)
   }
   const join = () => {
-    const wsUrl = `${config.api.url}/${path}`
+    const wsUrl = `${config.api.url.replace('http', 'ws')}/${path}`
     try {
-      ws = new WebSocket(wsUrl, authToken)
+      ws = new WebSocket(wsUrl)
       handleWebSocketEvents()
     } catch (error) {
       rejoin()

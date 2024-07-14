@@ -131,6 +131,8 @@ export const listenStepUpdates = (
   listen(
     `doc/${projectID}/manuscript/${manuscriptID}/listen`,
     listener,
+    projectID,
+    manuscriptID,
     authToken
   )
 }
