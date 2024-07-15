@@ -69,7 +69,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     const uploaded = await upload(file)
     const tr = view.state.tr
     tr.setNodeAttribute(supplement.pos, 'href', uploaded.id)
-    view.dispatch(tr)
+    view.dispatch(skipTracking(tr))
   }
 
   const handleMoveToOtherFiles = (supplement: NodeFile) => {
@@ -110,7 +110,7 @@ const SupplementFile: React.FC<{
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {
-      file: supplement,
+      file: supplement.file,
     },
     end: (_, monitor) => {
       if (monitor.didDrop()) {
