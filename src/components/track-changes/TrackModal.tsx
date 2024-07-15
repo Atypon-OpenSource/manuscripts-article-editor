@@ -109,6 +109,7 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
         !popperElement?.contains(e.target as Node) &&
         !inputRef.current.contains(e.target as Node)
       ) {
+        delete document.body.dataset.trackModal
         setVisible(false)
       }
     }

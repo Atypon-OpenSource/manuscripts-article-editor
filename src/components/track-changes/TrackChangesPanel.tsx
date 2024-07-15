@@ -44,7 +44,7 @@ export const TrackChangesPanel: React.FC = () => {
     } else {
       tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
     }
-
+    document.body.dataset.trackModal = 'true'
     view?.focus()
     view?.dispatch(tr.scrollIntoView())
   }
