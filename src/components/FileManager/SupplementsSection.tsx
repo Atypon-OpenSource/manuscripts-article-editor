@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { insertSupplement, NodeFile } from '@manuscripts/body-editor'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
@@ -33,11 +34,12 @@ export type SupplementsSectionProps = {
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
 }) => {
-  const [{ view, fileManagement, can }] = useStore((s) => ({
+  const [{ view, fileManagement }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
-    can: s.capabilities,
   }))
+
+  const can = usePermissions()
 
   const [alert, setAlert] = useState({
     type: FileSectionAlertType.NONE,
