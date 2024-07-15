@@ -23,6 +23,7 @@ import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
 import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
+import {skipTracking} from "@manuscripts/track-changes-plugin";
 
 export type SupplementsSectionProps = {
   supplements: NodeFile[]
@@ -76,7 +77,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     const from = supplement.pos
     const to = from + supplement.node.nodeSize
     tr.delete(from, to)
-    view.dispatch(tr)
+    view.dispatch(skipTracking(tr))
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.OtherFile,
