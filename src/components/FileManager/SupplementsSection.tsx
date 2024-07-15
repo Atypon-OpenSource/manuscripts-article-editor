@@ -11,6 +11,7 @@
  */
 import { insertSupplement, NodeFile } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
+import { skipTracking } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
@@ -23,7 +24,6 @@ import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
 import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
-import {skipTracking} from "@manuscripts/track-changes-plugin";
 
 export type SupplementsSectionProps = {
   supplements: NodeFile[]
