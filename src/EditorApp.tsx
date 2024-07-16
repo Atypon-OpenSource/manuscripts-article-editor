@@ -97,7 +97,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       authToken || ''
     )
     const mainSource = new PsSource(files)
-    createStore([basicSource, mainSource, quarterBackSource], observer)
+    createStore([basicSource, mainSource, quarterBackSource])
       .then((store) => {
         setStore(store)
       })
@@ -114,6 +114,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
     if (!observer) {
       return
     }
+    store?.subscribe((s) => observer.onUpdate(s))
     observer.state.current = {
       get: () => store?.getState(),
       update: (state) => store?.setState(state as state),
