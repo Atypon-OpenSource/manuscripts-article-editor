@@ -40,6 +40,7 @@ interface PanelProps {
   side: ResizerSide
   hideWhen?: string
   resizerButton?: React.ComponentType<ResizerButtonInnerProps>
+  children: React.ReactNode
 }
 
 interface PanelState {
