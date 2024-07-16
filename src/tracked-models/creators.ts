@@ -96,22 +96,11 @@ export const saveComment = (
     originalText: comment.originalText,
   }
   const isNewComment = !modelMap.has(comment._id)
-  const isHighlightComment =
-    comment.selector && comment.selector.from !== comment.selector.to
-
   const { tr } = state
   doc.descendants((node, pos) => {
     if (isNewComment) {
-      /** for new comments will update target comments array with the comment id
-       *  and add comment node to the comment list node
+      /** for new comments will add comment node to the comment list node
        * */
-      if (node.attrs.id === comment.target && !isHighlightComment) {
-        tr.setNodeMarkup(pos, undefined, {
-          ...node.attrs,
-          comments: [...(node.attrs.comments || []), comment._id],
-        })
-      }
-
       if (node.type === schema.nodes.comments) {
         skipTracking(
           tr.replaceWith(
@@ -147,23 +136,7 @@ export const deleteComment = (
   state: EditorState
 ) => {
   const { tr } = state
-  const isHighlightComment =
-    comment.selector && comment.selector.from !== comment.selector.to
-
   doc.descendants((node, pos) => {
-    if (
-      node.attrs.id === comment.target &&
-      node.attrs.comments &&
-      !isHighlightComment
-    ) {
-      tr.setNodeMarkup(pos, undefined, {
-        ...node.attrs,
-        comments: [
-          ...node.attrs.comments.filter((id: string) => id != comment._id),
-        ],
-      })
-    }
-
     if (node.attrs.id === comment._id && node.type === schema.nodes.comment) {
       tr.delete(pos, pos + node.nodeSize)
       tr.setMeta('track-changes-skip-tracking', true)
