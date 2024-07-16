@@ -61,7 +61,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   const handleDetach = async (figure: NodeFile) => {
     const tr = view.state.tr
     tr.setNodeAttribute(figure.pos, 'src', '')
-    tr.setSelection(NodeSelection.create(view.state.doc, figure.pos))
+    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
@@ -71,7 +71,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
     tr.setNodeAttribute(figure.pos, 'src', uploaded.id)
-    tr.setSelection(NodeSelection.create(view.state.doc, figure.pos))
+    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
