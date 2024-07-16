@@ -66,9 +66,9 @@ export const CommentsPanel: React.FC = () => {
     [comments, newCommentID]
   )
 
-  const selectedRef = useCallback((e) => {
+  const selectedRef = useCallback((e: HTMLElement | null) => {
     if (e) {
-      scrollIntoView(e as HTMLElement)
+      scrollIntoView(e)
     }
   }, [])
 
