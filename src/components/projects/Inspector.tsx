@@ -45,21 +45,25 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     selectedSuggestionID: store.selectedSuggestionID,
   }))
 
+  const can = usePermissions()
+
   const { state, dispatch } = editor
 
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
   const [tabIndex, setTabIndex] = useState(1)
-  const CONTENT_TAB_INDEX = 0
-  const COMMENTS_TAB_INDEX = 1
-  const SUGGESTIONS_TAB_INDEX = 2
-  const FILES_TAB_INDEX = 3
+
+  let index = 0
+  const CONTENT_TAB_INDEX = index++
+  const COMMENTS_TAB_INDEX = index++
+  const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
+  const FILES_TAB_INDEX = config.features.fileManagement ? index++ : -1
 
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
     }
-  }, [comment])
+  }, [comment, COMMENTS_TAB_INDEX])
 
   useEffect(() => {
     if (suggestion) {
@@ -67,7 +71,6 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
 
-  const can = usePermissions()
   return (
     <Panel
       data-cy="inspector"
