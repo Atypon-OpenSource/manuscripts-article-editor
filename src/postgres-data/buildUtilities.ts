@@ -22,7 +22,6 @@ import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 import { getUserRole } from '../lib/roles'
 import Api from '../postgres-data/Api'
 import { ContainerIDs, state } from '../store'
-import { saveWithThrottle } from './savingUtilities'
 
 export const buildUtilities = (
   projectID: string,
@@ -103,21 +102,15 @@ export const buildUtilities = (
     }
 
     updateState({
-      modelMap,
+      savingProcess: 'saving',
       preventUnload: true,
     })
 
-    saveWithThrottle(async () => {
-      updateState({
-        savingProcess: 'saving',
-      })
+    const result = await saveProject([...modelMap.values()])
 
-      const result = await saveProject([...modelMap.values()])
-
-      updateState({
-        savingProcess: result ? 'saved' : 'failed',
-        preventUnload: false,
-      })
+    updateState({
+      savingProcess: result ? 'saved' : 'failed',
+      preventUnload: false,
     })
   }
 
