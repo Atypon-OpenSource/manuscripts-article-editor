@@ -169,13 +169,6 @@ export async function listen<T>(
         response.ok &&
         response.headers.get('content-type') === 'text/event-stream'
       ) {
-        if (response.headers.get('Transform-Version') !== getVersion()) {
-          console.warn(
-            `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on backend (${response.headers.get(
-              'Transform-Version'
-            )})`
-          )
-        }
         console.log('EventSource Connection Opened Ok')
         return
       } else if (
