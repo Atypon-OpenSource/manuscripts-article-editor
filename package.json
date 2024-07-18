@@ -41,7 +41,6 @@
     "@manuscripts/style-guide": "1.13.12",
     "@manuscripts/track-changes-plugin": "1.7.14",
     "@manuscripts/transform": "2.3.19",
-    "@microsoft/fetch-event-source": "^2.0.1",
     "@popperjs/core": "^2.11.8",
     "@reach/tabs": "^0.18.0",
     "autotrack": "^2.4.1",
