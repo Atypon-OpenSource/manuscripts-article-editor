@@ -11,13 +11,11 @@
  */
 import {
   ElementFiles,
-  findAbstractsNode,
+  findGraphicalAbstractFigureElement,
   NodeFile,
 } from '@manuscripts/body-editor'
 import { FileType, getFileTypeIcon } from '@manuscripts/style-guide'
-import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
-import { findChildrenByType } from 'prosemirror-utils'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -30,11 +28,6 @@ import { FileName } from './FileName'
 
 export type InlineFilesSectionProps = {
   elements: ElementFiles[]
-}
-
-const findGraphicalAbstractFigureElement = (doc: ManuscriptNode) => {
-  const abstracts = findAbstractsNode(doc)
-  return findChildrenByType(abstracts.node, schema.nodes.figure_element)[0]
 }
 
 export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
