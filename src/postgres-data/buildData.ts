@@ -75,8 +75,15 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
 }
 
 const createDoc = (modelMap: Map<string, Model>) => {
-  const decoder = new Decoder(modelMap, true)
-  return decoder.createArticleNode()
+  try {
+    const decoder = new Decoder(modelMap, true)
+    return decoder.createArticleNode()
+  } catch (e) {
+    console.warn(
+      'Unable to produce a document from the json models with error: ' + e
+    )
+    return null
+  }
 }
 
 export const buildData = async (

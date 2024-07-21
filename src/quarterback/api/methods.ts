@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { getVersion } from '@manuscripts/transform'
 import {
   EventSourceMessage,
   fetchEventSource,
@@ -169,13 +168,6 @@ export async function listen<T>(
         response.ok &&
         response.headers.get('content-type') === 'text/event-stream'
       ) {
-        if (response.headers.get('Transform-Version') !== getVersion()) {
-          console.warn(
-            `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on backend (${response.headers.get(
-              'Transform-Version'
-            )})`
-          )
-        }
         console.log('EventSource Connection Opened Ok')
         return
       } else if (
