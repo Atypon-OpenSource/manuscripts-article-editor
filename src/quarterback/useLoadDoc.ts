@@ -20,7 +20,7 @@ export const useLoadDoc = (authToken: string) => {
   return async function loadDoc(
     manuscriptID: string,
     projectID: string,
-    existingDoc: ManuscriptNode
+    existingDoc?: ManuscriptNode
   ) {
     const found = await docApi.getDocument(projectID, manuscriptID, authToken)
     let doc
@@ -34,6 +34,11 @@ export const useLoadDoc = (authToken: string) => {
       }
 
       if (empty) {
+        if (!existingDoc) {
+          throw new Error(
+            'Unable to produce valid doc as neither model based verions nor history have a valid version'
+          )
+        }
         await updateDocument(projectID, manuscriptID, authToken, {
           doc: existingDoc.toJSON(),
           schema_version: getVersion(),
@@ -64,7 +69,7 @@ export const useLoadDoc = (authToken: string) => {
       }
 
       const update = await updateDocument(projectID, manuscriptID, authToken, {
-        doc: existingDoc.toJSON(),
+        doc: existingDoc?.toJSON(),
         schema_version: getVersion(),
       })
       if ('err' in update) {
