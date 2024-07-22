@@ -9,6 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
+import { getVersion } from '@manuscripts/transform'
 import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 import {
@@ -102,6 +103,13 @@ export const listenStepUpdates = (
   const listener = (event: EventSourceMessage) => {
     if (event.data) {
       const data = JSON.parse(event.data)
+      if (data.transformVersion && data.transformVersion !== getVersion()) {
+        console.warn(
+          `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on manuscripts-api (${
+            data.transformVersion
+          })`
+        )
+      }
       if (
         typeof data.version != 'undefined' &&
         data.steps &&
