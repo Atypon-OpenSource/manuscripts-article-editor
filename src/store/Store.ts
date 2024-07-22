@@ -39,6 +39,8 @@ export interface ContainerIDs {
   templateID?: string
 }
 
+export type PMEditor = ReturnType<typeof useCreateEditor>
+
 export type state = {
   [key: string]: any
   manuscriptID: string
@@ -49,7 +51,7 @@ export type state = {
   manuscript: Manuscript
   user: UserProfile // probably should be optional
 
-  editor: ReturnType<typeof useCreateEditor>
+  editor: PMEditor
   doc: ManuscriptNode
   initialDocVersion: number
 

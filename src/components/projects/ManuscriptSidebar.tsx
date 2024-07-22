@@ -11,21 +11,17 @@
  */
 
 import { ManuscriptOutline, useEditor } from '@manuscripts/body-editor'
-import { Manuscript } from '@manuscripts/json-schema'
 import { usePermissions } from '@manuscripts/style-guide'
-import { ManuscriptEditorView } from '@manuscripts/transform'
 import React from 'react'
 
+import { useStore } from '../../store'
 import PageSidebar from '../PageSidebar'
 
-interface Props {
-  state: ReturnType<typeof useEditor>['state']
-  manuscript: Manuscript
-  view?: ManuscriptEditorView
-}
-
-const ManuscriptSidebar: React.FC<Props> = ({ state, manuscript, view }) => {
+const ManuscriptSidebar: React.FC = () => {
   const can = usePermissions()
+  const [manuscript] = useStore((store) => store.manuscript)
+  const [view] = useStore((store) => store.view)
+  const [state] = useStore((store) => store.state)
 
   return (
     <PageSidebar

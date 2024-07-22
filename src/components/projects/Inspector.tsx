@@ -30,10 +30,7 @@ import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { ContentTab } from './ContentTab'
 
-interface Props {
-  editor: ReturnType<typeof useCreateEditor>
-}
-const Inspector: React.FC<Props> = ({ editor }) => {
+const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
     saveTrackModel: store.saveTrackModel,
     deleteTrackModel: store.deleteTrackModel,
@@ -42,9 +39,8 @@ const Inspector: React.FC<Props> = ({ editor }) => {
     files: store.files,
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
+    editor: store.editor,
   }))
-
-  const { state, dispatch } = editor
 
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
@@ -91,9 +87,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
           </InspectorTabList>
           <PaddedInspectorTabPanels>
             <InspectorTabPanel key="Content" data-cy="content">
-              {tabIndex === CONTENT_TAB_INDEX && (
-                <ContentTab state={state} dispatch={dispatch} key="content" />
-              )}
+              {tabIndex === CONTENT_TAB_INDEX && <ContentTab key="content" />}
             </InspectorTabPanel>
             <InspectorTabPanel key="Comments" data-cy="comments">
               {tabIndex === COMMENTS_TAB_INDEX && (

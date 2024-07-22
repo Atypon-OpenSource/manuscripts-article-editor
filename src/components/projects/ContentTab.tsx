@@ -12,23 +12,22 @@
 import { findParentSection } from '@manuscripts/body-editor'
 import { Section } from '@manuscripts/json-schema'
 import { SectionNode } from '@manuscripts/transform'
-import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
 import { useStore } from '../../store'
 import { SectionInspector } from '../inspector/SectionInspector'
 import { ManuscriptInspector } from './ManuscriptInspector'
 
-export const ContentTab: React.FC<{
-  state: EditorState
-  dispatch: (tr: Transaction) => EditorState
-}> = ({ dispatch, state }) => {
-  const [{ manuscript, modelMap }] = useStore((store) => {
+export const ContentTab: React.FC = () => {
+  const [{ manuscript, modelMap, editor }] = useStore((store) => {
     return {
       manuscript: store.manuscript,
       modelMap: store.trackModelMap,
+      editor: store.editor,
     }
   })
+
+  const { state, dispatch } = editor
 
   let sectionNode
   let section

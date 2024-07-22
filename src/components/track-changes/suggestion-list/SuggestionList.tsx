@@ -26,7 +26,7 @@ export interface SuggestionListProps {
   onReject(change: TrackedChange): void
   onReset(change: TrackedChange): void
   onAcceptAll?(): void
-  onSelect(change: TrackedChange): void
+  onSelect?(change: TrackedChange): void
 }
 
 export const SuggestionList: React.FC<SuggestionListProps> = ({

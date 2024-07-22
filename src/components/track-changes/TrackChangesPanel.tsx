@@ -16,72 +16,59 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
 import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
+import { setChangeStatus, setSelectedSuggestion } from './utils'
 
 export const TrackChangesPanel: React.FC = () => {
   const [sortBy, setSortBy] = useState('in Context')
 
-  const [{ editor, trackState, selectedSuggestionID }] = useStore((store) => ({
-    editor: store.editor,
-    trackState: store.trackState,
-    selectedSuggestionID: store.selectedSuggestionID,
-  }))
+  const [{ trackState, selectedSuggestionID }, _, getState] = useStore(
+    (store) => ({
+      // @TODO - check if trackstate actually issues some updates and we listen to them
+      trackState: store.trackState,
+      selectedSuggestionID: store.selectedSuggestionID,
+    })
+  )
 
-  const setSelectedSuggestion = (suggestion: TrackedChange) => {
-    const state = editor.state
-    const view = editor.view
-    const tr = state.tr
-    if (suggestion.type === 'text-change') {
-      const pos = suggestion.to
-      tr.setSelection(TextSelection.create(state.doc, pos, pos))
-    } else {
-      tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
-    }
+  // make sure trackState doesn't rerender every transaction
+  // make sure store doesn't update when no selector or produce other way to acquire getState w/o rerender
+  // const [_, __, getState] = useStore()
 
-    view?.focus()
-    view?.dispatch(tr.scrollIntoView())
-  }
+  const onSelect = useCallback((suggestion: TrackedChange) => {
+    setSelectedSuggestion(suggestion, getState)
+    // @TODO - check if getState isn't recreated and if not - updated deps array
+  }, [])
 
   const execCmd = useExecCmd()
 
   const { changeSet } = trackState || {}
 
-  const setChangeStatus = (change: TrackedChange, status: CHANGE_STATUS) => {
-    const ids = [change.id]
-    if (change.type === 'node-change') {
-      change.children.forEach((child) => {
-        ids.push(child.id)
-      })
-    }
-    execCmd(trackCommands.setChangeStatuses(status, ids))
-  }
-
-  const handleAccept = (change: TrackedChange) => {
+  const handleAccept = useCallback((change: TrackedChange) => {
     setChangeStatus(change, CHANGE_STATUS.accepted)
-  }
+  }, [])
 
-  const handleReject = (change: TrackedChange) => {
+  const handleReject = useCallback((change: TrackedChange) => {
     setChangeStatus(change, CHANGE_STATUS.rejected)
-  }
+  }, [])
 
-  const handleReset = (change: TrackedChange) => {
+  const handleReset = useCallback((change: TrackedChange) => {
     setChangeStatus(change, CHANGE_STATUS.pending)
-  }
+  }, [])
 
-  const handleAcceptAll = () => {
+  const handleAcceptAll = useCallback(() => {
+    const changeSet = getState().changeSet
     if (!changeSet) {
       return
     }
     const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
-  }
+  }, [])
 
   return (
     <>
@@ -97,7 +84,7 @@ export const TrackChangesPanel: React.FC = () => {
         onReject={handleReject}
         onReset={handleReset}
         onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
-        onSelect={setSelectedSuggestion}
+        onSelect={onSelect}
       />
       <SuggestionList
         type="accepted"
@@ -108,7 +95,7 @@ export const TrackChangesPanel: React.FC = () => {
         onAccept={handleAccept}
         onReject={handleReject}
         onReset={handleReset}
-        onSelect={setSelectedSuggestion}
+        onSelect={onSelect}
       />
       <SuggestionList
         type="rejected"

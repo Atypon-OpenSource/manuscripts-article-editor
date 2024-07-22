@@ -35,24 +35,23 @@ import { NodeSelection, Transaction } from 'prosemirror-state'
 import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
+import { useConnectEditor } from '../../hooks/use-connect-editor'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
-interface Props {
-  editor: ReturnType<typeof useEditor>
-}
-
-const EditorElement: React.FC<Props> = ({ editor }) => {
-  const { onRender, view, dispatch } = editor
+const EditorElement: React.FC = () => {
+  useConnectEditor()
   const [error, setError] = useState('')
-  const [{ deleteModel, trackState }] = useStore((store) => ({
+  const [{ deleteModel, trackState, editor }] = useStore((store) => ({
     deleteModel: store.deleteTrackModel,
     trackState: store.trackState,
+    editor: store.editor,
   }))
 
+  const { onRender, view, dispatch } = editor
   const execCmd = useExecCmd()
 
   const [, drop] = useDrop({

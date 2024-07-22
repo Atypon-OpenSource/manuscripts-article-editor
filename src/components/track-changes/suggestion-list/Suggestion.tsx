@@ -48,7 +48,9 @@ export const Suggestion: React.FC<Props> = ({
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setModalVisible(true)
-    onSelect()
+    if (onSelect) {
+      onSelect()
+    }
   }
 
   useEffect(() => {
