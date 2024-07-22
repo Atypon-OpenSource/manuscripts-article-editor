@@ -1492,17 +1492,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.13.20":
-  version "1.13.20"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.13.20.tgz#aa81aed47f298a32dd869e60f64828d81e69ee43"
-  integrity sha512-KZ4MMPsbyjA5iRoREUEVLiSOWjAX7Ylgx/7R7YJbjL1W/rsfrWt+4hxFflBH1hEUxwdbUSbkb0NkfjHLCvPzuw==
+"@manuscripts/body-editor@1.13.21-LEAN-3772.1":
+  version "1.13.21-LEAN-3772.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.13.21-LEAN-3772.1.tgz#5ae16febf6dad4b04095a3f631b3267296b7f394"
+  integrity sha512-J5GwoPqtVzZn++ekXq/46nP09ljqo2G32fJcjpr15zK+XMPbB4mTD8UML7SQwBBMAtA97gskf1Yh7IgkYv6Wug==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
-    "@manuscripts/style-guide" "1.13.12"
+    "@manuscripts/style-guide" "1.13.13-LEAN-3772.0"
     "@manuscripts/track-changes-plugin" "1.7.14"
-    "@manuscripts/transform" "2.3.19"
+    "@manuscripts/transform" "2.3.21"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1563,13 +1563,13 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.13.12":
-  version "1.13.12"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.13.12.tgz#93ee5441114c5f413e87c40e0edfead8e37ee9c2"
-  integrity sha512-MEFXAR/c8HViy03jM9e1g871RZD6pZyiuk8JyT1dpry6uCeC4LlHN9B1Nydm/B4VitX5bexvB0GMjgm742u9dA==
+"@manuscripts/style-guide@1.13.13-LEAN-3772.0":
+  version "1.13.13-LEAN-3772.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.13.13-LEAN-3772.0.tgz#e04d44ddcc33a47558ca6191e8f347f58d13f6d7"
+  integrity sha512-go4zSZPIv880qvQwYCKmes5lwnAI9HKutgdbqKguNLMmGEuT2oadPPXRyL5of2ttqNdzRvuHgx1fTRawVhqIPw==
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
-    "@manuscripts/transform" "2.3.19"
+    "@manuscripts/transform" "2.3.22-LEAN-3772.0"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1610,18 +1610,37 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.3.19":
-  version "2.3.19"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.19.tgz#8df88d4a7178fcbc33ea8907a7455f2c57f5f1b6"
-  integrity sha512-5ZSXe/ozeywLYBTxqs7yBLFzSMed6YleuKrX3phZTviWf+sLasea2RuePqsQ+Y7JAgvjAHiJe6tPkWzsxuhrZg==
+"@manuscripts/transform@2.3.21":
+  version "2.3.21"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.21.tgz#7afdf496674cc5cb7ef618b32d01aa8a7bd46f79"
+  integrity sha512-4isMSKdByVc4HfCn/gChwvzXI3LSotkVWSWGwQ+c1r6TYQ5xYZYeSs4Qp3KmUPHAV91QfCLjjcjcHC7vedEm3w==
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
     debug "^4.3.4"
     jszip "^3.10.1"
+    lodash "^4.17.21"
     mime "^3.0.0"
     prosemirror-model "^1.18.3"
     prosemirror-tables "^1.3.5"
+    semver "^7.6.2"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.3.22-LEAN-3772.0":
+  version "2.3.22-LEAN-3772.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.22-LEAN-3772.0.tgz#8c0faa703e7c5b3e576684f8417ab9256eba2d93"
+  integrity sha512-2MkLjbK353MNteYPeJIFWsju+IkGmcjmRMF3nzcwg4dJ2ZMKzx0LRw/a73JJzhI7q1hos04Ow/WPTjxS3xiF/Q==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.10"
+    "@manuscripts/library" "1.3.10"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    lodash "^4.17.21"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    semver "^7.6.2"
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
@@ -6831,6 +6850,11 @@ semver@^7.3.5, semver@^7.3.7, semver@^7.5.3, semver@^7.5.4:
   integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
   dependencies:
     lru-cache "^6.0.0"
+
+semver@^7.6.2:
+  version "7.6.3"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.3.tgz#980f7b5550bc175fb4dc09403085627f9eb33143"
+  integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
 
 set-function-length@^1.2.1:
   version "1.2.1"
