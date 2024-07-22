@@ -19,7 +19,11 @@ export const FileCreatedDate: React.FC<{
   file: FileAttachment
   className?: string
 }> = ({ file, className }) => {
-  return file.createdDate ? (
+  if (!file.createdDate) {
+    return null
+  }
+
+  return (
     <FileDateContainer
       data-tooltip-id={`${file.id}-created-date-tooltip`}
       className={className}
@@ -29,8 +33,6 @@ export const FileCreatedDate: React.FC<{
         File Uploaded
       </Tooltip>
     </FileDateContainer>
-  ) : (
-    <></>
   )
 }
 

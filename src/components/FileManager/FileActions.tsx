@@ -60,7 +60,11 @@ export const FileActions: React.FC<{
     }
   }
 
-  return show ? (
+  if (!show) {
+    return null
+  }
+
+  return (
     <DropdownContainer ref={wrapperRef}>
       <ActionsIcon
         onClick={toggleOpen}
@@ -114,8 +118,6 @@ export const FileActions: React.FC<{
         />
       )}
     </DropdownContainer>
-  ) : (
-    <></>
   )
 }
 
@@ -129,7 +131,7 @@ const MoveFileConfirmationDialog: React.FC<{
   const header = `Are you sure you want to move this file to “${target}”?`
   const message = `The file will be removed from “${source}” and added to “${target}”.`
 
-  const handleConfirm = async () => {
+  const handleConfirm = () => {
     handleMove()
     close()
   }
