@@ -1492,15 +1492,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@1.13.20":
-  version "1.13.20"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.13.20.tgz#aa81aed47f298a32dd869e60f64828d81e69ee43"
-  integrity sha512-KZ4MMPsbyjA5iRoREUEVLiSOWjAX7Ylgx/7R7YJbjL1W/rsfrWt+4hxFflBH1hEUxwdbUSbkb0NkfjHLCvPzuw==
+"@manuscripts/body-editor@1.13.21":
+  version "1.13.21"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-1.13.21.tgz#ce2598f1a32de828c703e460b8ad1b2e401e4dce"
+  integrity sha512-2XpbyAU+CnlxsCigkAOBtniiIjJrbWA35VX/ovVWxY4gfEU7X1sswAo/WnsxpP1LNZh1fm3mTWf1b1h/9Ns3eQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
-    "@manuscripts/style-guide" "1.13.12"
+    "@manuscripts/style-guide" "1.13.13"
     "@manuscripts/track-changes-plugin" "1.7.14"
     "@manuscripts/transform" "2.3.19"
     "@popperjs/core" "^2.11.8"
@@ -1563,10 +1563,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@1.13.12":
-  version "1.13.12"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.13.12.tgz#93ee5441114c5f413e87c40e0edfead8e37ee9c2"
-  integrity sha512-MEFXAR/c8HViy03jM9e1g871RZD6pZyiuk8JyT1dpry6uCeC4LlHN9B1Nydm/B4VitX5bexvB0GMjgm742u9dA==
+"@manuscripts/style-guide@1.13.13":
+  version "1.13.13"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-1.13.13.tgz#59554e586d295abd294b621482b06f9a7523bcdb"
+  integrity sha512-WqNRNOaWvBSHzuaO2EHhSDSC45oON2OUzU9fIpyzSV/FV4QR9kzBr+CWZyMRp05lBy/7W0NTKvYFQPsRV+XELw==
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/transform" "2.3.19"
