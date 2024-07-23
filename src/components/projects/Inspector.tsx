@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileManager, usePermissions } from '@manuscripts/style-guide'
+import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
 import config from '../../config'
-import { useCreateEditor } from '../../hooks/use-create-editor'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
+import { FileManager } from '../FileManager/FileManager'
 import {
   InspectorContainer,
   InspectorTab,
@@ -32,29 +32,27 @@ import { ContentTab } from './ContentTab'
 
 const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
-    saveTrackModel: store.saveTrackModel,
-    deleteTrackModel: store.deleteTrackModel,
-    trackModelMap: store.trackModelMap,
-    fileManagement: store.fileManagement,
-    files: store.files,
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
-    editor: store.editor,
   }))
+
+  const can = usePermissions()
 
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
   const [tabIndex, setTabIndex] = useState(1)
-  const CONTENT_TAB_INDEX = 0
-  const COMMENTS_TAB_INDEX = 1
-  const SUGGESTIONS_TAB_INDEX = 2
-  const FILES_TAB_INDEX = 3
+
+  let index = 0
+  const CONTENT_TAB_INDEX = index++
+  const COMMENTS_TAB_INDEX = index++
+  const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
+  const FILES_TAB_INDEX = config.features.fileManagement ? index++ : -1
 
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
     }
-  }, [comment])
+  }, [comment, COMMENTS_TAB_INDEX])
 
   useEffect(() => {
     if (suggestion) {
@@ -62,7 +60,6 @@ const Inspector: React.FC = () => {
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
 
-  const can = usePermissions()
   return (
     <Panel
       data-cy="inspector"
@@ -103,18 +100,7 @@ const Inspector: React.FC = () => {
             )}
             {config.features.fileManagement && (
               <InspectorTabPanel key="Files" data-cy="files">
-                {tabIndex === FILES_TAB_INDEX && (
-                  <FileManager
-                    can={can}
-                    files={store.files}
-                    enableDragAndDrop={true}
-                    modelMap={store.trackModelMap}
-                    // @ts-ignore
-                    saveModel={store.saveTrackModel}
-                    deleteModel={store.deleteTrackModel}
-                    fileManagement={store.fileManagement}
-                  />
-                )}
+                {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
               </InspectorTabPanel>
             )}
           </PaddedInspectorTabPanels>

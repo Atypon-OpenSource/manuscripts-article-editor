@@ -10,13 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  FileAttachment,
   findParentElement,
   getMatchingChild,
-  insertFileAsFigure,
+  insertFigure,
   useEditor,
 } from '@manuscripts/body-editor'
 import { ObjectTypes } from '@manuscripts/json-schema'
-import { Category, Dialog, FileAttachment } from '@manuscripts/style-guide'
+import { Category, Dialog } from '@manuscripts/style-guide'
 import {
   CHANGE_STATUS,
   ChangeSet,
@@ -45,8 +46,7 @@ import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 const EditorElement: React.FC = () => {
   useConnectEditor()
   const [error, setError] = useState('')
-  const [{ deleteModel, trackState, editor }] = useStore((store) => ({
-    deleteModel: store.deleteTrackModel,
+  const [{ trackState, editor }] = useStore((store) => ({
     trackState: store.trackState,
     editor: store.editor,
   }))
@@ -62,11 +62,9 @@ const EditorElement: React.FC = () => {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
         const file = item.file as FileAttachment
-        // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
-        const model = item.model
 
         if (!file || !docPos || !docPos.pos) {
-          return
+          return false
         }
 
         const resolvedPos = view.state.doc.resolve(docPos.pos)
@@ -102,19 +100,17 @@ const EditorElement: React.FC = () => {
             break
           }
           default: {
-            const transaction = view.state.tr.setSelection(
-              NodeSelection.near(resolvedPos)
-            )
+            const tr = view.state.tr
+            tr.setSelection(NodeSelection.near(resolvedPos))
             view.focus()
-            dispatch(transaction)
+            dispatch(tr)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-            insertFileAsFigure(file, view.state, dispatch)
+            insertFigure(file, view.state, dispatch)
           }
         }
-        if (model) {
-          await deleteModel(model._id)
-        }
+        return true
       }
+      return false
     },
   })
 
@@ -262,7 +258,7 @@ const addFigureAtFigCaptionPosition = (
     )
     view.focus()
     dispatch(transaction)
-    insertFileAsFigure(file, view.state, dispatch)
+    insertFigure(file, view.state, dispatch)
   }
 }
 
