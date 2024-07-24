@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { RichText } from '@manuscripts/style-guide'
-import { SectionNode, schema, TitleNode } from '@manuscripts/transform'
+import { schema, SectionNode, TitleNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { findParentNode } from 'prosemirror-utils'
 import React, { useMemo } from 'react'
@@ -50,11 +50,16 @@ export const SectionInspector: React.FC<{
     return titleText
   }, [section])
 
-  const existingCatsCounted = useMemo(() => {
+  const [existingCatsCounted, isSubSection] = useMemo(() => {
+    let isSubSection = false
     const exisitingCats: { [key: string]: number } = {}
 
-    doc.descendants((node) => {
+    doc.descendants((node, _, nodeParent) => {
       if (node.type === schema.nodes.section) {
+        if (nodeParent?.type === schema.nodes.section && node.eq(section)) {
+          isSubSection = true
+        }
+
         const currentSection = node as SectionNode
         const cat = currentSection.attrs.category
         if (cat && cat.startsWith('MPSectionCategory:')) {
@@ -64,7 +69,7 @@ export const SectionInspector: React.FC<{
       }
     })
 
-    return exisitingCats
+    return [exisitingCats, isSubSection]
   }, [doc]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const sortedSectionCategories = useMemo(() => {
@@ -91,7 +96,7 @@ export const SectionInspector: React.FC<{
     )
   }, [sectionCategories, state.selection])
 
-  const currentSectionCategory = chooseSectionCategory(section)
+  const currentSectionCategory = chooseSectionCategory(section, isSubSection)
 
   return (
     <InspectorSection title={'Section'}>

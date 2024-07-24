@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { builderFn, StoreDataSourceStrategy } from '../store'
-import { ManuscriptSnapshot } from './types'
 import { loadDoc } from './api/loadDoc'
+import { ManuscriptSnapshot } from './types'
 
 export default class QuarterbackDataSource implements StoreDataSourceStrategy {
   build: builderFn = async (state, next) => {

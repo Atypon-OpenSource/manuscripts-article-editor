@@ -38,13 +38,13 @@ export const sortSectionCategories = (sectionCategories: SectionCategory[]) =>
 
 export const chooseSectionCategory = (
   section: SectionNode,
-  parent: ProsemirrorNode
+  isSubSection?: boolean
 ): string => {
   if (section.attrs.category) {
     return section.attrs.category
   }
 
-  return parent.type === schema.nodes.section
+  return isSubSection
     ? 'MPSectionCategory:subsection'
     : 'MPSectionCategory:section'
 }
