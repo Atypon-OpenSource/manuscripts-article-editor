@@ -9,38 +9,15 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  getModelMap,
-  Model,
-  ObjectTypes,
-  Project,
-  UserProfile,
-} from '@manuscripts/json-schema'
-import { Decoder, isManuscript } from '@manuscripts/transform'
+import { UserProfile } from '@manuscripts/json-schema'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
 import Api from './Api'
 
-const getManuscriptData = async (
-  projectID: string,
-  manuscriptID: string,
-  api: Api
-) => {
-  const models = await api.getManuscript(projectID, manuscriptID)
-  if (!models) {
-    throw new Error('Models are wrong.')
-  }
+const getManuscriptData = async (api: Api) => {
   const data: Partial<state> = {}
-  for (const model of models) {
-    if (model.objectType === ObjectTypes.Project) {
-      data.project = model as Project
-    } else if (isManuscript(model)) {
-      data.manuscript = model
-    }
-  }
-  data.modelMap = getModelMap(models || [])
 
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
@@ -50,7 +27,6 @@ const getManuscriptData = async (
   ])
 
   const bundle = await api.getBundle(template)
-
   data.sectionCategories = sectionCategories || []
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
@@ -74,18 +50,6 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
   }
 }
 
-const createDoc = (modelMap: Map<string, Model>) => {
-  try {
-    const decoder = new Decoder(modelMap, true)
-    return decoder.createArticleNode()
-  } catch (e) {
-    console.warn(
-      'Unable to produce a document from the json models with error: ' + e
-    )
-    return null
-  }
-}
-
 export const buildData = async (
   projectID: string,
   manuscriptID: string,
@@ -96,15 +60,13 @@ export const buildData = async (
     return {}
   }
 
-  const state = await getManuscriptData(projectID, manuscriptID, api)
+  const state = await getManuscriptData(api)
 
   const manuscript = state.manuscript
   const project = state.project
   const role = project ? getUserRole(project, user.userID) : null
 
   const users = await getUserData(projectID, user, api)
-
-  const doc = state.modelMap ? createDoc(state.modelMap) : null
 
   return {
     user,
@@ -113,7 +75,6 @@ export const buildData = async (
     userRole: role,
     ...users,
     ...state,
-    doc,
     tokenData: new TokenData(),
   }
 }

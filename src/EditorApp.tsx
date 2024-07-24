@@ -20,7 +20,6 @@ import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlacehold
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
 import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
-import { useLoadDoc } from './quarterback/useLoadDoc'
 import {
   BasicSource,
   createStore,
@@ -82,8 +81,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
 
   const [store, setStore] = useState<GenericStore>()
 
-  const loadDoc = useLoadDoc(authToken)
-  const quarterBackSource = new QuarterbackDataSource(loadDoc)
+  const quarterBackSource = new QuarterbackDataSource()
 
   useEffect(() => {
     // implement remount for the store if component is retriggered

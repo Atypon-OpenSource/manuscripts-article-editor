@@ -9,32 +9,17 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptNode } from '@manuscripts/transform'
-
 import { builderFn, StoreDataSourceStrategy } from '../store'
-import { ManuscriptSnapshot, SnapshotLabel } from './types'
+import { ManuscriptSnapshot } from './types'
+import { loadDoc } from './api/loadDoc'
 
 export default class QuarterbackDataSource implements StoreDataSourceStrategy {
-  loadDoc: (
-    manuscriptID: string,
-    projectID: string,
-    doc: ManuscriptNode | undefined
-  ) => Promise<
-    | {
-        doc: ManuscriptNode
-        version: number
-        snapshots: SnapshotLabel[]
-      }
-    | undefined
-  >
-  constructor(loadDoc: QuarterbackDataSource['loadDoc']) {
-    this.loadDoc = loadDoc
-  }
   build: builderFn = async (state, next) => {
-    if (state.projectID && state.manuscriptID) {
-      const res = await this.loadDoc(
+    if (state.projectID && state.manuscriptID && state.authToken) {
+      const res = await loadDoc(
         state.manuscriptID,
         state.projectID,
+        state.authToken,
         state.doc
       )
       if (res?.doc && res.version >= 0) {
