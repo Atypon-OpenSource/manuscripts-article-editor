@@ -17,17 +17,12 @@ import {
 } from '@manuscripts/body-editor'
 import {
   Manuscript,
-  Model,
   Project,
   SectionCategory,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
-import {
-  Build,
-  ManuscriptEditorView,
-  ManuscriptNode,
-} from '@manuscripts/transform'
+import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
