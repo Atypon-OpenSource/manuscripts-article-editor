@@ -83,8 +83,17 @@ export const ManuscriptMenus: React.FC = () => {
   const can = usePermissions()
   const [editor] = useStore((store) => store.editor)
 
-  const specs = useMemo(() => getFilteredMenus(editor, can), [can, editor])
+  const specs = useMemo(() => {
+    if (!editor) {
+      return []
+    }
+    return getFilteredMenus(editor, can)
+  }, [can, editor])
 
   const { menus, ref, handleClick } = useMenus(specs)
+
+  if (!editor) {
+    return null
+  }
   return <Menus menus={menus} innerRef={ref} handleClick={handleClick} />
 }

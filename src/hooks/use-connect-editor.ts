@@ -109,4 +109,6 @@ export const useConnectEditor = () => {
     }, 200)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
+
+  return editor
 }

@@ -51,3 +51,9 @@ export const useStore = <T>(
   // @ts-ignore
   return [state, store.dispatchAction, store.getState, store.subscribe]
 }
+
+// Allows to get store's state on demand rather than subscribing to it
+export const useGetState = () => {
+  const store = useGenericStore()
+  return store.getState
+}

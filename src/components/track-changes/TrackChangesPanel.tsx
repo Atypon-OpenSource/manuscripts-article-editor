@@ -16,7 +16,7 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
@@ -36,13 +36,10 @@ export const TrackChangesPanel: React.FC = () => {
     })
   )
 
-  // make sure trackState doesn't rerender every transaction
-  // make sure store doesn't update when no selector or produce other way to acquire getState w/o rerender
-  // const [_, __, getState] = useStore()
-
   const onSelect = useCallback((suggestion: TrackedChange) => {
     setSelectedSuggestion(suggestion, getState)
     // @TODO - check if getState isn't recreated and if not - updated deps array
+    // @TODO - check if trackState is not recreated every time a transaction is fired
   }, [])
 
   const execCmd = useExecCmd()
@@ -50,23 +47,23 @@ export const TrackChangesPanel: React.FC = () => {
   const { changeSet } = trackState || {}
 
   const handleAccept = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.accepted)
+    setChangeStatus(change, CHANGE_STATUS.accepted, execCmd)
   }, [])
 
   const handleReject = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.rejected)
+    setChangeStatus(change, CHANGE_STATUS.rejected, execCmd)
   }, [])
 
   const handleReset = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.pending)
+    setChangeStatus(change, CHANGE_STATUS.pending, execCmd)
   }, [])
 
   const handleAcceptAll = useCallback(() => {
-    const changeSet = getState().changeSet
-    if (!changeSet) {
+    const trackState = getState().trackState
+    if (!trackState) {
       return
     }
-    const ids = ChangeSet.flattenTreeToIds(changeSet.pending)
+    const ids = ChangeSet.flattenTreeToIds(trackState.changeSet.pending)
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
   }, [])
 

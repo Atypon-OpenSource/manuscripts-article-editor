@@ -39,23 +39,6 @@ import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
-export const ManuscriptMenusContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: ${(props) => props.theme.colors.background.secondary};
-`
-export const ManuscriptMenusContainerInner = styled.div`
-  width: 100%;
-  max-width: ${(props) => props.theme.grid.editorMaxWidth}px;
-  margin: 0 auto;
-  padding: ${(props) => props.theme.grid.unit / 2}px
-    ${(props) => props.theme.grid.unit * 5}px
-    ${(props) => props.theme.grid.unit}px
-    ${(props) => props.theme.grid.unit * 15}px;
-  box-sizing: border-box;
-`
-
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, permittedActions }] = useStore((state) => {
     return {
@@ -111,6 +94,23 @@ const ManuscriptPageView: React.FC = () => {
     </>
   )
 }
+
+export const ManuscriptMenusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${(props) => props.theme.colors.background.secondary};
+`
+export const ManuscriptMenusContainerInner = styled.div`
+  width: 100%;
+  max-width: ${(props) => props.theme.grid.editorMaxWidth}px;
+  margin: 0 auto;
+  padding: ${(props) => props.theme.grid.unit / 2}px
+    ${(props) => props.theme.grid.unit * 5}px
+    ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 15}px;
+  box-sizing: border-box;
+`
 
 const PageWrapper = styled.div`
   position: relative;

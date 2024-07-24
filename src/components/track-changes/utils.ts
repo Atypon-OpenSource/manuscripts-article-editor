@@ -10,16 +10,15 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
+import {
+  CHANGE_STATUS,
+  trackCommands,
+  TrackedChange,
+} from '@manuscripts/track-changes-plugin'
+import { Command, NodeSelection, TextSelection } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 
-import { PMEditor, state } from '../../store'
-
-export const trackedJoint = ':dataTracked:'
-
-export const stripTracked = (id: string) => {
-  return id.split(trackedJoint)[0]
-}
+import { state } from '../../store'
 
 export const setSelectedSuggestion = (
   suggestion: TrackedChange,
@@ -41,7 +40,8 @@ export const setSelectedSuggestion = (
 
 export const setChangeStatus = (
   change: TrackedChange,
-  status: CHANGE_STATUS
+  status: CHANGE_STATUS,
+  execCmd: (cmd: Command, hookView?: EditorView) => void
 ) => {
   const ids = [change.id]
   if (change.type === 'node-change') {
