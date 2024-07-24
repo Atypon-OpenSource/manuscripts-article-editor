@@ -9,9 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Section } from '@manuscripts/json-schema'
 import { RichText } from '@manuscripts/style-guide'
-import { SectionNode } from '@manuscripts/transform'
+import { schema, SectionNode, TitleNode } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
 import { findParentNode } from 'prosemirror-utils'
 import React, { useMemo } from 'react'
@@ -32,32 +31,46 @@ export const SectionInspector: React.FC<{
     attrs: Record<string, unknown>,
     nodispatch?: boolean
   ) => Transaction | undefined
-  section: Section
-  sectionNode?: SectionNode
+  section: SectionNode
   state: EditorState
-  dispatch: (tr: Transaction) => EditorState | void
-}> = ({ dispatchNodeAttrs, section, sectionNode, state, dispatch }) => {
-  const [{ modelMap, sectionCategories }] = useStore((store) => ({
-    modelMap: store.trackModelMap,
+}> = ({ dispatchNodeAttrs, section, state }) => {
+  const [{ sectionCategories, doc }] = useStore((store) => ({
+    doc: store.doc,
     sectionCategories: sortSectionCategories(store.sectionCategories),
   }))
 
-  const existingCatsCounted = useMemo(() => {
-    const exisitingCats: { [key: string]: number } = {}
-    for (const model of modelMap) {
-      const section = model[1] as Section
-      if (
-        section.category &&
-        section.category.startsWith('MPSectionCategory:')
-      ) {
-        exisitingCats[section.category] = exisitingCats[section.category]
-          ? exisitingCats[section.category]++
-          : 1
+  const title = useMemo(() => {
+    let titleText = ''
+    section.descendants((n) => {
+      if (n.type === schema.nodes.title) {
+        titleText = (n as TitleNode).text || ''
+        return true
       }
-      // section.category == 'MPSectionCategory:abstract-graphical'
-    }
-    return exisitingCats
-  }, [modelMap.size]) // eslint-disable-line react-hooks/exhaustive-deps
+    })
+    return titleText
+  }, [section])
+
+  const [existingCatsCounted, isSubSection] = useMemo(() => {
+    let isSubSection = false
+    const exisitingCats: { [key: string]: number } = {}
+
+    doc.descendants((node, _, nodeParent) => {
+      if (node.type === schema.nodes.section) {
+        if (nodeParent?.type === schema.nodes.section && node.eq(section)) {
+          isSubSection = true
+        }
+
+        const currentSection = node as SectionNode
+        const cat = currentSection.attrs.category
+        if (cat && cat.startsWith('MPSectionCategory:')) {
+          // @TODO - check this part - cat.startsWith('MPSectionCategory:')
+          exisitingCats[cat] = exisitingCats[cat] ? exisitingCats[cat]++ : 1
+        }
+      }
+    })
+
+    return [exisitingCats, isSubSection]
+  }, [doc]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const sortedSectionCategories = useMemo(() => {
     const container = findParentNode((node) => node.attrs.category)(
@@ -83,10 +96,11 @@ export const SectionInspector: React.FC<{
     )
   }, [sectionCategories, state.selection])
 
-  const currentSectionCategory = chooseSectionCategory(section)
+  const currentSectionCategory = chooseSectionCategory(section, isSubSection)
+
   return (
     <InspectorSection title={'Section'}>
-      {section.title && <SectionTitle value={section.title} />}
+      {title && <SectionTitle value={title} />}
 
       {isEditableSectionCategoryID(currentSectionCategory) && (
         <>
@@ -97,7 +111,7 @@ export const SectionInspector: React.FC<{
             sectionCategories={sortedSectionCategories}
             existingCatsCounted={existingCatsCounted}
             handleChange={(category: string) => {
-              dispatchNodeAttrs(section._id, { category })
+              dispatchNodeAttrs(section.attrs.id, { category })
             }}
           />
         </>
