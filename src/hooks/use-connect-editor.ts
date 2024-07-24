@@ -11,41 +11,25 @@
  */
 import { commentsKey, selectedSuggestionKey } from '@manuscripts/body-editor'
 import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useLayoutEffect, useMemo } from 'react'
+import { useEffect, useLayoutEffect, useMemo } from 'react'
 
 import { useDoWithThrottle } from '../postgres-data/savingUtilities'
 import { useStore } from '../store'
-import useTrackedModelManagement from '../tracked-models/use-tracked-model-management'
 import { useCreateEditor } from './use-create-editor'
 import { useHandleSnapshot } from './use-handle-snapshot'
 
 export const useConnectEditor = () => {
-  const [doc] = useStore((store) => store.doc)
-  const [saveModel] = useStore((store) => store.saveModel)
-  const [deleteModel] = useStore((store) => store.deleteModel)
-  const [modelMap] = useStore((store) => store.modelMap)
   const [_, storeDispatch] = useStore((store) => store.manuscriptID)
 
   const editor = useCreateEditor()
 
-  const { state, dispatch, view } = editor
+  const { state, view } = editor
   const handleSnapshot = useHandleSnapshot(view)
 
   useEffect(() => {
     storeDispatch({ handleSnapshot })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view?.state])
-
-  const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
-    useTrackedModelManagement(
-      doc,
-      view,
-      state,
-      dispatch,
-      saveModel,
-      deleteModel,
-      modelMap
-    )
 
   useLayoutEffect(() => {
     const trackState = trackChangesPluginKey.getState(state)
@@ -55,21 +39,6 @@ export const useConnectEditor = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    storeDispatch({
-      saveTrackModel,
-      trackModelMap,
-      deleteTrackModel,
-      getTrackModel,
-    })
-  }, [
-    saveTrackModel,
-    trackModelMap,
-    deleteTrackModel,
-    storeDispatch,
-    getTrackModel,
-  ])
 
   const selection = useMemo(() => {
     const suggestion = selectedSuggestionKey.getState(state)?.suggestion

@@ -10,7 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Section, SectionCategory } from '@manuscripts/json-schema'
+import { SectionCategory } from '@manuscripts/json-schema'
+import { schema, SectionNode } from '@manuscripts/transform'
+import { Node as ProsemirrorNode } from 'prosemirror-model'
 
 export const uneditableSectionCategories: string[] = [
   'MPSectionCategory:bibliography',
@@ -34,14 +36,17 @@ export const isEditableSectionCategory = (sectionCategory: SectionCategory) =>
 export const sortSectionCategories = (sectionCategories: SectionCategory[]) =>
   sectionCategories.sort((a, b) => a.priority - b.priority)
 
-export const chooseSectionCategory = (section: Section): string => {
-  if (section.category) {
-    return section.category
+export const chooseSectionCategory = (
+  section: SectionNode,
+  parent: ProsemirrorNode
+): string => {
+  if (section.attrs.category) {
+    return section.attrs.category
   }
 
-  return section.path.length === 1
-    ? 'MPSectionCategory:section'
-    : 'MPSectionCategory:subsection'
+  return parent.type === schema.nodes.section
+    ? 'MPSectionCategory:subsection'
+    : 'MPSectionCategory:section'
 }
 
 export const isUnique = (categoryId: string) => {

@@ -92,8 +92,5 @@ export const ManuscriptMenus: React.FC = () => {
 
   const { menus, ref, handleClick } = useMenus(specs)
 
-  if (!editor) {
-    return null
-  }
   return <Menus menus={menus} innerRef={ref} handleClick={handleClick} />
 }

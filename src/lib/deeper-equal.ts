@@ -27,7 +27,7 @@ const deeperEqual = (next: any, prev: any) => {
         return false
       })
 
-    case 'Map': // important for modelMap
+    case 'Map':
       if (next == prev) {
         return true
       }
