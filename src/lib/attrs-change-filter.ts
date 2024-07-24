@@ -11,17 +11,13 @@
  */
 
 import { FileAttachment } from '@manuscripts/body-editor'
-import {
-  Affiliation,
-  BibliographicDate,
-  BibliographicName,
-  BibliographyItem,
-  Footnote,
-  Model,
-} from '@manuscripts/json-schema'
+import { BibliographicDate, BibliographicName } from '@manuscripts/json-schema'
 import { bibliographyItemTypes } from '@manuscripts/library'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
+  AffiliationNode,
+  BibliographyItemNode,
+  FootnoteNode,
   isCitationNode,
   isInlineFootnoteNode,
   ManuscriptNode,
@@ -35,9 +31,9 @@ export const filterAttrsChange = (
   modelOfChange: ManuscriptNode,
   attrsChange: NodeAttrChange,
   files: FileAttachment[],
-  affiliations: Affiliation[],
-  references: BibliographyItem[],
-  footnotes: Footnote[]
+  affiliations: AffiliationNode[],
+  references: BibliographyItemNode[],
+  footnotes: FootnoteNode[]
 ) => {
   // TODO:: use attrsChange.nodeType when adding filter for other nodes
   return {
@@ -79,11 +75,11 @@ const getLabel = (key: string) =>
 
 const createAttrsDisplay = (
   modelOfChange: ManuscriptNode,
-  attrs: Record<string, Model | Model[] | string | string[]>,
+  attrs: Record<string, any>,
   files: FileAttachment[],
-  affiliations: Affiliation[],
-  references: BibliographyItem[],
-  footnotes: Footnote[]
+  affiliations: AffiliationNode[],
+  references: BibliographyItemNode[],
+  footnotes: FootnoteNode[]
 ) => {
   const filteredAttrs: Record<string, { label: string; value: string }> = {}
   const excludedKeys = ['id', 'paragraphStyle', 'dataTracked']
@@ -113,10 +109,10 @@ const createAttrsDisplay = (
               label: 'Footnote',
               value: footnotes.reduce((acc, fn) => {
                 const rids = value as string[]
-                if (rids.includes(fn._id)) {
+                if (rids.includes(fn.attrs.id)) {
                   const fnText =
-                    fn.contents.substring(0, limit) +
-                    (fn.contents.length > limit ? '...' : '')
+                    fn.text?.substring(0, limit) +
+                    (fn.text && fn.text.length > limit ? '...' : '')
                   return acc ? acc + ', ' + fnText : fnText
                 }
                 return acc
@@ -129,8 +125,8 @@ const createAttrsDisplay = (
               label: 'Reference',
               value: references.reduce((acc, ref) => {
                 const rids = value as string[]
-                if (rids.includes(ref._id)) {
-                  const refText = ref.title || ref.DOI || ''
+                if (rids.includes(ref.attrs.id)) {
+                  const refText = ref.attrs.title || ref.attrs.doi || ''
                   return acc ? acc + ', \n' + refText : refText
                 }
 
@@ -145,8 +141,10 @@ const createAttrsDisplay = (
             label: getLabel(key),
             value: (value as string[])
               ?.map((id) => {
-                const affiliation = affiliations.find((aff) => aff._id === id)
-                return affiliation?.institution || 'Unknown'
+                const affiliation = affiliations.find(
+                  (aff) => aff.attrs.id === id
+                )
+                return affiliation?.attrs.institution || 'Unknown'
               })
               .join(', '),
           })
