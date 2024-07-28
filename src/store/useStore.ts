@@ -19,7 +19,7 @@ import { useGenericStore } from './StoreContext'
 type Selector<T> = (r: state) => state | T
 
 export const useStore = <T>(
-  selector: Selector<T>
+  selector?: Selector<T>
 ): [T, dispatch, () => state, GenericStore['subscribe']] => {
   const store = useGenericStore()
   const init = selector ? () => selector(store.state!) : () => store.state
