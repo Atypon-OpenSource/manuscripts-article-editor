@@ -27,7 +27,6 @@ type FetchOptions = {
   body?: string
 }
 
-
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -148,7 +147,7 @@ export function del<T>(
 }
 export async function listen<T>(
   path: string,
-  listener: (event: MessageEvent) => void,
+  listener: (event: MessageEvent) => void
 ) {
   let ws: WebSocket
   const reconnectDelay = 1500
