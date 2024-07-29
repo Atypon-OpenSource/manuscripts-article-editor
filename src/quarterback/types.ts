@@ -38,6 +38,10 @@ export type ManuscriptDocWithSnapshots = ManuscriptDoc & {
   snapshots: SnapshotLabel[]
 }
 
+export type TransformerVersion = {
+  transformerVersion: string
+}
+
 export type UpdateDocumentRequest = {
   doc: Record<string, any>
 }

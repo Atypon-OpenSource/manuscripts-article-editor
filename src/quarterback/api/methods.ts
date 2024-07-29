@@ -11,6 +11,7 @@
  */
 
 import config from '../../config'
+import { getTransformerVersion } from './document'
 
 type Ok<T> = {
   data: T
@@ -159,14 +160,13 @@ export function del<T>(
 export async function listen<T>(
   path: string,
   listener: (event: MessageEvent) => void,
-  projectID: string,
-  manuscriptID: string,
   authToken: string
 ) {
   const reconnectDelay = 1500
-  const onOpen = () => {
+  const onOpen = async () => {
     console.log('WebSocket Connection Opened Ok')
-    ws.send(JSON.stringify({ authToken, projectID, manuscriptID }))
+    const version = await getTransformerVersion(authToken)
+    console.log(version)
   }
 
   const onClose = (event: CloseEvent) => {

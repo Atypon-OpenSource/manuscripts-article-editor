@@ -7,29 +7,39 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import styled from 'styled-components'
 
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
+export const FileContainer = styled.div`
+  display: flex;
+  font-family: ${(props) => props.theme.font.family.Lato};
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  padding: 24px 18px;
+  height: 72px;
 
-import deeperEqual from '../lib/deeper-equal'
-import { dispatch, GenericStore, state } from './Store'
-import { useGenericStore } from './StoreContext'
+  &.dragging {
+    opacity: 0.2;
+  }
 
-type Selector<T> = (r: state) => state | T
+  .file-icon {
+    min-width: 20px;
+    width: 20px;
+  }
 
-export const useStore = <T>(
-  selector?: Selector<T>
-): [T, dispatch, () => state, GenericStore['subscribe']] => {
-  const store = useGenericStore()
-  const init = selector ? () => selector(store.state!) : () => store.state
-  const state = useSyncExternalStoreWithSelector(
-    store.subscribe,
-    () => store.getState(),
-    undefined,
-    init,
-    deeperEqual
-  )
+  .show-on-hover {
+    display: none;
+  }
 
-  return [state, store.dispatchAction, store.getState, store.subscribe]
-}
+  &:hover .show-on-hover {
+    display: block;
+  }
+
+  &:hover,
+  &:focus {
+    background: #f2fbfc;
+  }
+`

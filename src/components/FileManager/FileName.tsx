@@ -7,29 +7,34 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { FileAttachment } from '@manuscripts/body-editor'
+import React from 'react'
+import styled from 'styled-components'
 
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
+import { FileTypeIcon } from './FileTypeIcon'
 
-import deeperEqual from '../lib/deeper-equal'
-import { dispatch, GenericStore, state } from './Store'
-import { useGenericStore } from './StoreContext'
-
-type Selector<T> = (r: state) => state | T
-
-export const useStore = <T>(
-  selector?: Selector<T>
-): [T, dispatch, () => state, GenericStore['subscribe']] => {
-  const store = useGenericStore()
-  const init = selector ? () => selector(store.state!) : () => store.state
-  const state = useSyncExternalStoreWithSelector(
-    store.subscribe,
-    () => store.getState(),
-    undefined,
-    init,
-    deeperEqual
+export const FileName: React.FC<{
+  file: FileAttachment
+}> = ({ file }) => {
+  return (
+    <>
+      <FileTypeIcon file={file} />
+      <FileNameText data-cy="filename">{file.name}</FileNameText>
+    </>
   )
-
-  return [state, store.dispatchAction, store.getState, store.subscribe]
 }
+
+export const FileNameText = styled.div`
+  font-family: ${(props) => props.theme.font.family.Lato};
+  font-size: ${(props) => props.theme.font.size.medium};
+  line-height: ${(props) => props.theme.font.lineHeight.large};
+  font-weight: ${(props) => props.theme.font.weight.normal};
+  color: ${(props) => props.theme.colors.text.primary};
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`

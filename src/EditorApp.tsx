@@ -9,9 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileAttachment, FileManagement } from '@manuscripts/style-guide'
+import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
 import React, { MutableRefObject, useEffect, useState } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Page } from './components/Page'
@@ -123,13 +122,11 @@ const EditorApp: React.FC<EditorAppProps> = ({
 
   return store ? (
     <GenericStoreProvider store={store}>
-      <Router>
-        <Page>
-          <Wrapper>
-            <ManuscriptPageContainer />
-          </Wrapper>
-        </Page>
-      </Router>
+      <Page>
+        <Wrapper>
+          <ManuscriptPageContainer />
+        </Wrapper>
+      </Page>
     </GenericStoreProvider>
   ) : (
     <PlaceholderWrapper>

@@ -10,14 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { getVersion } from '@manuscripts/transform'
-
 import {
   ICreateDocRequest,
   IUpdateDocumentRequest,
   ManuscriptDocWithSnapshots,
   StepsPayload,
   StepsSinceResponse,
+  TransformerVersion,
 } from '../types'
 import { del, get, listen, post, put, sendWs } from './methods'
 
@@ -38,6 +37,13 @@ export const createDocument = (payload: ICreateDocRequest, authToken: string) =>
     authToken,
     payload,
     'Creating document failed'
+  )
+
+export const getTransformerVersion = (authToken: string) =>
+  get<TransformerVersion>(
+    'doc/version',
+    authToken,
+    'Fetching schema version failed'
   )
 
 export const updateDocument = (
@@ -103,21 +109,6 @@ export const listenStepUpdates = (
 ) => {
   const listener = (event: MessageEvent) => {
     const data = JSON.parse(event.data)
-
-    if (data.error && data.code) {
-      console.warn(data.error)
-      //call steps since?
-    }
-    if (
-      data['Transformer-Version'] &&
-      data['Transformer-Version'] !== getVersion()
-    ) {
-      console.warn(
-        `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on backend (${
-          data['Transformer-Version']
-        })})`
-      )
-    }
     if (
       typeof data.version != 'undefined' &&
       data.steps &&
@@ -128,11 +119,5 @@ export const listenStepUpdates = (
     }
   }
 
-  listen(
-    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
-    listener,
-    projectID,
-    manuscriptID,
-    authToken
-  )
+  listen(`doc/${projectID}/manuscript/${manuscriptID}/listen`, listener, authToken), 
 }

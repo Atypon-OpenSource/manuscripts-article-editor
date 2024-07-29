@@ -7,27 +7,42 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-
+import { FileAttachment } from '@manuscripts/body-editor'
+import { Tooltip } from '@manuscripts/style-guide'
+import { format } from 'date-fns'
 import React from 'react'
 import styled from 'styled-components'
 
-const InlineButton = styled.button`
-  display: inline;
-  color: ${(props) => props.theme.colors.text.info};
-  cursor: pointer;
-  padding: 0;
-  background: transparent;
-  border: none;
-  text-decoration: underline;
-  font-family: inherit;
-  font-size: inherit;
+export const FileCreatedDate: React.FC<{
+  file: FileAttachment
+  className?: string
+}> = ({ file, className }) => {
+  if (!file.createdDate) {
+    return null
+  }
+
+  return (
+    <FileDateContainer
+      data-tooltip-id={`${file.id}-created-date-tooltip`}
+      className={className}
+    >
+      <FileDate>{format(new Date(file.createdDate), 'M/d/yy, HH:mm')}</FileDate>
+      <Tooltip id={`${file.id}-created-date-tooltip`} place="bottom">
+        File Uploaded
+      </Tooltip>
+    </FileDateContainer>
+  )
+}
+
+export const FileDateContainer = styled.div`
+  overflow: hidden;
+  min-width: 88px;
+  margin-left: 8px;
 `
 
-export const ContactSupportButton: React.FC<{
-  children: React.ReactNode
-  message?: string
-}> = ({ children, message }) => {
-  return <InlineButton>{children}</InlineButton>
-}
+export const FileDate = styled.div`
+  font-size: ${(props) => props.theme.font.size.small};
+  line-height: 27px;
+`

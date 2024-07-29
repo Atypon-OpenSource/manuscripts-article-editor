@@ -7,29 +7,32 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { FileAttachment } from '@manuscripts/body-editor'
+import {
+  FileCorruptedIcon,
+  FileMainDocumentIcon,
+  FileUnknownIcon,
+  getFileIcon,
+} from '@manuscripts/style-guide'
+import React from 'react'
 
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
+/**
+ * Each file item has an icon to represent besides the file info based on the file extension,
+ * in case the file type is an image or video then the icon should be the preview image or video thumbnail.
+ */
+export const FileTypeIcon: React.FC<{
+  file: FileAttachment
+}> = ({ file }) => {
+  if (file.type.id === 'missing') {
+    return <FileCorruptedIcon className="file-icon" />
+  }
+  if (file.type.id === 'main-manuscript') {
+    return <FileMainDocumentIcon className="file-icon" />
+  }
 
-import deeperEqual from '../lib/deeper-equal'
-import { dispatch, GenericStore, state } from './Store'
-import { useGenericStore } from './StoreContext'
+  const icon = getFileIcon(file.name)
 
-type Selector<T> = (r: state) => state | T
-
-export const useStore = <T>(
-  selector?: Selector<T>
-): [T, dispatch, () => state, GenericStore['subscribe']] => {
-  const store = useGenericStore()
-  const init = selector ? () => selector(store.state!) : () => store.state
-  const state = useSyncExternalStoreWithSelector(
-    store.subscribe,
-    () => store.getState(),
-    undefined,
-    init,
-    deeperEqual
-  )
-
-  return [state, store.dispatchAction, store.getState, store.subscribe]
+  return icon || <FileUnknownIcon className="file-icon" />
 }
