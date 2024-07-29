@@ -11,7 +11,6 @@
  */
 
 import config from '../../config'
-import { getTransformerVersion } from './document'
 
 type Ok<T> = {
   data: T
@@ -165,8 +164,6 @@ export async function listen<T>(
   const reconnectDelay = 1500
   const onOpen = async () => {
     console.log('WebSocket Connection Opened Ok')
-    const version = await getTransformerVersion(authToken)
-    console.log(version)
   }
 
   const onClose = (event: CloseEvent) => {
@@ -216,6 +213,7 @@ export async function listen<T>(
     ws.addEventListener('close', onClose)
     ws.addEventListener('error', onError)
   }
+
   const join = () => {
     const wsUrl = `${config.api.url.replace('http', 'ws')}/${path}`
     try {

@@ -39,7 +39,7 @@ export type ManuscriptDocWithSnapshots = ManuscriptDoc & {
 }
 
 export type TransformerVersion = {
-  transformerVersion: string
+  transformVersion: string
 }
 
 export type UpdateDocumentRequest = {

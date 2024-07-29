@@ -11,6 +11,7 @@
  */
 
 import {
+  AppliedStepsResponse,
   ICreateDocRequest,
   IUpdateDocumentRequest,
   ManuscriptDocWithSnapshots,
@@ -18,7 +19,7 @@ import {
   StepsSinceResponse,
   TransformerVersion,
 } from '../types'
-import { del, get, listen, post, put, sendWs } from './methods'
+import { del, get, listen, post, put } from './methods'
 
 export const getDocument = (
   projectID: string,
@@ -39,11 +40,11 @@ export const createDocument = (payload: ICreateDocRequest, authToken: string) =>
     'Creating document failed'
   )
 
-export const getTransformerVersion = (authToken: string) =>
+export const getTransformVersion = (authToken: string) =>
   get<TransformerVersion>(
     'doc/version',
     authToken,
-    'Fetching schema version failed'
+    'Fetching transform version failed'
   )
 
 export const updateDocument = (
@@ -70,19 +71,17 @@ export const deleteDocument = (
     'Deleting document failed'
   )
 
-export const applySteps = (
+export const applySteps = async (
   projectId: string,
   docId: string,
   authToken: string,
   payload: StepsPayload
 ) =>
-  sendWs(
-    JSON.stringify({
-      projectID: projectId,
-      manuscriptID: docId,
-      payload: payload,
-      authToken: authToken,
-    })
+  post<AppliedStepsResponse>(
+    `doc/${projectId}/manuscript/${docId}/steps`,
+    authToken,
+    payload,
+    'Creating document failed'
   )
 
 export const stepsSince = (
@@ -119,5 +118,9 @@ export const listenStepUpdates = (
     }
   }
 
-  listen(`doc/${projectID}/manuscript/${manuscriptID}/listen`, listener, authToken), 
+  listen(
+    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
+    listener,
+    authToken
+  )
 }
