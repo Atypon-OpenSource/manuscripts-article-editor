@@ -71,7 +71,7 @@ export const deleteDocument = (
     'Deleting document failed'
   )
 
-export const applySteps = async (
+export const applySteps = (
   projectId: string,
   docId: string,
   authToken: string,
