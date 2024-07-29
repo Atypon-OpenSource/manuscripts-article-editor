@@ -159,7 +159,6 @@ export function del<T>(
 export async function listen<T>(
   path: string,
   listener: (event: MessageEvent) => void,
-  authToken: string
 ) {
   const reconnectDelay = 1500
   const onOpen = async () => {

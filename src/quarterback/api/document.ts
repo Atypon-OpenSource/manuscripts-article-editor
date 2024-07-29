@@ -99,12 +99,7 @@ export const stepsSince = (
 export const listenStepUpdates = (
   projectID: string,
   manuscriptID: string,
-  dataListener: (
-    version: number,
-    steps: unknown[],
-    clientIDs: number[]
-  ) => void,
-  authToken: string
+  dataListener: (version: number, steps: unknown[], clientIDs: number[]) => void
 ) => {
   const listener = (event: MessageEvent) => {
     const data = JSON.parse(event.data)
@@ -118,9 +113,5 @@ export const listenStepUpdates = (
     }
   }
 
-  listen(
-    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
-    listener,
-    authToken
-  )
+  listen(`doc/${projectID}/manuscript/${manuscriptID}/listen`, listener)
 }

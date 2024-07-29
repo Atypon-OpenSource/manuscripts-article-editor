@@ -57,12 +57,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     listenToSteps: (
       projectId: string,
       docId: string,
-      listener: (
-        version: number,
-        steps: unknown[],
-        clientIDs: number[]
-      ) => void,
-      authToken: string
+      listener: (version: number, steps: unknown[], clientIDs: number[]) => void
     ) => void,
     authToken: string,
     throttlingControl: ThrottlingControl
@@ -85,20 +80,15 @@ class QuarterbackStepsExchanger extends CollabProvider {
     this.sendSteps = this.sendSteps.bind(this)
     this.throttlingControl(false, this.flushOnExit.bind(this))
 
-    listenToSteps(
-      projectId,
-      docId,
-      (version, jsonSteps, clientIDs) => {
-        if (!jsonSteps) {
-          return
-        }
-        const steps = this.hydrateSteps(jsonSteps)
-        if (steps.length) {
-          this.newStepsListener(version, steps, clientIDs)
-        }
-      },
-      authToken
-    )
+    listenToSteps(projectId, docId, (version, jsonSteps, clientIDs) => {
+      if (!jsonSteps) {
+        return
+      }
+      const steps = this.hydrateSteps(jsonSteps)
+      if (steps.length) {
+        this.newStepsListener(version, steps, clientIDs)
+      }
+    })
   }
 
   destroy() {
