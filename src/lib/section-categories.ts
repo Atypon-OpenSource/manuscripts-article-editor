@@ -61,3 +61,7 @@ export const isUniquePresent = (
 ) => {
   return isUnique(cat._id) && Object.keys(existingCats).includes(cat._id)
 }
+
+export const isBackMatterSection = (groupId: string): boolean => {
+  return groupId === 'MPSectionCategory:backmatter'
+}

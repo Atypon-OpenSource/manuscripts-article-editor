@@ -17,6 +17,7 @@ import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
+  isBackMatterSection,
   isEditableSectionCategory,
   isUniqueCurrent,
   isUniquePresent,
@@ -26,6 +27,7 @@ import { OptionWrapper } from './TagsInput'
 type OptionType = {
   value: string
   label: string
+  isDisabled: boolean
 }
 
 export const CategoryInput: React.FC<{
@@ -50,7 +52,7 @@ export const CategoryInput: React.FC<{
     data,
   }) => {
     return (
-      <OptionWrapper {...innerProps} ref={null}>
+      <OptionWrapper {...innerProps} isDisabled={data.isDisabled} ref={null}>
         {data.label}
       </OptionWrapper>
     )
@@ -59,12 +61,25 @@ export const CategoryInput: React.FC<{
   const options = useMemo(() => {
     const options: OptionType[] = []
     sectionCategories.map((cat) => {
+      // check if the category is part of the backmatter section, and its already present in the document
+      let isDisabled = false
+      if (
+        cat.groupIDs &&
+        isBackMatterSection(cat.groupIDs[0]) &&
+        document.querySelector(`[data-category="${cat._id}"]`)
+      ) {
+        isDisabled = true
+      }
       if (
         isEditableSectionCategory(cat) &&
         (!isUniquePresent(cat, existingCatsCounted) ||
           isUniqueCurrent(cat._id, currentValue))
       ) {
-        options.push({ value: cat._id, label: cat.name })
+        options.push({
+          value: cat._id,
+          label: cat.name,
+          isDisabled: isDisabled,
+        })
       }
     })
     return options
@@ -74,9 +89,8 @@ export const CategoryInput: React.FC<{
     const cat = sectionCategories.find(
       (category) => category._id === currentValue
     )
-    return cat && { value: cat._id, label: cat.name }
+    return cat && { value: cat._id, label: cat.name, isDisabled: false }
   }, [currentValue, sectionCategories])
-
   return (
     <Container>
       <Select<OptionType, true>
