@@ -27,7 +27,6 @@ type FetchOptions = {
   body?: string
 }
 
-let ws: WebSocket
 
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -107,15 +106,6 @@ export function post<T>(
     defaultError
   )
 }
-export function sendWs(payload: string) {
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    try {
-      ws.send(payload)
-    } catch (error) {
-      console.warn('Error sending message to websocket', error)
-    }
-  }
-}
 
 export function put<T>(
   path: string,
@@ -160,6 +150,7 @@ export async function listen<T>(
   path: string,
   listener: (event: MessageEvent) => void,
 ) {
+  let ws: WebSocket
   const reconnectDelay = 1500
   const onOpen = async () => {
     console.log('WebSocket Connection Opened Ok')
