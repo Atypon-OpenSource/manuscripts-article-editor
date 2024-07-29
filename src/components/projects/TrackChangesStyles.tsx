@@ -83,7 +83,9 @@ const trackChangesCssSelector = (ids: string[]) => {
   return ids.map((id) => `[data-changeid="${id}"]`).join(',\n')
 }
 
-export const TrackChangesStyles: React.FC = ({ children }) => {
+export const TrackChangesStyles: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const can = usePermissions()
   const [{ user, trackState }] = useStore((store) => ({
     user: store.user,
