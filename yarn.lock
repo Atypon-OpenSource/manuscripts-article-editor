@@ -1492,15 +1492,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.1.tgz#6abb1feb8ba7761c96b1ae19cbbd8a75b21920b2"
-  integrity sha512-gA0EtOli9kvrX2lzOsS08HWpjv+acw4ACsig3VnxcpC5E/3F33sOrhHpOnnmQ9YD/Ht4wTcW3WBTHAnoi+TxAQ==
+"@manuscripts/body-editor@2.0.2-LEAN-2812.0":
+  version "2.0.2-LEAN-2812.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.2-LEAN-2812.0.tgz#7b52de1eb3075c520803e1f831224327339227d5"
+  integrity sha512-8TYkdj8Kp3QXXbeHYP09iy1AtX5Pw6MLkeOlCOkSdn+Atawm1uZuRcAeZEFt5STCqzKD2xySax2gTRPPJ8pniw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
-    "@manuscripts/style-guide" "2.0.0"
+    "@manuscripts/style-guide" "2.0.1-LEAN-2812.0"
     "@manuscripts/track-changes-plugin" "1.7.14"
     "@manuscripts/transform" "2.3.21"
     "@popperjs/core" "^2.11.8"
@@ -1562,37 +1562,6 @@
     astrocite-ris "^0.16.4"
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
-
-"@manuscripts/style-guide@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.0.tgz#ee6341116747684b248f9b7b9340a22eda556b76"
-  integrity sha512-a5Qbzlv/rGXib1gNC1FN/RzbFF/swrUezs7WaBeNMXg6MYKLx7myLIQNGN3v+GXqUggjmQi8+Z38C+eZ34C78Q==
-  dependencies:
-    "@manuscripts/json-schema" "2.2.10"
-    "@manuscripts/transform" "2.3.21"
-    "@reach/tabs" "^0.18.0"
-    date-fns "^2.29.3"
-    formik "^2.2.9"
-    fuzzysort "^2.0.4"
-    lodash "^4.17.21"
-    prosemirror-commands "1.5.2"
-    prosemirror-history "1.3.2"
-    prosemirror-keymap "1.2.2"
-    prosemirror-model "1.19.4"
-    prosemirror-state "1.4.3"
-    prosemirror-view "1.32.7"
-    react "^18.3.1"
-    react-dnd "^16.0.1"
-    react-dnd-html5-backend "^16.0.1"
-    react-dom "^18.3.1"
-    react-is "^18.3.1"
-    react-modal "^3.16.1"
-    react-modern-calendar-datepicker "^3.1.6"
-    react-router-dom "^5.3.4"
-    react-select "^5.7.3"
-    react-sizeme "^3.0.2"
-    react-tooltip "^5.26.0"
-    styled-components "^5.2.0"
 
 "@manuscripts/style-guide@2.0.1-LEAN-2812.0":
   version "2.0.1-LEAN-2812.0"
