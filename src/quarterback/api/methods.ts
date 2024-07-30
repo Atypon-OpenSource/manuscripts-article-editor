@@ -167,20 +167,12 @@ export async function listen<T>(
     rejoin()
   }
 
-  const removeListners = () => {
+  const closeWebSocket = () => {
     try {
       ws.removeEventListener('open', onOpen)
       ws.removeEventListener('message', listener)
       ws.removeEventListener('close', onClose)
       ws.removeEventListener('error', onError)
-    } catch (error) {
-      console.error('Error removing websocket listeners', error)
-    }
-  }
-
-  const closeWebSocket = () => {
-    try {
-      removeListners()
       ws.close()
     } catch (error) {
       console.error('Error closing websocket', error)
@@ -193,21 +185,14 @@ export async function listen<T>(
     setTimeout(join, reconnectDelay)
   }
 
-  const handleWebSocketEvents = () => {
-    if (!ws) {
-      return
-    }
-    ws.addEventListener('open', onOpen)
-    ws.addEventListener('message', listener)
-    ws.addEventListener('close', onClose)
-    ws.addEventListener('error', onError)
-  }
-
   const join = () => {
     const wsUrl = `${config.api.url.replace('http', 'ws')}/${path}`
     try {
       ws = new WebSocket(wsUrl)
-      handleWebSocketEvents()
+      ws.addEventListener('open', onOpen)
+      ws.addEventListener('message', listener)
+      ws.addEventListener('close', onClose)
+      ws.addEventListener('error', onError)
     } catch (error) {
       rejoin()
     }
