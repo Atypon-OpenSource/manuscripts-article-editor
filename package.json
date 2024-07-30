@@ -38,7 +38,7 @@
     "@manuscripts/body-editor": "2.0.1",
     "@manuscripts/json-schema": "2.2.10",
     "@manuscripts/library": "1.3.10",
-    "@manuscripts/style-guide": "2.0.0",
+    "@manuscripts/style-guide": "2.0.1-LEAN-2812.0",
     "@manuscripts/track-changes-plugin": "1.7.14",
     "@manuscripts/transform": "2.3.21",
     "@microsoft/fetch-event-source": "^2.0.1",
