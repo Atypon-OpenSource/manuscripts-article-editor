@@ -47,7 +47,7 @@ const PageContainer = styled.div`
   font-family: ${(props) => props.theme.font.family.sans};
 `
 
-export const Page: React.FC = ({ children }) => {
+export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [{ tokenData }] = useStore((store) => ({
     tokenData: store.tokenData,
   }))

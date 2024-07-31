@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptOutline, useEditor } from '@manuscripts/body-editor'
+import { ManuscriptOutline } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import React from 'react'
 

@@ -11,8 +11,7 @@
  */
 
 import { SectionCategory } from '@manuscripts/json-schema'
-import { schema, SectionNode } from '@manuscripts/transform'
-import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { SectionNode } from '@manuscripts/transform'
 
 export const uneditableSectionCategories: string[] = [
   'MPSectionCategory:bibliography',

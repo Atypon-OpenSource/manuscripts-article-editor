@@ -65,7 +65,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
             onAccept={() => onAccept(c)}
             onReject={() => onReject(c)}
             onReset={() => onReset(c)}
-            onSelect={() => onSelect(c)}
+            onSelect={() => onSelect && onSelect(c)}
           />
         ))}
       </List>
