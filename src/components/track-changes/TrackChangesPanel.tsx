@@ -16,7 +16,7 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
@@ -36,10 +36,9 @@ export const TrackChangesPanel: React.FC = () => {
     })
   )
 
-  const onSelect = useCallback((suggestion: TrackedChange) => {
+  const handleSelect = useCallback((suggestion: TrackedChange) => {
     setSelectedSuggestion(suggestion, getState)
-    // @TODO - check if getState isn't recreated and if not - updated deps array
-    // @TODO - check if trackState is not recreated every time a transaction is fired
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const execCmd = useExecCmd()
@@ -48,14 +47,17 @@ export const TrackChangesPanel: React.FC = () => {
 
   const handleAccept = useCallback((change: TrackedChange) => {
     setChangeStatus(change, CHANGE_STATUS.accepted, execCmd)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleReject = useCallback((change: TrackedChange) => {
     setChangeStatus(change, CHANGE_STATUS.rejected, execCmd)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleReset = useCallback((change: TrackedChange) => {
     setChangeStatus(change, CHANGE_STATUS.pending, execCmd)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleAcceptAll = useCallback(() => {
@@ -65,6 +67,7 @@ export const TrackChangesPanel: React.FC = () => {
     }
     const ids = ChangeSet.flattenTreeToIds(trackState.changeSet.pending)
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -81,7 +84,7 @@ export const TrackChangesPanel: React.FC = () => {
         onReject={handleReject}
         onReset={handleReset}
         onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
-        onSelect={onSelect}
+        onSelect={handleSelect}
       />
       <SuggestionList
         type="accepted"
@@ -92,7 +95,7 @@ export const TrackChangesPanel: React.FC = () => {
         onAccept={handleAccept}
         onReject={handleReject}
         onReset={handleReset}
-        onSelect={onSelect}
+        onSelect={handleSelect}
       />
       <SuggestionList
         type="rejected"

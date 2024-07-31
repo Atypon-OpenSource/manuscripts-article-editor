@@ -49,7 +49,6 @@ const PageContainer = styled.div`
 
 export const Page: React.FC = ({ children }) => {
   const [{ tokenData }] = useStore((store) => ({
-    storeProject: store.project,
     tokenData: store.tokenData,
   }))
 
