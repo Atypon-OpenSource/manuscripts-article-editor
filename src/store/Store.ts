@@ -35,6 +35,7 @@ export interface ContainerIDs {
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
 export type state = {
+  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
