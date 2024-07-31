@@ -18,9 +18,9 @@ import { SectionInspector } from '../inspector/SectionInspector'
 import { ManuscriptInspector } from './ManuscriptInspector'
 
 export const ContentTab: React.FC = () => {
-  const [{ manuscript, editor }] = useStore((store) => {
+  const [{ manuscriptID, editor }] = useStore((store) => {
     return {
-      manuscript: store.manuscript,
+      manuscriptID: store.manuscriptID,
       editor: store.editor,
     }
   })
@@ -61,7 +61,7 @@ export const ContentTab: React.FC = () => {
   return (
     <div>
       <ManuscriptInspector
-        key={manuscript._id}
+        key={manuscriptID}
         state={state}
         dispatch={dispatch}
       />

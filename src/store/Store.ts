@@ -15,12 +15,7 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/body-editor'
-import {
-  Manuscript,
-  Project,
-  SectionCategory,
-  UserProfile,
-} from '@manuscripts/json-schema'
+import { Project, SectionCategory, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
@@ -40,13 +35,11 @@ export interface ContainerIDs {
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
 export type state = {
-  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
 
   project: Project
-  manuscript: Manuscript
   user: UserProfile // probably should be optional
 
   editor: PMEditor

@@ -17,6 +17,8 @@ import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import Api from './Api'
 import { buildData } from './buildData'
 import { buildUtilities } from './buildUtilities'
+import { loadDoc } from '../quarterback/api/loadDoc'
+import { ManuscriptSnapshot } from '../quarterback/types'
 
 export default class PsSource implements StoreDataSourceStrategy {
   api: Api
@@ -43,8 +45,36 @@ export default class PsSource implements StoreDataSourceStrategy {
     }
     const projectID = state.projectID
     const manuscriptID = state.manuscriptID
-    if (manuscriptID && projectID) {
-      this.data = await buildData(projectID, manuscriptID, this.api)
+
+    if (state.projectID && state.manuscriptID && state.authToken) {
+      const res = await loadDoc(
+        state.manuscriptID,
+        state.projectID,
+        state.authToken,
+        state.doc
+      )
+      if (res?.doc && res.version >= 0) {
+        this.data = {
+          ...this.data,
+          doc: res.doc,
+          initialDocVersion: res.version,
+          snapshots: res.snapshots,
+          snapshotsMap: new Map<string, ManuscriptSnapshot>(),
+        }
+      }
+    }
+
+    if (manuscriptID && projectID && this.data.doc) {
+      const data = await buildData(
+        projectID,
+        manuscriptID,
+        this.data.doc,
+        this.api
+      )
+      this.data = {
+        ...this.data,
+        ...data,
+      }
       this.utilities = buildUtilities(
         projectID,
         manuscriptID,

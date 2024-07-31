@@ -41,10 +41,9 @@ export const SectionInspector: React.FC<{
 
   const title = useMemo(() => {
     let titleText = ''
-    section.descendants((n) => {
+    section.forEach((n) => {
       if (n.type === schema.nodes.title) {
         titleText = (n as TitleNode).text || ''
-        return true
       }
     })
     return titleText

@@ -19,9 +19,12 @@ import PageSidebar from '../PageSidebar'
 
 const ManuscriptSidebar: React.FC = () => {
   const can = usePermissions()
-  const [manuscript] = useStore((store) => store.manuscript)
   const [view] = useStore((store) => store.view)
-  const [state] = useStore((store) => store.state)
+  const [editor] = useStore((store) => store.editor)
+
+  if (!editor) {
+    return null
+  }
 
   return (
     <PageSidebar
@@ -34,8 +37,7 @@ const ManuscriptSidebar: React.FC = () => {
       sidebarFooter={''}
     >
       <ManuscriptOutline
-        manuscript={manuscript}
-        doc={state?.doc || null}
+        doc={editor.state?.doc || null}
         view={view}
         can={can}
       />

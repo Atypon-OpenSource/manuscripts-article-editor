@@ -15,15 +15,16 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
 import Api from './Api'
+import { ActualManuscriptNode, ManuscriptNode } from '@manuscripts/transform'
 
-const getManuscriptData = async (api: Api) => {
+const getManuscriptData = async (api: Api, prototype: string) => {
   const data: Partial<state> = {}
 
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
     // TODO:: config this!
     api.getCSLLocale('en-US'),
-    api.getTemplate(data.manuscript?.prototype),
+    api.getTemplate(prototype),
   ])
 
   const bundle = await api.getBundle(template)
@@ -53,6 +54,7 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
 export const buildData = async (
   projectID: string,
   manuscriptID: string,
+  doc: ManuscriptNode,
   api: Api
 ) => {
   const user = await api.getUser()
@@ -60,9 +62,10 @@ export const buildData = async (
     return {}
   }
 
-  const state = await getManuscriptData(api)
+  const manuscript = doc as ActualManuscriptNode
 
-  const manuscript = state.manuscript
+  const state = await getManuscriptData(api, manuscript.attrs.prototype)
+
   const project = state.project
   const role = project ? getUserRole(project, user.userID) : null
 
@@ -70,8 +73,6 @@ export const buildData = async (
 
   return {
     user,
-    manuscriptID: manuscript?._id,
-    projectID: project?._id,
     userRole: role,
     ...users,
     ...state,
