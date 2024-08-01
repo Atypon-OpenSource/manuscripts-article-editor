@@ -12,7 +12,7 @@
 
 import { SectionCategory } from '@manuscripts/json-schema'
 import { schema } from '@manuscripts/transform'
-import { findChildrenByAttr, findChildrenByType } from 'prosemirror-utils'
+import { findChildrenByType } from 'prosemirror-utils'
 import React, { useCallback, useMemo } from 'react'
 import Select, { OptionProps } from 'react-select'
 import styled from 'styled-components'
