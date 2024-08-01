@@ -74,6 +74,9 @@ export const isBackMatterSectionCategoryExist = (parent: ManuscriptNode, categor
       found = true;
       return false;
     }
+    if (found) {
+      return false;
+    }
     return true;
   });
   return found;
