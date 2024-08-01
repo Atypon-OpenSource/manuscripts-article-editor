@@ -51,11 +51,12 @@ export const CategoryInput: React.FC<{
   }))
 
   const handleInputChange = useCallback(
-    (newValue) => handleLocalChange(newValue.value),
+    (newValue: OptionType | null) =>
+      newValue && handleLocalChange(newValue.value),
     [handleLocalChange]
   )
 
-  const OptionComponent: React.FC<OptionProps<OptionType, true>> = ({
+  const OptionComponent: React.FC<OptionProps<OptionType, false>> = ({
     innerProps,
     data,
   }) => {
@@ -102,7 +103,7 @@ export const CategoryInput: React.FC<{
   }, [currentValue, sectionCategories])
   return (
     <Container>
-      <Select<OptionType, true>
+      <Select<OptionType, false>
         value={selectionValue}
         options={options}
         menuPortalTarget={document.body}

@@ -17,6 +17,7 @@ import { ResizingOutlinerButton } from './ResizerButtons'
 import { Sidebar, SidebarContent, SidebarFooter } from './Sidebar'
 
 interface Props {
+  children: React.ReactNode
   direction: 'column' | 'row'
   hideWhen?: string
   minSize?: number

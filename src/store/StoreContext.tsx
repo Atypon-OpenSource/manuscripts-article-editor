@@ -23,6 +23,7 @@ export const createStore = async (sources: StoreDataSourceStrategy[]) => {
 
 interface Props {
   store: GenericStore
+  children: React.ReactNode
 }
 
 export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {

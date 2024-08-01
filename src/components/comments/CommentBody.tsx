@@ -87,7 +87,7 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
     }
   }
 
-  const ref = useCallback((e) => {
+  const ref = useCallback((e: HTMLTextAreaElement | null) => {
     if (e && editor.current !== e) {
       e.focus()
     }

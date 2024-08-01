@@ -79,6 +79,7 @@ const Content = styled.div`
 
 interface Props {
   title: React.ReactNode
+  children?: React.ReactNode
   approveAll?: () => void
 }
 
