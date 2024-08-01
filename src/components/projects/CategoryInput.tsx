@@ -14,21 +14,28 @@ import { SectionCategory } from '@manuscripts/json-schema'
 import React, { useCallback, useMemo } from 'react'
 import Select, { OptionProps } from 'react-select'
 import styled from 'styled-components'
-
+import { findChildrenByAttr, findChildrenByType } from 'prosemirror-utils'
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isBackMatterSection,
   isEditableSectionCategory,
+  isBackMatterSectionCategoryExist,
   isUniqueCurrent,
   isUniquePresent,
 } from '../../lib/section-categories'
 import { OptionWrapper } from './TagsInput'
+import { useStore } from '../../store'
+import { schema } from '@manuscripts/transform'
 
 type OptionType = {
   value: string
   label: string
   isDisabled: boolean
 }
+  
+const [{ doc }] = useStore((state) => ({
+  doc: state.doc,
+}))
 
 export const CategoryInput: React.FC<{
   value: string
@@ -59,6 +66,7 @@ export const CategoryInput: React.FC<{
   }
 
   const options = useMemo(() => {
+    const backmatter = findChildrenByType(doc, schema.nodes.backmatter)[0]
     const options: OptionType[] = []
     sectionCategories.map((cat) => {
       // check if the category is part of the backmatter section, and its already present in the document
@@ -66,7 +74,7 @@ export const CategoryInput: React.FC<{
       if (
         cat.groupIDs &&
         isBackMatterSection(cat.groupIDs[0]) &&
-        document.querySelector(`[data-category="${cat._id}"]`)
+        isBackMatterSectionCategoryExist(backmatter.node, cat._id)
       ) {
         isDisabled = true
       }

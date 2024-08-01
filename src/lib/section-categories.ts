@@ -11,6 +11,7 @@
  */
 
 import { Section, SectionCategory } from '@manuscripts/json-schema'
+import { ManuscriptNode } from '@manuscripts/transform'
 
 export const uneditableSectionCategories: string[] = [
   'MPSectionCategory:bibliography',
@@ -65,3 +66,15 @@ export const isUniquePresent = (
 export const isBackMatterSection = (groupId: string): boolean => {
   return groupId === 'MPSectionCategory:backmatter'
 }
+
+export const isBackMatterSectionCategoryExist = (parent: ManuscriptNode, category: string): boolean => {
+  let found = false;
+  parent.descendants((node: ManuscriptNode) => {
+    if (node.attrs.category === category) {
+      found = true;
+      return false;
+    }
+    return true;
+  });
+  return found;
+};
