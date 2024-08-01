@@ -63,14 +63,14 @@ export const isUniquePresent = (
   return isUnique(cat._id) && Object.keys(existingCats).includes(cat._id)
 }
 
-export const isBackMatterSection = (groupId: string): boolean => {
+export const isBackMatterSection = (groupId: string) => {
   return groupId === 'MPSectionCategory:backmatter'
 }
 
 export const isBackMatterSectionCategoryExist = (
   parent: ManuscriptNode,
   category: string
-): boolean => {
+) => {
   let found = false
   parent.descendants((node: ManuscriptNode) => {
     if (node.attrs.category === category) {
