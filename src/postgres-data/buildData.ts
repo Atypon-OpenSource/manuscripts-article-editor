@@ -9,17 +9,32 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfile } from '@manuscripts/json-schema'
+import { ObjectTypes, Project, UserProfile } from '@manuscripts/json-schema'
+import { ActualManuscriptNode, ManuscriptNode } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
 import Api from './Api'
-import { ActualManuscriptNode, ManuscriptNode } from '@manuscripts/transform'
+
+const getProject = async (
+  api: Api,
+  projectID: string,
+  manuscriptID: string
+) => {
+  const models = await api.getManuscript(projectID, manuscriptID)
+  if (!models) {
+    throw new Error('Models are wrong.')
+  }
+  for (const model of models) {
+    if (model.objectType === ObjectTypes.Project) {
+      return model as Project
+    }
+  }
+}
 
 const getManuscriptData = async (api: Api, prototype: string) => {
   const data: Partial<state> = {}
-
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
     // TODO:: config this!
@@ -63,12 +78,9 @@ export const buildData = async (
   }
 
   const manuscript = doc as ActualManuscriptNode
-
   const state = await getManuscriptData(api, manuscript.attrs.prototype)
-
-  const project = state.project
+  const project = await getProject(api, projectID, manuscriptID)
   const role = project ? getUserRole(project, user.userID) : null
-
   const users = await getUserData(projectID, user, api)
 
   return {
@@ -76,6 +88,7 @@ export const buildData = async (
     userRole: role,
     ...users,
     ...state,
+    project,
     tokenData: new TokenData(),
   }
 }

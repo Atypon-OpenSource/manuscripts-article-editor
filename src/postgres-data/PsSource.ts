@@ -12,13 +12,13 @@
 
 import { FileAttachment } from '@manuscripts/body-editor'
 
+import { loadDoc } from '../quarterback/api/loadDoc'
+import { ManuscriptSnapshot } from '../quarterback/types'
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
 import Api from './Api'
 import { buildData } from './buildData'
 import { buildUtilities } from './buildUtilities'
-import { loadDoc } from '../quarterback/api/loadDoc'
-import { ManuscriptSnapshot } from '../quarterback/types'
 
 export default class PsSource implements StoreDataSourceStrategy {
   api: Api
