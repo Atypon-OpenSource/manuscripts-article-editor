@@ -67,17 +67,20 @@ export const isBackMatterSection = (groupId: string): boolean => {
   return groupId === 'MPSectionCategory:backmatter'
 }
 
-export const isBackMatterSectionCategoryExist = (parent: ManuscriptNode, category: string): boolean => {
-  let found = false;
+export const isBackMatterSectionCategoryExist = (
+  parent: ManuscriptNode,
+  category: string
+): boolean => {
+  let found = false
   parent.descendants((node: ManuscriptNode) => {
     if (node.attrs.category === category) {
-      found = true;
-      return false;
+      found = true
+      return false
     }
     if (found) {
-      return false;
+      return false
     }
-    return true;
-  });
-  return found;
-};
+    return true
+  })
+  return found
+}

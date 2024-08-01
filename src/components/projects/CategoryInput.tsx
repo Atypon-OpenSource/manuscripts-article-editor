@@ -11,31 +11,28 @@
  */
 
 import { SectionCategory } from '@manuscripts/json-schema'
+import { schema } from '@manuscripts/transform'
+import { findChildrenByAttr, findChildrenByType } from 'prosemirror-utils'
 import React, { useCallback, useMemo } from 'react'
 import Select, { OptionProps } from 'react-select'
 import styled from 'styled-components'
-import { findChildrenByAttr, findChildrenByType } from 'prosemirror-utils'
+
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
   isBackMatterSection,
-  isEditableSectionCategory,
   isBackMatterSectionCategoryExist,
+  isEditableSectionCategory,
   isUniqueCurrent,
   isUniquePresent,
 } from '../../lib/section-categories'
-import { OptionWrapper } from './TagsInput'
 import { useStore } from '../../store'
-import { schema } from '@manuscripts/transform'
+import { OptionWrapper } from './TagsInput'
 
 type OptionType = {
   value: string
   label: string
   isDisabled: boolean
 }
-  
-const [{ doc }] = useStore((state) => ({
-  doc: state.doc,
-}))
 
 export const CategoryInput: React.FC<{
   value: string
@@ -48,6 +45,10 @@ export const CategoryInput: React.FC<{
     handleChange,
     0
   )
+
+  const [{ doc }] = useStore((state) => ({
+    doc: state.doc,
+  }))
 
   const handleInputChange = useCallback(
     (newValue) => handleLocalChange(newValue.value),
@@ -91,7 +92,7 @@ export const CategoryInput: React.FC<{
       }
     })
     return options
-  }, [currentValue, existingCatsCounted, sectionCategories])
+  }, [currentValue, existingCatsCounted, sectionCategories, doc])
 
   const selectionValue = useMemo(() => {
     const cat = sectionCategories.find(
