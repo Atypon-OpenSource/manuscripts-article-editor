@@ -49,6 +49,9 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
   throttleState: boolean
 
+  reconcileAttempts = 0
+  reconcileAttemptsMax = 20
+
   constructor(
     docId: string,
     projectId: string,
@@ -95,7 +98,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
         }
         const steps = this.hydrateSteps(jsonSteps)
         if (steps.length) {
-          this.newStepsListener(version, steps, clientIDs)
+          this.newStepsListener()
         }
       },
       authToken
@@ -123,13 +126,49 @@ class QuarterbackStepsExchanger extends CollabProvider {
     })
 
     this.currentVersion = version
+
+    // const result = await this.applySteps(this.projectId, this.docId, {
+    //   steps: stepsJSON,
+    //   version,
+    //   clientID,
+    // })
+
+    // if (
+    //   result &&
+    //   'err' in result &&
+    //   'code' in result &&
+    //   result.code === 409 &&
+    //   this.reconcileAttempts < this.reconcileAttemptsMax
+    // ) {
+    //   // debugger
+    //   console.warn('Attempting Reconciliation')
+    //   this.newStepsListener()
+    //   this.reconcileAttempts++
+    // } else {
+    //   this.reconcileAttempts = 0
+    // }
+
     this.flushImmediate = this.debounce(
-      () => {
-        this.applySteps(this.projectId, this.docId, {
+      async () => {
+        const result = await this.applySteps(this.projectId, this.docId, {
           steps: stepsJSON,
           version,
           clientID,
         })
+        if (
+          result &&
+          'err' in result &&
+          'code' in result &&
+          result.code === 409 &&
+          this.reconcileAttempts < this.reconcileAttemptsMax
+        ) {
+          // debugger
+          console.warn('Attempting Reconciliation')
+          this.newStepsListener()
+          this.reconcileAttempts++
+        } else {
+          this.reconcileAttempts = 0
+        }
       },
       1000,
       flush,
@@ -137,9 +176,10 @@ class QuarterbackStepsExchanger extends CollabProvider {
         this.throttlingControl(false)
       }
     )
-    if (!flush) {
-      this.throttlingControl(true)
-    }
+
+    // if (!flush) {
+    //   this.throttlingControl(true)
+    // }
 
     return Promise.resolve()
   }
@@ -177,16 +217,11 @@ export const stepsExchanger = (
   if (!isAuthed) {
     return
   }
-  const applySteps = async (
+  const applySteps = (
     projectId: string,
     docId: string,
     payload: StepsPayload
-  ) => {
-    const resp = await docApi.applySteps(projectId, docId, authToken, payload)
-    if ('data' in resp) {
-      return resp.data
-    }
-  }
+  ) => docApi.applySteps(projectId, docId, authToken, payload)
 
   const getStepsSince = async (
     projectId: string,
