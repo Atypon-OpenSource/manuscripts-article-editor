@@ -1492,15 +1492,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.3.tgz#cc0a7ada2701db57ff7209b5fe267608bfcd9ffa"
-  integrity sha512-2UrrghtIlDdNohDv4JSfYjxiqZ3Uown9BpNRCUF8JtC2cxxIr+HZBs8cr+szYVfRY3i2ahDFkjhdpfgfdrbSKw==
+"@manuscripts/body-editor@2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.6.tgz#c4d9953c71bd35fae6d1ae76b0fdee4635e39033"
+  integrity sha512-6gafEUJENMpOfJ6mQjndUR9HfhNShcrd5B4HXGnzvsBBeHjr4hovILNGAoHduOKqdHpAYl2Uoc66AYNU268Lcg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
-    "@manuscripts/style-guide" "2.0.0"
+    "@manuscripts/style-guide" "2.0.1"
     "@manuscripts/track-changes-plugin" "1.7.15"
     "@manuscripts/transform" "2.3.21"
     "@popperjs/core" "^2.11.8"
@@ -1563,41 +1563,10 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.0.tgz#ee6341116747684b248f9b7b9340a22eda556b76"
-  integrity sha512-a5Qbzlv/rGXib1gNC1FN/RzbFF/swrUezs7WaBeNMXg6MYKLx7myLIQNGN3v+GXqUggjmQi8+Z38C+eZ34C78Q==
-  dependencies:
-    "@manuscripts/json-schema" "2.2.10"
-    "@manuscripts/transform" "2.3.21"
-    "@reach/tabs" "^0.18.0"
-    date-fns "^2.29.3"
-    formik "^2.2.9"
-    fuzzysort "^2.0.4"
-    lodash "^4.17.21"
-    prosemirror-commands "1.5.2"
-    prosemirror-history "1.3.2"
-    prosemirror-keymap "1.2.2"
-    prosemirror-model "1.19.4"
-    prosemirror-state "1.4.3"
-    prosemirror-view "1.32.7"
-    react "^18.3.1"
-    react-dnd "^16.0.1"
-    react-dnd-html5-backend "^16.0.1"
-    react-dom "^18.3.1"
-    react-is "^18.3.1"
-    react-modal "^3.16.1"
-    react-modern-calendar-datepicker "^3.1.6"
-    react-router-dom "^5.3.4"
-    react-select "^5.7.3"
-    react-sizeme "^3.0.2"
-    react-tooltip "^5.26.0"
-    styled-components "^5.2.0"
-
-"@manuscripts/style-guide@2.0.1-LEAN-2812.0":
-  version "2.0.1-LEAN-2812.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.1-LEAN-2812.0.tgz#a0c8d367aac6dc01cb5ef7dc627aa3316cd9c2ba"
-  integrity sha512-Iix3szJJe8xT8I8MxMkLxYcuuePa0xZ0LYg7VB+eNTEYtk8yVFy5h/FFpLlN9gBxz3nJ5+iSrqAHDSkk1xyttg==
+"@manuscripts/style-guide@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.1.tgz#164d2c85733aa76c92b7bfe53a7fa000ab30aadc"
+  integrity sha512-HO1KNMvxEsACEbAT3/hoUNaVEIswWMQcKNfzKXH8ZOmaeZDJJl0GVKb1Mc4Wj8ZjpNlVNqEsnY1ECt9pwTTRCw==
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/transform" "2.3.21"
