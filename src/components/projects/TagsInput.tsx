@@ -12,19 +12,25 @@
 
 import styled from 'styled-components'
 
-export const OptionWrapper = styled.div<{ focused?: boolean }>`
+export const OptionWrapper = styled.div<{
+  focused?: boolean
+  isDisabled?: boolean
+}>`
   padding-left: ${(props) => props.theme.grid.unit * 4}px;
   padding-top: ${(props) => props.theme.grid.unit * 2}px;
   padding-bottom: ${(props) => props.theme.grid.unit * 2}px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  cursor: ${(props) => (props.isDisabled ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => (props.isDisabled ? 0.5 : 1)};
   background-color: ${(props) =>
     props.focused ? props.theme.colors.background.fifth : 'transparent'};
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.background.fifth};
+    background-color: ${(props) =>
+      props.isDisabled ? 'transparent' : props.theme.colors.background.fifth};
+
     g {
       fill: ${(props) => props.theme.colors.text.secondary};
     }
