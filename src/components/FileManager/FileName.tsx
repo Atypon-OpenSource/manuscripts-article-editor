@@ -53,4 +53,8 @@ export const FileNameText = styled.div`
 `
 export const FileNameContainer = styled.div`
   display: flex;
+
+  .react-tooltip {
+    max-width: 100% !important;
+  }
 `
