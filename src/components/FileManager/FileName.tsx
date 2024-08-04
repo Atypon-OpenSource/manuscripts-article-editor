@@ -14,17 +14,22 @@ import { Tooltip } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import { trimFilename } from './FileName-utils'
 import { FileTypeIcon } from './FileTypeIcon'
 
 export const FileName: React.FC<{
   file: FileAttachment
 }> = ({ file }) => {
+  const maxBaseNameLength = 30 // Adjust this value as needed
+
+  // Get the trimmed filename
+  const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
   return (
     <>
       <FileNameContainer data-tooltip-id={`${file.id}-file-name-tooltip`}>
         <FileTypeIcon file={file} />
         <FileNameText data-cy="filename">
-          {file.name}
+          {trimmedFilename}
           <Tooltip id={`${file.id}-file-name-tooltip`} place="bottom">
             {file.name}
           </Tooltip>
