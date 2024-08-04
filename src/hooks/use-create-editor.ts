@@ -12,7 +12,6 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { memoize } from 'lodash'
-import { useHistory } from 'react-router'
 
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
@@ -50,8 +49,6 @@ export const useCreateEditor = () => {
     getActionCapabilities(project, user, undefined, permittedActions)
   )
 
-  const history = useHistory()
-
   const props = {
     attributes: {
       class: 'manuscript-editor',
@@ -68,7 +65,6 @@ export const useCreateEditor = () => {
       locale,
     },
     theme,
-    history,
     projectID: project._id,
 
     getManuscript: () => manuscript,

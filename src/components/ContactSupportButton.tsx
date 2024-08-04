@@ -25,9 +25,9 @@ const InlineButton = styled.button`
   font-size: inherit;
 `
 
-export const ContactSupportButton: React.FC<{ message?: string }> = ({
-  children,
-  message,
-}) => {
+export const ContactSupportButton: React.FC<{
+  children: React.ReactNode
+  message?: string
+}> = ({ children, message }) => {
   return <InlineButton>{children}</InlineButton>
 }

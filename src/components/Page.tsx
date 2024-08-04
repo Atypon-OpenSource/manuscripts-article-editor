@@ -48,10 +48,10 @@ const PageContainer = styled.div`
   font-family: ${(props) => props.theme.font.family.sans};
 `
 
-export const Page: React.FunctionComponent<{ project?: Project }> = ({
-  children,
-  project: directProject,
-}) => {
+export const Page: React.FunctionComponent<{
+  children: React.ReactNode
+  project?: Project
+}> = ({ children, project: directProject }) => {
   const [{ tokenData }] = useStore((store) => ({
     storeProject: store.project,
     tokenData: store.tokenData,
