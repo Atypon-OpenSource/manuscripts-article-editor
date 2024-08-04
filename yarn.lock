@@ -1594,10 +1594,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/style-guide@2.0.1-LEAN-2812.0":
-  version "2.0.1-LEAN-2812.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.1-LEAN-2812.0.tgz#a0c8d367aac6dc01cb5ef7dc627aa3316cd9c2ba"
-  integrity sha512-Iix3szJJe8xT8I8MxMkLxYcuuePa0xZ0LYg7VB+eNTEYtk8yVFy5h/FFpLlN9gBxz3nJ5+iSrqAHDSkk1xyttg==
+"@manuscripts/style-guide@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.1.tgz#164d2c85733aa76c92b7bfe53a7fa000ab30aadc"
+  integrity sha512-HO1KNMvxEsACEbAT3/hoUNaVEIswWMQcKNfzKXH8ZOmaeZDJJl0GVKb1Mc4Wj8ZjpNlVNqEsnY1ECt9pwTTRCw==
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/transform" "2.3.21"
