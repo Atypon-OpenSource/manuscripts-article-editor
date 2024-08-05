@@ -14,7 +14,7 @@ import { Tooltip } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
-import { trimFilename } from './FileName-utils'
+import { trimFilename } from '../../lib/files'
 import { FileTypeIcon } from './FileTypeIcon'
 
 export const FileName: React.FC<{
