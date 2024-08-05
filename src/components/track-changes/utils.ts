@@ -24,8 +24,9 @@ export const setSelectedSuggestion = (
   suggestion: TrackedChange,
   getState: () => state
 ) => {
-  const state = getState().state
-  const view = getState().view
+  const editor = getState().editor
+  const state = editor.state
+  const view = editor.view
   const tr = state.tr
   if (suggestion.type === 'text-change') {
     const pos = suggestion.to
