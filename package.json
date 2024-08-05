@@ -42,7 +42,6 @@
     "@manuscripts/track-changes-plugin": "1.7.17",
     "@manuscripts/transform": "2.3.21",
     "prosemirror-utils": "^0.9.6",
-    "@microsoft/fetch-event-source": "^2.0.1",
     "@popperjs/core": "^2.11.8",
     "@reach/tabs": "^0.18.0",
     "@types/use-sync-external-store": "^0.0.6",
