@@ -1492,10 +1492,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.9-LEAN-3762.1":
-  version "2.0.9-LEAN-3762.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.9-LEAN-3762.1.tgz#55bfd0d3429dce9373138782533d4baac258d76f"
-  integrity sha512-/W/PS/8rxtxm0DvPkN0sq4eofj9kXllrL+oJQxKbeV2fsyxzTrz1x12KKqwf1WOAD7FZ22MITeJxQfQAGDtUlg==
+"@manuscripts/body-editor@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.9.tgz#1d57a80508930d2d7a5e93580bc010e219957b53"
+  integrity sha512-aqJvLJq2L+Aoktywn0q1WRZt8ugglv0iJjewGwLWWDbZ0HJDlt5MRfvY0D7+u8ktZTvuLbcosMT1ggoxm0O/ew==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
@@ -1626,11 +1626,6 @@
     semver "^7.6.2"
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
-
-"@microsoft/fetch-event-source@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz"
-  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
