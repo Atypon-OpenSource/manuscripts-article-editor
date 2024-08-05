@@ -109,8 +109,10 @@ export const ManuscriptToolbar: React.FC = () => {
   const [command, setCommand] = useState<(tableConfig: TableConfig) => void>()
 
   const [view] = useStore((store) => store.view)
-  const [state] = useStore((store) => store.state)
+  const [editor] = useStore((store) => store.editor)
   const [dispatch] = useStore((store) => store.dispatch)
+
+  const state = editor.state
 
   if (!view || !state) {
     return null

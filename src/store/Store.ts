@@ -45,6 +45,9 @@ export type state = {
 
   editor: PMEditor
   doc: ManuscriptNode
+  trackState?: TrackChangesState
+  view: ManuscriptEditorView
+
   initialDocVersion: number
 
   fileManagement: FileManagement
@@ -55,9 +58,6 @@ export type state = {
 
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
-
-  trackState?: TrackChangesState
-  view: ManuscriptEditorView
 
   snapshots: SnapshotLabel[]
   snapshotsMap: Map<string, ManuscriptSnapshot>
