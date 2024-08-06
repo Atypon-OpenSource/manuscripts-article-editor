@@ -11,21 +11,27 @@
  */
 
 import { SectionCategory } from '@manuscripts/json-schema'
+import { schema } from '@manuscripts/transform'
+import { findChildrenByType } from 'prosemirror-utils'
 import React, { useCallback, useMemo } from 'react'
 import Select, { OptionProps } from 'react-select'
 import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
+  isBackMatterSection,
+  backMatterSectionCategoryExist,
   isEditableSectionCategory,
   isUniqueCurrent,
   isUniquePresent,
 } from '../../lib/section-categories'
+import { useStore } from '../../store'
 import { OptionWrapper } from './TagsInput'
 
 type OptionType = {
   value: string
   label: string
+  isDisabled: boolean
 }
 
 export const CategoryInput: React.FC<{
@@ -40,6 +46,10 @@ export const CategoryInput: React.FC<{
     0
   )
 
+  const [{ doc }] = useStore((state) => ({
+    doc: state.doc,
+  }))
+
   const handleInputChange = useCallback(
     (newValue: OptionType | null) =>
       newValue && handleLocalChange(newValue.value),
@@ -51,33 +61,46 @@ export const CategoryInput: React.FC<{
     data,
   }) => {
     return (
-      <OptionWrapper {...innerProps} ref={null}>
+      <OptionWrapper {...innerProps} isDisabled={data.isDisabled} ref={null}>
         {data.label}
       </OptionWrapper>
     )
   }
 
   const options = useMemo(() => {
+    const backmatter = findChildrenByType(doc, schema.nodes.backmatter)[0]
     const options: OptionType[] = []
     sectionCategories.map((cat) => {
+      // check if the category is part of the backmatter section, and its already present in the document
+      let isDisabled = false
+      if (
+        cat.groupIDs &&
+        isBackMatterSection(cat.groupIDs[0]) &&
+        backMatterSectionCategoryExist(backmatter.node, cat._id)
+      ) {
+        isDisabled = true
+      }
       if (
         isEditableSectionCategory(cat) &&
         (!isUniquePresent(cat, existingCatsCounted) ||
           isUniqueCurrent(cat._id, currentValue))
       ) {
-        options.push({ value: cat._id, label: cat.name })
+        options.push({
+          value: cat._id,
+          label: cat.name,
+          isDisabled: isDisabled,
+        })
       }
     })
     return options
-  }, [currentValue, existingCatsCounted, sectionCategories])
+  }, [currentValue, existingCatsCounted, sectionCategories, doc])
 
   const selectionValue = useMemo(() => {
     const cat = sectionCategories.find(
       (category) => category._id === currentValue
     )
-    return cat && { value: cat._id, label: cat.name }
+    return cat && { value: cat._id, label: cat.name, isDisabled: false }
   }, [currentValue, sectionCategories])
-
   return (
     <Container>
       <Select<OptionType, false>

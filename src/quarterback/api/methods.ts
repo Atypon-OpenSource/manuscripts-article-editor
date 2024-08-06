@@ -9,10 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  EventSourceMessage,
-  fetchEventSource,
-} from '@microsoft/fetch-event-source'
 
 import config from '../../config'
 
@@ -149,48 +145,58 @@ export function del<T>(
     defaultError
   )
 }
-
 export async function listen<T>(
   path: string,
-  listener: (event: EventSourceMessage) => void,
-  authToken: string,
-  defaultError?: string,
-  headers: Record<string, string> = {
-    ...DEFAULT_HEADERS,
-    ...getAuthHeader(authToken),
-  }
+  listener: (event: MessageEvent) => void
 ) {
-  await fetchEventSource(`${config.api.url}/${path}`, {
-    onmessage: listener,
-    headers: headers,
-    async onopen(response) {
-      if (
-        response.ok &&
-        response.headers.get('content-type') === 'text/event-stream'
-      ) {
-        console.log('EventSource Connection Opened Ok')
-        return
-      } else if (
-        response.status >= 400 &&
-        response.status < 500 &&
-        response.status !== 429
-      ) {
-        // client-side errors are usually non-retriable:
-        console.error(
-          'EventSource connection error with status: ' + response.status
-        )
-      } else {
-        console.error(
-          'EventSource connection error with status: ' + response.status
-        )
-      }
-    },
-    onclose() {
-      // if the server closes the connection unexpectedly, retry:
-      console.log('EventSource connection closed')
-    },
-    onerror(err) {
-      console.log('EventSource connection error: ' + err)
-    },
-  })
+  let ws: WebSocket
+  const reconnectDelay = 1500
+  const onOpen = async () => {
+    console.log('WebSocket Connection Opened Ok')
+  }
+
+  const onClose = (event: CloseEvent) => {
+    console.warn('WebSocket closed, reconnecting:', event.code, event.reason)
+    closeWebSocket()
+    rejoin()
+  }
+
+  const onError = (event: Event) => {
+    console.error('WebSocket error, reconnecting:', event)
+    closeWebSocket()
+    rejoin()
+  }
+
+  const closeWebSocket = () => {
+    try {
+      ws.removeEventListener('open', onOpen)
+      ws.removeEventListener('message', listener)
+      ws.removeEventListener('close', onClose)
+      ws.removeEventListener('error', onError)
+      ws.close()
+    } catch (error) {
+      console.error('Error closing websocket', error)
+    }
+  }
+  const rejoin = () => {
+    if (ws) {
+      closeWebSocket()
+    }
+    setTimeout(join, reconnectDelay)
+  }
+
+  const join = () => {
+    const wsUrl = `${config.api.url.replace('http', 'ws')}/${path}`
+    try {
+      ws = new WebSocket(wsUrl)
+      ws.addEventListener('open', onOpen)
+      ws.addEventListener('message', listener)
+      ws.addEventListener('close', onClose)
+      ws.addEventListener('error', onError)
+    } catch (error) {
+      rejoin()
+    }
+  }
+  window.addEventListener('beforeunload', closeWebSocket)
+  join()
 }

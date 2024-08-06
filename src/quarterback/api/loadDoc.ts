@@ -22,6 +22,14 @@ export async function loadDoc(
   authToken: string,
   existingDoc?: ManuscriptNode
 ) {
+  const resp = await docApi.getTransformVersion(authToken)
+  if ('data' in resp && resp.data.transformVersion !== getVersion()) {
+    console.warn(
+      `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on manuscripts-api (${
+        resp.data.transformVersion
+      })`
+    )
+  }
   const found = await docApi.getDocument(projectID, manuscriptID, authToken)
   let doc
   let version = 0
@@ -39,7 +47,7 @@ export async function loadDoc(
           'Unable to produce valid doc as neither model based verions nor history have a valid version'
         )
       }
-      await updateDocument(projectID, manuscriptID, authToken, {
+      await docApi.updateDocument(projectID, manuscriptID, authToken, {
         doc: existingDoc.toJSON(),
         schema_version: getVersion(),
       })
