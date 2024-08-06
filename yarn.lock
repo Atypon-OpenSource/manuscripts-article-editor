@@ -1492,30 +1492,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-<<<<<<< HEAD
-"@manuscripts/body-editor@2.0.2-JSR":
-  version "2.0.2-JSR"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.2-JSR.tgz#75ee8e7b9d2d1fc711fbf0f162003fb4eca495ed"
-  integrity sha512-5PYM/bkD/VJXGHCupfovbRyc6PhDQPnqFm4ng6qzsq3yCajzxKLHLeA1Z0MMluhaV1Z9bpvz8ayfnwds1Mkg0Q==
-=======
-"@manuscripts/body-editor@2.0.11":
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.11.tgz#9b4585ab869689c9f4889505dba091231db37f65"
-  integrity sha512-QObXYnIAKvae/L61NYZC+t9Qt2bwOtopAGjekQTn1DVqE9UmwxepBOyzT6tx0/FGlB6buUDqI1HXrdP5jfc/ig==
->>>>>>> 933751506dd5fc711924fc1dbfd8749423bed876
+"@manuscripts/body-editor@2.0.11-JSR":
+  version "2.0.11-JSR"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.11-JSR.tgz#c115396d0d10518edb752ed2a760d3e7924c6536"
+  integrity sha512-vobrfC14KC3/1FLp6c3gwL75Sj0sFsX+bqLuvSlOHB/3RHtcr19sNVyHybs3UOHuw7RHIgZJU88/QxtR1N93+Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
-<<<<<<< HEAD
-    "@manuscripts/style-guide" "2.0.0"
-    "@manuscripts/track-changes-plugin" "1.7.15"
-    "@manuscripts/transform" "2.3.21-JSR"
-=======
     "@manuscripts/style-guide" "2.0.2"
     "@manuscripts/track-changes-plugin" "1.7.17"
-    "@manuscripts/transform" "2.3.21"
->>>>>>> 933751506dd5fc711924fc1dbfd8749423bed876
+    "@manuscripts/transform" "2.3.21-JSR"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1607,17 +1594,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-<<<<<<< HEAD
-"@manuscripts/track-changes-plugin@1.7.15":
-  version "1.7.15"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.15.tgz#6165e4cb8dca5a1c20ce3bc9428126326f0efe02"
-  integrity sha512-fTx8bvL2hcMSOEwdtxNqy8k9hAZGYKOtPTDPV6q7mo0SXn389QA1pZbEWVzrKYyVxBPQJ3Me1Am90WEt72v3ww==
-=======
 "@manuscripts/track-changes-plugin@1.7.17":
   version "1.7.17"
   resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.17.tgz#f75fe992709511f85f9b50a7c85d07d3ea5465ee"
   integrity sha512-L898CzhMfiqK4JGk/y6ky4WH4K/DQ2nlg2c5MyoTDcEGuddwZIMyc1yD0PscetEKKocOqWJRNQfWuzOjspYMTg==
->>>>>>> 933751506dd5fc711924fc1dbfd8749423bed876
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1647,7 +1627,6 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-<<<<<<< HEAD
 "@manuscripts/transform@2.3.21-JSR":
   version "2.3.21-JSR"
   resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.21-JSR.tgz#8b4d1467cc3b68162b915a5471cfd2479aabf002"
@@ -1665,13 +1644,6 @@
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
 
-"@microsoft/fetch-event-source@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz"
-  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
-
-=======
->>>>>>> 933751506dd5fc711924fc1dbfd8749423bed876
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
