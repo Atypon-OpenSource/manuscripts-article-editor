@@ -12,7 +12,6 @@
 
 import { getVersion, ManuscriptNode, schema } from '@manuscripts/transform'
 
-import { updateDocument } from './api/document'
 import * as docApi from './api/document'
 import { SnapshotLabel } from './types'
 
@@ -22,6 +21,14 @@ export const useLoadDoc = (authToken: string) => {
     projectID: string,
     existingDoc?: ManuscriptNode
   ) {
+    const resp = await docApi.getTransformVersion(authToken)
+    if ('data' in resp && resp.data.transformVersion !== getVersion()) {
+      console.warn(
+        `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on manuscripts-api (${
+          resp.data.transformVersion
+        })`
+      )
+    }
     const found = await docApi.getDocument(projectID, manuscriptID, authToken)
     let doc
     let version = 0
@@ -39,7 +46,7 @@ export const useLoadDoc = (authToken: string) => {
             'Unable to produce valid doc as neither model based verions nor history have a valid version'
           )
         }
-        await updateDocument(projectID, manuscriptID, authToken, {
+        await docApi.updateDocument(projectID, manuscriptID, authToken, {
           doc: existingDoc.toJSON(),
           schema_version: getVersion(),
         })
@@ -68,10 +75,15 @@ export const useLoadDoc = (authToken: string) => {
         console.error('Unable to create new document: ' + res.err)
       }
 
-      const update = await updateDocument(projectID, manuscriptID, authToken, {
-        doc: existingDoc?.toJSON(),
-        schema_version: getVersion(),
-      })
+      const update = await docApi.updateDocument(
+        projectID,
+        manuscriptID,
+        authToken,
+        {
+          doc: existingDoc?.toJSON(),
+          schema_version: getVersion(),
+        }
+      )
       if ('err' in update) {
         console.error('Unable to create new document: ' + update.err)
       } else {

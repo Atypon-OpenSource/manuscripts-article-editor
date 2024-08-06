@@ -9,8 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { getVersion } from '@manuscripts/transform'
-import { EventSourceMessage } from '@microsoft/fetch-event-source'
 
 import {
   AppliedStepsResponse,
@@ -19,6 +17,7 @@ import {
   ManuscriptDocWithSnapshots,
   StepsPayload,
   StepsSinceResponse,
+  TransformerVersion,
 } from '../types'
 import { del, get, listen, post, put } from './methods'
 
@@ -39,6 +38,13 @@ export const createDocument = (payload: ICreateDocRequest, authToken: string) =>
     authToken,
     payload,
     'Creating document failed'
+  )
+
+export const getTransformVersion = (authToken: string) =>
+  get<TransformerVersion>(
+    'doc/version',
+    authToken,
+    'Fetching transform version failed'
   )
 
 export const updateDocument = (
@@ -93,37 +99,19 @@ export const stepsSince = (
 export const listenStepUpdates = (
   projectID: string,
   manuscriptID: string,
-  dataListener: (
-    version: number,
-    steps: unknown[],
-    clientIDs: number[]
-  ) => void,
-  authToken: string
+  dataListener: (version: number, steps: unknown[], clientIDs: number[]) => void
 ) => {
-  const listener = (event: EventSourceMessage) => {
-    if (event.data) {
-      const data = JSON.parse(event.data)
-      if (data.transformVersion && data.transformVersion !== getVersion()) {
-        console.warn(
-          `Warning! Manuscripts-transform (Frontend: ${getVersion()}) version is different on manuscripts-api (${
-            data.transformVersion
-          })`
-        )
-      }
-      if (
-        typeof data.version != 'undefined' &&
-        data.steps &&
-        Array.isArray(data.steps) &&
-        data.clientIDs
-      ) {
-        dataListener(data.version, data.steps, data.clientIDs)
-      }
+  const listener = (event: MessageEvent) => {
+    const data = JSON.parse(event.data)
+    if (
+      typeof data.version != 'undefined' &&
+      data.steps &&
+      Array.isArray(data.steps) &&
+      data.clientIDs
+    ) {
+      dataListener(data.version, data.steps, data.clientIDs)
     }
   }
 
-  listen(
-    `doc/${projectID}/manuscript/${manuscriptID}/listen`,
-    listener,
-    authToken
-  )
+  listen(`doc/${projectID}/manuscript/${manuscriptID}/listen`, listener)
 }
