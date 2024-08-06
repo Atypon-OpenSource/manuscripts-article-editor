@@ -15,18 +15,13 @@ import {
   toolbar,
   ToolbarButtonConfig,
 } from '@manuscripts/body-editor'
-import {
-  InsertTableDialog,
-  TableConfig,
-  Tooltip,
-  usePermissions,
-} from '@manuscripts/style-guide'
+import { Tooltip, usePermissions } from '@manuscripts/style-guide'
 import {
   ManuscriptEditorState,
   ManuscriptEditorView,
 } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
@@ -112,12 +107,7 @@ export const ManuscriptToolbar: React.FC<{
   view?: ManuscriptEditorView
 }> = ({ state, dispatch, view }) => {
   const can = usePermissions()
-  const [openDialog, setOpenDialog] = useState(false)
-  const [command, setCommand] = useState<(tableConfig: TableConfig) => void>()
 
-  const toggleDialog = () => {
-    setOpenDialog(!openDialog)
-  }
   const isEnabled = (
     id: string,
     item: ToolbarButtonConfig,
@@ -165,21 +155,9 @@ export const ManuscriptToolbar: React.FC<{
                     data-active={item.isActive && item.isActive(state)}
                     disabled={!isEnabled(key, item, state)}
                     onClick={(e) => {
-                      if (key === 'table_element') {
-                        setCommand(() => (tableConfig: TableConfig) => {
-                          return item.run(
-                            state,
-                            dispatch,
-                            undefined,
-                            tableConfig
-                          )
-                        })
-                        toggleDialog()
-                      } else {
-                        e.preventDefault()
-                        item.run(state, dispatch)
-                        view && view.focus()
-                      }
+                      e.preventDefault()
+                      item.run(state, dispatch)
+                      view && view.focus()
                     }}
                   >
                     {item.content}
@@ -192,13 +170,6 @@ export const ManuscriptToolbar: React.FC<{
             )}
         </ToolbarGroup>
       ))}
-      {openDialog && command && (
-        <InsertTableDialog
-          run={command}
-          open={openDialog}
-          onClose={toggleDialog}
-        />
-      )}
     </ToolbarContainer>
   )
 }
