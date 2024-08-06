@@ -19,8 +19,8 @@ import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
-  isBackMatterSection,
   backMatterSectionCategoryExist,
+  isBackMatterSection,
   isEditableSectionCategory,
   isUniqueCurrent,
   isUniquePresent,
