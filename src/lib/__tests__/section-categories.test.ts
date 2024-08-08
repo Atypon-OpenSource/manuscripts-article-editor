@@ -9,63 +9,46 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { ObjectTypes, Section } from '@manuscripts/json-schema'
+import { schema, SectionNode } from '@manuscripts/transform'
 
 import { chooseSectionCategory } from '../section-categories'
 
 describe('section categories', () => {
   test('choose defined section category', () => {
-    const section: Section = {
-      _id: 'MPSection:1',
-      objectType: ObjectTypes.Section,
-      title: 'Introduction',
-      category: 'MPSectionCategory:introduction',
-      priority: 0,
-      path: ['MPSection:1'],
-      manuscriptID: 'MPManuscript:1',
-      containerID: 'MPProject:1',
-      createdAt: 0,
-      updatedAt: 0,
-    }
+    const section = schema.nodes.section.create(
+      {
+        category: 'MPSectionCategory:introduction',
+        id: 'MPSection:1',
+      },
+      [schema.nodes.section_title.create({}, schema.text('Introduction'))]
+    ) as SectionNode
 
-    const result = chooseSectionCategory(section)
+    const result = chooseSectionCategory(section, false)
 
     expect(result).toBe('MPSectionCategory:introduction')
   })
 
   test('choose default section category', () => {
-    const section: Section = {
-      _id: 'MPSection:1',
-      objectType: ObjectTypes.Section,
-      title: 'Introduction',
-      priority: 0,
-      path: ['MPSection:1'],
-      manuscriptID: 'MPManuscript:1',
-      containerID: 'MPProject:1',
-      createdAt: 0,
-      updatedAt: 0,
-    }
+    const section = schema.nodes.section.create(
+      {
+        id: 'MPSection:1',
+      },
+      [schema.nodes.section_title.create({}, schema.text('Introduction'))]
+    ) as SectionNode
 
-    const result = chooseSectionCategory(section)
-
+    const result = chooseSectionCategory(section, false)
     expect(result).toBe('MPSectionCategory:section')
   })
 
   test('choose default subsection category', () => {
-    const section: Section = {
-      _id: 'MPSection:1A',
-      objectType: ObjectTypes.Section,
-      title: 'Introduction',
-      priority: 0,
-      path: ['MPSection:1', 'MPSection:1A'],
-      manuscriptID: 'MPManuscript:1',
-      containerID: 'MPProject:1',
-      createdAt: 0,
-      updatedAt: 0,
-    }
+    const section = schema.nodes.section.create(
+      {
+        id: 'MPSection:1',
+      },
+      [schema.nodes.section_title.create({}, schema.text('Introduction'))]
+    ) as SectionNode
 
-    const result = chooseSectionCategory(section)
+    const result = chooseSectionCategory(section, true)
 
     expect(result).toBe('MPSectionCategory:subsection')
   })

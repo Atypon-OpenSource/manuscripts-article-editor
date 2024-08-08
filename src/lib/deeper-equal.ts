@@ -10,29 +10,31 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-const deeperEqual = (prev: any, next: any) => {
+const deeperEqual = (next: any, prev: any) => {
   // checking only one level deeper is enough to provide render relevenat equality
-  if (!prev) {
+  if (!next) {
     return false
   }
-  switch (prev.constructor.name) {
+  if (typeof prev == 'undefined' && typeof next !== 'undefined') {
+    return false
+  }
+  switch (next.constructor.name) {
     case 'Object':
-      // @ts-ignore
-      return !Object.keys(prev).find((i) => {
-        if (next[i] !== prev[i]) {
+      return !Object.keys(next).find((i) => {
+        if (prev[i] !== next[i]) {
           return true
         }
         return false
       })
 
-    case 'Map': // important for modelMap
-      if (prev == next) {
+    case 'Map':
+      if (next == prev) {
         return true
       }
-      if (prev.size == next.size) {
-        for (const [key, value] of prev) {
-          const nextPeer = next.get(key)
-          if (!nextPeer || nextPeer !== value) {
+      if (next.size == prev.size) {
+        for (const [key, value] of next) {
+          const prevPeer = prev.get(key)
+          if (!prevPeer || prevPeer !== value) {
             return false
           }
         }
@@ -40,12 +42,12 @@ const deeperEqual = (prev: any, next: any) => {
       }
       return false
     case 'Array':
-      if (Array.isArray(next)) {
-        if (prev.length !== next.length) {
+      if (Array.isArray(prev)) {
+        if (next.length !== prev.length) {
           return false
         }
-        for (let i = 0; i < prev.length; i++) {
-          if (prev[i] !== next[i]) {
+        for (let i = 0; i < next.length; i++) {
+          if (next[i] !== prev[i]) {
             return false
           }
         }
@@ -54,7 +56,7 @@ const deeperEqual = (prev: any, next: any) => {
       }
       return false
     default:
-      return prev === next
+      return next === prev
   }
 }
 

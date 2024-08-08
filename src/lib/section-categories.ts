@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Section, SectionCategory } from '@manuscripts/json-schema'
-import { ManuscriptNode } from '@manuscripts/transform'
+import { SectionCategory } from '@manuscripts/json-schema'
+import { ManuscriptNode, SectionNode } from '@manuscripts/transform'
 
 export const uneditableSectionCategories: string[] = [
   'MPSectionCategory:bibliography',
@@ -35,14 +35,17 @@ export const isEditableSectionCategory = (sectionCategory: SectionCategory) =>
 export const sortSectionCategories = (sectionCategories: SectionCategory[]) =>
   sectionCategories.sort((a, b) => a.priority - b.priority)
 
-export const chooseSectionCategory = (section: Section): string => {
-  if (section.category) {
-    return section.category
+export const chooseSectionCategory = (
+  section: SectionNode,
+  isSubSection?: boolean
+): string => {
+  if (section.attrs.category) {
+    return section.attrs.category
   }
 
-  return section.path.length === 1
-    ? 'MPSectionCategory:section'
-    : 'MPSectionCategory:subsection'
+  return isSubSection
+    ? 'MPSectionCategory:subsection'
+    : 'MPSectionCategory:section'
 }
 
 export const isUnique = (categoryId: string) => {
@@ -67,7 +70,7 @@ export const isBackMatterSection = (groupId: string) => {
   return groupId === 'MPSectionCategory:backmatter'
 }
 
-export const isBackMatterSectionCategoryExist = (
+export const backMatterSectionCategoryExist = (
   parent: ManuscriptNode,
   category: string
 ) => {

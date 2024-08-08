@@ -9,16 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Affiliation,
-  BibliographyItem,
-  Footnote,
-  ObjectTypes,
-} from '@manuscripts/json-schema'
 import { TextButton } from '@manuscripts/style-guide'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
-import { getModelsByType, ManuscriptNode } from '@manuscripts/transform'
-import _ from 'lodash'
+import {
+  AffiliationNode,
+  BibliographyItemNode,
+  FootnoteNode,
+  ManuscriptNode,
+  schema,
+} from '@manuscripts/transform'
+import { isEqual } from 'lodash'
 import React, {
   forwardRef,
   MutableRefObject,
@@ -59,16 +59,14 @@ const modalXOffset = 90
 export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
   const { changeId, isVisible, setVisible } = props
 
-  const [
-    { selectedAttrsChange, trackState, files, trackModelMap, doc },
-    dispatch,
-  ] = useStore((store) => ({
-    selectedAttrsChange: store.selectedAttrsChange,
-    trackState: store.trackState,
-    files: store.files,
-    trackModelMap: store.trackModelMap,
-    doc: store.doc,
-  }))
+  const [{ selectedAttrsChange, trackState, files, doc }, dispatch] = useStore(
+    (store) => ({
+      selectedAttrsChange: store.selectedAttrsChange,
+      trackState: store.trackState,
+      files: store.files,
+      doc: store.doc,
+    })
+  )
 
   useEffect(() => {
     if (selectedAttrsChange == changeId) {
@@ -141,24 +139,28 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
     return foundNode
   }, [doc, trackState, change])
 
+  const { affiliations, references, footnotes } = useMemo(() => {
+    const affiliations: AffiliationNode[] = []
+    const references: BibliographyItemNode[] = []
+    const footnotes: FootnoteNode[] = []
+
+    doc.descendants((node) => {
+      if (node.type === schema.nodes.affiliation) {
+        affiliations.push(node as AffiliationNode)
+      }
+      if (node.type === schema.nodes.bibliography_item) {
+        references.push(node as BibliographyItemNode)
+      }
+      if (node.type === schema.nodes.footnote) {
+        footnotes.push(node as FootnoteNode)
+      }
+    })
+    return { affiliations, references, footnotes }
+  }, [doc])
+
   if (!nodeOfChange || !isVisible || !change) {
     return null
   }
-
-  const affiliations = getModelsByType<Affiliation>(
-    trackModelMap,
-    ObjectTypes.Affiliation
-  )
-
-  const references = getModelsByType<BibliographyItem>(
-    trackModelMap,
-    ObjectTypes.BibliographyItem
-  )
-
-  const footnotes = getModelsByType<Footnote>(
-    trackModelMap,
-    ObjectTypes.Footnote
-  )
 
   const { newAttrs, oldAttrs } = filterAttrsChange(
     nodeOfChange,
@@ -187,7 +189,7 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
           {Object.entries(newAttrs).map(([key], index) =>
             isValidValue(newAttrs[key].value, oldAttrs[key]?.value) &&
             (!oldAttrs[key] ||
-              !_.isEqual(oldAttrs[key].value, newAttrs[key].value)) ? (
+              !isEqual(oldAttrs[key].value, newAttrs[key].value)) ? (
               <Attribute key={index}>
                 <AttributeLabel>{newAttrs[key].label}:</AttributeLabel>
                 {oldAttrs[key]?.value ? (

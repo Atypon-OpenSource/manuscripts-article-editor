@@ -10,34 +10,29 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { findParentSection } from '@manuscripts/body-editor'
-import { Section } from '@manuscripts/json-schema'
 import { SectionNode } from '@manuscripts/transform'
-import { EditorState, Transaction } from 'prosemirror-state'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { useStore } from '../../store'
 import { SectionInspector } from '../inspector/SectionInspector'
 import { ManuscriptInspector } from './ManuscriptInspector'
 
-export const ContentTab: React.FC<{
-  state: EditorState
-  dispatch: (tr: Transaction) => EditorState
-}> = ({ dispatch, state }) => {
-  const [{ manuscript, modelMap }] = useStore((store) => {
+export const ContentTab: React.FC = () => {
+  const [{ manuscriptID, editor }] = useStore((store) => {
     return {
-      manuscript: store.manuscript,
-      modelMap: store.trackModelMap,
+      manuscriptID: store.manuscriptID,
+      editor: store.editor,
     }
   })
 
-  let sectionNode
-  let section
-  if (state.selection) {
-    sectionNode = findParentSection(state.selection)?.node as SectionNode
-    if (sectionNode) {
-      section = modelMap.get(sectionNode.attrs.id) as Section
+  const { state, dispatch } = editor
+
+  const section = useMemo(() => {
+    if (state.selection) {
+      const sectionNode = findParentSection(state.selection)?.node
+      return sectionNode as SectionNode
     }
-  }
+  }, [state.selection])
 
   const dispatchNodeAttrs = (
     id: string,
@@ -66,19 +61,17 @@ export const ContentTab: React.FC<{
   return (
     <div>
       <ManuscriptInspector
-        key={manuscript._id}
+        key={manuscriptID}
         state={state}
         dispatch={dispatch}
       />
 
       {section && (
         <SectionInspector
-          data-cy={section.category || 'generic-section'}
-          key={section._id}
+          data-cy={section.attrs.category || 'generic-section'}
+          key={section.attrs.id}
           section={section}
-          sectionNode={sectionNode}
           state={state}
-          dispatch={dispatch}
           dispatchNodeAttrs={dispatchNodeAttrs}
         />
       )}

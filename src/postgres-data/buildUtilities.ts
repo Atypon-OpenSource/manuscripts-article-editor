@@ -10,16 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  Manuscript,
-  manuscriptIDTypes,
-  Model,
-  ObjectTypes,
-  Project,
-} from '@manuscripts/json-schema'
+import { manuscriptIDTypes, Model, ObjectTypes } from '@manuscripts/json-schema'
 import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 
-import { getUserRole } from '../lib/roles'
 import Api from '../postgres-data/Api'
 import { ContainerIDs, state } from '../store'
 
@@ -66,14 +59,6 @@ export const buildUtilities = (
     }
   }
 
-  const getModel = <T extends Model>(id: string) => {
-    const state = getState()
-    if (!state.modelMap) {
-      return
-    }
-    return state.modelMap.get(id) as T | undefined
-  }
-
   const saveModels = async (
     models: Model[] | Build<Model>[] | Partial<Model>[],
     excludeIDs?: Set<string>
@@ -114,31 +99,6 @@ export const buildUtilities = (
     })
   }
 
-  const saveModel = async <T extends Model>(
-    model: T | Build<T> | Partial<T>
-  ): Promise<T> => {
-    await saveModels([model])
-    //is this actually needed?
-    return model as T
-  }
-
-  const deleteModel = async (id: string) => {
-    await saveModels([], new Set([id]))
-    return id
-  }
-
-  const saveManuscript = async (manuscript: Partial<Manuscript>) => {
-    const state = getState()
-    if (!state.modelMap) {
-      throw new Error('Unable to save manuscript due to incomplete data')
-    }
-    const previous = state.modelMap.get(manuscriptID)
-    await saveModel({
-      ...previous,
-      ...manuscript,
-    })
-  }
-
   const saveDoc = async (doc: ManuscriptNode) => {
     const models = encode(doc)
     await saveModels([...models.values()])
@@ -159,36 +119,8 @@ export const buildUtilities = (
     })
   }
 
-  const refreshProject = async () => {
-    const state = getState()
-    const userID = state.userID
-    if (!userID) {
-      return
-    }
-    const models = await api.getManuscript(projectID, manuscriptID)
-    if (!models) {
-      return
-    }
-    const project = models.filter(
-      (m) => m.objectType === ObjectTypes.Project
-    )[0] as Project
-    if (!project) {
-      return
-    }
-    updateState({
-      project,
-      userRole: getUserRole(project, userID),
-    })
-  }
-
   return {
-    saveModel,
-    deleteModel,
-    saveManuscript,
-    getModel,
-    saveModels,
     saveDoc,
     createSnapshot,
-    refreshProject,
   }
 }

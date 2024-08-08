@@ -10,8 +10,45 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-export const trackedJoint = ':dataTracked:'
+import {
+  CHANGE_STATUS,
+  trackCommands,
+  TrackedChange,
+} from '@manuscripts/track-changes-plugin'
+import { Command, NodeSelection, TextSelection } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 
-export const stripTracked = (id: string) => {
-  return id.split(trackedJoint)[0]
+import { state } from '../../store'
+
+export const setSelectedSuggestion = (
+  suggestion: TrackedChange,
+  getState: () => state
+) => {
+  const editor = getState().editor
+  const state = editor.state
+  const view = editor.view
+  const tr = state.tr
+  if (suggestion.type === 'text-change') {
+    const pos = suggestion.to
+    tr.setSelection(TextSelection.create(state.doc, pos, pos))
+  } else {
+    tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
+  }
+
+  view?.focus()
+  view?.dispatch(tr.scrollIntoView())
+}
+
+export const setChangeStatus = (
+  change: TrackedChange,
+  status: CHANGE_STATUS,
+  execCmd: (cmd: Command, hookView?: EditorView) => void
+) => {
+  const ids = [change.id]
+  if (change.type === 'node-change') {
+    change.children.forEach((child) => {
+      ids.push(child.id)
+    })
+  }
+  execCmd(trackCommands.setChangeStatuses(status, ids))
 }

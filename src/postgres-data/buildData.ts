@@ -9,48 +9,40 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  getModelMap,
-  Model,
-  ObjectTypes,
-  Project,
-  UserProfile,
-} from '@manuscripts/json-schema'
-import { Decoder, isManuscript } from '@manuscripts/transform'
+import { ObjectTypes, Project, UserProfile } from '@manuscripts/json-schema'
+import { ActualManuscriptNode, ManuscriptNode } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { TokenData } from '../store/TokenData'
 import Api from './Api'
 
-const getManuscriptData = async (
+const getProject = async (
+  api: Api,
   projectID: string,
-  manuscriptID: string,
-  api: Api
+  manuscriptID: string
 ) => {
   const models = await api.getManuscript(projectID, manuscriptID)
   if (!models) {
     throw new Error('Models are wrong.')
   }
-  const data: Partial<state> = {}
   for (const model of models) {
     if (model.objectType === ObjectTypes.Project) {
-      data.project = model as Project
-    } else if (isManuscript(model)) {
-      data.manuscript = model
+      return model as Project
     }
   }
-  data.modelMap = getModelMap(models || [])
+}
 
+const getManuscriptData = async (api: Api, prototype: string) => {
+  const data: Partial<state> = {}
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
     // TODO:: config this!
     api.getCSLLocale('en-US'),
-    api.getTemplate(data.manuscript?.prototype),
+    api.getTemplate(prototype),
   ])
 
   const bundle = await api.getBundle(template)
-
   data.sectionCategories = sectionCategories || []
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
@@ -74,21 +66,10 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
   }
 }
 
-const createDoc = (modelMap: Map<string, Model>) => {
-  try {
-    const decoder = new Decoder(modelMap, true)
-    return decoder.createArticleNode()
-  } catch (e) {
-    console.warn(
-      'Unable to produce a document from the json models with error: ' + e
-    )
-    return null
-  }
-}
-
 export const buildData = async (
   projectID: string,
   manuscriptID: string,
+  doc: ManuscriptNode,
   api: Api
 ) => {
   const user = await api.getUser()
@@ -96,24 +77,18 @@ export const buildData = async (
     return {}
   }
 
-  const state = await getManuscriptData(projectID, manuscriptID, api)
-
-  const manuscript = state.manuscript
-  const project = state.project
+  const manuscript = doc as ActualManuscriptNode
+  const state = await getManuscriptData(api, manuscript.attrs.prototype)
+  const project = await getProject(api, projectID, manuscriptID)
   const role = project ? getUserRole(project, user.userID) : null
-
   const users = await getUserData(projectID, user, api)
-
-  const doc = state.modelMap ? createDoc(state.modelMap) : null
 
   return {
     user,
-    manuscriptID: manuscript?._id,
-    projectID: project?._id,
     userRole: role,
     ...users,
     ...state,
-    doc,
+    project,
     tokenData: new TokenData(),
   }
 }

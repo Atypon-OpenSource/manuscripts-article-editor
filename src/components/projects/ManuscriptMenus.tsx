@@ -23,10 +23,7 @@ import {
 import React, { useMemo } from 'react'
 
 import config from '../../config'
-
-interface ApplicationMenusProps {
-  editor: ReturnType<typeof useEditor>
-}
+import { useStore } from '../../store'
 
 const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
   if (spec.id === 'insert' || spec.id === 'edit') {
@@ -82,13 +79,18 @@ const getFilteredMenus = (
     .filter(Boolean) as MenuSpec[]
 }
 
-export const ManuscriptMenus: React.FC<ApplicationMenusProps> = ({
-  editor,
-}) => {
+export const ManuscriptMenus: React.FC = () => {
   const can = usePermissions()
+  const [editor] = useStore((store) => store.editor)
 
-  const specs = useMemo(() => getFilteredMenus(editor, can), [can, editor])
+  const specs = useMemo(() => {
+    if (!editor) {
+      return []
+    }
+    return getFilteredMenus(editor, can)
+  }, [can, editor])
 
   const { menus, ref, handleClick } = useMenus(specs)
+
   return <Menus menus={menus} innerRef={ref} handleClick={handleClick} />
 }

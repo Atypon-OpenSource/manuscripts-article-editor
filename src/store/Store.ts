@@ -15,19 +15,9 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/body-editor'
-import {
-  Manuscript,
-  Model,
-  Project,
-  SectionCategory,
-  UserProfile,
-} from '@manuscripts/json-schema'
+import { Project, SectionCategory, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
-import {
-  Build,
-  ManuscriptEditorView,
-  ManuscriptNode,
-} from '@manuscripts/transform'
+import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
@@ -42,6 +32,8 @@ export interface ContainerIDs {
   templateID?: string
 }
 
+export type PMEditor = ReturnType<typeof useCreateEditor>
+
 export type state = {
   [key: string]: any
   manuscriptID: string
@@ -49,24 +41,14 @@ export type state = {
   userID?: string
 
   project: Project
-  manuscript: Manuscript
   user: UserProfile // probably should be optional
 
-  editor: ReturnType<typeof useCreateEditor>
+  editor: PMEditor
   doc: ManuscriptNode
-  initialDocVersion: number
+  trackState?: TrackChangesState
+  view: ManuscriptEditorView
 
-  modelMap: Map<string, Model>
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  deleteModel: (id: string) => Promise<string>
-  saveModels: (models: Model[]) => Promise<void>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  // track changes doc state changes
-  saveTrackModel: <T extends Model>(
-    model: T | Build<T> | Partial<T>
-  ) => Promise<T>
-  trackModelMap: Map<string, Model>
-  deleteTrackModel: (id: string) => Promise<string>
+  initialDocVersion: number
 
   fileManagement: FileManagement
   files: FileAttachment[]
@@ -76,9 +58,6 @@ export type state = {
 
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
-
-  trackState?: TrackChangesState
-  view: ManuscriptEditorView
 
   snapshots: SnapshotLabel[]
   snapshotsMap: Map<string, ManuscriptSnapshot>

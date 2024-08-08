@@ -10,22 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptOutline, useEditor } from '@manuscripts/body-editor'
-import { Manuscript } from '@manuscripts/json-schema'
+import { ManuscriptOutline } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
-import { ManuscriptEditorView } from '@manuscripts/transform'
 import React from 'react'
 
+import { useStore } from '../../store'
 import PageSidebar from '../PageSidebar'
 
-interface Props {
-  state: ReturnType<typeof useEditor>['state']
-  manuscript: Manuscript
-  view?: ManuscriptEditorView
-}
-
-const ManuscriptSidebar: React.FC<Props> = ({ state, manuscript, view }) => {
+const ManuscriptSidebar: React.FC = () => {
   const can = usePermissions()
+  const [view] = useStore((store) => store.view)
+  const [editor] = useStore((store) => store.editor)
+
+  if (!editor) {
+    return null
+  }
 
   return (
     <PageSidebar
@@ -38,8 +37,7 @@ const ManuscriptSidebar: React.FC<Props> = ({ state, manuscript, view }) => {
       sidebarFooter={''}
     >
       <ManuscriptOutline
-        manuscript={manuscript}
-        doc={state?.doc || null}
+        doc={editor.state?.doc || null}
         view={view}
         can={can}
       />

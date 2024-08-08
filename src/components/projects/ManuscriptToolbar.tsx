@@ -21,15 +21,12 @@ import {
   Tooltip,
   usePermissions,
 } from '@manuscripts/style-guide'
-import {
-  ManuscriptEditorState,
-  ManuscriptEditorView,
-} from '@manuscripts/transform'
-import { EditorState, Transaction } from 'prosemirror-state'
+import { EditorState } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import config from '../../config'
+import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 
 export const ToolbarItem = styled.div`
@@ -106,14 +103,20 @@ export const ToolbarGroup = styled.div`
   }
 `
 
-export const ManuscriptToolbar: React.FC<{
-  state: ManuscriptEditorState
-  dispatch: (tr: Transaction) => void
-  view?: ManuscriptEditorView
-}> = ({ state, dispatch, view }) => {
+export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
   const [openDialog, setOpenDialog] = useState(false)
   const [command, setCommand] = useState<(tableConfig: TableConfig) => void>()
+
+  const [view] = useStore((store) => store.view)
+  const [editor] = useStore((store) => store.editor)
+  const [dispatch] = useStore((store) => store.dispatch)
+
+  if (!view || !editor) {
+    return null
+  }
+
+  const state = editor.state
 
   const toggleDialog = () => {
     setOpenDialog(!openDialog)
