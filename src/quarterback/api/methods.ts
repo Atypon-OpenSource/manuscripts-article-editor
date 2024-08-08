@@ -19,7 +19,7 @@ type Error = {
   err: string
   code: number
 }
-type Maybe<T> = Ok<T> | Error
+export type Maybe<T> = Ok<T> | Error
 
 type FetchOptions = {
   method: string

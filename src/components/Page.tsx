@@ -58,7 +58,7 @@ export const Page: React.FunctionComponent<{
   }))
 
   if (!tokenData) {
-    return null
+    throw new Error('TokenData not found. User is not loggged in!')
   }
 
   return <PageContainer>{children}</PageContainer>
