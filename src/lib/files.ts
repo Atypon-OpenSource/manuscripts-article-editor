@@ -7,34 +7,24 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { createContext, useContext, useEffect } from 'react'
+export const trimFilename = (filename: string, maxLength: number) => {
+  const lastDotIndex = filename.lastIndexOf('.')
 
-import { GenericStore, StoreDataSourceStrategy } from '.'
-
-const GenericStoreContext = createContext<GenericStore>(new GenericStore())
-
-export const createStore = async (sources: StoreDataSourceStrategy[]) => {
-  const store = new GenericStore()
-  await store.init(sources)
-  return store
-}
-
-interface Props {
-  store: GenericStore
-  children: React.ReactNode
-}
-
-export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
-  if (store) {
-    return (
-      <GenericStoreContext.Provider value={store}>
-        {store.state?.project ? children : <p>Project was not found</p>}
-      </GenericStoreContext.Provider>
-    )
+  if (lastDotIndex === -1) {
+    // No extension found, return the original filename
+    return filename
   }
-  return null
-}
 
-export const useGenericStore = () => useContext(GenericStoreContext)
+  const baseName = filename.substring(0, lastDotIndex)
+  const extension = filename.substring(lastDotIndex) // Includes the dot
+
+  if (baseName.length > maxLength) {
+    // Trim the base name and add ellipsis
+    const truncatedBaseName = baseName.substring(0, maxLength - 3) // Leave space for ellipsis
+    return `${truncatedBaseName}...${extension}`
+  }
+
+  return filename
+}

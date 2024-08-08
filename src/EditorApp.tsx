@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, { MutableRefObject, useEffect, useState } from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Page } from './components/Page'
@@ -82,10 +82,17 @@ const EditorApp: React.FC<EditorAppProps> = ({
   const [store, setStore] = useState<GenericStore>()
 
   const loadDoc = useLoadDoc(authToken)
-  const quarterBackSource = new QuarterbackDataSource(loadDoc)
+
+  const loadedRef = useRef<boolean>(false)
+  const observerSubscribed = useRef<boolean>(false)
 
   useEffect(() => {
+    const quarterBackSource = new QuarterbackDataSource(loadDoc)
     // implement remount for the store if component is retriggered
+    if (loadedRef.current) {
+      return
+    }
+    loadedRef.current = true
     const basicSource = new BasicSource(
       fileManagement,
       projectID,
@@ -113,6 +120,10 @@ const EditorApp: React.FC<EditorAppProps> = ({
     if (!observer) {
       return
     }
+    if (observerSubscribed.current) {
+      return
+    }
+    observerSubscribed.current = true
     store?.subscribe((s) => observer.onUpdate(s))
     observer.state.current = {
       get: () => store?.getState(),
