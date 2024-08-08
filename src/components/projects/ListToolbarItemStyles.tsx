@@ -73,5 +73,3 @@ export const ListStyleButton = styled.button.attrs({
     stroke: #6e6e6e;
   }
 `
-
-export type ListStyle = { items: [string, string, string]; type: string }

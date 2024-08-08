@@ -9,17 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { ToolbarButtonConfig } from '@manuscripts/body-editor'
+import { ListStyles, ToolbarButtonConfig } from '@manuscripts/body-editor'
 import {
   ArrowDownIcon,
-  Block,
-  BlockItem,
-  bulletListContextMenu,
   DropdownList,
-  Label,
-  ListContainer,
-  orderedListContextMenu,
-  StyleBlock,
   ToolbarOrderedListIcon,
   ToolbarUnorderedListIcon,
   Tooltip,
@@ -30,13 +23,13 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
-import { ListButton, ListStyle, ListStyleButton } from './ListToolbarItemStyles'
+import { ListButton, ListStyleButton } from './ListToolbarItemStyles'
 import { ToolbarItem } from './ManuscriptToolbar'
 
 export const ListStyleSelector: React.FC<{
   disabled: boolean
-  styles: ListStyle[]
-  onClick: (style: ListStyle) => void
+  styles: string[]
+  onClick: (style: string) => void
 }> = ({ disabled, styles, onClick }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
@@ -47,24 +40,7 @@ export const ListStyleSelector: React.FC<{
       </ListStyleButton>
       {isOpen && (
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
-          <ListContainer>
-            {styles.map((style, index) => (
-              <StyleBlock
-                key={index}
-                onClick={() => {
-                  toggleOpen()
-                  onClick(style)
-                }}
-              >
-                {style.items.map((style, index) => (
-                  <BlockItem key={index}>
-                    <Label hide={style === '-'}>{style}</Label>
-                    <Block />
-                  </BlockItem>
-                ))}
-              </StyleBlock>
-            ))}
-          </ListContainer>
+          <ListStyles styles={styles} onClick={onClick} />
         </DropdownList>
       )}
     </Container>
@@ -82,6 +58,10 @@ export const ListToolbarItem: React.FC<{
   view?: ManuscriptEditorView
   config: ToolbarButtonConfig
 }> = ({ state, type, dispatch, view, config }) => {
+  if (!config.options) {
+    return null
+  }
+
   const isEnabled = !config.isEnabled || config.isEnabled(state)
 
   /**
@@ -90,19 +70,12 @@ export const ListToolbarItem: React.FC<{
    *  * if the selection is on list will change just the list type and
    *    **in case it's nested list will change just the lists at the same level**
    */
-  const handleClick = (style: ListStyle) => {
-    const type = style.type
-    config.options?.[type](state, dispatch, view)
+  const handleClick = (style: string) => {
+    config.options?.[style](state, dispatch, view)
     view && view.focus()
   }
 
-  const { icon, styles } = (type === 'ordered_list' && {
-    icon: <ToolbarOrderedListIcon />,
-    styles: orderedListContextMenu as ListStyle[],
-  }) || {
-    icon: <ToolbarUnorderedListIcon />,
-    styles: bulletListContextMenu as ListStyle[],
-  }
+  const styles = Object.keys(config.options)
 
   return (
     <ToolbarItem>
@@ -116,7 +89,11 @@ export const ListToolbarItem: React.FC<{
           view && view.focus()
         }}
       >
-        {icon}
+        {type === 'ordered_list' ? (
+          <ToolbarOrderedListIcon />
+        ) : (
+          <ToolbarUnorderedListIcon />
+        )}
       </ListButton>
       <Tooltip id={config.title} place="bottom">
         {config.title}
