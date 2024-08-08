@@ -10,18 +10,31 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment } from '@manuscripts/body-editor'
+import { Tooltip } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import { trimFilename } from '../../lib/files'
 import { FileTypeIcon } from './FileTypeIcon'
 
 export const FileName: React.FC<{
   file: FileAttachment
 }> = ({ file }) => {
+  const maxBaseNameLength = 30 // Adjust this value as needed
+
+  // Get the trimmed filename
+  const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
   return (
     <>
-      <FileTypeIcon file={file} />
-      <FileNameText data-cy="filename">{file.name}</FileNameText>
+      <FileNameContainer data-tooltip-id={`${file.id}-file-name-tooltip`}>
+        <FileTypeIcon file={file} />
+        <FileNameText data-cy="filename">
+          {trimmedFilename}
+          <Tooltip id={`${file.id}-file-name-tooltip`} place="bottom">
+            {file.name}
+          </Tooltip>
+        </FileNameText>
+      </FileNameContainer>
     </>
   )
 }
@@ -37,4 +50,11 @@ export const FileNameText = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`
+export const FileNameContainer = styled.div`
+  display: flex;
+
+  .react-tooltip {
+    max-width: 100% !important;
+  }
 `
