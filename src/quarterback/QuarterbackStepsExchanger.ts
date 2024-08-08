@@ -15,6 +15,7 @@ import { Step } from 'prosemirror-transform'
 
 import { saveWithDebounce } from '../postgres-data/savingUtilities'
 import * as docApi from './api/document'
+import { Maybe } from './api/methods'
 import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
 
 export interface ThrottlingControl {
@@ -28,7 +29,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     projectId: string,
     docId: string,
     payload: StepsPayload
-  ) => Promise<AppliedStepsResponse | undefined>
+  ) => Promise<Maybe<AppliedStepsResponse | undefined>>
   // @ts-ignore
   private docId: string
   // @ts-ignore
@@ -116,27 +117,6 @@ class QuarterbackStepsExchanger extends CollabProvider {
 
     this.currentVersion = version
 
-    // const result = await this.applySteps(this.projectId, this.docId, {
-    //   steps: stepsJSON,
-    //   version,
-    //   clientID,
-    // })
-
-    // if (
-    //   result &&
-    //   'err' in result &&
-    //   'code' in result &&
-    //   result.code === 409 &&
-    //   this.reconcileAttempts < this.reconcileAttemptsMax
-    // ) {
-    //   // debugger
-    //   console.warn('Attempting Reconciliation')
-    //   this.newStepsListener()
-    //   this.reconcileAttempts++
-    // } else {
-    //   this.reconcileAttempts = 0
-    // }
-
     this.flushImmediate = this.debounce(
       async () => {
         const result = await this.applySteps(this.projectId, this.docId, {
@@ -206,7 +186,7 @@ export const stepsExchanger = (
   if (!isAuthed) {
     return
   }
-  const applySteps = (
+  const applySteps = async (
     projectId: string,
     docId: string,
     payload: StepsPayload
