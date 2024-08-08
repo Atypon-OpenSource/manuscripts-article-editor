@@ -112,11 +112,11 @@ export const ManuscriptToolbar: React.FC = () => {
   const [editor] = useStore((store) => store.editor)
   const [dispatch] = useStore((store) => store.dispatch)
 
-  const state = editor.state
-
-  if (!view || !state) {
+  if (!view || !editor) {
     return null
   }
+
+  const state = editor.state
 
   const toggleDialog = () => {
     setOpenDialog(!openDialog)
