@@ -117,10 +117,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   }, [manuscriptID, projectID])
 
   useEffect(() => {
-    if (!observer) {
-      return
-    }
-    if (observerSubscribed.current) {
+    if (!observer || observerSubscribed.current || !store) {
       return
     }
     observerSubscribed.current = true
