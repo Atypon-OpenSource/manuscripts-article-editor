@@ -110,7 +110,9 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
       ) : (
         <>
           <CommentContent onClick={onSelect}>
-            <CommentViewer>{comment.node.attrs.contents}</CommentViewer>
+            <CommentViewer data-cy="note-text">
+              {comment.node.attrs.contents}
+            </CommentViewer>
           </CommentContent>
         </>
       )}
