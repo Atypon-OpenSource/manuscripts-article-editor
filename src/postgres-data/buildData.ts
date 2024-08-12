@@ -9,7 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { ObjectTypes, Project, UserProfile } from '@manuscripts/json-schema'
+import {
+  Manuscript,
+  ObjectTypes,
+  Project,
+  UserProfile,
+} from '@manuscripts/json-schema'
 import { ActualManuscriptNode, ManuscriptNode } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
@@ -17,20 +22,26 @@ import { state } from '../store'
 import { TokenData } from '../store/TokenData'
 import Api from './Api'
 
-const getProject = async (
+const getIdModels = async (
   api: Api,
   projectID: string,
   manuscriptID: string
 ) => {
   const models = await api.getManuscript(projectID, manuscriptID)
+  let project: Project | undefined
+  let manuscript: Manuscript | undefined
   if (!models) {
     throw new Error('Models are wrong.')
   }
   for (const model of models) {
     if (model.objectType === ObjectTypes.Project) {
-      return model as Project
+      project = model as Project
+    }
+    if (model.objectType === ObjectTypes.Manuscript) {
+      manuscript = model as Manuscript
     }
   }
+  return [project, manuscript] as [Project, Manuscript]
 }
 
 const getManuscriptData = async (api: Api, prototype: string) => {
@@ -77,9 +88,9 @@ export const buildData = async (
     return {}
   }
 
-  const manuscript = doc as ActualManuscriptNode
-  const state = await getManuscriptData(api, manuscript.attrs.prototype)
-  const project = await getProject(api, projectID, manuscriptID)
+  const manuscriptNode = doc as ActualManuscriptNode
+  const state = await getManuscriptData(api, manuscriptNode.attrs.prototype)
+  const [project, manuscript] = await getIdModels(api, projectID, manuscriptID)
   const role = project ? getUserRole(project, user.userID) : null
   const users = await getUserData(projectID, user, api)
 
@@ -89,6 +100,7 @@ export const buildData = async (
     ...users,
     ...state,
     project,
+    manuscript,
     tokenData: new TokenData(),
   }
 }

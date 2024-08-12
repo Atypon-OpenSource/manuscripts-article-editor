@@ -35,7 +35,6 @@ export interface ContainerIDs {
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
 export type state = {
-  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
@@ -80,6 +79,8 @@ export type state = {
   cslStyle?: string
 
   sectionCategories: SectionCategory[]
+  saveDoc: (doc: ManuscriptNode) => Promise<void>
+
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

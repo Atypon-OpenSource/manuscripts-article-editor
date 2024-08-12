@@ -22,7 +22,6 @@ export const useCreateEditor = () => {
   const [
     {
       doc,
-      manuscript,
       manuscriptID,
       projectID,
       user,
@@ -37,7 +36,6 @@ export const useCreateEditor = () => {
   ] = useStore((store) => ({
     doc: store.doc,
     manuscriptID: store.manuscriptID,
-    manuscript: store.manuscript,
     project: store.project,
     projectID: store.projectID,
     user: store.user,
@@ -70,7 +68,6 @@ export const useCreateEditor = () => {
     },
     theme,
     projectID: projectID,
-    getManuscript: () => manuscript,
     getCurrentUser: () => user,
     getCapabilities: () => {
       const state = getState()

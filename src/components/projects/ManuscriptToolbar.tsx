@@ -108,14 +108,13 @@ export const ManuscriptToolbar: React.FC = () => {
   const [openDialog, setOpenDialog] = useState(false)
   const [command, setCommand] = useState<(tableConfig: TableConfig) => void>()
 
-  const [view] = useStore((store) => store.view)
   const [editor] = useStore((store) => store.editor)
-  const [dispatch] = useStore((store) => store.dispatch)
 
-  if (!view || !editor) {
+  if (!editor || !editor.view) {
     return null
   }
 
+  const view = editor.view
   const state = editor.state
 
   const toggleDialog = () => {
@@ -135,7 +134,7 @@ export const ManuscriptToolbar: React.FC = () => {
   return (
     <ToolbarContainer>
       <ToolbarGroup>
-        <LevelSelector state={state} dispatch={dispatch} view={view} />
+        <LevelSelector state={state} dispatch={view.dispatch} view={view} />
       </ToolbarGroup>
 
       {Object.entries(toolbar).map(([groupKey, group]) => (
@@ -157,7 +156,7 @@ export const ManuscriptToolbar: React.FC = () => {
                   key={key}
                   type={key}
                   state={state}
-                  dispatch={dispatch}
+                  dispatch={view.dispatch}
                   view={view}
                   config={item}
                 />
@@ -172,7 +171,7 @@ export const ManuscriptToolbar: React.FC = () => {
                         setCommand(() => (tableConfig: TableConfig) => {
                           return item.run(
                             state,
-                            dispatch,
+                            view.dispatch,
                             undefined,
                             tableConfig
                           )
@@ -180,7 +179,7 @@ export const ManuscriptToolbar: React.FC = () => {
                         toggleDialog()
                       } else {
                         e.preventDefault()
-                        item.run(state, dispatch)
+                        item.run(editor.state, view.dispatch)
                         view && view.focus()
                       }
                     }}

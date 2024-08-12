@@ -72,7 +72,7 @@ const ManuscriptPageView: React.FC = () => {
         <Main data-cy="editor-main">
           <EditorContainer>
             <EditorContainerInner>
-              <EditorHeader>
+              <EditorHeader data-cy="editor-header">
                 <ManuscriptMenusContainer>
                   <ManuscriptMenusContainerInner>
                     <ManuscriptMenus />
@@ -80,7 +80,7 @@ const ManuscriptPageView: React.FC = () => {
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
               </EditorHeader>
-              <EditorBody className={'editor-body'}>
+              <EditorBody className="editor-body">
                 <TrackChangesStyles>
                   <EditorElement />
                 </TrackChangesStyles>
