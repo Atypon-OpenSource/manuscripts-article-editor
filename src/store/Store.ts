@@ -15,7 +15,12 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/body-editor'
-import { Project, SectionCategory, UserProfile } from '@manuscripts/json-schema'
+import {
+  Manuscript,
+  Project,
+  SectionCategory,
+  UserProfile,
+} from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
@@ -35,6 +40,7 @@ export interface ContainerIDs {
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
 export type state = {
+  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
@@ -80,7 +86,8 @@ export type state = {
 
   sectionCategories: SectionCategory[]
   saveDoc: (doc: ManuscriptNode) => Promise<void>
-
+  originalPmDoc: JSON
+  manuscript: Manuscript
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

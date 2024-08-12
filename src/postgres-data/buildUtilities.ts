@@ -23,11 +23,6 @@ export const buildUtilities = (
   updateState: (state: Partial<state>) => void,
   api: Api
 ): Partial<state> => {
-  const nonPMModelsTypes = new Set([
-    ObjectTypes.Manuscript,
-    ObjectTypes.Project,
-  ])
-
   const updateContainerIDs = (model: Model) => {
     const containerIDs: ContainerIDs = {
       containerID: projectID,
