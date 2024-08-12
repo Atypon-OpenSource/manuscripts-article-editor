@@ -130,7 +130,9 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
         <CommentHeader data-cy="comment-header">
           <AvatarIcon width={20} height={20} />
           <CommentMetadata>
-            <CommentAuthor>{authorName ? `${authorName}` : "System"}</CommentAuthor>
+            <CommentAuthor>
+              {authorName ? `${authorName}` : 'System'}
+            </CommentAuthor>
             {timestamp && <Timestamp date={timestamp * 1000} />}
           </CommentMetadata>
           <CommentActions
