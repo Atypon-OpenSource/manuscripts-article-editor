@@ -128,9 +128,9 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     return (
       <Container data-cy="comment" isSelected={isSelected} ref={ref}>
         <CommentHeader data-cy="comment-header">
-          {authorName && <AvatarIcon width={20} height={20} />}
+          <AvatarIcon width={20} height={20} /> {/* Always render the AvatarIcon */}
           <CommentMetadata>
-            <CommentAuthor>{authorName}</CommentAuthor>
+            <CommentAuthor>{authorName ? `${authorName}` : "System"}</CommentAuthor>
             {timestamp && <Timestamp date={timestamp * 1000} />}
           </CommentMetadata>
           <CommentActions
