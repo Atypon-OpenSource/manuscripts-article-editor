@@ -86,9 +86,11 @@ export type state = {
   beforeUnload?: () => void
   userRole: ProjectRole | null
 
+  handleSnapshot: () => Promise<void>
+
   cslLocale?: string
   cslStyle?: string
-
+  hasPendingSuggestions?: boolean
   sectionCategories: SectionCategory[]
   saveDoc: (doc: ManuscriptNode) => Promise<void>
   originalPmDoc?: JSON
