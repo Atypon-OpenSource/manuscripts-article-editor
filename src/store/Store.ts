@@ -28,6 +28,7 @@ import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
+import { ProjectRole } from 'src/lib/roles'
 
 export type action = { action?: string; [key: string]: any }
 
@@ -39,11 +40,14 @@ export interface ContainerIDs {
 
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
+// @NOTE: some of the state properties may be consumed by parent app and may appear unused
 export type state = {
-  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
+
+  manuscript: Manuscript
+  refreshProject: () => Promise<void>
 
   project: Project
   user: UserProfile // probably should be optional
@@ -80,14 +84,14 @@ export type state = {
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
   beforeUnload?: () => void
+  userRole: ProjectRole | null
 
   cslLocale?: string
   cslStyle?: string
 
   sectionCategories: SectionCategory[]
   saveDoc: (doc: ManuscriptNode) => Promise<void>
-  originalPmDoc: JSON
-  manuscript: Manuscript
+  originalPmDoc?: JSON
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
@@ -147,8 +151,6 @@ export class GenericStore implements Store {
     this.dispatchAction = this.dispatchAction.bind(this)
     this.setState = this.setState.bind(this)
     this.getState = this.getState.bind(this)
-
-    // this.state = buildStateFromSources(source)
   }
   queue: Set<(state: state, prev: state) => void> = new Set()
   getState() {

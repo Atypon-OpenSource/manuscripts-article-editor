@@ -10,9 +10,15 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { manuscriptIDTypes, Model, ObjectTypes } from '@manuscripts/json-schema'
+import {
+  manuscriptIDTypes,
+  Model,
+  ObjectTypes,
+  Project,
+} from '@manuscripts/json-schema'
 import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 
+import { getUserRole } from '../lib/roles'
 import Api from '../postgres-data/Api'
 import { ContainerIDs, state } from '../store'
 
@@ -109,8 +115,31 @@ export const buildUtilities = (
     })
   }
 
+  const refreshProject = async () => {
+    const state = getState()
+    const userID = state.userID
+    if (!userID) {
+      return
+    }
+    const models = await api.getManuscript(projectID, manuscriptID)
+    if (!models) {
+      return
+    }
+    const project = models.filter(
+      (m) => m.objectType === ObjectTypes.Project
+    )[0] as Project
+    if (!project) {
+      return
+    }
+    updateState({
+      project,
+      userRole: getUserRole(project, userID),
+    })
+  }
+
   return {
     saveDoc,
     createSnapshot,
+    refreshProject,
   }
 }

@@ -35,7 +35,7 @@ export default class PsSource implements StoreDataSourceStrategy {
     // conform with the store
   }
 
-  updateState = (state: Partial<state>) => {
+  updateState: stateSetter = (state: state) => {
     console.error(new Error('Store not yet mounted').stack)
   }
 
