@@ -25,10 +25,10 @@ import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { ProjectRole } from '../lib/roles'
 import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
-import { ProjectRole } from 'src/lib/roles'
 
 export type action = { action?: string; [key: string]: any }
 
