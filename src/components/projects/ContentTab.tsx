@@ -16,7 +16,6 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import React from 'react'
 
 import { useStore } from '../../store'
-import { SectionInspector } from '../inspector/SectionInspector'
 import { ManuscriptInspector } from './ManuscriptInspector'
 
 export const ContentTab: React.FC<{
@@ -70,18 +69,6 @@ export const ContentTab: React.FC<{
         state={state}
         dispatch={dispatch}
       />
-
-      {section && (
-        <SectionInspector
-          data-cy={section.category || 'generic-section'}
-          key={section._id}
-          section={section}
-          sectionNode={sectionNode}
-          state={state}
-          dispatch={dispatch}
-          dispatchNodeAttrs={dispatchNodeAttrs}
-        />
-      )}
     </div>
   )
 }
