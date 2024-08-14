@@ -13,6 +13,7 @@ import { CommentAttrs } from '@manuscripts/body-editor'
 import {
   AvatarIcon,
   RelativeDate,
+  SystemUserAvatarIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { forwardRef, useState } from 'react'
@@ -128,10 +129,19 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     return (
       <Container data-cy="comment" isSelected={isSelected} ref={ref}>
         <CommentHeader data-cy="comment-header">
-          <AvatarIcon width={20} height={20} />
           <CommentMetadata>
             <CommentAuthor>
-              {authorName ? `${authorName}` : 'System'}
+              {authorName ? (
+                <>
+                  <AvatarIcon width={20} height={20} />
+                  <CommentAuthor>{authorName}</CommentAuthor>
+                </>
+              ) : (
+                <>
+                  <SystemUserAvatarIcon width={20} height={20} />
+                  <CommentAuthor>System</CommentAuthor>
+                </>
+              )}
             </CommentAuthor>
             {timestamp && <Timestamp date={timestamp * 1000} />}
           </CommentMetadata>
