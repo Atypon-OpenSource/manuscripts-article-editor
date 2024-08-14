@@ -15,21 +15,15 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 import '@reach/tabs/styles.css'
 
-import { commentsKey, selectedSuggestionKey } from '@manuscripts/body-editor'
 import {
   CapabilitiesProvider,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useLayoutEffect, useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import { useCreateEditor } from '../../hooks/use-create-editor'
-import { useHandleSnapshot } from '../../hooks/use-handle-snapshot'
-import { useDoWithThrottle } from '../../postgres-data/savingUtilities'
 import { useStore } from '../../store'
-import useTrackedModelManagement from '../../tracked-models/use-tracked-model-management'
 import { Main } from '../Page'
 import UtilitiesEffects from '../UtilitiesEffects'
 import {
@@ -44,23 +38,6 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
-
-export const ManuscriptMenusContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: ${(props) => props.theme.colors.background.secondary};
-`
-export const ManuscriptMenusContainerInner = styled.div`
-  width: 100%;
-  max-width: ${(props) => props.theme.grid.editorMaxWidth}px;
-  margin: 0 auto;
-  padding: ${(props) => props.theme.grid.unit / 2}px
-    ${(props) => props.theme.grid.unit * 5}px
-    ${(props) => props.theme.grid.unit}px
-    ${(props) => props.theme.grid.unit * 15}px;
-  box-sizing: border-box;
-`
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, permittedActions }] = useStore((state) => {
@@ -86,140 +63,54 @@ const ManuscriptPageContainer: React.FC = () => {
 }
 
 const ManuscriptPageView: React.FC = () => {
-  const [manuscript] = useStore((store) => store.manuscript)
-  const [modelMap] = useStore((store) => store.modelMap)
-  const [_, storeDispatch] = useStore((store) => store.manuscriptID)
-  const [doc] = useStore((store) => store.doc)
-  const [saveModel] = useStore((store) => store.saveModel)
-  const [deleteModel] = useStore((store) => store.deleteModel)
-
   const can = usePermissions()
-
-  const editor = useCreateEditor()
-
-  const { state, dispatch, view } = editor
-
-  const handleSnapshot = useHandleSnapshot(view)
-
-  useEffect(() => {
-    storeDispatch({ handleSnapshot })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view?.state])
-
-  useLayoutEffect(() => {
-    const trackState = trackChangesPluginKey.getState(state)
-    if (trackState) {
-      // set init tracking state
-      storeDispatch({ trackState })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const { saveTrackModel, trackModelMap, deleteTrackModel, getTrackModel } =
-    useTrackedModelManagement(
-      doc,
-      view,
-      state,
-      dispatch,
-      saveModel,
-      deleteModel,
-      modelMap
-    )
-
-  useEffect(() => {
-    storeDispatch({
-      saveTrackModel,
-      trackModelMap,
-      deleteTrackModel,
-      getTrackModel,
-    })
-  }, [
-    saveTrackModel,
-    trackModelMap,
-    deleteTrackModel,
-    storeDispatch,
-    getTrackModel,
-  ])
-
-  const selection = useMemo(() => {
-    const suggestion = selectedSuggestionKey.getState(state)?.suggestion
-    const selection = commentsKey.getState(state)?.selection
-    return {
-      selectedSuggestionID: suggestion?.id,
-      selectedCommentKey: selection?.key,
-      newCommentID: selection?.isNew ? selection?.id : undefined,
-    }
-  }, [state])
-
-  useEffect(() => {
-    storeDispatch(selection)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeDispatch, ...Object.values(selection)])
-
-  const hasPendingSuggestions = useMemo(() => {
-    const { changeSet } = trackChangesPluginKey.getState(state) || {}
-    return changeSet && changeSet.pending.length > 0
-  }, [state])
-
-  useEffect(() => {
-    storeDispatch({ hasPendingSuggestions })
-  }, [storeDispatch, hasPendingSuggestions])
-
-  useEffect(() => {
-    storeDispatch({ editor })
-  }, [storeDispatch, view]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const doWithThrottle = useDoWithThrottle()
-  useEffect(() => {
-    const trackState = trackChangesPluginKey.getState(state)
-
-    doWithThrottle(() => {
-      storeDispatch({ doc: state.doc, trackState, view, editor })
-    }, 200)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state])
 
   return (
     <>
-      <ManuscriptSidebar
-        data-cy="manuscript-sidebar"
-        manuscript={manuscript}
-        view={view}
-        state={state}
-      />
-
+      <ManuscriptSidebar data-cy="manuscript-sidebar" />
       <PageWrapper>
         <Main data-cy="editor-main">
           <EditorContainer>
             <EditorContainerInner>
-              <EditorHeader>
+              <EditorHeader data-cy="editor-header">
                 <ManuscriptMenusContainer>
                   <ManuscriptMenusContainerInner>
-                    <ManuscriptMenus editor={editor} />
+                    <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
                 </ManuscriptMenusContainer>
-                {can.seeEditorToolbar && (
-                  <ManuscriptToolbar
-                    state={state}
-                    dispatch={dispatch}
-                    view={view}
-                  />
-                )}
+                {can.seeEditorToolbar && <ManuscriptToolbar />}
               </EditorHeader>
-              <EditorBody className={'editor-body'}>
+              <EditorBody className="editor-body">
                 <TrackChangesStyles>
-                  <EditorElement editor={editor} />
+                  <EditorElement />
                 </TrackChangesStyles>
               </EditorBody>
             </EditorContainerInner>
           </EditorContainer>
         </Main>
-        <Inspector data-cy="inspector" editor={editor} />
+        <Inspector data-cy="inspector" />
         <UtilitiesEffects />
       </PageWrapper>
     </>
   )
 }
+
+export const ManuscriptMenusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${(props) => props.theme.colors.background.secondary};
+`
+export const ManuscriptMenusContainerInner = styled.div`
+  width: 100%;
+  max-width: ${(props) => props.theme.grid.editorMaxWidth}px;
+  margin: 0 auto;
+  padding: ${(props) => props.theme.grid.unit / 2}px
+    ${(props) => props.theme.grid.unit * 5}px
+    ${(props) => props.theme.grid.unit}px
+    ${(props) => props.theme.grid.unit * 15}px;
+  box-sizing: border-box;
+`
 
 const PageWrapper = styled.div`
   position: relative;
