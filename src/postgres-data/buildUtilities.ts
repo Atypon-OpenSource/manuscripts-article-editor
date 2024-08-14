@@ -11,7 +11,6 @@
  */
 
 import {
-  Manuscript,
   manuscriptIDTypes,
   Model,
   ObjectTypes,
@@ -30,11 +29,6 @@ export const buildUtilities = (
   updateState: (state: Partial<state>) => void,
   api: Api
 ): Partial<state> => {
-  const nonPMModelsTypes = new Set([
-    ObjectTypes.Manuscript,
-    ObjectTypes.Project,
-  ])
-
   const updateContainerIDs = (model: Model) => {
     const containerIDs: ContainerIDs = {
       containerID: projectID,
@@ -66,32 +60,16 @@ export const buildUtilities = (
     }
   }
 
-  const getModel = <T extends Model>(id: string) => {
-    const state = getState()
-    if (!state.modelMap) {
-      return
-    }
-    return state.modelMap.get(id) as T | undefined
-  }
-
   const saveModels = async (
-    models: Model[] | Build<Model>[] | Partial<Model>[],
-    excludeIDs?: Set<string>
+    models: Model[] | Build<Model>[] | Partial<Model>[]
   ) => {
     const state = getState()
 
-    if (!state.modelMap) {
+    if (!state.project || !state.manuscript) {
       throw new Error('Unable to save due to incomplete data')
     }
 
     const modelMap = new Map<string, Model>()
-
-    for (const [id, model] of state.modelMap) {
-      const type = model.objectType as ObjectTypes
-      if (nonPMModelsTypes.has(type) || (excludeIDs && !excludeIDs.has(id))) {
-        modelMap.set(id, model)
-      }
-    }
 
     for (const model of models) {
       if (!model._id) {
@@ -100,6 +78,9 @@ export const buildUtilities = (
       const updated = updateContainerIDs(model as Model)
       modelMap.set(model._id, updated)
     }
+
+    modelMap.set(state.project._id, state.project)
+    modelMap.set(state.manuscript._id, state.manuscript)
 
     updateState({
       savingProcess: 'saving',
@@ -111,31 +92,6 @@ export const buildUtilities = (
     updateState({
       savingProcess: result ? 'saved' : 'failed',
       preventUnload: false,
-    })
-  }
-
-  const saveModel = async <T extends Model>(
-    model: T | Build<T> | Partial<T>
-  ): Promise<T> => {
-    await saveModels([model])
-    //is this actually needed?
-    return model as T
-  }
-
-  const deleteModel = async (id: string) => {
-    await saveModels([], new Set([id]))
-    return id
-  }
-
-  const saveManuscript = async (manuscript: Partial<Manuscript>) => {
-    const state = getState()
-    if (!state.modelMap) {
-      throw new Error('Unable to save manuscript due to incomplete data')
-    }
-    const previous = state.modelMap.get(manuscriptID)
-    await saveModel({
-      ...previous,
-      ...manuscript,
     })
   }
 
@@ -182,11 +138,6 @@ export const buildUtilities = (
   }
 
   return {
-    saveModel,
-    deleteModel,
-    saveManuscript,
-    getModel,
-    saveModels,
     saveDoc,
     createSnapshot,
     refreshProject,
