@@ -73,6 +73,7 @@ const EditorActions = styled(ButtonGroup)`
 export interface CommentBodyProps {
   comment: Comment
   isEditing: boolean
+  isNew: boolean
   onSave: (content: string) => void
   onCancel: () => void
   onSelect: () => void
@@ -82,6 +83,7 @@ export interface CommentBodyProps {
 export const CommentBody: React.FC<CommentBodyProps> = ({
   comment,
   isEditing,
+  isNew,
   onSave,
   onCancel,
   onSelect,
@@ -120,7 +122,9 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
             defaultValue={comment.node.attrs.contents}
             onChange={onTextChange}
             onBlur={(event) =>
-              !event.target.value.length && onDelete(comment.node.attrs.id)
+              !event.target.value.length &&
+              isNew &&
+              onDelete(comment.node.attrs.id)
             }
           ></CommentEditor>
           <EditorActions>
