@@ -1492,15 +1492,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.16":
-  version "2.0.16"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.16.tgz#60b96d68b69f88b605bf4e02cab266c4ad395f2d"
-  integrity sha512-Xgv8tTmB77tkacwzXMm7rxsk9/4Cq8nRkx80GV1SLJgQIHFmS3+1Nt0zjZK+cO5U4SIW1e9H58ARqxdyp71SiA==
+"@manuscripts/body-editor@2.0.17-LEAN-3879.0":
+  version "2.0.17-LEAN-3879.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.17-LEAN-3879.0.tgz#b5ee38dcaf41f38caffe03f18ffbd689d81936d6"
+  integrity sha512-qzlFFEdux4UsNCR0XY+rSLqC9uCYZrhJb0W6I593zg7uCHG7xXRqZJrHx9f59YFcoa9ZTR23wtSK3TOq1Kzh8g==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
-    "@manuscripts/style-guide" "2.0.3"
+    "@manuscripts/style-guide" "2.0.4-LEAN-3879.0"
     "@manuscripts/track-changes-plugin" "1.7.17"
     "@manuscripts/transform" "2.3.23"
     "@popperjs/core" "^2.11.8"
@@ -1563,13 +1563,13 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
-"@manuscripts/style-guide@2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.3.tgz#15b6e069b137314670729a1c4127f4b18ccb7581"
-  integrity sha512-dBAMsoX6ankyDuoGhL4nvmn33sHAb3KLlUjDrvjloLhumEFmF5w0TvyVOR0kBZkWXruv14H+CcieUJxltWq4qA==
+"@manuscripts/style-guide@2.0.4-LEAN-3879.0":
+  version "2.0.4-LEAN-3879.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.4-LEAN-3879.0.tgz#4b6e8807708dfe53cc97f41a7c44ddb1b9c11aaf"
+  integrity sha512-4O0X/GQFv/5nlkB08Z+h0z15vUfVnxxnCEqXhXpLMP19acovYvCFQloz3CLPKgsC6obC58ip/B9WcmX/1DqSvw==
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
-    "@manuscripts/transform" "2.3.22"
+    "@manuscripts/transform" "2.3.23"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1609,23 +1609,6 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
-
-"@manuscripts/transform@2.3.22":
-  version "2.3.22"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.22.tgz#f8f4dfef4a22add53d4d8e11fe0b2e48538a4756"
-  integrity sha512-NWuRUsM21s96+AoACsEk0zXhCJkB55XOasD0xuSCXNLYYwaFaHSRGkfvb58cKpBHNYJNtVC3syCNvyPsBkJ5BA==
-  dependencies:
-    "@manuscripts/json-schema" "2.2.10"
-    "@manuscripts/library" "1.3.10"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    lodash "^4.17.21"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-tables "^1.3.5"
-    semver "^7.6.2"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@2.3.23":
   version "2.3.23"
@@ -7366,7 +7349,16 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -7486,7 +7478,7 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -7499,6 +7491,13 @@ strip-ansi@^3.0.0:
   integrity sha512-VhumSSbBqDTP8p2ZLKj40UjBCV4+v8bUSEpUb4KjRgWk9pbqGF4REFj6KEagidb2f/M6AzC0EmFyDNGaw9OCzg==
   dependencies:
     ansi-regex "^2.0.0"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -8270,7 +8269,16 @@ whynot@^5.0.0:
   resolved "https://registry.npmjs.org/whynot/-/whynot-5.0.0.tgz"
   integrity sha512-cGGfDPYYqoHoMWqXVc3G+N74u1FhFhrBa+pOO906b9ktRc/JFUdwroTkfPqjKzyoCLVcKr6yy6bYIcWT7jTg2A==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
