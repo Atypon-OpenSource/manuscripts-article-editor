@@ -44,12 +44,17 @@ const CommentMetadata = styled.div`
 `
 
 const CommentAuthor = styled.div`
+  display: flex;
   color: #353535;
   font-weight: 400;
   max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  svg {
+    padding-right: 10px;
+  }
 `
 
 const CommentTarget = styled.div`
