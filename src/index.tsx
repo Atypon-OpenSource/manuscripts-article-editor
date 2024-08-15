@@ -34,7 +34,7 @@ export type {
   AppStateObserver,
 } from './EditorApp'
 
-const ManuscriptEditor: React.FC<EditorAppProps & {config: Config}> = ({
+const ManuscriptEditor: React.FC<EditorAppProps & { config: Config }> = ({
   fileManagement,
   files,
   manuscriptID,
