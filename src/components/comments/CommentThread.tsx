@@ -151,11 +151,9 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
         <CommentBody
           comment={tree.comment}
           isEditing={tree.isNew || isEditing}
-          isNew={tree.isNew}
           onSave={handleSave}
           onCancel={handleCancel}
           onSelect={onSelect}
-          onDelete={onDelete}
         />
       </Container>
     )
