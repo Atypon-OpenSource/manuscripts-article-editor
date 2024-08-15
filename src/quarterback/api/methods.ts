@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import config from '../../config'
+import { getConfig } from '../../config'
 
 type Ok<T> = {
   data: T
@@ -42,6 +42,7 @@ export async function wrappedFetch<T>(
   defaultError = 'Request failed'
 ): Promise<Maybe<T>> {
   let resp
+  const config = getConfig()
   try {
     resp = await fetch(`${config.api.url}/${path}`, options)
   } catch (err) {
@@ -149,6 +150,7 @@ export async function listen<T>(
   path: string,
   listener: (event: MessageEvent) => void
 ) {
+  const config = getConfig()
   let ws: WebSocket
   const reconnectDelay = 1500
   const onOpen = async () => {

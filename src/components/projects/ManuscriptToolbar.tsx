@@ -25,7 +25,7 @@ import { EditorState } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
+import { getConfig } from '../../config'
 import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 
@@ -105,6 +105,7 @@ export const ToolbarGroup = styled.div`
 
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
+  const config = getConfig()
   const [openDialog, setOpenDialog] = useState(false)
   const [command, setCommand] = useState<(tableConfig: TableConfig) => void>()
 

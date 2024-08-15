@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import './lib/analytics'
 import './lib/fonts'
 
 import decode from 'jwt-decode'
 import React, { Suspense, useMemo } from 'react'
 
 import { LoadingPage } from './components/Loading'
+import { Config, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
 import tokenHandler from './lib/token'
 import { TokenPayload } from './lib/user'
@@ -34,13 +34,14 @@ export type {
   AppStateObserver,
 } from './EditorApp'
 
-const ManuscriptEditor: React.FC<EditorAppProps> = ({
+const ManuscriptEditor: React.FC<EditorAppProps & {config: Config}> = ({
   fileManagement,
   files,
   manuscriptID,
   projectID,
   permittedActions,
   authToken,
+  config,
   observer,
 }) => {
   useMemo(() => {
@@ -61,6 +62,7 @@ const ManuscriptEditor: React.FC<EditorAppProps> = ({
     }
   }, [authToken])
 
+  setConfig(config)
   return (
     <>
       <ThemeProvider>
