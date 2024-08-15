@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Project } from '@manuscripts/json-schema'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -48,12 +47,8 @@ const PageContainer = styled.div`
   font-family: ${(props) => props.theme.font.family.sans};
 `
 
-export const Page: React.FunctionComponent<{
-  children: React.ReactNode
-  project?: Project
-}> = ({ children, project: directProject }) => {
+export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [{ tokenData }] = useStore((store) => ({
-    storeProject: store.project,
     tokenData: store.tokenData,
   }))
 

@@ -7,21 +7,24 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+export const trimFilename = (filename: string, maxLength: number) => {
+  const lastDotIndex = filename.lastIndexOf('.')
 
-import { ascendingPriority } from '../sort'
+  if (lastDotIndex === -1) {
+    // No extension found, return the original filename
+    return filename
+  }
 
-describe('sorting', () => {
-  test('ascending priority', () => {
-    const x = { priority: 0 } as any
-    const y = { priority: 1 } as any
-    const z = { priority: 2 } as any
+  const baseName = filename.substring(0, lastDotIndex)
+  const extension = filename.substring(lastDotIndex) // Includes the dot
 
-    expect(ascendingPriority(y, x)).toBeGreaterThan(0)
-    expect(ascendingPriority(x, y)).toBeLessThan(0)
+  if (baseName.length > maxLength) {
+    // Trim the base name and add ellipsis
+    const truncatedBaseName = baseName.substring(0, maxLength - 3) // Leave space for ellipsis
+    return `${truncatedBaseName}...${extension}`
+  }
 
-    expect([x, z, y].sort(ascendingPriority)).toMatchObject([x, y, z])
-    expect([z, y, x].sort(ascendingPriority)).toMatchObject([x, y, z])
-  })
-})
+  return filename
+}

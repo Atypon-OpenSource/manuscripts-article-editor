@@ -37,23 +37,21 @@ import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
 import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
+import { useConnectEditor } from '../../hooks/use-connect-editor'
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
-interface Props {
-  editor: ReturnType<typeof useEditor>
-}
-
-const EditorElement: React.FC<Props> = ({ editor }) => {
-  const { onRender, view, dispatch } = editor
+const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
-  const [{ trackState }] = useStore((store) => ({
+  const [{ trackState, editor }] = useStore((store) => ({
     trackState: store.trackState,
+    editor: store.editor,
   }))
 
   const execCmd = useExecCmd()
+  const { onRender, view, dispatch } = useConnectEditor()
 
   const [, drop] = useDrop({
     accept: 'file',
