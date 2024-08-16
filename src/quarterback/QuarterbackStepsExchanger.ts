@@ -15,6 +15,7 @@ import { Step } from 'prosemirror-transform'
 
 import { saveWithDebounce } from '../postgres-data/savingUtilities'
 import * as docApi from './api/document'
+import { Maybe } from './api/methods'
 import { AppliedStepsResponse, StepsPayload, StepsSinceResponse } from './types'
 
 export interface ThrottlingControl {
@@ -28,7 +29,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     projectId: string,
     docId: string,
     payload: StepsPayload
-  ) => Promise<AppliedStepsResponse | undefined>
+  ) => Promise<Maybe<AppliedStepsResponse | undefined>>
   // @ts-ignore
   private docId: string
   // @ts-ignore
@@ -47,6 +48,9 @@ class QuarterbackStepsExchanger extends CollabProvider {
   debounce: ReturnType<typeof saveWithDebounce>
 
   throttleState: boolean
+
+  reconcileAttempts = 0
+  reconcileAttemptsMax = 20
 
   constructor(
     docId: string,
@@ -86,7 +90,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
       }
       const steps = this.hydrateSteps(jsonSteps)
       if (steps.length) {
-        this.newStepsListener(version, steps, clientIDs)
+        this.newStepsListener()
       }
     })
   }
@@ -112,20 +116,36 @@ class QuarterbackStepsExchanger extends CollabProvider {
     })
 
     this.currentVersion = version
+
     this.flushImmediate = this.debounce(
-      () => {
-        this.applySteps(this.projectId, this.docId, {
+      async () => {
+        const result = await this.applySteps(this.projectId, this.docId, {
           steps: stepsJSON,
           version,
           clientID,
         })
+        if (
+          result &&
+          'err' in result &&
+          'code' in result &&
+          result.code === 409 &&
+          this.reconcileAttempts < this.reconcileAttemptsMax
+        ) {
+          // debugger
+          console.warn('Attempting Reconciliation')
+          this.newStepsListener()
+          this.reconcileAttempts++
+        } else {
+          this.reconcileAttempts = 0
+        }
       },
-      1000,
+      1200,
       flush,
       () => {
         this.throttlingControl(false)
       }
     )
+
     if (!flush) {
       this.throttlingControl(true)
     }
@@ -170,12 +190,7 @@ export const stepsExchanger = (
     projectId: string,
     docId: string,
     payload: StepsPayload
-  ) => {
-    const resp = await docApi.applySteps(projectId, docId, authToken, payload)
-    if ('data' in resp) {
-      return resp.data
-    }
-  }
+  ) => docApi.applySteps(projectId, docId, authToken, payload)
 
   const getStepsSince = async (
     projectId: string,

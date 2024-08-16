@@ -75,13 +75,22 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
       )}
       {isActionsEnabled && (
         <DropdownContainer ref={wrapperRef}>
-          <ActionsIcon onClick={toggleOpen}>
+          <ActionsIcon data-cy="comment-dropdown-trigger" onClick={toggleOpen}>
             <DotsIcon />
           </ActionsIcon>
           {isOpen && (
-            <DropdownList direction={'right'} width={125} onClick={toggleOpen}>
-              <CommentAction onClick={onEdit}>Edit</CommentAction>
-              <CommentAction onClick={onDelete}>Delete</CommentAction>
+            <DropdownList
+              data-cy="comment-dropdown"
+              direction={'right'}
+              width={125}
+              onClick={toggleOpen}
+            >
+              <CommentAction data-cy="comment-edit" onClick={onEdit}>
+                Edit
+              </CommentAction>
+              <CommentAction data-cy="comment-delete" onClick={onDelete}>
+                Delete
+              </CommentAction>
             </DropdownList>
           )}
         </DropdownContainer>

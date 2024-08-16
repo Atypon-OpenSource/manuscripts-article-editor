@@ -99,10 +99,11 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
       {isEditing ? (
         <>
           <CommentEditor
+            data-cy="comment-editor"
             ref={ref}
             defaultValue={comment.node.attrs.contents}
           ></CommentEditor>
-          <EditorActions>
+          <EditorActions data-cy="comment-actions">
             <SecondaryButton onClick={onCancel}>Cancel</SecondaryButton>
             <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
           </EditorActions>
@@ -110,7 +111,9 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
       ) : (
         <>
           <CommentContent onClick={onSelect}>
-            <CommentViewer>{comment.node.attrs.contents}</CommentViewer>
+            <CommentViewer data-cy="comment-text">
+              {comment.node.attrs.contents}
+            </CommentViewer>
           </CommentContent>
         </>
       )}
