@@ -18,8 +18,6 @@ import ManuscriptPageContainer from './components/projects/ManuscriptPageContain
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
-import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
-import { useLoadDoc } from './quarterback/useLoadDoc'
 import {
   BasicSource,
   createStore,
@@ -81,29 +79,27 @@ const EditorApp: React.FC<EditorAppProps> = ({
 
   const [store, setStore] = useState<GenericStore>()
 
-  const loadDoc = useLoadDoc(authToken)
-
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
   useEffect(() => {
-    const quarterBackSource = new QuarterbackDataSource(loadDoc)
     // implement remount for the store if component is retriggered
     if (loadedRef.current) {
       return
     }
     loadedRef.current = true
-    const basicSource = new BasicSource(
-      fileManagement,
-      projectID,
-      manuscriptID,
-      files,
-      permittedActions,
-      userID || '',
-      authToken || ''
-    )
-    const mainSource = new PsSource(files)
-    createStore([basicSource, mainSource, quarterBackSource])
+    createStore([
+      new BasicSource(
+        fileManagement,
+        projectID,
+        manuscriptID,
+        files,
+        permittedActions,
+        userID || '',
+        authToken || ''
+      ),
+      new PsSource(files),
+    ])
       .then((store) => {
         setStore(store)
       })

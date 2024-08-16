@@ -22,8 +22,8 @@ export const useCreateEditor = () => {
   const [
     {
       doc,
-      manuscript,
-      project,
+      manuscriptID,
+      projectID,
       user,
       fileManagement,
       initialDocVersion,
@@ -35,8 +35,9 @@ export const useCreateEditor = () => {
     getState,
   ] = useStore((store) => ({
     doc: store.doc,
-    manuscript: store.manuscript,
+    manuscriptID: store.manuscriptID,
     project: store.project,
+    projectID: store.projectID,
     user: store.user,
     fileManagement: store.fileManagement,
     initialDocVersion: store.initialDocVersion,
@@ -59,15 +60,14 @@ export const useCreateEditor = () => {
     doc,
     userID: user._id,
     debug: config.environment === 'development',
-    locale: manuscript?.primaryLanguageCode || 'en-GB',
+    // @TODO - move primaryLanguageCode to be an attribute on ManuscriptNode
+    locale: 'en-GB',
     cslProps: {
       style,
       locale,
     },
     theme,
-    projectID: project._id,
-
-    getManuscript: () => manuscript,
+    projectID: projectID,
     getCurrentUser: () => user,
     getCapabilities: () => {
       const state = getState()
@@ -78,8 +78,8 @@ export const useCreateEditor = () => {
     },
     fileManagement: fileManagement,
     collabProvider: stepsExchanger(
-      manuscript._id,
-      project._id,
+      manuscriptID,
+      projectID,
       initialDocVersion,
       authToken,
       (preventUnload, beforeUnload) => {
