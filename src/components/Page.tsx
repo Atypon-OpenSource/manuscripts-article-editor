@@ -53,7 +53,7 @@ export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }))
 
   if (!tokenData) {
-    return null
+    throw new Error('TokenData not found. User is not loggged in!')
   }
 
   return <PageContainer>{children}</PageContainer>
