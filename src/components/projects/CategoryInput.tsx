@@ -19,8 +19,8 @@ import styled from 'styled-components'
 
 import { useSyncedData } from '../../hooks/use-synced-data'
 import {
+  backMatterSectionCategoryExist,
   isBackMatterSection,
-  isBackMatterSectionCategoryExist,
   isEditableSectionCategory,
   isUniqueCurrent,
   isUniquePresent,
@@ -76,7 +76,7 @@ export const CategoryInput: React.FC<{
       if (
         cat.groupIDs &&
         isBackMatterSection(cat.groupIDs[0]) &&
-        isBackMatterSectionCategoryExist(backmatter.node, cat._id)
+        backMatterSectionCategoryExist(backmatter.node, cat._id)
       ) {
         isDisabled = true
       }

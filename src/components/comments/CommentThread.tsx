@@ -51,6 +51,7 @@ const CommentAuthor = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
 
   svg {
     padding-right: 10px;
@@ -108,7 +109,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       ? can.handleOwnComments
       : can.handleOthersComments
 
-    const [isEditing, setEditing] = useState(false)
+    const [isEditing, setEditing] = useState(tree.isNew)
 
     const handleEdit = () => setEditing(true)
 
@@ -122,6 +123,9 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
 
     const handleCancel = () => {
       setEditing(false)
+      if (tree.isNew) {
+        onDelete(tree.comment.node.attrs.id)
+      }
     }
 
     const handleToggleResolve = () => {
