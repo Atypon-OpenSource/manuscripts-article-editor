@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export interface Config {
+export interface ManuscriptsEditorConfig {
   environment: string
   api: {
     url: string
@@ -24,12 +24,12 @@ export interface Config {
   }
 }
 
-let config: Config
+let config: ManuscriptsEditorConfig
 
-export function setConfig(newConfig: Config) {
+export function setConfig(newConfig: ManuscriptsEditorConfig) {
   config = newConfig
 }
 
-export function getConfig(): Config {
+export function getConfig(): ManuscriptsEditorConfig {
   return config
 }
