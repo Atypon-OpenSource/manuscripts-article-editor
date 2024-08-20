@@ -15,7 +15,13 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useRef } from 'react'
+import React, {
+  ChangeEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 
 const CommentContent = styled.div`
@@ -94,6 +100,15 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
     editor.current = e
   }, [])
 
+  const [value, setValue] = useState(editor.current?.value || '')
+
+  const disableSaveButton = useMemo(
+    () => !value.length || comment.node.attrs.contents === value,
+    [comment.node.attrs.contents, value]
+  )
+  const onTextChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
+    setValue(e.target.value)
+
   return (
     <>
       {isEditing ? (
@@ -102,10 +117,14 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
             data-cy="comment-editor"
             ref={ref}
             defaultValue={comment.node.attrs.contents}
+            onChange={onTextChange}
+            onBlur={(event) => !event.target.value.length && onCancel()}
           ></CommentEditor>
           <EditorActions data-cy="comment-actions">
             <SecondaryButton onClick={onCancel}>Cancel</SecondaryButton>
-            <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
+            <PrimaryButton onClick={handleSave} disabled={disableSaveButton}>
+              Save
+            </PrimaryButton>
           </EditorActions>
         </>
       ) : (
