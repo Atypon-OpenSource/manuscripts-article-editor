@@ -14,7 +14,6 @@ import { usePermissions } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
 import { useStore } from '../../store'
 
 const TrackChangesOn = styled.div`
@@ -105,7 +104,7 @@ export const TrackChangesStyles: React.FC<{ children: React.ReactNode }> = ({
       : []
   )
 
-  if (!config.quarterback.enabled) {
+  if (can.editWithoutTracking) {
     return <TrackChangesOff>{children}</TrackChangesOff>
   }
 

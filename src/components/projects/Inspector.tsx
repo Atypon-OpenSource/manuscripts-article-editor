@@ -13,7 +13,7 @@
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
-import config from '../../config'
+import { getConfig } from '../../config'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import { FileManager } from '../FileManager/FileManager'
@@ -35,6 +35,7 @@ const Inspector: React.FC = () => {
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
   }))
+  const config = getConfig()
 
   const can = usePermissions()
 
