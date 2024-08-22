@@ -9,9 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { findParentSection } from '@manuscripts/body-editor'
-import { SectionNode } from '@manuscripts/transform'
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import { useStore } from '../../store'
 import { ManuscriptInspector } from './ManuscriptInspector'
