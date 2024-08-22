@@ -65,9 +65,7 @@ const ManuscriptEditor: React.FC<
     }
   }, [authToken])
 
-  useMemo(() => {
-    setConfig(config)
-  }, [config])
+  setConfig(config)
 
   return (
     <>
