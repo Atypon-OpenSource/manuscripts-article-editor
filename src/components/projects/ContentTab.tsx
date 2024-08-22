@@ -26,37 +26,6 @@ export const ContentTab: React.FC = () => {
 
   const { state, dispatch } = editor
 
-  const section = useMemo(() => {
-    if (state.selection) {
-      const sectionNode = findParentSection(state.selection)?.node
-      return sectionNode as SectionNode
-    }
-  }, [state.selection])
-
-  const dispatchNodeAttrs = (
-    id: string,
-    attrs: Record<string, unknown>,
-    nodispatch = false
-  ) => {
-    const { tr, doc } = state
-    let transaction
-
-    doc.descendants((node, pos) => {
-      if (node.attrs.id === id) {
-        tr.setNodeMarkup(pos, undefined, {
-          ...node.attrs,
-          ...attrs,
-        })
-        if (nodispatch) {
-          transaction = tr
-        } else {
-          dispatch(tr)
-        }
-      }
-    })
-    return transaction
-  }
-
   return (
     <div>
       <ManuscriptInspector
