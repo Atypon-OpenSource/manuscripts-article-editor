@@ -19,12 +19,13 @@ import {
 } from '@manuscripts/json-schema'
 import axios, { AxiosInstance } from 'axios'
 
-import config from '../config'
+import { getConfig } from '../config'
 import { ISaveSnapshotResponse } from '../quarterback/types'
 
 export default class Api {
   instance: AxiosInstance
   constructor() {
+    const config = getConfig()
     this.instance = axios.create({
       baseURL: config.api.url,
       headers: config.api.headers,
@@ -32,6 +33,7 @@ export default class Api {
   }
 
   setToken = (token: string) => {
+    const config = getConfig()
     this.instance = axios.create({
       baseURL: config.api.url,
       headers: { ...config.api.headers, Authorization: 'Bearer ' + token },

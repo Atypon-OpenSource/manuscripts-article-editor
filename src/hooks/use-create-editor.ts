@@ -13,7 +13,7 @@ import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { memoize } from 'lodash'
 
-import config from '../config'
+import { getConfig } from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
@@ -49,7 +49,7 @@ export const useCreateEditor = () => {
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
   )
-
+  const config = getConfig()
   const props = {
     attributes: {
       class: 'manuscript-editor',
