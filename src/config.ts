@@ -10,19 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-const isTrue = (value: string | undefined) => {
-  return value === '1' || value === 'true'
-}
-
-const normalizeURL = (url: string | undefined) => {
-  return url && url.replace(/\/$/, '')
-}
-
-interface Config {
+export interface ManuscriptsEditorConfig {
   environment: string
-  analytics: {
-    id?: string
-  }
   api: {
     url: string
     headers: Record<string, unknown>
@@ -30,48 +19,19 @@ interface Config {
   features: {
     footnotes: boolean
     fileManagement: boolean
-    commenting: boolean
-    DOI: boolean
-    runningTitle: boolean
     tableEditing: boolean
     pullQuotes: boolean
   }
-  support: {
-    email: string
-  }
-  quarterback: {
-    enabled: boolean
-    url: string
-  }
-  keywordsCategories: boolean
 }
 
-const config = {
-  environment: process.env.NODE_ENV,
-  analytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID,
-  },
-  api: {
-    url: normalizeURL(process.env.MANUSCRIPTS_API_URL),
-    headers: {},
-  },
-  features: {
-    footnotes: isTrue(process.env.FEATURE_FOOTNOTES),
-    fileManagement: isTrue(process.env.FEATURE_FILE_MANAGEMENT),
-    commenting: isTrue(process.env.FEATURE_COMMENTS),
-    DOI: isTrue(process.env.FEATURE_DOI),
-    runningTitle: isTrue(process.env.FEATURE_RUNNING_TITLE),
-    tableEditing: isTrue(process.env.FEATURE_TABLE_EDITING),
-    pullQuotes: isTrue(process.env.FEATURE_PULL_QUOTES),
-  },
-  support: {
-    email: process.env.SUPPORT_EMAIL || 'support@manuscriptsapp.com',
-  },
-  quarterback: {
-    enabled: isTrue(process.env.QUARTERBACK_ENABLED),
-    url: normalizeURL(process.env.QUARTERBACK_URL) || '',
-  },
-  keywordsCategories: isTrue(process.env.FEATURE_KEYWORDS_CATEGORIES),
+let config: ManuscriptsEditorConfig
+
+export function setConfig(newConfig: ManuscriptsEditorConfig) {
+  if (config === undefined) {
+    config = newConfig
+  }
 }
 
-export default config as Config
+export function getConfig(): ManuscriptsEditorConfig {
+  return config
+}
