@@ -27,7 +27,9 @@ export interface ManuscriptsEditorConfig {
 let config: ManuscriptsEditorConfig
 
 export function setConfig(newConfig: ManuscriptsEditorConfig) {
-  config = newConfig
+  if (config === undefined) {
+    config = newConfig
+  }
 }
 
 export function getConfig(): ManuscriptsEditorConfig {
