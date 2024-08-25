@@ -12,8 +12,10 @@
 
 import axios from 'axios'
 
-import config from '../config'
+import { getConfig } from '../config'
 import { authorizationInterceptor } from './authorization'
+
+const config = getConfig()
 
 const client = axios.create({
   baseURL: config.api.url,
