@@ -26,7 +26,7 @@ export interface SuggestionListProps {
   onReject(change: TrackedChange): void
   onReset(change: TrackedChange): void
   onAcceptAll?(): void
-  onSelect(change: TrackedChange): void
+  onSelect?(change: TrackedChange): void
 }
 
 export const SuggestionList: React.FC<SuggestionListProps> = ({
@@ -65,7 +65,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
             onAccept={() => onAccept(c)}
             onReject={() => onReject(c)}
             onReset={() => onReset(c)}
-            onSelect={() => onSelect(c)}
+            onSelect={() => onSelect && onSelect(c)}
           />
         ))}
       </List>

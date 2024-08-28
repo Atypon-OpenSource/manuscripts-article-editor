@@ -13,8 +13,7 @@
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
-import config from '../../config'
-import { useCreateEditor } from '../../hooks/use-create-editor'
+import { getConfig } from '../../config'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import { FileManager } from '../FileManager/FileManager'
@@ -31,23 +30,14 @@ import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import { ContentTab } from './ContentTab'
 
-interface Props {
-  editor: ReturnType<typeof useCreateEditor>
-}
-const Inspector: React.FC<Props> = ({ editor }) => {
+const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
-    saveTrackModel: store.saveTrackModel,
-    deleteTrackModel: store.deleteTrackModel,
-    trackModelMap: store.trackModelMap,
-    fileManagement: store.fileManagement,
-    files: store.files,
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
   }))
+  const config = getConfig()
 
   const can = usePermissions()
-
-  const { state, dispatch } = editor
 
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
@@ -95,9 +85,7 @@ const Inspector: React.FC<Props> = ({ editor }) => {
           </InspectorTabList>
           <PaddedInspectorTabPanels>
             <InspectorTabPanel key="Content" data-cy="content">
-              {tabIndex === CONTENT_TAB_INDEX && (
-                <ContentTab state={state} dispatch={dispatch} key="content" />
-              )}
+              {tabIndex === CONTENT_TAB_INDEX && <ContentTab key="content" />}
             </InspectorTabPanel>
             <InspectorTabPanel key="Comments" data-cy="comments">
               {tabIndex === COMMENTS_TAB_INDEX && (

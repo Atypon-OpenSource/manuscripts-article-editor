@@ -16,15 +16,12 @@ import {
   ToolbarButtonConfig,
 } from '@manuscripts/body-editor'
 import { Tooltip, usePermissions } from '@manuscripts/style-guide'
-import {
-  ManuscriptEditorState,
-  ManuscriptEditorView,
-} from '@manuscripts/transform'
-import { EditorState, Transaction } from 'prosemirror-state'
+import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
-import config from '../../config'
+import { getConfig } from '../../config'
+import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 
 export const ToolbarItem = styled.div`
@@ -101,12 +98,18 @@ export const ToolbarGroup = styled.div`
   }
 `
 
-export const ManuscriptToolbar: React.FC<{
-  state: ManuscriptEditorState
-  dispatch: (tr: Transaction) => void
-  view?: ManuscriptEditorView
-}> = ({ state, dispatch, view }) => {
+export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
+  const config = getConfig()
+
+  const [editor] = useStore((store) => store.editor)
+
+  if (!editor || !editor.view) {
+    return null
+  }
+
+  const view = editor.view
+  const state = editor.state
 
   const isEnabled = (
     id: string,
@@ -122,7 +125,7 @@ export const ManuscriptToolbar: React.FC<{
   return (
     <ToolbarContainer>
       <ToolbarGroup>
-        <LevelSelector state={state} dispatch={dispatch} view={view} />
+        <LevelSelector state={state} dispatch={view.dispatch} view={view} />
       </ToolbarGroup>
 
       {Object.entries(toolbar).map(([groupKey, group]) => (
@@ -144,7 +147,7 @@ export const ManuscriptToolbar: React.FC<{
                   key={key}
                   type={key}
                   state={state}
-                  dispatch={dispatch}
+                  dispatch={view.dispatch}
                   view={view}
                   config={item}
                 />
@@ -156,7 +159,7 @@ export const ManuscriptToolbar: React.FC<{
                     disabled={!isEnabled(key, item, state)}
                     onClick={(e) => {
                       e.preventDefault()
-                      item.run(state, dispatch)
+                      item.run(state, view.dispatch)
                       view && view.focus()
                     }}
                   >

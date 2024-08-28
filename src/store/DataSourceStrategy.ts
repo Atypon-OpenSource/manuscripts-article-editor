@@ -14,7 +14,11 @@ import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
 
 import { builderFn, GenericStore, state } from '.'
 
-export type stateSetter = (setState: (currentState: state) => state) => void
+export type stateSetter = (
+  set: Partial<state> | ((state: state) => state)
+) => void
+
+// state: state | ((state: state) => state)
 
 export interface StoreDataSourceStrategy {
   build: builderFn

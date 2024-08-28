@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, { MutableRefObject, useEffect, useState } from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Page } from './components/Page'
@@ -18,8 +18,6 @@ import ManuscriptPageContainer from './components/projects/ManuscriptPageContain
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
 import { getCurrentUserId } from './lib/user'
 import PsSource from './postgres-data/PsSource'
-import QuarterbackDataSource from './quarterback/QuarterBackDataSource'
-import { useLoadDoc } from './quarterback/useLoadDoc'
 import {
   BasicSource,
   createStore,
@@ -81,22 +79,27 @@ const EditorApp: React.FC<EditorAppProps> = ({
 
   const [store, setStore] = useState<GenericStore>()
 
-  const loadDoc = useLoadDoc(authToken)
-  const quarterBackSource = new QuarterbackDataSource(loadDoc)
+  const loadedRef = useRef<boolean>(false)
+  const observerSubscribed = useRef<boolean>(false)
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
-    const basicSource = new BasicSource(
-      fileManagement,
-      projectID,
-      manuscriptID,
-      files,
-      permittedActions,
-      userID || '',
-      authToken || ''
-    )
-    const mainSource = new PsSource(files)
-    createStore([basicSource, mainSource, quarterBackSource])
+    if (loadedRef.current) {
+      return
+    }
+    loadedRef.current = true
+    createStore([
+      new BasicSource(
+        fileManagement,
+        projectID,
+        manuscriptID,
+        files,
+        permittedActions,
+        userID || '',
+        authToken || ''
+      ),
+      new PsSource(files),
+    ])
       .then((store) => {
         setStore(store)
       })
@@ -110,9 +113,10 @@ const EditorApp: React.FC<EditorAppProps> = ({
   }, [manuscriptID, projectID])
 
   useEffect(() => {
-    if (!observer) {
+    if (!observer || observerSubscribed.current || !store) {
       return
     }
+    observerSubscribed.current = true
     store?.subscribe((s) => observer.onUpdate(s))
     observer.state.current = {
       get: () => store?.getState(),

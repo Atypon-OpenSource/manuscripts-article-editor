@@ -17,19 +17,15 @@ import {
 } from '@manuscripts/body-editor'
 import {
   Manuscript,
-  Model,
   Project,
   SectionCategory,
   UserProfile,
 } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
-import {
-  Build,
-  ManuscriptEditorView,
-  ManuscriptNode,
-} from '@manuscripts/transform'
+import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { ProjectRole } from '../lib/roles'
 import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
@@ -42,31 +38,26 @@ export interface ContainerIDs {
   templateID?: string
 }
 
+export type PMEditor = ReturnType<typeof useCreateEditor>
+
+// @NOTE: some of the state properties may be consumed by parent app and may appear unused
 export type state = {
-  [key: string]: any
   manuscriptID: string
   projectID: string
   userID?: string
 
-  project: Project
   manuscript: Manuscript
+  refreshProject: () => Promise<void>
+
+  project: Project
   user: UserProfile // probably should be optional
 
-  editor: ReturnType<typeof useCreateEditor>
+  editor: PMEditor
   doc: ManuscriptNode
-  initialDocVersion: number
+  trackState?: TrackChangesState
+  view: ManuscriptEditorView
 
-  modelMap: Map<string, Model>
-  saveModel: <T extends Model>(model: T | Build<T> | Partial<T>) => Promise<T>
-  deleteModel: (id: string) => Promise<string>
-  saveModels: (models: Model[]) => Promise<void>
-  saveManuscript: (data: Partial<Manuscript>) => Promise<void>
-  // track changes doc state changes
-  saveTrackModel: <T extends Model>(
-    model: T | Build<T> | Partial<T>
-  ) => Promise<T>
-  trackModelMap: Map<string, Model>
-  deleteTrackModel: (id: string) => Promise<string>
+  initialDocVersion: number
 
   fileManagement: FileManagement
   files: FileAttachment[]
@@ -76,9 +67,6 @@ export type state = {
 
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
-
-  trackState?: TrackChangesState
-  view: ManuscriptEditorView
 
   snapshots: SnapshotLabel[]
   snapshotsMap: Map<string, ManuscriptSnapshot>
@@ -96,11 +84,16 @@ export type state = {
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
   beforeUnload?: () => void
+  userRole: ProjectRole | null
+
+  handleSnapshot: () => Promise<void>
 
   cslLocale?: string
   cslStyle?: string
-
+  hasPendingSuggestions?: boolean
   sectionCategories: SectionCategory[]
+  saveDoc: (doc: ManuscriptNode) => Promise<void>
+  originalPmDoc?: JSON
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
@@ -160,8 +153,6 @@ export class GenericStore implements Store {
     this.dispatchAction = this.dispatchAction.bind(this)
     this.setState = this.setState.bind(this)
     this.getState = this.getState.bind(this)
-
-    // this.state = buildStateFromSources(source)
   }
   queue: Set<(state: state, prev: state) => void> = new Set()
   getState() {
