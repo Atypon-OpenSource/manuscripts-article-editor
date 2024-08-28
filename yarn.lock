@@ -1563,6 +1563,14 @@
     citeproc "^2.4.62"
     fontoxpath "^3.28.2"
 
+"@manuscripts/library@1.3.11":
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.11.tgz#76d6c8170c849aa6a010fcd504e79e494dd49ea4"
+  integrity sha512-FaTKYDXNvps1twUiyHOwbb0phgK44cqq5in4XTEP/wH5T24h6mQkFyxaaSSwxtYImVH7zvICxXS0XTI5d56jkg==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.10"
+    citeproc "^2.4.62"
+
 "@manuscripts/style-guide@2.0.3-LEAN-3573-menus.0":
   version "2.0.3-LEAN-3573-menus.0"
   resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.3-LEAN-3573-menus.0.tgz#6081f0d58bff2bc320f36b4c7451bb8195fee2b1"
@@ -1570,6 +1578,37 @@
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/transform" "2.3.21"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    prosemirror-commands "1.5.2"
+    prosemirror-history "1.3.2"
+    prosemirror-keymap "1.2.2"
+    prosemirror-model "1.19.4"
+    prosemirror-state "1.4.3"
+    prosemirror-view "1.32.7"
+    react "^18.3.1"
+    react-dnd "^16.0.1"
+    react-dnd-html5-backend "^16.0.1"
+    react-dom "^18.3.1"
+    react-is "^18.3.1"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
+
+"@manuscripts/style-guide@2.0.7-LEAN-3573-menus.0":
+  version "2.0.7-LEAN-3573-menus.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.7-LEAN-3573-menus.0.tgz#899ba1a35f77bbc3ecc3eb73a02e33c208f4723e"
+  integrity sha512-djgHWYl2mxwro586eFy+tnphwNUD5vHUrxt0iMeRUkkeywGdRhcvkuMzj/OkX4RJETkxSQylNFGLXbI+nicZDQ==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.10"
+    "@manuscripts/transform" "2.3.24"
     "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
@@ -1617,6 +1656,23 @@
   dependencies:
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.10"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    lodash "^4.17.21"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    semver "^7.6.2"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@2.3.24":
+  version "2.3.24"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.24.tgz#cf03c2018c86a1a6e9fce8eea83a278ba5286321"
+  integrity sha512-BY7Y2sjCZUj5HykW6ubApdlxYCQy6vj9QlwIZroKc5px+vONvw3XtlhN7c1kOFspGYzH0EKTcjxEJbzQP7WWlg==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.10"
+    "@manuscripts/library" "1.3.11"
     debug "^4.3.4"
     jszip "^3.10.1"
     lodash "^4.17.21"
