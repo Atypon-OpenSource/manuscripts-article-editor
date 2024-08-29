@@ -2412,15 +2412,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.28":
-  version "2.0.28"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.28.tgz#ed3a642c184b708d78169b04602d4947688cb9ba"
-  integrity sha512-r1gpMLS9duCKgF0ZSeeRjuopWwKkwdwaHYbYfL8kvW2qAU0p1iWDDHhSaq8CaojcoeMP67KYImwLnC0u/RF4IQ==
+"@manuscripts/body-editor@2.0.29-LEAN-3902.0":
+  version "2.0.29-LEAN-3902.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.29-LEAN-3902.0.tgz#2a7bb9dc0c3e4da04b57a8921115bee2fed65688"
+  integrity sha512-pcZviJySEDntHlXLuFEF7qYd3BtdSq0jKKsbgjGTZdwhIyl+l5ZSis1D0RxoXy2DYBehDNkIf9x+Nh7HviReiw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/library" "1.3.11"
-    "@manuscripts/style-guide" "2.0.7"
+    "@manuscripts/style-guide" "2.0.8-LEAN-3902.0"
     "@manuscripts/track-changes-plugin" "1.7.17"
     "@manuscripts/transform" "2.3.25"
     "@popperjs/core" "^2.11.8"
@@ -2480,16 +2480,19 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.7.tgz#eeb365992eafed8be0e052a0d7775a2a09b98774"
-  integrity sha512-PG6wWVqnX8qzOrVUh91rsn7PNSshagQWMKm6O3Ku+MBUnYA+K3n/fRnE8pjMp/k+/mGs6qK8XmO2RzeOI8nUJQ==
+"@manuscripts/style-guide@2.0.8-LEAN-3902.0":
+  version "2.0.8-LEAN-3902.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.8-LEAN-3902.0.tgz#4c37ea36de5ddefe90c9ab1906844bb891f7715d"
+  integrity sha512-9G0KjcV3QUN8R9S7VxxcuEPPYRh7FGbYiPWxPXld/OGcP0Y0M+LaqBMlJE3O3bCMSNyue1drUdxTLoZ9c4rxYw==
   dependencies:
+    "@chakra-ui/react" "^2.8.2"
+    "@emotion/react" "^11.13.3"
+    "@emotion/styled" "^11.13.0"
     "@manuscripts/json-schema" "2.2.10"
     "@manuscripts/transform" "2.3.25"
-    "@reach/tabs" "^0.18.0"
     date-fns "^2.29.3"
     formik "^2.2.9"
+    framer-motion "^11.3.30"
     fuzzysort "^2.0.4"
     lodash "^4.17.21"
     prosemirror-commands "1.5.2"
@@ -2608,40 +2611,6 @@
   version "2.11.8"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
-
-"@reach/auto-id@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/@reach/auto-id/-/auto-id-0.18.0.tgz"
-  integrity sha512-XwY1IwhM7mkHZFghhjiqjQ6dstbOdpbFLdggeke75u8/8icT8uEHLbovFUgzKjy9qPvYwZIB87rLiR8WdtOXCg==
-  dependencies:
-    "@reach/utils" "0.18.0"
-
-"@reach/descendants@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/@reach/descendants/-/descendants-0.18.0.tgz"
-  integrity sha512-GXUxnM6CfrX5URdnipPIl3Tlc6geuz4xb4n61y4tVWXQX1278Ra9Jz9DMRN8x4wheHAysvrYwnR/SzAlxQzwtA==
-  dependencies:
-    "@reach/utils" "0.18.0"
-
-"@reach/polymorphic@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/@reach/polymorphic/-/polymorphic-0.18.0.tgz"
-  integrity sha512-N9iAjdMbE//6rryZZxAPLRorzDcGBnluf7YQij6XDLiMtfCj1noa7KyLpEc/5XCIB/EwhX3zCluFAwloBKdblA==
-
-"@reach/tabs@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/@reach/tabs/-/tabs-0.18.0.tgz"
-  integrity sha512-gTRJzStWJJtgMhn9FDEmKogAJMcqNaGZx0i1SGoTdVM+D29DBhVeRdO8qEg+I2l2k32DkmuZxG/Mrh+GZTjczQ==
-  dependencies:
-    "@reach/auto-id" "0.18.0"
-    "@reach/descendants" "0.18.0"
-    "@reach/polymorphic" "0.18.0"
-    "@reach/utils" "0.18.0"
-
-"@reach/utils@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/@reach/utils/-/utils-0.18.0.tgz"
-  integrity sha512-KdVMdpTgDyK8FzdKO9SCpiibuy/kbv3pwgfXshTI6tEcQT1OOwj7BAksnzGC0rPz0UholwC+AgkqEl3EJX3M1A==
 
 "@react-dnd/asap@^5.0.1":
   version "5.0.2"
