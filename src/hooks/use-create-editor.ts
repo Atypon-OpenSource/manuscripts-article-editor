@@ -12,6 +12,7 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { memoize } from 'lodash'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { getConfig } from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
@@ -90,6 +91,8 @@ export const useCreateEditor = () => {
         }
       }
     ),
+    navigate: useNavigate(),
+    location: useLocation(),
   }
 
   const editor = useEditor(props)
