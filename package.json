@@ -32,6 +32,9 @@
     "version": "ALLOW_MISSING_VARIABLES=1 yarn build"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fontsource/lato": "^4.5.10",
     "@fontsource/pt-sans": "^4.5.11",
     "@fontsource/pt-serif": "^4.5.11",
@@ -43,7 +46,6 @@
     "@manuscripts/transform": "2.3.25",
     "prosemirror-utils": "^0.9.6",
     "@popperjs/core": "^2.11.8",
-    "@reach/tabs": "^0.18.0",
     "@types/use-sync-external-store": "^0.0.6",
     "autotrack": "^2.4.1",
     "axios": "^1.6.7",
