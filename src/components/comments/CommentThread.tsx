@@ -13,6 +13,7 @@ import { CommentAttrs } from '@manuscripts/body-editor'
 import {
   AvatarIcon,
   RelativeDate,
+  SystemUserAvatarIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { forwardRef, useState } from 'react'
@@ -43,12 +44,18 @@ const CommentMetadata = styled.div`
 `
 
 const CommentAuthor = styled.div`
+  display: flex;
   color: #353535;
   font-weight: 400;
   max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+
+  svg {
+    padding-right: 10px;
+  }
 `
 
 const CommentTarget = styled.div`
@@ -102,7 +109,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       ? can.handleOwnComments
       : can.handleOthersComments
 
-    const [isEditing, setEditing] = useState(false)
+    const [isEditing, setEditing] = useState(tree.isNew)
 
     const handleEdit = () => setEditing(true)
 
@@ -116,6 +123,9 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
 
     const handleCancel = () => {
       setEditing(false)
+      if (tree.isNew) {
+        onDelete(tree.comment.node.attrs.id)
+      }
     }
 
     const handleToggleResolve = () => {
@@ -128,9 +138,20 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     return (
       <Container data-cy="comment" isSelected={isSelected} ref={ref}>
         <CommentHeader data-cy="comment-header">
-          {authorName && <AvatarIcon width={20} height={20} />}
           <CommentMetadata>
-            <CommentAuthor>{authorName}</CommentAuthor>
+            <CommentAuthor>
+              {authorName ? (
+                <>
+                  <AvatarIcon width={20} height={20} />
+                  <CommentAuthor>{authorName}</CommentAuthor>
+                </>
+              ) : (
+                <>
+                  <SystemUserAvatarIcon width={20} height={20} />
+                  <CommentAuthor>System</CommentAuthor>
+                </>
+              )}
+            </CommentAuthor>
             {timestamp && <Timestamp date={timestamp * 1000} />}
           </CommentMetadata>
           <CommentActions
