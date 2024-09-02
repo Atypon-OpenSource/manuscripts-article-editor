@@ -9,12 +9,9 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { findParentSection } from '@manuscripts/body-editor'
-import { SectionNode } from '@manuscripts/transform'
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import { useStore } from '../../store'
-import { SectionInspector } from '../inspector/SectionInspector'
 import { ManuscriptInspector } from './ManuscriptInspector'
 
 export const ContentTab: React.FC = () => {
@@ -27,37 +24,6 @@ export const ContentTab: React.FC = () => {
 
   const { state, dispatch } = editor
 
-  const section = useMemo(() => {
-    if (state.selection) {
-      const sectionNode = findParentSection(state.selection)?.node
-      return sectionNode as SectionNode
-    }
-  }, [state.selection])
-
-  const dispatchNodeAttrs = (
-    id: string,
-    attrs: Record<string, unknown>,
-    nodispatch = false
-  ) => {
-    const { tr, doc } = state
-    let transaction
-
-    doc.descendants((node, pos) => {
-      if (node.attrs.id === id) {
-        tr.setNodeMarkup(pos, undefined, {
-          ...node.attrs,
-          ...attrs,
-        })
-        if (nodispatch) {
-          transaction = tr
-        } else {
-          dispatch(tr)
-        }
-      }
-    })
-    return transaction
-  }
-
   return (
     <div>
       <ManuscriptInspector
@@ -65,16 +31,6 @@ export const ContentTab: React.FC = () => {
         state={state}
         dispatch={dispatch}
       />
-
-      {section && (
-        <SectionInspector
-          data-cy={section.attrs.category || 'generic-section'}
-          key={section.attrs.id}
-          section={section}
-          state={state}
-          dispatchNodeAttrs={dispatchNodeAttrs}
-        />
-      )}
     </div>
   )
 }
