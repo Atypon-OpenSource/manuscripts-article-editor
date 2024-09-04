@@ -12,6 +12,7 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { memoize } from 'lodash'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { getConfig } from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
@@ -30,6 +31,7 @@ export const useCreateEditor = () => {
       style,
       locale,
       authToken,
+      sectionCategories,
     },
     dispatch,
     getState,
@@ -44,6 +46,7 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
     authToken: store.authToken,
+    sectionCategories: store.sectionCategories,
   }))
 
   const getCapabilities = memoize((project, user, permittedActions) =>
@@ -90,8 +93,10 @@ export const useCreateEditor = () => {
         }
       }
     ),
+    sectionCategories: sectionCategories,
+    navigate: useNavigate(),
+    location: useLocation(),
   }
-
   const editor = useEditor(props)
   return editor
 }
