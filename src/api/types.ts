@@ -9,38 +9,37 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { CHANGE_OPERATION } from '@manuscripts/track-changes-plugin'
-import { ManuscriptEditorState, ManuscriptNode } from '@manuscripts/transform'
 
-export function filterUnchangedContent(node: ManuscriptNode) {
-  const r: ManuscriptNode[] = []
-  node.forEach((child) => {
-    const { attrs } = child
-    const op: CHANGE_OPERATION | undefined = attrs?.dataTracked?.operation
-    if (
-      child.isText &&
-      child.marks.find((m) => m.type.name === 'tracked_insert') === undefined
-    ) {
-      r.push(
-        child.type.schema.text(
-          child.text || '',
-          child.marks.filter((m) => m.type.name !== 'tracked_delete')
-        )
-      )
-    } else if (op !== 'insert' && !child.isText) {
-      r.push(
-        child.type.create(
-          { ...attrs, dataTracked: null },
-          filterUnchangedContent(child),
-          child.marks
-        )
-      )
-    }
-  })
-  return r
+import { ManuscriptSnapshot } from '../lib/doc'
+
+export type TransformVersionResponse = {
+  transformVersion: string
 }
 
-export function getDocWithoutTrackContent(state: ManuscriptEditorState) {
-  const { doc } = state
-  return doc.type.create(doc.attrs, filterUnchangedContent(doc), doc.marks)
+export type SendStepsPayload = {
+  steps: unknown[]
+  version: number
+  clientID: number | string
 }
+
+export type SendStepsResponse = {
+  lastVersion?: number
+  steps?: number
+  error?: string
+}
+
+export type StepsSinceResponse = {
+  steps: unknown[]
+  version: number
+  clientIDs: number[]
+}
+
+export interface CreateSnapshotResponse {
+  snapshot: ManuscriptSnapshot
+}
+
+export type StepsListener = (
+  version: number,
+  steps: unknown[],
+  clientIDs: number[]
+) => void

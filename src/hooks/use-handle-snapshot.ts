@@ -13,7 +13,7 @@ import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
 import { EditorView } from 'prosemirror-view'
 
-import { getDocWithoutTrackContent } from '../quarterback/getDocWithoutTrackContent'
+import { getDocWithoutTrackContent } from '../lib/doc'
 import { useStore } from '../store'
 import useExecCmd from './use-exec-cmd'
 

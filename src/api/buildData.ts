@@ -15,12 +15,12 @@ import {
   Project,
   UserProfile,
 } from '@manuscripts/json-schema'
-import { ActualManuscriptNode, ManuscriptNode } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
-import { TokenData } from '../store/TokenData'
 import Api from './Api'
+import { StepsExchanger } from './StepsExchanger'
 
 const getIdModels = async (
   api: Api,
@@ -44,13 +44,29 @@ const getIdModels = async (
   return [project, manuscript] as [Project, Manuscript]
 }
 
-const getManuscriptData = async (api: Api, prototype: string) => {
+const getDocumentData = async (
+  projectID: string,
+  manuscriptID: string,
+  api: Api
+) => {
+  const response = await api.getDocument(projectID, manuscriptID)
+  if (!response) {
+    throw new Error('Document not found')
+  }
+  return {
+    doc: schema.nodeFromJSON(response.doc),
+    version: response.version,
+    snapshots: response.snapshots,
+  }
+}
+
+const getManuscriptData = async (templateID: string, api: Api) => {
   const data: Partial<state> = {}
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
     // TODO:: config this!
     api.getCSLLocale('en-US'),
-    api.getTemplate(prototype),
+    api.getTemplate(templateID),
   ])
 
   const bundle = await api.getBundle(template)
@@ -80,7 +96,7 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
 export const buildData = async (
   projectID: string,
   manuscriptID: string,
-  doc: ManuscriptNode,
+  updateState: (state: Partial<state>) => void,
   api: Api
 ) => {
   const user = await api.getUser()
@@ -88,19 +104,39 @@ export const buildData = async (
     return {}
   }
 
-  const manuscriptNode = doc as ActualManuscriptNode
-  const state = await getManuscriptData(api, manuscriptNode.attrs.prototype)
+  const doc = await getDocumentData(projectID, manuscriptID, api)
+  const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const [project, manuscript] = await getIdModels(api, projectID, manuscriptID)
   const role = project ? getUserRole(project, user.userID) : null
   const users = await getUserData(projectID, user, api)
+
+  const stepsExchanger = new StepsExchanger(
+    projectID,
+    manuscriptID,
+    doc.version,
+    api
+  )
+  stepsExchanger.isThrottling.onChange((value: boolean) => {
+    updateState({
+      preventUnload: value,
+    })
+  })
+
+  api.listenToSteps(projectID, manuscriptID, (version, steps, clientIDs) =>
+    stepsExchanger.receiveSteps(version, steps, clientIDs)
+  )
+
+  const beforeUnload = () => stepsExchanger.flush()
 
   return {
     user,
     userRole: role,
     ...users,
     ...state,
+    ...doc,
+    stepsExchanger,
     project,
     manuscript,
-    tokenData: new TokenData(),
+    beforeUnload,
   }
 }

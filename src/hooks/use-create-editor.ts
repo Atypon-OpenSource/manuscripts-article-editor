@@ -15,7 +15,6 @@ import { memoize } from 'lodash'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { getConfig } from '../config'
-import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 
@@ -23,17 +22,15 @@ export const useCreateEditor = () => {
   const [
     {
       doc,
-      manuscriptID,
       projectID,
       user,
       fileManagement,
-      initialDocVersion,
       style,
       locale,
-      authToken,
       sectionCategories,
+      stepsExchanger,
     },
-    dispatch,
+    _,
     getState,
   ] = useStore((store) => ({
     doc: store.doc,
@@ -42,17 +39,18 @@ export const useCreateEditor = () => {
     projectID: store.projectID,
     user: store.user,
     fileManagement: store.fileManagement,
-    initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
     locale: store.cslLocale,
     authToken: store.authToken,
     sectionCategories: store.sectionCategories,
+    stepsExchanger: store.stepsExchanger,
   }))
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
   )
   const config = getConfig()
+
   const props = {
     attributes: {
       class: 'manuscript-editor',
@@ -80,19 +78,7 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    collabProvider: stepsExchanger(
-      manuscriptID,
-      projectID,
-      initialDocVersion,
-      authToken,
-      (preventUnload, beforeUnload) => {
-        if (beforeUnload !== undefined) {
-          dispatch({ preventUnload, beforeUnload })
-        } else {
-          dispatch({ preventUnload })
-        }
-      }
-    ),
+    collabProvider: stepsExchanger,
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),

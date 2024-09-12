@@ -13,11 +13,11 @@ import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
 import { getCurrentUserId } from './lib/user'
-import PsSource from './postgres-data/PsSource'
 import {
   BasicSource,
   createStore,
@@ -25,6 +25,7 @@ import {
   GenericStoreProvider,
   state,
 } from './store'
+import { TokenData } from './store/TokenData'
 
 export type AppState = {
   get: () => state | undefined
@@ -88,20 +89,20 @@ const EditorApp: React.FC<EditorAppProps> = ({
       return
     }
     loadedRef.current = true
-    createStore([
-      new BasicSource(
-        fileManagement,
-        projectID,
-        manuscriptID,
-        files,
-        permittedActions,
-        userID || '',
-        authToken || ''
-      ),
-      new PsSource(files),
-    ])
-      .then((store) => {
-        setStore(store)
+    const props = new BasicSource({
+      fileManagement,
+      projectID,
+      manuscriptID,
+      files,
+      permittedActions,
+      userID: userID || '',
+      authToken: authToken || '',
+      tokenData: new TokenData(),
+    })
+    const api = new ApiSource()
+    createStore([props, api])
+      .then((s) => {
+        setStore(s)
       })
       .catch((e) => {
         console.error(e)

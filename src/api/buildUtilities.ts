@@ -19,8 +19,8 @@ import {
 import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
-import Api from '../postgres-data/Api'
 import { ContainerIDs, state } from '../store'
+import Api from './Api'
 
 export const buildUtilities = (
   projectID: string,
@@ -103,15 +103,13 @@ export const buildUtilities = (
   const createSnapshot = async () => {
     const state = getState()
     const snapshots = state.snapshots
-    const snapshotsMap = state.snapshotsMap
-    if (!snapshots || !snapshotsMap) {
-      throw new Error('Unable to create snapshot due to incomplete data')
+    if (!snapshots) {
+      throw new Error('Missing snapshots')
     }
-    const data = await api.createSnapshot(projectID, manuscriptID)
-    const { snapshot, ...label } = data.snapshot
+    const response = await api.createSnapshot(projectID, manuscriptID)
+    const { snapshot, ...label } = response.snapshot
     updateState({
       snapshots: [...snapshots, label],
-      snapshotsMap: snapshotsMap.set(label.id, data.snapshot),
     })
   }
 
@@ -141,5 +139,6 @@ export const buildUtilities = (
     saveDoc,
     createSnapshot,
     refreshProject,
+    getSnapshot: api.getSnapshot,
   }
 }

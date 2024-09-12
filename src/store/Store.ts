@@ -24,9 +24,10 @@ import {
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
+import { StepsExchanger } from '../api/StepsExchanger'
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
-import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
 
@@ -57,7 +58,7 @@ export type state = {
   trackState?: TrackChangesState
   view: ManuscriptEditorView
 
-  initialDocVersion: number
+  stepsExchanger: StepsExchanger
 
   fileManagement: FileManagement
   files: FileAttachment[]
@@ -69,9 +70,8 @@ export type state = {
   collaboratorsById: Map<string, UserProfile>
 
   snapshots: SnapshotLabel[]
-  snapshotsMap: Map<string, ManuscriptSnapshot>
   createSnapshot: () => Promise<void>
-  inspectedSnapshotId: string
+  getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
   permittedActions: string[]
 
