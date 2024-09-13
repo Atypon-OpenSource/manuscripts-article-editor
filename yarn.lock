@@ -1485,15 +1485,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.46":
-  version "2.0.46"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.46.tgz#b8c675ae933dcac3364419b62e778bac2863408e"
-  integrity sha512-eFZfy/s4gmL/oT9+SaA7M781TytcQKI24q2oZIYO+Ac7abPRnI+TnhKllK1lUVdMnIJos5oz8Lrc/6QZSwdM5g==
+"@manuscripts/body-editor@2.0.46-LEAN-3883.1":
+  version "2.0.46-LEAN-3883.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.46-LEAN-3883.1.tgz#1094f8f0c5c0b407c2ad8a900a003a2c5782faa0"
+  integrity sha512-gtCf+Cjh9kIYR+0ozzvLSsEwiHPAgYzNAzb76gLEPuTFsasn3zgbE5w0YXMzZdcF6aRSoe92BZOoEKAEW0wQIQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
-    "@manuscripts/style-guide" "2.0.19"
+    "@manuscripts/style-guide" "2.0.20-LEAN-3883.0"
     "@manuscripts/track-changes-plugin" "1.7.18"
     "@manuscripts/transform" "2.3.32"
     "@popperjs/core" "^2.11.8"
@@ -1592,6 +1592,37 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
+"@manuscripts/style-guide@2.0.20-LEAN-3883.0":
+  version "2.0.20-LEAN-3883.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.20-LEAN-3883.0.tgz#23ea471db3e21669e0d5f67986655b4dda75c69d"
+  integrity sha512-VW1dR1MShYL+JwVIfWAZ1OyKIRmfo5vD9ZAC7h7zhXyQYwwPb8K15WfiHq+qPRMSU50s84X9rwJGnSdAGfdFxg==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.11"
+    "@manuscripts/transform" "2.3.31"
+    "@reach/tabs" "^0.18.0"
+    date-fns "^2.29.3"
+    formik "^2.2.9"
+    fuzzysort "^2.0.4"
+    lodash "^4.17.21"
+    prosemirror-commands "1.5.2"
+    prosemirror-history "1.3.2"
+    prosemirror-keymap "1.2.2"
+    prosemirror-model "1.19.4"
+    prosemirror-state "1.4.3"
+    prosemirror-view "1.32.7"
+    react "^18.3.1"
+    react-dnd "^16.0.1"
+    react-dnd-html5-backend "^16.0.1"
+    react-dom "^18.3.1"
+    react-is "^18.3.1"
+    react-modal "^3.16.1"
+    react-modern-calendar-datepicker "^3.1.6"
+    react-router-dom "^5.3.4"
+    react-select "^5.7.3"
+    react-sizeme "^3.0.2"
+    react-tooltip "^5.26.0"
+    styled-components "^5.2.0"
+
 "@manuscripts/track-changes-plugin@1.7.18":
   version "1.7.18"
   resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.18.tgz#03072e6573fe9a993d248afba6a435e287966d03"
@@ -1607,6 +1638,23 @@
     prosemirror-state "^1.4.2"
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
+
+"@manuscripts/transform@2.3.31":
+  version "2.3.31"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.31.tgz#e7ce02d926d19f8b474f52bc48e7b9d01ad1c6a4"
+  integrity sha512-agXrGgUTrZdCM3mNAGft+8pjYWZJPaHp3LZb2kHjJipOGUd/NU7wAqlNu7CUVcK+d7/XMHBjcmkq3wDgMb7HKQ==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.11"
+    "@manuscripts/library" "1.3.11"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    lodash "^4.17.21"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    semver "^7.6.2"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
 
 "@manuscripts/transform@2.3.32":
   version "2.3.32"
