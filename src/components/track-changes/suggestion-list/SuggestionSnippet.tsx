@@ -27,6 +27,18 @@ export const SuggestionSnippet: React.FC<{
   const changeTitle = (c: TrackedChange) => {
     if (ChangeSet.isTextChange(c)) {
       return c.text
+    } else if (
+      ChangeSet.isNodeChange(c) &&
+      c.dataTracked.operation === CHANGE_OPERATION.node_split
+    ) {
+      return `Split ${c.nodeType}`
+    } else if (
+      ChangeSet.isNodeChange(c) &&
+      c.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
+    ) {
+      return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(
+        1
+      )} insert`
     } else if (ChangeSet.isNodeChange(c)) {
       return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
         c.dataTracked.operation
