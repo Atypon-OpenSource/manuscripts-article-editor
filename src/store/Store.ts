@@ -92,7 +92,6 @@ export type state = {
   cslStyle?: string
   hasPendingSuggestions?: boolean
   sectionCategories: SectionCategory[]
-  saveDoc: (doc: ManuscriptNode) => Promise<void>
   originalPmDoc?: JSON
 }
 export type reducer = (payload: any, store: state, action?: string) => state
