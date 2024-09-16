@@ -31,11 +31,11 @@ export const FileContainer = styled.div`
   }
 
   .show-on-hover {
-    display: none;
+    visibility: hidden;
   }
 
   &:hover .show-on-hover {
-    display: block;
+    visibility: visible;
   }
 
   &:hover,
