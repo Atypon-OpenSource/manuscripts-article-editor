@@ -40,3 +40,20 @@ export const trackEvent: TrackEvent = ({ category, action, label, value }) => {
     })
   }
 }
+
+export const changeOperationAlias = (operation: string): string => {
+  switch (operation) {
+    case 'delete': {
+      return 'Deleted'
+    }
+    case 'insert': {
+      return 'Inserted'
+    }
+    case 'set_attrs': {
+      return 'Updated'
+    }
+    default: {
+      return 'null'
+    }
+  }
+}

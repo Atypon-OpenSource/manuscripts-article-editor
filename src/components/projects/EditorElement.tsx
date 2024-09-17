@@ -174,7 +174,7 @@ const EditorElement: React.FC = () => {
           }
           if (
             change.type === 'node-change' &&
-            change.nodeType === 'keyword' &&
+            change.node.type.name === 'keyword' &&
             view &&
             dispatch
           ) {
