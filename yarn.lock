@@ -1485,17 +1485,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.54":
-  version "2.0.54"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.54.tgz#18152e3e318c5b7b40700e227c37805442cbdc4e"
-  integrity sha512-IW1vxYIgkZTfKR2u1xL+N0IJPuuRR7CwjT7Gq2wsGGAB30BJhTM2awpAJCCjAD+IDOi+KZRHz6wahS92ic9DEA==
+"@manuscripts/body-editor@2.0.56":
+  version "2.0.56"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.56.tgz#c06c866c1999049f0cb7edd39e7adab4d987672a"
+  integrity sha512-RcKMUMTOWi/23H6Fahk1v173hA+lC6ePg87gsiQ/cD8dndJLJPY6jMqKJpNWbFXvKOlfgrr8Em5nDXqmp38x6Q==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.19"
-    "@manuscripts/track-changes-plugin" "1.7.21"
-    "@manuscripts/transform" "2.3.33"
+    "@manuscripts/track-changes-plugin" "1.7.22"
+    "@manuscripts/transform" "2.3.35"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1592,10 +1592,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.21":
-  version "1.7.21"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.21.tgz#a449d89afa8b59ccb08ee5e52a44e3d05401b9e1"
-  integrity sha512-NikH89ewiOVqEabY5Acc8Gyl3yLaW+LzdGHuo61iP4tIYW2nMiKSudFFT5yt15nuC2U2UPmASNs3gY/YWK9WvA==
+"@manuscripts/track-changes-plugin@1.7.22":
+  version "1.7.22"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.22.tgz#eff1d59c98764f382dd8d74ed3d15440c0f68f4f"
+  integrity sha512-7xiBBLx6mbbQYr3hEXYnn2pJ9ZEKWZFTgIqrudqNf32eYjpxhZj9cEyseAzHPLFQ+mnftO/iwvTKPNZb22hxMA==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1608,10 +1608,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.3.33":
-  version "2.3.33"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.33.tgz#c41377d7df8d785b40ec89f7179237f921d15a71"
-  integrity sha512-j5NyjagjVL2qyHIlNUQa+Bv2zXrkeN+SjwNTyQW2NKCzhRZKo5zt5VcIySZm2A47fMXbZu5C926uu2OXeSYeew==
+"@manuscripts/transform@2.3.35":
+  version "2.3.35"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.35.tgz#1080b0811f52293e2d73a2560ec14b3041c86c9f"
+  integrity sha512-08t8w0VguTpQ7PNWxhyhOpJ/pM/yYDY7fZcMXYKom5o6ctPpENay2iLN9YLCNncqWe0NqhxMyG7PP8+JdfffyQ==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
