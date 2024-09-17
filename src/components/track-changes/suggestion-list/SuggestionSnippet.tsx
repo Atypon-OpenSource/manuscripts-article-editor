@@ -77,7 +77,6 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
             message: '',
           }
         } else if (suggestion.node.type === schema.nodes.footnote) {
-          console.log('suggestion.node', suggestion.node, suggestion)
           return {
             snippet: {
               operation: changeOperationAlias(dataTracked.operation),
