@@ -102,7 +102,7 @@ export const TrackChangesPanel: React.FC = () => {
         type="rejected"
         changes={
           changeSet?.rejected.filter(
-            (c) => c.dataTracked.operation !== CHANGE_OPERATION.split_source
+            (c) => c.dataTracked.operation !== CHANGE_OPERATION.reference
           ) || []
         }
         title="Rejected Suggestions"
