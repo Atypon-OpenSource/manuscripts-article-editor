@@ -139,12 +139,12 @@ export const findFootnoteById = (
   doc.descendants((node) => {
     if (node.type === schema.nodes.footnote && node.attrs.id === id) {
       footnoteNode = node
-      return false // stop traversal
+      return false
     }
     if (footnoteNode) {
       return false
     }
-    return true // continue traversal
+    return true 
   })
   return footnoteNode
 }
