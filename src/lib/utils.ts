@@ -9,17 +9,19 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptEditorState, ManuscriptNode } from '@manuscripts/transform'
+import { getActualAttrs, renderMath } from '@manuscripts/body-editor'
+import {
+  ManuscriptEditorState,
+  ManuscriptNode,
+  schema,
+} from '@manuscripts/transform'
 import { EditorState, Plugin } from 'prosemirror-state'
-
 interface ExtendedPlugin extends Plugin {
   key: string
 }
 
 export const getNodeTextContent = (node: ManuscriptNode) => {
   let textContent = ''
-
-  // Traverse the node and its descendants
   node.forEach((child) => {
     if (child.isText) {
       // If the child is a text node, add its text content
@@ -33,6 +35,78 @@ export const getNodeTextContent = (node: ManuscriptNode) => {
   return textContent
 }
 
+export const getContributorTextContent = (
+  node: ManuscriptNode,
+  oldAttrs: Record<any, any> | undefined
+) => {
+  let textContent = ''
+  textContent += `${node.attrs.bibliographicName.given} ${node.attrs.bibliographicName.family}`
+  if (oldAttrs) {
+    textContent =
+      `${oldAttrs.bibliographicName.given} ${oldAttrs.bibliographicName.family} to ` +
+      textContent
+  }
+  return textContent
+}
+
+export const getAffiliationTextContent = (
+  node: ManuscriptNode,
+  oldAttrs: Record<any, any> | undefined
+) => {
+  let textContent = ''
+  textContent += `${node.attrs.institution}`
+  if (oldAttrs) {
+    textContent = `${oldAttrs.institution} to ` + textContent
+  }
+  return textContent
+}
+
+export const findBibliographyById = (
+  doc: ManuscriptNode,
+  id: string
+): ManuscriptNode | null => {
+  let bibNode: ManuscriptNode | null = null
+
+  doc.descendants((node) => {
+    if (node.type === schema.nodes.bibliography_item && node.attrs.id === id) {
+      bibNode = node
+      return false // stop traversal
+    }
+    if (bibNode) {
+      return false
+    }
+    return true // continue traversal
+  })
+  return bibNode
+}
+
+export const getTextContentFromBibliography = (
+  state: ManuscriptEditorState,
+  id: string
+): string => {
+  const bib = findPluginByKey(state, 'bibliography')?.getState(state)
+  const [meta, bibliography] = bib.provider.makeBibliography()
+  const selectedBib = meta.entry_ids.findIndex(
+    (entry: [string]) => entry[0] == id
+  )
+  const parser = new DOMParser()
+  const textContent = parser.parseFromString(
+    bibliography[selectedBib],
+    'text/html'
+  ).body.textContent
+  return textContent ? textContent : ''
+}
+
+export const getFigureLabel = (
+  state: ManuscriptEditorState,
+  node: ManuscriptNode
+) => {
+  const objectsPlugin = findPluginByKey(state, 'objects')
+  const pluginState = objectsPlugin?.getState(state)
+  const target = pluginState?.get(node.attrs.id)
+  return target?.label || ''
+}
+
 export const findPluginByKey = (
   state: ManuscriptEditorState,
   keyName: string
@@ -44,8 +118,63 @@ export const findPluginByKey = (
       return plugin
     }
   }
-
   return null
+}
+
+export const getEquationContent = (node: ManuscriptNode) => {
+  if (node.firstChild && node.type === schema.nodes.equation_element) {
+    return node.firstChild.attrs.contents
+  } else if (node) {
+    return node.attrs.contents
+  }
+  return ''
+}
+
+export const findFootnoteById = (
+  doc: ManuscriptNode,
+  id: string
+): ManuscriptNode | null => {
+  let footnoteNode: ManuscriptNode | null = null
+
+  doc.descendants((node) => {
+    if (node.type === schema.nodes.footnote && node.attrs.id === id) {
+      footnoteNode = node
+      return false // stop traversal
+    }
+    if (footnoteNode) {
+      return false
+    }
+    return true // continue traversal
+  })
+  return footnoteNode
+}
+
+export const getInlineFootnoteContent = (
+  doc: ManuscriptNode,
+  attrs: Record<any, any>
+): string => {
+  let footnote = null
+  if (attrs.rids && attrs.rids.length > 0) {
+    footnote = findFootnoteById(doc, attrs.rids[0])
+  }
+  return `<sup class="footnote-decoration">${
+    attrs.contents ? attrs.contents : ''
+  }</sup>${footnote ? footnote.textContent : ''}`
+}
+
+export const getFootnoteText = (
+  state: ManuscriptEditorState,
+  node: ManuscriptNode
+) => {
+  const footnotesPlugin = findPluginByKey(state, 'footnotes')
+  const pluginState = footnotesPlugin?.getState(state)
+  let decorationText = ''
+  if (pluginState) {
+    decorationText = pluginState.labels.get(node.attrs.id)
+  }
+  return `<sup class="footnote-decoration">${
+    decorationText ? decorationText : ''
+  }</sup>${getNodeTextContent(node)}`
 }
 
 export const getParentNode = (state: EditorState, pos: number) => {
@@ -53,7 +182,7 @@ export const getParentNode = (state: EditorState, pos: number) => {
 
   for (let depth = resolvedPos.depth; depth > 0; depth--) {
     const parent = resolvedPos.node(depth)
-    if (parent.isTextblock === false) {
+    if (parent.isText === false) {
       return parent
     }
   }

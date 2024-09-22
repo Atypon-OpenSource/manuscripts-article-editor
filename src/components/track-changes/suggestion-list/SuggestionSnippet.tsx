@@ -9,25 +9,31 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { renderMath } from '@manuscripts/body-editor'
 import {
-  CHANGE_OPERATION,
   CHANGE_STATUS,
   ChangeSet,
+  NodeAttrChange,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
-import parse from 'html-react-parser'
-import React, { useEffect, useState } from 'react'
+import purify from 'dompurify'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { changeOperationAlias } from '../../../lib/tracking'
 import {
+  getAffiliationTextContent,
+  getContributorTextContent,
+  getEquationContent,
+  getFigureLabel,
   getFootnoteText,
   getInlineFootnoteContent,
-} from '../../../lib/footnotes'
-import { changeOperationAlias } from '../../../lib/tracking'
-import { getParentNode } from '../../../lib/utils'
+  getNodeTextContent,
+  getParentNode,
+  getTextContentFromBibliography,
+} from '../../../lib/utils'
 import { useStore } from '../../../store'
-
 interface SnippetData {
   operation: string
   nodeName: string
@@ -42,115 +48,152 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
     doc: store.doc,
   }))
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
-  const [message, setMessage] = useState('')
   const { dataTracked } = suggestion
+  const contentRef = useRef<HTMLDivElement>(null)
+  const isContainLaTeX = (text: string): boolean => {
+    const latexPattern = /(\$|\\\(|\\\[|\\begin\{|\\[a-zA-Z]+(\{.*?\})?)/
+    return latexPattern.test(text)
+  }
+  useEffect(() => {
+    if (contentRef.current && snippet?.content) {
+      contentRef.current.innerHTML =
+        purify.sanitize(': ' + snippet.content) || ''
+      if (isContainLaTeX(snippet.content)) {
+        renderMath(contentRef.current)
+      }
+    }
+  }, [snippet?.content])
 
   useEffect(() => {
     const getSnippetData = (): {
       snippet: SnippetData | null
-      message: string
     } => {
       if (ChangeSet.isTextChange(suggestion)) {
-        const parentNode = getParentNode(view.state, suggestion.from)
-        if (parentNode?.type === schema.nodes.footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: parentNode.type.name || suggestion.nodeType.name,
-              content: suggestion.text,
-            },
-            message: '',
+        const parentNodeName = getParentNode(view.state, suggestion.from)?.type
+          .name
+        return {
+          snippet: {
+            operation: changeOperationAlias(dataTracked.operation),
+            nodeName: parentNodeName || suggestion.nodeType.name,
+            content: suggestion.text,
+          },
+        }
+      } else if (
+        ChangeSet.isNodeChange(suggestion) ||
+        ChangeSet.isNodeAttrChange(suggestion)
+      ) {
+        switch (suggestion.node.type) {
+          case schema.nodes.inline_footnote:
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.spec.name,
+                content: getInlineFootnoteContent(doc, suggestion.node.attrs),
+              },
+            }
+          case schema.nodes.footnote:
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.name,
+                content: getFootnoteText(view.state, suggestion.node),
+              },
+            }
+          case schema.nodes.contributor:
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.name,
+                content: getContributorTextContent(
+                  suggestion.node,
+                  (suggestion as NodeAttrChange).oldAttrs
+                ),
+              },
+            }
+          case schema.nodes.affiliation:
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.name,
+                content: getAffiliationTextContent(
+                  suggestion.node,
+                  (suggestion as NodeAttrChange).oldAttrs
+                ),
+              },
+            }
+          case schema.nodes.citation:
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.name,
+                content: getTextContentFromBibliography(
+                  view.state,
+                  suggestion.node.attrs.rids[0]
+                ),
+              },
+            }
+          case schema.nodes.bibliography_item:
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.spec.name,
+                content: getTextContentFromBibliography(
+                  view.state,
+                  suggestion.node.attrs.id
+                ),
+              },
+            }
+          case schema.nodes.figure_element:
+          case schema.nodes.table_element: {
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.spec.name,
+                content: getFigureLabel(view.state, suggestion.node),
+              },
+            }
           }
-        } else {
-          return { snippet: null, message: suggestion.text }
+          case schema.nodes.inline_equation:
+          case schema.nodes.equation_element: {
+            console.log('suggestion.node', suggestion)
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.spec.name,
+                content: getEquationContent(suggestion.node),
+              },
+            }
+          }
+          default:
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName:
+                  suggestion.node.type.spec.name || suggestion.node.type.name,
+                content: getNodeTextContent(suggestion.node),
+              },
+            }
         }
       }
 
-      if (ChangeSet.isNodeChange(suggestion)) {
-        if (suggestion.node.type === schema.nodes.inline_footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.spec.name,
-              content: getInlineFootnoteContent(doc, suggestion.attrs),
-            },
-            message: '',
-          }
-        } else if (suggestion.node.type === schema.nodes.footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.name,
-              content: getFootnoteText(view.state, suggestion.node),
-            },
-            message: '',
-          }
-        } else {
-          return {
-            snippet: null,
-            message: `${suggestion.node.type.name
-              .charAt(0)
-              .toUpperCase()}${suggestion.node.type.name.slice(1)} ${
-              dataTracked.operation
-            }`,
-          }
-        }
+      return {
+        snippet: { operation: '', nodeName: '', content: 'Unknown change!' },
       }
-
-      if (ChangeSet.isNodeAttrChange(suggestion)) {
-        if (suggestion.node.type === schema.nodes.inline_footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.spec.name,
-              content: getInlineFootnoteContent(doc, suggestion.newAttrs),
-            },
-            message: '',
-          }
-        } else if (suggestion.node.type === schema.nodes.footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.name,
-              content: getFootnoteText(view.state, suggestion.node),
-            },
-            message: '',
-          }
-        } else {
-          return {
-            snippet: null,
-            message: `${suggestion.node.type.name
-              .charAt(0)
-              .toUpperCase()}${suggestion.node.type.name.slice(1)} ${
-              dataTracked.operation
-            }`,
-          }
-        }
-      }
-
-      return { snippet: null, message: 'Unknown change!' }
     }
 
-    const { snippet: newSnippet, message: newMessage } = getSnippetData()
+    const { snippet: newSnippet } = getSnippetData()
     setSnippet(newSnippet)
-    setMessage(newMessage)
   }, [suggestion, doc, view.state, dataTracked.operation])
 
   return (
     <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>
-      {snippet ? (
-        <>
-          <Operation color={dataTracked.operation}>
-            {snippet.operation}:
-          </Operation>
-          <NodeName>{snippet.nodeName}:</NodeName>
-          <Content>{parse(snippet.content)}</Content>
-        </>
-      ) : dataTracked.operation === CHANGE_OPERATION.delete ? (
-        <del>{message}</del>
-      ) : (
-        message
-      )}
+      <>
+        <Operation color={dataTracked.operation}>
+          {snippet?.operation}:
+        </Operation>
+        <NodeName>{snippet?.nodeName}</NodeName>
+        <Content ref={contentRef} />
+      </>
     </SnippetText>
   )
 }
@@ -194,7 +237,6 @@ const NodeName = styled.span`
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
-  margin-right: 3.2px;
 `
 
 const Content = styled.span`
