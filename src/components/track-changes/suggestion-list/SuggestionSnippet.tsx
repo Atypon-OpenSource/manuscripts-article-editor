@@ -7,73 +7,200 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
   ChangeSet,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React from 'react'
+import { schema } from '@manuscripts/transform'
+import parse from 'html-react-parser'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-export const SuggestionSnippet: React.FC<{
-  suggestion: TrackedChange
-}> = ({ suggestion }) => {
+import {
+  getFootnoteText,
+  getInlineFootnoteContent,
+} from '../../../lib/footnotes'
+import { changeOperationAlias } from '../../../lib/tracking'
+import { getParentNode } from '../../../lib/utils'
+import { useStore } from '../../../store'
+
+interface SnippetData {
+  operation: string
+  nodeName: string
+  content: string
+}
+
+export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
+  suggestion,
+}) => {
+  const [{ doc, view }] = useStore((store) => ({
+    view: store.view,
+    doc: store.doc,
+  }))
+  const [snippet, setSnippet] = useState<SnippetData | null>(null)
+  const [message, setMessage] = useState('')
   const { dataTracked } = suggestion
 
-  const changeTitle = (c: TrackedChange) => {
-    if (ChangeSet.isTextChange(c)) {
-      return c.text
-    } else if (
-      ChangeSet.isNodeChange(c) &&
-      c.dataTracked.operation === CHANGE_OPERATION.node_split
-    ) {
-      return `Split ${c.nodeType}`
-    } else if (
-      ChangeSet.isNodeChange(c) &&
-      c.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
-    ) {
-      return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(
-        1
-      )} insert`
-    } else if (ChangeSet.isNodeChange(c)) {
-      return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
-        c.dataTracked.operation
-      }`
-    } else if (ChangeSet.isNodeAttrChange(c)) {
-      return `${c.nodeType.charAt(0).toUpperCase()}${c.nodeType.slice(1)} ${
-        c.dataTracked.operation
-      }`
+  useEffect(() => {
+    const getSnippetData = (): {
+      snippet: SnippetData | null
+      message: string
+    } => {
+      if (ChangeSet.isTextChange(suggestion)) {
+        const parentNode = getParentNode(view.state, suggestion.from)
+        if (parentNode?.type === schema.nodes.footnote) {
+          return {
+            snippet: {
+              operation: changeOperationAlias(dataTracked.operation),
+              nodeName: parentNode.type.name || suggestion.nodeType.name,
+              content: suggestion.text,
+            },
+            message: '',
+          }
+        } else {
+          return { snippet: null, message: suggestion.text }
+        }
+      }
+
+      if (ChangeSet.isNodeChange(suggestion)) {
+        if (suggestion.node.type === schema.nodes.inline_footnote) {
+          return {
+            snippet: {
+              operation: changeOperationAlias(dataTracked.operation),
+              nodeName: suggestion.node.type.spec.name,
+              content: getInlineFootnoteContent(doc, suggestion.attrs),
+            },
+            message: '',
+          }
+        } else if (suggestion.node.type === schema.nodes.footnote) {
+          return {
+            snippet: {
+              operation: changeOperationAlias(dataTracked.operation),
+              nodeName: suggestion.node.type.name,
+              content: getFootnoteText(view.state, suggestion.node),
+            },
+            message: '',
+          }
+        } else {
+          return {
+            snippet: null,
+            message: `${suggestion.node.type.name
+              .charAt(0)
+              .toUpperCase()}${suggestion.node.type.name.slice(1)} ${
+              dataTracked.operation
+            }`,
+          }
+        }
+      }
+
+      if (ChangeSet.isNodeAttrChange(suggestion)) {
+        if (suggestion.node.type === schema.nodes.inline_footnote) {
+          return {
+            snippet: {
+              operation: changeOperationAlias(dataTracked.operation),
+              nodeName: suggestion.node.type.spec.name,
+              content: getInlineFootnoteContent(doc, suggestion.newAttrs),
+            },
+            message: '',
+          }
+        } else if (suggestion.node.type === schema.nodes.footnote) {
+          return {
+            snippet: {
+              operation: changeOperationAlias(dataTracked.operation),
+              nodeName: suggestion.node.type.name,
+              content: getFootnoteText(view.state, suggestion.node),
+            },
+            message: '',
+          }
+        } else {
+          return {
+            snippet: null,
+            message: `${suggestion.node.type.name
+              .charAt(0)
+              .toUpperCase()}${suggestion.node.type.name.slice(1)} ${
+              dataTracked.operation
+            }`,
+          }
+        }
+      }
+
+      return { snippet: null, message: 'Unknown change!' }
     }
-    return 'Unknown change!'
-  }
+
+    const { snippet: newSnippet, message: newMessage } = getSnippetData()
+    setSnippet(newSnippet)
+    setMessage(newMessage)
+  }, [suggestion, doc, view.state, dataTracked.operation])
 
   return (
-    <>
-      <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>
-        {dataTracked.operation === CHANGE_OPERATION.delete ? (
-          <del>{changeTitle(suggestion)}</del>
-        ) : (
-          changeTitle(suggestion)
-        )}
-      </SnippetText>
-    </>
+    <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>
+      {snippet ? (
+        <>
+          <Operation color={dataTracked.operation}>
+            {snippet.operation}:
+          </Operation>
+          <NodeName>{snippet.nodeName}:</NodeName>
+          <Content>{parse(snippet.content)}</Content>
+        </>
+      ) : dataTracked.operation === CHANGE_OPERATION.delete ? (
+        <del>{message}</del>
+      ) : (
+        message
+      )}
+    </SnippetText>
   )
 }
 
-const Text = styled.div`
+const SnippetText = styled.div<{ isRejected: boolean }>`
   font-size: ${(props) => props.theme.font.size.small};
   line-height: ${(props) => props.theme.font.lineHeight.normal};
-`
-const SnippetText = styled(Text)<{
-  isRejected: boolean
-}>`
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   color: ${(props) => props.theme.colors.text.primary};
+  display: block;
+  text-overflow: ellipsis;
+`
+
+const Operation = styled.span<{ color: string }>`
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  line-height: 16px;
+  margin-right: 3.2px;
+  color: ${(props) => {
+    switch (props.color) {
+      case 'insert':
+        return '#01872E'
+      case 'delete':
+        return '#F35143'
+      case 'set_attrs':
+        return '#0284B0'
+      default:
+        return '#353535'
+    }
+  }};
+`
+
+const NodeName = styled.span`
+  text-transform: capitalize;
+  color: #353535;
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  margin-right: 3.2px;
+`
+
+const Content = styled.span`
+  color: #353535;
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
 `
