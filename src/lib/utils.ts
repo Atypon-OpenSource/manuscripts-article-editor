@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { getActualAttrs, renderMath } from '@manuscripts/body-editor'
 import {
   ManuscriptEditorState,
   ManuscriptNode,
@@ -144,7 +143,7 @@ export const findFootnoteById = (
     if (footnoteNode) {
       return false
     }
-    return true 
+    return true
   })
   return footnoteNode
 }
