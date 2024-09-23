@@ -59,7 +59,6 @@
     "react-popper": "^2.0.0",
     "react-select": "^5.7.3",
     "styled-components": "^5.2.0",
-    "type-fest": "^4.6.0",
     "use-sync-external-store": "^1.2.2",
     "uuid": "^9.0.0",
     "yarn-run-all": "^3.1.1"

@@ -144,7 +144,10 @@ export default class Api {
   ) =>
     this.post<SendStepsResponse>(
       `doc/${projectID}/manuscript/${manuscriptID}/steps`,
-      data
+      {
+        ...data,
+        steps: data.steps.map((s) => s.toJSON()),
+      }
     ).catch((e: AxiosError) => {
       const error = e.response?.status === 409 ? 'conflict' : e.message
       return {

@@ -70,18 +70,16 @@ export class StepsExchanger extends CollabProvider {
     this.currentVersion = version
     this.flushImmediately = this.debounce(
       async () => {
-        const data = {
-          steps: steps.map((s) => s.toJSON()),
-          version,
-          clientID,
-        }
         const response = await this.api.sendSteps(
           this.projectID,
           this.manuscriptID,
-          data
+          {
+            steps: steps,
+            version,
+            clientID,
+          }
         )
         if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
-          // debugger
           console.warn('Retrying')
           this.newStepsListener()
           this.attempt++

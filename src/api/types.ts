@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Step } from 'prosemirror-transform'
+
 import { ManuscriptSnapshot } from '../lib/doc'
 
 export type TransformVersionResponse = {
@@ -17,7 +19,7 @@ export type TransformVersionResponse = {
 }
 
 export type SendStepsPayload = {
-  steps: unknown[]
+  steps: Step[]
   version: number
   clientID: number | string
 }
@@ -29,7 +31,7 @@ export type SendStepsResponse = {
 }
 
 export type StepsSinceResponse = {
-  steps: unknown[]
+  steps: Step[]
   version: number
   clientIDs: number[]
 }

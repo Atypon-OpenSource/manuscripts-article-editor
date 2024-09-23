@@ -34,14 +34,11 @@ export const useCreateEditor = () => {
     getState,
   ] = useStore((store) => ({
     doc: store.doc,
-    manuscriptID: store.manuscriptID,
-    project: store.project,
     projectID: store.projectID,
     user: store.user,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
-    authToken: store.authToken,
     sectionCategories: store.sectionCategories,
     stepsExchanger: store.stepsExchanger,
   }))
