@@ -134,7 +134,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
     const { snippet: newSnippet, message: newMessage } = getSnippetData()
     setSnippet(newSnippet)
     setMessage(newMessage)
-  }, [suggestion, doc, view?.state, dataTracked.operation])
+  }, [suggestion, doc, view, view?.state, dataTracked.operation])
 
   return (
     <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>

@@ -64,10 +64,8 @@ export const SnapshotsDropdown: React.FC = () => {
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )
 
-  const isBeingInspected = useCallback(
-    (snap: SnapshotLabel) => inspectedSnapshotId === snap.id,
-    [inspectedSnapshotId]
-  )
+  const isBeingInspected = (snap: SnapshotLabel) =>
+    inspectedSnapshotId === snap.id
 
   const hydrateDocFromJSON = (doc: Record<string, any>) => {
     const state = EditorState.create({
