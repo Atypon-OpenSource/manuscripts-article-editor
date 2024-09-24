@@ -33,19 +33,11 @@ import {
 export default class Api {
   instance: AxiosInstance
 
-  constructor() {
+  constructor(authToken: string) {
     const config = getConfig()
     this.instance = axios.create({
       baseURL: config.api.url,
-      headers: config.api.headers,
-    })
-  }
-
-  setToken = (token: string) => {
-    const config = getConfig()
-    this.instance = axios.create({
-      baseURL: config.api.url,
-      headers: { ...config.api.headers, Authorization: 'Bearer ' + token },
+      headers: { ...config.api.headers, Authorization: 'Bearer ' + authToken },
     })
   }
 

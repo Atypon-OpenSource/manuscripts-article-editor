@@ -63,7 +63,6 @@ export type state = {
   fileManagement: FileManagement
   files: FileAttachment[]
 
-  authToken: string
   tokenData: TokenData
 
   collaborators: Map<string, UserProfile>

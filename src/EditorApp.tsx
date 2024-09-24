@@ -96,10 +96,9 @@ const EditorApp: React.FC<EditorAppProps> = ({
       files,
       permittedActions,
       userID: userID || '',
-      authToken: authToken || '',
       tokenData: new TokenData(),
     })
-    const api = new ApiSource()
+    const api = new ApiSource(authToken)
     createStore([props, api])
       .then((s) => {
         setStore(s)

@@ -23,8 +23,8 @@ export class ApiSource implements StoreDataSourceStrategy {
   data: Partial<state>
   utilities: Partial<state>
 
-  constructor() {
-    this.api = new Api()
+  constructor(authToken: string) {
+    this.api = new Api(authToken)
   }
 
   updateState: stateSetter = (state: state) => {
@@ -32,9 +32,6 @@ export class ApiSource implements StoreDataSourceStrategy {
   }
 
   build: builderFn = async (state, next, setState) => {
-    if (state.userID && state.authToken) {
-      this.api.setToken(state.authToken)
-    }
     const projectID = state.projectID
     const manuscriptID = state.manuscriptID
     if (manuscriptID && projectID) {
