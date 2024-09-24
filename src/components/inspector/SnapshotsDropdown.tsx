@@ -16,7 +16,7 @@ import {
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
 import { EditorState } from 'prosemirror-state'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
