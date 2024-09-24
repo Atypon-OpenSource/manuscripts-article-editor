@@ -56,6 +56,10 @@ export const SnapshotsDropdown: React.FC = () => {
 
   const execCmd = useExecCmd()
 
+  if (!view) {
+    return null
+  }
+
   const sortedSnapshots = snapshots.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )

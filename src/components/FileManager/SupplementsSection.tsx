@@ -47,6 +47,10 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     message: '',
   })
 
+  if (!view) {
+    return null
+  }
+
   const upload = async (file: File) => {
     setAlert({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
