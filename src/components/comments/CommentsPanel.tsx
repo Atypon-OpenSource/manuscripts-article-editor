@@ -93,7 +93,7 @@ export const CommentsPanel: React.FC = () => {
 
   const handleSave = (attrs: CommentAttrs) => {
     const comment = comments?.get(attrs.id)
-    if (!comment) {
+    if (!comment || !view) {
       return
     }
     const tr = view.state.tr
@@ -104,7 +104,7 @@ export const CommentsPanel: React.FC = () => {
 
   const handleDelete = (id: string) => {
     const comment = comments?.get(id)
-    if (!comment) {
+    if (!comment || !view) {
       return
     }
     const tr = view.state.tr
