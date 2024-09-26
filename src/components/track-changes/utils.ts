@@ -49,7 +49,8 @@ export const setChangeStatus = (
   if (
     change.type === 'node-change' &&
     !(
-      change.dataTracked.operation === CHANGE_OPERATION.node_split &&
+      (change.dataTracked.operation === CHANGE_OPERATION.node_split ||
+        change.dataTracked.operation === CHANGE_OPERATION.wrap_with_node) &&
       status === CHANGE_STATUS.rejected
     )
   ) {
