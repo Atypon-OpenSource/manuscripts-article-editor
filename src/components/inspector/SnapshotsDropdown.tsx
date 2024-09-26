@@ -16,7 +16,7 @@ import {
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
 import { EditorState } from 'prosemirror-state'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
@@ -56,14 +56,16 @@ export const SnapshotsDropdown: React.FC = () => {
 
   const execCmd = useExecCmd()
 
+  if (!view) {
+    return null
+  }
+
   const sortedSnapshots = snapshots.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )
 
-  const isBeingInspected = useCallback(
-    (snap: SnapshotLabel) => inspectedSnapshotId === snap.id,
-    [inspectedSnapshotId]
-  )
+  const isBeingInspected = (snap: SnapshotLabel) =>
+    inspectedSnapshotId === snap.id
 
   const hydrateDocFromJSON = (doc: Record<string, any>) => {
     const state = EditorState.create({
