@@ -55,11 +55,6 @@ export const TrackChangesPanel: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleReset = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.pending, execCmd)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const handleAcceptAll = useCallback(() => {
     const trackState = getState().trackState
     if (!trackState) {
@@ -82,32 +77,8 @@ export const TrackChangesPanel: React.FC = () => {
         sortBy={sortBy}
         onAccept={handleAccept}
         onReject={handleReject}
-        onReset={handleReset}
         onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
         onSelect={handleSelect}
-      />
-      <SuggestionList
-        type="accepted"
-        changes={changeSet?.accepted || []}
-        selectionID={selectedSuggestionID}
-        title="Approved Suggestions"
-        sortBy={sortBy}
-        onAccept={handleAccept}
-        onReject={handleReject}
-        onReset={handleReset}
-        onSelect={handleSelect}
-      />
-      <SuggestionList
-        type="rejected"
-        changes={changeSet?.rejected || []}
-        title="Rejected Suggestions"
-        sortBy={sortBy}
-        onAccept={handleAccept}
-        onReject={handleReject}
-        onReset={handleReset}
-        onSelect={() => {
-          /* noop */
-        }}
       />
     </>
   )
