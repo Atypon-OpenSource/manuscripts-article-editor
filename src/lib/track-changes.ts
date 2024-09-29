@@ -10,114 +10,89 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  bibliographyPluginKey,
+  footnotesPluginKey,
+  objectsPluginKey,
+} from '@manuscripts/body-editor'
+import {
   ManuscriptEditorState,
   ManuscriptNode,
+  ManuscriptNodeType,
   schema,
 } from '@manuscripts/transform'
-import { EditorState, Plugin } from 'prosemirror-state'
-interface ExtendedPlugin extends Plugin {
-  key: string
-}
+import { EditorState } from 'prosemirror-state'
 
 export const getNodeTextContent = (node: ManuscriptNode) => {
   let textContent = ''
-  node.forEach((child) => {
-    if (child.isText) {
-      // If the child is a text node, add its text content
-      textContent += child.text
-    } else {
-      // If the child is not a text node, recursively collect text content
-      textContent += getNodeTextContent(child)
-    }
-  })
+  const isWrapper = node.type.spec.isWrapper
+  if (!isWrapper) {
+    node.forEach((child) => {
+      if (child.isText) {
+        // If the child is a text node, add its text content
+        textContent += child.text
+      } else {
+        // If the child is not a text node, recursively collect text content
+        textContent += getNodeTextContent(child)
+      }
+    })
+  }
 
   return textContent
+}
+
+export const getFirstChildContent = (node: ManuscriptNode) => {
+  if (node.firstChild) {
+    return node.firstChild.textContent
+  }
+  return ''
 }
 
 export const getContributorTextContent = (
   node: ManuscriptNode,
   oldAttrs: Record<any, any> | undefined
 ) => {
-  let textContent = ''
-  textContent += `${node.attrs.bibliographicName.given} ${node.attrs.bibliographicName.family}`
-  if (oldAttrs) {
-    textContent =
-      `${oldAttrs.bibliographicName.given} ${oldAttrs.bibliographicName.family} to ` +
-      textContent
-  }
-  return textContent
+  return `${node.attrs.bibliographicName.given} ${node.attrs.bibliographicName.family}`
 }
 
-export const getAffiliationTextContent = (
-  node: ManuscriptNode,
-  oldAttrs: Record<any, any> | undefined
-) => {
-  let textContent = ''
-  textContent += `${node.attrs.institution}`
-  if (oldAttrs) {
-    textContent = `${oldAttrs.institution} to ` + textContent
-  }
-  return textContent
-}
-
-export const findBibliographyById = (
-  doc: ManuscriptNode,
-  id: string
-): ManuscriptNode | null => {
-  let bibNode: ManuscriptNode | null = null
-
-  doc.descendants((node) => {
-    if (node.type === schema.nodes.bibliography_item && node.attrs.id === id) {
-      bibNode = node
-      return false // stop traversal
-    }
-    if (bibNode) {
-      return false
-    }
-    return true // continue traversal
-  })
-  return bibNode
+export const getAffiliationTextContent = (node: ManuscriptNode) => {
+  return node.attrs.institution
 }
 
 export const getTextContentFromBibliography = (
   state: ManuscriptEditorState,
-  id: string
+  id: string,
+  nodeType: ManuscriptNodeType
 ): string => {
-  const bib = findPluginByKey(state, 'bibliography')?.getState(state)
-  const [meta, bibliography] = bib.provider.makeBibliography()
-  const selectedBib = meta.entry_ids.findIndex(
-    (entry: [string]) => entry[0] == id
-  )
-  const parser = new DOMParser()
-  const textContent = parser.parseFromString(
-    bibliography[selectedBib],
-    'text/html'
-  ).body.textContent
-  return textContent ? textContent : ''
+  const bibPlugin = bibliographyPluginKey.get(state)
+  const bib = bibPlugin?.getState(state)
+  if (!bib) {
+    return ''
+  }
+  if (nodeType === schema.nodes.citation) {
+    const citation = bib?.renderedCitations.get(id)
+    return citation ? citation.replace(/<[^>]*>/g, '') : ''
+  } else {
+    const [meta, bibliography] = bib.provider.makeBibliography()
+    const selectedBib = meta.entry_ids.findIndex(
+      (entry: [string]) => entry[0] == id
+    )
+    const parser = new DOMParser()
+    const textContent = parser.parseFromString(
+      bibliography[selectedBib],
+      'text/html'
+    ).body.textContent
+    return textContent ? textContent : ''
+  }
 }
 
 export const getFigureLabel = (
   state: ManuscriptEditorState,
   node: ManuscriptNode
 ) => {
-  const objectsPlugin = findPluginByKey(state, 'objects')
+  const objectsPlugin = objectsPluginKey.get(state)
   const pluginState = objectsPlugin?.getState(state)
   const target = pluginState?.get(node.attrs.id)
   return target?.label || ''
-}
-
-export const findPluginByKey = (
-  state: ManuscriptEditorState,
-  keyName: string
-): ExtendedPlugin | null => {
-  for (let i = 0; i < state.plugins.length; i++) {
-    const plugin = state.plugins[i] as ExtendedPlugin
-
-    if (plugin.key === keyName + '$') {
-      return plugin
-    }
-  }
-  return null
 }
 
 export const getEquationContent = (node: ManuscriptNode) => {
@@ -165,9 +140,9 @@ export const getFootnoteText = (
   state: ManuscriptEditorState,
   node: ManuscriptNode
 ) => {
-  const footnotesPlugin = findPluginByKey(state, 'footnotes')
+  let decorationText
+  const footnotesPlugin = footnotesPluginKey.get(state)
   const pluginState = footnotesPlugin?.getState(state)
-  let decorationText = ''
   if (pluginState) {
     decorationText = pluginState.labels.get(node.attrs.id)
   }

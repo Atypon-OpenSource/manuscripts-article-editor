@@ -21,23 +21,25 @@ import purify from 'dompurify'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { changeOperationAlias } from '../../../lib/tracking'
 import {
   getAffiliationTextContent,
   getContributorTextContent,
   getEquationContent,
   getFigureLabel,
+  getFirstChildContent,
   getFootnoteText,
   getInlineFootnoteContent,
   getNodeTextContent,
   getParentNode,
   getTextContentFromBibliography,
-} from '../../../lib/utils'
+} from '../../../lib/track-changes'
+import { changeOperationAlias } from '../../../lib/tracking'
 import { useStore } from '../../../store'
 interface SnippetData {
   operation: string
   nodeName: string
   content: string
+  isEquation?: boolean
 }
 
 export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
@@ -50,31 +52,31 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
   const { dataTracked } = suggestion
   const contentRef = useRef<HTMLDivElement>(null)
-  const isContainLaTeX = (text: string): boolean => {
-    const latexPattern = /(\$|\\\(|\\\[|\\begin\{|\\[a-zA-Z]+(\{.*?\})?)/
-    return latexPattern.test(text)
-  }
   useEffect(() => {
     if (contentRef.current && snippet?.content) {
       contentRef.current.innerHTML =
         purify.sanitize(': ' + snippet.content) || ''
-      if (isContainLaTeX(snippet.content)) {
+      if (snippet.isEquation) {
         renderMath(contentRef.current)
       }
     }
-  }, [snippet?.content])
+  }, [snippet?.content, snippet?.isEquation])
 
   useEffect(() => {
     const getSnippetData = (): {
       snippet: SnippetData | null
     } => {
       if (ChangeSet.isTextChange(suggestion)) {
-        const parentNodeName = getParentNode(view.state, suggestion.from)?.type
-          .name
+        const parentNodeType = getParentNode(view.state, suggestion.from)?.type
+        const parentNodeName = parentNodeType?.spec.name || parentNodeType?.name
+        const nodeName =
+          parentNodeType === schema.nodes.paragraph
+            ? 'text'
+            : parentNodeName + ' text'
         return {
           snippet: {
             operation: changeOperationAlias(dataTracked.operation),
-            nodeName: parentNodeName || suggestion.nodeType.name,
+            nodeName: nodeName || suggestion.nodeType.name,
             content: suggestion.text,
           },
         }
@@ -103,7 +105,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
             return {
               snippet: {
                 operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.name,
+                nodeName: suggestion.node.type.spec.name,
                 content: getContributorTextContent(
                   suggestion.node,
                   (suggestion as NodeAttrChange).oldAttrs
@@ -115,10 +117,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
               snippet: {
                 operation: changeOperationAlias(dataTracked.operation),
                 nodeName: suggestion.node.type.name,
-                content: getAffiliationTextContent(
-                  suggestion.node,
-                  (suggestion as NodeAttrChange).oldAttrs
-                ),
+                content: getAffiliationTextContent(suggestion.node),
               },
             }
           case schema.nodes.citation:
@@ -128,7 +127,8 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
                 nodeName: suggestion.node.type.name,
                 content: getTextContentFromBibliography(
                   view.state,
-                  suggestion.node.attrs.rids[0]
+                  suggestion.node.attrs.id,
+                  suggestion.node.type
                 ),
               },
             }
@@ -139,7 +139,8 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
                 nodeName: suggestion.node.type.spec.name,
                 content: getTextContentFromBibliography(
                   view.state,
-                  suggestion.node.attrs.id
+                  suggestion.node.attrs.id,
+                  suggestion.node.type
                 ),
               },
             }
@@ -155,12 +156,36 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
           }
           case schema.nodes.inline_equation:
           case schema.nodes.equation_element: {
-            console.log('suggestion.node', suggestion)
             return {
               snippet: {
                 operation: changeOperationAlias(dataTracked.operation),
                 nodeName: suggestion.node.type.spec.name,
                 content: getEquationContent(suggestion.node),
+                isEquation: true,
+              },
+            }
+          }
+          case schema.nodes.section: {
+            const nodeName =
+              suggestion.node.attrs.category === 'MPSectionCategory:subsection'
+                ? 'Subsection'
+                : 'Section'
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: nodeName,
+                content: getFirstChildContent(suggestion.node),
+              },
+            }
+          }
+          case schema.nodes.list: {
+            return {
+              snippet: {
+                operation: changeOperationAlias(dataTracked.operation),
+                nodeName: suggestion.node.type.spec.name,
+                content: `<span class="inspector_listItem">${getFirstChildContent(
+                  suggestion.node
+                )}</span>`,
               },
             }
           }
@@ -186,7 +211,10 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
   }, [suggestion, doc, view.state, dataTracked.operation])
 
   return (
-    <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>
+    <SnippetText
+      isRejected={dataTracked.status === CHANGE_STATUS.rejected}
+      data-mathjax={snippet?.isEquation}
+    >
       <>
         <Operation color={dataTracked.operation}>
           {snippet?.operation}:
@@ -207,6 +235,9 @@ const SnippetText = styled.div<{ isRejected: boolean }>`
   color: ${(props) => props.theme.colors.text.primary};
   display: block;
   text-overflow: ellipsis;
+  &[data-mathjax='true'] {
+    text-overflow: unset;
+  }
 `
 
 const Operation = styled.span<{ color: string }>`
@@ -245,4 +276,7 @@ const Content = styled.span`
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
+  .inspector_listItem::after {
+    content: '...';
+  }
 `
