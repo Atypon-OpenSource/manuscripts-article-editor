@@ -62,11 +62,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
     authToken: string,
     throttlingControl: ThrottlingControl
   ) {
-    if (QuarterbackStepsExchanger._instance) {
-      return QuarterbackStepsExchanger._instance
-    }
     super()
-    QuarterbackStepsExchanger._instance = this
     this.applySteps = applySteps
     this.docId = docId
     this.projectId = projectId
@@ -86,6 +82,7 @@ class QuarterbackStepsExchanger extends CollabProvider {
       }
       const steps = this.hydrateSteps(jsonSteps)
       if (steps.length) {
+        this.currentVersion = version
         this.newStepsListener(version, steps, clientIDs)
       }
     })
@@ -111,7 +108,6 @@ class QuarterbackStepsExchanger extends CollabProvider {
       stepsJSON.push(step.toJSON())
     })
 
-    this.currentVersion = version
     this.flushImmediate = this.debounce(
       () => {
         this.applySteps(this.projectId, this.docId, {
