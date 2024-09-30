@@ -67,7 +67,6 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
-    this.currentVersion = version
     this.flushImmediately = this.debounce(
       async () => {
         const response = await this.api.sendSteps(
@@ -103,6 +102,7 @@ export class StepsExchanger extends CollabProvider {
 
   async receiveSteps(version: number, steps: unknown[], clientIDs: number[]) {
     if (steps.length) {
+      this.currentVersion = version
       //TODO send steps to listener
       this.newStepsListener()
     }
