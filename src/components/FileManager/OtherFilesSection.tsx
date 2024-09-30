@@ -42,6 +42,10 @@ export const OtherFilesSection: React.FC<{
     message: '',
   })
 
+  if (!view) {
+    return null
+  }
+
   const handleUpload = async (file: File) => {
     setAlert({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,

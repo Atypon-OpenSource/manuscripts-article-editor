@@ -50,7 +50,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
       snippet: SnippetData | null
       message: string
     } => {
-      if (ChangeSet.isTextChange(suggestion)) {
+      if (ChangeSet.isTextChange(suggestion) && view) {
         const parentNode = getParentNode(view.state, suggestion.from)
         if (parentNode?.type === schema.nodes.footnote) {
           return {
@@ -66,26 +66,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
         }
       }
 
-      if (
-        ChangeSet.isNodeChange(suggestion) &&
-        suggestion.dataTracked.operation === CHANGE_OPERATION.node_split
-      ) {
-        return { snippet: null, message: `Split ${suggestion.node.type.name}` }
-      }
-
-      if (
-        ChangeSet.isNodeChange(suggestion) &&
-        suggestion.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
-      ) {
-        return {
-          snippet: null,
-          message: `${suggestion.node.type.name
-            .charAt(0)
-            .toUpperCase()}${suggestion.node.type.name.slice(1)} insert`,
-        }
-      }
-
-      if (ChangeSet.isNodeChange(suggestion)) {
+      if (ChangeSet.isNodeChange(suggestion) && view) {
         if (suggestion.node.type === schema.nodes.inline_footnote) {
           return {
             snippet: {
@@ -116,7 +97,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
         }
       }
 
-      if (ChangeSet.isNodeAttrChange(suggestion)) {
+      if (ChangeSet.isNodeAttrChange(suggestion) && view) {
         if (suggestion.node.type === schema.nodes.inline_footnote) {
           return {
             snippet: {
@@ -153,7 +134,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
     const { snippet: newSnippet, message: newMessage } = getSnippetData()
     setSnippet(newSnippet)
     setMessage(newMessage)
-  }, [suggestion, doc, view.state, dataTracked.operation])
+  }, [suggestion, doc, view, view?.state, dataTracked.operation])
 
   return (
     <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>
