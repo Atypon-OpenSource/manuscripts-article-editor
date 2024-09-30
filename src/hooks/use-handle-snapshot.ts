@@ -30,7 +30,7 @@ export const useHandleSnapshot = (view?: EditorView) => {
     // if there is a pending throttle or potentially other pending action, we need to make sure it's done before we proceed wrapping the current step
     beforeUnload && beforeUnload()
     execCmd(trackCommands.applyAndRemoveChanges(), view)
-    await delay(900) // to avoid potentially saving before the changes are applied)
+    await delay(2000) // to avoid potentially saving before the changes are applied)
     await createSnapshot()
   }
 }
