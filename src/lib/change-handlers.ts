@@ -57,99 +57,96 @@ export const handleNodeChange = (
   const operation = changeOperationAlias(dataTracked.operation)
   const nodeName = node.type.spec.name || node.type.name
 
-  switch (suggestion.node.type) {
+  switch (node.type) {
     case schema.nodes.inline_footnote: {
       return {
-        operation: operation,
-        nodeName: nodeName,
-        content: nodeContentRetriever.getInlineFootnoteContent(
-          doc,
-          suggestion.node.attrs
-        ),
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getInlineFootnoteContent(doc, node.attrs),
       }
     }
     case schema.nodes.footnote: {
       return {
-        operation: operation,
-        nodeName: nodeName,
-        content: nodeContentRetriever.getFootnoteContent(suggestion.node),
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFootnoteContent(node),
       }
     }
     case schema.nodes.contributor: {
-      const contributorTextContent = `${suggestion.node.attrs.bibliographicName.given} ${suggestion.node.attrs.bibliographicName.family}`
+      const contributorTextContent = `${node.attrs.bibliographicName.given} ${node.attrs.bibliographicName.family}`
       return {
-        operation: operation,
-        nodeName: nodeName,
+        operation,
+        nodeName,
         content: contributorTextContent,
       }
     }
     case schema.nodes.affiliation: {
-      const affiliationTextContent = suggestion.node.attrs.institution
+      const affiliationTextContent = node.attrs.institution
       return {
-        operation: operation,
-        nodeName: nodeName,
+        operation,
+        nodeName,
         content: affiliationTextContent,
       }
     }
     case schema.nodes.citation: {
       return {
-        operation: operation,
-        nodeName: nodeName,
+        operation,
+        nodeName,
         content: nodeContentRetriever.getContentFromBibliography(
-          suggestion.node.attrs.id,
-          suggestion.node.type
+          node.attrs.id,
+          node.type
         ),
       }
     }
     case schema.nodes.bibliography_item: {
       return {
-        operation: operation,
-        nodeName: nodeName,
+        operation,
+        nodeName,
         content: nodeContentRetriever.getContentFromBibliography(
-          suggestion.node.attrs.id,
-          suggestion.node.type
+          node.attrs.id,
+          node.type
         ),
       }
     }
     case schema.nodes.figure_element:
     case schema.nodes.table_element:
       return {
-        operation: operation,
-        nodeName: nodeName,
-        content: nodeContentRetriever.getFigureLabel(suggestion.node),
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFigureLabel(node),
       }
     case schema.nodes.inline_equation:
     case schema.nodes.equation_element:
       return {
-        operation: operation,
-        nodeName: nodeName,
-        content: nodeContentRetriever.getEquationContent(suggestion.node),
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getEquationContent(node),
         isEquation: true,
       }
     case schema.nodes.section: {
       const nodeName =
-        suggestion.node.attrs.category === 'MPSectionCategory:subsection'
+        node.attrs.category === 'MPSectionCategory:subsection'
           ? 'Subsection'
           : 'Section'
       return {
-        operation: operation,
-        nodeName: nodeName,
-        content: nodeContentRetriever.getFirstChildContent(suggestion.node),
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFirstChildContent(node),
       }
     }
     case schema.nodes.list:
       return {
-        operation: operation,
-        nodeName: nodeName,
+        operation,
+        nodeName,
         content: `<span class="inspector-list-item">${nodeContentRetriever.getFirstChildContent(
-          suggestion.node
+          node
         )}</span>`,
       }
     default:
       return {
-        operation: operation,
-        nodeName: nodeName,
-        content: nodeContentRetriever.getNodeTextContent(suggestion.node),
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getNodeTextContent(node),
       }
   }
 }
