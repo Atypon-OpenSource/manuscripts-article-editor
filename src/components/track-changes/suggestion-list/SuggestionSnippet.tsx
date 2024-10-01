@@ -9,32 +9,22 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { renderMath } from '@manuscripts/body-editor'
 import {
   CHANGE_STATUS,
   ChangeSet,
-  NodeAttrChange,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import { schema } from '@manuscripts/transform'
-import purify from 'dompurify'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import {
-  getAffiliationTextContent,
-  getContributorTextContent,
-  getEquationContent,
-  getFigureLabel,
-  getFirstChildContent,
-  getFootnoteText,
-  getInlineFootnoteContent,
-  getNodeTextContent,
-  getParentNode,
-  getTextContentFromBibliography,
-} from '../../../lib/track-changes'
-import { changeOperationAlias } from '../../../lib/tracking'
+  handleNodeChange,
+  handleTextChange,
+  handleUnknownChange,
+} from '../../../lib/change-handlers'
 import { useStore } from '../../../store'
+import SnippetContent from './SnippetContent'
+
 interface SnippetData {
   operation: string
   nodeName: string
@@ -51,164 +41,24 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
   }))
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
   const { dataTracked } = suggestion
-  const contentRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    if (contentRef.current && snippet?.content) {
-      contentRef.current.innerHTML =
-        purify.sanitize(': ' + snippet.content) || ''
-      if (snippet.isEquation) {
-        renderMath(contentRef.current)
-      }
-    }
-  }, [snippet?.content, snippet?.isEquation])
 
   useEffect(() => {
-    const getSnippetData = (): {
-      snippet: SnippetData | null
-    } => {
-      if (ChangeSet.isTextChange(suggestion)) {
-        const parentNodeType = getParentNode(view.state, suggestion.from)?.type
-        const parentNodeName = parentNodeType?.spec.name || parentNodeType?.name
-        const nodeName =
-          parentNodeType === schema.nodes.paragraph
-            ? 'text'
-            : parentNodeName + ' text'
-        return {
-          snippet: {
-            operation: changeOperationAlias(dataTracked.operation),
-            nodeName: nodeName || suggestion.nodeType.name,
-            content: suggestion.text,
-          },
-        }
-      } else if (
-        ChangeSet.isNodeChange(suggestion) ||
-        ChangeSet.isNodeAttrChange(suggestion)
-      ) {
-        switch (suggestion.node.type) {
-          case schema.nodes.inline_footnote:
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.spec.name,
-                content: getInlineFootnoteContent(doc, suggestion.node.attrs),
-              },
-            }
-          case schema.nodes.footnote:
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.name,
-                content: getFootnoteText(view.state, suggestion.node),
-              },
-            }
-          case schema.nodes.contributor:
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.spec.name,
-                content: getContributorTextContent(
-                  suggestion.node,
-                  (suggestion as NodeAttrChange).oldAttrs
-                ),
-              },
-            }
-          case schema.nodes.affiliation:
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.name,
-                content: getAffiliationTextContent(suggestion.node),
-              },
-            }
-          case schema.nodes.citation:
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.name,
-                content: getTextContentFromBibliography(
-                  view.state,
-                  suggestion.node.attrs.id,
-                  suggestion.node.type
-                ),
-              },
-            }
-          case schema.nodes.bibliography_item:
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.spec.name,
-                content: getTextContentFromBibliography(
-                  view.state,
-                  suggestion.node.attrs.id,
-                  suggestion.node.type
-                ),
-              },
-            }
-          case schema.nodes.figure_element:
-          case schema.nodes.table_element: {
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.spec.name,
-                content: getFigureLabel(view.state, suggestion.node),
-              },
-            }
-          }
-          case schema.nodes.inline_equation:
-          case schema.nodes.equation_element: {
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.spec.name,
-                content: getEquationContent(suggestion.node),
-                isEquation: true,
-              },
-            }
-          }
-          case schema.nodes.section: {
-            const nodeName =
-              suggestion.node.attrs.category === 'MPSectionCategory:subsection'
-                ? 'Subsection'
-                : 'Section'
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: nodeName,
-                content: getFirstChildContent(suggestion.node),
-              },
-            }
-          }
-          case schema.nodes.list: {
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName: suggestion.node.type.spec.name,
-                content: `<span class="inspector_listItem">${getFirstChildContent(
-                  suggestion.node
-                )}</span>`,
-              },
-            }
-          }
-          default:
-            return {
-              snippet: {
-                operation: changeOperationAlias(dataTracked.operation),
-                nodeName:
-                  suggestion.node.type.spec.name || suggestion.node.type.name,
-                content: getNodeTextContent(suggestion.node),
-              },
-            }
-        }
-      }
+    let newSnippet: SnippetData | null = null
 
-      return {
-        snippet: { operation: '', nodeName: '', content: 'Unknown change!' },
-      }
+    if (ChangeSet.isTextChange(suggestion)) {
+      newSnippet = handleTextChange(suggestion, view, dataTracked)
+    } else if (
+      ChangeSet.isNodeChange(suggestion) ||
+      ChangeSet.isNodeAttrChange(suggestion)
+    ) {
+      newSnippet = handleNodeChange(suggestion, view, doc, dataTracked)
+    } else {
+      newSnippet = handleUnknownChange()
     }
 
-    const { snippet: newSnippet } = getSnippetData()
     setSnippet(newSnippet)
-  }, [suggestion, doc, view.state, dataTracked.operation])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [suggestion, doc])
 
   return (
     <SnippetText
@@ -220,7 +70,10 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
           {snippet?.operation}:
         </Operation>
         <NodeName>{snippet?.nodeName}</NodeName>
-        <Content ref={contentRef} />
+        <SnippetContent
+          content={snippet?.content || ''}
+          isEquation={snippet?.isEquation}
+        />
       </>
     </SnippetText>
   )
@@ -268,15 +121,4 @@ const NodeName = styled.span`
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
-`
-
-const Content = styled.span`
-  color: #353535;
-  font-family: Lato, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  .inspector_listItem::after {
-    content: '...';
-  }
 `
