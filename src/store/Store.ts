@@ -55,7 +55,7 @@ export type state = {
   editor: PMEditor
   doc: ManuscriptNode
   trackState?: TrackChangesState
-  view: ManuscriptEditorView
+  view?: ManuscriptEditorView
 
   initialDocVersion: number
 
