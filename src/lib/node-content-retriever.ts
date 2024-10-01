@@ -15,6 +15,7 @@ import {
   objectsPluginKey,
 } from '@manuscripts/body-editor'
 import {
+  isElementNodeType,
   ManuscriptEditorState,
   ManuscriptNode,
   ManuscriptNodeType,
@@ -33,8 +34,7 @@ export class NodeTextContentRetriever {
    */
   public getNodeTextContent(node: ManuscriptNode): string {
     let textContent = ''
-    const isWrapper = node.type.spec.isWrapper
-    if (!isWrapper) {
+    if (!isElementNodeType(node.type)) {
       node.forEach((child) => {
         if (child.isText) {
           textContent += child.text
