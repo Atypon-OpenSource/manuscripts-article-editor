@@ -53,12 +53,15 @@ export const handleNodeChange = (
   dataTracked: any
 ): SnippetData | null => {
   const nodeContentRetriever = new NodeTextContentRetriever(view.state)
+  const { node } = suggestion
+  const operation = changeOperationAlias(dataTracked.operation)
+  const nodeName = node.type.spec.name || node.type.name
 
   switch (suggestion.node.type) {
     case schema.nodes.inline_footnote: {
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.spec.name,
+        operation: operation,
+        nodeName: nodeName,
         content: nodeContentRetriever.getInlineFootnoteContent(
           doc,
           suggestion.node.attrs
@@ -67,31 +70,31 @@ export const handleNodeChange = (
     }
     case schema.nodes.footnote: {
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.name,
+        operation: operation,
+        nodeName: nodeName,
         content: nodeContentRetriever.getFootnoteContent(suggestion.node),
       }
     }
     case schema.nodes.contributor: {
       const contributorTextContent = `${suggestion.node.attrs.bibliographicName.given} ${suggestion.node.attrs.bibliographicName.family}`
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.spec.name,
+        operation: operation,
+        nodeName: nodeName,
         content: contributorTextContent,
       }
     }
     case schema.nodes.affiliation: {
       const affiliationTextContent = suggestion.node.attrs.institution
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.name,
+        operation: operation,
+        nodeName: nodeName,
         content: affiliationTextContent,
       }
     }
     case schema.nodes.citation: {
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.name,
+        operation: operation,
+        nodeName: nodeName,
         content: nodeContentRetriever.getContentFromBibliography(
           suggestion.node.attrs.id,
           suggestion.node.type
@@ -100,8 +103,8 @@ export const handleNodeChange = (
     }
     case schema.nodes.bibliography_item: {
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.spec.name,
+        operation: operation,
+        nodeName: nodeName,
         content: nodeContentRetriever.getContentFromBibliography(
           suggestion.node.attrs.id,
           suggestion.node.type
@@ -111,15 +114,15 @@ export const handleNodeChange = (
     case schema.nodes.figure_element:
     case schema.nodes.table_element:
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.spec.name,
+        operation: operation,
+        nodeName: nodeName,
         content: nodeContentRetriever.getFigureLabel(suggestion.node),
       }
     case schema.nodes.inline_equation:
     case schema.nodes.equation_element:
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.spec.name,
+        operation: operation,
+        nodeName: nodeName,
         content: nodeContentRetriever.getEquationContent(suggestion.node),
         isEquation: true,
       }
@@ -129,23 +132,23 @@ export const handleNodeChange = (
           ? 'Subsection'
           : 'Section'
       return {
-        operation: changeOperationAlias(dataTracked.operation),
+        operation: operation,
         nodeName: nodeName,
         content: nodeContentRetriever.getFirstChildContent(suggestion.node),
       }
     }
     case schema.nodes.list:
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.spec.name,
+        operation: operation,
+        nodeName: nodeName,
         content: `<span class="inspector-list-item">${nodeContentRetriever.getFirstChildContent(
           suggestion.node
         )}</span>`,
       }
     default:
       return {
-        operation: changeOperationAlias(dataTracked.operation),
-        nodeName: suggestion.node.type.spec.name || suggestion.node.type.name,
+        operation: operation,
+        nodeName: nodeName,
         content: nodeContentRetriever.getNodeTextContent(suggestion.node),
       }
   }
