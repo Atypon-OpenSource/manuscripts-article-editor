@@ -22,8 +22,6 @@ export interface ThrottlingControl {
 }
 
 class QuarterbackStepsExchanger extends CollabProvider {
-  private static _instance: QuarterbackStepsExchanger | null // react uncontrolled function call protection
-
   private applySteps: (
     projectId: string,
     docId: string,
@@ -86,10 +84,6 @@ class QuarterbackStepsExchanger extends CollabProvider {
         this.newStepsListener(version, steps, clientIDs)
       }
     })
-  }
-
-  destroy() {
-    QuarterbackStepsExchanger._instance = null
   }
 
   hydrateSteps(jsonSteps: unknown[]) {

@@ -12,6 +12,7 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { memoize } from 'lodash'
+import { useMemo } from 'react'
 
 import config from '../config'
 import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
@@ -49,6 +50,24 @@ export const useCreateEditor = () => {
     getActionCapabilities(project, user, undefined, permittedActions)
   )
 
+  const collabProvider = useMemo(
+    () =>
+      stepsExchanger(
+        manuscript._id,
+        project._id,
+        initialDocVersion,
+        authToken,
+        (preventUnload, beforeUnload) => {
+          if (beforeUnload !== undefined) {
+            dispatch({ preventUnload, beforeUnload })
+          } else {
+            dispatch({ preventUnload })
+          }
+        }
+      ),
+    [manuscript, project]
+  )
+
   const props = {
     attributes: {
       class: 'manuscript-editor',
@@ -77,19 +96,7 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    collabProvider: stepsExchanger(
-      manuscript._id,
-      project._id,
-      initialDocVersion,
-      authToken,
-      (preventUnload, beforeUnload) => {
-        if (beforeUnload !== undefined) {
-          dispatch({ preventUnload, beforeUnload })
-        } else {
-          dispatch({ preventUnload })
-        }
-      }
-    ),
+    collabProvider,
   }
 
   const editor = useEditor(props)
