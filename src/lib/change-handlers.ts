@@ -14,7 +14,7 @@ import {
   NodeChange,
   TextChange,
 } from '@manuscripts/track-changes-plugin'
-import { schema } from '@manuscripts/transform'
+import { nodeNames, schema } from '@manuscripts/transform'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { changeOperationAlias } from './tracking'
@@ -33,11 +33,14 @@ export const handleTextChange = (
   dataTracked: any
 ): SnippetData | null => {
   const parentNodeType = getParentNode(view.state, suggestion.from)?.type
-  const parentNodeName = parentNodeType?.spec.name || parentNodeType?.name
-  const nodeName =
-    parentNodeType === schema.nodes.paragraph
-      ? 'text'
-      : parentNodeName + ' text'
+  let nodeName
+  if (parentNodeType) {
+    const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
+    nodeName =
+      parentNodeType === schema.nodes.paragraph
+        ? 'text'
+        : parentNodeName + ' text'
+  }
 
   return {
     operation: changeOperationAlias(dataTracked.operation),
@@ -55,7 +58,7 @@ export const handleNodeChange = (
   const nodeContentRetriever = new NodeTextContentRetriever(view.state)
   const { node } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
-  const nodeName = node.type.spec.name || node.type.name
+  const nodeName = nodeNames.get(node.type) || node.type.name
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
