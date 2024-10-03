@@ -49,6 +49,11 @@ export const CommentAction = styled.div`
   }
 `
 
+const Container = styled.div`
+  display: flex;
+  align-items: end;
+`
+
 export interface CommentActionsProps {
   comment: Comment
   isResolveEnabled: boolean
@@ -69,13 +74,17 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
   return (
-    <>
+    <Container>
       {isResolveEnabled && (
         <CommentResolveButton comment={comment} onClick={toggleResolve} />
       )}
       {isActionsEnabled && (
         <DropdownContainer ref={wrapperRef}>
-          <ActionsIcon data-cy="comment-dropdown-trigger" onClick={toggleOpen}>
+          <ActionsIcon
+            data-cy="comment-dropdown-trigger"
+            onClick={toggleOpen}
+            className="actions-icon"
+          >
             <DotsIcon />
           </ActionsIcon>
           {isOpen && (
@@ -95,6 +104,6 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
           )}
         </DropdownContainer>
       )}
-    </>
+    </Container>
   )
 }

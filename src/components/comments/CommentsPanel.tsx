@@ -24,10 +24,12 @@ import { NodeSelection, TextSelection } from 'prosemirror-state'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { buildCommentTrees, CommentTree } from '../../lib/comments'
+import { buildThreads, Thread } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
+import { buildComment, buildContribution } from '@manuscripts/transform'
+import { findChildrenByType } from 'prosemirror-utils'
 
 const Header = styled.div`
   display: flex;
@@ -47,11 +49,14 @@ const scrollIntoView = (element: HTMLElement) => {
 }
 
 export const CommentsPanel: React.FC = () => {
-  const [{ view, newCommentID, selectedCommentKey }] = useStore((state) => ({
-    view: state.view,
-    newCommentID: state.newCommentID,
-    selectedCommentKey: state.selectedCommentKey,
-  }))
+  const [{ view, newCommentID, selectedCommentKey, user }] = useStore(
+    (state) => ({
+      view: state.view,
+      newCommentID: state.newCommentID,
+      selectedCommentKey: state.selectedCommentKey,
+      user: state.user,
+    })
+  )
 
   const [showResolved, setShowResolved] = useState(true)
 
@@ -60,9 +65,9 @@ export const CommentsPanel: React.FC = () => {
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,
     [view?.state]
   )
-  const trees = useMemo(
+  const threads = useMemo(
     () =>
-      comments ? buildCommentTrees([...comments.values()], newCommentID) : [],
+      comments ? buildThreads([...comments.values()], newCommentID) : [],
     [comments, newCommentID]
   )
 
@@ -91,6 +96,29 @@ export const CommentsPanel: React.FC = () => {
     view.dispatch(tr)
   }
 
+  const insertCommentReply = (target: string, contents: string) => {
+    if (!view) {
+      return
+    }
+    const attrs = {
+      ...buildComment(target, contents),
+      contributions: [buildContribution(user._id)],
+      resolved: false,
+    }
+
+    const comment = view.state.schema.nodes.comment.create(attrs)
+    const comments = findChildrenByType(
+      view.state.doc,
+      view.state.schema.nodes.comments
+    )[0]
+    if (comments) {
+      const pos = comments.pos + 1
+      const tr = view.state.tr.insert(pos, comment)
+      clearCommentSelection(tr)
+      view.dispatch(skipTracking(tr))
+    }
+  }
+
   const handleSave = (attrs: CommentAttrs) => {
     const comment = comments?.get(attrs.id)
     if (!comment || !view) {
@@ -113,15 +141,15 @@ export const CommentsPanel: React.FC = () => {
     view.dispatch(skipTracking(tr))
   }
 
-  const isSelected = (tree: CommentTree) => {
-    return tree && selectedCommentKey === tree.comment.key
+  const isSelected = (thread: Thread) => {
+    return thread && selectedCommentKey === thread.comment.key
   }
 
   if (!view) {
     return null
   }
 
-  if (!trees.length) {
+  if (!threads.length) {
     return <CommentsPlaceholder />
   }
 
@@ -137,17 +165,18 @@ export const CommentsPanel: React.FC = () => {
           <CheckboxLabelText>See resolved</CheckboxLabelText>
         </CheckboxLabel>
       </Header>
-      {trees
+      {threads
         .filter((c) => showResolved || !c.comment.node.attrs.resolved)
         .map((c, i, a) => (
           <CommentThread
             key={c.comment.node.attrs.id}
             ref={isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null}
-            tree={c}
+            thread={c}
             isSelected={isSelected(c)}
             onSelect={() => setSelectedComment(c.comment)}
             onSave={handleSave}
             onDelete={handleDelete}
+            insertCommentReply={insertCommentReply}
           />
         ))}
     </>
