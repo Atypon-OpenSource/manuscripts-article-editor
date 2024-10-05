@@ -16,11 +16,10 @@ import {
   insertFigure,
   useEditor,
 } from '@manuscripts/body-editor'
-import { ObjectTypes } from '@manuscripts/json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import {
   FigureNode,
-  generateID,
+  generateNodeID,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
   schema,
@@ -224,9 +223,9 @@ const addNewFigure = (
   attrs: Record<string, unknown>,
   pos: number
 ) => {
-  const figure = view.state.schema.nodes.figure.createAndFill({
+  const figure = schema.nodes.figure.createAndFill({
     ...attrs,
-    id: generateID(ObjectTypes.Figure),
+    id: generateNodeID(schema.nodes.figure),
   }) as FigureNode
   const tr = view.state.tr.insert(pos, figure)
   dispatch(tr)
