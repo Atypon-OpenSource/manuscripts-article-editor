@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CommentAttrs } from '@manuscripts/body-editor'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Thread, commentsByTime } from '../../lib/comments'
@@ -29,6 +29,12 @@ const Container = styled.div<{ isSelected?: boolean }>`
 
   .actions-icon {
     visibility: ${(props) => (props.isSelected ? 'visible' : 'hidden')};
+  }
+
+  .show-more {
+    cursor: pointer;
+    text-align: center;
+    margin-top: 6px;
   }
 
   &:hover {
@@ -69,38 +75,64 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     } = props
 
     const { comment, isNew, replies } = thread
+
+    const cardsRef = useRef<HTMLDivElement>(null)
+    const [showMore, setShowMore] = useState(false)
+
+    useEffect(() => {
+      if (cardsRef.current) {
+        const contentHeight = cardsRef.current.scrollHeight
+        setShowMore(contentHeight > 280) // || replies.length > 1
+      }
+    }, [cardsRef.current, replies])
+
     return (
       <Container data-cy="comment" isSelected={isSelected} ref={ref}>
-        <CommentCard
-          comment={comment}
-          isReply={false}
-          numOfReplies={replies.length}
-          isNew={isNew}
-          isEndOfThread={!replies.length}
-          onDelete={onDelete}
-          onSave={onSave}
-          onSelect={onSelect}
-        />
-        {replies.sort(commentsByTime).map((reply, index) => {
-          return (
-            <div key={reply.node.attrs.id}>
-              {index === 0 && <SeparatorLine />}
-              <Indented>
-                {index !== 0 && <SeparatorLine />}
-                <CommentCard
-                  comment={reply}
-                  isReply={true}
-                  numOfReplies={0}
-                  isNew={false}
-                  isEndOfThread={index === replies.length - 1}
-                  onDelete={onDelete}
-                  onSave={onSave}
-                  onSelect={onSelect}
-                />
-              </Indented>
+        <CardsWrapper
+          ref={cardsRef}
+          isSelected={isSelected}
+          showMore={showMore}
+        >
+          <CommentCard
+            comment={comment}
+            isReply={false}
+            numOfReplies={replies.length}
+            isNew={isNew}
+            isEndOfThread={!replies.length}
+            onDelete={onDelete}
+            onSave={onSave}
+            onSelect={onSelect}
+          />
+          {replies.sort(commentsByTime).map((reply, index) => {
+            return (
+              <div key={reply.node.attrs.id}>
+                {index === 0 && <SeparatorLine />}
+                <Indented>
+                  {index !== 0 && <SeparatorLine />}
+                  <CommentCard
+                    comment={reply}
+                    isReply={true}
+                    numOfReplies={0}
+                    isNew={false}
+                    isEndOfThread={index === replies.length - 1}
+                    onDelete={onDelete}
+                    onSave={onSave}
+                    onSelect={onSelect}
+                  />
+                </Indented>
+              </div>
+            )
+          })}
+        </CardsWrapper>
+
+        {showMore && !isSelected && (
+          <>
+            <SeparatorLine />
+            <div className="show-more" onClick={onSelect}>
+              Show more
             </div>
-          )
-        })}
+          </>
+        )}
         {isSelected && !isNew && (
           <ReplyBox
             insertCommentReply={insertCommentReply}
@@ -111,3 +143,26 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     )
   }
 )
+
+const CardsWrapper = styled.div<{
+  isSelected: boolean
+  showMore: boolean
+}>`
+  max-height: ${({ isSelected }) => (isSelected ? 'none' : '280px')};
+  overflow: hidden;
+  position: relative;
+  ${({ showMore, isSelected }) =>
+    showMore &&
+    !isSelected &&
+    `
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    }
+  `}
+`
