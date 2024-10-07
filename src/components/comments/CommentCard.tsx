@@ -23,6 +23,7 @@ import { buildAuthorName, getAuthorID } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentActions } from './CommentActions'
 import { CommentBody } from './CommentBody'
+import { DeleteCommentConfirmation } from './DeleteCommentConfirmation'
 
 const CommentHeader = styled.div`
   display: flex;
@@ -76,6 +77,10 @@ const RepliesCount = styled.div`
   text-align: center;
   font-size: 9px;
 `
+const Card = styled.div`
+  position: relative;
+`
+
 interface CommentCardProps {
   comment: Comment
   isReply: boolean
@@ -121,9 +126,12 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     : can.handleOthersComments
 
   const [isEditing, setEditing] = useState(isNew)
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
 
-  const handleEdit = () => setEditing(true)
-
+  const handleEdit = () => {
+    setEditing(true)
+    onSelect()
+  }
   const handleSave = (contents: string) => {
     onSave({
       ...comment.node.attrs,
@@ -146,8 +154,21 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     })
   }
 
+  const handleDelete = () => {
+    setShowDeleteConfirmation(true)
+  }
+
+  const confirmDelete = () => {
+    onDelete(comment.node.attrs.id)
+    setShowDeleteConfirmation(false)
+  }
+
+  const cancelDelete = () => {
+    setShowDeleteConfirmation(false)
+  }
+
   return (
-    <>
+    <Card>
       <CommentHeader data-cy="comment-header">
         <CommentMetadata>
           <CommentAuthor>
@@ -172,7 +193,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
           comment={comment}
           isResolveEnabled={isResolveEnabled && !isReply}
           isActionsEnabled={isActionsEnabled && isEndOfThread}
-          onDelete={() => onDelete(comment.node.attrs.id)}
+          onDelete={handleDelete}
           onEdit={handleEdit}
           toggleResolve={handleToggleResolve}
         />
@@ -187,6 +208,12 @@ export const CommentCard: React.FC<CommentCardProps> = ({
         onCancel={handleCancel}
         onSelect={onSelect}
       />
-    </>
+      {showDeleteConfirmation && (
+        <DeleteCommentConfirmation
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+        />
+      )}
+    </Card>
   )
 }

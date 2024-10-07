@@ -149,12 +149,12 @@ const CardsWrapper = styled.div<{
   showMore: boolean
 }>`
   max-height: ${({ isSelected }) => (isSelected ? 'none' : '280px')};
-  overflow: hidden;
   position: relative;
   ${({ showMore, isSelected }) =>
     showMore &&
     !isSelected &&
     `
+    overflow: hidden;
     &:after {
       content: '';
       position: absolute;
