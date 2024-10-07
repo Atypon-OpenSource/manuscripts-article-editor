@@ -10,29 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileAttachment } from '@manuscripts/body-editor'
+import { getVersion as getTransformVersion } from '@manuscripts/transform'
 
-import { loadDoc } from '../quarterback/api/loadDoc'
-import { ManuscriptSnapshot } from '../quarterback/types'
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
-import Api from './Api'
+import { Api } from './Api'
 import { buildData } from './buildData'
 import { buildUtilities } from './buildUtilities'
 
-export default class PsSource implements StoreDataSourceStrategy {
+export class ApiSource implements StoreDataSourceStrategy {
   api: Api
   data: Partial<state>
   utilities: Partial<state>
-  files: FileAttachment[]
 
-  constructor(files: FileAttachment[]) {
-    this.api = new Api()
-    this.files = files
-    // import api
-    // get user and all the data
-    // build and provide methods such as saveModel, saveManuscript etc. (see ModelManager in couch-data)
-    // conform with the store
+  constructor(api: Api) {
+    this.api = api
   }
 
   updateState: stateSetter = (state: state) => {
@@ -40,41 +32,11 @@ export default class PsSource implements StoreDataSourceStrategy {
   }
 
   build: builderFn = async (state, next, setState) => {
-    if (state.userID && state.authToken) {
-      this.api.setToken(state.authToken)
-    }
     const projectID = state.projectID
     const manuscriptID = state.manuscriptID
-
-    if (state.projectID && state.manuscriptID && state.authToken) {
-      const res = await loadDoc(
-        state.manuscriptID,
-        state.projectID,
-        state.authToken,
-        state.doc
-      )
-      if (res?.doc && res.version >= 0) {
-        this.data = {
-          ...this.data,
-          doc: res.doc,
-          initialDocVersion: res.version,
-          snapshots: res.snapshots,
-          snapshotsMap: new Map<string, ManuscriptSnapshot>(),
-        }
-      }
-    }
-
-    if (manuscriptID && projectID && this.data.doc) {
-      const data = await buildData(
-        projectID,
-        manuscriptID,
-        this.data.doc,
-        this.api
-      )
-      this.data = {
-        ...this.data,
-        ...data,
-      }
+    if (manuscriptID && projectID) {
+      await this.checkTransformVersion()
+      this.data = await buildData(projectID, manuscriptID, this.api)
       this.utilities = buildUtilities(
         projectID,
         manuscriptID,
@@ -90,5 +52,14 @@ export default class PsSource implements StoreDataSourceStrategy {
   }
   updateStore = (setState: stateSetter) => {
     this.updateState = setState
+  }
+  checkTransformVersion = async () => {
+    const fe = getTransformVersion()
+    const api = await this.api.getTransformVersion()
+    if (fe !== api) {
+      console.warn(
+        `manuscripts-transform version mismatch. FE: ${fe}, api: ${api}`
+      )
+    }
   }
 }
