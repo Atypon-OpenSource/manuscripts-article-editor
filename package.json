@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "3.2.12",
+  "version": "3.2.13",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -60,7 +60,6 @@
     "react-popper": "^2.0.0",
     "react-select": "^5.7.3",
     "styled-components": "^5.2.0",
-    "type-fest": "^4.6.0",
     "use-sync-external-store": "^1.2.2",
     "uuid": "^9.0.0",
     "yarn-run-all": "^3.1.1"

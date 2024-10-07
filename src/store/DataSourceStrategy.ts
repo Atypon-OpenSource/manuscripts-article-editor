@@ -10,8 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-
 import { builderFn, GenericStore, state } from '.'
 
 export type stateSetter = (
@@ -29,28 +27,13 @@ export interface StoreDataSourceStrategy {
 }
 
 export class BasicSource implements StoreDataSourceStrategy {
-  data: { [key: string]: any }
-  constructor(
-    fileManagement: FileManagement,
-    projectID: string,
-    manuscriptID: string,
-    files: FileAttachment[],
-    permittedActions: string[],
-    userID?: string | undefined,
-    authToken?: string | undefined
-  ) {
-    this.data = {
-      fileManagement,
-      projectID,
-      manuscriptID,
-      files,
-      permittedActions,
-      userID,
-      authToken,
-    }
+  data: Partial<state>
+
+  constructor(data: Partial<state>) {
+    this.data = data
   }
 
-  build: builderFn = (state, next) => {
+  build: builderFn = (_, next) => {
     next({ ...this.data })
   }
 }
