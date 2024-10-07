@@ -53,6 +53,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
     <InspectorSection
       title={title.concat(changes.length ? ` (${changes.length})` : '')}
       approveAll={onAcceptAll}
+      fixed={true}
     >
       <List data-cy="suggestions-list" data-cy-type={type}>
         {sortedChanges.map((c: TrackedChange) => (

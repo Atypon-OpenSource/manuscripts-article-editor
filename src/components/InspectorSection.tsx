@@ -81,12 +81,14 @@ interface Props {
   title: React.ReactNode
   children?: React.ReactNode
   approveAll?: () => void
+  fixed?: boolean
 }
 
 export const InspectorSection: React.FC<Props> = ({
   title,
   children,
   approveAll,
+  fixed,
 }) => {
   const [expanded, setExpanded] = useState(true)
   const can = usePermissions()
@@ -99,17 +101,20 @@ export const InspectorSection: React.FC<Props> = ({
           <ApproveAllButton approveAll={approveAll} />
         )}
 
-        <ExpanderButton
-          aria-label={'Toggle expand section'}
-          onClick={() => setExpanded(!expanded)}
-          style={{
-            transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-          }}
-        >
-          <ArrowDownCircleIcon />
-        </ExpanderButton>
+        {!fixed && (
+          <ExpanderButton
+            aria-label={'Toggle expand section'}
+            onClick={() => setExpanded(!expanded)}
+            style={{
+              transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
+            }}
+          >
+            <ArrowDownCircleIcon />
+          </ExpanderButton>
+        )}
       </Heading>
-      {expanded && <Content>{children}</Content>}
+
+      {(expanded || fixed) && <Content>{children}</Content>}
     </Section>
   )
 }
