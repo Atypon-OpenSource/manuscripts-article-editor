@@ -23,7 +23,7 @@ export const useHandleSnapshot = (view?: EditorView) => {
   }))
   const execCmd = useExecCmd()
 
-  return async () => {
+  return async (stepLabel: string) => {
     if (!view) {
       return
     }
@@ -31,6 +31,6 @@ export const useHandleSnapshot = (view?: EditorView) => {
     beforeUnload && beforeUnload()
     execCmd(trackCommands.applyAndRemoveChanges(), view)
     await delay(2000) // to avoid potentially saving before the changes are applied)
-    await createSnapshot()
+    await createSnapshot(stepLabel)
   }
 }

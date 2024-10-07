@@ -142,9 +142,6 @@ export const SnapshotsDropdown: React.FC = () => {
                   key={snapshot.id}
                 >
                   <Container>
-                    <AvatarContainer>
-                      <Avatar size={20} />
-                    </AvatarContainer>
                     <InnerContainer>
                       <Text>{snapshot.name}</Text>
 
