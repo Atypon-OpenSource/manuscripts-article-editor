@@ -13,11 +13,13 @@ import {
   Bundle,
   ManuscriptTemplate,
   Model,
+  ObjectTypes,
   Project,
   SectionCategory,
   UserProfile,
 } from '@manuscripts/json-schema'
 import axios, { AxiosError, AxiosInstance } from 'axios'
+import { createContext, useContext } from 'react'
 
 import { getConfig } from '../config'
 import { ManuscriptDoc, ManuscriptSnapshot } from '../lib/doc'
@@ -30,7 +32,7 @@ import {
   TransformVersionResponse,
 } from './types'
 
-export default class Api {
+export class Api {
   instance: AxiosInstance
 
   constructor(authToken: string) {
@@ -81,9 +83,6 @@ export default class Api {
 
   getUser = () => this.get<UserProfile>('user')
 
-  getManuscript = (projectID: string, manuscriptID: string) =>
-    this.get<Model[]>(`project/${projectID}/manuscript/${manuscriptID}`)
-
   getSectionCategories = () =>
     this.get<SectionCategory[]>('/config?id=section-categories')
 
@@ -106,6 +105,18 @@ export default class Api {
   getUserProfiles = (containerID: string) =>
     this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
 
+  getProject = async (projectID: string) => {
+    const models = await this.get<Model[]>(`project/${projectID}`)
+    if (!models) {
+      throw new Error('Models are wrong.')
+    }
+    for (const model of models) {
+      if (model.objectType === ObjectTypes.Project) {
+        return model as Project
+      }
+    }
+  }
+
   saveProject = (projectId: string, models: Model[]) => {
     return this.put(`project/${projectId}`, { data: models })
   }
@@ -116,15 +127,14 @@ export default class Api {
   getSnapshot = (snapshotID: string) =>
     this.get<ManuscriptSnapshot>(`snapshot/${snapshotID}`)
 
-  createSnapshot = (projectID: string, manuscriptID: string) => {
-    return this.post<CreateSnapshotResponse>(
+  createSnapshot = (projectID: string, manuscriptID: string) =>
+    this.post<CreateSnapshotResponse>(
       `snapshot/${projectID}/manuscript/${manuscriptID}`,
       {
         docID: manuscriptID,
         name: new Date().toLocaleString('sv'),
       }
     )
-  }
 
   getDocument = (projectID: string, manuscriptID: string) =>
     this.get<ManuscriptDoc>(`doc/${projectID}/manuscript/${manuscriptID}`)
@@ -224,4 +234,14 @@ export default class Api {
     window.addEventListener('beforeunload', close)
     join()
   }
+}
+
+export const ApiContext = createContext<Api | undefined>(undefined)
+
+export const useApi = (): Api => {
+  const api = useContext(ApiContext)
+  if (!api) {
+    throw new Error('Api not initialized')
+  }
+  return api
 }

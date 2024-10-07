@@ -13,7 +13,7 @@ import { CollabProvider } from '@manuscripts/body-editor'
 import { schema } from '@manuscripts/transform'
 import { Step } from 'prosemirror-transform'
 
-import Api from './Api'
+import { Api } from './Api'
 import { saveWithDebounce } from './savingUtilities'
 
 const MAX_ATTEMPTS = 20
@@ -59,6 +59,7 @@ export class StepsExchanger extends CollabProvider {
     this.isThrottling = new ObservableBoolean()
     this.debounce = saveWithDebounce()
     this.api = api
+    this.start()
   }
 
   async sendSteps(
@@ -101,11 +102,20 @@ export class StepsExchanger extends CollabProvider {
   }
 
   async receiveSteps(version: number, steps: unknown[], clientIDs: number[]) {
+    this.currentVersion = version
     if (steps.length) {
-      this.currentVersion = version
       //TODO send steps to listener
       this.newStepsListener()
     }
+  }
+
+  start() {
+    this.api.listenToSteps(
+      this.projectID,
+      this.manuscriptID,
+      (version, steps, clientIDs) =>
+        this.receiveSteps(version, steps, clientIDs)
+    )
   }
 
   flush() {

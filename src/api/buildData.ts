@@ -9,40 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Manuscript,
-  ObjectTypes,
-  Project,
-  UserProfile,
-} from '@manuscripts/json-schema'
+import { UserProfile } from '@manuscripts/json-schema'
 import { schema } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
-import Api from './Api'
-import { StepsExchanger } from './StepsExchanger'
-
-const getIdModels = async (
-  api: Api,
-  projectID: string,
-  manuscriptID: string
-) => {
-  const models = await api.getManuscript(projectID, manuscriptID)
-  let project: Project | undefined
-  let manuscript: Manuscript | undefined
-  if (!models) {
-    throw new Error('Models are wrong.')
-  }
-  for (const model of models) {
-    if (model.objectType === ObjectTypes.Project) {
-      project = model as Project
-    }
-    if (model.objectType === ObjectTypes.Manuscript) {
-      manuscript = model as Manuscript
-    }
-  }
-  return [project, manuscript] as [Project, Manuscript]
-}
+import { Api } from './Api'
 
 const getDocumentData = async (
   projectID: string,
@@ -55,7 +27,7 @@ const getDocumentData = async (
   }
   return {
     doc: schema.nodeFromJSON(response.doc),
-    version: response.version,
+    initialDocVersion: response.version,
     snapshots: response.snapshots,
   }
 }
@@ -96,7 +68,6 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
 export const buildData = async (
   projectID: string,
   manuscriptID: string,
-  updateState: (state: Partial<state>) => void,
   api: Api
 ) => {
   const user = await api.getUser()
@@ -106,27 +77,9 @@ export const buildData = async (
 
   const doc = await getDocumentData(projectID, manuscriptID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
-  const [project, manuscript] = await getIdModels(api, projectID, manuscriptID)
+  const project = await api.getProject(projectID)
   const role = project ? getUserRole(project, user.userID) : null
   const users = await getUserData(projectID, user, api)
-
-  const stepsExchanger = new StepsExchanger(
-    projectID,
-    manuscriptID,
-    doc.version,
-    api
-  )
-  stepsExchanger.isThrottling.onChange((value: boolean) => {
-    updateState({
-      preventUnload: value,
-    })
-  })
-
-  api.listenToSteps(projectID, manuscriptID, (version, steps, clientIDs) =>
-    stepsExchanger.receiveSteps(version, steps, clientIDs)
-  )
-
-  const beforeUnload = () => stepsExchanger.flush()
 
   return {
     user,
@@ -134,9 +87,6 @@ export const buildData = async (
     ...users,
     ...state,
     ...doc,
-    stepsExchanger,
     project,
-    manuscript,
-    beforeUnload,
   }
 }

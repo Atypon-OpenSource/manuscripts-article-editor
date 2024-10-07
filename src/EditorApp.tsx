@@ -10,9 +10,16 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, {
+  MutableRefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 
+import { Api, ApiContext } from './api/Api'
 import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
@@ -83,6 +90,8 @@ const EditorApp: React.FC<EditorAppProps> = ({
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
+  const api = useMemo(() => new Api(authToken), [authToken])
+
   useEffect(() => {
     // implement remount for the store if component is retriggered
     if (loadedRef.current) {
@@ -98,8 +107,8 @@ const EditorApp: React.FC<EditorAppProps> = ({
       userID: userID || '',
       tokenData: new TokenData(),
     })
-    const api = new ApiSource(authToken)
-    createStore([props, api])
+    const apiSource = new ApiSource(api)
+    createStore([props, apiSource])
       .then((s) => {
         setStore(s)
       })
@@ -125,13 +134,15 @@ const EditorApp: React.FC<EditorAppProps> = ({
   }, [observer, store])
 
   return store ? (
-    <GenericStoreProvider store={store}>
-      <Page>
-        <Wrapper>
-          <ManuscriptPageContainer />
-        </Wrapper>
-      </Page>
-    </GenericStoreProvider>
+    <ApiContext.Provider value={api}>
+      <GenericStoreProvider store={store}>
+        <Page>
+          <Wrapper>
+            <ManuscriptPageContainer />
+          </Wrapper>
+        </Page>
+      </GenericStoreProvider>
+    </ApiContext.Provider>
   ) : (
     <PlaceholderWrapper>
       <ManuscriptPlaceholder />

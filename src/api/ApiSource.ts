@@ -14,7 +14,7 @@ import { getVersion as getTransformVersion } from '@manuscripts/transform'
 
 import { builderFn, state, stateSetter } from '../store'
 import { StoreDataSourceStrategy } from '../store/DataSourceStrategy'
-import Api from './Api'
+import { Api } from './Api'
 import { buildData } from './buildData'
 import { buildUtilities } from './buildUtilities'
 
@@ -23,8 +23,8 @@ export class ApiSource implements StoreDataSourceStrategy {
   data: Partial<state>
   utilities: Partial<state>
 
-  constructor(authToken: string) {
-    this.api = new Api(authToken)
+  constructor(api: Api) {
+    this.api = api
   }
 
   updateState: stateSetter = (state: state) => {
@@ -36,7 +36,7 @@ export class ApiSource implements StoreDataSourceStrategy {
     const manuscriptID = state.manuscriptID
     if (manuscriptID && projectID) {
       await this.checkTransformVersion()
-      this.data = await buildData(projectID, manuscriptID, setState, this.api)
+      this.data = await buildData(projectID, manuscriptID, this.api)
       this.utilities = buildUtilities(
         projectID,
         manuscriptID,

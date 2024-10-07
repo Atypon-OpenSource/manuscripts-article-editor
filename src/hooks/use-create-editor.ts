@@ -12,8 +12,11 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { memoize } from 'lodash'
+import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { useApi } from '../api/Api'
+import { StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
@@ -22,26 +25,46 @@ export const useCreateEditor = () => {
   const [
     {
       doc,
+      initialDocVersion,
       projectID,
+      manuscriptID,
       user,
       fileManagement,
       style,
       locale,
       sectionCategories,
-      stepsExchanger,
     },
-    _,
+    dispatch,
     getState,
   ] = useStore((store) => ({
     doc: store.doc,
+    initialDocVersion: store.initialDocVersion,
     projectID: store.projectID,
+    manuscriptID: store.manuscriptID,
     user: store.user,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
-    stepsExchanger: store.stepsExchanger,
   }))
+
+  const api = useApi()
+
+  const stepsExchanger = useMemo(
+    () => new StepsExchanger(projectID, manuscriptID, initialDocVersion, api),
+    [projectID, manuscriptID, initialDocVersion, api]
+  )
+
+  useEffect(() => {
+    stepsExchanger.isThrottling.onChange((value: boolean) => {
+      dispatch({
+        preventUnload: value,
+      })
+    })
+    dispatch({
+      beforeUnload: () => stepsExchanger.flush(),
+    })
+  }, [dispatch, stepsExchanger])
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)

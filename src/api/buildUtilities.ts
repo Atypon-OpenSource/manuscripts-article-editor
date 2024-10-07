@@ -10,11 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ObjectTypes, Project } from '@manuscripts/json-schema'
-
 import { getUserRole } from '../lib/roles'
-import { ContainerIDs, state } from '../store'
-import Api from './Api'
+import { state } from '../store'
+import { Api } from './Api'
 
 export const buildUtilities = (
   projectID: string,
@@ -42,13 +40,7 @@ export const buildUtilities = (
     if (!userID) {
       return
     }
-    const models = await api.getManuscript(projectID, manuscriptID)
-    if (!models) {
-      return
-    }
-    const project = models.filter(
-      (m) => m.objectType === ObjectTypes.Project
-    )[0] as Project
+    const project = await api.getProject(projectID)
     if (!project) {
       return
     }
