@@ -1485,17 +1485,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.0.57":
-  version "2.0.57"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.0.57.tgz#4437e4186abac15c74a80ece66666d8f03794463"
-  integrity sha512-3sALXaG0XIkQ/3/xION+6x1IAy3+TtjPacgEoCIQva01b0FJnOLJb2nT10Zi1luRTa8hGLEOalmJNk4LE9kIZQ==
+"@manuscripts/body-editor@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.2.12.tgz#b3b2f7813e7f942729e09c7e3f01cfb1823889f4"
+  integrity sha512-lzs+e5p64tolZ5Krbjqu2nM81E5mRI+cVj5CI7eXqYSOkkdgG8i2f1IhnB3stwrOn20+tFFP/riNWlwx6bkQpw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
-    "@manuscripts/style-guide" "2.0.19"
-    "@manuscripts/track-changes-plugin" "1.7.22"
-    "@manuscripts/transform" "2.3.37"
+    "@manuscripts/style-guide" "2.0.21"
+    "@manuscripts/track-changes-plugin" "1.7.23"
+    "@manuscripts/transform" "3.0.1"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1562,10 +1562,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.0.19":
-  version "2.0.19"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.19.tgz#565f99732b0ff9fd9e155e3814c592efb7a49b7d"
-  integrity sha512-k/cqGlNbyYFkI6X50vYvQ4rJ9wbW1DS1CExgoaWTuZ8P++3cAWwV9H+RHVY60jfhavNTqwPLJI5ZNnfEU9SAdA==
+"@manuscripts/style-guide@2.0.21":
+  version "2.0.21"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.21.tgz#a5b2ce5c12495221e366cb5465685a5b30eade13"
+  integrity sha512-S/xPGr0W0gVxZhU9l2bSWEmvFwBTEL/yBht+gEwJZxnRGRoqrkhVs8KxydcauyBLCCmXleM6nSKiNUYdW7h8XQ==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@reach/tabs" "^0.18.0"
@@ -1592,10 +1592,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.22":
-  version "1.7.22"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.22.tgz#eff1d59c98764f382dd8d74ed3d15440c0f68f4f"
-  integrity sha512-7xiBBLx6mbbQYr3hEXYnn2pJ9ZEKWZFTgIqrudqNf32eYjpxhZj9cEyseAzHPLFQ+mnftO/iwvTKPNZb22hxMA==
+"@manuscripts/track-changes-plugin@1.7.23":
+  version "1.7.23"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.23.tgz#fc47fafb9ec97b41cf0645a71f917dab9e613865"
+  integrity sha512-B1kYVUSLX/tY55NZ7xgm52y8VTw+NVKY5XD8ysTN4QXFEYGYr54HT2qaAvRutczvwKe6b/BnizqpI/sbr8oFdQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1608,10 +1608,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.3.37":
-  version "2.3.37"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.3.37.tgz#61e99543de0cf5f3dc70d9ba2829e7e7ef5934ce"
-  integrity sha512-3v0xag/G2J/vCiX7p8dQQ37Y0zvwPFpSv6NBGcDUcYfh3iyYHwS3P+kiDFSqVxvrOMGsL6YgKiXztqf9xdH9+w==
+"@manuscripts/transform@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.1.tgz#7ac8d23df56f14cfccc1990ddf828c9c4c1b596b"
+  integrity sha512-vNrz/poctNzHue9kq/4112EjdgLbzjOKdcUyie9xH8N7RPJ6Ti96zJEtSrmpsWfEPB0QxrrPexQ6t4whJsoEXg==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
@@ -1621,6 +1621,7 @@
     mime "^3.0.0"
     prosemirror-model "^1.18.3"
     prosemirror-tables "^1.3.5"
+    prosemirror-utils "^1.2.2"
     semver "^7.6.2"
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
@@ -6544,6 +6545,11 @@ prosemirror-utils@^0.9.6:
   version "0.9.6"
   resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.9.6.tgz#3d97bd85897e3b535555867dc95a51399116a973"
   integrity sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==
+
+prosemirror-utils@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-1.2.2.tgz#21ff3777e7b9b22b9ec8d7ded7d15b9aeeb1d008"
+  integrity sha512-7a2MPf99oCW8/587rQYI1/snX71Ban40+apr1hLkY8TmU9YXd7JeR6QsmktcTisJURO3WRjxIia4lTMsYgZVOw==
 
 prosemirror-view@1.32.7:
   version "1.32.7"

@@ -9,22 +9,18 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { usePermissions } from '@manuscripts/style-guide'
 import { trackCommands } from '@manuscripts/track-changes-plugin'
 import { EditorView } from 'prosemirror-view'
 
-import { getDocWithoutTrackContent } from '../lib/doc'
+import { delay } from '../lib/delay'
 import { useStore } from '../store'
 import useExecCmd from './use-exec-cmd'
 
 export const useHandleSnapshot = (view?: EditorView) => {
-  const [{ saveDoc, createSnapshot, beforeUnload }] = useStore((store) => ({
+  const [{ createSnapshot, beforeUnload }] = useStore((store) => ({
     createSnapshot: store.createSnapshot,
-    saveDoc: store.saveDoc,
     beforeUnload: store.beforeUnload,
   }))
-  const can = usePermissions()
-  const canApplySaveChanges = can.applySaveChanges
   const execCmd = useExecCmd()
 
   return async () => {
@@ -33,27 +29,8 @@ export const useHandleSnapshot = (view?: EditorView) => {
     }
     // if there is a pending throttle or potentially other pending action, we need to make sure it's done before we proceed wrapping the current step
     beforeUnload && beforeUnload()
-    await createSnapshot()
     execCmd(trackCommands.applyAndRemoveChanges(), view)
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        const state = view.state
-        if (!state) {
-          reject(new Error('State is not available'))
-          return
-        }
-        if (!canApplySaveChanges) {
-          return resolve()
-        }
-
-        saveDoc(getDocWithoutTrackContent(state))
-          .then(() => {
-            resolve()
-          })
-          .catch(() =>
-            reject(new Error('Cannot save to api. Check connection.'))
-          )
-      }, 900) // to avoid potentially saving before the changes are applied
-    })
+    await delay(2000) // to avoid potentially saving before the changes are applied)
+    await createSnapshot()
   }
 }

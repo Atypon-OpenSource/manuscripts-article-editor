@@ -39,9 +39,14 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   }))
 
   const ga = useMemo(
-    () => findGraphicalAbstractFigureElement(view.state.doc),
-    [view.state.doc]
+    () =>
+      view ? findGraphicalAbstractFigureElement(view.state.doc) : undefined,
+    [view]
   )
+
+  if (!view) {
+    return null
+  }
 
   const handleClick = (element: ElementFiles) => {
     const tr = view.state.tr

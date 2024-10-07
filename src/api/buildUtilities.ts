@@ -10,13 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  manuscriptIDTypes,
-  Model,
-  ObjectTypes,
-  Project,
-} from '@manuscripts/json-schema'
-import { Build, encode, ManuscriptNode } from '@manuscripts/transform'
+import { ObjectTypes, Project } from '@manuscripts/json-schema'
 
 import { getUserRole } from '../lib/roles'
 import { ContainerIDs, state } from '../store'
@@ -29,77 +23,6 @@ export const buildUtilities = (
   updateState: (state: Partial<state>) => void,
   api: Api
 ): Partial<state> => {
-  const updateContainerIDs = (model: Model) => {
-    const containerIDs: ContainerIDs = {
-      containerID: projectID,
-    }
-
-    if (!model._id) {
-      throw new Error('Model ID required')
-    }
-
-    if (manuscriptIDTypes.has(model.objectType)) {
-      containerIDs.manuscriptID = manuscriptID
-    }
-
-    return {
-      ...model,
-      ...containerIDs,
-    }
-  }
-
-  const saveProject = async (models: Model[]) => {
-    try {
-      const filtered = models.filter(
-        (m) => m.objectType !== ObjectTypes.Project
-      )
-      await api.saveProject(projectID, filtered)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
-  const saveModels = async (
-    models: Model[] | Build<Model>[] | Partial<Model>[]
-  ) => {
-    const state = getState()
-
-    if (!state.project || !state.manuscript) {
-      throw new Error('Unable to save due to incomplete data')
-    }
-
-    const modelMap = new Map<string, Model>()
-
-    for (const model of models) {
-      if (!model._id) {
-        throw new Error('Model ID required')
-      }
-      const updated = updateContainerIDs(model as Model)
-      modelMap.set(model._id, updated)
-    }
-
-    modelMap.set(state.project._id, state.project)
-    modelMap.set(state.manuscript._id, state.manuscript)
-
-    updateState({
-      savingProcess: 'saving',
-      preventUnload: true,
-    })
-
-    const result = await saveProject([...modelMap.values()])
-
-    updateState({
-      savingProcess: result ? 'saved' : 'failed',
-      preventUnload: false,
-    })
-  }
-
-  const saveDoc = async (doc: ManuscriptNode) => {
-    const models = encode(doc)
-    await saveModels([...models.values()])
-  }
-
   const createSnapshot = async () => {
     const state = getState()
     const snapshots = state.snapshots
@@ -136,7 +59,6 @@ export const buildUtilities = (
   }
 
   return {
-    saveDoc,
     createSnapshot,
     refreshProject,
     getSnapshot: api.getSnapshot,

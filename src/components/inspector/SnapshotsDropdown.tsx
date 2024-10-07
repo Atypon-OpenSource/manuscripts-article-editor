@@ -47,10 +47,11 @@ export const SnapshotsDropdown: React.FC = () => {
     [snapshots]
   )
 
+  if (!view) {
+    return null
+  }
+
   const hydrateDocFromJSON = (doc: ManuscriptNode) => {
-    if (!view) {
-      return
-    }
     const state = EditorState.create({
       doc: doc,
       plugins: view.state.plugins,

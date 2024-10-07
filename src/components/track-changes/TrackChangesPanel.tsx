@@ -11,6 +11,7 @@
  */
 
 import {
+  CHANGE_OPERATION,
   CHANGE_STATUS,
   ChangeSet,
   trackCommands,
@@ -99,7 +100,11 @@ export const TrackChangesPanel: React.FC = () => {
       />
       <SuggestionList
         type="rejected"
-        changes={changeSet?.rejected || []}
+        changes={
+          changeSet?.rejected.filter(
+            (c) => c.dataTracked.operation !== CHANGE_OPERATION.reference
+          ) || []
+        }
         title="Rejected Suggestions"
         sortBy={sortBy}
         onAccept={handleAccept}

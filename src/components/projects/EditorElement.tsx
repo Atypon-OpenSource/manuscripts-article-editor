@@ -16,17 +16,10 @@ import {
   insertFigure,
   useEditor,
 } from '@manuscripts/body-editor'
-import { ObjectTypes } from '@manuscripts/json-schema'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import {
-  CHANGE_STATUS,
-  ChangeSet,
-  trackCommands,
-  TrackedChange,
-} from '@manuscripts/track-changes-plugin'
-import {
   FigureNode,
-  generateID,
+  generateNodeID,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
   schema,
@@ -34,23 +27,20 @@ import {
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
 import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useDrop } from 'react-dnd'
 
 import { useConnectEditor } from '../../hooks/use-connect-editor'
-import useExecCmd from '../../hooks/use-exec-cmd'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
-  const [{ trackState, editor }] = useStore((store) => ({
-    trackState: store.trackState,
+  const [{ editor }] = useStore((store) => ({
     editor: store.editor,
   }))
 
-  const execCmd = useExecCmd()
   const { onRender, view, dispatch } = useConnectEditor()
 
   const [, drop] = useDrop({
@@ -113,79 +103,6 @@ const EditorElement: React.FC = () => {
     },
   })
 
-  const handleAcceptChange = useCallback(
-    (c: TrackedChange) => {
-      const ids = [c.id]
-      if (c.type === 'node-change') {
-        c.children.forEach((child) => {
-          ids.push(child.id)
-        })
-      }
-      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
-    },
-    [execCmd]
-  )
-  const handleRejectChange = useCallback(
-    (c: TrackedChange) => {
-      const ids = [c.id]
-      if (c.type === 'node-change') {
-        c.children.forEach((child) => {
-          ids.push(child.id)
-        })
-      }
-      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
-    },
-    [execCmd]
-  )
-
-  const findChange = (changeSet: ChangeSet, changeId: string) => {
-    const change = changeSet.changes.find((c) => c.id == changeId)
-    if (change) {
-      const fullChange = changeSet[change.dataTracked.status].find(
-        (c) => c.id == changeId
-      )
-      return fullChange
-    }
-    return change
-  }
-
-  const handleEditorClick = useCallback(
-    (e: React.MouseEvent) => {
-      const { view, dispatch } = editor
-      const button = e.target && (e.target as HTMLElement).closest('button')
-      if (!button) {
-        return
-      }
-      if (!trackState) {
-        return
-      }
-      const { changeSet } = trackState
-
-      const action = button.getAttribute('data-action')
-      const changeId = button.getAttribute('data-changeid')
-
-      if (action && changeId) {
-        const change = findChange(changeSet, changeId)
-        if (change) {
-          if (action === 'accept') {
-            handleAcceptChange(change)
-          } else if (action === 'reject') {
-            handleRejectChange(change)
-          }
-          if (
-            change.type === 'node-change' &&
-            change.node.type.name === 'keyword' &&
-            view &&
-            dispatch
-          ) {
-            dispatch(view.state.tr.setMeta('keywordsUpdated', true))
-          }
-        }
-      }
-    },
-    [handleAcceptChange, handleRejectChange, trackState, editor]
-  )
-
   return (
     <>
       {error && (
@@ -203,7 +120,7 @@ const EditorElement: React.FC = () => {
       )}
       <SpriteMap color="#353535" />
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
-      <div id="editorDropzone" ref={drop} onClick={handleEditorClick}>
+      <div id="editorDropzone" ref={drop}>
         <div id="editor" ref={onRender}></div>
       </div>
     </>
@@ -306,9 +223,9 @@ const addNewFigure = (
   attrs: Record<string, unknown>,
   pos: number
 ) => {
-  const figure = view.state.schema.nodes.figure.createAndFill({
+  const figure = schema.nodes.figure.createAndFill({
     ...attrs,
-    id: generateID(ObjectTypes.Figure),
+    id: generateNodeID(schema.nodes.figure),
   }) as FigureNode
   const tr = view.state.tr.insert(pos, figure)
   dispatch(tr)
