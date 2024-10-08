@@ -10,4 +10,49 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-export * from './collaboration'
+import { getUserRole } from '../lib/roles'
+import { state } from '../store'
+import { Api } from './Api'
+
+export const buildUtilities = (
+  projectID: string,
+  manuscriptID: string,
+  getState: () => Partial<state>,
+  updateState: (state: Partial<state>) => void,
+  api: Api
+): Partial<state> => {
+  const createSnapshot = async () => {
+    const state = getState()
+    const snapshots = state.snapshots
+    if (!snapshots) {
+      throw new Error('Missing snapshots')
+    }
+    const response = await api.createSnapshot(projectID, manuscriptID)
+    const { snapshot, ...label } = response.snapshot
+    updateState({
+      snapshots: [...snapshots, label],
+    })
+  }
+
+  const refreshProject = async () => {
+    const state = getState()
+    const userID = state.userID
+    if (!userID) {
+      return
+    }
+    const project = await api.getProject(projectID)
+    if (!project) {
+      return
+    }
+    updateState({
+      project,
+      userRole: getUserRole(project, userID),
+    })
+  }
+
+  return {
+    createSnapshot,
+    refreshProject,
+    getSnapshot: api.getSnapshot,
+  }
+}

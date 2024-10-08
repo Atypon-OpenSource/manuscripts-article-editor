@@ -13,7 +13,7 @@ import { commentsKey, selectedSuggestionKey } from '@manuscripts/body-editor'
 import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
 import { useEffect, useLayoutEffect, useMemo } from 'react'
 
-import { useDoWithThrottle } from '../postgres-data/savingUtilities'
+import { useDoWithThrottle } from '../api/savingUtilities'
 import { useStore } from '../store'
 import { useCreateEditor } from './use-create-editor'
 import { useHandleSnapshot } from './use-handle-snapshot'

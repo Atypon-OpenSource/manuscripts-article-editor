@@ -9,48 +9,36 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Manuscript,
-  ObjectTypes,
-  Project,
-  UserProfile,
-} from '@manuscripts/json-schema'
-import { ActualManuscriptNode, ManuscriptNode } from '@manuscripts/transform'
+import { UserProfile } from '@manuscripts/json-schema'
+import { schema } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
-import { TokenData } from '../store/TokenData'
-import Api from './Api'
+import { Api } from './Api'
 
-const getIdModels = async (
-  api: Api,
+const getDocumentData = async (
   projectID: string,
-  manuscriptID: string
+  manuscriptID: string,
+  api: Api
 ) => {
-  const models = await api.getManuscript(projectID, manuscriptID)
-  let project: Project | undefined
-  let manuscript: Manuscript | undefined
-  if (!models) {
-    throw new Error('Models are wrong.')
+  const response = await api.getDocument(projectID, manuscriptID)
+  if (!response) {
+    throw new Error('Document not found')
   }
-  for (const model of models) {
-    if (model.objectType === ObjectTypes.Project) {
-      project = model as Project
-    }
-    if (model.objectType === ObjectTypes.Manuscript) {
-      manuscript = model as Manuscript
-    }
+  return {
+    doc: schema.nodeFromJSON(response.doc),
+    initialDocVersion: response.version,
+    snapshots: response.snapshots,
   }
-  return [project, manuscript] as [Project, Manuscript]
 }
 
-const getManuscriptData = async (api: Api, prototype: string) => {
+const getManuscriptData = async (templateID: string, api: Api) => {
   const data: Partial<state> = {}
   const [sectionCategories, cslLocale, template] = await Promise.all([
     api.getSectionCategories(),
     // TODO:: config this!
     api.getCSLLocale('en-US'),
-    api.getTemplate(prototype),
+    api.getTemplate(templateID),
   ])
 
   const bundle = await api.getBundle(template)
@@ -80,7 +68,6 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
 export const buildData = async (
   projectID: string,
   manuscriptID: string,
-  doc: ManuscriptNode,
   api: Api
 ) => {
   const user = await api.getUser()
@@ -88,9 +75,9 @@ export const buildData = async (
     return {}
   }
 
-  const manuscriptNode = doc as ActualManuscriptNode
-  const state = await getManuscriptData(api, manuscriptNode.attrs.prototype)
-  const [project, manuscript] = await getIdModels(api, projectID, manuscriptID)
+  const doc = await getDocumentData(projectID, manuscriptID, api)
+  const state = await getManuscriptData(doc.doc.attrs.prototype, api)
+  const project = await api.getProject(projectID)
   const role = project ? getUserRole(project, user.userID) : null
   const users = await getUserData(projectID, user, api)
 
@@ -99,8 +86,7 @@ export const buildData = async (
     userRole: role,
     ...users,
     ...state,
+    ...doc,
     project,
-    manuscript,
-    tokenData: new TokenData(),
   }
 }

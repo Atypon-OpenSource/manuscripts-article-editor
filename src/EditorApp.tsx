@@ -10,14 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, {
+  MutableRefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 
+import { Api, ApiContext } from './api/Api'
+import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
 import { getCurrentUserId } from './lib/user'
-import PsSource from './postgres-data/PsSource'
 import {
   BasicSource,
   createStore,
@@ -25,6 +32,7 @@ import {
   GenericStoreProvider,
   state,
 } from './store'
+import { TokenData } from './store/TokenData'
 
 export type AppState = {
   get: () => state | undefined
@@ -82,26 +90,27 @@ const EditorApp: React.FC<EditorAppProps> = ({
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
+  const api = useMemo(() => new Api(authToken), [authToken])
+
   useEffect(() => {
     // implement remount for the store if component is retriggered
     if (loadedRef.current) {
       return
     }
     loadedRef.current = true
-    createStore([
-      new BasicSource(
-        fileManagement,
-        projectID,
-        manuscriptID,
-        files,
-        permittedActions,
-        userID || '',
-        authToken || ''
-      ),
-      new PsSource(files),
-    ])
-      .then((store) => {
-        setStore(store)
+    const props = new BasicSource({
+      fileManagement,
+      projectID,
+      manuscriptID,
+      files,
+      permittedActions,
+      userID: userID || '',
+      tokenData: new TokenData(),
+    })
+    const apiSource = new ApiSource(api)
+    createStore([props, apiSource])
+      .then((s) => {
+        setStore(s)
       })
       .catch((e) => {
         console.error(e)
@@ -125,13 +134,15 @@ const EditorApp: React.FC<EditorAppProps> = ({
   }, [observer, store])
 
   return store ? (
-    <GenericStoreProvider store={store}>
-      <Page>
-        <Wrapper>
-          <ManuscriptPageContainer />
-        </Wrapper>
-      </Page>
-    </GenericStoreProvider>
+    <ApiContext.Provider value={api}>
+      <GenericStoreProvider store={store}>
+        <Page>
+          <Wrapper>
+            <ManuscriptPageContainer />
+          </Wrapper>
+        </Page>
+      </GenericStoreProvider>
+    </ApiContext.Provider>
   ) : (
     <PlaceholderWrapper>
       <ManuscriptPlaceholder />

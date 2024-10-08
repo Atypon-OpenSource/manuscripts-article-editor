@@ -7,24 +7,41 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import client from '../client'
+import { Step } from 'prosemirror-transform'
 
-interface InvitedUser {
-  email: string
-  name?: string
+import { ManuscriptSnapshot } from '../lib/doc'
+
+export type TransformVersionResponse = {
+  transformVersion: string
 }
 
-export const projectInvite = (
-  projectID: string,
-  invitedUsers: InvitedUser[],
-  role: string,
-  message = 'message'
-) =>
-  client.post(`/invitation/${encodeURIComponent(projectID)}/invite`, {
-    invitedUsers,
-    role,
-    message,
-  })
+export type SendStepsPayload = {
+  steps: Step[]
+  version: number
+  clientID: number | string
+}
+
+export type SendStepsResponse = {
+  lastVersion?: number
+  steps?: number
+  error?: string
+}
+
+export type StepsSinceResponse = {
+  steps: Step[]
+  version: number
+  clientIDs: number[]
+}
+
+export interface CreateSnapshotResponse {
+  snapshot: ManuscriptSnapshot
+}
+
+export type StepsListener = (
+  version: number,
+  steps: unknown[],
+  clientIDs: number[]
+) => void

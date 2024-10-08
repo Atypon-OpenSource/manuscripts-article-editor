@@ -12,10 +12,12 @@
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { memoize } from 'lodash'
+import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { useApi } from '../api/Api'
+import { StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
-import { stepsExchanger } from '../quarterback/QuarterbackStepsExchanger'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 
@@ -23,36 +25,52 @@ export const useCreateEditor = () => {
   const [
     {
       doc,
-      manuscriptID,
+      initialDocVersion,
       projectID,
+      manuscriptID,
       user,
       fileManagement,
-      initialDocVersion,
       style,
       locale,
-      authToken,
       sectionCategories,
     },
     dispatch,
     getState,
   ] = useStore((store) => ({
     doc: store.doc,
-    manuscriptID: store.manuscriptID,
-    project: store.project,
+    initialDocVersion: store.initialDocVersion,
     projectID: store.projectID,
+    manuscriptID: store.manuscriptID,
     user: store.user,
     fileManagement: store.fileManagement,
-    initialDocVersion: store.initialDocVersion,
     style: store.cslStyle,
     locale: store.cslLocale,
-    authToken: store.authToken,
     sectionCategories: store.sectionCategories,
   }))
+
+  const api = useApi()
+
+  const stepsExchanger = useMemo(
+    () => new StepsExchanger(projectID, manuscriptID, initialDocVersion, api),
+    [projectID, manuscriptID, initialDocVersion, api]
+  )
+
+  useEffect(() => {
+    stepsExchanger.isThrottling.onChange((value: boolean) => {
+      dispatch({
+        preventUnload: value,
+      })
+    })
+    dispatch({
+      beforeUnload: () => stepsExchanger.flush(),
+    })
+  }, [dispatch, stepsExchanger])
 
   const getCapabilities = memoize((project, user, permittedActions) =>
     getActionCapabilities(project, user, undefined, permittedActions)
   )
   const config = getConfig()
+
   const props = {
     attributes: {
       class: 'manuscript-editor',
@@ -80,19 +98,7 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    collabProvider: stepsExchanger(
-      manuscriptID,
-      projectID,
-      initialDocVersion,
-      authToken,
-      (preventUnload, beforeUnload) => {
-        if (beforeUnload !== undefined) {
-          dispatch({ preventUnload, beforeUnload })
-        } else {
-          dispatch({ preventUnload })
-        }
-      }
-    ),
+    collabProvider: stepsExchanger,
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),
