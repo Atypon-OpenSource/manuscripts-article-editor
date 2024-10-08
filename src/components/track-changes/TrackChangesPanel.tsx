@@ -11,6 +11,7 @@
  */
 
 import {
+  CHANGE_OPERATION,
   CHANGE_STATUS,
   ChangeSet,
   trackCommands,
@@ -79,6 +80,31 @@ export const TrackChangesPanel: React.FC = () => {
         onReject={handleReject}
         onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
         onSelect={handleSelect}
+      />
+      <SuggestionList
+        type="accepted"
+        changes={changeSet?.accepted || []}
+        selectionID={selectedSuggestionID}
+        title="Approved Suggestions"
+        sortBy={sortBy}
+        onAccept={handleAccept}
+        onReject={handleReject}
+        onSelect={handleSelect}
+      />
+      <SuggestionList
+        type="rejected"
+        changes={
+          changeSet?.rejected.filter(
+            (c) => c.dataTracked.operation !== CHANGE_OPERATION.reference
+          ) || []
+        }
+        title="Rejected Suggestions"
+        sortBy={sortBy}
+        onAccept={handleAccept}
+        onReject={handleReject}
+        onSelect={() => {
+          /* noop */
+        }}
       />
     </>
   )

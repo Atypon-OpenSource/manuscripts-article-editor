@@ -7,33 +7,8 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-
-import { builderFn, GenericStore, state } from '.'
-
-export type stateSetter = (
-  set: Partial<state> | ((state: state) => state)
-) => void
-
-// state: state | ((state: state) => state)
-
-export interface StoreDataSourceStrategy {
-  build: builderFn
-  unmount?: () => void
-  afterAction?: (state: state, prev: state, setState: stateSetter) => void
-  beforeAction?: GenericStore['beforeAction']
-  updateStore?: (setState: stateSetter) => void
-}
-
-export class BasicSource implements StoreDataSourceStrategy {
-  data: Partial<state>
-
-  constructor(data: Partial<state>) {
-    this.data = data
-  }
-
-  build: builderFn = (_, next) => {
-    next({ ...this.data })
-  }
+export const delay = (timeout: number) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout))
 }

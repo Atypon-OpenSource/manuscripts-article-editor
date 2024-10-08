@@ -84,6 +84,22 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
             },
             message: '',
           }
+        } else if (
+          suggestion.dataTracked.operation === CHANGE_OPERATION.node_split
+        ) {
+          return {
+            snippet: null,
+            message: `Split ${suggestion.node.type.name}`,
+          }
+        } else if (
+          suggestion.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
+        ) {
+          return {
+            snippet: null,
+            message: `${suggestion.node.type.name
+              .charAt(0)
+              .toUpperCase()}${suggestion.node.type.name.slice(1)} insert`,
+          }
         } else {
           return {
             snippet: null,

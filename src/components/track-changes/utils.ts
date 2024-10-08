@@ -11,6 +11,7 @@
  */
 
 import {
+  CHANGE_OPERATION,
   CHANGE_STATUS,
   trackCommands,
   TrackedChange,
@@ -45,7 +46,14 @@ export const setChangeStatus = (
   execCmd: (cmd: Command, hookView?: EditorView) => void
 ) => {
   const ids = [change.id]
-  if (change.type === 'node-change') {
+  if (
+    change.type === 'node-change' &&
+    !(
+      (change.dataTracked.operation === CHANGE_OPERATION.node_split ||
+        change.dataTracked.operation === CHANGE_OPERATION.wrap_with_node) &&
+      status === CHANGE_STATUS.rejected
+    )
+  ) {
     change.children.forEach((child) => {
       ids.push(child.id)
     })
