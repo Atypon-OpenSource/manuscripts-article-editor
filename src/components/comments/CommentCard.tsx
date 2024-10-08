@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { CommentAttrs, Comment } from '@manuscripts/body-editor'
+import { Comment, CommentAttrs } from '@manuscripts/body-editor'
 import {
   AvatarIcon,
   RelativeDate,

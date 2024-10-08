@@ -15,7 +15,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
-import React, { useState, useRef, useMemo, ChangeEvent } from 'react'
+import React, { ChangeEvent, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 interface ReplyBoxProps {
@@ -33,7 +33,9 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
 
   const handleFocus = () => setIsTextBoxFocused(true)
   const handleBlur = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    if (!event.target.value.length) setIsTextBoxFocused(false)
+    if (!event.target.value.length) {
+      setIsTextBoxFocused(false)
+    }
   }
 
   const reply = () => {

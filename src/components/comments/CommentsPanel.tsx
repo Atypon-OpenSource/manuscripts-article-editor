@@ -21,7 +21,9 @@ import {
 import { buildContribution } from '@manuscripts/json-schema'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
+import { generateNodeID, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { findChildrenByType } from 'prosemirror-utils'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
@@ -29,8 +31,6 @@ import { buildThreads, Thread } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
-import { findChildrenByType } from 'prosemirror-utils'
-import { generateNodeID, schema } from '@manuscripts/transform'
 
 const Header = styled.div`
   display: flex;

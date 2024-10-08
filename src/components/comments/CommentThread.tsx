@@ -13,9 +13,9 @@ import { CommentAttrs } from '@manuscripts/body-editor'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { Thread, commentsByTime } from '../../lib/comments'
-import { ReplyBox } from './ReplyBox'
+import { commentsByTime, Thread } from '../../lib/comments'
 import { CommentCard } from './CommentCard'
+import { ReplyBox } from './ReplyBox'
 
 const Container = styled.div<{ isSelected?: boolean }>`
   padding: 8px;
