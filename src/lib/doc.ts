@@ -7,12 +7,34 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CHANGE_OPERATION } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorState, ManuscriptNode } from '@manuscripts/transform'
 
-export function filterUnchangedContent(node: ManuscriptNode) {
+export type PMDoc = any
+
+export type ManuscriptSnapshot = {
+  id: string
+  name: string
+  snapshot: PMDoc
+  createdAt: string
+}
+
+export type ManuscriptDoc = {
+  doc: PMDoc
+  version: number
+  createdAt: string
+  updatedAt: string
+  snapshots: SnapshotLabel[]
+}
+
+export type SnapshotLabel = Pick<
+  ManuscriptSnapshot,
+  'id' | 'name' | 'createdAt'
+>
+
+const filterUnchangedContent = (node: ManuscriptNode) => {
   const r: ManuscriptNode[] = []
   node.forEach((child) => {
     const { attrs } = child
@@ -40,7 +62,7 @@ export function filterUnchangedContent(node: ManuscriptNode) {
   return r
 }
 
-export function getDocWithoutTrackContent(state: ManuscriptEditorState) {
-  const { doc } = state
+export const getDocWithoutTrackContent = (state: ManuscriptEditorState) => {
+  const doc = state.doc
   return doc.type.create(doc.attrs, filterUnchangedContent(doc), doc.marks)
 }
