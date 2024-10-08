@@ -18,6 +18,7 @@ import {
   isNodeComment,
   setCommentSelection,
 } from '@manuscripts/body-editor'
+import { buildContribution } from '@manuscripts/json-schema'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { NodeSelection, TextSelection } from 'prosemirror-state'
@@ -28,8 +29,8 @@ import { buildThreads, Thread } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
-import { buildComment, buildContribution } from '@manuscripts/transform'
 import { findChildrenByType } from 'prosemirror-utils'
+import { generateNodeID, schema } from '@manuscripts/transform'
 
 const Header = styled.div`
   display: flex;
@@ -66,8 +67,7 @@ export const CommentsPanel: React.FC = () => {
     [view?.state]
   )
   const threads = useMemo(
-    () =>
-      comments ? buildThreads([...comments.values()], newCommentID) : [],
+    () => (comments ? buildThreads([...comments.values()], newCommentID) : []),
     [comments, newCommentID]
   )
 
@@ -101,7 +101,9 @@ export const CommentsPanel: React.FC = () => {
       return
     }
     const attrs = {
-      ...buildComment(target, contents),
+      id: generateNodeID(schema.nodes.comment),
+      contents,
+      target,
       contributions: [buildContribution(user._id)],
       resolved: false,
     }

@@ -42,12 +42,21 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
       setIsTextBoxFocused(false)
       setValue('')
       replyRef.current.value = ''
+      replyRef.current.style.height = '30px' // Reset the height
     }
   }
 
   const disableSaveButton = useMemo(() => !value.length, [value])
-  const onTextChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
+  const onTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value)
+    if (replyRef.current) {
+      replyRef.current.style.height = '30px' // Reset the height
+      replyRef.current.style.height = `${Math.min(
+        replyRef.current.scrollHeight,
+        55
+      )}px` // Set the height based on content
+    }
+  }
 
   return (
     <>
@@ -65,7 +74,10 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
             onClick={() => {
               setIsTextBoxFocused(false)
               setValue('')
-              if (replyRef.current) replyRef.current.value = ''
+              if (replyRef.current) {
+                replyRef.current.value = ''
+                replyRef.current.style.height = '30px' // Reset the height
+              }
             }}
           >
             Cancel
@@ -87,9 +99,8 @@ const TextBox = styled.textarea`
 
   width: 100%;
 
-  // height: 30px;
-  // max-height: 53px;
-  // overflow-y: auto;
+  height: 30px;
+  max-height: 55px;
 
   outline: 0;
   border: 1px solid #e2e2e2;

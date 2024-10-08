@@ -82,7 +82,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     useEffect(() => {
       if (cardsRef.current) {
         const contentHeight = cardsRef.current.scrollHeight
-        setShowMore(contentHeight > 280) // || replies.length > 1
+        setShowMore(contentHeight > 280)
       }
     }, [cardsRef.current, replies])
 
