@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CommentAttrs } from '@manuscripts/body-editor'
+import { TextButton } from '@manuscripts/style-guide'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -29,12 +30,6 @@ const Container = styled.div<{ isSelected?: boolean }>`
 
   .actions-icon {
     visibility: ${(props) => (props.isSelected ? 'visible' : 'hidden')};
-  }
-
-  .show-more {
-    cursor: pointer;
-    text-align: center;
-    margin-top: 6px;
   }
 
   &:hover {
@@ -128,9 +123,9 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
         {showMore && !isSelected && (
           <>
             <SeparatorLine />
-            <div className="show-more" onClick={onSelect}>
-              Show more
-            </div>
+            <ButtonContainer>
+              <ShowMore onClick={onSelect}>Show more</ShowMore>
+            </ButtonContainer>
           </>
         )}
         {isSelected && !isNew && (
@@ -143,6 +138,19 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     )
   }
 )
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const ShowMore = styled(TextButton)`
+  cursor: pointer;
+  text-align: center;
+  margin-top: 6px;
+  color: #353535;
+`
 
 const CardsWrapper = styled.div<{
   isSelected: boolean
