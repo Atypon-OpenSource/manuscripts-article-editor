@@ -79,7 +79,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
         const contentHeight = cardsRef.current.scrollHeight
         setShowMore(contentHeight > 280)
       }
-    }, [cardsRef.current, replies])
+    }, [comment, replies])
 
     return (
       <Container data-cy="comment" isSelected={isSelected} ref={ref}>
