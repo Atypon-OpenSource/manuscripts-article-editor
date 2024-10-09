@@ -54,7 +54,7 @@ export type state = {
   collaboratorsById: Map<string, UserProfile>
 
   snapshots: SnapshotLabel[]
-  createSnapshot: (stepLabel: string) => Promise<void>
+  createSnapshot: (name: string) => Promise<void>
   getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
   permittedActions: string[]
@@ -70,7 +70,7 @@ export type state = {
   beforeUnload?: () => void
   userRole: ProjectRole | null
 
-  handleSnapshot: (stepLabel: string) => Promise<void>
+  handleSnapshot: (name: string) => Promise<void>
 
   cslLocale?: string
   cslStyle?: string
