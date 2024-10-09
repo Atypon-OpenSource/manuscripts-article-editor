@@ -72,7 +72,11 @@ export const TrackChangesPanel: React.FC = () => {
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
-        changes={changeSet?.pending || []}
+        changes={
+          changeSet?.pending.filter(
+            (c) => c.dataTracked.operation !== CHANGE_OPERATION.reference
+          ) || []
+        }
         selectionID={selectedSuggestionID}
         title="Suggestions"
         sortBy={sortBy}
@@ -80,31 +84,6 @@ export const TrackChangesPanel: React.FC = () => {
         onReject={handleReject}
         onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
         onSelect={handleSelect}
-      />
-      <SuggestionList
-        type="accepted"
-        changes={changeSet?.accepted || []}
-        selectionID={selectedSuggestionID}
-        title="Approved Suggestions"
-        sortBy={sortBy}
-        onAccept={handleAccept}
-        onReject={handleReject}
-        onSelect={handleSelect}
-      />
-      <SuggestionList
-        type="rejected"
-        changes={
-          changeSet?.rejected.filter(
-            (c) => c.dataTracked.operation !== CHANGE_OPERATION.reference
-          ) || []
-        }
-        title="Rejected Suggestions"
-        sortBy={sortBy}
-        onAccept={handleAccept}
-        onReject={handleReject}
-        onSelect={() => {
-          /* noop */
-        }}
       />
     </>
   )
