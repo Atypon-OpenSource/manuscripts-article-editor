@@ -11,7 +11,6 @@
  */
 import {
   CHANGE_OPERATION,
-  CHANGE_STATUS,
   ChangeSet,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
@@ -153,7 +152,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
   }, [suggestion, doc, view, view?.state, dataTracked.operation])
 
   return (
-    <SnippetText isRejected={dataTracked.status === CHANGE_STATUS.rejected}>
+    <SnippetText>
       {snippet ? (
         <>
           <Operation color={dataTracked.operation}>
@@ -171,7 +170,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
   )
 }
 
-const SnippetText = styled.div<{ isRejected: boolean }>`
+const SnippetText = styled.div`
   font-size: ${(props) => props.theme.font.size.small};
   line-height: ${(props) => props.theme.font.lineHeight.normal};
   width: 100%;
