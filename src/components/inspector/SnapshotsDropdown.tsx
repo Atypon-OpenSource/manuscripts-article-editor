@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Avatar, SecondaryButton, useDropdown } from '@manuscripts/style-guide'
+import { SecondaryButton, useDropdown } from '@manuscripts/style-guide'
 import {
   TrackChangesStatus,
   trackCommands,
@@ -94,9 +94,6 @@ export const SnapshotsDropdown: React.FC = () => {
           className={'dropdown-toggle'}
         >
           <Container>
-            <AvatarContainer>
-              <Avatar size={20} />
-            </AvatarContainer>
             <InnerContainer>
               <Text>
                 {selectedSnapshot ? selectedSnapshot.name : 'Current'}
@@ -124,9 +121,6 @@ export const SnapshotsDropdown: React.FC = () => {
               key={'current'}
             >
               <Container>
-                <AvatarContainer>
-                  <Avatar size={20} />
-                </AvatarContainer>
                 <InnerContainer>
                   <Text>{'Current'}</Text>
                 </InnerContainer>
@@ -142,9 +136,6 @@ export const SnapshotsDropdown: React.FC = () => {
                   key={snapshot.id}
                 >
                   <Container>
-                    <AvatarContainer>
-                      <Avatar size={20} />
-                    </AvatarContainer>
                     <InnerContainer>
                       <Text>{snapshot.name}</Text>
 
@@ -172,11 +163,7 @@ const InnerContainer = styled.div`
   text-align: left;
   margin-left: 8px;
 `
-const AvatarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: ${(props) => props.theme.grid.unit}px;
-`
+
 const SnapshotsList = styled(Dropdown)`
   display: block;
   overflow: auto;
