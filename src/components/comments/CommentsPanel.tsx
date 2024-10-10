@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  clearCommentSelection,
   Comment,
   CommentAttrs,
   commentsKey,
@@ -60,11 +59,14 @@ export const CommentsPanel: React.FC = () => {
   )
 
   const [showResolved, setShowResolved] = useState(true)
+  const [toggle, setToggle] = useState(false)
+
+  const flipToggle = () => setToggle((prev) => !prev)
 
   const comments = useMemo(
     () =>
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,
-    [view?.state]
+    [view?.state, toggle] // eslint-disable-line react-hooks/exhaustive-deps
   )
   const threads = useMemo(
     () => (comments ? buildThreads([...comments.values()], newCommentID) : []),
@@ -116,8 +118,8 @@ export const CommentsPanel: React.FC = () => {
     if (comments) {
       const pos = comments.pos + 1
       const tr = view.state.tr.insert(pos, comment)
-      clearCommentSelection(tr)
       view.dispatch(skipTracking(tr))
+      flipToggle()
     }
   }
 
@@ -128,8 +130,8 @@ export const CommentsPanel: React.FC = () => {
     }
     const tr = view.state.tr
     tr.setNodeMarkup(comment.pos, undefined, attrs)
-    clearCommentSelection(tr)
     view.dispatch(skipTracking(tr))
+    flipToggle()
   }
 
   const handleDelete = (id: string) => {
@@ -139,8 +141,8 @@ export const CommentsPanel: React.FC = () => {
     }
     const tr = view.state.tr
     tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
-    clearCommentSelection(tr)
     view.dispatch(skipTracking(tr))
+    flipToggle()
   }
 
   const isSelected = (thread: Thread) => {

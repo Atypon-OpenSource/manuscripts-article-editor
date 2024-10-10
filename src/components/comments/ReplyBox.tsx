@@ -41,7 +41,6 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
   const reply = () => {
     if (replyRef.current) {
       insertCommentReply(commentId, replyRef.current.value)
-      setIsTextBoxFocused(false)
       setValue('')
       replyRef.current.value = ''
       replyRef.current.style.height = '30px' // Reset the height
