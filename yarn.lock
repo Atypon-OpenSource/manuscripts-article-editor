@@ -1485,10 +1485,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.2.17":
-  version "2.2.17"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.2.17.tgz#702e72c3afdf5de15410b9187eeb25bae5c6a18a"
-  integrity sha512-ZyC+va6AWR06Bs/UuJ7K92keN17ftVUUwxA+MRX8j+W3r9sX95WEIRAvPkVNfumVg/3Lz7D9uyAlwl1aq/00hQ==
+"@manuscripts/body-editor@2.2.18-LEAN-3968-v0.0":
+  version "2.2.18-LEAN-3968-v0.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.2.18-LEAN-3968-v0.0.tgz#ba9488d3a50afa2c366c4a08495c432bb60e66a0"
+  integrity sha512-nkCtW8Bi1g5JMlbcGnpiZVKSQidZzLnGC00aIsZd+3Ap0Cp736O2QhGt9J5XDhZkvA986Np+vj6tWrYTeSK5JA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
