@@ -39,10 +39,10 @@ export const ActionsIcon = styled.button`
 export const CommentAction = styled.div`
   font-family: ${(props) => props.theme.font.family.Lato};
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
-  padding: 16px;
+  padding: 6px 0 6px 8px;
   &:hover,
   &:focus {
     background: #f2fbfc;
@@ -75,9 +75,6 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
 
   return (
     <Container>
-      {isResolveEnabled && (
-        <CommentResolveButton comment={comment} onClick={toggleResolve} />
-      )}
       {isActionsEnabled && (
         <DropdownContainer ref={wrapperRef}>
           <ActionsIcon
@@ -91,7 +88,7 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
             <DropdownList
               data-cy="comment-dropdown"
               direction={'right'}
-              width={125}
+              width={82}
               onClick={toggleOpen}
             >
               <CommentAction data-cy="comment-edit" onClick={onEdit}>
@@ -103,6 +100,9 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
             </DropdownList>
           )}
         </DropdownContainer>
+      )}
+      {isResolveEnabled && (
+        <CommentResolveButton comment={comment} onClick={toggleResolve} />
       )}
     </Container>
   )

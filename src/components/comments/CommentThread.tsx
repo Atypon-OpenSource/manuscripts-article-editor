@@ -131,7 +131,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
         {isSelected && !isNew && (
           <ReplyBox
             insertCommentReply={insertCommentReply}
-            commentId={comment.node.attrs.id}
+            commentID={comment.node.attrs.id}
           />
         )}
       </Container>

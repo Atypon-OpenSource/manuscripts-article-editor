@@ -20,12 +20,12 @@ import styled from 'styled-components'
 
 interface ReplyBoxProps {
   insertCommentReply: (target: string, contents: string) => void
-  commentId: string
+  commentID: string
 }
 
 export const ReplyBox: React.FC<ReplyBoxProps> = ({
   insertCommentReply,
-  commentId,
+  commentID,
 }) => {
   const [isTextBoxFocused, setIsTextBoxFocused] = useState(false)
   const [value, setValue] = useState('')
@@ -40,7 +40,7 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
 
   const reply = () => {
     if (replyRef.current) {
-      insertCommentReply(commentId, replyRef.current.value)
+      insertCommentReply(commentID, replyRef.current.value)
       setValue('')
       replyRef.current.value = ''
       replyRef.current.style.height = '30px' // Reset the height

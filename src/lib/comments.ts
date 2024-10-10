@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { Comment } from '@manuscripts/body-editor'
+import { Comment, isReply } from '@manuscripts/body-editor'
 import { UserProfile } from '@manuscripts/json-schema'
 
 export type Thread = {
@@ -31,7 +31,7 @@ export const buildThreads = (
   newCommentID?: string
 ): Thread[] => {
   return comments
-    .filter((c) => !c.node.attrs.target.includes('MPCommentAnnotation')) // Filter out replies
+    .filter((c) => !isReply(c)) // Filter out replies
     .map((c) => ({
       comment: c,
       isNew: newCommentID === c.node.attrs.id,
