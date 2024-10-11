@@ -60,3 +60,9 @@ export const getParentNode = (state: EditorState, pos: number) => {
 
   return null
 }
+
+export const decodeHTMLEntities = (text: string) => {
+  const el = document.createElement('div')
+  el.innerHTML = text
+  return el.innerText
+}
