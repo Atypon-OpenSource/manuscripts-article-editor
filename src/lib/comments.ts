@@ -9,13 +9,13 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { Comment } from '@manuscripts/body-editor'
+import { Comment, isReply } from '@manuscripts/body-editor'
 import { UserProfile } from '@manuscripts/json-schema'
 
-export type CommentTree = {
+export type Thread = {
   comment: Comment
   isNew: boolean
-  children: CommentTree[]
+  replies: Comment[]
 }
 
 export const getAuthorID = (comment: Comment) => {
@@ -26,15 +26,19 @@ export const getAuthorID = (comment: Comment) => {
   return contributions[0].profileID
 }
 
-export const buildCommentTrees = (
+export const buildThreads = (
   comments: Comment[],
   newCommentID?: string
-): CommentTree[] => {
-  return comments.map((c) => ({
-    comment: c,
-    isNew: newCommentID === c.node.attrs.id,
-    children: [],
-  }))
+): Thread[] => {
+  return comments
+    .filter((c) => !isReply(c)) // Filter out replies
+    .map((c) => ({
+      comment: c,
+      isNew: newCommentID === c.node.attrs.id,
+      replies: comments.filter(
+        (reply) => reply.node.attrs.target === c.node.attrs.id // Find replies for each comment
+      ),
+    }))
 }
 
 export const buildAuthorName = (user: UserProfile | undefined) => {
@@ -44,4 +48,10 @@ export const buildAuthorName = (user: UserProfile | undefined) => {
   return [user.bibliographicName.given, user.bibliographicName.family]
     .filter(Boolean)
     .join(' ')
+}
+
+export const commentsByTime = (a: Comment, b: Comment) => {
+  const aTimestamp = a.node.attrs.contributions?.[0].timestamp || 0
+  const bTimestamp = b.node.attrs.contributions?.[0].timestamp || 0
+  return aTimestamp - bTimestamp
 }
