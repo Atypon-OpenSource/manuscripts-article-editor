@@ -10,18 +10,19 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  BibliographyItemAttrs,
   bibliographyPluginKey,
   footnotesPluginKey,
+  metadata,
   objectsPluginKey,
 } from '@manuscripts/body-editor'
 import {
   isElementNodeType,
   ManuscriptEditorState,
   ManuscriptNode,
-  ManuscriptNodeType,
   schema,
 } from '@manuscripts/transform'
-
+import domPurify from 'dompurify'
 export class NodeTextContentRetriever {
   private state: ManuscriptEditorState
 
@@ -56,24 +57,33 @@ export class NodeTextContentRetriever {
   /**
    * Retrieves the text content from a bibliography node.
    */
-  public getContentFromBibliography(
-    id: string,
-    nodeType: ManuscriptNodeType
-  ): string {
+  public getContentFromBibliography(id: string, node: ManuscriptNode): string {
     const bibPlugin = bibliographyPluginKey.get(this.state)
     const bib = bibPlugin?.getState(this.state)
     if (!bib) {
       return ''
     }
 
-    if (nodeType === schema.nodes.citation) {
-      const citation = bib?.renderedCitations.get(id)
+    if (node.type === schema.nodes.citation) {
+      const text = bib?.renderedCitations.get(id)
+      const citation = domPurify.sanitize(
+        text && text !== '[NO_PRINTED_FORM]' ? text : ' ',
+        {
+          ALLOWED_TAGS: ['i', 'b', 'span', 'sup', 'sub', '#text'],
+        }
+      )
       return citation ? citation.replace(/<[^>]*>/g, '') : ''
     } else {
       const [meta, bibliography] = bib.provider.makeBibliography()
+
       const selectedBib = meta.entry_ids.findIndex(
         (entry: [string]) => entry[0] === id
       )
+      if (selectedBib === -1) {
+        return `<span> ${node.attrs.title || 'untitled'} </span> ${metadata(
+          node.attrs as BibliographyItemAttrs
+        )}`
+      }
       const parser = new DOMParser()
       const textContent = parser.parseFromString(
         bibliography[selectedBib],

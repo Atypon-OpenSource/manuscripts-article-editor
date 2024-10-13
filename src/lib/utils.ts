@@ -17,6 +17,14 @@ export const getParentNode = (state: EditorState, pos: number) => {
   for (let depth = resolvedPos.depth; depth > 0; depth--) {
     const parent = resolvedPos.node(depth)
     if (parent.isText === false) {
+      if (parent.type == state.schema.nodes.paragraph) {
+        const grandParent = resolvedPos.node(depth - 1)
+        if (grandParent.type == state.schema.nodes.footnote) {
+          return grandParent
+        } else {
+          return parent
+        }
+      }
       return parent
     }
   }

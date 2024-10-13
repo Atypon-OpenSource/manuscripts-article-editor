@@ -28,7 +28,7 @@ import SnippetContent from './SnippetContent'
 interface SnippetData {
   operation: string
   nodeName: string
-  content: string
+  content: string | null
   isEquation?: boolean
 }
 
@@ -103,6 +103,7 @@ const Operation = styled.span<{ color: string }>`
   color: ${(props) => {
     switch (props.color) {
       case 'insert':
+      case 'wrap_with_node':
         return '#01872E'
       case 'delete':
         return '#F35143'

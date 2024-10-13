@@ -23,7 +23,7 @@ import { getParentNode } from './utils'
 interface SnippetData {
   operation: string
   nodeName: string
-  content: string
+  content: string | null
   isEquation?: boolean
 }
 
@@ -97,7 +97,7 @@ export const handleNodeChange = (
         nodeName,
         content: nodeContentRetriever.getContentFromBibliography(
           node.attrs.id,
-          node.type
+          node
         ),
       }
     }
@@ -107,7 +107,7 @@ export const handleNodeChange = (
         nodeName,
         content: nodeContentRetriever.getContentFromBibliography(
           node.attrs.id,
-          node.type
+          node
         ),
       }
     }
