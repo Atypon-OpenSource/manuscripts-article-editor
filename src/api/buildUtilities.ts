@@ -21,13 +21,13 @@ export const buildUtilities = (
   updateState: (state: Partial<state>) => void,
   api: Api
 ): Partial<state> => {
-  const createSnapshot = async () => {
+  const createSnapshot = async (name: string) => {
     const state = getState()
     const snapshots = state.snapshots
     if (!snapshots) {
       throw new Error('Missing snapshots')
     }
-    const response = await api.createSnapshot(projectID, manuscriptID)
+    const response = await api.createSnapshot(projectID, manuscriptID, name)
     const { snapshot, ...label } = response.snapshot
     updateState({
       snapshots: [...snapshots, label],

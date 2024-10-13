@@ -127,12 +127,12 @@ export class Api {
   getSnapshot = (snapshotID: string) =>
     this.get<ManuscriptSnapshot>(`snapshot/${snapshotID}`)
 
-  createSnapshot = (projectID: string, manuscriptID: string) =>
+  createSnapshot = (projectID: string, manuscriptID: string, name: string) =>
     this.post<CreateSnapshotResponse>(
       `snapshot/${projectID}/manuscript/${manuscriptID}`,
       {
         docID: manuscriptID,
-        name: new Date().toLocaleString('sv'),
+        name,
       }
     )
 
