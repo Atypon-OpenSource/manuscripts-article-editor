@@ -49,9 +49,10 @@ const scrollIntoView = (element: HTMLElement) => {
 }
 
 export const CommentsPanel: React.FC = () => {
-  const [{ view, newCommentID, selectedCommentKey, user }] = useStore(
+  const [{ view, newCommentID, selectedCommentKey, user, doc }] = useStore(
     (state) => ({
       view: state.view,
+      doc: state.doc,
       newCommentID: state.newCommentID,
       selectedCommentKey: state.selectedCommentKey,
       user: state.user,
@@ -59,14 +60,11 @@ export const CommentsPanel: React.FC = () => {
   )
 
   const [showResolved, setShowResolved] = useState(true)
-  const [toggle, setToggle] = useState(false)
-
-  const flipToggle = () => setToggle((prev) => !prev)
 
   const comments = useMemo(
     () =>
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,
-    [view?.state, toggle] // eslint-disable-line react-hooks/exhaustive-deps
+    [view?.state, doc] // eslint-disable-line react-hooks/exhaustive-deps
   )
   const threads = useMemo(
     () => (comments ? buildThreads([...comments.values()], newCommentID) : []),
@@ -119,7 +117,6 @@ export const CommentsPanel: React.FC = () => {
       const pos = comments.pos + 1
       const tr = view.state.tr.insert(pos, comment)
       view.dispatch(skipTracking(tr))
-      flipToggle()
     }
   }
 
@@ -131,7 +128,6 @@ export const CommentsPanel: React.FC = () => {
     const tr = view.state.tr
     tr.setNodeMarkup(comment.pos, undefined, attrs)
     view.dispatch(skipTracking(tr))
-    flipToggle()
   }
 
   const handleDelete = (id: string) => {
@@ -142,7 +138,6 @@ export const CommentsPanel: React.FC = () => {
     const tr = view.state.tr
     tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
     view.dispatch(skipTracking(tr))
-    flipToggle()
   }
 
   const isSelected = (thread: Thread) => {
