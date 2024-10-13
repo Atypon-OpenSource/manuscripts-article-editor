@@ -15,28 +15,17 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/body-editor'
-import {
-  Manuscript,
-  Project,
-  SectionCategory,
-  UserProfile,
-} from '@manuscripts/json-schema'
+import { Project, SectionCategory, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
-import { ManuscriptSnapshot, SnapshotLabel } from '../quarterback/types'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 import { TokenData } from './TokenData'
 
 export type action = { action?: string; [key: string]: any }
-
-export interface ContainerIDs {
-  containerID: string
-  manuscriptID?: string
-  templateID?: string
-}
 
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
@@ -46,32 +35,27 @@ export type state = {
   projectID: string
   userID?: string
 
-  manuscript: Manuscript
-  refreshProject: () => Promise<void>
-
   project: Project
+  refreshProject: () => Promise<void>
   user: UserProfile // probably should be optional
 
   editor: PMEditor
   doc: ManuscriptNode
+  initialDocVersion: number
   trackState?: TrackChangesState
   view?: ManuscriptEditorView
-
-  initialDocVersion: number
 
   fileManagement: FileManagement
   files: FileAttachment[]
 
-  authToken: string
   tokenData: TokenData
 
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
 
   snapshots: SnapshotLabel[]
-  snapshotsMap: Map<string, ManuscriptSnapshot>
-  createSnapshot: () => Promise<void>
-  inspectedSnapshotId: string
+  createSnapshot: (name: string) => Promise<void>
+  getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
   permittedActions: string[]
 
@@ -86,13 +70,12 @@ export type state = {
   beforeUnload?: () => void
   userRole: ProjectRole | null
 
-  handleSnapshot: () => Promise<void>
+  handleSnapshot: (name: string) => Promise<void>
 
   cslLocale?: string
   cslStyle?: string
   hasPendingSuggestions?: boolean
   sectionCategories: SectionCategory[]
-  saveDoc: (doc: ManuscriptNode) => Promise<void>
   originalPmDoc?: JSON
 }
 export type reducer = (payload: any, store: state, action?: string) => state

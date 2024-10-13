@@ -1485,17 +1485,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.2.8-LEAN-3958.0":
-  version "2.2.8-LEAN-3958.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.2.8-LEAN-3958.0.tgz#00586f3aa1a9b9927a0bce995fe378b6b67a255b"
-  integrity sha512-3Jmtz3FdSdLihwadKOBounxisQpMaAEVnP///ih7VUkyU/hZiI967UycG8q1myEV+rmDoFXYrn9Uq5dSU0XFXQ==
+"@manuscripts/body-editor@2.2.19":
+  version "2.2.19"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.2.19.tgz#fc20d73e68a473239534c1d90ed083440847c6bc"
+  integrity sha512-r+xZtHbVUfI5hQUqGsywVcJEZH1IaDtcXrke3CpKvjYB4EWCaXnBTUdDsD3LKABxhqhbo51IKEm6OxmVLTeBKg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.21"
     "@manuscripts/track-changes-plugin" "1.7.23"
-    "@manuscripts/transform" "2.6.1-LEAN-3958.0"
+    "@manuscripts/transform" "3.0.4"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1608,10 +1608,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@2.6.1-LEAN-3958.0":
-  version "2.6.1-LEAN-3958.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.6.1-LEAN-3958.0.tgz#dd0e8eaab9ccfa6f76afb9b44a9dbeebe15f96fe"
-  integrity sha512-Lfq30jgx40Fp1zUx4w98w26oJLWRkviByLVIccBH1iMsJ+y163sprqSCyvokk4mnRhqestDXdo5yAX1gkovIuQ==
+"@manuscripts/transform@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.4.tgz#6bebf581b1d75156e9c49b10452986a57c93624f"
+  integrity sha512-/b65zJyKSGfx4HiKo+p5fsc948IylO7Kscc5Jz5L568C0vvkn9xVEh6vzH8M5VPlLHr95DYEN5vp4kM2280Spg==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
@@ -1621,23 +1621,7 @@
     mime "^3.0.0"
     prosemirror-model "^1.18.3"
     prosemirror-tables "^1.3.5"
-    semver "^7.6.2"
-    uuid "^9.0.0"
-    w3c-xmlserializer "^4.0.0"
-
-"@manuscripts/transform@2.6.1-LEAN-3958.2":
-  version "2.6.1-LEAN-3958.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-2.6.1-LEAN-3958.2.tgz#8c95c9c5b2e9f65ef22951d9fc816f7a46405e40"
-  integrity sha512-iVp/oKwZPB5SBq/o8xWe8afTUhAGntFElAuoR4zySzfyCeBRG4WXRUoI/YZb1dPGdl2U2CFfOqi9EvEiiVEwBg==
-  dependencies:
-    "@manuscripts/json-schema" "2.2.11"
-    "@manuscripts/library" "1.3.11"
-    debug "^4.3.4"
-    jszip "^3.10.1"
-    lodash "^4.17.21"
-    mime "^3.0.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-tables "^1.3.5"
+    prosemirror-utils "^1.2.2"
     semver "^7.6.2"
     uuid "^9.0.0"
     w3c-xmlserializer "^4.0.0"
@@ -6562,6 +6546,11 @@ prosemirror-utils@^0.9.6:
   resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.9.6.tgz#3d97bd85897e3b535555867dc95a51399116a973"
   integrity sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==
 
+prosemirror-utils@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-1.2.2.tgz#21ff3777e7b9b22b9ec8d7ded7d15b9aeeb1d008"
+  integrity sha512-7a2MPf99oCW8/587rQYI1/snX71Ban40+apr1hLkY8TmU9YXd7JeR6QsmktcTisJURO3WRjxIia4lTMsYgZVOw==
+
 prosemirror-view@1.32.7:
   version "1.32.7"
   resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.32.7.tgz#b9c4e8471daeba79489befa59eaeaeb4cd2e2653"
@@ -7723,11 +7712,6 @@ type-fest@^0.21.3:
   version "0.21.3"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.21.3.tgz#d260a24b0198436e133fa26a524a6d65fa3b2e37"
   integrity sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==
-
-type-fest@^4.6.0:
-  version "4.25.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.25.0.tgz#b190374f969631866889bbdb01ece17ca424ee60"
-  integrity sha512-bRkIGlXsnGBRBQRAY56UXBm//9qH4bmJfFvq83gSz41N282df+fjy8ofcEgc1sM8geNt5cl6mC2g9Fht1cs8Aw==
 
 typed-array-buffer@^1.0.2:
   version "1.0.2"

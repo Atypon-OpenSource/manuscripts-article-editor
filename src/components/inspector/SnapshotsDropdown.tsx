@@ -9,19 +9,18 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { Avatar, SecondaryButton, useDropdown } from '@manuscripts/style-guide'
+import { SecondaryButton, useDropdown } from '@manuscripts/style-guide'
 import {
-  trackChangesPluginKey,
   TrackChangesStatus,
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
-import { get } from '../../quarterback/api/methods'
-import { IGetSnapshotResponse, SnapshotLabel } from '../../quarterback/types'
+import { ManuscriptSnapshot } from '../../lib/doc'
 import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'
 import {
@@ -33,98 +32,58 @@ import {
 
 export const SnapshotsDropdown: React.FC = () => {
   const { wrapperRef, toggleOpen, isOpen } = useDropdown()
-  const [
-    {
-      view,
-      doc,
-      originalPmDoc,
-      authToken,
-      snapshotsMap,
-      snapshots,
-      inspectedSnapshotId,
-    },
-    dispatch,
-  ] = useStore((store) => ({
+  const [{ view, getSnapshot, snapshots }] = useStore((store) => ({
     view: store.view,
-    doc: store.doc,
-    originalPmDoc: store.originalPmDoc,
-    authToken: store.authToken,
-    snapshotsMap: store.snapshotsMap,
+    getSnapshot: store.getSnapshot,
     snapshots: store.snapshots,
-    inspectedSnapshotId: store.inspectedSnapshotId,
   }))
 
   const execCmd = useExecCmd()
+  const [selectedSnapshot, setSelectedSnapshot] = useState<ManuscriptSnapshot>()
+  const [doc, setDoc] = useState<ManuscriptNode>()
+
+  const sortedSnapshots = useMemo(
+    () => snapshots.sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
+    [snapshots]
+  )
 
   if (!view) {
     return null
   }
 
-  const sortedSnapshots = snapshots.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  )
-
-  const isBeingInspected = (snap: SnapshotLabel) =>
-    inspectedSnapshotId === snap.id
-
-  const hydrateDocFromJSON = (doc: Record<string, any>) => {
+  const hydrateDocFromJSON = (doc: ManuscriptNode) => {
     const state = EditorState.create({
-      doc: view.state.schema.nodeFromJSON(doc),
+      doc: doc,
       plugins: view.state.plugins,
     })
-    view && view.updateState(state)
-    const trackState = view
-      ? trackChangesPluginKey.getState(view.state)
-      : undefined
-    dispatch({ trackState })
+    view.updateState(state)
   }
 
-  const inspectSnapshot = async (id: string) => {
-    const inspected = snapshotsMap.get(id)
-
-    if (inspected) {
-      dispatch({ inspectedSnapshotId: id })
-      return { data: inspected }
-    }
-
-    const resp = await get<IGetSnapshotResponse>(`snapshot/${id}`, authToken)
-    if ('data' in resp) {
-      dispatch({
-        snapshotsMap: snapshotsMap.set(id, resp.data),
-        inspectedSnapshotId: resp.data.id,
-      })
-      return resp
-    }
-  }
-
-  async function handleInspectSnapshot(snap: SnapshotLabel) {
-    if (!inspectedSnapshotId) {
-      dispatch({
-        originalPmDoc: doc.toJSON(),
-      })
-    } else if (isBeingInspected(snap)) {
+  const handleSelect = async (id: string) => {
+    if (id === selectedSnapshot?.id) {
       handleResumeEditing()
       return
     }
 
-    const resp = await inspectSnapshot(snap.id)
-    if (resp) {
-      hydrateDocFromJSON(resp.data.snapshot as Record<string, any>)
+    const snapshot = await getSnapshot(id)
+    if (snapshot) {
+      setDoc(view.state.doc)
+      setSelectedSnapshot(snapshot)
+      hydrateDocFromJSON(schema.nodeFromJSON(snapshot.snapshot))
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
     }
   }
-  function handleResumeEditing() {
-    dispatch({
-      inspectedSnapshotId: null,
-    })
 
-    if (originalPmDoc) {
-      hydrateDocFromJSON(originalPmDoc)
+  const handleResumeEditing = () => {
+    if (!doc) {
+      console.warn('No original doc found')
+      return
     }
+    setDoc(undefined)
+    setSelectedSnapshot(undefined)
+    hydrateDocFromJSON(doc)
     execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
   }
-
-  const inspectedSnapshot = snapshotsMap.get(inspectedSnapshotId)
 
   return (
     <SnapshotContainer>
@@ -135,21 +94,16 @@ export const SnapshotsDropdown: React.FC = () => {
           className={'dropdown-toggle'}
         >
           <Container>
-            <AvatarContainer>
-              <Avatar size={20} />
-            </AvatarContainer>
             <InnerContainer>
               <Text>
-                {inspectedSnapshot ? inspectedSnapshot.name : 'Current'}
+                {selectedSnapshot ? selectedSnapshot.name : 'Current'}
                 <DropdownToggle className={isOpen ? 'open' : ''} />
               </Text>
-              {inspectedSnapshot && (
+              {selectedSnapshot && (
                 <DateTime>
                   <FormattedDateTime
-                    date={Math.floor(
-                      new Date(inspectedSnapshot.createdAt).getTime() / 1000
-                    )}
-                  />{' '}
+                    date={new Date(selectedSnapshot.createdAt).getTime() / 1000}
+                  />
                 </DateTime>
               )}
             </InnerContainer>
@@ -159,7 +113,7 @@ export const SnapshotsDropdown: React.FC = () => {
           <SnapshotsList top={25} direction={'left'} minWidth={100}>
             <Element
               onClick={(e) => {
-                if (inspectedSnapshot) {
+                if (selectedSnapshot) {
                   handleResumeEditing()
                 }
                 toggleOpen()
@@ -167,9 +121,6 @@ export const SnapshotsDropdown: React.FC = () => {
               key={'current'}
             >
               <Container>
-                <AvatarContainer>
-                  <Avatar size={20} />
-                </AvatarContainer>
                 <InnerContainer>
                   <Text>{'Current'}</Text>
                 </InnerContainer>
@@ -179,24 +130,19 @@ export const SnapshotsDropdown: React.FC = () => {
               return (
                 <Element
                   onClick={(e) => {
-                    handleInspectSnapshot(snapshot)
+                    handleSelect(snapshot.id)
                     toggleOpen()
                   }}
                   key={snapshot.id}
                 >
                   <Container>
-                    <AvatarContainer>
-                      <Avatar size={20} />
-                    </AvatarContainer>
                     <InnerContainer>
                       <Text>{snapshot.name}</Text>
 
                       <DateTime>
                         <FormattedDateTime
-                          date={Math.floor(
-                            new Date(snapshot.createdAt).getTime() / 1000
-                          )}
-                        />{' '}
+                          date={new Date(snapshot.createdAt).getTime() / 1000}
+                        />
                       </DateTime>
                     </InnerContainer>
                   </Container>
@@ -217,11 +163,7 @@ const InnerContainer = styled.div`
   text-align: left;
   margin-left: 8px;
 `
-const AvatarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: ${(props) => props.theme.grid.unit}px;
-`
+
 const SnapshotsList = styled(Dropdown)`
   display: block;
   overflow: auto;
