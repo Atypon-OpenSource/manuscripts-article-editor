@@ -14,8 +14,13 @@ import {
   ChangeSet,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import { schema } from '@manuscripts/transform'
+import {
+  isFootnoteNode,
+  isInlineFootnoteNode,
+  schema,
+} from '@manuscripts/transform'
 import parse from 'html-react-parser'
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -24,7 +29,6 @@ import {
   getInlineFootnoteContent,
 } from '../../../lib/footnotes'
 import { changeOperationAlias } from '../../../lib/tracking'
-import { getParentNode } from '../../../lib/utils'
 import { useStore } from '../../../store'
 
 interface SnippetData {
@@ -50,12 +54,12 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
       message: string
     } => {
       if (ChangeSet.isTextChange(suggestion) && view) {
-        const parentNode = getParentNode(view.state, suggestion.from)
-        if (parentNode?.type === schema.nodes.footnote) {
+        const $pos = view.state.doc.resolve(suggestion.from)
+        if (findParentNodeOfTypeClosestToPos($pos, schema.nodes.footnote)) {
           return {
             snippet: {
               operation: changeOperationAlias(dataTracked.operation),
-              nodeName: parentNode.type.name || suggestion.nodeType.name,
+              nodeName: schema.nodes.footnote.name,
               content: suggestion.text,
             },
             message: '',
@@ -66,16 +70,16 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
       }
 
       if (ChangeSet.isNodeChange(suggestion) && view) {
-        if (suggestion.node.type === schema.nodes.inline_footnote) {
+        if (isInlineFootnoteNode(suggestion.node)) {
           return {
             snippet: {
               operation: changeOperationAlias(dataTracked.operation),
               nodeName: suggestion.node.type.spec.name,
-              content: getInlineFootnoteContent(doc, suggestion.attrs),
+              content: getInlineFootnoteContent(view.state, suggestion.node),
             },
             message: '',
           }
-        } else if (suggestion.node.type === schema.nodes.footnote) {
+        } else if (isFootnoteNode(suggestion.node)) {
           return {
             snippet: {
               operation: changeOperationAlias(dataTracked.operation),
@@ -113,16 +117,16 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
       }
 
       if (ChangeSet.isNodeAttrChange(suggestion) && view) {
-        if (suggestion.node.type === schema.nodes.inline_footnote) {
+        if (isInlineFootnoteNode(suggestion.node)) {
           return {
             snippet: {
               operation: changeOperationAlias(dataTracked.operation),
               nodeName: suggestion.node.type.spec.name,
-              content: getInlineFootnoteContent(doc, suggestion.newAttrs),
+              content: getInlineFootnoteContent(view.state, suggestion.node),
             },
             message: '',
           }
-        } else if (suggestion.node.type === schema.nodes.footnote) {
+        } else if (isFootnoteNode(suggestion.node)) {
           return {
             snippet: {
               operation: changeOperationAlias(dataTracked.operation),

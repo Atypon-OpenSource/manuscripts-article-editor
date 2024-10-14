@@ -10,53 +10,36 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptEditorState, ManuscriptNode } from '@manuscripts/transform'
-
-import { findPluginByKey, getNodeTextContent } from './utils'
-
-export const findFootnoteById = (
-  doc: ManuscriptNode,
-  id: string
-): ManuscriptNode | null => {
-  let footnoteNode: ManuscriptNode | null = null
-
-  doc.descendants((node) => {
-    if (node.type.name === 'footnote' && node.attrs.id === id) {
-      footnoteNode = node
-      return false // stop traversal
-    }
-    if (footnoteNode) {
-      return false
-    }
-    return true // continue traversal
-  })
-  return footnoteNode
-}
+import { findNodeByID, getFootnoteLabel } from '@manuscripts/body-editor'
+import {
+  FootnoteNode,
+  InlineFootnoteNode,
+  ManuscriptEditorState,
+} from '@manuscripts/transform'
 
 export const getInlineFootnoteContent = (
-  doc: ManuscriptNode,
-  attrs: Record<any, any>
+  state: ManuscriptEditorState,
+  node: InlineFootnoteNode
 ): string => {
-  let footnote = null
-  if (attrs.rids && attrs.rids.length > 0) {
-    footnote = findFootnoteById(doc, attrs.rids[0])
+  const rid = node.attrs.rids[0]
+  if (!rid) {
+    return ''
   }
-  return `<sup class="footnote-decoration">${
-    attrs.contents ? attrs.contents : ''
-  }</sup>${footnote ? footnote.textContent : ''}`
+  //@ts-ignore
+  const footnote = findNodeByID(state.doc, rid).node as FootnoteNode
+  if (!footnote) {
+    return ''
+  }
+  const label = getFootnoteLabel(state, footnote)
+  const text = footnote.textContent ?? ''
+  return `<sup class="footnote-decoration">${label}</sup>${text}`
 }
 
 export const getFootnoteText = (
   state: ManuscriptEditorState,
-  node: ManuscriptNode
+  node: FootnoteNode
 ) => {
-  const footnotesPlugin = findPluginByKey(state, 'footnotes')
-  const pluginState = footnotesPlugin?.getState(state)
-  let decorationText = ''
-  if (pluginState) {
-    decorationText = pluginState.labels.get(node.attrs.id)
-  }
-  return `<sup class="footnote-decoration">${
-    decorationText ? decorationText : ''
-  }</sup>${getNodeTextContent(node)}`
+  const label = getFootnoteLabel(state, node)
+  const text = node.textContent ?? ''
+  return `<sup class="footnote-decoration">${label}</sup>${text}`
 }
