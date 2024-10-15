@@ -15,29 +15,24 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../../store'
-import { Accept, Back, Reject } from './Icons'
+import { Accept, Reject } from './Icons'
 
 interface Props {
   suggestion: TrackedChange
   handleAccept: (c: TrackedChange) => void
   handleReject: (c: TrackedChange) => void
-  handleReset: (c: TrackedChange) => void
 }
 
 const SuggestionAction: React.FC<Props> = ({
   suggestion,
   handleAccept,
   handleReject,
-  handleReset,
 }) => {
   const [{ user }] = useStore((store) => ({
     user: store.user,
   }))
 
   const can = usePermissions()
-
-  const isRejected = suggestion.dataTracked.status === CHANGE_STATUS.rejected
-  const isAccepted = suggestion.dataTracked.status === CHANGE_STATUS.accepted
 
   const canRejectOwnSuggestion = useMemo(() => {
     if (
@@ -60,47 +55,31 @@ const SuggestionAction: React.FC<Props> = ({
         <Container>
           <Action
             type="button"
-            onClick={() =>
-              isRejected ? handleReset(suggestion) : handleReject(suggestion)
-            }
-            aria-pressed={isRejected}
+            onClick={() => handleReject(suggestion)}
+            aria-pressed={false}
             data-tooltip-id={rejectTooltip}
           >
-            {isRejected ? <Back color="#353535" /> : <Reject color="#353535" />}
+            <Reject color="#353535" />
           </Action>
-          {isRejected ? (
-            <Tooltip id={rejectTooltip} place="bottom">
-              Back to suggestions
-            </Tooltip>
-          ) : (
-            <Tooltip id={rejectTooltip} place="bottom">
-              Reject
-            </Tooltip>
-          )}
+          <Tooltip id={rejectTooltip} place="bottom">
+            Reject
+          </Tooltip>
         </Container>
       )}
       {can.handleSuggestion && (
         <Container>
           <Action
             type="button"
-            onClick={() =>
-              isAccepted ? handleReset(suggestion) : handleAccept(suggestion)
-            }
-            aria-pressed={isAccepted}
+            onClick={() => handleAccept(suggestion)}
+            aria-pressed={false}
             data-tip={true}
             data-tooltip-id={approveTooltip}
           >
-            {isAccepted ? <Back color="#353535" /> : <Accept color="#353535" />}
+            <Accept color="#353535" />
           </Action>
-          {isAccepted ? (
-            <Tooltip id={approveTooltip} place="bottom">
-              Back to suggestions
-            </Tooltip>
-          ) : (
-            <Tooltip id={approveTooltip} place="bottom">
-              Approve
-            </Tooltip>
-          )}
+          <Tooltip id={approveTooltip} place="bottom">
+            Approve
+          </Tooltip>
         </Container>
       )}
     </Actions>
