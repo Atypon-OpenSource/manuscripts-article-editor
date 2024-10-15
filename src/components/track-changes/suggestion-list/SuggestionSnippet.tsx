@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  CHANGE_STATUS,
   ChangeSet,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
@@ -62,7 +61,6 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
 
   return (
     <SnippetText
-      isRejected={dataTracked.status === CHANGE_STATUS.rejected}
       data-mathjax={snippet?.isEquation}
     >
       <>
@@ -79,7 +77,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
   )
 }
 
-const SnippetText = styled.div<{ isRejected: boolean }>`
+const SnippetText = styled.div`
   font-size: ${(props) => props.theme.font.size.small};
   line-height: ${(props) => props.theme.font.lineHeight.normal};
   width: 100%;

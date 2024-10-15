@@ -30,7 +30,6 @@ interface Props {
   isSelected: boolean
   onAccept: () => void
   onReject: () => void
-  onReset: () => void
   onSelect(): void
 }
 
@@ -39,7 +38,6 @@ export const Suggestion: React.FC<Props> = ({
   isSelected,
   onAccept,
   onReject,
-  onReset,
   onSelect,
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
@@ -70,7 +68,6 @@ export const Suggestion: React.FC<Props> = ({
           suggestion={suggestion}
           handleAccept={onAccept}
           handleReject={onReject}
-          handleReset={onReset}
         />
       </Actions>
 
