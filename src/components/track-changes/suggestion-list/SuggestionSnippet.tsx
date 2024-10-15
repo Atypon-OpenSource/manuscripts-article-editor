@@ -9,28 +9,23 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  CHANGE_OPERATION,
-  ChangeSet,
-  TrackedChange,
-} from '@manuscripts/track-changes-plugin'
-import { schema } from '@manuscripts/transform'
-import parse from 'html-react-parser'
+import { ChangeSet, TrackedChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import {
-  getFootnoteText,
-  getInlineFootnoteContent,
-} from '../../../lib/footnotes'
-import { changeOperationAlias } from '../../../lib/tracking'
-import { getParentNode } from '../../../lib/utils'
+  handleNodeChange,
+  handleTextChange,
+  handleUnknownChange,
+} from '../../../lib/change-handlers'
 import { useStore } from '../../../store'
+import SnippetContent from './SnippetContent'
 
 interface SnippetData {
   operation: string
   nodeName: string
-  content: string
+  content: string | null
+  isEquation?: boolean
 }
 
 export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
@@ -41,131 +36,38 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
     doc: store.doc,
   }))
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
-  const [message, setMessage] = useState('')
   const { dataTracked } = suggestion
 
   useEffect(() => {
-    const getSnippetData = (): {
-      snippet: SnippetData | null
-      message: string
-    } => {
-      if (ChangeSet.isTextChange(suggestion) && view) {
-        const parentNode = getParentNode(view.state, suggestion.from)
-        if (parentNode?.type === schema.nodes.footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: parentNode.type.name || suggestion.nodeType.name,
-              content: suggestion.text,
-            },
-            message: '',
-          }
-        } else {
-          return { snippet: null, message: suggestion.text }
-        }
-      }
+    let newSnippet: SnippetData | null = null
 
-      if (ChangeSet.isNodeChange(suggestion) && view) {
-        if (suggestion.node.type === schema.nodes.inline_footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.spec.name,
-              content: getInlineFootnoteContent(doc, suggestion.attrs),
-            },
-            message: '',
-          }
-        } else if (suggestion.node.type === schema.nodes.footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.name,
-              content: getFootnoteText(view.state, suggestion.node),
-            },
-            message: '',
-          }
-        } else if (
-          suggestion.dataTracked.operation === CHANGE_OPERATION.node_split
-        ) {
-          return {
-            snippet: null,
-            message: `Split ${suggestion.node.type.name}`,
-          }
-        } else if (
-          suggestion.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
-        ) {
-          return {
-            snippet: null,
-            message: `${suggestion.node.type.name
-              .charAt(0)
-              .toUpperCase()}${suggestion.node.type.name.slice(1)} insert`,
-          }
-        } else {
-          return {
-            snippet: null,
-            message: `${suggestion.node.type.name
-              .charAt(0)
-              .toUpperCase()}${suggestion.node.type.name.slice(1)} ${
-              dataTracked.operation
-            }`,
-          }
-        }
-      }
-
-      if (ChangeSet.isNodeAttrChange(suggestion) && view) {
-        if (suggestion.node.type === schema.nodes.inline_footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.spec.name,
-              content: getInlineFootnoteContent(doc, suggestion.newAttrs),
-            },
-            message: '',
-          }
-        } else if (suggestion.node.type === schema.nodes.footnote) {
-          return {
-            snippet: {
-              operation: changeOperationAlias(dataTracked.operation),
-              nodeName: suggestion.node.type.name,
-              content: getFootnoteText(view.state, suggestion.node),
-            },
-            message: '',
-          }
-        } else {
-          return {
-            snippet: null,
-            message: `${suggestion.node.type.name
-              .charAt(0)
-              .toUpperCase()}${suggestion.node.type.name.slice(1)} ${
-              dataTracked.operation
-            }`,
-          }
-        }
-      }
-
-      return { snippet: null, message: 'Unknown change!' }
+    if (ChangeSet.isTextChange(suggestion)) {
+      newSnippet = handleTextChange(suggestion, view, dataTracked)
+    } else if (
+      ChangeSet.isNodeChange(suggestion) ||
+      ChangeSet.isNodeAttrChange(suggestion)
+    ) {
+      newSnippet = handleNodeChange(suggestion, view, doc, dataTracked)
+    } else {
+      newSnippet = handleUnknownChange()
     }
 
-    const { snippet: newSnippet, message: newMessage } = getSnippetData()
     setSnippet(newSnippet)
-    setMessage(newMessage)
-  }, [suggestion, doc, view, view?.state, dataTracked.operation])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [suggestion, doc])
 
   return (
-    <SnippetText>
-      {snippet ? (
-        <>
-          <Operation color={dataTracked.operation}>
-            {snippet.operation}:
-          </Operation>
-          <NodeName>{snippet.nodeName}:</NodeName>
-          <Content>{parse(snippet.content)}</Content>
-        </>
-      ) : dataTracked.operation === CHANGE_OPERATION.delete ? (
-        <del>{message}</del>
-      ) : (
-        message
-      )}
+    <SnippetText data-mathjax={snippet?.isEquation}>
+      <>
+        <Operation color={dataTracked.operation}>
+          {snippet?.operation}:
+        </Operation>
+        <NodeName>{snippet?.nodeName}</NodeName>
+        <SnippetContent
+          content={snippet?.content || ''}
+          isEquation={snippet?.isEquation}
+        />
+      </>
     </SnippetText>
   )
 }
@@ -179,6 +81,9 @@ const SnippetText = styled.div`
   color: ${(props) => props.theme.colors.text.primary};
   display: block;
   text-overflow: ellipsis;
+  &[data-mathjax='true'] {
+    text-overflow: unset;
+  }
 `
 
 const Operation = styled.span<{ color: string }>`
@@ -191,6 +96,7 @@ const Operation = styled.span<{ color: string }>`
   color: ${(props) => {
     switch (props.color) {
       case 'insert':
+      case 'wrap_with_node':
         return '#01872E'
       case 'delete':
         return '#F35143'
@@ -208,14 +114,5 @@ const NodeName = styled.span`
   font-family: Lato, sans-serif;
   font-size: 12px;
   font-weight: bold;
-  line-height: 16px;
-  margin-right: 3.2px;
-`
-
-const Content = styled.span`
-  color: #353535;
-  font-family: Lato, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
   line-height: 16px;
 `
