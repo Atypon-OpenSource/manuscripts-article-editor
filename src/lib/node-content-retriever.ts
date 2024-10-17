@@ -12,11 +12,13 @@
 import {
   BibliographyItemAttrs,
   bibliographyPluginKey,
-  footnotesPluginKey,
+  findNodeByID,
+  getFootnoteLabel,
   metadata,
   objectsPluginKey,
 } from '@manuscripts/body-editor'
 import {
+  FootnoteNode,
   isElementNodeType,
   isSectionNodeType,
   ManuscriptEditorState,
@@ -120,27 +122,32 @@ export class NodeTextContentRetriever {
    * Retrieves the inline footnote content.
    */
   public getInlineFootnoteContent(
-    doc: ManuscriptNode,
+    state: ManuscriptEditorState,
     attrs: Record<any, any>
   ): string {
-    const footnote =
-      attrs.rids && attrs.rids.length > 0
-        ? this.findFootnoteById(doc, attrs.rids[0])
-        : null
-    return `<sup class="footnote-decoration">${attrs.contents || ''}</sup>${
-      footnote ? footnote.textContent : ''
-    }`
+    const rid = attrs.rids[0]
+    if (!rid) {
+      return ''
+    }
+    //@ts-ignore
+    const footnote = findNodeByID(state.doc, rid).node as FootnoteNode
+    if (!footnote) {
+      return ''
+    }
+    const label = getFootnoteLabel(state, footnote)
+    const text = footnote.textContent ?? ''
+    return `<sup class="footnote-decoration">${label}</sup>${text}`
   }
 
   /**
    * Retrieves the text content of a footnote node with decoration.
    */
-  public getFootnoteContent(node: ManuscriptNode): string {
-    const footnotesPlugin = footnotesPluginKey.get(this.state)
-    const pluginState = footnotesPlugin?.getState(this.state)
-    const decorationText = pluginState?.labels.get(node.attrs.id) || ''
-    return `<sup class="footnote-decoration">${decorationText}</sup>${
-      node.textContent || this.getNodeTextContent(node)
-    }`
+  public getFootnoteContent(
+    state: ManuscriptEditorState,
+    node: ManuscriptNode
+  ): string {
+    const label = getFootnoteLabel(state, node as FootnoteNode)
+    const text = node.textContent ?? ''
+    return `<sup class="footnote-decoration">${label}</sup>${text}`
   }
 }

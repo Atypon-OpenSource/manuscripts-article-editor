@@ -18,6 +18,7 @@ import { nodeNames, schema } from '@manuscripts/transform'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { changeOperationAlias } from './tracking'
+import { getParentNode } from './utils'
 
 interface SnippetData {
   operation: string
@@ -64,14 +65,17 @@ export const handleNodeChange = (
       return {
         operation,
         nodeName,
-        content: nodeContentRetriever.getInlineFootnoteContent(doc, node.attrs),
+        content: nodeContentRetriever.getInlineFootnoteContent(
+          view.state,
+          node.attrs
+        ),
       }
     }
     case schema.nodes.footnote: {
       return {
         operation,
         nodeName,
-        content: nodeContentRetriever.getFootnoteContent(node),
+        content: nodeContentRetriever.getFootnoteContent(view.state, node),
       }
     }
     case schema.nodes.contributor: {
