@@ -9,18 +9,15 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ChangeSet,
-  TrackedChange,
-} from '@manuscripts/track-changes-plugin'
+import { ChangeSet, TrackedChange } from '@manuscripts/track-changes-plugin'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+
 import {
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
 } from '../../../lib/change-handlers'
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-
 import { useStore } from '../../../store'
 import SnippetContent from './SnippetContent'
 
