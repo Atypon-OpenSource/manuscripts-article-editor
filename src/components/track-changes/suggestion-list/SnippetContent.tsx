@@ -9,31 +9,46 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { EditorState } from 'prosemirror-state'
 
-export const getParentNode = (state: EditorState, pos: number) => {
-  const resolvedPos = state.doc.resolve(pos)
+import { renderMath } from '@manuscripts/body-editor'
+import purify from 'dompurify'
+import React, { useEffect, useRef } from 'react'
+import styled from 'styled-components'
 
-  for (let depth = resolvedPos.depth; depth > 0; depth--) {
-    const parent = resolvedPos.node(depth)
-    if (parent.isText === false) {
-      if (parent.type == state.schema.nodes.paragraph) {
-        const grandParent = resolvedPos.node(depth - 1)
-        if (grandParent.type == state.schema.nodes.footnote) {
-          return grandParent
-        } else {
-          return parent
-        }
+interface ContentProps {
+  content: string
+  isEquation?: boolean
+}
+
+const SnippetContent: React.FC<ContentProps> = ({ content, isEquation }) => {
+  const contentRef = useRef<HTMLSpanElement>(null)
+
+  useEffect(() => {
+    if (contentRef.current && content) {
+      contentRef.current.innerHTML = purify.sanitize(': ' + content) || ''
+      if (isEquation) {
+        renderMath(contentRef.current)
       }
-      return parent
     }
+  }, [content, isEquation])
+
+  return <StyledContent ref={contentRef} data-mathjax={isEquation} />
+}
+
+export default SnippetContent
+
+const StyledContent = styled.span`
+  color: #353535;
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+
+  &[data-mathjax='true'] {
+    text-overflow: unset;
   }
 
-  return null
-}
-
-export const decodeHTMLEntities = (text: string) => {
-  const el = document.createElement('div')
-  el.innerHTML = text
-  return el.innerText
-}
+  .inspector-list-item::after {
+    content: '...';
+  }
+`

@@ -1485,17 +1485,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.2.22-LEAN-3968-v0.0":
-  version "2.2.22-LEAN-3968-v0.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.2.22-LEAN-3968-v0.0.tgz#810f24f8c0f57080b129f0a23eff202430a87d1c"
-  integrity sha512-f5Z5Xm70zkj43VlV02VDX6/I/fpqi9yjdWtQqA3ErkuKh7kzQG9A04/4BzOX4Z2sbZythWjOW9BXcSMPAc4mxg==
+"@manuscripts/body-editor@2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.3.2.tgz#355d58f54dd220718febbc4a2a823729041c5ea0"
+  integrity sha512-lhIkEDwLxArhBEfXynjqjIl8ERA4pBljFAC2CGb8vyiAciwVfBRO+F861OLjo5fqtRGa/BDVpwcMjE9DPLJWzw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.21"
-    "@manuscripts/track-changes-plugin" "1.7.23"
-    "@manuscripts/transform" "3.0.6"
+    "@manuscripts/track-changes-plugin" "1.8.0"
+    "@manuscripts/transform" "3.0.8"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1508,7 +1508,7 @@
     prosemirror-commands "^1.5.0"
     prosemirror-dropcursor "^1.6.1"
     prosemirror-gapcursor "^1.3.1"
-    prosemirror-history "^1.3.0"
+    prosemirror-history "^1.4.1"
     prosemirror-inputrules "^1.2.0"
     prosemirror-keymap "^1.2.0"
     prosemirror-model "^1.18.3"
@@ -1592,15 +1592,15 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.7.23":
-  version "1.7.23"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.7.23.tgz#fc47fafb9ec97b41cf0645a71f917dab9e613865"
-  integrity sha512-B1kYVUSLX/tY55NZ7xgm52y8VTw+NVKY5XD8ysTN4QXFEYGYr54HT2qaAvRutczvwKe6b/BnizqpI/sbr8oFdQ==
+"@manuscripts/track-changes-plugin@1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.0.tgz#b6476fd4e66f6c338396176b0ad61003b35a48c9"
+  integrity sha512-3SIBaoi+ZIYHeIx9B/11YEuseDBqpr1isajWEEN3/UPFlSz7L/cUk9uKSCMkm8swFlXLhyAP9ZpRXO/PrMAmqA==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
     prosemirror-example-setup "^1.2.1"
-    prosemirror-history "^1.3.0"
+    prosemirror-history "^1.4.1"
     prosemirror-keymap "^1.2.0"
     prosemirror-model "^1.18.3"
     prosemirror-schema-list "^1.2.2"
@@ -1608,10 +1608,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.6.tgz#13887cf2e8fd91fcd71f9b2049617706e3745ccc"
-  integrity sha512-EriVjDWpJjZWp5+wG4Yhdivq5agOvNZyN7EkP/O8WeklctI9Gya6HkWdgXZ9eW+R27qaHheB6J/7Y93qEi1S0Q==
+"@manuscripts/transform@3.0.8":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.8.tgz#dc59c5479e4f8a3b6db59adcf93b7e09eb5a5a51"
+  integrity sha512-PebtQPMhZ7OP6JWvF23L1nOdwSFYfFbWdYRcBH2YnQeu058GTrfs5IzMVP2vQMhtvwDITtaFweXkTv0EboDS/A==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
@@ -6455,7 +6455,7 @@ prosemirror-history@1.3.2:
     prosemirror-view "^1.31.0"
     rope-sequence "^1.3.0"
 
-prosemirror-history@^1.0.0, prosemirror-history@^1.3.0:
+prosemirror-history@^1.0.0, prosemirror-history@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/prosemirror-history/-/prosemirror-history-1.4.1.tgz#cc370a46fb629e83a33946a0e12612e934ab8b98"
   integrity sha512-2JZD8z2JviJrboD9cPuX/Sv/1ChFng+xh2tChQ2X4bB2HeK+rra/bmJ3xGntCcjhOqIzSDG6Id7e8RJ9QPXLEQ==
