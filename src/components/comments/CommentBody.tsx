@@ -24,6 +24,8 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 
+import { decodeHTMLEntities } from '../../lib/utils'
+
 const CommentContent = styled.div`
   cursor: pointer;
 `
@@ -86,7 +88,6 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
   onSelect,
 }) => {
   const editor = useRef<HTMLTextAreaElement | null>(null)
-
   const handleSave = () => {
     if (editor.current) {
       onSave(editor.current.value)
@@ -131,7 +132,7 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
         <>
           <CommentContent onClick={onSelect}>
             <CommentViewer data-cy="comment-text">
-              {comment.node.attrs.contents}
+              {decodeHTMLEntities(comment.node.attrs.contents)}
             </CommentViewer>
           </CommentContent>
         </>

@@ -30,7 +30,6 @@ interface Props {
   isSelected: boolean
   onAccept: () => void
   onReject: () => void
-  onReset: () => void
   onSelect(): void
 }
 
@@ -39,7 +38,6 @@ export const Suggestion: React.FC<Props> = ({
   isSelected,
   onAccept,
   onReject,
-  onReset,
   onSelect,
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
@@ -70,7 +68,6 @@ export const Suggestion: React.FC<Props> = ({
           suggestion={suggestion}
           handleAccept={onAccept}
           handleReject={onReject}
-          handleReset={onReset}
         />
       </Actions>
 
@@ -98,8 +95,7 @@ const Wrapper = styled.li<{
   justify-content: space-between;
   align-items: center;
   gap: ${(props) => props.theme.grid.unit * 4}px;
-  padding: ${(props) => props.theme.grid.unit * 1.5}px
-    ${(props) => props.theme.grid.unit * 2}px !important;
+  padding: 6px 8px;
   min-height: 28px;
   margin-bottom: 6px;
   border: ${(props) =>
@@ -112,7 +108,8 @@ const Wrapper = styled.li<{
       : `none`};
   list-style-type: none;
   font-size: ${(props) => props.theme.font.size.small};
-
+  border-radius: 4px;
+  max-height: 40px;
   /* FocusHandle should cover entire card: */
   position: relative;
   color: ${(props) => props.theme.colors.text.primary};
