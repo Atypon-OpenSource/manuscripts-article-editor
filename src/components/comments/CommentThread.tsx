@@ -84,12 +84,18 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       }
     }, [comment, replies])
 
+    const handleSelect = () => {
+      if (!isSelected) {
+        onSelect()
+      }
+    }
+
     return (
       <Container
         data-cy="comment"
         isSelected={isSelected}
         ref={ref}
-        onClick={onSelect}
+        onClick={handleSelect}
       >
         <CardsWrapper
           ref={cardsRef}
