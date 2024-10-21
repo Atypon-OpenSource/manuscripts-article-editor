@@ -24,7 +24,6 @@ export interface SuggestionListProps {
   sortBy: string
   onAccept(change: TrackedChange): void
   onReject(change: TrackedChange): void
-  onReset(change: TrackedChange): void
   onAcceptAll?(): void
   onSelect?(change: TrackedChange): void
 }
@@ -37,7 +36,6 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   sortBy,
   onAccept,
   onReject,
-  onReset,
   onAcceptAll,
   onSelect,
 }) => {
@@ -55,6 +53,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
     <InspectorSection
       title={title.concat(changes.length ? ` (${changes.length})` : '')}
       approveAll={onAcceptAll}
+      fixed={true}
     >
       <List data-cy="suggestions-list" data-cy-type={type}>
         {sortedChanges.map((c: TrackedChange) => (
@@ -64,7 +63,6 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
             isSelected={selectionID === c.id}
             onAccept={() => onAccept(c)}
             onReject={() => onReject(c)}
-            onReset={() => onReset(c)}
             onSelect={() => onSelect && onSelect(c)}
           />
         ))}

@@ -9,19 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { trackCommands } from '@manuscripts/track-changes-plugin'
 import { EditorView } from 'prosemirror-view'
 
 import { delay } from '../lib/delay'
 import { useStore } from '../store'
-import useExecCmd from './use-exec-cmd'
 
 export const useHandleSnapshot = (view?: EditorView) => {
   const [{ createSnapshot, beforeUnload }] = useStore((store) => ({
     createSnapshot: store.createSnapshot,
     beforeUnload: store.beforeUnload,
   }))
-  const execCmd = useExecCmd()
 
   return async (name: string) => {
     if (!view) {
@@ -29,8 +26,7 @@ export const useHandleSnapshot = (view?: EditorView) => {
     }
     // if there is a pending throttle or potentially other pending action, we need to make sure it's done before we proceed wrapping the current step
     beforeUnload && beforeUnload()
-    execCmd(trackCommands.applyAndRemoveChanges(), view)
-    await delay(2000) // to avoid potentially saving before the changes are applied)
+    await delay(1000) // to avoid potentially saving before the changes are applied)
     await createSnapshot(name)
   }
 }
