@@ -13,7 +13,7 @@ import { Comment } from '@manuscripts/body-editor'
 import {
   ButtonGroup,
   PrimaryButton,
-  SecondaryButton,
+  TertiaryButton,
 } from '@manuscripts/style-guide'
 import React, {
   ChangeEvent,
@@ -62,11 +62,19 @@ const CommentViewer = styled.div`
   letter-spacing: -0.2px;
   color: ${(props) => props.theme.colors.text.primary};
   margin: ${(props) => props.theme.grid.unit * 2}px 0;
+  word-wrap: break-word;
 `
 
 const EditorActions = styled(ButtonGroup)`
   & button:not(:last-of-type) {
     margin-right: 4px;
+  }
+
+  & ${TertiaryButton} {
+    &:hover {
+      background-color: inherit !important;
+      border-color: transparent !important;
+    }
   }
 `
 
@@ -121,7 +129,7 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
             onBlur={(event) => !event.target.value.length && onCancel()}
           ></CommentEditor>
           <EditorActions data-cy="comment-actions">
-            <SecondaryButton onClick={onCancel}>Cancel</SecondaryButton>
+            <TertiaryButton onClick={onCancel}>Cancel</TertiaryButton>
             <PrimaryButton onClick={handleSave} disabled={disableSaveButton}>
               Save
             </PrimaryButton>

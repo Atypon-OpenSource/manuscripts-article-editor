@@ -13,7 +13,7 @@
 import {
   ButtonGroup,
   PrimaryButton,
-  SecondaryButton,
+  TertiaryButton,
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -32,16 +32,20 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
   const replyRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleFocus = () => setIsTextBoxFocused(true)
-  const handleBlur = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    if (!event.target.value.length) {
-      setIsTextBoxFocused(false)
-    }
-  }
 
   const reply = () => {
     if (replyRef.current) {
       insertCommentReply(commentID, replyRef.current.value)
       setValue('')
+      replyRef.current.value = ''
+      replyRef.current.style.height = '30px' // Reset the height
+    }
+  }
+
+  const handleCancel = () => {
+    setIsTextBoxFocused(false)
+    setValue('')
+    if (replyRef.current) {
       replyRef.current.value = ''
       replyRef.current.style.height = '30px' // Reset the height
     }
@@ -67,22 +71,10 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
         ref={replyRef}
         onChange={onTextChange}
         onFocus={handleFocus}
-        onBlur={handleBlur}
       />
       {isTextBoxFocused && (
         <Actions data-cy="reply-actions">
-          <SecondaryButton
-            onClick={() => {
-              setIsTextBoxFocused(false)
-              setValue('')
-              if (replyRef.current) {
-                replyRef.current.value = ''
-                replyRef.current.style.height = '30px' // Reset the height
-              }
-            }}
-          >
-            Cancel
-          </SecondaryButton>
+          <TertiaryButton onClick={handleCancel}>Cancel</TertiaryButton>
           <PrimaryButton onClick={reply} disabled={disableSaveButton}>
             Reply
           </PrimaryButton>
@@ -119,10 +111,17 @@ const TextBox = styled.textarea`
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
+  overflow: hidden;
 `
 
 const Actions = styled(ButtonGroup)`
   & button:not(:last-of-type) {
     margin-right: 4px;
+  }
+  & ${TertiaryButton} {
+    &:hover {
+      background-color: inherit !important;
+      border-color: transparent !important;
+    }
   }
 `

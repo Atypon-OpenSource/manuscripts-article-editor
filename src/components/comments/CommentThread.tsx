@@ -73,6 +73,9 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
 
     const cardsRef = useRef<HTMLDivElement>(null)
     const [showMore, setShowMore] = useState(false)
+    const [editingCommentId, setEditingCommentId] = useState<string | null>(
+      isNew ? comment.node.attrs.id : null
+    )
 
     useEffect(() => {
       if (cardsRef.current) {
@@ -94,6 +97,8 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             numOfReplies={replies.length}
             isNew={isNew}
             isEndOfThread={!replies.length}
+            editingCommentId={editingCommentId}
+            setEditingCommentId={setEditingCommentId}
             onDelete={onDelete}
             onSave={onSave}
             onSelect={onSelect}
@@ -110,6 +115,8 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
                     numOfReplies={0}
                     isNew={false}
                     isEndOfThread={index === replies.length - 1}
+                    editingCommentId={editingCommentId}
+                    setEditingCommentId={setEditingCommentId}
                     onDelete={onDelete}
                     onSave={onSave}
                     onSelect={onSelect}
@@ -128,7 +135,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             </ButtonContainer>
           </>
         )}
-        {isSelected && !isNew && (
+        {isSelected && editingCommentId === null && (
           <ReplyBox
             insertCommentReply={insertCommentReply}
             commentID={comment.node.attrs.id}

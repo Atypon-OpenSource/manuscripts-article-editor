@@ -37,18 +37,20 @@ const CommentMetadata = styled.div`
   padding-right: 8px;
 `
 
-const CommentAuthor = styled.div`
+const AuthorContainer = styled.div`
   display: flex;
   color: #353535;
   font-weight: 400;
   max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
+  flex-grow: 1;
   text-overflow: ellipsis;
-  width: 100%;
+  margin-right: 8px;
 
   svg {
     padding-right: 10px;
+    flex-shrink: 0;
   }
 `
 const CommentTarget = styled.div`
@@ -70,7 +72,7 @@ const Timestamp = styled(RelativeDate)`
 `
 const RepliesCount = styled.div`
   border-radius: 50%;
-  width: 20px;
+  width: 12px;
   height: 12px;
   color: #ffffff;
   background-color: #1a9bc7;
@@ -87,6 +89,8 @@ interface CommentCardProps {
   numOfReplies: number
   isNew: boolean
   isEndOfThread: boolean
+  editingCommentId: string | null
+  setEditingCommentId: (id: string | null) => void
   onSave: (comment: CommentAttrs) => void
   onDelete: (id: string) => void
   onSelect: () => void
@@ -98,6 +102,8 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   numOfReplies,
   isNew,
   isEndOfThread,
+  editingCommentId,
+  setEditingCommentId,
   onSave,
   onDelete,
   onSelect,
@@ -125,11 +131,11 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     ? can.handleOwnComments
     : can.handleOthersComments
 
-  const [isEditing, setEditing] = useState(isNew)
+  const commentID = comment.node.attrs.id
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
 
   const handleEdit = () => {
-    setEditing(true)
+    setEditingCommentId(commentID)
     onSelect()
   }
   const handleSave = (contents: string) => {
@@ -137,13 +143,13 @@ export const CommentCard: React.FC<CommentCardProps> = ({
       ...comment.node.attrs,
       contents,
     })
-    setEditing(false)
+    setEditingCommentId(null)
   }
 
   const handleCancel = () => {
-    setEditing(false)
+    setEditingCommentId(null)
     if (isNew) {
-      onDelete(comment.node.attrs.id)
+      onDelete(commentID)
     }
   }
 
@@ -159,7 +165,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   }
 
   const confirmDelete = () => {
-    onDelete(comment.node.attrs.id)
+    onDelete(commentID)
     setShowDeleteConfirmation(false)
   }
 
@@ -171,21 +177,21 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     <Card>
       <CommentHeader data-cy="comment-header">
         <CommentMetadata>
-          <CommentAuthor>
+          <AuthorContainer>
             {authorName ? (
               <>
                 <AvatarIcon width={20} height={20} />
-                <CommentAuthor>{authorName}</CommentAuthor>
+                <>{authorName}</>
               </>
             ) : (
               !isReply && (
                 <>
                   <SystemUserAvatarIcon width={20} height={20} />
-                  <CommentAuthor>System</CommentAuthor>
+                  <>System</>
                 </>
               )
             )}
-          </CommentAuthor>
+          </AuthorContainer>
           {timestamp && <Timestamp date={timestamp * 1000} />}
           {numOfReplies !== 0 && <RepliesCount> {numOfReplies} </RepliesCount>}
         </CommentMetadata>
@@ -203,7 +209,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
       )}
       <CommentBody
         comment={comment}
-        isEditing={isNew || isEditing}
+        isEditing={editingCommentId === commentID}
         onSave={handleSave}
         onCancel={handleCancel}
         onSelect={onSelect}
