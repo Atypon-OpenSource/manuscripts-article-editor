@@ -162,6 +162,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
 
   const handleDelete = () => {
     setShowDeleteConfirmation(true)
+    onSelect()
   }
 
   const confirmDelete = () => {
@@ -216,6 +217,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
       />
       {showDeleteConfirmation && (
         <DeleteCommentConfirmation
+          isReply={isReply}
           onCancel={cancelDelete}
           onConfirm={confirmDelete}
         />

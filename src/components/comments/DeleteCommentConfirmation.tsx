@@ -23,6 +23,10 @@ const MessageContainer = styled.div`
   display: flex;
   align-items: center;
   flex-grow: 1;
+
+  svg {
+    padding-left: 14px;
+  }
 `
 
 const CancelButton = styled(SecondaryButton)`
@@ -31,6 +35,7 @@ const CancelButton = styled(SecondaryButton)`
 `
 const DeleteButton = styled(PrimaryButton)`
   padding: 4px ${(props) => props.theme.grid.unit * 3}px;
+  margin-right: 16px;
   font-size: 14px;
 `
 const Message = styled.div`
@@ -41,12 +46,12 @@ const Message = styled.div`
   margin: 0 8px;
 `
 
-const DeleteConfirmation = styled.div`
+const DeleteConfirmation = styled.div<{ isReply?: boolean }>`
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: -8px;
+  left: ${(props) => (props.isReply ? '-24px' : '-8px')};
+  right: -8px;
+  bottom: -16px;
   opacity: 0.95;
   display: flex;
   align-items: center;
@@ -62,15 +67,16 @@ const Buttons = styled(ButtonGroup)`
 `
 
 interface DeleteCommentConfirmationProps {
+  isReply: boolean
   onCancel: () => void
   onConfirm: () => void
 }
 
 export const DeleteCommentConfirmation: React.FC<
   DeleteCommentConfirmationProps
-> = ({ onCancel, onConfirm }) => {
+> = ({ isReply, onCancel, onConfirm }) => {
   return (
-    <DeleteConfirmation>
+    <DeleteConfirmation isReply={isReply}>
       <MessageContainer>
         <AttentionOrangeIcon />
         <Message>Delete this comment?</Message>
