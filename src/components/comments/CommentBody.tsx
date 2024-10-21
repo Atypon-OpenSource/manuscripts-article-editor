@@ -24,10 +24,6 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 
-const CommentContent = styled.div`
-  cursor: pointer;
-`
-
 const CommentEditor = styled.textarea`
   cursor: text;
   font-family: ${(props) => props.theme.font.family.sans};
@@ -137,11 +133,9 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
         </>
       ) : (
         <>
-          <CommentContent onClick={onSelect}>
-            <CommentViewer data-cy="comment-text">
-              {comment.node.attrs.contents}
-            </CommentViewer>
-          </CommentContent>
+          <CommentViewer data-cy="comment-text">
+            {comment.node.attrs.contents}
+          </CommentViewer>
         </>
       )}
     </>

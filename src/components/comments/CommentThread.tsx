@@ -27,7 +27,7 @@ const Container = styled.div<{ isSelected?: boolean }>`
   margin-bottom: 16px;
   margin-left: 12px;
   margin-right: 12px;
-
+  cursor: pointer;
   .actions-icon {
     visibility: ${(props) => (props.isSelected ? 'visible' : 'hidden')};
   }
@@ -85,7 +85,12 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     }, [comment, replies])
 
     return (
-      <Container data-cy="comment" isSelected={isSelected} ref={ref}>
+      <Container
+        data-cy="comment"
+        isSelected={isSelected}
+        ref={ref}
+        onClick={onSelect}
+      >
         <CardsWrapper
           ref={cardsRef}
           isSelected={isSelected}
