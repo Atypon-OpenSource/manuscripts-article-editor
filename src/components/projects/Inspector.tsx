@@ -72,7 +72,7 @@ const Inspector: React.FC = () => {
       resizerButton={ResizingInspectorButton}
     >
       <InspectorContainer>
-        <InspectorTabs index={tabIndex} onChange={setTabIndex}>
+        <InspectorTabs defaultIndex={tabIndex} onChange={setTabIndex}>
           <InspectorTabList>
             <InspectorTab data-cy="content-button">Content</InspectorTab>
             <InspectorTab data-cy="comments-button">Comments</InspectorTab>
