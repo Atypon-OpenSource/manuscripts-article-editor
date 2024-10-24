@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CommentAttrs } from '@manuscripts/body-editor'
-import { TextButton } from '@manuscripts/style-guide'
+import { TextButton, usePermissions } from '@manuscripts/style-guide'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -68,6 +68,8 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       onDelete,
       insertCommentReply,
     } = props
+
+    const can = usePermissions()
 
     const { comment, isNew, replies } = thread
 
@@ -146,7 +148,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             </ButtonContainer>
           </>
         )}
-        {isSelected && editingCommentId === null && (
+        {can.createComment && isSelected && editingCommentId === null && (
           <ReplyBox
             insertCommentReply={insertCommentReply}
             commentID={comment.node.attrs.id}

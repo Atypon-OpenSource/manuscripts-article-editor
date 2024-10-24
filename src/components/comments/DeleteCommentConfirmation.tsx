@@ -16,7 +16,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 const MessageContainer = styled.div`
@@ -47,8 +47,11 @@ const Message = styled.div`
 `
 
 const DeleteConfirmation = styled.div<{ isReply?: boolean }>`
+  border-top: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.3);
   position: absolute;
-  top: -8px;
+  top: -9px;
   left: ${(props) => (props.isReply ? '-24px' : '-8px')};
   right: -8px;
   bottom: -16px;
@@ -75,8 +78,27 @@ interface DeleteCommentConfirmationProps {
 export const DeleteCommentConfirmation: React.FC<
   DeleteCommentConfirmationProps
 > = ({ isReply, onCancel, onConfirm }) => {
+  const deleteConfirmationRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        e.target &&
+        deleteConfirmationRef.current &&
+        !deleteConfirmationRef.current.contains(e.target as HTMLElement) &&
+        !(e.target as HTMLElement).closest('.delete-button')
+      ) {
+        onCancel()
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <DeleteConfirmation isReply={isReply}>
+    <DeleteConfirmation isReply={isReply} ref={deleteConfirmationRef}>
       <MessageContainer>
         <AttentionOrangeIcon />
         <Message>Delete this comment?</Message>

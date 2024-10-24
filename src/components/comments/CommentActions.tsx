@@ -94,7 +94,11 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
               <CommentAction data-cy="comment-edit" onClick={onEdit}>
                 Edit
               </CommentAction>
-              <CommentAction data-cy="comment-delete" onClick={onDelete}>
+              <CommentAction
+                className="delete-button"
+                data-cy="comment-delete"
+                onClick={onDelete}
+              >
                 Delete
               </CommentAction>
             </DropdownList>
