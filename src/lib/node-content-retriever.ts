@@ -36,7 +36,11 @@ export class NodeTextContentRetriever {
    */
   public getNodeTextContent(node: ManuscriptNode): string {
     let textContent = ''
-    if (!isElementNodeType(node.type) && !isSectionNodeType(node.type)) {
+
+    if (
+      (!isElementNodeType(node.type) || node.type === schema.nodes.paragraph) &&
+      !isSectionNodeType(node.type)
+    ) {
       node.forEach((child) => {
         if (child.isText) {
           textContent += child.text
