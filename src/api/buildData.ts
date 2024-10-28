@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { UserProfile } from '@manuscripts/json-schema'
-import { schema } from '@manuscripts/transform'
+import { schema, SectionCategory } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
@@ -34,15 +34,16 @@ const getDocumentData = async (
 
 const getManuscriptData = async (templateID: string, api: Api) => {
   const data: Partial<state> = {}
-  const [sectionCategories, cslLocale, template] = await Promise.all([
-    api.getSectionCategories(),
+  const [cslLocale, template] = await Promise.all([
     // TODO:: config this!
     api.getCSLLocale('en-US'),
     api.getTemplate(templateID),
   ])
 
   const bundle = await api.getBundle(template)
-  data.sectionCategories = new Map(sectionCategories?.map((c) => [c.id, c]))
+  data.sectionCategories = new Map(
+    template?.sectionCategories?.map((c: SectionCategory) => [c._id, c])
+  )
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
 
