@@ -20,6 +20,7 @@ import {
   useMenus,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { SectionCategory } from '@manuscripts/transform'
 import React, { useMemo } from 'react'
 
 import { getConfig } from '../../config'
@@ -73,9 +74,10 @@ const filterMenu = (
 
 const getFilteredMenus = (
   editor: ReturnType<typeof useEditor>,
-  can: Capabilities
+  can: Capabilities,
+  sectionCategories: Map<string, SectionCategory>
 ) => {
-  return getEditorMenus(editor)
+  return getEditorMenus(editor, sectionCategories)
     .map((m) => filterMenu(m, can))
     .filter(Boolean) as MenuSpec[]
 }
@@ -83,13 +85,14 @@ const getFilteredMenus = (
 export const ManuscriptMenus: React.FC = () => {
   const can = usePermissions()
   const [editor] = useStore((store) => store.editor)
+  const [sectionCategories] = useStore((store) => store.sectionCategories)
 
   const specs = useMemo(() => {
     if (!editor) {
       return []
     }
-    return getFilteredMenus(editor, can)
-  }, [can, editor])
+    return getFilteredMenus(editor, can, sectionCategories)
+  }, [can, editor, sectionCategories])
 
   const { menus, ref, handleClick } = useMenus(specs)
 

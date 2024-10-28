@@ -15,9 +15,9 @@ import {
   Model,
   ObjectTypes,
   Project,
-  SectionCategory,
   UserProfile,
 } from '@manuscripts/json-schema'
+import { SectionCategory } from '@manuscripts/transform'
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import { createContext, useContext } from 'react'
 

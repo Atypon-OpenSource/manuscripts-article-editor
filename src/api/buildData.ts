@@ -42,7 +42,7 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   ])
 
   const bundle = await api.getBundle(template)
-  data.sectionCategories = sectionCategories || []
+  data.sectionCategories = new Map(sectionCategories?.map((c) => [c.id, c]))
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
 
