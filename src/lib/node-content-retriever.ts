@@ -129,12 +129,11 @@ export class NodeTextContentRetriever {
     if (!rid) {
       return ''
     }
-    //@ts-ignore
-    const footnote = findNodeByID(state.doc, rid).node as FootnoteNode
+    const footnote = findNodeByID(state.doc, rid)?.node
     if (!footnote) {
       return ''
     }
-    const label = getFootnoteLabel(state, footnote)
+    const label = getFootnoteLabel(state, footnote as FootnoteNode)
     const text = footnote.textContent ?? ''
     return `<sup class="footnote-decoration">${label}</sup>${text}`
   }
