@@ -17,8 +17,6 @@ import {
   objectsPluginKey,
 } from '@manuscripts/body-editor'
 import {
-  isElementNodeType,
-  isSectionNodeType,
   ManuscriptEditorState,
   ManuscriptNode,
   schema,
@@ -29,23 +27,6 @@ export class NodeTextContentRetriever {
 
   constructor(state: ManuscriptEditorState) {
     this.state = state
-  }
-
-  /**
-   * Recursively retrieves text content from a ManuscriptNode.
-   */
-  public getNodeTextContent(node: ManuscriptNode): string {
-    let textContent = ''
-    if (!isElementNodeType(node.type) && !isSectionNodeType(node.type)) {
-      node.forEach((child) => {
-        if (child.isText) {
-          textContent += child.text
-        } else {
-          textContent += this.getNodeTextContent(child)
-        }
-      })
-    }
-    return textContent
   }
 
   /**
@@ -158,8 +139,6 @@ export class NodeTextContentRetriever {
     const footnotesPlugin = footnotesPluginKey.get(this.state)
     const pluginState = footnotesPlugin?.getState(this.state)
     const decorationText = pluginState?.labels.get(node.attrs.id) || ''
-    return `<sup class="footnote-decoration">${decorationText}</sup>${
-      node.textContent || this.getNodeTextContent(node)
-    }`
+    return `<sup class="footnote-decoration">${decorationText}</sup>${node.textContent}`
   }
 }
