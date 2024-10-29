@@ -13,7 +13,6 @@
 import '@manuscripts/body-editor/styles/Editor.css'
 import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
-import '@reach/tabs/styles.css'
 
 import {
   CapabilitiesProvider,
