@@ -13,6 +13,7 @@ import {
   Comment,
   CommentAttrs,
   commentsKey,
+  HighlightMarkerAttrs,
   InlineComment,
   isNodeComment,
   setCommentSelection,
@@ -21,7 +22,7 @@ import { buildContribution } from '@manuscripts/json-schema'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
 import { findChildrenByType } from 'prosemirror-utils'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
@@ -130,6 +131,20 @@ export const CommentsPanel: React.FC = () => {
     view.dispatch(skipTracking(tr))
   }
 
+  const deleteHighlightMarkers = (id: string, tr: Transaction) => {
+    const nodes = findChildrenByType(doc, schema.nodes.highlight_marker)
+
+    // Sort nodes in reverse order by position to ensure deletions do not affect the positions of subsequent nodes
+    nodes.sort((a, b) => b.pos - a.pos)
+    nodes.forEach(({ node, pos }) => {
+      const attrs = node.attrs as HighlightMarkerAttrs
+
+      if (attrs.id === id) {
+        tr.delete(pos, pos + node.nodeSize)
+      }
+    })
+  }
+
   const handleDelete = (id: string) => {
     const comment = comments?.get(id)
     if (!comment || !view) {
@@ -137,6 +152,7 @@ export const CommentsPanel: React.FC = () => {
     }
     const tr = view.state.tr
     tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
+    deleteHighlightMarkers(id, tr)
     view.dispatch(skipTracking(tr))
   }
 
