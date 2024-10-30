@@ -48,7 +48,6 @@ const Inspector: React.FC = () => {
   const COMMENTS_TAB_INDEX = index++
   const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = config.features.fileManagement ? index++ : -1
-
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -72,7 +71,7 @@ const Inspector: React.FC = () => {
       resizerButton={ResizingInspectorButton}
     >
       <InspectorContainer>
-        <InspectorTabs index={tabIndex} onChange={setTabIndex}>
+        <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
           <InspectorTabList>
             <InspectorTab data-cy="content-button">Content</InspectorTab>
             <InspectorTab data-cy="comments-button">Comments</InspectorTab>
