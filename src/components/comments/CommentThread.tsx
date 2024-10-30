@@ -80,6 +80,12 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     )
 
     useEffect(() => {
+      if (!isSelected) {
+        setEditingCommentId(null)
+      }
+    }, [isSelected])
+
+    useEffect(() => {
       if (cardsRef.current) {
         const contentHeight = cardsRef.current.scrollHeight
         setShowMore(contentHeight > 280)
@@ -114,7 +120,6 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             setEditingCommentId={setEditingCommentId}
             onDelete={onDelete}
             onSave={onSave}
-            onSelect={onSelect}
           />
           {replies.sort(commentsByTime).map((reply, index) => {
             return (
@@ -132,7 +137,6 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
                     setEditingCommentId={setEditingCommentId}
                     onDelete={onDelete}
                     onSave={onSave}
-                    onSelect={onSelect}
                   />
                 </Indented>
               </div>

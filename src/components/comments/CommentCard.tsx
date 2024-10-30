@@ -93,7 +93,6 @@ interface CommentCardProps {
   setEditingCommentId: (id: string | null) => void
   onSave: (comment: CommentAttrs) => void
   onDelete: (id: string) => void
-  onSelect: () => void
 }
 
 export const CommentCard: React.FC<CommentCardProps> = ({
@@ -106,7 +105,6 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   setEditingCommentId,
   onSave,
   onDelete,
-  onSelect,
 }) => {
   const can = usePermissions()
   const [{ user, collaboratorsById }] = useStore((state) => ({
@@ -136,7 +134,6 @@ export const CommentCard: React.FC<CommentCardProps> = ({
 
   const handleEdit = () => {
     setEditingCommentId(commentID)
-    onSelect()
   }
   const handleSave = (contents: string) => {
     onSave({
@@ -162,7 +159,6 @@ export const CommentCard: React.FC<CommentCardProps> = ({
 
   const handleDelete = () => {
     setShowDeleteConfirmation(true)
-    onSelect()
   }
 
   const confirmDelete = () => {
@@ -213,7 +209,6 @@ export const CommentCard: React.FC<CommentCardProps> = ({
         isEditing={editingCommentId === commentID}
         onSave={handleSave}
         onCancel={handleCancel}
-        onSelect={onSelect}
       />
       {showDeleteConfirmation && (
         <DeleteCommentConfirmation

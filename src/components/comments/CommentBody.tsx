@@ -81,7 +81,6 @@ export interface CommentBodyProps {
   isEditing: boolean
   onSave: (content: string) => void
   onCancel: () => void
-  onSelect: () => void
 }
 
 export const CommentBody: React.FC<CommentBodyProps> = ({
@@ -89,7 +88,6 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
   isEditing,
   onSave,
   onCancel,
-  onSelect,
 }) => {
   const editor = useRef<HTMLTextAreaElement | null>(null)
   const handleSave = () => {

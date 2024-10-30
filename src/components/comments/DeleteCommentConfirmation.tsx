@@ -54,7 +54,7 @@ const DeleteConfirmation = styled.div<{ isReply?: boolean }>`
   top: -9px;
   left: ${(props) => (props.isReply ? '-24px' : '-8px')};
   right: -8px;
-  bottom: -16px;
+  bottom: -9px;
   opacity: 0.95;
   display: flex;
   align-items: center;
