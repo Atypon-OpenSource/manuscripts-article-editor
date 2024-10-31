@@ -56,22 +56,9 @@ export class NodeTextContentRetriever {
       )
       return citation ? citation.replace(/<[^>]*>/g, '') : ''
     } else {
-      const [meta, bibliography] = bib.provider.makeBibliography()
-
-      const selectedBib = meta.entry_ids.findIndex(
-        (entry: [string]) => entry[0] === id
-      )
-      if (selectedBib === -1) {
-        return `<span> ${node.attrs.title || 'untitled'} </span> ${metadata(
-          node.attrs as BibliographyItemAttrs
-        )}`
-      }
-      const parser = new DOMParser()
-      const textContent = parser.parseFromString(
-        bibliography[selectedBib],
-        'text/html'
-      ).body.textContent
-      return textContent || ''
+      return `<span> ${node.attrs.title || 'untitled'} </span> ${metadata(
+        node.attrs as BibliographyItemAttrs
+      )}`
     }
   }
 
