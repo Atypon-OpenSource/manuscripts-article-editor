@@ -1524,17 +1524,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.5.8":
-  version "2.5.8"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.5.8.tgz#ac9103e9d086443da3a55f04cad8a2027ab892b6"
-  integrity sha512-jR7rZMRHagjdomz42UpABluw65A6RZCSlxg39xMrfqNzmzPq8mCbSPAtyC2CitQF5lpEXSnsLXzQqS2kxvJCag==
+"@manuscripts/body-editor@2.5.5":
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.5.5.tgz#0bc895be2c2c92f0822e661b20d6809d0abad285"
+  integrity sha512-CwSiRDEWWCaxXVKt0tudSDwzExh0LJfzlG2pZsMAACen1xaeshZ+cY/JLygmHgRnoZO67BVCKnMTs7U8jy5wXw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.22"
-    "@manuscripts/track-changes-plugin" "1.8.1"
-    "@manuscripts/transform" "3.0.11"
+    "@manuscripts/track-changes-plugin" "1.8.0"
+    "@manuscripts/transform" "3.0.9"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1647,26 +1647,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/track-changes-plugin@1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.1.tgz#523f8d8a45b99f0627a429ea66bc694516a5d3d6"
-  integrity sha512-RHPmkCWnUVDm7vySRmZwCS02KJyTbxMOFqAg4KVc6j/y3oRN2PR4CHVw2FW4PPiqD7Y9fILw1hJGa+flX6iOvw==
-  dependencies:
-    debug "^4.3.4"
-    prosemirror-commands "^1.5.0"
-    prosemirror-example-setup "^1.2.1"
-    prosemirror-history "^1.4.1"
-    prosemirror-keymap "^1.2.0"
-    prosemirror-model "^1.18.3"
-    prosemirror-schema-list "^1.2.2"
-    prosemirror-state "^1.4.2"
-    prosemirror-transform "^1.7.0"
-    prosemirror-view "^1.29.1"
-
-"@manuscripts/transform@3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.11.tgz#cca5e0243e7c2a2085729428efafe4e6dc73e10d"
-  integrity sha512-UDFx00arVwfriIwdHGbrm6PIYrrDVwgqZwcxzG22q+c4zUY/QipyezxFzS0DNhpBoTN64ZRByotlgua4fAHgFA==
+"@manuscripts/transform@3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.9.tgz#b65fd1ad10f0be329a3237c9b04d29037220d552"
+  integrity sha512-Z7ohh58smomhE4kdZohLrXH0NW535PprGbmv3U1wqkczfVzF27mD+VJdwlM4mi9yJFqf/ZvT9pvn0se01IfhnA==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
