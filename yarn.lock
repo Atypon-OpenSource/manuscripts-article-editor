@@ -1524,17 +1524,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.5.5":
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.5.5.tgz#0bc895be2c2c92f0822e661b20d6809d0abad285"
-  integrity sha512-CwSiRDEWWCaxXVKt0tudSDwzExh0LJfzlG2pZsMAACen1xaeshZ+cY/JLygmHgRnoZO67BVCKnMTs7U8jy5wXw==
+"@manuscripts/body-editor@2.5.8":
+  version "2.5.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.5.8.tgz#ac9103e9d086443da3a55f04cad8a2027ab892b6"
+  integrity sha512-jR7rZMRHagjdomz42UpABluw65A6RZCSlxg39xMrfqNzmzPq8mCbSPAtyC2CitQF5lpEXSnsLXzQqS2kxvJCag==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.22"
-    "@manuscripts/track-changes-plugin" "1.8.0"
-    "@manuscripts/transform" "3.0.9"
+    "@manuscripts/track-changes-plugin" "1.8.1"
+    "@manuscripts/transform" "3.0.11"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1631,10 +1631,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.0.tgz#b6476fd4e66f6c338396176b0ad61003b35a48c9"
-  integrity sha512-3SIBaoi+ZIYHeIx9B/11YEuseDBqpr1isajWEEN3/UPFlSz7L/cUk9uKSCMkm8swFlXLhyAP9ZpRXO/PrMAmqA==
+"@manuscripts/track-changes-plugin@1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.1.tgz#523f8d8a45b99f0627a429ea66bc694516a5d3d6"
+  integrity sha512-RHPmkCWnUVDm7vySRmZwCS02KJyTbxMOFqAg4KVc6j/y3oRN2PR4CHVw2FW4PPiqD7Y9fILw1hJGa+flX6iOvw==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1647,10 +1647,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.9.tgz#b65fd1ad10f0be329a3237c9b04d29037220d552"
-  integrity sha512-Z7ohh58smomhE4kdZohLrXH0NW535PprGbmv3U1wqkczfVzF27mD+VJdwlM4mi9yJFqf/ZvT9pvn0se01IfhnA==
+"@manuscripts/transform@3.0.11":
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.11.tgz#cca5e0243e7c2a2085729428efafe4e6dc73e10d"
+  integrity sha512-UDFx00arVwfriIwdHGbrm6PIYrrDVwgqZwcxzG22q+c4zUY/QipyezxFzS0DNhpBoTN64ZRByotlgua4fAHgFA==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
@@ -1731,20 +1731,20 @@
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
 "@react-aria/focus@^3.17.1":
-  version "3.18.3"
-  resolved "https://registry.yarnpkg.com/@react-aria/focus/-/focus-3.18.3.tgz#4fe32de1e7530beab8da2e7b89f0f17d22a47e5e"
-  integrity sha512-WKUElg+5zS0D3xlVn8MntNnkzJql2J6MuzAMP8Sv5WTgFDse/XGR842dsxPTIyKKdrWVCRegCuwa4m3n/GzgJw==
+  version "3.18.4"
+  resolved "https://registry.yarnpkg.com/@react-aria/focus/-/focus-3.18.4.tgz#a6e95896bc8680d1b5bcd855e983fc2c195a1a55"
+  integrity sha512-91J35077w9UNaMK1cpMUEFRkNNz0uZjnSwiyBCFuRdaVuivO53wNC9XtWSDNDdcO5cGy87vfJRVAiyoCn/mjqA==
   dependencies:
-    "@react-aria/interactions" "^3.22.3"
+    "@react-aria/interactions" "^3.22.4"
     "@react-aria/utils" "^3.25.3"
     "@react-types/shared" "^3.25.0"
     "@swc/helpers" "^0.5.0"
     clsx "^2.0.0"
 
-"@react-aria/interactions@^3.21.3", "@react-aria/interactions@^3.22.3":
-  version "3.22.3"
-  resolved "https://registry.yarnpkg.com/@react-aria/interactions/-/interactions-3.22.3.tgz#3ba50db12f6ed443ae061eed79e41509eaa3d8e6"
-  integrity sha512-RRUb/aG+P0IKTIWikY/SylB6bIbLZeztnZY2vbe7RAG5MgVaCgn5HQ45SI15GlTmhsFG8CnF6slJsUFJiNHpbQ==
+"@react-aria/interactions@^3.21.3", "@react-aria/interactions@^3.22.4":
+  version "3.22.4"
+  resolved "https://registry.yarnpkg.com/@react-aria/interactions/-/interactions-3.22.4.tgz#88ed61ab6a485f869bc1f65ae6688d48ca96064b"
+  integrity sha512-E0vsgtpItmknq/MJELqYJwib+YN18Qag8nroqwjk1qOnBa9ROIkUhWJerLi1qs5diXq9LHKehZDXRlwPvdEFww==
   dependencies:
     "@react-aria/ssr" "^3.9.6"
     "@react-aria/utils" "^3.25.3"
@@ -7764,10 +7764,15 @@ tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.0, tslib@^2.1.0, tslib@^2.4.0, tslib@^2.6.1, tslib@^2.6.2:
+tslib@^2.0.0, tslib@^2.1.0, tslib@^2.6.1, tslib@^2.6.2:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.7.0.tgz#d9b40c5c40ab59e8738f297df3087bf1a2690c01"
   integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
+
+tslib@^2.4.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.0.tgz#d124c86c3c05a40a91e6fdea4021bd31d377971b"
+  integrity sha512-jWVzBLplnCmoaTr13V9dYbiQ99wvZRd0vNWaDRg+aVYRcjDF3nDksxFDE/+fkXnKhpnUUkmx5pK/v8mCtLVqZA==
 
 tsutils@^3.21.0:
   version "3.21.0"
