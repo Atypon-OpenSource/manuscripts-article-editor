@@ -39,14 +39,19 @@ export const ActionsIcon = styled.button`
 export const CommentAction = styled.div`
   font-family: ${(props) => props.theme.font.family.Lato};
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
-  padding: 16px;
+  padding: 6px 0 6px 8px;
   &:hover,
   &:focus {
     background: #f2fbfc;
   }
+`
+
+const Container = styled.div`
+  display: flex;
+  align-items: end;
 `
 
 export interface CommentActionsProps {
@@ -69,32 +74,40 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
   return (
-    <>
-      {isResolveEnabled && (
-        <CommentResolveButton comment={comment} onClick={toggleResolve} />
-      )}
+    <Container>
       {isActionsEnabled && (
         <DropdownContainer ref={wrapperRef}>
-          <ActionsIcon data-cy="comment-dropdown-trigger" onClick={toggleOpen}>
+          <ActionsIcon
+            data-cy="comment-dropdown-trigger"
+            onClick={toggleOpen}
+            className="actions-icon"
+          >
             <DotsIcon />
           </ActionsIcon>
           {isOpen && (
             <DropdownList
               data-cy="comment-dropdown"
               direction={'right'}
-              width={125}
+              width={82}
               onClick={toggleOpen}
             >
               <CommentAction data-cy="comment-edit" onClick={onEdit}>
                 Edit
               </CommentAction>
-              <CommentAction data-cy="comment-delete" onClick={onDelete}>
+              <CommentAction
+                className="delete-button"
+                data-cy="comment-delete"
+                onClick={onDelete}
+              >
                 Delete
               </CommentAction>
             </DropdownList>
           )}
         </DropdownContainer>
       )}
-    </>
+      {isResolveEnabled && (
+        <CommentResolveButton comment={comment} onClick={toggleResolve} />
+      )}
+    </Container>
   )
 }
