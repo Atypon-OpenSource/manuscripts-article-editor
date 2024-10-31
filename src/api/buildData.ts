@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { UserProfile } from '@manuscripts/json-schema'
-import { schema, SectionCategory } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
@@ -40,9 +40,17 @@ const getManuscriptData = async (templateID: string, api: Api) => {
     api.getTemplate(templateID),
   ])
 
+  if (!template) {
+    return data
+  }
+
   const bundle = await api.getBundle(template)
+  if (!bundle) {
+    return data
+  }
+
   data.sectionCategories = new Map(
-    template?.sectionCategories?.map((c: SectionCategory) => [c._id, c])
+    template.sectionCategories.map((c) => [c.id, c])
   )
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale

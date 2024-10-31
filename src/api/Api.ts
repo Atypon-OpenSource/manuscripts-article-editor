@@ -88,12 +88,12 @@ export class Api {
   getTemplate = (id?: string) =>
     id ? this.get<ManuscriptTemplate>(`/templates?id=${id}`) : undefined
 
-  getBundle = (template: ManuscriptTemplate | undefined) =>
+  getBundle = (template: ManuscriptTemplate) =>
     template?.bundle
       ? this.get<Bundle>(`/bundles?id=${template.bundle}`)
       : undefined
 
-  getCSLStyle = (bundle: Bundle | undefined) =>
+  getCSLStyle = (bundle: Bundle) =>
     bundle?.csl?._id
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
