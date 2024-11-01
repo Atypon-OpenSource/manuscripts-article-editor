@@ -28,7 +28,6 @@ import {
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
-import { ContentTab } from './ContentTab'
 
 const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
@@ -44,7 +43,6 @@ const Inspector: React.FC = () => {
   const [tabIndex, setTabIndex] = useState(1)
 
   let index = 0
-  const CONTENT_TAB_INDEX = index++
   const COMMENTS_TAB_INDEX = index++
   const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = config.features.fileManagement ? index++ : -1
@@ -73,7 +71,6 @@ const Inspector: React.FC = () => {
       <InspectorContainer>
         <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
           <InspectorTabList>
-            <InspectorTab data-cy="content-button">Content</InspectorTab>
             <InspectorTab data-cy="comments-button">Comments</InspectorTab>
             {!can.editWithoutTracking && (
               <InspectorTab data-cy="history-button">History</InspectorTab>
@@ -83,9 +80,6 @@ const Inspector: React.FC = () => {
             )}
           </InspectorTabList>
           <PaddedInspectorTabPanels>
-            <InspectorTabPanel key="Content" data-cy="content">
-              {tabIndex === CONTENT_TAB_INDEX && <ContentTab key="content" />}
-            </InspectorTabPanel>
             <InspectorTabPanel key="Comments" data-cy="comments">
               {tabIndex === COMMENTS_TAB_INDEX && (
                 <CommentsPanel key="comments" />
