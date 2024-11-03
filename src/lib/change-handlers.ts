@@ -32,21 +32,24 @@ export const handleTextChange = (
   view: any,
   dataTracked: any
 ): SnippetData | null => {
-  const parentNodeType = getParentNode(view.state, suggestion.from)?.type
-  let nodeName
-  if (parentNodeType) {
-    const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
-    nodeName =
-      parentNodeType === schema.nodes.paragraph
-        ? 'text'
-        : parentNodeName + ' text'
+  if (view) {
+    const parentNodeType = getParentNode(view.state, suggestion.from)?.type
+    let nodeName
+    if (parentNodeType) {
+      const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
+      nodeName =
+        parentNodeType === schema.nodes.paragraph
+          ? 'text'
+          : parentNodeName + ' text'
+    }
+  
+    return {
+      operation: changeOperationAlias(dataTracked.operation),
+      nodeName: nodeName || suggestion.nodeType.name,
+      content: suggestion.text,
+    }
   }
-
-  return {
-    operation: changeOperationAlias(dataTracked.operation),
-    nodeName: nodeName || suggestion.nodeType.name,
-    content: suggestion.text,
-  }
+  return null
 }
 
 export const handleNodeChange = (
@@ -55,106 +58,109 @@ export const handleNodeChange = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
-  const nodeContentRetriever = new NodeTextContentRetriever(view.state)
-  const { node } = suggestion
-  const operation = changeOperationAlias(dataTracked.operation)
-  const nodeName = nodeNames.get(node.type) || node.type.name
-
-  switch (node.type) {
-    case schema.nodes.inline_footnote: {
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getInlineFootnoteContent(
-          view.state,
-          node.attrs
-        ),
+  if (view) {
+    const nodeContentRetriever = new NodeTextContentRetriever(view.state)
+    const { node } = suggestion
+    const operation = changeOperationAlias(dataTracked.operation)
+    const nodeName = nodeNames.get(node.type) || node.type.name
+  
+    switch (node.type) {
+      case schema.nodes.inline_footnote: {
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getInlineFootnoteContent(
+            view.state,
+            node.attrs
+          ),
+        }
       }
+      case schema.nodes.footnote: {
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getFootnoteContent(view.state, node),
+        }
+      }
+      case schema.nodes.contributor: {
+        const contributorTextContent = `${node.attrs.bibliographicName.given} ${node.attrs.bibliographicName.family}`
+        return {
+          operation,
+          nodeName,
+          content: contributorTextContent,
+        }
+      }
+      case schema.nodes.affiliation: {
+        const affiliationTextContent = node.attrs.institution
+        return {
+          operation,
+          nodeName,
+          content: affiliationTextContent,
+        }
+      }
+      case schema.nodes.citation: {
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getContentFromBibliography(
+            node.attrs.id,
+            node
+          ),
+        }
+      }
+      case schema.nodes.bibliography_item: {
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getContentFromBibliography(
+            node.attrs.id,
+            node
+          ),
+        }
+      }
+      case schema.nodes.figure_element:
+      case schema.nodes.table_element:
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getFigureLabel(node),
+        }
+      case schema.nodes.inline_equation:
+      case schema.nodes.equation_element:
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getEquationContent(node),
+          isEquation: true,
+        }
+      case schema.nodes.section: {
+        const nodeName =
+          node.attrs.category === 'MPSectionCategory:subsection'
+            ? 'Subsection'
+            : 'Section'
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getFirstChildContent(node),
+        }
+      }
+      case schema.nodes.list:
+        return {
+          operation,
+          nodeName,
+          content: `<span class="inspector-list-item">${nodeContentRetriever.getFirstChildContent(
+            node
+          )}</span>`,
+        }
+      default:
+        return {
+          operation,
+          nodeName,
+          content: nodeContentRetriever.getNodeTextContent(node),
+        }
     }
-    case schema.nodes.footnote: {
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getFootnoteContent(view.state, node),
-      }
-    }
-    case schema.nodes.contributor: {
-      const contributorTextContent = `${node.attrs.bibliographicName.given} ${node.attrs.bibliographicName.family}`
-      return {
-        operation,
-        nodeName,
-        content: contributorTextContent,
-      }
-    }
-    case schema.nodes.affiliation: {
-      const affiliationTextContent = node.attrs.institution
-      return {
-        operation,
-        nodeName,
-        content: affiliationTextContent,
-      }
-    }
-    case schema.nodes.citation: {
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getContentFromBibliography(
-          node.attrs.id,
-          node
-        ),
-      }
-    }
-    case schema.nodes.bibliography_item: {
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getContentFromBibliography(
-          node.attrs.id,
-          node
-        ),
-      }
-    }
-    case schema.nodes.figure_element:
-    case schema.nodes.table_element:
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getFigureLabel(node),
-      }
-    case schema.nodes.inline_equation:
-    case schema.nodes.equation_element:
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getEquationContent(node),
-        isEquation: true,
-      }
-    case schema.nodes.section: {
-      const nodeName =
-        node.attrs.category === 'MPSectionCategory:subsection'
-          ? 'Subsection'
-          : 'Section'
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getFirstChildContent(node),
-      }
-    }
-    case schema.nodes.list:
-      return {
-        operation,
-        nodeName,
-        content: `<span class="inspector-list-item">${nodeContentRetriever.getFirstChildContent(
-          node
-        )}</span>`,
-      }
-    default:
-      return {
-        operation,
-        nodeName,
-        content: nodeContentRetriever.getNodeTextContent(node),
-      }
   }
+  return null
 }
 
 export const handleUnknownChange = (): SnippetData => {
