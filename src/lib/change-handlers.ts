@@ -32,25 +32,24 @@ export const handleTextChange = (
   view: any,
   dataTracked: any
 ): SnippetData | null => {
-  if (view) {
-    const parentNodeType = getParentNode(view.state, suggestion.from)?.type
-    let nodeName
-    if (parentNodeType) {
-      const parentNodeName =
-        nodeNames.get(parentNodeType) || parentNodeType?.name
-      nodeName =
-        parentNodeType === schema.nodes.paragraph
-          ? 'text'
-          : parentNodeName + ' text'
-    }
-
-    return {
-      operation: changeOperationAlias(dataTracked.operation),
-      nodeName: nodeName || suggestion.nodeType.name,
-      content: suggestion.text,
-    }
+  if (!view) {
+    return null
   }
-  return null
+  const parentNodeType = getParentNode(view.state, suggestion.from)?.type
+  let nodeName
+  if (parentNodeType) {
+    const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
+    nodeName =
+      parentNodeType === schema.nodes.paragraph
+        ? 'text'
+        : parentNodeName + ' text'
+  }
+
+  return {
+    operation: changeOperationAlias(dataTracked.operation),
+    nodeName: nodeName || suggestion.nodeType.name,
+    content: suggestion.text,
+  }
 }
 
 export const handleNodeChange = (
