@@ -32,6 +32,9 @@ export const handleTextChange = (
   view: any,
   dataTracked: any
 ): SnippetData | null => {
+  if (!view) {
+    return null
+  }
   const parentNodeType = getParentNode(view.state, suggestion.from)?.type
   let nodeName
   if (parentNodeType) {
@@ -55,6 +58,9 @@ export const handleNodeChange = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
+  if (!view) {
+    return null
+  }
   const nodeContentRetriever = new NodeTextContentRetriever(view.state)
   const { node } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
