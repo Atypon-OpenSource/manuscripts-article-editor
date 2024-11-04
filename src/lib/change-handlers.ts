@@ -131,9 +131,7 @@ export const handleNodeChange = (
       }
     case schema.nodes.section: {
       const nodeName =
-        node.attrs.category === 'MPSectionCategory:subsection'
-          ? 'Subsection'
-          : 'Section'
+        node.attrs.category === 'subsection' ? 'Subsection' : 'Section'
       return {
         operation,
         nodeName,
