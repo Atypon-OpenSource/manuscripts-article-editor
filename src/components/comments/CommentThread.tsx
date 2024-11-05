@@ -10,170 +10,191 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CommentAttrs } from '@manuscripts/body-editor'
-import {
-  AvatarIcon,
-  RelativeDate,
-  SystemUserAvatarIcon,
-  usePermissions,
-} from '@manuscripts/style-guide'
-import React, { forwardRef, useState } from 'react'
+import { TextButton, usePermissions } from '@manuscripts/style-guide'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { buildAuthorName, CommentTree, getAuthorID } from '../../lib/comments'
-import { useStore } from '../../store'
-import { CommentActions } from './CommentActions'
-import { CommentBody } from './CommentBody'
+import { commentsByTime, Thread } from '../../lib/comments'
+import { CommentCard } from './CommentCard'
+import { ReplyBox } from './ReplyBox'
 
 const Container = styled.div<{ isSelected?: boolean }>`
-  padding: 16px;
-  background-color: ${(props) => (props.isSelected ? '#f2fbfc' : '#ffffff')};
-  border: 1px solid ${(props) => (props.isSelected ? '#bce7f6' : '#e2e2e2')};
-  border-left-width: 4px;
+  padding: 8px;
+  background-color: ${(props) => (props.isSelected ? '#fff' : '#fafafa')};
+  border: 1px solid #c9c9c9;
+  ${(props) => props.isSelected && 'border-left-width: 4px'};
+  border-radius: 4px;
   margin-bottom: 16px;
-`
+  margin-left: 12px;
+  margin-right: 12px;
+  cursor: pointer;
+  .actions-icon {
+    visibility: ${(props) => (props.isSelected ? 'visible' : 'hidden')};
+  }
 
-const CommentHeader = styled.div`
-  display: flex;
-  margin-bottom: 16px;
-`
+  &:hover {
+    background-color: #fff;
 
-const CommentMetadata = styled.div`
-  flex: 1;
-  padding-left: 8px;
-  padding-right: 8px;
-`
-
-const CommentAuthor = styled.div`
-  display: flex;
-  color: #353535;
-  font-weight: 400;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-
-  svg {
-    padding-right: 10px;
+    .actions-icon {
+      visibility: visible;
+    }
   }
 `
-
-const CommentTarget = styled.div`
-  font-size: 14px;
-  color: #353535;
-  background-color: #ffeebf;
-  padding: 4px 8px;
-  margin-top: 16px;
-  margin-bottom: 16px;
+const SeparatorLine = styled.div`
+  margin-bottom: 8px;
+  background-color: #c9c9c9;
+  height: 1px;
 `
-
-const Timestamp = styled(RelativeDate)`
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 400;
-  color: #6e6e6e;
+const Indented = styled.div`
+  padding-left: 16px;
 `
 
 export interface CommentThreadProps {
-  tree: CommentTree
+  thread: Thread
   isSelected: boolean
   onSelect: () => void
   onSave: (comment: CommentAttrs) => void
   onDelete: (id: string) => void
+  insertCommentReply: (target: string, contents: string) => void
 }
 
 export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
   (props, ref) => {
-    const { tree, isSelected, onSelect, onSave, onDelete } = props
+    const {
+      thread,
+      isSelected,
+      onSelect,
+      onSave,
+      onDelete,
+      insertCommentReply,
+    } = props
 
     const can = usePermissions()
-    const [{ user, collaboratorsById }] = useStore((state) => ({
-      user: state.user,
-      collaboratorsById: state.collaboratorsById,
-    }))
 
-    const authorID = getAuthorID(tree.comment)
-    const authorName = authorID
-      ? buildAuthorName(collaboratorsById.get(authorID))
-      : ''
+    const { comment, isNew, replies } = thread
 
-    const timestamp = tree.comment.node.attrs.contributions?.[0].timestamp
+    const cardsRef = useRef<HTMLDivElement>(null)
+    const [showMore, setShowMore] = useState(false)
+    const [editingCommentId, setEditingCommentId] = useState<string | null>(
+      isNew ? comment.node.attrs.id : null
+    )
 
-    const isOwn = authorID === user._id
+    useEffect(() => {
+      if (!isSelected) {
+        setEditingCommentId(null)
+      }
+    }, [isSelected])
 
-    const isResolveEnabled = isOwn
-      ? can.resolveOwnComment
-      : can.resolveOthersComment
+    useEffect(() => {
+      if (cardsRef.current) {
+        const contentHeight = cardsRef.current.scrollHeight
+        setShowMore(contentHeight > 280)
+      }
+    }, [comment, replies])
 
-    const isActionsEnabled = isOwn
-      ? can.handleOwnComments
-      : can.handleOthersComments
-
-    const [isEditing, setEditing] = useState(tree.isNew)
-
-    const handleEdit = () => setEditing(true)
-
-    const handleSave = (contents: string) => {
-      onSave({
-        ...tree.comment.node.attrs,
-        contents,
-      })
-      setEditing(false)
-    }
-
-    const handleCancel = () => {
-      setEditing(false)
-      if (tree.isNew) {
-        onDelete(tree.comment.node.attrs.id)
+    const handleSelect = () => {
+      if (!isSelected) {
+        onSelect()
       }
     }
 
-    const handleToggleResolve = () => {
-      onSave({
-        ...tree.comment.node.attrs,
-        resolved: !tree.comment.node.attrs.resolved,
-      })
-    }
-
     return (
-      <Container data-cy="comment" isSelected={isSelected} ref={ref}>
-        <CommentHeader data-cy="comment-header">
-          <CommentMetadata>
-            <CommentAuthor>
-              {authorName ? (
-                <>
-                  <AvatarIcon width={20} height={20} />
-                  <CommentAuthor>{authorName}</CommentAuthor>
-                </>
-              ) : (
-                <>
-                  <SystemUserAvatarIcon width={20} height={20} />
-                  <CommentAuthor>System</CommentAuthor>
-                </>
-              )}
-            </CommentAuthor>
-            {timestamp && <Timestamp date={timestamp * 1000} />}
-          </CommentMetadata>
-          <CommentActions
-            comment={tree.comment}
-            isResolveEnabled={isResolveEnabled}
-            isActionsEnabled={isActionsEnabled}
-            onDelete={() => onDelete(tree.comment.node.attrs.id)}
-            onEdit={handleEdit}
-            toggleResolve={handleToggleResolve}
+      <Container
+        data-cy="comment"
+        isSelected={isSelected}
+        ref={ref}
+        onClick={handleSelect}
+      >
+        <CardsWrapper
+          ref={cardsRef}
+          isSelected={isSelected}
+          showMore={showMore}
+        >
+          <CommentCard
+            comment={comment}
+            isReply={false}
+            numOfReplies={replies.length}
+            isNew={isNew}
+            isEndOfThread={!replies.length}
+            editingCommentId={editingCommentId}
+            setEditingCommentId={setEditingCommentId}
+            onDelete={onDelete}
+            onSave={onSave}
           />
-        </CommentHeader>
-        {tree.comment.node.attrs.originalText && (
-          <CommentTarget>{tree.comment.node.attrs.originalText}</CommentTarget>
+          {replies.sort(commentsByTime).map((reply, index) => {
+            return (
+              <div key={reply.node.attrs.id}>
+                {index === 0 && <SeparatorLine />}
+                <Indented>
+                  {index !== 0 && <SeparatorLine />}
+                  <CommentCard
+                    comment={reply}
+                    isReply={true}
+                    numOfReplies={0}
+                    isNew={false}
+                    isEndOfThread={index === replies.length - 1}
+                    editingCommentId={editingCommentId}
+                    setEditingCommentId={setEditingCommentId}
+                    onDelete={onDelete}
+                    onSave={onSave}
+                  />
+                </Indented>
+              </div>
+            )
+          })}
+        </CardsWrapper>
+
+        {showMore && !isSelected && (
+          <>
+            <SeparatorLine />
+            <ButtonContainer>
+              <ShowMore onClick={onSelect}>Show more</ShowMore>
+            </ButtonContainer>
+          </>
         )}
-        <CommentBody
-          comment={tree.comment}
-          isEditing={tree.isNew || isEditing}
-          onSave={handleSave}
-          onCancel={handleCancel}
-          onSelect={onSelect}
-        />
+        {can.createComment && isSelected && editingCommentId === null && (
+          <ReplyBox
+            insertCommentReply={insertCommentReply}
+            commentID={comment.node.attrs.id}
+          />
+        )}
       </Container>
     )
   }
 )
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const ShowMore = styled(TextButton)`
+  cursor: pointer;
+  text-align: center;
+  margin-top: 6px;
+  color: #353535;
+`
+
+const CardsWrapper = styled.div<{
+  isSelected: boolean
+  showMore: boolean
+}>`
+  max-height: ${({ isSelected }) => (isSelected ? 'none' : '280px')};
+  position: relative;
+  ${({ showMore, isSelected }) =>
+    showMore &&
+    !isSelected &&
+    `
+    overflow: hidden;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    }
+  `}
+`

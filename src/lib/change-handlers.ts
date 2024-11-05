@@ -73,7 +73,7 @@ export const handleNodeChange = (
         operation,
         nodeName,
         content: nodeContentRetriever.getInlineFootnoteContent(
-          state.doc,
+          state,
           node.attrs
         ),
       }
@@ -82,7 +82,7 @@ export const handleNodeChange = (
       return {
         operation,
         nodeName,
-        content: nodeContentRetriever.getFootnoteContent(node),
+        content: nodeContentRetriever.getFootnoteContent(state, node),
       }
     }
     case schema.nodes.contributor: {

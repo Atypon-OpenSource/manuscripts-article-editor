@@ -13,7 +13,7 @@ import { Comment } from '@manuscripts/body-editor'
 import {
   ButtonGroup,
   PrimaryButton,
-  SecondaryButton,
+  TertiaryButton,
 } from '@manuscripts/style-guide'
 import React, {
   ChangeEvent,
@@ -25,10 +25,6 @@ import React, {
 import styled from 'styled-components'
 
 import { decodeHTMLEntities } from '../../lib/utils'
-
-const CommentContent = styled.div`
-  cursor: pointer;
-`
 
 const CommentEditor = styled.textarea`
   cursor: text;
@@ -64,11 +60,19 @@ const CommentViewer = styled.div`
   letter-spacing: -0.2px;
   color: ${(props) => props.theme.colors.text.primary};
   margin: ${(props) => props.theme.grid.unit * 2}px 0;
+  word-wrap: break-word;
 `
 
 const EditorActions = styled(ButtonGroup)`
   & button:not(:last-of-type) {
     margin-right: 4px;
+  }
+
+  & ${TertiaryButton} {
+    &:hover {
+      background-color: inherit !important;
+      border-color: transparent !important;
+    }
   }
 `
 
@@ -77,7 +81,6 @@ export interface CommentBodyProps {
   isEditing: boolean
   onSave: (content: string) => void
   onCancel: () => void
-  onSelect: () => void
 }
 
 export const CommentBody: React.FC<CommentBodyProps> = ({
@@ -85,7 +88,6 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
   isEditing,
   onSave,
   onCancel,
-  onSelect,
 }) => {
   const editor = useRef<HTMLTextAreaElement | null>(null)
   const handleSave = () => {
@@ -122,7 +124,7 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
             onBlur={(event) => !event.target.value.length && onCancel()}
           ></CommentEditor>
           <EditorActions data-cy="comment-actions">
-            <SecondaryButton onClick={onCancel}>Cancel</SecondaryButton>
+            <TertiaryButton onClick={onCancel}>Cancel</TertiaryButton>
             <PrimaryButton onClick={handleSave} disabled={disableSaveButton}>
               Save
             </PrimaryButton>
@@ -130,11 +132,9 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
         </>
       ) : (
         <>
-          <CommentContent onClick={onSelect}>
-            <CommentViewer data-cy="comment-text">
-              {decodeHTMLEntities(comment.node.attrs.contents)}
-            </CommentViewer>
-          </CommentContent>
+          <CommentViewer data-cy="comment-text">
+            {decodeHTMLEntities(comment.node.attrs.contents)}
+          </CommentViewer>
         </>
       )}
     </>

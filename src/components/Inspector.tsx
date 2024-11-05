@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@reach/tabs'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import styled from 'styled-components'
 
 export const InspectorContainer = styled.div`
@@ -23,7 +23,7 @@ export const InspectorContainer = styled.div`
   overflow: hidden;
 `
 
-export const InspectorTabs = styled(Tabs)`
+export const InspectorTabs = styled(TabGroup)`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -37,6 +37,7 @@ export const InspectorTabList = styled(TabList)`
     font-size: ${(props) => props.theme.font.size.normal};
     color: ${(props) => props.theme.colors.text.primary};
     flex-shrink: 0;
+    display: flex;
   }
 `
 
@@ -60,16 +61,19 @@ export const InspectorTabPanel = styled(TabPanel)`
 
 export const InspectorTab = styled(Tab)`
   && {
+    font-family: inherit;
     background: none;
     padding: ${(props) => props.theme.grid.unit * 2}px;
-    border-bottom-width: 1px;
-
+    border: none;
+    color: inherit;
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
     &:focus {
       outline: none;
     }
 
-    &[data-selected] {
-      border-bottom-color: ${(props) => props.theme.colors.brand.default};
+    &[aria-selected='true'] {
+      border-color: ${(props) => props.theme.colors.brand.default};
       color: ${(props) => props.theme.colors.brand.default};
     }
   }
