@@ -54,7 +54,7 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
 
     setSnippet(newSnippet)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestion, doc])
+  }, [suggestion, doc, view])
 
   return (
     <SnippetText data-mathjax={snippet?.isEquation}>
