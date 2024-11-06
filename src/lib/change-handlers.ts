@@ -32,6 +32,9 @@ export const handleTextChange = (
   view: any,
   dataTracked: any
 ): SnippetData | null => {
+  if (!view) {
+    return null
+  }
   const parentNodeType = getParentNode(view.state, suggestion.from)?.type
   let nodeName
   if (parentNodeType) {
@@ -55,6 +58,9 @@ export const handleNodeChange = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
+  if (!view) {
+    return null
+  }
   const nodeContentRetriever = new NodeTextContentRetriever(view.state)
   const { node } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
@@ -65,14 +71,17 @@ export const handleNodeChange = (
       return {
         operation,
         nodeName,
-        content: nodeContentRetriever.getInlineFootnoteContent(doc, node.attrs),
+        content: nodeContentRetriever.getInlineFootnoteContent(
+          view.state,
+          node.attrs
+        ),
       }
     }
     case schema.nodes.footnote: {
       return {
         operation,
         nodeName,
-        content: nodeContentRetriever.getFootnoteContent(node),
+        content: nodeContentRetriever.getFootnoteContent(view.state, node),
       }
     }
     case schema.nodes.contributor: {

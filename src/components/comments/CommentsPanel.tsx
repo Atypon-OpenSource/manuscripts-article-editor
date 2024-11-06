@@ -10,21 +10,24 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  clearCommentSelection,
   Comment,
   CommentAttrs,
   commentsKey,
+  HighlightMarkerAttrs,
   InlineComment,
   isNodeComment,
   setCommentSelection,
 } from '@manuscripts/body-editor'
+import { buildContribution } from '@manuscripts/json-schema'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
-import { NodeSelection, TextSelection } from 'prosemirror-state'
+import { generateNodeID, schema } from '@manuscripts/transform'
+import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
+import { findChildrenByType } from 'prosemirror-utils'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { buildCommentTrees, CommentTree } from '../../lib/comments'
+import { buildThreads, Thread } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
@@ -47,22 +50,25 @@ const scrollIntoView = (element: HTMLElement) => {
 }
 
 export const CommentsPanel: React.FC = () => {
-  const [{ view, newCommentID, selectedCommentKey }] = useStore((state) => ({
-    view: state.view,
-    newCommentID: state.newCommentID,
-    selectedCommentKey: state.selectedCommentKey,
-  }))
+  const [{ view, newCommentID, selectedCommentKey, user, doc }] = useStore(
+    (state) => ({
+      view: state.view,
+      doc: state.doc,
+      newCommentID: state.newCommentID,
+      selectedCommentKey: state.selectedCommentKey,
+      user: state.user,
+    })
+  )
 
   const [showResolved, setShowResolved] = useState(true)
 
   const comments = useMemo(
     () =>
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,
-    [view?.state]
+    [view?.state, doc] // eslint-disable-line react-hooks/exhaustive-deps
   )
-  const trees = useMemo(
-    () =>
-      comments ? buildCommentTrees([...comments.values()], newCommentID) : [],
+  const threads = useMemo(
+    () => (comments ? buildThreads([...comments.values()], newCommentID) : []),
     [comments, newCommentID]
   )
 
@@ -91,6 +97,30 @@ export const CommentsPanel: React.FC = () => {
     view.dispatch(tr)
   }
 
+  const insertCommentReply = (target: string, contents: string) => {
+    if (!view) {
+      return
+    }
+    const attrs = {
+      id: generateNodeID(schema.nodes.comment),
+      contents,
+      target,
+      contributions: [buildContribution(user._id)],
+      resolved: false,
+    }
+
+    const comment = view.state.schema.nodes.comment.create(attrs)
+    const comments = findChildrenByType(
+      view.state.doc,
+      view.state.schema.nodes.comments
+    )[0]
+    if (comments) {
+      const pos = comments.pos + 1
+      const tr = view.state.tr.insert(pos, comment)
+      view.dispatch(skipTracking(tr))
+    }
+  }
+
   const handleSave = (attrs: CommentAttrs) => {
     const comment = comments?.get(attrs.id)
     if (!comment || !view) {
@@ -98,8 +128,21 @@ export const CommentsPanel: React.FC = () => {
     }
     const tr = view.state.tr
     tr.setNodeMarkup(comment.pos, undefined, attrs)
-    clearCommentSelection(tr)
     view.dispatch(skipTracking(tr))
+  }
+
+  const deleteHighlightMarkers = (id: string, tr: Transaction) => {
+    const nodes = findChildrenByType(doc, schema.nodes.highlight_marker)
+
+    // Sort nodes in reverse order by position to ensure deletions do not affect the positions of subsequent nodes
+    nodes.sort((a, b) => b.pos - a.pos)
+    nodes.forEach(({ node, pos }) => {
+      const attrs = node.attrs as HighlightMarkerAttrs
+
+      if (attrs.id === id) {
+        tr.delete(pos, pos + node.nodeSize)
+      }
+    })
   }
 
   const handleDelete = (id: string) => {
@@ -109,19 +152,19 @@ export const CommentsPanel: React.FC = () => {
     }
     const tr = view.state.tr
     tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
-    clearCommentSelection(tr)
+    deleteHighlightMarkers(id, tr)
     view.dispatch(skipTracking(tr))
   }
 
-  const isSelected = (tree: CommentTree) => {
-    return tree && selectedCommentKey === tree.comment.key
+  const isSelected = (thread: Thread) => {
+    return thread && selectedCommentKey === thread.comment.key
   }
 
   if (!view) {
     return null
   }
 
-  if (!trees.length) {
+  if (!threads.length) {
     return <CommentsPlaceholder />
   }
 
@@ -137,17 +180,18 @@ export const CommentsPanel: React.FC = () => {
           <CheckboxLabelText>See resolved</CheckboxLabelText>
         </CheckboxLabel>
       </Header>
-      {trees
+      {threads
         .filter((c) => showResolved || !c.comment.node.attrs.resolved)
         .map((c, i, a) => (
           <CommentThread
             key={c.comment.node.attrs.id}
             ref={isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null}
-            tree={c}
+            thread={c}
             isSelected={isSelected(c)}
             onSelect={() => setSelectedComment(c.comment)}
             onSave={handleSave}
             onDelete={handleDelete}
+            insertCommentReply={insertCommentReply}
           />
         ))}
     </>
