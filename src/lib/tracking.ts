@@ -46,14 +46,13 @@ export const changeOperationAlias = (operation: string): string => {
     case 'delete': {
       return 'Deleted'
     }
-    case 'insert': {
+    case 'insert':
+    case 'wrap_with_node':
+    case 'node_split': {
       return 'Inserted'
     }
     case 'set_attrs': {
       return 'Updated'
-    }
-    case 'wrap_with_node': {
-      return 'Inserted'
     }
     default: {
       return 'null'

@@ -40,7 +40,6 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
 
   useEffect(() => {
     let newSnippet: SnippetData | null = null
-
     if (ChangeSet.isTextChange(suggestion)) {
       newSnippet = handleTextChange(suggestion, view, dataTracked)
     } else if (
@@ -97,6 +96,7 @@ const Operation = styled.span<{ color: string }>`
     switch (props.color) {
       case 'insert':
       case 'wrap_with_node':
+      case 'node_split':
         return '#01872E'
       case 'delete':
         return '#F35143'
