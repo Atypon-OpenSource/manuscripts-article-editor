@@ -46,7 +46,6 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
         ChangeSet.isNodeChange(suggestion) ||
         ChangeSet.isNodeAttrChange(suggestion)
       ) {
-        console.log('suggestion', suggestion)
         newSnippet = handleNodeChange(suggestion, view.state)
       } else {
         newSnippet = handleUnknownChange()
