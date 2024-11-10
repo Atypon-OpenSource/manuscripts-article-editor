@@ -92,7 +92,10 @@ export const CommentsPanel: React.FC = () => {
       const to = from + range.size
       tr.setSelection(TextSelection.create(view.state.doc, from, to))
     }
-    tr.scrollIntoView()
+    const targetComment = document.getElementById(comment.target.node.attrs.id)
+    if (targetComment) {
+      scrollIntoView(targetComment)
+    }
     view.focus()
     view.dispatch(tr)
   }
