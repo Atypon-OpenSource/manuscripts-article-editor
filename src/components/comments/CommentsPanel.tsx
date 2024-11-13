@@ -13,6 +13,7 @@ import {
   Comment,
   CommentAttrs,
   commentsKey,
+  handleScrollToSelectedElement,
   HighlightMarkerAttrs,
   InlineComment,
   isNodeComment,
@@ -94,7 +95,7 @@ export const CommentsPanel: React.FC = () => {
     }
     const targetComment = document.getElementById(comment.target.node.attrs.id)
     if (targetComment) {
-      scrollIntoView(targetComment)
+      handleScrollToSelectedElement(targetComment)
     }
     view.focus()
     view.dispatch(tr)
