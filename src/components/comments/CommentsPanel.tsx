@@ -95,7 +95,7 @@ export const CommentsPanel: React.FC = () => {
     }
     const targetComment = document.getElementById(comment.target.node.attrs.id)
     if (targetComment) {
-      handleScrollToSelectedElement(targetComment)
+      handleScrollToSelectedElement(view, targetComment)
     }
     view.focus()
     view.dispatch(tr)
