@@ -10,29 +10,24 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { renderMath } from '@manuscripts/body-editor'
 import purify from 'dompurify'
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 interface ContentProps {
   content: string
-  isEquation?: boolean
 }
 
-const SnippetContent: React.FC<ContentProps> = ({ content, isEquation }) => {
+const SnippetContent: React.FC<ContentProps> = ({ content }) => {
   const contentRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     if (contentRef.current && content) {
       contentRef.current.innerHTML = purify.sanitize(': ' + content) || ''
-      if (isEquation) {
-        renderMath(contentRef.current)
-      }
     }
-  }, [content, isEquation])
+  }, [content])
 
-  return <StyledContent ref={contentRef} data-mathjax={isEquation} />
+  return <StyledContent ref={contentRef} />
 }
 
 export default SnippetContent
@@ -43,10 +38,6 @@ const StyledContent = styled.span`
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
-
-  &[data-mathjax='true'] {
-    text-overflow: unset;
-  }
 
   .inspector-list-item::after {
     content: '...';
