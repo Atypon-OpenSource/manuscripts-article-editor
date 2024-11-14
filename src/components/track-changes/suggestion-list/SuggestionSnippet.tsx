@@ -97,8 +97,8 @@ const Operation = styled.span<{ color: string }>`
       case 'insert':
       case 'wrap_with_node':
         return '#01872E'
-        case 'delete':
-          return '#F35143'
+      case 'delete':
+        return '#F35143'
       case 'node_split':
       case 'set_attrs':
         return '#0284B0'
