@@ -34,9 +34,12 @@ export function useWatchTitle() {
 
     if (newTitleNode) {
       const node = newTitleNode as ManuscriptNode
-      if (node.textContent !== prevText) {
+
+      const newRealText = getNodeRealText(node)
+
+      if (newRealText !== prevText) {
         dispatch({ titleText: getNodeRealText(node) })
-        setPrevText(node.textContent)
+        setPrevText(newRealText)
       }
     }
   }, [doc])

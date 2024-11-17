@@ -43,7 +43,7 @@ export function checkSuggestionsFor(
         }
         textString += child.text
       }
-      if (child.attrs.dataTracked) {
+      if (child.attrs && child.attrs.dataTracked) {
         const changes = node.attrs.dataTracked as TrackedAttrs[]
         if (changes.some(({ operation }) => operation === 'insert')) {
           continue
