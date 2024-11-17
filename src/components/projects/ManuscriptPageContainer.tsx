@@ -16,10 +16,13 @@ import '@manuscripts/body-editor/styles/popper.css'
 
 import {
   CapabilitiesProvider,
+  IconButton,
+  SliderOffIcon,
+  SliderOnIcon,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../store'
@@ -62,10 +65,19 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
+  const [isTrackingOn, setTrackingOn] = useState(true)
+
+  const toggleTracking = () => {
+    setTrackingOn(!isTrackingOn)
+  }
+
+  const isTrackingEnabled = !can.editWithoutTracking && isTrackingOn
 
   return (
     <>
-      <ManuscriptSidebar data-cy="manuscript-sidebar" />
+      <div className={`${isTrackingEnabled && 'tracking-enabled'}`}>
+        <ManuscriptSidebar data-cy="manuscript-sidebar" />
+      </div>
       <PageWrapper>
         <Main data-cy="editor-main">
           <EditorContainer>
@@ -75,10 +87,22 @@ const ManuscriptPageView: React.FC = () => {
                   <ManuscriptMenusContainerInner>
                     <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
+                  {!can.editWithoutTracking && (
+                    <>
+                      <Label>Show tracked changes</Label>
+                      <IconButton defaultColor={true} onClick={toggleTracking}>
+                        {isTrackingOn ? <SliderOnIcon /> : <SliderOffIcon />}
+                      </IconButton>
+                    </>
+                  )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
               </EditorHeader>
-              <EditorBody className="editor-body">
+              <EditorBody
+                className={`editor-body ${
+                  isTrackingEnabled && 'tracking-enabled'
+                }`}
+              >
                 <TrackChangesStyles>
                   <EditorElement />
                 </TrackChangesStyles>
@@ -93,6 +117,9 @@ const ManuscriptPageView: React.FC = () => {
   )
 }
 
+const Label = styled.div`
+  padding-right: 8px;
+`
 export const ManuscriptMenusContainer = styled.div`
   display: flex;
   align-items: center;
