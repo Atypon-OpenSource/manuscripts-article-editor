@@ -10,10 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { useEffect, useState } from 'react'
-import { useStore } from '../store'
 import { ManuscriptNode } from '@manuscripts/transform'
+import { useEffect, useState } from 'react'
+
 import { getNodeRealText } from '../lib/get-node-without-tc'
+import { useStore } from '../store'
 
 export function useWatchTitle() {
   const [prevText, setPrevText] = useState('')
@@ -42,5 +43,6 @@ export function useWatchTitle() {
         setPrevText(newRealText)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doc])
 }
