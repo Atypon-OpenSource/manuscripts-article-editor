@@ -10,11 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  AffiliationAttrs,
+  affiliationLabel,
+  authorLabel,
+  ContributorAttrs,
+} from '@manuscripts/body-editor'
+import {
   NodeAttrChange,
   NodeChange,
   TextChange,
 } from '@manuscripts/track-changes-plugin'
-import { nodeNames, schema } from '@manuscripts/transform'
+import {
+  ManuscriptEditorState,
+  nodeNames,
+  schema,
+} from '@manuscripts/transform'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { changeOperationAlias } from './tracking'
@@ -24,18 +34,14 @@ interface SnippetData {
   operation: string
   nodeName: string
   content: string | null
-  isEquation?: boolean
 }
 
 export const handleTextChange = (
   suggestion: TextChange,
-  view: any,
-  dataTracked: any
+  state: ManuscriptEditorState
 ): SnippetData | null => {
-  if (!view) {
-    return null
-  }
-  const parentNodeType = getParentNode(view.state, suggestion.from)?.type
+  const { dataTracked } = suggestion
+  const parentNodeType = getParentNode(state, suggestion.from)?.type
   let nodeName
   if (parentNodeType) {
     const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
@@ -54,15 +60,10 @@ export const handleTextChange = (
 
 export const handleNodeChange = (
   suggestion: NodeChange | NodeAttrChange,
-  view: any,
-  doc: any,
-  dataTracked: any
+  state: ManuscriptEditorState
 ): SnippetData | null => {
-  if (!view) {
-    return null
-  }
-  const nodeContentRetriever = new NodeTextContentRetriever(view.state)
-  const { node } = suggestion
+  const nodeContentRetriever = new NodeTextContentRetriever(state)
+  const { node, dataTracked } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
   const nodeName = nodeNames.get(node.type) || node.type.name
 
@@ -72,7 +73,7 @@ export const handleNodeChange = (
         operation,
         nodeName,
         content: nodeContentRetriever.getInlineFootnoteContent(
-          view.state,
+          state,
           node.attrs
         ),
       }
@@ -81,23 +82,21 @@ export const handleNodeChange = (
       return {
         operation,
         nodeName,
-        content: nodeContentRetriever.getFootnoteContent(view.state, node),
+        content: nodeContentRetriever.getFootnoteContent(state, node),
       }
     }
     case schema.nodes.contributor: {
-      const contributorTextContent = `${node.attrs.bibliographicName.given} ${node.attrs.bibliographicName.family}`
       return {
         operation,
         nodeName,
-        content: contributorTextContent,
+        content: authorLabel(node.attrs as ContributorAttrs),
       }
     }
     case schema.nodes.affiliation: {
-      const affiliationTextContent = node.attrs.institution
       return {
         operation,
         nodeName,
-        content: affiliationTextContent,
+        content: affiliationLabel(node.attrs as AffiliationAttrs),
       }
     }
     case schema.nodes.citation: {
@@ -133,7 +132,6 @@ export const handleNodeChange = (
         operation,
         nodeName,
         content: nodeContentRetriever.getEquationContent(node),
-        isEquation: true,
       }
     case schema.nodes.section: {
       const nodeName =
@@ -158,7 +156,7 @@ export const handleNodeChange = (
       return {
         operation,
         nodeName,
-        content: nodeContentRetriever.getNodeTextContent(node),
+        content: node.textContent,
       }
   }
 }
