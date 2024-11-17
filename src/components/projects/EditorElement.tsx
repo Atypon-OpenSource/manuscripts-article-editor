@@ -34,6 +34,7 @@ import { useConnectEditor } from '../../hooks/use-connect-editor'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
+import { useWatchTitle } from '../../hooks/use-watch-title'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
@@ -42,6 +43,7 @@ const EditorElement: React.FC = () => {
   }))
 
   const { onRender, view, dispatch } = useConnectEditor()
+  useWatchTitle()
 
   const [, drop] = useDrop({
     accept: 'file',
