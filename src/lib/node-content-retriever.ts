@@ -19,8 +19,6 @@ import {
 } from '@manuscripts/body-editor'
 import {
   FootnoteNode,
-  isElementNodeType,
-  isSectionNodeType,
   ManuscriptEditorState,
   ManuscriptNode,
   schema,
@@ -31,23 +29,6 @@ export class NodeTextContentRetriever {
 
   constructor(state: ManuscriptEditorState) {
     this.state = state
-  }
-
-  /**
-   * Recursively retrieves text content from a ManuscriptNode.
-   */
-  public getNodeTextContent(node: ManuscriptNode): string {
-    let textContent = ''
-    if (!isElementNodeType(node.type) && !isSectionNodeType(node.type)) {
-      node.forEach((child) => {
-        if (child.isText) {
-          textContent += child.text
-        } else {
-          textContent += this.getNodeTextContent(child)
-        }
-      })
-    }
-    return textContent
   }
 
   /**
@@ -77,22 +58,9 @@ export class NodeTextContentRetriever {
       )
       return citation ? citation.replace(/<[^>]*>/g, '') : ''
     } else {
-      const [meta, bibliography] = bib.provider.makeBibliography()
-
-      const selectedBib = meta.entry_ids.findIndex(
-        (entry: [string]) => entry[0] === id
-      )
-      if (selectedBib === -1) {
-        return `<span> ${node.attrs.title || 'untitled'} </span> ${metadata(
-          node.attrs as BibliographyItemAttrs
-        )}`
-      }
-      const parser = new DOMParser()
-      const textContent = parser.parseFromString(
-        bibliography[selectedBib],
-        'text/html'
-      ).body.textContent
-      return textContent || ''
+      return `<span> ${node.attrs.title || 'untitled'} </span> ${metadata(
+        node.attrs as BibliographyItemAttrs
+      )}`
     }
   }
 
