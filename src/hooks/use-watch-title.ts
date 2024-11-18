@@ -11,15 +11,14 @@
  */
 
 import { ManuscriptNode } from '@manuscripts/transform'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { getNodeRealText } from '../lib/get-node-without-tc'
 import { useStore } from '../store'
 
 export function useWatchTitle() {
-  const [prevText, setPrevText] = useState('')
-
   const [doc, dispatch] = useStore((state) => state.doc)
+  const [prevText] = useStore((state) => state.titleText)
 
   useEffect(() => {
     let newTitleNode: ManuscriptNode | null = null
@@ -40,7 +39,6 @@ export function useWatchTitle() {
 
       if (newRealText !== prevText) {
         dispatch({ titleText: getNodeRealText(node) })
-        setPrevText(newRealText)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
