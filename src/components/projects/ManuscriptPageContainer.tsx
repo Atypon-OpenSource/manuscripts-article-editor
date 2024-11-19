@@ -22,9 +22,10 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
+import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
 import { useStore } from '../../store'
 import { Main } from '../Page'
 import UtilitiesEffects from '../UtilitiesEffects'
@@ -65,19 +66,13 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
-  const [isTrackingOn, setTrackingOn] = useState(true)
 
-  const toggleTracking = () => {
-    setTrackingOn(!isTrackingOn)
-  }
-
-  const isTrackingEnabled = !can.editWithoutTracking && isTrackingOn
+  const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
+  const isTrackingVisible = !can.editWithoutTracking && trackingVisible
 
   return (
-    <>
-      <div className={`${isTrackingEnabled && 'tracking-enabled'}`}>
-        <ManuscriptSidebar data-cy="manuscript-sidebar" />
-      </div>
+    <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
+      <ManuscriptSidebar data-cy="manuscript-sidebar" />
       <PageWrapper>
         <Main data-cy="editor-main">
           <EditorContainer>
@@ -90,19 +85,18 @@ const ManuscriptPageView: React.FC = () => {
                   {!can.editWithoutTracking && (
                     <>
                       <Label>Show tracked changes</Label>
-                      <IconButton defaultColor={true} onClick={toggleTracking}>
-                        {isTrackingOn ? <SliderOnIcon /> : <SliderOffIcon />}
+                      <IconButton
+                        defaultColor={true}
+                        onClick={toggleTrackingVisibility}
+                      >
+                        {trackingVisible ? <SliderOnIcon /> : <SliderOffIcon />}
                       </IconButton>
                     </>
                   )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
               </EditorHeader>
-              <EditorBody
-                className={`editor-body ${
-                  isTrackingEnabled && 'tracking-enabled'
-                }`}
-              >
+              <EditorBody className="editor-body">
                 <TrackChangesStyles>
                   <EditorElement />
                 </TrackChangesStyles>
@@ -113,12 +107,21 @@ const ManuscriptPageView: React.FC = () => {
         <Inspector data-cy="inspector" />
         <UtilitiesEffects />
       </PageWrapper>
-    </>
+    </Wrapper>
   )
 }
 
 const Label = styled.div`
   padding-right: 8px;
+`
+const Wrapper = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  color: rgb(53, 53, 53);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Lato, sans-serif;
 `
 export const ManuscriptMenusContainer = styled.div`
   display: flex;
