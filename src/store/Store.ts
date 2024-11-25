@@ -44,6 +44,7 @@ export type state = {
   initialDocVersion: number
   trackState?: TrackChangesState
   view?: ManuscriptEditorView
+  titleText: string
 
   fileManagement: FileManagement
   files: FileAttachment[]
