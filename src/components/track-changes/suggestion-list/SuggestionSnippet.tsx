@@ -97,6 +97,7 @@ const Operation = styled.span<{ color: string }>`
         return '#01872E'
       case 'delete':
         return '#F35143'
+      case 'node_split':
       case 'set_attrs':
         return '#0284B0'
       default:
