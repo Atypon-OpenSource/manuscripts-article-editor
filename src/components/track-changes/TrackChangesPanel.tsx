@@ -17,7 +17,7 @@ import {
   trackCommands,
   TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
@@ -46,6 +46,16 @@ export const TrackChangesPanel: React.FC = () => {
 
   const { changeSet } = trackState || {}
 
+  const changes = useMemo(
+    () =>
+      changeSet?.groupChanges.filter(
+        (c) =>
+          c.dataTracked.status === CHANGE_STATUS.pending &&
+          c.dataTracked.operation !== CHANGE_OPERATION.reference
+      ) || [],
+    [changeSet?.groupChanges]
+  )
+
   const handleAccept = useCallback((change: TrackedChange) => {
     setChangeStatus(change, CHANGE_STATUS.accepted, execCmd)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,11 +82,7 @@ export const TrackChangesPanel: React.FC = () => {
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
-        changes={
-          changeSet?.pending.filter(
-            (c) => c.dataTracked.operation !== CHANGE_OPERATION.reference
-          ) || []
-        }
+        changes={changes}
         selectionID={selectedSuggestionID}
         title="Suggestions"
         sortBy={sortBy}

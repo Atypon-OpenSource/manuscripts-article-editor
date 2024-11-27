@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { TrackedChange } from '@manuscripts/track-changes-plugin'
+import { GroupedChange, TrackedChange } from '@manuscripts/track-changes-plugin'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -17,7 +17,7 @@ import { InspectorSection } from '../../InspectorSection'
 import { Suggestion } from './Suggestion'
 
 export interface SuggestionListProps {
-  changes: TrackedChange[]
+  changes: GroupedChange[]
   selectionID?: string
   title: string
   type: string

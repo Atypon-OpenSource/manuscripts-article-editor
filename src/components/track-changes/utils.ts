@@ -10,11 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { InlineNodesSelection } from '@manuscripts/body-editor'
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
+  GroupedChange,
   trackCommands,
-  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import { Command, NodeSelection, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
@@ -22,7 +23,7 @@ import { EditorView } from 'prosemirror-view'
 import { state } from '../../store'
 
 export const setSelectedSuggestion = (
-  suggestion: TrackedChange,
+  suggestion: GroupedChange,
   getState: () => state
 ) => {
   const editor = getState().editor
@@ -32,6 +33,13 @@ export const setSelectedSuggestion = (
   if (suggestion.type === 'text-change') {
     const pos = suggestion.to
     tr.setSelection(TextSelection.create(state.doc, pos, pos))
+  } else if (suggestion.type === 'inline-changes') {
+    tr.setSelection(
+      new InlineNodesSelection(
+        state.doc.resolve(suggestion.from),
+        state.doc.resolve(suggestion.to)
+      )
+    )
   } else {
     tr.setSelection(NodeSelection.create(state.doc, suggestion.from))
   }
@@ -41,7 +49,7 @@ export const setSelectedSuggestion = (
 }
 
 export const setChangeStatus = (
-  change: TrackedChange,
+  change: GroupedChange,
   status: CHANGE_STATUS,
   execCmd: (cmd: Command, hookView?: EditorView) => void
 ) => {
@@ -58,5 +66,13 @@ export const setChangeStatus = (
       ids.push(child.id)
     })
   }
+
+  if (change.type === 'inline-changes') {
+    ids.pop()
+    change.nodes.forEach((child) => {
+      ids.push(child.id)
+    })
+  }
+
   execCmd(trackCommands.setChangeStatuses(status, ids))
 }

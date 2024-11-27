@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  ChangeSet,
+  InlineAdjacentChanges,
   NodeAttrChange,
   NodeChange,
   TextChange,
@@ -49,6 +51,31 @@ export const handleTextChange = (
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: nodeName || suggestion.nodeType.name,
     content: suggestion.text,
+  }
+}
+
+export const handleInlineAdjacentChanges = (
+  suggestion: InlineAdjacentChanges,
+  view: any,
+  doc: any,
+  dataTracked: any
+): SnippetData | null => {
+  return {
+    operation: changeOperationAlias(dataTracked.operation),
+    nodeName: 'Text',
+    content: suggestion.nodes
+      .map((inlineChange) =>
+        ChangeSet.isTextChange(inlineChange)
+          ? handleTextChange(inlineChange, view, inlineChange.dataTracked)
+          : handleNodeChange(
+              inlineChange as NodeChange,
+              view,
+              doc,
+              inlineChange.dataTracked
+            )
+      )
+      .map((c) => (c?.isEquation ? ` ${c.content} ` : c?.content))
+      .join(''),
   }
 }
 

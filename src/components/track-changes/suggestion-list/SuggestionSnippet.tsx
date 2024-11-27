@@ -14,6 +14,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import {
+  handleInlineAdjacentChanges,
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
@@ -48,6 +49,13 @@ export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
       ChangeSet.isNodeAttrChange(suggestion)
     ) {
       newSnippet = handleNodeChange(suggestion, view, doc, dataTracked)
+    } else if (ChangeSet.isInlineAdjacentChanges(suggestion)) {
+      newSnippet = handleInlineAdjacentChanges(
+        suggestion,
+        view,
+        doc,
+        dataTracked
+      )
     } else {
       newSnippet = handleUnknownChange()
     }
