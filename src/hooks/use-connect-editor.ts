@@ -16,6 +16,7 @@ import { useEffect, useLayoutEffect, useMemo } from 'react'
 import { useDoWithThrottle } from '../api/savingUtilities'
 import { useStore } from '../store'
 import { useCreateEditor } from './use-create-editor'
+import { useDebugUtils } from './use-debug-utils'
 import { useHandleSnapshot } from './use-handle-snapshot'
 
 export const useConnectEditor = () => {
@@ -25,6 +26,7 @@ export const useConnectEditor = () => {
 
   const { state, view } = editor
   const handleSnapshot = useHandleSnapshot(view)
+  useDebugUtils()
 
   useEffect(() => {
     storeDispatch({ handleSnapshot })
