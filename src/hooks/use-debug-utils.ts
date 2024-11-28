@@ -9,55 +9,32 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import { CHANGE_STATUS, trackCommands } from '@manuscripts/track-changes-plugin'
+import { useCallback, useEffect } from 'react'
 
-interface Tracking {
-  category: string
-  action: string
-  label?: string
-  value?: string
-}
+import { useStore } from '../store'
+import useExecCmd from './use-exec-cmd'
 
-interface InvitationsTracking extends Tracking {
-  category: 'Invitations'
-  action: 'Share' | 'Send' | 'Accept'
-}
+export const useDebugUtils = () => {
+  const [trackState] = useStore((store) => store.trackState)
+  const [view] = useStore((store) => store.view)
+  const execCmd = useExecCmd()
 
-interface ManuscriptsTracking extends Tracking {
-  category: 'Manuscripts'
-  action: 'Create' | 'Import' | 'Export'
-}
+  const revertAllChanges = useCallback(() => {
+    execCmd(
+      trackCommands.setChangeStatuses(
+        CHANGE_STATUS.rejected,
+        trackState?.changeSet.changes.map((m) => m.id) || []
+      )
+    )
+  }, [trackState, execCmd])
 
-type TrackEvent = (f: InvitationsTracking | ManuscriptsTracking) => void
+  useEffect(() => {
+    // @ts-ignore
+    window.revertAllChanges = revertAllChanges
 
-export const trackEvent: TrackEvent = ({ category, action, label, value }) => {
-  if (window.ga) {
-    window.ga('send', {
-      hitType: 'event',
-      eventCategory: category,
-      eventAction: action,
-      eventLabel: label,
-      eventValue: value,
-    })
-  }
-}
-
-export const changeOperationAlias = (operation: string): string => {
-  switch (operation) {
-    case 'delete': {
-      return 'Deleted'
-    }
-    case 'insert':
-    case 'wrap_with_node': {
-      return 'Inserted'
-    }
-    case 'set_attrs': {
-      return 'Updated'
-    }
-    case 'node_split': {
-      return 'Split'
-    }
-    default: {
-      return 'null'
-    }
-  }
+    // @ts-ignore
+    window.prosemirrorView = view // for easier for debugging
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view?.state])
 }
