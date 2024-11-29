@@ -62,7 +62,7 @@ export const TrackChangesPanel: React.FC = () => {
       return
     }
     const ids = ChangeSet.flattenTreeToIds(trackState.changeSet.pending)
-    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
