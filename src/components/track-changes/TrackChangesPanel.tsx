@@ -56,25 +56,15 @@ export const TrackChangesPanel: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const setAllChangeStatuses = useCallback((status: CHANGE_STATUS) => {
+  const handleAcceptAll = useCallback(() => {
     const trackState = getState().trackState
     if (!trackState) {
       return
     }
     const ids = ChangeSet.flattenTreeToIds(trackState.changeSet.pending)
-    if (ids.length) {
-      execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
-    }
+    execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.rejected, ids))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const handleRejectAll = useCallback(() => {
-    setAllChangeStatuses(CHANGE_STATUS.rejected)
-  }, [setAllChangeStatuses])
-
-  const handleAcceptAll = useCallback(() => {
-    setAllChangeStatuses(CHANGE_STATUS.accepted)
-  }, [setAllChangeStatuses])
 
   return (
     <>
@@ -95,14 +85,6 @@ export const TrackChangesPanel: React.FC = () => {
         onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
         onSelect={handleSelect}
       />
-      {/*this button is there for testing purposes, and is always hidden*/}
-      <button
-        style={{ display: 'none' }}
-        data-cy={'reject-all'}
-        onClick={handleRejectAll}
-      >
-        Reject All
-      </button>
     </>
   )
 }
