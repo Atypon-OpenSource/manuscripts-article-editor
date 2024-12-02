@@ -113,6 +113,7 @@ const ManuscriptPageView: React.FC = () => {
 
 const Label = styled.div`
   padding-right: 8px;
+  white-space: nowrap;
 `
 const Wrapper = styled.div`
   display: flex;
