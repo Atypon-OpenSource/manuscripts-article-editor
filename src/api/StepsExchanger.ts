@@ -70,23 +70,52 @@ export class StepsExchanger extends CollabProvider {
   ) {
     this.flushImmediately = this.debounce(
       async () => {
-        const response = await this.api.sendSteps(
-          this.projectID,
-          this.manuscriptID,
-          {
-            steps: steps,
-            version,
-            clientID,
+        const payload = {
+          clientID,
+          steps: steps.map((s) => s.toJSON()),
+          version,
+        }
+        if (this.api.ws && this.api.ws.readyState === WebSocket.OPEN) {
+          this.api.ws.send(
+            JSON.stringify({
+              projectID: this.projectID,
+              manuscriptID: this.manuscriptID,
+              payload,
+              token: this.api.token,
+            })
+          )
+          this.api.ws.onmessage = (event: MessageEvent) => {
+            const data = JSON.parse(event.data)
+            if (data.status === 'error') {
+              if (
+                data.InternalErrorCode === 'VERSION_MISMATCH' &&
+                this.attempt < MAX_ATTEMPTS
+              ) {
+                console.warn('Retrying')
+                this.newStepsListener()
+                this.attempt++
+              } else {
+                console.error('Failed to send steps', data.message)
+              }
+            } else if (data.status === 'success') {
+              this.attempt = 0
+            }
           }
-        )
-        if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
-          console.warn('Retrying')
-          this.newStepsListener()
-          this.attempt++
-        } else if (response.error) {
-          console.error('Failed to send steps', response.error)
         } else {
-          this.attempt = 0
+          const response = await this.api.sendSteps(
+            this.projectID,
+            this.manuscriptID,
+            payload
+          )
+          if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
+            console.warn('Retrying')
+            this.newStepsListener()
+            this.attempt++
+          } else if (response.error) {
+            console.error('Failed to send steps', response.error)
+          } else {
+            this.attempt = 0
+          }
         }
       },
       THROTTLING_INTERVAL,
