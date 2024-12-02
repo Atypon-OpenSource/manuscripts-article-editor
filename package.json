@@ -40,7 +40,7 @@
     "@manuscripts/library": "1.3.11",
     "@manuscripts/style-guide": "2.0.23",
     "@manuscripts/track-changes-plugin": "1.8.3",
-    "@manuscripts/transform": "3.0.21-LEAN-3961.1",
+    "@manuscripts/transform": "3.0.20",
     "@popperjs/core": "^2.11.8",
     "@types/use-sync-external-store": "^0.0.6",
     "autotrack": "^2.4.1",
