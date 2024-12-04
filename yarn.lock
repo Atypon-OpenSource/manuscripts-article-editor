@@ -1524,17 +1524,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.6.20-LEAN-4146.1":
-  version "2.6.20-LEAN-4146.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.20-LEAN-4146.1.tgz#213706addf04e31aeb573814abe51ce37acb505e"
-  integrity sha512-oVHjCEM/8nbWutZ6Yx8gWeN6JgGcI1rXVuYFeNYPFgxUzzCKVyXtG5TKV4c0uTRoqrAj+pHj5EQpFs4Xz1bCSw==
+"@manuscripts/body-editor@2.6.21-LEAN-4146.0":
+  version "2.6.21-LEAN-4146.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.21-LEAN-4146.0.tgz#7c572f091067c7776a0ef19daa5a1ae8fe9b98ae"
+  integrity sha512-GQkhknlGsi5szd2B3X2edpv8FVMQ1ISKV7a8+eJVgeH1T74U5O3+GePhiqBgHVyO2hj3AJf91aON2+bvMKDZCw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
-    "@manuscripts/style-guide" "2.0.23"
+    "@manuscripts/style-guide" "2.0.24"
     "@manuscripts/track-changes-plugin" "1.8.4"
-    "@manuscripts/transform" "3.0.21-LEAN-4146.0"
+    "@manuscripts/transform" "3.0.21-LEAN-4146.1"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1601,10 +1601,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.0.23":
-  version "2.0.23"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.23.tgz#e7868e2f2e1d143914a01afd31ee005b3c98c84d"
-  integrity sha512-PqFl0TRPF3qlsR+07hVrXkHg549Xbvha8OPb7LG2iWTkb4mB2K4PcTvRQ9DmHYZthYyXEXksUpoHO08hljnjeA==
+"@manuscripts/style-guide@2.0.24":
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.24.tgz#8948e7a9a5a2a3e2848334f1d813c499a79f8f45"
+  integrity sha512-e/Y4XZI0X9J4KhQ7FONVCfbZgHOiYlYuSxILkaXg4VNqdfiZzWjbpbrVHif6MQYlSHaZETeQQLFxxkoL5HbMrA==
   dependencies:
     "@headlessui/react" "^2.1.10"
     "@manuscripts/json-schema" "2.2.11"
@@ -1647,10 +1647,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.21-LEAN-4146.0":
-  version "3.0.21-LEAN-4146.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.21-LEAN-4146.0.tgz#caf59d339e7fa87c2955b09f3d026d2dc2f9b380"
-  integrity sha512-0I9KysMhITU8QAgK4+dfjQD9HNgmonFHR9sVA7v3nzlPoYUcC1PVrzYW1cW0zdHQPgx+CPkYeRxPKdA0nLlYnQ==
+"@manuscripts/transform@3.0.21-LEAN-4146.1":
+  version "3.0.21-LEAN-4146.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.21-LEAN-4146.1.tgz#fcd7ee17e848598d4e5a403e126b385d59197527"
+  integrity sha512-redmj0D/T535vE9g35cdtNohkOlc7ca4QkZBZef0JkfRedMUG+ypixft+g+lmfL6Z9nBUE2ZpXFPUJXe5RO10w==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
