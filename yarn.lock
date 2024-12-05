@@ -1524,10 +1524,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.6.21":
-  version "2.6.21"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.21.tgz#9df5152d10aace987359b2e496eb208ca353b40b"
-  integrity sha512-FSdMojP7Xps1wIy9LfXGt5HVRKYh9vZMQrqtQiKzzZjasYeg/tslsqdH66t6OsmPdw+5P9toj4HglYcUb6Fnkw==
+"@manuscripts/body-editor@2.6.22-LEAN-4183.0":
+  version "2.6.22-LEAN-4183.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.22-LEAN-4183.0.tgz#c2a09594f97ef7c41e4437f38d608b744d4fe450"
+  integrity sha512-ad6mW/J3DMv1PfiPOAm7xKeVP2YU8zy8wGuOlKUENQZCH2CpM06FK6L+Bvm55b110lwSAPO+UThJ+s6+1tgFkw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
