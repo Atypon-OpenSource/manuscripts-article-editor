@@ -34,15 +34,24 @@ const getDocumentData = async (
 
 const getManuscriptData = async (templateID: string, api: Api) => {
   const data: Partial<state> = {}
-  const [sectionCategories, cslLocale, template] = await Promise.all([
-    api.getSectionCategories(),
+  const [cslLocale, template] = await Promise.all([
     // TODO:: config this!
     api.getCSLLocale('en-US'),
     api.getTemplate(templateID),
   ])
 
+  if (!template) {
+    return data
+  }
+
   const bundle = await api.getBundle(template)
-  data.sectionCategories = sectionCategories || []
+  if (!bundle) {
+    return data
+  }
+
+  data.sectionCategories = new Map(
+    template.sectionCategories.map((c) => [c.id, c])
+  )
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
 
