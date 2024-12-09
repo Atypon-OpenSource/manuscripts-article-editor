@@ -40,7 +40,7 @@ const Inspector: React.FC = () => {
 
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
-  const [tabIndex, setTabIndex] = useState(1)
+  const [tabIndex, setTabIndex] = useState(0)
 
   let index = 0
   const COMMENTS_TAB_INDEX = index++
