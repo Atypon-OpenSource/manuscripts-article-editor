@@ -15,9 +15,13 @@ import {
   FileAttachment,
   FileManagement,
 } from '@manuscripts/body-editor'
-import { Project, SectionCategory, UserProfile } from '@manuscripts/json-schema'
+import { Project, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
-import { ManuscriptEditorView, ManuscriptNode } from '@manuscripts/transform'
+import {
+  ManuscriptEditorView,
+  ManuscriptNode,
+  SectionCategory,
+} from '@manuscripts/transform'
 
 import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
@@ -76,7 +80,7 @@ export type state = {
   cslLocale?: string
   cslStyle?: string
   hasPendingSuggestions?: boolean
-  sectionCategories: SectionCategory[]
+  sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
 }
 export type reducer = (payload: any, store: state, action?: string) => state
