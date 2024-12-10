@@ -1524,17 +1524,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.6.24":
-  version "2.6.24"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.24.tgz#352cc557d21d41aff9b206f3891ca53b7b325b68"
-  integrity sha512-cN7gyh6Z4ya8jkRh4BPK/QTO39YwpldEqKA/LHY5YChjfn1af9ZryzgOnsBkd85Zhe8gN0KqcMUAY8VQcpkcJA==
+"@manuscripts/body-editor@2.6.25-LEAN-4195.0":
+  version "2.6.25-LEAN-4195.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.25-LEAN-4195.0.tgz#e0ec81ad4d51e43f229c39f3f2e553dba16a55cd"
+  integrity sha512-iC9J1l6ltqcpNOBPX6yU3eKA5uss/4CJlQSnaNRWXwxYNxIsGFJ6xcuIeMbivJfs/PeAN1gktgBtOSBUjbzW0w==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.24"
     "@manuscripts/track-changes-plugin" "1.8.4"
-    "@manuscripts/transform" "3.0.22"
+    "@manuscripts/transform" "3.0.23-LEAN-4195.0"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1647,10 +1647,28 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.22":
-  version "3.0.22"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.22.tgz#ab261294555fc775c90048611ff5f3ba2639a98d"
-  integrity sha512-EKvdmIysniq/wB+JSc71i49DjvmHaQruq8uv6oFmhrMbjTbJdS6zs8fBRBy1ytq5bI9yysUfH9qsX7TIwHjkJQ==
+"@manuscripts/transform@3.0.23-LEAN-4195.0":
+  version "3.0.23-LEAN-4195.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.23-LEAN-4195.0.tgz#43a67bb3f203dcce006dafd8cd25058bd7eb3891"
+  integrity sha512-lOBXG4/rEsEiiab4Dfu8FCBiQ/3KBPTpLWI2HVxUiUkd1qq9JUBvMF1mULYXGlFxltBiTrpehLYlFDWshkqYKA==
+  dependencies:
+    "@manuscripts/json-schema" "2.2.11"
+    "@manuscripts/library" "1.3.11"
+    debug "^4.3.4"
+    jszip "^3.10.1"
+    lodash "^4.17.21"
+    mime "^3.0.0"
+    prosemirror-model "^1.18.3"
+    prosemirror-tables "^1.3.5"
+    prosemirror-utils "^1.2.2"
+    semver "^7.6.2"
+    uuid "^9.0.0"
+    w3c-xmlserializer "^4.0.0"
+
+"@manuscripts/transform@3.0.23-LEAN-4195.1":
+  version "3.0.23-LEAN-4195.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.23-LEAN-4195.1.tgz#1a66eb877230520ba74e15afbaa1d984e1c865c1"
+  integrity sha512-Qy1YtAFZdd3NRz0cJiC9bRSye4uelsOmb6dYIoRmupEj6pdY5sAmOk1tPDVXjV0Dqcl/OGfV/TbMlmPhttSe3g==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
