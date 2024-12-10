@@ -16,12 +16,16 @@ import '@manuscripts/body-editor/styles/popper.css'
 
 import {
   CapabilitiesProvider,
+  IconButton,
+  SliderOffIcon,
+  SliderOnIcon,
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
 import { useStore } from '../../store'
 import { Main } from '../Page'
 import UtilitiesEffects from '../UtilitiesEffects'
@@ -63,8 +67,11 @@ const ManuscriptPageContainer: React.FC = () => {
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
 
+  const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
+  const isTrackingVisible = !can.editWithoutTracking && trackingVisible
+
   return (
-    <>
+    <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
       <ManuscriptSidebar data-cy="manuscript-sidebar" />
       <PageWrapper>
         <Main data-cy="editor-main">
@@ -75,6 +82,17 @@ const ManuscriptPageView: React.FC = () => {
                   <ManuscriptMenusContainerInner>
                     <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
+                  {!can.editWithoutTracking && (
+                    <>
+                      <Label>Show tracked changes</Label>
+                      <IconButton
+                        defaultColor={true}
+                        onClick={toggleTrackingVisibility}
+                      >
+                        {trackingVisible ? <SliderOnIcon /> : <SliderOffIcon />}
+                      </IconButton>
+                    </>
+                  )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
               </EditorHeader>
@@ -89,10 +107,23 @@ const ManuscriptPageView: React.FC = () => {
         <Inspector data-cy="inspector" />
         <UtilitiesEffects />
       </PageWrapper>
-    </>
+    </Wrapper>
   )
 }
 
+const Label = styled.div`
+  padding-right: 8px;
+  white-space: nowrap;
+`
+const Wrapper = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  color: rgb(53, 53, 53);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Lato, sans-serif;
+`
 export const ManuscriptMenusContainer = styled.div`
   display: flex;
   align-items: center;
