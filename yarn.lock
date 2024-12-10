@@ -1524,16 +1524,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.6.24":
-  version "2.6.24"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.24.tgz#352cc557d21d41aff9b206f3891ca53b7b325b68"
-  integrity sha512-cN7gyh6Z4ya8jkRh4BPK/QTO39YwpldEqKA/LHY5YChjfn1af9ZryzgOnsBkd85Zhe8gN0KqcMUAY8VQcpkcJA==
+"@manuscripts/body-editor@2.6.26-LEAN-4168.0":
+  version "2.6.26-LEAN-4168.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.26-LEAN-4168.0.tgz#6e222a5e2c1bbb46f0248224127baa0bf1c9a165"
+  integrity sha512-xFFfauu4PwgkLQioat5fQzUE7Lvuu01ugdZSWrDBWigYPlbge8CiefKOrzA27mJ4YzLBnipxKflnHIheC7XgZA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.24"
-    "@manuscripts/track-changes-plugin" "1.8.4"
+    "@manuscripts/track-changes-plugin" "1.8.5-LEAN-4168.0"
     "@manuscripts/transform" "3.0.22"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
@@ -1631,10 +1631,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.8.4":
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.4.tgz#216146918ae704144e32bc080d553b910274bb50"
-  integrity sha512-1RggehJ2BUnf/K6CqmGGF2VCyfM4cxwbsuq+foMeNst1u/Ehod9tU8oNk20nLiddjtRKPy86OWD+BtpwmNIAew==
+"@manuscripts/track-changes-plugin@1.8.5-LEAN-4168.0":
+  version "1.8.5-LEAN-4168.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.5-LEAN-4168.0.tgz#d95577579f3973941626595860fdb7276e314e6e"
+  integrity sha512-BJ8pI6olrgnNODEl1yJN8REmamibKz9aZZB09HVZnBcxrdXow3i+vq1GWSx1+prOEIARJPK/sGN0HQEqgbz5BA==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
