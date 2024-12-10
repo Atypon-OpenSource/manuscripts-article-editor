@@ -60,7 +60,6 @@ const Inspector: React.FC = () => {
 
   return (
     <Panel
-      data-cy="inspector"
       name={'inspector'}
       minSize={400}
       direction={'row'}
@@ -68,7 +67,7 @@ const Inspector: React.FC = () => {
       hideWhen={'max-width: 900px'}
       resizerButton={ResizingInspectorButton}
     >
-      <InspectorContainer>
+      <InspectorContainer data-cy="inspector">
         <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
           <InspectorTabList>
             <InspectorTab data-cy="comments-button">Comments</InspectorTab>
