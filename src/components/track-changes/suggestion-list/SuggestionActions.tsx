@@ -18,13 +18,13 @@ import { useStore } from '../../../store'
 import { Accept, Reject } from './Icons'
 
 interface Props {
-  suggestion: TrackedChange
-  handleAccept: (c: TrackedChange) => void
-  handleReject: (c: TrackedChange) => void
+  suggestions: TrackedChange[]
+  handleAccept: (c: TrackedChange[]) => void
+  handleReject: (c: TrackedChange[]) => void
 }
 
 const SuggestionAction: React.FC<Props> = ({
-  suggestion,
+  suggestions,
   handleAccept,
   handleReject,
 }) => {
@@ -33,6 +33,7 @@ const SuggestionAction: React.FC<Props> = ({
   }))
 
   const can = usePermissions()
+  const suggestion = suggestions[0]
 
   const canRejectOwnSuggestion = useMemo(() => {
     if (
@@ -55,7 +56,7 @@ const SuggestionAction: React.FC<Props> = ({
         <Container>
           <Action
             type="button"
-            onClick={() => handleReject(suggestion)}
+            onClick={() => handleReject(suggestions)}
             aria-pressed={false}
             data-tooltip-id={rejectTooltip}
           >
@@ -70,7 +71,7 @@ const SuggestionAction: React.FC<Props> = ({
         <Container>
           <Action
             type="button"
-            onClick={() => handleAccept(suggestion)}
+            onClick={() => handleAccept(suggestions)}
             aria-pressed={false}
             data-tip={true}
             data-tooltip-id={approveTooltip}

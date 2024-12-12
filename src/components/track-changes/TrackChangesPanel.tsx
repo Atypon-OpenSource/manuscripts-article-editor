@@ -11,7 +11,6 @@
  */
 
 import {
-  CHANGE_OPERATION,
   CHANGE_STATUS,
   ChangeSet,
   trackCommands,
@@ -37,8 +36,8 @@ export const TrackChangesPanel: React.FC = () => {
     })
   )
 
-  const handleSelect = useCallback((suggestion: TrackedChange) => {
-    setSelectedSuggestion(suggestion, getState)
+  const handleSelect = useCallback((suggestions: TrackedChange[]) => {
+    setSelectedSuggestion(suggestions, getState)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -47,22 +46,17 @@ export const TrackChangesPanel: React.FC = () => {
   const { changeSet } = trackState || {}
 
   const changes = useMemo(
-    () =>
-      changeSet?.groupChanges.filter(
-        (c) =>
-          c.dataTracked.status === CHANGE_STATUS.pending &&
-          c.dataTracked.operation !== CHANGE_OPERATION.reference
-      ) || [],
-    [changeSet?.groupChanges]
+    () => changeSet?.changeTree || [],
+    [changeSet?.changeTree]
   )
 
-  const handleAccept = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.accepted, execCmd)
+  const handleAccept = useCallback((changes: TrackedChange[]) => {
+    setChangeStatus(changes, CHANGE_STATUS.accepted, execCmd)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleReject = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.rejected, execCmd)
+  const handleReject = useCallback((changes: TrackedChange[]) => {
+    setChangeStatus(changes, CHANGE_STATUS.rejected, execCmd)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -26,7 +26,7 @@ const scrollIntoView = (element: HTMLElement) => {
 }
 
 interface Props {
-  suggestion: TrackedChange
+  suggestions: TrackedChange[]
   isSelected: boolean
   onAccept: () => void
   onReject: () => void
@@ -34,7 +34,7 @@ interface Props {
 }
 
 export const Suggestion: React.FC<Props> = ({
-  suggestion,
+  suggestions,
   isSelected,
   onAccept,
   onReject,
@@ -60,12 +60,12 @@ export const Suggestion: React.FC<Props> = ({
   return (
     <Wrapper data-cy="suggestion" isFocused={isSelected} ref={wrapperRef}>
       <FocusHandle href="#" onClick={handleClick}>
-        <SuggestionSnippet suggestion={suggestion} />
+        <SuggestionSnippet suggestions={suggestions} />
       </FocusHandle>
 
       <Actions>
         <SuggestionActions
-          suggestion={suggestion}
+          suggestions={suggestions}
           handleAccept={onAccept}
           handleReject={onReject}
         />
@@ -75,7 +75,7 @@ export const Suggestion: React.FC<Props> = ({
         <TrackModal
           ref={wrapperRef}
           isVisible={trackModalVisible}
-          changeId={suggestion.id}
+          changeId={suggestions[0].id}
           setVisible={setModalVisible}
         ></TrackModal>
       )}

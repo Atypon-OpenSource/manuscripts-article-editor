@@ -11,10 +11,10 @@
  */
 import {
   ChangeSet,
-  InlineAdjacentChanges,
   NodeAttrChange,
   NodeChange,
   TextChange,
+  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import { nodeNames, schema } from '@manuscripts/transform'
 
@@ -54,8 +54,8 @@ export const handleTextChange = (
   }
 }
 
-export const handleInlineAdjacentChanges = (
-  suggestion: InlineAdjacentChanges,
+export const handleGroupChanges = (
+  suggestions: TrackedChange[],
   view: any,
   doc: any,
   dataTracked: any
@@ -63,15 +63,15 @@ export const handleInlineAdjacentChanges = (
   return {
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: 'Text',
-    content: suggestion.nodes
-      .map((inlineChange) =>
-        ChangeSet.isTextChange(inlineChange)
-          ? handleTextChange(inlineChange, view, inlineChange.dataTracked)
+    content: suggestions
+      .map((change) =>
+        ChangeSet.isTextChange(change)
+          ? handleTextChange(change, view, change.dataTracked)
           : handleNodeChange(
-              inlineChange as NodeChange,
+              change as NodeChange,
               view,
               doc,
-              inlineChange.dataTracked
+              change.dataTracked
             )
       )
       .map((c) => (c?.isEquation ? ` ${c.content} ` : c?.content))

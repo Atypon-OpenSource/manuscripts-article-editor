@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { GroupedChange, TrackedChange } from '@manuscripts/track-changes-plugin'
+import { TrackedChange } from '@manuscripts/track-changes-plugin'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -17,15 +17,15 @@ import { InspectorSection } from '../../InspectorSection'
 import { Suggestion } from './Suggestion'
 
 export interface SuggestionListProps {
-  changes: GroupedChange[]
+  changes: TrackedChange[][]
   selectionID?: string
   title: string
   type: string
   sortBy: string
-  onAccept(change: TrackedChange): void
-  onReject(change: TrackedChange): void
+  onAccept(change: TrackedChange[]): void
+  onReject(change: TrackedChange[]): void
   onAcceptAll?(): void
-  onSelect?(change: TrackedChange): void
+  onSelect?(change: TrackedChange[]): void
 }
 
 export const SuggestionList: React.FC<SuggestionListProps> = ({
@@ -39,11 +39,11 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   onAcceptAll,
   onSelect,
 }) => {
-  const changesByDate = (a: TrackedChange, b: TrackedChange) =>
-    b.dataTracked.updatedAt - a.dataTracked.updatedAt
+  const changesByDate = (a: TrackedChange[], b: TrackedChange[]) =>
+    b[0].dataTracked.updatedAt - a[0].dataTracked.updatedAt
 
-  const changesByContext = (a: TrackedChange, b: TrackedChange) =>
-    a.from - b.from
+  const changesByContext = (a: TrackedChange[], b: TrackedChange[]) =>
+    a[0].from - b[0].from
 
   const sortedChanges = changes
     .slice()
@@ -56,11 +56,11 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
       fixed={true}
     >
       <List data-cy="suggestions-list" data-cy-type={type}>
-        {sortedChanges.map((c: TrackedChange) => (
+        {sortedChanges.map((c: TrackedChange[]) => (
           <Suggestion
-            key={c.id}
-            suggestion={c}
-            isSelected={selectionID === c.id}
+            key={c[0].id}
+            suggestions={c}
+            isSelected={selectionID === c[0].id}
             onAccept={() => onAccept(c)}
             onReject={() => onReject(c)}
             onSelect={() => onSelect && onSelect(c)}

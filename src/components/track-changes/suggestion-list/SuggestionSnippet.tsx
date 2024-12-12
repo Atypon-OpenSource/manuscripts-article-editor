@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import {
-  handleInlineAdjacentChanges,
+  handleGroupChanges,
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
@@ -29,33 +29,29 @@ interface SnippetData {
   isEquation?: boolean
 }
 
-export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
-  suggestion,
+export const SuggestionSnippet: React.FC<{ suggestions: TrackedChange[] }> = ({
+  suggestions,
 }) => {
   const [{ doc, view }] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
   }))
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
+  const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
   useEffect(() => {
     let newSnippet: SnippetData | null = null
 
-    if (ChangeSet.isTextChange(suggestion)) {
+    if (suggestions.length > 1) {
+      newSnippet = handleGroupChanges(suggestions, view, doc, dataTracked)
+    } else if (ChangeSet.isTextChange(suggestion)) {
       newSnippet = handleTextChange(suggestion, view, dataTracked)
     } else if (
       ChangeSet.isNodeChange(suggestion) ||
       ChangeSet.isNodeAttrChange(suggestion)
     ) {
       newSnippet = handleNodeChange(suggestion, view, doc, dataTracked)
-    } else if (ChangeSet.isInlineAdjacentChanges(suggestion)) {
-      newSnippet = handleInlineAdjacentChanges(
-        suggestion,
-        view,
-        doc,
-        dataTracked
-      )
     } else {
       newSnippet = handleUnknownChange()
     }
