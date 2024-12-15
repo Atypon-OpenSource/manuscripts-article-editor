@@ -55,16 +55,6 @@ export interface EditorAppProps {
   observer?: AppStateObserver
 }
 
-const Wrapper = styled.div`
-  display: flex;
-  box-sizing: border-box;
-  color: rgb(53, 53, 53);
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Lato, sans-serif;
-`
-
 const PlaceholderWrapper = styled.div`
   height: 100%;
   flex: 1;
@@ -137,9 +127,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
     <ApiContext.Provider value={api}>
       <GenericStoreProvider store={store}>
         <Page>
-          <Wrapper>
-            <ManuscriptPageContainer />
-          </Wrapper>
+          <ManuscriptPageContainer />
         </Page>
       </GenericStoreProvider>
     </ApiContext.Provider>
