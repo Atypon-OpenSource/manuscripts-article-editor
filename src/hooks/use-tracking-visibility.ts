@@ -10,36 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 
-import purify from 'dompurify'
-import React, { useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import { useState } from 'react'
 
-interface ContentProps {
-  content: string
-}
-
-const SnippetContent: React.FC<ContentProps> = ({ content }) => {
-  const contentRef = useRef<HTMLSpanElement>(null)
-
-  useEffect(() => {
-    if (contentRef.current && content) {
-      contentRef.current.innerHTML = purify.sanitize(': ' + content) || ''
-    }
-  }, [content])
-
-  return <StyledContent ref={contentRef} />
-}
-
-export default SnippetContent
-
-const StyledContent = styled.span`
-  color: #353535;
-  font-family: Lato, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-
-  .inspector-list-item::after {
-    content: '...';
+export const useTrackingVisibility = (): [boolean, () => void] => {
+  const [trackingVisible, setTrackingVisible] = useState(true)
+  const toggleTrackingVisibility = () => {
+    setTrackingVisible(!trackingVisible)
   }
-`
+  return [trackingVisible, toggleTrackingVisibility]
+}

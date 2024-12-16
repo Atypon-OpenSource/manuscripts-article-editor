@@ -7,39 +7,40 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
  */
 
-import purify from 'dompurify'
-import React, { useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import { ManuscriptNode } from '@manuscripts/transform'
+import { useEffect } from 'react'
 
-interface ContentProps {
-  content: string
-}
+import { getNodeRealText } from '../lib/get-node-without-tc'
+import { useStore } from '../store'
 
-const SnippetContent: React.FC<ContentProps> = ({ content }) => {
-  const contentRef = useRef<HTMLSpanElement>(null)
+export function useWatchTitle() {
+  const [doc, dispatch] = useStore((state) => state.doc)
+  const [prevText] = useStore((state) => state.titleText)
 
   useEffect(() => {
-    if (contentRef.current && content) {
-      contentRef.current.innerHTML = purify.sanitize(': ' + content) || ''
+    let newTitleNode: ManuscriptNode | null = null
+
+    doc.descendants((node, pos) => {
+      if (newTitleNode) {
+        return false
+      }
+      if (node.type === node.type.schema.nodes.title) {
+        newTitleNode = node
+      }
+    })
+
+    if (newTitleNode) {
+      const node = newTitleNode as ManuscriptNode
+
+      const newRealText = getNodeRealText(node)
+
+      if (newRealText !== prevText) {
+        dispatch({ titleText: getNodeRealText(node) })
+      }
     }
-  }, [content])
-
-  return <StyledContent ref={contentRef} />
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [doc])
 }
-
-export default SnippetContent
-
-const StyledContent = styled.span`
-  color: #353535;
-  font-family: Lato, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-
-  .inspector-list-item::after {
-    content: '...';
-  }
-`

@@ -14,7 +14,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import {
-  handleGroupChanges,
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
@@ -26,51 +25,45 @@ interface SnippetData {
   operation: string
   nodeName: string
   content: string | null
-  isEquation?: boolean
 }
 
-export const SuggestionSnippet: React.FC<{ suggestions: TrackedChange[] }> = ({
-  suggestions,
+export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
+  suggestion,
 }) => {
   const [{ doc, view }] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
   }))
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
-  const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
   useEffect(() => {
     let newSnippet: SnippetData | null = null
+    if (view) {
+      if (ChangeSet.isTextChange(suggestion)) {
+        newSnippet = handleTextChange(suggestion, view.state)
+      } else if (
+        ChangeSet.isNodeChange(suggestion) ||
+        ChangeSet.isNodeAttrChange(suggestion)
+      ) {
+        newSnippet = handleNodeChange(suggestion, view.state)
+      } else {
+        newSnippet = handleUnknownChange()
+      }
 
-    if (suggestions.length > 1) {
-      newSnippet = handleGroupChanges(suggestions, view, doc, dataTracked)
-    } else if (ChangeSet.isTextChange(suggestion)) {
-      newSnippet = handleTextChange(suggestion, view, dataTracked)
-    } else if (
-      ChangeSet.isNodeChange(suggestion) ||
-      ChangeSet.isNodeAttrChange(suggestion)
-    ) {
-      newSnippet = handleNodeChange(suggestion, view, doc, dataTracked)
-    } else {
-      newSnippet = handleUnknownChange()
+      setSnippet(newSnippet)
     }
-
-    setSnippet(newSnippet)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [suggestion, doc, view])
 
   return (
-    <SnippetText data-mathjax={snippet?.isEquation}>
+    <SnippetText>
       <>
         <Operation color={dataTracked.operation}>
           {snippet?.operation}:
         </Operation>
         <NodeName>{snippet?.nodeName}</NodeName>
-        <SnippetContent
-          content={snippet?.content || ''}
-          isEquation={snippet?.isEquation}
-        />
+        <SnippetContent content={snippet?.content || ''} />
       </>
     </SnippetText>
   )
@@ -104,6 +97,7 @@ const Operation = styled.span<{ color: string }>`
         return '#01872E'
       case 'delete':
         return '#F35143'
+      case 'node_split':
       case 'set_attrs':
         return '#0284B0'
       default:

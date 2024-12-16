@@ -11,13 +11,12 @@
  */
 import {
   Bundle,
-  ManuscriptTemplate,
   Model,
   ObjectTypes,
   Project,
-  SectionCategory,
   UserProfile,
 } from '@manuscripts/json-schema'
+import { ManuscriptTemplate } from '@manuscripts/transform'
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import { createContext, useContext } from 'react'
 
@@ -83,21 +82,18 @@ export class Api {
 
   getUser = () => this.get<UserProfile>('user')
 
-  getSectionCategories = () =>
-    this.get<SectionCategory[]>('/config?id=section-categories')
-
   getCSLLocale = (lang: string) =>
     lang !== 'en-US' ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
 
   getTemplate = (id?: string) =>
     id ? this.get<ManuscriptTemplate>(`/templates?id=${id}`) : undefined
 
-  getBundle = (template: ManuscriptTemplate | undefined) =>
+  getBundle = (template: ManuscriptTemplate) =>
     template?.bundle
       ? this.get<Bundle>(`/bundles?id=${template.bundle}`)
       : undefined
 
-  getCSLStyle = (bundle: Bundle | undefined) =>
+  getCSLStyle = (bundle: Bundle) =>
     bundle?.csl?._id
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
