@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TrackedChange } from '@manuscripts/track-changes-plugin'
+import { RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -26,7 +26,7 @@ const scrollIntoView = (element: HTMLElement) => {
 }
 
 interface Props {
-  suggestions: TrackedChange[]
+  suggestions: RootChange
   isSelected: boolean
   onAccept: () => void
   onReject: () => void

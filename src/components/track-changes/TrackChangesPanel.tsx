@@ -13,10 +13,10 @@
 import {
   CHANGE_STATUS,
   ChangeSet,
+  RootChange,
   trackCommands,
-  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
@@ -36,7 +36,7 @@ export const TrackChangesPanel: React.FC = () => {
     })
   )
 
-  const handleSelect = useCallback((suggestions: TrackedChange[]) => {
+  const handleSelect = useCallback((suggestions: RootChange) => {
     setSelectedSuggestion(suggestions, getState)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -45,17 +45,12 @@ export const TrackChangesPanel: React.FC = () => {
 
   const { changeSet } = trackState || {}
 
-  const changes = useMemo(
-    () => changeSet?.changeTree || [],
-    [changeSet?.changeTree]
-  )
-
-  const handleAccept = useCallback((changes: TrackedChange[]) => {
+  const handleAccept = useCallback((changes: RootChange) => {
     setChangeStatus(changes, CHANGE_STATUS.accepted, execCmd)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleReject = useCallback((changes: TrackedChange[]) => {
+  const handleReject = useCallback((changes: RootChange) => {
     setChangeStatus(changes, CHANGE_STATUS.rejected, execCmd)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -76,7 +71,7 @@ export const TrackChangesPanel: React.FC = () => {
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
-        changes={changes}
+        changes={changeSet?.changeTree || []}
         selectionID={selectedSuggestionID}
         title="Suggestions"
         sortBy={sortBy}

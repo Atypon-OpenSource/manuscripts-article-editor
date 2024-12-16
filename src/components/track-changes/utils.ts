@@ -13,8 +13,8 @@
 import { NodesSelection } from '@manuscripts/body-editor'
 import {
   CHANGE_STATUS,
+  RootChange,
   trackCommands,
-  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import { Command, NodeSelection, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
@@ -22,7 +22,7 @@ import { EditorView } from 'prosemirror-view'
 import { state } from '../../store'
 
 export const setSelectedSuggestion = (
-  suggestions: TrackedChange[],
+  suggestions: RootChange,
   getState: () => state
 ) => {
   const editor = getState().editor
@@ -48,7 +48,7 @@ export const setSelectedSuggestion = (
 }
 
 export const setChangeStatus = (
-  changes: TrackedChange[],
+  changes: RootChange,
   status: CHANGE_STATUS,
   execCmd: (cmd: Command, hookView?: EditorView) => void
 ) => {
