@@ -26,18 +26,33 @@ import styled from 'styled-components'
 import { ListButton, ListStyleButton } from './ListToolbarItemStyles'
 import { ToolbarItem } from './ManuscriptToolbar'
 
-export const ListStyleSelector: React.FC<{
-  disabled: boolean
+const Container = styled.div`
+  display: flex;
+`
+
+type ListStyleSelectorProps = {
+  title: string
   styles: string[]
+  disabled: boolean
   onClick: (style: string) => void
-}> = ({ disabled, styles, onClick }) => {
+}
+
+const ListStyleSelector: React.FC<ListStyleSelectorProps> = ({
+  title,
+  disabled,
+  styles,
+  onClick,
+}) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
 
   return (
-    <Container onClick={(e) => !disabled && toggleOpen()} ref={wrapperRef}>
-      <ListStyleButton disabled={disabled}>
+    <Container onClick={() => !disabled && toggleOpen()} ref={wrapperRef}>
+      <ListStyleButton data-tooltip-id={title} disabled={disabled}>
         <ArrowDownIcon />
       </ListStyleButton>
+      <Tooltip id={title} place="bottom">
+        {title}
+      </Tooltip>
       {isOpen && (
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
           <ListStyles styles={styles} onClick={onClick} />
@@ -46,10 +61,6 @@ export const ListStyleSelector: React.FC<{
     </Container>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-`
 
 export const ListToolbarItem: React.FC<{
   state: EditorState
@@ -99,6 +110,7 @@ export const ListToolbarItem: React.FC<{
         {config.title}
       </Tooltip>
       <ListStyleSelector
+        title={config.title + ' styles'}
         disabled={!isEnabled}
         onClick={handleClick}
         styles={styles}
