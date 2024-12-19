@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 import { Tooltip, usePermissions } from '@manuscripts/style-guide'
-import { CHANGE_STATUS, TrackedChange } from '@manuscripts/track-changes-plugin'
+import { CHANGE_STATUS, RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -18,13 +18,13 @@ import { useStore } from '../../../store'
 import { Accept, Reject } from './Icons'
 
 interface Props {
-  suggestion: TrackedChange
-  handleAccept: (c: TrackedChange) => void
-  handleReject: (c: TrackedChange) => void
+  suggestions: RootChange
+  handleAccept: (c: RootChange) => void
+  handleReject: (c: RootChange) => void
 }
 
 const SuggestionAction: React.FC<Props> = ({
-  suggestion,
+  suggestions,
   handleAccept,
   handleReject,
 }) => {
@@ -33,6 +33,7 @@ const SuggestionAction: React.FC<Props> = ({
   }))
 
   const can = usePermissions()
+  const suggestion = suggestions[0]
 
   const canRejectOwnSuggestion = useMemo(() => {
     if (
@@ -55,7 +56,7 @@ const SuggestionAction: React.FC<Props> = ({
         <Container>
           <Action
             type="button"
-            onClick={() => handleReject(suggestion)}
+            onClick={() => handleReject(suggestions)}
             aria-pressed={false}
             data-tooltip-id={rejectTooltip}
           >
@@ -70,7 +71,7 @@ const SuggestionAction: React.FC<Props> = ({
         <Container>
           <Action
             type="button"
-            onClick={() => handleAccept(suggestion)}
+            onClick={() => handleAccept(suggestions)}
             aria-pressed={false}
             data-tip={true}
             data-tooltip-id={approveTooltip}
