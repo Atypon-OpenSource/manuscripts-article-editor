@@ -1524,16 +1524,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.6.36-LEAN-4102.1":
-  version "2.6.36-LEAN-4102.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.36-LEAN-4102.1.tgz#a81ee34c220fda7bfdcba879e1ee49c9d0a02b0f"
-  integrity sha512-Lti2cAv9cLa1z3AL1ZVyU7+8M8+/RA6Q2VG5BP3IzVlZHcJLKZgkPyABL5jrWNup8d6CHS1HqP/Opvzv2oYL1g==
+"@manuscripts/body-editor@2.6.36-LEAN-4102.2":
+  version "2.6.36-LEAN-4102.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.36-LEAN-4102.2.tgz#fa3fabf6d4355ba422e0c64ffdd3c29d03a3de2b"
+  integrity sha512-iY0IUTk1PWcNMrcUQj5GQjyam3CchO9JfCIaI7wakS8Tc/Q8HBwmNmSVPhGAMzquSWQciYKwRr6r0s1V0jQpKQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.27"
-    "@manuscripts/track-changes-plugin" "1.8.6-LEAN-4102.1"
+    "@manuscripts/track-changes-plugin" "1.8.6-LEAN-4102.2"
     "@manuscripts/transform" "3.0.26"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
@@ -1631,10 +1631,10 @@
     react-tooltip "^5.26.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.8.6-LEAN-4102.1":
-  version "1.8.6-LEAN-4102.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.6-LEAN-4102.1.tgz#a1cd3ad1d1fa2f3e8b993642d8c1b059bb42cf44"
-  integrity sha512-zkoZ6o2aYliXRD/MHI1mhsubya+vhClN/ceEzH6lftbd8zD/LhRFVgsyIEay8/G355XdPGbCrH/mTuu55L+G8w==
+"@manuscripts/track-changes-plugin@1.8.6-LEAN-4102.2":
+  version "1.8.6-LEAN-4102.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.8.6-LEAN-4102.2.tgz#e7a79218d10ff9cea9a5af2ff7871b088756e34c"
+  integrity sha512-okRBCt11CeQSn0xxEkI5W91s3wAEm1I0iCtUgbgEwKumaP98LXvT6jSB2aJP/J4tYTe2R37H5YbJ6rgRZo24/Q==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
