@@ -71,7 +71,7 @@ export const TrackChangesPanel: React.FC = () => {
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
-        changes={changeSet?.changeTree || []}
+        changes={changeSet?.groupChanges || []}
         selectionID={selectedSuggestionID}
         title="Suggestions"
         sortBy={sortBy}
