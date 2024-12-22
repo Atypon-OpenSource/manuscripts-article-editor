@@ -1524,17 +1524,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.6.36-fix-migration3021.0":
-  version "2.6.36-fix-migration3021.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.36-fix-migration3021.0.tgz#3aedcea4ecfc9372e988295139b11bbbac0d8c3b"
-  integrity sha512-x1KGFw89n50k9oJVgzOR5ZwYS5LnYKEcP2/xA6IFXUK5Tu7ZgzxuTrDPUjjCPwyOrUlqv8Z0/r0XUTx1G9lvKw==
+"@manuscripts/body-editor@2.6.36-fix-migration3021.1":
+  version "2.6.36-fix-migration3021.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.36-fix-migration3021.1.tgz#be0417a68a51b4f3638681f5a39c5ae2c8ab7223"
+  integrity sha512-5GKtqioFtd8m+y/nZF8rUuf5QrChK9aGxhc0Dmz8n/+QUIY4Z3t7I86h/N3jpTKpDRZdir+eEcBru5eU/AXarA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.27"
     "@manuscripts/track-changes-plugin" "1.8.5"
-    "@manuscripts/transform" "3.0.27-fix-migration3021.0"
+    "@manuscripts/transform" "3.0.27-fix-migration3021.2"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1647,10 +1647,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.27-fix-migration3021.0":
-  version "3.0.27-fix-migration3021.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.27-fix-migration3021.0.tgz#8aedea44b39733ef8db71ff48ceadda5871d2c0a"
-  integrity sha512-094i4lOWOEU3zq2VKMDlNnj9F1DA2WiN097OqzoWfdju1nQ2h0B0VpBqZsUF/PL1rerAZfEgNJf6/x1xoBQt5w==
+"@manuscripts/transform@3.0.27-fix-migration3021.2":
+  version "3.0.27-fix-migration3021.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.27-fix-migration3021.2.tgz#7c6b1c4183672aff387a71b247c10b802d6b115e"
+  integrity sha512-Ptevw7bopyQ2zhYHSjVAJ7QM0bKkTZcDdLJaVU7VMoh1Ra/ukW19SHCldA768zST83urAJFfmzANUbfdbayj0A==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
