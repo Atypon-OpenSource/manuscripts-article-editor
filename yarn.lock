@@ -1524,15 +1524,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.6.38-LEAN-4186.2":
-  version "2.6.38-LEAN-4186.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.38-LEAN-4186.2.tgz#0c9db1327f16836ece72a83df17b25c79317867f"
-  integrity sha512-eI5Ocbouf5LG25Eevd3sIpGmXozVkoPdabDh1AqXnCod0JRNO0gHWEe0K+2Q6C9zbTiUy7boNPbHTVVQlBsEpg==
+"@manuscripts/body-editor@2.6.38-LEAN-4186.3":
+  version "2.6.38-LEAN-4186.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.6.38-LEAN-4186.3.tgz#666ae96e1954278c0c988a5d66b4a92808569e36"
+  integrity sha512-NqoSEfAcFd4KHQ3dj8ldjZFRV/4UDobm9td9Pc6PxpJg3KEdsatyEJsrF++640l2P+VTJxW4b/RPP4qtznm4TQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
-    "@manuscripts/style-guide" "2.0.28-LEAN-4186.2"
+    "@manuscripts/style-guide" "2.0.28-LEAN-4186.3"
     "@manuscripts/track-changes-plugin" "1.8.6"
     "@manuscripts/transform" "3.0.27"
     "@popperjs/core" "^2.11.8"
@@ -1601,10 +1601,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.0.28-LEAN-4186.2":
-  version "2.0.28-LEAN-4186.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.28-LEAN-4186.2.tgz#4a455a29da9818080df8bfb23a38502f3294e3dd"
-  integrity sha512-/CvYoVxkmD1ddAicZ2GPZgtPwMabC6816rB0nwMiNtDyCV6Hko1g13ecj6kZdXAE43HvTHT3MmFXH9L+dURZ7g==
+"@manuscripts/style-guide@2.0.28-LEAN-4186.3":
+  version "2.0.28-LEAN-4186.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.28-LEAN-4186.3.tgz#c4c47633abebee0afab6418e7cf16dc20fd2ebca"
+  integrity sha512-TEqYeMbGi5GM4BLlfAsacGbYH1yxCmALOCVxeFyzZFhjBMcN1thMkq1fynuHtO+T3acXwDN0+L2y7HCamqmRZw==
   dependencies:
     "@headlessui/react" "^2.1.10"
     "@manuscripts/json-schema" "2.2.11"
@@ -1628,7 +1628,7 @@
     react-router-dom "^5.3.4"
     react-select "^5.7.3"
     react-sizeme "^3.0.2"
-    react-tooltip "^5.26.0"
+    react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
 "@manuscripts/track-changes-plugin@1.8.6":
@@ -6847,7 +6847,7 @@ react-sizeme@^3.0.2:
     shallowequal "^1.1.0"
     throttle-debounce "^3.0.1"
 
-react-tooltip@^5.26.0:
+react-tooltip@^5.28.0:
   version "5.28.0"
   resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-5.28.0.tgz#c7b5343ab2d740a428494a3d8315515af1f26f46"
   integrity sha512-R5cO3JPPXk6FRbBHMO0rI9nkUG/JKfalBSQfZedZYzmqaZQgq7GLzF8vcCWx6IhUCKg0yPqJhXIzmIO5ff15xg==
