@@ -9,11 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { ChangeSet, TrackedChange } from '@manuscripts/track-changes-plugin'
+import { ChangeSet, RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import {
+  handleGroupChanges,
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
@@ -27,20 +28,23 @@ interface SnippetData {
   content: string | null
 }
 
-export const SuggestionSnippet: React.FC<{ suggestion: TrackedChange }> = ({
-  suggestion,
+export const SuggestionSnippet: React.FC<{ suggestions: RootChange }> = ({
+  suggestions,
 }) => {
   const [{ doc, view }] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
   }))
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
+  const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
   useEffect(() => {
     let newSnippet: SnippetData | null = null
     if (view) {
-      if (ChangeSet.isTextChange(suggestion)) {
+      if (suggestions.length > 1) {
+        newSnippet = handleGroupChanges(suggestions, view, doc, dataTracked)
+      } else if (ChangeSet.isTextChange(suggestion)) {
         newSnippet = handleTextChange(suggestion, view.state)
       } else if (
         ChangeSet.isNodeChange(suggestion) ||

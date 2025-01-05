@@ -11,11 +11,10 @@
  */
 
 import {
-  CHANGE_OPERATION,
   CHANGE_STATUS,
   ChangeSet,
+  RootChange,
   trackCommands,
-  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import React, { useCallback, useState } from 'react'
 
@@ -37,8 +36,8 @@ export const TrackChangesPanel: React.FC = () => {
     })
   )
 
-  const handleSelect = useCallback((suggestion: TrackedChange) => {
-    setSelectedSuggestion(suggestion, getState)
+  const handleSelect = useCallback((suggestions: RootChange) => {
+    setSelectedSuggestion(suggestions, getState)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -46,13 +45,13 @@ export const TrackChangesPanel: React.FC = () => {
 
   const { changeSet } = trackState || {}
 
-  const handleAccept = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.accepted, execCmd)
+  const handleAccept = useCallback((changes: RootChange) => {
+    setChangeStatus(changes, CHANGE_STATUS.accepted, execCmd)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleReject = useCallback((change: TrackedChange) => {
-    setChangeStatus(change, CHANGE_STATUS.rejected, execCmd)
+  const handleReject = useCallback((changes: RootChange) => {
+    setChangeStatus(changes, CHANGE_STATUS.rejected, execCmd)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -72,11 +71,7 @@ export const TrackChangesPanel: React.FC = () => {
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
-        changes={
-          changeSet?.pending.filter(
-            (c) => c.dataTracked.operation !== CHANGE_OPERATION.reference
-          ) || []
-        }
+        changes={changeSet?.groupChanges || []}
         selectionID={selectedSuggestionID}
         title="Suggestions"
         sortBy={sortBy}
