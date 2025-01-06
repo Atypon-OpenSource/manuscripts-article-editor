@@ -16,8 +16,10 @@ import {
   ContributorAttrs,
 } from '@manuscripts/body-editor'
 import {
+  ChangeSet,
   NodeAttrChange,
   NodeChange,
+  RootChange,
   TextChange,
 } from '@manuscripts/track-changes-plugin'
 import {
@@ -156,6 +158,28 @@ export const handleNodeChange = (
         nodeName,
         content: node.textContent,
       }
+  }
+}
+
+export const handleGroupChanges = (
+  suggestions: RootChange,
+  view: any,
+  doc: any,
+  dataTracked: any
+): SnippetData | null => {
+  return {
+    operation: changeOperationAlias(dataTracked.operation),
+    nodeName: 'Text',
+    content: suggestions
+      .map((change) =>
+        ChangeSet.isTextChange(change)
+          ? handleTextChange(change, view.state)
+          : handleNodeChange(change as NodeChange, view.state)
+      )
+      .map((c) =>
+        c?.nodeName === 'inline_equation' ? ` ${c.content} ` : c?.content
+      )
+      .join(''),
   }
 }
 
