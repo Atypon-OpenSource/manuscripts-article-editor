@@ -67,7 +67,10 @@ export const handleNodeChange = (
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
-  const nodeName = nodeNames.get(node.type) || node.type.name
+  const nodeName =
+    node.type === schema.nodes.text_block
+      ? 'Table Cell Paragraph'
+      : nodeNames.get(node.type) || node.type.name
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
