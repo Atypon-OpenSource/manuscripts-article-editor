@@ -48,7 +48,8 @@ export const handleTextChange = (
   if (parentNodeType) {
     const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
     nodeName =
-      parentNodeType === schema.nodes.paragraph
+      parentNodeType === schema.nodes.paragraph ||
+      parentNodeType === schema.nodes.text_block
         ? 'text'
         : parentNodeName + ' text'
   }
@@ -67,10 +68,7 @@ export const handleNodeChange = (
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
-  const nodeName =
-    node.type === schema.nodes.text_block
-      ? 'Table Cell Paragraph'
-      : nodeNames.get(node.type) || node.type.name
+  const nodeName = nodeNames.get(node.type) || node.type.name
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
