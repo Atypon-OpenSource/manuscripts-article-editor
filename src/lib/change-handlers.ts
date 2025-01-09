@@ -123,6 +123,7 @@ export const handleNodeChange = (
     }
     case schema.nodes.figure_element:
     case schema.nodes.table_element:
+    case schema.nodes.embed:
       return {
         operation,
         nodeName,
