@@ -12,6 +12,7 @@
 
 import { NodesSelection } from '@manuscripts/body-editor'
 import {
+  CHANGE_OPERATION,
   CHANGE_STATUS,
   RootChange,
   trackCommands,
@@ -56,7 +57,13 @@ export const setChangeStatus = (
 
   changes.map((change) => {
     ids.push(change.id)
-    if (change.type === 'node-change') {
+    if (
+      change.type === 'node-change' &&
+      !(
+        change.dataTracked.operation === CHANGE_OPERATION.node_split ||
+        change.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
+      )
+    ) {
       change.children.forEach((child) => {
         ids.push(child.id)
       })
