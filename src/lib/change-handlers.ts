@@ -48,7 +48,8 @@ export const handleTextChange = (
   if (parentNodeType) {
     const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
     nodeName =
-      parentNodeType === schema.nodes.paragraph
+      parentNodeType === schema.nodes.paragraph ||
+      parentNodeType === schema.nodes.text_block
         ? 'text'
         : parentNodeName + ' text'
   }
