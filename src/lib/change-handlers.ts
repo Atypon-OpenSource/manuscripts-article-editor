@@ -52,7 +52,6 @@ export const handleTextChange = (
         ? 'text'
         : parentNodeName + ' text'
   }
-
   return {
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: nodeName || suggestion.nodeType.name,
@@ -152,6 +151,14 @@ export const handleNodeChange = (
           node
         )}</span>`,
       }
+    case schema.nodes.award: {
+      const nodeName = 'Funder Info'
+      return {
+        operation,
+        nodeName,
+        content: node.attrs.source,
+      }
+    }
     default:
       return {
         operation,
