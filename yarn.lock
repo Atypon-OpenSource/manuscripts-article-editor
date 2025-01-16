@@ -1524,17 +1524,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.7.5":
-  version "2.7.5"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.7.5.tgz#777f821d25be92901b52fd5de3d184c2c4dfa4fa"
-  integrity sha512-bh4oKHWvNUNeGVBD/JForpZJ3wDbJoeKn3U671dRqVmYNgwNKz+wgpGi5fPuP/h1a3MXB6EzmAUp7s+Qg3l+4Q==
+"@manuscripts/body-editor@2.7.6":
+  version "2.7.6"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.7.6.tgz#ee2beecf7870a685d4eee2bd3c0faa9b308828b4"
+  integrity sha512-psaWG+wgjSDZgbTX/6qzy1EvOHXIG7tuuOJKtdVriXL2bqTEwp/+TSatsBm8F03sCBcJ2MNGNlc1kqOFzG0s9A==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
-    "@manuscripts/style-guide" "2.0.28"
+    "@manuscripts/style-guide" "2.0.29"
     "@manuscripts/track-changes-plugin" "1.9.1"
-    "@manuscripts/transform" "3.0.34"
+    "@manuscripts/transform" "3.0.35"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1601,10 +1601,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.0.28":
-  version "2.0.28"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.28.tgz#a9ef6a46586f31a0d0cd1d5965012ba03963dc08"
-  integrity sha512-XYE1CPGkkTRaoImt3Wdu7Y6WcUIaLKfYUw0EI8aMSzVBY4yKj4Nqb/3SfwwHnzP6CXRh1K0+IGkoMhzib7hoXQ==
+"@manuscripts/style-guide@2.0.29":
+  version "2.0.29"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.29.tgz#a172ac33c08f256aca541191db1dcb0300a1287f"
+  integrity sha512-hVEDC+HsM5O1hgtGN4JQhxHiifPFnuOYL8VOi9TfZxbRpZ4Q6/nZh8CEEUJ4rN/AQHTBJ1a8LAvl/F7kIbHdjw==
   dependencies:
     "@headlessui/react" "^2.1.10"
     "@manuscripts/json-schema" "2.2.11"
@@ -1647,10 +1647,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.34":
-  version "3.0.34"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.34.tgz#5eebbb2c6028547af8927f0f57aad2505d82808e"
-  integrity sha512-Z6YK6LOx41C9/+IChrLNyR3A78Rbcai/RktnUPcPL1+5cWT1SFwevsRHTC8dj7gmeB/bM1TfzOJucjUDyOPB3w==
+"@manuscripts/transform@3.0.35":
+  version "3.0.35"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.35.tgz#6a73c124266feffe517ed62b0ef55bfba6d191de"
+  integrity sha512-i0LbwLIZ9knXlrn4dOUEblReJTGPv87sIoc1vSpvR6+3a7thgwmaF8GQIXtLX4P7NyfBXk6CypaeyLPtOSL1mg==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
