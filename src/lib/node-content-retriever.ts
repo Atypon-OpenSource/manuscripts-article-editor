@@ -117,4 +117,12 @@ export class NodeTextContentRetriever {
     const text = node.textContent ?? ''
     return `<sup class="footnote-decoration">${label}</sup>${text}`
   }
+
+  /**
+   * Retrieves the text content of a footnote node with decoration.
+   */
+  public getAwardContent(node: ManuscriptNode): string {
+    const text = node.attrs.source
+    return `${text}`
+  }
 }
