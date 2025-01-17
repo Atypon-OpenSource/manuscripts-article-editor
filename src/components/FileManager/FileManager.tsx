@@ -11,7 +11,7 @@
  */
 import { groupFiles } from '@manuscripts/body-editor'
 import { Tooltip } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useStore } from '../../store'
 import {
@@ -50,17 +50,39 @@ export type Move = {
  * 2- Supplemental files.
  * 3- Other files.
  */
+
+export enum FileSectionIndex {
+  'inline-files' = 0,
+  'supplements-files' = 1,
+  'other-files' = 2,
+}
+
 export const FileManager: React.FC = () => {
-  const [{ doc, files }] = useStore((s) => ({
+  const [{ doc, files, inspectorOpenTabs }] = useStore((s) => ({
     doc: s.doc,
     files: s.files,
+    inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
   const { figures, supplements, others } = groupFiles(doc, files)
 
+  const initialIndex = 0
+  const [activeTab, setActiveTab] = useState(initialIndex)
+
+  useEffect(() => {
+    if (inspectorOpenTabs?.secondaryTab) {
+      const newIndex =
+        FileSectionIndex[
+          inspectorOpenTabs.secondaryTab as keyof typeof FileSectionIndex
+        ]
+      setActiveTab(newIndex)
+    }
+  }, [inspectorOpenTabs?.secondaryTab])
+
   return (
     <InspectorTabs
       defaultIndex={0}
+      selectedIndex={activeTab}
       data-cy="files-tabs"
       style={{ overflow: 'visible' }}
     >

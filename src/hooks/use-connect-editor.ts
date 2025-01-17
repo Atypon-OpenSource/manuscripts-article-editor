@@ -9,7 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { commentsKey, selectedSuggestionKey } from '@manuscripts/body-editor'
+import {
+  commentsKey,
+  inspectorActionPluginKey,
+  selectedSuggestionKey,
+} from '@manuscripts/body-editor'
 import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
 import { useEffect, useLayoutEffect, useMemo } from 'react'
 
@@ -45,10 +49,13 @@ export const useConnectEditor = () => {
   const selection = useMemo(() => {
     const suggestion = selectedSuggestionKey.getState(state)?.suggestion
     const selection = commentsKey.getState(state)?.selection
+    const inspectorOpenTabs =
+      inspectorActionPluginKey.getState(state)?.inspectorOpenTabs
     return {
       selectedSuggestionID: suggestion?.id,
       selectedCommentKey: selection?.key,
       newCommentID: selection?.isNew ? selection?.id : undefined,
+      inspectorOpenTabs: inspectorOpenTabs,
     }
   }, [state])
 
