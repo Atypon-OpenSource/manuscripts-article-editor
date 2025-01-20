@@ -43,13 +43,14 @@ interface Props {
 type PropRef = HTMLElement
 
 function isValidValue(val: any, oldVal: any) {
-  if (val || typeof val === 'boolean') {
+  if (val !== oldVal) {
     if ((val === false || val === 'No') && !oldVal) {
       // if old attribute was undefined (i.e. falsy) and it's not "false" - don't consider it to be a change
       return false
     }
     return true
   }
+
   return false
 }
 
