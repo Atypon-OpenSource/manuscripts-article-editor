@@ -11,7 +11,7 @@
  */
 import {
   commentsKey,
-  inspectorActionPluginKey,
+  inspectorTabsKey,
   selectedSuggestionKey,
 } from '@manuscripts/body-editor'
 import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
@@ -50,7 +50,7 @@ export const useConnectEditor = () => {
     const suggestion = selectedSuggestionKey.getState(state)?.suggestion
     const selection = commentsKey.getState(state)?.selection
     const inspectorOpenTabs =
-      inspectorActionPluginKey.getState(state)?.inspectorOpenTabs
+      inspectorTabsKey.getState(state)?.inspectorOpenTabs
     return {
       selectedSuggestionID: suggestion?.id,
       selectedCommentKey: selection?.key,
