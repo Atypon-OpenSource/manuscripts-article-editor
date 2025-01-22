@@ -132,7 +132,7 @@ export const handleNodeChange = (
       }
 
     case schema.nodes.figure: {
-      const parentNode = getParentNode(state, suggestion.from)
+      const parentNode = getParentNode(state, suggestion.from)!
       const nodeName = nodeNames.get(parentNode?.type) || parentNode?.type.name
       return {
         operation,
