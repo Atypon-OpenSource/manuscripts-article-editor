@@ -201,9 +201,7 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
                 ) : null}
                 <div>
                   <InsertLabel>Inserted: </InsertLabel>
-                  <AttributeValue>
-                    {newAttrs[key].value || oldAttrs[key].value}
-                  </AttributeValue>
+                  <AttributeValue>{newAttrs[key].value}</AttributeValue>
                 </div>
               </Attribute>
             ) : null
