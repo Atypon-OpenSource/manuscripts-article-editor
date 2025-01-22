@@ -25,6 +25,7 @@ import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
+import { schema } from '@manuscripts/transform'
 
 export type InlineFilesSectionProps = {
   elements: ElementFiles[]
@@ -75,33 +76,58 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     view.dispatch(tr)
   }
 
+  const FileTypeLabels = {
+    [FileType.GraphicalAbstract]: 'Graphical Abstract',
+    [FileType.Image]: 'Image',
+    [FileType.Figure]: 'Figure',
+  }
+
   const getElementFileType = (element: ElementFiles) => {
     if (element.node.attrs.id === ga?.node.attrs.id) {
       return FileType.GraphicalAbstract
     }
+
+    if (element.node.type === schema.nodes.image_element) {
+      return FileType.Image
+    }
     return FileType.Figure
   }
 
-  const getElementFileLabel = (index: number) => {
-    if (index === 0 && ga) {
-      return 'Graphical Abstract'
+  const getElementFileLabel = (
+    element: ElementFiles,
+    counters: { [key: string]: number }
+  ) => {
+    const fileType = FileTypeLabels[getElementFileType(element)]
+    if (fileType === 'Graphical Abstract') {
+      return fileType
     }
-    if (!ga) {
-      index++
-    }
-    return `Figure ${index}`
+    counters[fileType] = (counters[fileType] || 0) + 1
+    return `${fileType} ${counters[fileType]}`
+  }
+
+  const counters = {
+    [FileType.GraphicalAbstract]: 0,
+    [FileType.Image]: 0,
+    [FileType.Figure]: 0,
   }
 
   return (
     <>
-      {elements.map((element, index) => (
-        <Element key={index} onClick={() => handleClick(element)}>
-          <ElementLabelContainer>
-            {getFileTypeIcon(getElementFileType(element))}
-            <ElementLabel>{getElementFileLabel(index)}</ElementLabel>
-          </ElementLabelContainer>
-          <ElementFilesContainer data-cy="file-elements-container">
-            {element.files?.map((figure) => (
+      {elements.map((element, index) => {
+        const figure = element.files && element.files[0]
+        return (
+          <FileContainer
+            data-cy="file-container"
+            key={index}
+            onClick={() => handleClick(element)}
+          >
+            <ElementLabelContainer>
+              {getFileTypeIcon(getElementFileType(element))}
+              <ElementLabel>
+                {getElementFileLabel(element, counters)}:
+              </ElementLabel>
+            </ElementLabelContainer>
+            {figure && (
               <ElementFile
                 key={figure.file.id}
                 figure={figure}
@@ -109,10 +135,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                 onDetach={async () => await handleDetach(figure)}
                 onDownload={() => fileManagement.download(figure.file)}
               />
-            ))}
-          </ElementFilesContainer>
-        </Element>
-      ))}
+            )}
+          </FileContainer>
+        )
+      })}
     </>
   )
 }
@@ -124,8 +150,8 @@ const ElementFile: React.FC<{
   onDetach?: () => void
 }> = ({ figure, onDownload, onReplace, onDetach }) => {
   return (
-    <ModelFileContainer data-cy="file-container">
-      <FileName file={figure.file} />
+    <Element>
+      <FileName file={figure.file} showIcon={false} />
       <FileCreatedDate file={figure.file} className="show-on-hover" />
       <FileActions
         data-cy="file-actions"
@@ -134,29 +160,17 @@ const ElementFile: React.FC<{
         onDetach={figure.file ? onDetach : undefined}
         onReplace={onReplace}
       />
-    </ModelFileContainer>
+    </Element>
   )
 }
 
 const Element = styled.div`
   display: flex;
-  flex-direction: column;
-  padding: 0;
-
-  border-bottom: 1px dashed #f0f0f0;
-
-  svg {
-    width: 24px;
-  }
-
-  :last-child {
-    border-bottom: 0;
-  }
+  align-items: center;
 `
 
 const ElementLabelContainer = styled.div`
   display: flex;
-  padding: 20px 16px;
   cursor: pointer;
 `
 
@@ -167,20 +181,5 @@ const ElementLabel = styled.div`
   line-height: 20px;
   white-space: nowrap;
   margin-left: ${(props) => props.theme.grid.unit * 2}px;
-`
-
-const ElementFilesContainer = styled.div`
-  width: 100%;
-  > :last-child {
-    margin-bottom: 25px;
-  }
-`
-
-const ModelFileContainer = styled(FileContainer)`
-  padding: 8px 16px;
-  height: 40px;
-
-  path {
-    fill: #6e6e6e;
-  }
+  align-content: center;
 `

@@ -124,11 +124,23 @@ export const handleNodeChange = (
     case schema.nodes.figure_element:
     case schema.nodes.table_element:
     case schema.nodes.embed:
+    case schema.nodes.image_element:
       return {
         operation,
         nodeName,
         content: nodeContentRetriever.getFigureLabel(node),
       }
+
+    case schema.nodes.figure: {
+      const parentNode = getParentNode(state, suggestion.from)
+      const nodeName = nodeNames.get(parentNode?.type) || parentNode?.type.name
+      return {
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFigureLabel(parentNode),
+      }
+    }
+
     case schema.nodes.inline_equation:
     case schema.nodes.equation_element:
       return {

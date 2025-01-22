@@ -19,7 +19,8 @@ import { FileTypeIcon } from './FileTypeIcon'
 
 export const FileName: React.FC<{
   file: FileAttachment
-}> = ({ file }) => {
+  showIcon?: boolean
+}> = ({ file, showIcon = true }) => {
   const maxBaseNameLength = 30 // Adjust this value as needed
 
   // Get the trimmed filename
@@ -27,7 +28,7 @@ export const FileName: React.FC<{
   return (
     <>
       <FileNameContainer data-tooltip-id={`${file.id}-file-name-tooltip`}>
-        <FileTypeIcon file={file} />
+        {showIcon && <FileTypeIcon file={file} />}
         <FileNameText data-cy="filename">
           {trimmedFilename}
           <Tooltip id={`${file.id}-file-name-tooltip`} place="bottom">
@@ -53,7 +54,7 @@ export const FileNameText = styled.div`
 `
 export const FileNameContainer = styled.div`
   display: flex;
-
+  align-items: center;
   .react-tooltip {
     max-width: 100% !important;
   }
