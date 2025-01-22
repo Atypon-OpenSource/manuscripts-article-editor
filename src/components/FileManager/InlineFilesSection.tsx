@@ -15,6 +15,7 @@ import {
   NodeFile,
 } from '@manuscripts/body-editor'
 import { FileType, getFileTypeIcon } from '@manuscripts/style-guide'
+import { schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
@@ -25,7 +26,6 @@ import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
-import { schema } from '@manuscripts/transform'
 
 export type InlineFilesSectionProps = {
   elements: ElementFiles[]
