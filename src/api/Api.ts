@@ -229,6 +229,7 @@ export class Api {
     }
     window.addEventListener('beforeunload', close)
     join()
+    return close
   }
 }
 

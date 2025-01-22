@@ -74,6 +74,7 @@ export const useCreateEditor = () => {
     dispatch({
       beforeUnload: () => stepsExchanger.flush(),
     })
+    return () => stepsExchanger.stop()
   }, [dispatch, stepsExchanger])
 
   const getCapabilities = memoize((project, user, permittedActions) =>
