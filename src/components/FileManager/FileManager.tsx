@@ -51,12 +51,6 @@ export type Move = {
  * 3- Other files.
  */
 
-export enum FileSectionIndex {
-  'inline-files' = 0,
-  'supplements-files' = 1,
-  'other-files' = 2,
-}
-
 export const FileManager: React.FC = () => {
   const [{ doc, files, inspectorOpenTabs }] = useStore((s) => ({
     doc: s.doc,
@@ -65,26 +59,20 @@ export const FileManager: React.FC = () => {
   }))
 
   const { figures, supplements, others } = groupFiles(doc, files)
-
-  const initialIndex = 0
-  const [activeTab, setActiveTab] = useState(initialIndex)
-
+  const [tabIndex, setTabIndex] = useState(inspectorOpenTabs?.secondaryTab || 0)
   useEffect(() => {
     if (inspectorOpenTabs?.secondaryTab) {
-      const newIndex =
-        FileSectionIndex[
-          inspectorOpenTabs.secondaryTab as keyof typeof FileSectionIndex
-        ]
-      setActiveTab(newIndex)
+      setTabIndex(inspectorOpenTabs?.secondaryTab)
     }
   }, [inspectorOpenTabs?.secondaryTab])
 
   return (
     <InspectorTabs
       defaultIndex={0}
-      selectedIndex={activeTab}
+      selectedIndex={tabIndex}
       data-cy="files-tabs"
       style={{ overflow: 'visible' }}
+      onChange={setTabIndex}
     >
       <FileManagerDragLayer />
       <InspectorTabList>

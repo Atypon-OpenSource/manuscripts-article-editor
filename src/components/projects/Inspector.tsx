@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { InspectorPrimaryTabs } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
@@ -55,7 +56,7 @@ const Inspector: React.FC = () => {
   }, [comment, COMMENTS_TAB_INDEX])
 
   useEffect(() => {
-    if (inspectorOpenTabs?.primaryTab === 'files') {
+    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
       setTabIndex(FILES_TAB_INDEX)
     }
   }, [inspectorOpenTabs, FILES_TAB_INDEX])
