@@ -14,7 +14,6 @@ import {
   CommentKey,
   FileAttachment,
   FileManagement,
-  InspectorOpenTabs,
 } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
@@ -83,7 +82,7 @@ export type state = {
   hasPendingSuggestions?: boolean
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
-  inspectorOpenTabs?: InspectorOpenTabs
+  inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
