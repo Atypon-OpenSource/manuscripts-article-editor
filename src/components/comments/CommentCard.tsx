@@ -192,7 +192,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
             )}
           </AuthorContainer>
           {timestamp && <Timestamp date={timestamp * 1000} />}
-          {numOfReplies !== 0 && <RepliesCount> {numOfReplies} </RepliesCount>}
+          {numOfReplies !== 0 && <RepliesCount>{numOfReplies}</RepliesCount>}
         </CommentMetadata>
         <CommentActions
           comment={comment}
