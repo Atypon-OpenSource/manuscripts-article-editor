@@ -199,7 +199,7 @@ export const TrackModal = forwardRef<PropRef, Props>((props, ref) => {
                     <OldAttribute>{oldAttrs[key].value}</OldAttribute>
                   </div>
                 ) : null}
-                {newAttrs[key]?.value.length > 0 && (
+                {newAttrs[key]?.value && newAttrs[key]?.value.length > 0 && (
                   <div>
                     <InsertLabel>Inserted: </InsertLabel>
                     <AttributeValue>{newAttrs[key].value}</AttributeValue>
