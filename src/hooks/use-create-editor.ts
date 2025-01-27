@@ -50,9 +50,19 @@ export const useCreateEditor = () => {
 
   const api = useApi()
 
+  const updateVersion = (v: number) => dispatch({ initialDocVersion: v })
+
   const stepsExchanger = useMemo(
-    () => new StepsExchanger(projectID, manuscriptID, initialDocVersion, api),
-    [projectID, manuscriptID, initialDocVersion, api]
+    () =>
+      new StepsExchanger(
+        projectID,
+        manuscriptID,
+        initialDocVersion,
+        api,
+        updateVersion
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [projectID, manuscriptID, api]
   )
 
   useEffect(() => {
@@ -64,6 +74,7 @@ export const useCreateEditor = () => {
     dispatch({
       beforeUnload: () => stepsExchanger.flush(),
     })
+    return () => stepsExchanger.stop()
   }, [dispatch, stepsExchanger])
 
   const getCapabilities = memoize((project, user, permittedActions) =>
