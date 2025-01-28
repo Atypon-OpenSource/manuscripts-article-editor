@@ -42,6 +42,8 @@ export class StepsExchanger extends CollabProvider {
 
   debounce: ReturnType<typeof saveWithDebounce>
   flushImmediately?: () => void
+  updateStoreVersion: (version: number) => void
+  closeConnection: () => void
 
   isThrottling: ObservableBoolean
   attempt = 0
@@ -50,7 +52,8 @@ export class StepsExchanger extends CollabProvider {
     projectID: string,
     manuscriptID: string,
     currentVersion: number,
-    api: Api
+    api: Api,
+    updateStoreVersion: (version: number) => void
   ) {
     super()
     this.projectID = projectID
@@ -60,6 +63,8 @@ export class StepsExchanger extends CollabProvider {
     this.debounce = saveWithDebounce()
     this.api = api
     this.start()
+    this.updateStoreVersion = updateStoreVersion
+    this.stop = this.stop.bind(this)
   }
 
   async sendSteps(
@@ -132,6 +137,7 @@ export class StepsExchanger extends CollabProvider {
 
   async receiveSteps(version: number, steps: unknown[], clientIDs: number[]) {
     this.currentVersion = version
+    this.updateStoreVersion(version)
     if (steps.length) {
       const mappedSteps = steps.map((s) => Step.fromJSON(schema, s))
       this.newStepsListener(mappedSteps, clientIDs)
@@ -139,12 +145,16 @@ export class StepsExchanger extends CollabProvider {
   }
 
   start() {
-    this.api.listenToSteps(
+    this.closeConnection = this.api.listenToSteps(
       this.projectID,
       this.manuscriptID,
       (version, steps, clientIDs) =>
         this.receiveSteps(version, steps, clientIDs)
     )
+  }
+
+  stop() {
+    this.closeConnection()
   }
 
   flush() {
