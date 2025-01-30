@@ -98,7 +98,11 @@ export const DeleteCommentConfirmation: React.FC<
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <DeleteConfirmation isReply={isReply} ref={deleteConfirmationRef}>
+    <DeleteConfirmation
+      data-cy="confirmation-popup"
+      isReply={isReply}
+      ref={deleteConfirmationRef}
+    >
       <MessageContainer>
         <AttentionOrangeIcon />
         <Message>Delete this comment?</Message>

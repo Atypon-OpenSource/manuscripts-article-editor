@@ -70,7 +70,9 @@ const Timestamp = styled(RelativeDate)`
   white-space: nowrap;
   padding-right: 8px;
 `
-const RepliesCount = styled.div`
+const RepliesCount = styled.div.attrs({
+  'data-cy': 'reply-count',
+})`
   border-radius: 50%;
   width: 12px;
   height: 12px;
@@ -190,7 +192,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
             )}
           </AuthorContainer>
           {timestamp && <Timestamp date={timestamp * 1000} />}
-          {numOfReplies !== 0 && <RepliesCount> {numOfReplies} </RepliesCount>}
+          {numOfReplies !== 0 && <RepliesCount>{numOfReplies}</RepliesCount>}
         </CommentMetadata>
         <CommentActions
           comment={comment}
