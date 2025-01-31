@@ -50,10 +50,12 @@ export type Move = {
  * 2- Supplemental files.
  * 3- Other files.
  */
+
 export const FileManager: React.FC = () => {
-  const [{ doc, files }] = useStore((s) => ({
+  const [{ doc, files, inspectorOpenTabs }, dispatch] = useStore((s) => ({
     doc: s.doc,
     files: s.files,
+    inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
   const { figures, supplements, others } = groupFiles(doc, files)
@@ -61,8 +63,12 @@ export const FileManager: React.FC = () => {
   return (
     <InspectorTabs
       defaultIndex={0}
+      selectedIndex={inspectorOpenTabs?.secondaryTab || 0}
       data-cy="files-tabs"
       style={{ overflow: 'visible' }}
+      onChange={(index) =>
+        dispatch({ inspectorOpenTabs: { secondaryTab: index } })
+      }
     >
       <FileManagerDragLayer />
       <InspectorTabList>
