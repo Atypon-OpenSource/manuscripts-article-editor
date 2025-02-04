@@ -82,6 +82,7 @@ export type state = {
   hasPendingSuggestions?: boolean
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
+  inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
