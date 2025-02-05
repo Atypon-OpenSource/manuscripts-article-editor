@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { InspectorPrimaryTabs } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
@@ -33,6 +34,7 @@ const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
+    inspectorOpenTabs: store.inspectorOpenTabs,
   }))
   const config = getConfig()
 
@@ -40,6 +42,7 @@ const Inspector: React.FC = () => {
 
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
+  const inspectorOpenTabs = store.inspectorOpenTabs
   const [tabIndex, setTabIndex] = useState(0)
 
   let index = 0
@@ -51,6 +54,12 @@ const Inspector: React.FC = () => {
       setTabIndex(COMMENTS_TAB_INDEX)
     }
   }, [comment, COMMENTS_TAB_INDEX])
+
+  useEffect(() => {
+    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
+      setTabIndex(FILES_TAB_INDEX)
+    }
+  }, [inspectorOpenTabs, FILES_TAB_INDEX])
 
   useEffect(() => {
     if (suggestion) {

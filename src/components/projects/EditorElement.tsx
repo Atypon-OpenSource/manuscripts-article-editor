@@ -68,11 +68,7 @@ const EditorElement: React.FC = () => {
         switch (targetNode.type) {
           case schema.nodes.figure: {
             const figure = targetNode as FigureNode
-            if (isEmptyFigureNode(figure)) {
-              setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
-            } else {
-              addNewFigure(view, dispatch, attrs, resolvedPos.pos + 1)
-            }
+            setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
             break
           }
           case schema.nodes.figcaption:
