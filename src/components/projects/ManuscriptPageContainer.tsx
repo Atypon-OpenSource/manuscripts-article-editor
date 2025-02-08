@@ -71,7 +71,7 @@ const ManuscriptPageView: React.FC = () => {
   const isTrackingVisible = !can.editWithoutTracking && trackingVisible
 
   return (
-    <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
+    <Wrapper className={`${isTrackingVisible && 'tracking-visible' || 'tracking-hidden'}`}>
       <ManuscriptSidebar data-cy="manuscript-sidebar" />
       <PageWrapper>
         <Main data-cy="editor-main">
