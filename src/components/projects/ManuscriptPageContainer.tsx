@@ -41,6 +41,7 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+import { SearchReplace } from '../SearchReplace'
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, permittedActions }] = useStore((state) => {
@@ -82,6 +83,7 @@ const ManuscriptPageView: React.FC = () => {
                   <ManuscriptMenusContainerInner>
                     <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
+
                   {!can.editWithoutTracking && (
                     <>
                       <Label>Show tracked changes</Label>
@@ -95,6 +97,7 @@ const ManuscriptPageView: React.FC = () => {
                   )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
+                <SearchReplace />
               </EditorHeader>
               <EditorBody className="editor-body">
                 <TrackChangesStyles>
