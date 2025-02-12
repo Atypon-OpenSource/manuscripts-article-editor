@@ -10,58 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { TextField } from '@manuscripts/style-guide'
 import { findReplacePluginKey } from '@manuscripts/body-editor'
-import React, { useMemo, useRef, useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
 
-import { useStore } from '../store'
-
-function getClosestMatch(
-  side: 'left' | 'right',
-  selection: { from: number; to: number },
-  matches: { from: number; to: number }[]
-) {
-  for (let i = 0; i < matches.length; i++) {
-    const match = matches[i]
-    if (
-      side == 'right' &&
-      match.from > selection.to &&
-      (!matches[i - 1] || matches[i - 1].to <= selection.to)
-    ) {
-      return i
-    }
-
-    if (
-      side == 'left' &&
-      match.from < selection.from &&
-      (!matches[i + 1] || matches[i + 1].from >= selection.from)
-    ) {
-      return i
-    }
-  }
-}
-
-function getNewMatch(
-  side: 'left' | 'right',
-  current: number,
-  selection: { from: number; to: number },
-  matches: { from: number; to: number }[]
-) {
-  if (current < 0) {
-    // it means we need to recalc againt the new pointer
-    return getClosestMatch(side, selection, matches)
-  }
-
-  let newMatch = 0
-  if (side == 'left') {
-    newMatch = current - 1 >= 0 ? current - 1 : matches.length - 1
-  }
-  if (side == 'right') {
-    newMatch = current + 1 < matches.length ? current + 1 : 0
-  }
-  return newMatch
-}
+import { useStore } from '../../store'
+import { getNewMatch } from './getNewMatch'
+import { SearchField } from './SearchField'
+import { Advanced } from './AdvancedSearch'
 
 export const SearchReplace: React.FC = () => {
   const [editor] = useStore((state) => state.editor)
@@ -79,6 +34,7 @@ export const SearchReplace: React.FC = () => {
   const current = pluginState.currentMatch
   const matches = pluginState?.matches
   const selection = editor.state.selection
+  const value = pluginState?.value || ''
 
   function moveMatch(side: 'left' | 'right') {
     const view = editor.view
@@ -93,7 +49,6 @@ export const SearchReplace: React.FC = () => {
 
   const setNewSearchValue = (text: string) => {
     const view = editor.view
-
     if (view) {
       const tr = view.state.tr
       tr.setMeta(findReplacePluginKey, { value: text })
@@ -103,7 +58,6 @@ export const SearchReplace: React.FC = () => {
 
   const deactivate = () => {
     const view = editor.view
-
     if (view) {
       const tr = view.state.tr
       tr.setMeta(findReplacePluginKey, { active: false })
@@ -111,24 +65,27 @@ export const SearchReplace: React.FC = () => {
     }
   }
 
+  const replaceOne = (index: number) => {
+    matches[index]
+  }
+
   return advanced ? (
-    <Advanced />
+    <Advanced
+      isOpen={advanced}
+      setNewSearchValue={setNewSearchValue}
+      value={value}
+      replaceAll={() => {}}
+      replaceOne={replaceOne}
+      handleClose={() => {
+        setAdvanced(false)
+        deactivate()
+      }}
+    />
   ) : (
     <>
       {isActive ? (
         <div>
-          <TextField
-            maxLength={2000}
-            onChange={(e) => {
-              setNewSearchValue(e.target.value)
-            }}
-            autoComplete="off"
-            role="searchbox"
-            spellCheck={false}
-            placeholder={'Find in document'}
-            aria-label="Find in document"
-            type={'text'}
-          />
+          <SearchField setNewSearchValue={setNewSearchValue} />
           <button onClick={() => setAdvanced(true)}>Advanced</button>
           <button onClick={() => deactivate()}>X Close</button>
           <div className="navigate-search">
@@ -153,8 +110,4 @@ export const SearchReplace: React.FC = () => {
       )}
     </>
   )
-}
-
-const Advanced: React.FC = () => {
-  return <div>AdvancedModal GoesHere</div>
 }
