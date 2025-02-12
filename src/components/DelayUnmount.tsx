@@ -9,26 +9,28 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import React, { useEffect, useState } from 'react'
 
-import { TextField } from '@manuscripts/style-guide'
-import React from 'react'
+export const DelayUnmount: React.FC<{
+  isVisible: boolean
+  children: React.ReactNode
+  delay?: number
+}> = ({ isVisible, delay, children }) => {
+  const [shouldRender, setShouldRender] = useState(true)
 
-export const SearchField: React.FC<{
-  setNewSearchValue: (val: string) => void
-  value: string
-}> = ({ setNewSearchValue, value }) => {
-  return (
-    <TextField
-      onChange={(e) => {
-        setNewSearchValue(e.target.value)
-      }}
-      autoComplete="off"
-      role="searchbox"
-      value={value}
-      spellCheck={false}
-      placeholder={'Find in document'}
-      aria-label="Find in document"
-      type="text"
-    />
-  )
+  useEffect(() => {
+    let timeoutId: number
+    if (!isVisible && shouldRender) {
+      // @ts-ignore
+      timeoutId = setTimeout(() => {
+        setShouldRender(false)
+      }, delay || 200)
+    }
+    if (isVisible && !shouldRender) {
+      setShouldRender(true)
+    }
+    return () => clearTimeout(timeoutId)
+  }, [isVisible, delay, shouldRender])
+
+  return shouldRender ? <>{children}</> : null
 }

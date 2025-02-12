@@ -11,16 +11,26 @@
  */
 
 import { findReplacePluginKey } from '@manuscripts/body-editor'
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CloseButton,
+  DotsIcon,
+  IconButton,
+} from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 
 import { useStore } from '../../store'
 import { getNewMatch } from './getNewMatch'
 import { SearchField } from './SearchField'
 import { Advanced } from './AdvancedSearch'
+import styled, { keyframes } from 'styled-components'
+import { DelayUnmount } from '../DelayUnmount'
 
 export const SearchReplace: React.FC = () => {
   const [editor] = useStore((state) => state.editor)
   const [advanced, setAdvanced] = useState(false)
+  const [replacement, setReplacement] = useState('')
 
   if (!editor) {
     return null
@@ -65,49 +75,118 @@ export const SearchReplace: React.FC = () => {
     }
   }
 
-  const replaceOne = (index: number) => {
-    matches[index]
+  const replaceCurrent = () => {
+    const view = editor.view
+    if (view) {
+      const tr = view.state.tr
+      tr.replaceWith(
+        matches[current].from,
+        matches[current].to,
+        view.state.schema.text(replacement)
+      )
+      tr.setMeta(findReplacePluginKey, { active: false })
+      view.dispatch(tr)
+    }
+    // @TODO make plugin recalculate positions of the matches and set currentMatch to be the next match from the list
   }
 
-  return advanced ? (
-    <Advanced
-      isOpen={advanced}
-      setNewSearchValue={setNewSearchValue}
-      value={value}
-      replaceAll={() => {}}
-      replaceOne={replaceOne}
-      handleClose={() => {
-        setAdvanced(false)
-        deactivate()
-      }}
-    />
-  ) : (
+  const replaceAll = () => {
+    const view = editor.view
+    if (view) {
+      const tr = view.state.tr
+      if (matches) {
+        matches.forEach(({ from, to }) => {
+          tr.replaceWith(from, to, view.state.schema.text(replacement))
+        })
+      }
+      view.dispatch(tr)
+    }
+  }
+
+  if (advanced) {
+    return (
+      <Advanced
+        isOpen={advanced}
+        setNewSearchValue={setNewSearchValue}
+        value={value}
+        replaceAll={replaceAll}
+        replaceCurrent={replaceCurrent}
+        moveNext={() => moveMatch('right')}
+        movePrev={() => moveMatch('left')}
+        setReplaceValue={setReplacement}
+        handleClose={() => {
+          setAdvanced(false)
+          deactivate()
+        }}
+      />
+    )
+  }
+
+  return (
     <>
-      {isActive ? (
-        <div>
-          <SearchField setNewSearchValue={setNewSearchValue} />
-          <button onClick={() => setAdvanced(true)}>Advanced</button>
-          <button onClick={() => deactivate()}>X Close</button>
-          <div className="navigate-search">
-            <button
-              onClick={() => {
-                moveMatch('left')
-              }}
-            >
-              Prev
-            </button>
-            <button
-              onClick={() => {
-                moveMatch('right')
-              }}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      ) : (
-        'Closed state'
-      )}
+      <DelayUnmount isVisible={isActive}>
+        <Search
+          // style={
+          //   isActive ? { top: '100%', opacity: 1 } : { top: '50%', opacity: 0 }
+          // }
+          className={isActive ? 'active' : 'inactive'}
+        >
+          <SearchField value={value} setNewSearchValue={setNewSearchValue} />
+          <IconButton onClick={() => setAdvanced(true)}>
+            <DotsIcon />
+          </IconButton>
+          <CloseButton
+            onClick={() => deactivate()}
+            data-cy="modal-close-button"
+          />
+          <IconButton
+            onClick={() => {
+              moveMatch('left')
+            }}
+          >
+            <ArrowUpIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              moveMatch('right')
+            }}
+          >
+            <ArrowDownIcon />
+          </IconButton>
+        </Search>
+      </DelayUnmount>
     </>
   )
 }
+
+const inAnimation = keyframes`
+  0% {
+    top: 50%;
+    opacity: 0;
+  }
+  100% {
+    top: 100%;
+    transform: scale(1);
+  }
+}`
+
+const Search = styled.div`
+  display: flex;
+  padding: 0.5rem;
+  width: 440px;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  background: #fff;
+  border: 1px solid #f2f2f2;
+  border-top: none;
+  transition: all 0.2s ease;
+  &.active {
+    animation: ${inAnimation} 0.2s ease-in-out;
+    top: 100%;
+    opacity: 1;
+  }
+  &.inactive {
+    opacity: 0;
+  }
+`

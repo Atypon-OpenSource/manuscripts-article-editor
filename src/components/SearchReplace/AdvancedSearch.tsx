@@ -11,17 +11,16 @@
  */
 import {
   CloseButton,
-  ModalContainer,
   ModalHeader,
   PrimaryButton,
   SecondaryButton,
-  StyledModal,
   TextField,
   TextFieldLabel,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { SearchField } from './SearchField'
+import { DraggableModal } from './DraggableModal'
 
 export const Advanced: React.FC<{
   isOpen: boolean
@@ -29,8 +28,21 @@ export const Advanced: React.FC<{
   setNewSearchValue: (val: string) => void
   value: string
   replaceAll: () => void
-  replaceOne: (matchIndex: number) => void
-}> = ({ isOpen, handleClose, setNewSearchValue }) => (
+  replaceCurrent: () => void
+  moveNext: () => void
+  movePrev: () => void
+  setReplaceValue: (value: string) => void
+}> = ({
+  isOpen,
+  handleClose,
+  setNewSearchValue,
+  value,
+  movePrev,
+  moveNext,
+  replaceAll,
+  replaceCurrent,
+  setReplaceValue,
+}) => (
   <>
     <DraggableModal isOpen={isOpen} onRequestClose={() => handleClose()}>
       <ModalHeader>
@@ -39,120 +51,64 @@ export const Advanced: React.FC<{
           data-cy="modal-close-button"
         />
       </ModalHeader>
-      <FieldGroup>
-        <TextFieldLabel>Find</TextFieldLabel>
-        <SearchField setNewSearchValue={setNewSearchValue} />
-      </FieldGroup>
-      <FieldGroup>
-        <TextFieldLabel>Replace With</TextFieldLabel>
-        <TextField
-          onChange={(e) => {
-            setNewSearchValue(e.target.value)
-          }}
-          autoComplete="off"
-          role="searchbox"
-          spellCheck={false}
-          placeholder={'Replace with'}
-          aria-label="Replace with"
-          type={'text'}
-        />
-      </FieldGroup>
-      <div className="navigate-search">
-        <SecondaryButton onClick={() => {}}>Replace</SecondaryButton>
-        <SecondaryButton onClick={() => {}}>Replace All</SecondaryButton>
-        <PrimaryButton onClick={() => {}}>Prev</PrimaryButton>
-        <PrimaryButton onClick={() => {}}>Next</PrimaryButton>
-      </div>
+      <SearchForm>
+        <h3>Find and Replace</h3>
+
+        <FieldGroup>
+          <Label>Find</Label>
+          <SearchField value={value} setNewSearchValue={setNewSearchValue} />
+        </FieldGroup>
+        <FieldGroup>
+          <Label>Replace With</Label>
+          <TextField
+            onChange={(e) => {
+              setReplaceValue(e.target.value)
+            }}
+            autoComplete="off"
+            role="searchbox"
+            spellCheck={false}
+            placeholder={'Replace with'}
+            aria-label="Replace with"
+            type={'text'}
+          />
+        </FieldGroup>
+        <ButtonsSection>
+          <SecondaryButton onClick={() => replaceCurrent()}>
+            Replace
+          </SecondaryButton>
+          <SecondaryButton onClick={() => replaceAll()}>
+            Replace All
+          </SecondaryButton>
+          <PrimaryButton onClick={() => movePrev()}>Previous</PrimaryButton>
+          <PrimaryButton onClick={() => moveNext()}>Next</PrimaryButton>
+        </ButtonsSection>
+      </SearchForm>
     </DraggableModal>
   </>
 )
 
 const FieldGroup = styled.div`
   display: flex;
-`
-const DraggableModal: React.FC<{
-  children: React.ReactNode
-  isOpen: boolean
-  onRequestClose: () => void
-}> = ({ children, isOpen, onRequestClose }) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const [pos, setPos] = useState({ left: 0, top: 0, prevX: 0, prevY: 0 })
-  const [drag, setDrag] = useState(false)
-
-  const mouseDown = (event: React.MouseEvent) => {
-    if (
-      event.target instanceof Element &&
-      (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON')
-    ) {
-      return
-    }
-    pos.prevX = event.screenX
-    pos.prevY = event.screenY
-    setPos((state) => ({
-      ...state,
-      prevX: event.screenX,
-      prevY: event.screenY,
-    }))
-    setDrag(true)
+  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  input {
+    max-width: 330px;
   }
+`
 
-  const mouseMove = useCallback(
-    function (event: React.MouseEvent) {
-      if (!drag) {
-        return
-      }
-      let deltaX = event.screenX - pos.prevX
-      let deltaY = event.screenY - pos.prevY
-      const left = pos.left + deltaX
-      const top = pos.top + deltaY
+const Label = styled(TextFieldLabel)`
+  text-transform: none;
+`
 
-      setPos((state) => ({
-        ...state,
-        left,
-        top,
-        prevX: event.screenX,
-        prevY: event.screenY,
-      }))
-    },
-    [pos, drag]
-  )
-
-  useEffect(() => {
-    const mouseup = () => {
-      setDrag(false)
-    }
-    document.addEventListener('mouseup', mouseup)
-    return () => {
-      document.removeEventListener('mouseup', mouseup)
-    }
-  }, [])
-
-  return (
-    <StyledModal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      shouldCloseOnOverlayClick={false}
-      pointerEventsOnBackdrop="none"
-      style={{
-        content: {
-          left: pos.left + 'px',
-          top: pos.top + 'px',
-          transition: 'none',
-        },
-      }}
-    >
-      <DraggableModalContainer
-        ref={ref}
-        onMouseDown={mouseDown}
-        onMouseMove={mouseMove}
-        data-cy="find-replace-modal"
-      >
-        {children}
-      </DraggableModalContainer>
-    </StyledModal>
-  )
-}
-
-const DraggableModalContainer = styled(ModalContainer)`
-  padding: 2rem;
+const ButtonsSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  button {
+    min-width: 100px;
+  }
+`
+const SearchForm = styled.div`
+  min-width: 465px;
+  max-width: 100%;
 `
