@@ -1524,17 +1524,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.7.36":
-  version "2.7.36"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.7.36.tgz#7e3b52087b3998b7fb7cfd30596dd6abe96c23da"
-  integrity sha512-S0WF0RL9Dya1D4zgJ6KO0xRQ0nwgtjTCXcxt2uuZ6dDtmJJRRH4EmnPpKZvcwMiHtcy7Ro8Ty3wqKXcbFOBHEw==
+"@manuscripts/body-editor@2.7.37-LEAN-4309.0":
+  version "2.7.37-LEAN-4309.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.7.37-LEAN-4309.0.tgz#377df3298d211d8bf683b36a448ab954c6add1f6"
+  integrity sha512-E5GU+V9INR01q/Icz559VKtJstE3Clm8v7wAbZdfj2FceNdZcBkRm2QTFL9/nK9iIIAGAPF2kN5SqER8bvqwdw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
     "@manuscripts/style-guide" "2.0.34"
     "@manuscripts/track-changes-plugin" "1.9.4"
-    "@manuscripts/transform" "3.0.37"
+    "@manuscripts/transform" "3.0.38-LEAN-4309.2"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1648,10 +1648,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.37":
-  version "3.0.37"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.37.tgz#3221f9740bcca0f5e8b2fe72337c60a69cdbf2c9"
-  integrity sha512-Gg7wQs9VpcB9aBx7NjZ9oyKTHqsLHBVu6sJpeFRg0RLXZPE+VsowDtGxEoMG4veiz8VASJw0Hzrli9auuy/SKw==
+"@manuscripts/transform@3.0.38-LEAN-4309.2":
+  version "3.0.38-LEAN-4309.2"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.38-LEAN-4309.2.tgz#9b7d9cce35e25ab5d9102c7388dc5cdd0059061f"
+  integrity sha512-hcDm3xzwvsl+CzUsAjCdR1kyfxSc70zMV3VfL/7xpcJFiXf9zZ4g+pZ9L65m1+DLbyzypjrhuJoWEE1YDxEdbQ==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
