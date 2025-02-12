@@ -12,7 +12,6 @@
 
 import { findReplacePluginKey } from '@manuscripts/body-editor'
 import {
-  ArrowDownIcon,
   ArrowUpIcon,
   CloseButton,
   DotsIcon,
@@ -84,8 +83,10 @@ export const SearchReplace: React.FC = () => {
         matches[current].to,
         view.state.schema.text(replacement)
       )
-      tr.setMeta(findReplacePluginKey, { active: false })
       view.dispatch(tr)
+
+      // recalcing the positions, not tested
+      view.dispatch(view.state.tr.setMeta(findReplacePluginKey, { value }))
     }
     // @TODO make plugin recalculate positions of the matches and set currentMatch to be the next match from the list
   }
@@ -96,7 +97,11 @@ export const SearchReplace: React.FC = () => {
       const tr = view.state.tr
       if (matches) {
         matches.forEach(({ from, to }) => {
-          tr.replaceWith(from, to, view.state.schema.text(replacement))
+          tr.replaceWith(
+            tr.mapping.map(from),
+            tr.mapping.map(to),
+            view.state.schema.text(replacement)
+          )
         })
       }
       view.dispatch(tr)
@@ -125,12 +130,7 @@ export const SearchReplace: React.FC = () => {
   return (
     <>
       <DelayUnmount isVisible={isActive}>
-        <Search
-          // style={
-          //   isActive ? { top: '100%', opacity: 1 } : { top: '50%', opacity: 0 }
-          // }
-          className={isActive ? 'active' : 'inactive'}
-        >
+        <Search className={isActive ? 'active' : 'inactive'}>
           <SearchField value={value} setNewSearchValue={setNewSearchValue} />
           <IconButton onClick={() => setAdvanced(true)}>
             <DotsIcon />
@@ -158,6 +158,10 @@ export const SearchReplace: React.FC = () => {
     </>
   )
 }
+
+const ArrowDownIcon = styled(ArrowUpIcon)`
+  transform: scaleY(-1);
+`
 
 const inAnimation = keyframes`
   0% {
