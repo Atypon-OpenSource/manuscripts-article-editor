@@ -10,7 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { searchReplacePluginKey } from '@manuscripts/body-editor'
+import {
+  searchReplacePluginKey,
+  SearchReplacePluginState,
+} from '@manuscripts/body-editor'
 import {
   ArrowUpIcon,
   CloseButton,
@@ -18,14 +21,13 @@ import {
   IconButton,
 } from '@manuscripts/style-guide'
 import React, { useCallback, useState } from 'react'
+import styled, { keyframes } from 'styled-components'
 
 import { useStore } from '../../store'
+import { DelayUnmount } from '../DelayUnmount'
+import { Advanced } from './AdvancedSearch'
 import { getNewMatch } from './getNewMatch'
 import { SearchField } from './SearchField'
-import { Advanced } from './AdvancedSearch'
-import styled, { keyframes } from 'styled-components'
-import { DelayUnmount } from '../DelayUnmount'
-import { SearchReplacePluginState } from '@manuscripts/body-editor'
 
 export const SearchReplace: React.FC = () => {
   const [editor] = useStore((state) => state.editor)

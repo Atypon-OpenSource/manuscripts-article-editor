@@ -28,6 +28,7 @@ import styled from 'styled-components'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
 import { useStore } from '../../store'
 import { Main } from '../Page'
+import { SearchReplace } from '../SearchReplace'
 import UtilitiesEffects from '../UtilitiesEffects'
 import {
   EditorBody,
@@ -41,7 +42,6 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
-import { SearchReplace } from '../SearchReplace'
 
 const ManuscriptPageContainer: React.FC = () => {
   const [{ project, user, permittedActions }] = useStore((state) => {
