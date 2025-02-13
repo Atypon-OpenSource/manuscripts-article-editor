@@ -10,14 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { findReplacePluginKey } from '@manuscripts/body-editor'
+import { searchReplacePluginKey } from '@manuscripts/body-editor'
 import {
   ArrowUpIcon,
   CloseButton,
   DotsIcon,
   IconButton,
 } from '@manuscripts/style-guide'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { useStore } from '../../store'
 import { getNewMatch } from './getNewMatch'
@@ -25,55 +25,51 @@ import { SearchField } from './SearchField'
 import { Advanced } from './AdvancedSearch'
 import styled, { keyframes } from 'styled-components'
 import { DelayUnmount } from '../DelayUnmount'
+import { SearchReplacePluginState } from '@manuscripts/body-editor'
 
 export const SearchReplace: React.FC = () => {
   const [editor] = useStore((state) => state.editor)
-  const [advanced, setAdvanced] = useState(false)
   const [replacement, setReplacement] = useState('')
+
+  const setPluginState = useCallback(
+    function (values: Partial<SearchReplacePluginState>) {
+      const view = editor?.view
+      if (view) {
+        const tr = view.state.tr
+        tr.setMeta(searchReplacePluginKey, values)
+        view.dispatch(tr)
+      }
+    },
+    [editor?.view]
+  )
 
   if (!editor) {
     return null
   }
-  const pluginState = findReplacePluginKey.getState(editor.state)
+  const pluginState = searchReplacePluginKey.getState(editor.state)
+
   if (!pluginState) {
     return null
   }
-
+  const advanced = pluginState?.advanced
   const isActive = pluginState ? pluginState.active : false
   const current = pluginState.currentMatch
   const matches = pluginState?.matches
   const selection = editor.state.selection
   const value = pluginState?.value || ''
+  const caseSensitive = pluginState?.caseSensitive || false
+  const ignoreDiacritics = pluginState?.ignoreDiacritics || false
 
   function moveMatch(side: 'left' | 'right') {
-    const view = editor.view
-    if (view) {
-      const tr = view.state.tr
-      tr.setMeta(findReplacePluginKey, {
-        currentMatch: getNewMatch(side, current, selection, matches),
-      })
-      view.dispatch(tr)
-    }
+    setPluginState({
+      currentMatch: getNewMatch(side, current, selection, matches),
+    })
   }
+  const setAdvanced = (val: boolean) => setPluginState({ advanced: val })
+  const setNewSearchValue = (text: string) => setPluginState({ value: text })
+  const deactivate = () => setPluginState({ active: false })
 
-  const setNewSearchValue = (text: string) => {
-    const view = editor.view
-    if (view) {
-      const tr = view.state.tr
-      tr.setMeta(findReplacePluginKey, { value: text })
-      view.dispatch(tr)
-    }
-  }
-
-  const deactivate = () => {
-    const view = editor.view
-    if (view) {
-      const tr = view.state.tr
-      tr.setMeta(findReplacePluginKey, { active: false })
-      view.dispatch(tr)
-    }
-  }
-
+  // replace only currently selected match
   const replaceCurrent = () => {
     const view = editor.view
     if (view) {
@@ -84,11 +80,15 @@ export const SearchReplace: React.FC = () => {
         view.state.schema.text(replacement)
       )
       view.dispatch(tr)
-
-      // recalcing the positions, not tested
-      view.dispatch(view.state.tr.setMeta(findReplacePluginKey, { value }))
+      const newCurrent =
+        current === 0 ? -1 : matches[current + 1] ? current + 1 : 0
+      view.dispatch(
+        view.state.tr.setMeta(searchReplacePluginKey, {
+          value,
+          currentMatch: newCurrent,
+        })
+      )
     }
-    // @TODO make plugin recalculate positions of the matches and set currentMatch to be the next match from the list
   }
 
   const replaceAll = () => {
@@ -105,8 +105,7 @@ export const SearchReplace: React.FC = () => {
         })
       }
       view.dispatch(tr)
-      // recalcing the positions, not tested
-      view.dispatch(view.state.tr.setMeta(findReplacePluginKey, { value }))
+      view.dispatch(view.state.tr.setMeta(searchReplacePluginKey, { value }))
     }
   }
 
@@ -116,11 +115,15 @@ export const SearchReplace: React.FC = () => {
         isOpen={advanced}
         setNewSearchValue={setNewSearchValue}
         value={value}
+        setIgnoreDiacritics={(val) => setPluginState({ ignoreDiacritics: val })}
+        setCaseSensitive={(val) => setPluginState({ caseSensitive: val })}
         replaceAll={replaceAll}
         replaceCurrent={replaceCurrent}
         moveNext={() => moveMatch('right')}
         movePrev={() => moveMatch('left')}
         setReplaceValue={setReplacement}
+        ignoreDiacritics={ignoreDiacritics}
+        caseSensitive={caseSensitive}
         handleClose={() => {
           setAdvanced(false)
           deactivate()

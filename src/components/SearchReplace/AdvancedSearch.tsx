@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  CheckboxField,
+  CheckboxLabel,
   CloseButton,
   ModalHeader,
   PrimaryButton,
@@ -34,6 +36,10 @@ export const Advanced: React.FC<{
   setReplaceValue: (value: string) => void
   current: number
   total: number
+  caseSensitive: boolean
+  ignoreDiacritics: boolean
+  setCaseSensitive: (val: boolean) => void
+  setIgnoreDiacritics: (val: boolean) => void
 }> = ({
   isOpen,
   handleClose,
@@ -46,6 +52,10 @@ export const Advanced: React.FC<{
   setReplaceValue,
   total,
   current,
+  caseSensitive,
+  setCaseSensitive,
+  ignoreDiacritics,
+  setIgnoreDiacritics,
 }) => (
   <>
     <DraggableModal isOpen={isOpen} onRequestClose={() => handleClose()}>
@@ -80,6 +90,28 @@ export const Advanced: React.FC<{
             type={'text'}
           />
         </FieldGroup>
+        <OptionsGroup>
+          <CheckBoxGroup>
+            <CheckboxField
+              id="caseSensitive"
+              checked={caseSensitive}
+              onChange={(e) => setCaseSensitive(e.target.checked)}
+            />
+            <CheckBoxLabelSpaced htmlFor="caseSensitive">
+              Match case
+            </CheckBoxLabelSpaced>
+          </CheckBoxGroup>
+          <CheckBoxGroup>
+            <CheckboxField
+              id="ignoreDiacritics"
+              checked={ignoreDiacritics}
+              onChange={(e) => setIgnoreDiacritics(e.target.checked)}
+            />
+            <CheckBoxLabelSpaced htmlFor="ignoreDiacritics">
+              Ignore diacritics (e.g. ä = a, E = É, אַ = א)
+            </CheckBoxLabelSpaced>
+          </CheckBoxGroup>
+        </OptionsGroup>
         <ButtonsSection>
           <SecondaryButton onClick={() => replaceCurrent()}>
             Replace
@@ -94,6 +126,21 @@ export const Advanced: React.FC<{
     </DraggableModal>
   </>
 )
+
+const CheckBoxLabelSpaced = styled(CheckboxLabel)`
+  margin-left: 0.5rem;
+`
+
+const CheckBoxGroup = styled.div`
+  margin: 0.5rem 0;
+`
+
+const OptionsGroup = styled.div`
+  display: flex;
+  flex-flow: column;
+  max-width: 350px;
+  margin: 0.5rem 0 2.5rem auto;
+`
 
 const FieldGroup = styled.div`
   display: flex;
