@@ -105,6 +105,8 @@ export const SearchReplace: React.FC = () => {
         })
       }
       view.dispatch(tr)
+      // recalcing the positions, not tested
+      view.dispatch(view.state.tr.setMeta(findReplacePluginKey, { value }))
     }
   }
 
@@ -123,6 +125,8 @@ export const SearchReplace: React.FC = () => {
           setAdvanced(false)
           deactivate()
         }}
+        current={current}
+        total={matches.length}
       />
     )
   }
@@ -131,7 +135,12 @@ export const SearchReplace: React.FC = () => {
     <>
       <DelayUnmount isVisible={isActive}>
         <Search className={isActive ? 'active' : 'inactive'}>
-          <SearchField value={value} setNewSearchValue={setNewSearchValue} />
+          <SearchField
+            value={value}
+            current={current}
+            total={matches.length}
+            setNewSearchValue={setNewSearchValue}
+          />
           <IconButton onClick={() => setAdvanced(true)}>
             <DotsIcon />
           </IconButton>
@@ -139,18 +148,10 @@ export const SearchReplace: React.FC = () => {
             onClick={() => deactivate()}
             data-cy="modal-close-button"
           />
-          <IconButton
-            onClick={() => {
-              moveMatch('left')
-            }}
-          >
+          <IconButton onClick={() => moveMatch('left')}>
             <ArrowUpIcon />
           </IconButton>
-          <IconButton
-            onClick={() => {
-              moveMatch('right')
-            }}
-          >
+          <IconButton onClick={() => moveMatch('right')}>
             <ArrowDownIcon />
           </IconButton>
         </Search>

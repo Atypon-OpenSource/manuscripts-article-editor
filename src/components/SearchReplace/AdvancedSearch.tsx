@@ -32,6 +32,8 @@ export const Advanced: React.FC<{
   moveNext: () => void
   movePrev: () => void
   setReplaceValue: (value: string) => void
+  current: number
+  total: number
 }> = ({
   isOpen,
   handleClose,
@@ -42,6 +44,8 @@ export const Advanced: React.FC<{
   replaceAll,
   replaceCurrent,
   setReplaceValue,
+  total,
+  current,
 }) => (
   <>
     <DraggableModal isOpen={isOpen} onRequestClose={() => handleClose()}>
@@ -53,10 +57,14 @@ export const Advanced: React.FC<{
       </ModalHeader>
       <SearchForm>
         <h3>Find and Replace</h3>
-
         <FieldGroup>
           <Label>Find</Label>
-          <SearchField value={value} setNewSearchValue={setNewSearchValue} />
+          <SearchField
+            value={value}
+            total={total}
+            current={current}
+            setNewSearchValue={setNewSearchValue}
+          />
         </FieldGroup>
         <FieldGroup>
           <Label>Replace With</Label>
@@ -92,8 +100,8 @@ const FieldGroup = styled.div`
   margin-bottom: 2rem;
   align-items: center;
   justify-content: space-between;
-  input {
-    max-width: 330px;
+  & > input {
+    max-width: 350px;
   }
 `
 
