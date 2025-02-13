@@ -51,7 +51,7 @@ export const SearchReplace: React.FC = () => {
   if (!pluginState) {
     return null
   }
-  const advanced = pluginState?.advanced
+  const advanced = pluginState?.activeAdvanced
   const isActive = pluginState ? pluginState.active : false
   const current = pluginState.currentMatch
   const matches = pluginState?.matches
@@ -65,7 +65,7 @@ export const SearchReplace: React.FC = () => {
       currentMatch: getNewMatch(side, current, selection, matches),
     })
   }
-  const setAdvanced = (val: boolean) => setPluginState({ advanced: val })
+  const setAdvanced = (val: boolean) => setPluginState({ activeAdvanced: val })
   const setNewSearchValue = (text: string) => setPluginState({ value: text })
   const deactivate = () => setPluginState({ active: false })
 

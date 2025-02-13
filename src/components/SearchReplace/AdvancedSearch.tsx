@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  DraggableModal,
   CheckboxField,
   CheckboxLabel,
   CloseButton,
@@ -22,7 +23,6 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 import { SearchField } from './SearchField'
-import { DraggableModal } from './DraggableModal'
 
 export const Advanced: React.FC<{
   isOpen: boolean
