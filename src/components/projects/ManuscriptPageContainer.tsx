@@ -28,6 +28,7 @@ import styled from 'styled-components'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
 import { useStore } from '../../store'
 import { Main } from '../Page'
+import { SearchReplace } from '../SearchReplace'
 import UtilitiesEffects from '../UtilitiesEffects'
 import {
   EditorBody,
@@ -82,6 +83,7 @@ const ManuscriptPageView: React.FC = () => {
                   <ManuscriptMenusContainerInner>
                     <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
+
                   {!can.editWithoutTracking && (
                     <>
                       <Label>Show tracked changes</Label>
@@ -95,6 +97,7 @@ const ManuscriptPageView: React.FC = () => {
                   )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
+                <SearchReplace />
               </EditorHeader>
               <EditorBody className="editor-body">
                 <TrackChangesStyles>

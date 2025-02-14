@@ -123,7 +123,7 @@ export const ManuscriptToolbar: React.FC = () => {
   }
 
   return (
-    <ToolbarContainer data-cy={'toolbar'}>
+    <ToolbarContainer data-cy="toolbar">
       <ToolbarGroup>
         <LevelSelector state={state} dispatch={view.dispatch} view={view} />
       </ToolbarGroup>
