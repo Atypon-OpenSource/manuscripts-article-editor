@@ -51,7 +51,7 @@ export const SearchReplace: React.FC = () => {
       setPluginState({ value: newSearchValue })
     }, 400)
     return () => clearTimeout(timeout)
-  }, [newSearchValue])
+  }, [newSearchValue, setPluginState])
 
   if (!editor) {
     return null
