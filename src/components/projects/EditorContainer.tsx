@@ -40,6 +40,7 @@ export const EditorContainerInner = styled.div`
 export const EditorHeader = styled.div`
   background: ${(props) => props.theme.colors.background.primary};
   z-index: 6;
+  position: relative;
   border-bottom: 1px solid #f2f2f2;
 `
 
