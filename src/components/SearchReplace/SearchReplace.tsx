@@ -20,7 +20,7 @@ import {
   DotsIcon,
   IconButton,
 } from '@manuscripts/style-guide'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { useStore } from '../../store'
@@ -45,6 +45,14 @@ export const SearchReplace: React.FC = () => {
     [editor?.view]
   )
 
+  const [newSearchValue, setNewSearchValue] = useState('')
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setPluginState({ value: newSearchValue })
+    }, 400)
+    return () => clearTimeout(timeout)
+  }, [newSearchValue])
+
   if (!editor) {
     return null
   }
@@ -68,7 +76,7 @@ export const SearchReplace: React.FC = () => {
     })
   }
   const setAdvanced = (val: boolean) => setPluginState({ activeAdvanced: val })
-  const setNewSearchValue = (text: string) => setPluginState({ value: text })
+
   const deactivate = () => setPluginState({ active: false })
 
   // replace only currently selected match
@@ -116,7 +124,7 @@ export const SearchReplace: React.FC = () => {
       <Advanced
         isOpen={advanced}
         setNewSearchValue={setNewSearchValue}
-        value={value}
+        value={newSearchValue}
         setIgnoreDiacritics={(val) => setPluginState({ ignoreDiacritics: val })}
         setCaseSensitive={(val) => setPluginState({ caseSensitive: val })}
         replaceAll={replaceAll}
@@ -141,7 +149,7 @@ export const SearchReplace: React.FC = () => {
       <DelayUnmount isVisible={isActive}>
         <Search className={isActive ? 'active' : 'inactive'}>
           <SearchField
-            value={value}
+            value={newSearchValue}
             current={current}
             total={matches.length}
             setNewSearchValue={setNewSearchValue}
