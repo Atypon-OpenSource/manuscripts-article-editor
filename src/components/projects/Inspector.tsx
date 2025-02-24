@@ -10,11 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { InspectorPrimaryTabs } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
 import { getConfig } from '../../config'
+import { InspectorPrimaryTabs } from '../../hooks/use-inspector-tabs-context'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import { FileManager } from '../FileManager/FileManager'
