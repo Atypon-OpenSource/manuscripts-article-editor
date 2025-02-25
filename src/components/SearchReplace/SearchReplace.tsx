@@ -89,13 +89,13 @@ export const SearchReplace: React.FC = () => {
         matches[current].to,
         view.state.schema.text(replacement)
       )
-      console.log('Running update')
       view.dispatch(tr)
       /* since replacing current match of search will shorten the list by one, the next item will be located
         at the same index as the current, however we still need to check if there is actually a next item (current + 1) which would guarantee
         that 'current' will be valid once current 'current' is replaced and excluded from the matches list.
       */
-      const newCurrent = current === 0 ? -1 : matches[current + 1] ? current : 0
+      const newCurrent =
+        matches.length <= 1 ? -1 : matches[current + 1] ? current : 0
       view.dispatch(
         view.state.tr.setMeta(searchReplacePluginKey, {
           value,
