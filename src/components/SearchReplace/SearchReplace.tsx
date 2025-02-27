@@ -11,7 +11,6 @@
  */
 
 import {
-  getClosestMatch,
   getNewMatch,
   searchReplacePluginKey,
   SearchReplacePluginState,

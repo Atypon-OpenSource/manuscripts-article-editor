@@ -74,7 +74,6 @@ export const Advanced: React.FC<{
           <Label>Find</Label>
           <SearchField
             value={value}
-            onInputBlur={() => onInputBlur()}
             onInputFocus={() => onInputFocus()}
             total={total}
             current={current}

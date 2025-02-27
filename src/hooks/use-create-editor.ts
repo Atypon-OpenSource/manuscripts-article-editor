@@ -20,6 +20,7 @@ import { StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
+import { useInspectorTabsContext } from './use-inspector-tabs-context'
 
 export const useCreateEditor = () => {
   const [
@@ -82,6 +83,8 @@ export const useCreateEditor = () => {
   )
   const config = getConfig()
 
+  const onEditorClick = useInspectorTabsContext()
+
   const props = {
     attributes: {
       class: 'manuscript-editor',
@@ -100,6 +103,7 @@ export const useCreateEditor = () => {
     },
     theme,
     projectID: projectID,
+    onEditorClick,
     getCurrentUser: () => user,
     getCapabilities: () => {
       const state = getState()
