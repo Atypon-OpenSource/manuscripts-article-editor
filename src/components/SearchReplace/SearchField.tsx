@@ -11,7 +11,7 @@
  */
 
 import { TextField } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 export const SearchField: React.FC<{
@@ -19,7 +19,14 @@ export const SearchField: React.FC<{
   value: string
   current: number
   total: number
-}> = ({ setNewSearchValue, value, current, total }) => {
+  onInputFocus: () => void
+}> = ({ setNewSearchValue, value, current, total, onInputFocus }) => {
+  const input = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    input.current?.focus()
+  }, [])
+
   return (
     <FieldWrapper>
       <TextField
@@ -32,7 +39,9 @@ export const SearchField: React.FC<{
         spellCheck={false}
         placeholder={'Find in document'}
         aria-label="Find in document"
+        onFocus={() => onInputFocus()}
         type="text"
+        ref={input}
       />
       {value && (
         <Counter>

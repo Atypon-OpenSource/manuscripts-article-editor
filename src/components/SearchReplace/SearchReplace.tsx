@@ -11,6 +11,8 @@
  */
 
 import {
+  getClosestMatch,
+  getNewMatch,
   searchReplacePluginKey,
   SearchReplacePluginState,
 } from '@manuscripts/body-editor'
@@ -26,7 +28,6 @@ import styled, { keyframes } from 'styled-components'
 import { useStore } from '../../store'
 import { DelayUnmount } from '../DelayUnmount'
 import { Advanced } from './AdvancedSearch'
-import { getNewMatch } from './getNewMatch'
 import { SearchField } from './SearchField'
 
 export const SearchReplace: React.FC = () => {
@@ -46,6 +47,7 @@ export const SearchReplace: React.FC = () => {
   )
 
   const [newSearchValue, setNewSearchValue] = useState('')
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setPluginState({ value: newSearchValue })
@@ -71,12 +73,14 @@ export const SearchReplace: React.FC = () => {
   const ignoreDiacritics = pluginState?.ignoreDiacritics || false
 
   function moveMatch(side: 'left' | 'right') {
+    const newMatch = getNewMatch(side, current, selection, matches)
     setPluginState({
-      currentMatch: getNewMatch(side, current, selection, matches),
+      currentMatch: newMatch,
+      highlightCurrent: true,
     })
   }
-  const setAdvanced = (val: boolean) => setPluginState({ activeAdvanced: val })
 
+  const setAdvanced = (val: boolean) => setPluginState({ activeAdvanced: val })
   const deactivate = () => setPluginState({ active: false })
 
   // replace only currently selected match
@@ -90,7 +94,8 @@ export const SearchReplace: React.FC = () => {
         view.state.schema.text(replacement)
       )
       view.dispatch(tr)
-      /* since replacing current match of search will shorten the list by one, the next item will be located
+      /*
+        since replacing current match of search will shorten the list by one, the next item will be located
         at the same index as the current, however we still need to check if there is actually a next item (current + 1) which would guarantee
         that 'current' will be valid once current 'current' is replaced and excluded from the matches list.
       */
@@ -100,6 +105,7 @@ export const SearchReplace: React.FC = () => {
         view.state.tr.setMeta(searchReplacePluginKey, {
           value,
           currentMatch: newCurrent,
+          highlightCurrent: true,
         })
       )
     }
@@ -118,6 +124,7 @@ export const SearchReplace: React.FC = () => {
           )
         })
       }
+      tr.setMeta('massSearchReplace', true) // needed to make tc-plugin not to freak out about a large amount of steps
       view.dispatch(tr)
       view.dispatch(view.state.tr.setMeta(searchReplacePluginKey, { value }))
     }
@@ -144,6 +151,11 @@ export const SearchReplace: React.FC = () => {
         }}
         current={current}
         total={matches.length}
+        onInputFocus={() => {
+          setPluginState({
+            highlightCurrent: true,
+          })
+        }}
       />
     )
   }
@@ -155,6 +167,11 @@ export const SearchReplace: React.FC = () => {
           <SearchField
             value={newSearchValue}
             current={current}
+            onInputFocus={() => {
+              setPluginState({
+                highlightCurrent: true,
+              })
+            }}
             total={matches.length}
             setNewSearchValue={setNewSearchValue}
           />

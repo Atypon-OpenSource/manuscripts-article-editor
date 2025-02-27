@@ -41,6 +41,7 @@ export const Advanced: React.FC<{
   ignoreDiacritics: boolean
   setCaseSensitive: (val: boolean) => void
   setIgnoreDiacritics: (val: boolean) => void
+  onInputFocus: () => void
 }> = ({
   isOpen,
   handleClose,
@@ -57,6 +58,8 @@ export const Advanced: React.FC<{
   setCaseSensitive,
   ignoreDiacritics,
   setIgnoreDiacritics,
+  onInputBlur,
+  onInputFocus,
 }) => (
   <>
     <DraggableModal isOpen={isOpen} onRequestClose={() => handleClose()}>
@@ -72,6 +75,8 @@ export const Advanced: React.FC<{
           <Label>Find</Label>
           <SearchField
             value={value}
+            onInputBlur={() => onInputBlur()}
+            onInputFocus={() => onInputFocus()}
             total={total}
             current={current}
             setNewSearchValue={setNewSearchValue}
