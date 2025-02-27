@@ -58,7 +58,6 @@ export const Advanced: React.FC<{
   setCaseSensitive,
   ignoreDiacritics,
   setIgnoreDiacritics,
-  onInputBlur,
   onInputFocus,
 }) => (
   <>
