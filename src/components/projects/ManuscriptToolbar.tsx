@@ -79,7 +79,7 @@ export const ToolbarContainer = styled.div`
 export const ToolbarGroup = styled.div`
   display: flex;
   white-space: nowrap;
-  
+
   & ${ToolbarItem} button {
     margin-right: 0;
   }
