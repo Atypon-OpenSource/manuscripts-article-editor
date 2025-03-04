@@ -1524,16 +1524,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.7.58-LEAN-4278.0":
-  version "2.7.58-LEAN-4278.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.7.58-LEAN-4278.0.tgz#a756e6f0bf754b0d1b58c269f637c786dcfe6ceb"
-  integrity sha512-jpzbyzOEo7uQdZTOqNHwuQZRrnm95HJYAF8Mm+jICLpgmvQbFLW5Ke+5OuDCF+Pc+mnQrJI+tmLmltl+Bb72tg==
+"@manuscripts/body-editor@2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.0.tgz#13764979bfb1189bbcada6b373b6dd1c15a6ab31"
+  integrity sha512-FalsQGs50QKTN3MMH/hn0TwjPaG4IC1mJhlCF58b+VZSe218mP8aLZU+lk6Qu/AHCc70dFHrE6gV04mgGBfNqA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
-    "@manuscripts/style-guide" "2.0.35"
-    "@manuscripts/track-changes-plugin" "1.9.4"
+    "@manuscripts/style-guide" "2.1.0"
+    "@manuscripts/track-changes-plugin" "1.10.0"
     "@manuscripts/transform" "3.0.45"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
@@ -1602,10 +1602,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.0.35":
-  version "2.0.35"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.0.35.tgz#c0668e7724987122cdc5e6fac350f28d65f50fc1"
-  integrity sha512-p8V22bX09DYlEcKZwg6U6bhFofMlowBSg/gH2CfFPypLMqb+DXNBg65pJuiHbBunJceo4Ef+1ocwD7FQ/F9T1w==
+"@manuscripts/style-guide@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.0.tgz#85390865c36649d59359b5dc4a0a207506dfeb75"
+  integrity sha512-DMfDgYy2Ouu2DN89YnE29h0jjoCx7jOSECffFUZc/dB3y3Dc0SfNEg19HrtK3wbmkAA8Cgms+vntp0EdoNq+SQ==
   dependencies:
     "@headlessui/react" "^2.1.10"
     "@manuscripts/json-schema" "2.2.11"
@@ -1632,10 +1632,10 @@
     react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.9.4":
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.9.4.tgz#f74137a0f6e26d20aa15bce744ca84301cefe7a1"
-  integrity sha512-eF4XqCWPFAeCsD3nEqm3sZ+5IsHIChZzQ+delDJ0npsbjhzGb8npNB9Z1YXH954yMloYAmk5UVylRZ54+3AsAg==
+"@manuscripts/track-changes-plugin@1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.0.tgz#6d01e7cc4ac2db3f0fa5c475016201fff40ea802"
+  integrity sha512-CMaPcP1AreXR4YQYRxTexoCKnDUiHuFCfmqs7ZCBO8HME3hPlDha+hAIpCNjaYhyt1SkKznV+mYweA/ZJ/0EcA==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
