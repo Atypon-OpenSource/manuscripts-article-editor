@@ -11,9 +11,9 @@
  */
 
 import {
-  LevelSelector,
   toolbar,
   ToolbarButtonConfig,
+  TypeSelector,
 } from '@manuscripts/body-editor'
 import { Tooltip, usePermissions } from '@manuscripts/style-guide'
 import { EditorState } from 'prosemirror-state'
@@ -124,9 +124,9 @@ export const ManuscriptToolbar: React.FC = () => {
   }
 
   return (
-    <ToolbarContainer data-cy={'toolbar'}>
+    <ToolbarContainer data-cy="toolbar">
       <ToolbarGroup>
-        <LevelSelector state={state} dispatch={view.dispatch} view={view} />
+        <TypeSelector state={state} dispatch={view.dispatch} view={view} />
       </ToolbarGroup>
 
       {Object.entries(toolbar).map(([groupKey, group]) => (
