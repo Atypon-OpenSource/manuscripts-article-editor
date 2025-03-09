@@ -43,6 +43,7 @@ const ToolbarButton = styled.button.attrs({
   display: inline-flex;
   align-items: center;
   transition: 0.2s all;
+  height: 32px;
 
   &:hover {
     background: ${(props) =>
