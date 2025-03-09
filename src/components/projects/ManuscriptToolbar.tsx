@@ -82,6 +82,7 @@ export const ToolbarGroup = styled.div`
 
   & ${ToolbarItem} button {
     margin-right: 0;
+    max-height: 32px;
   }
 
   & ${ToolbarItem}:not(:first-of-type) button {
