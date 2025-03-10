@@ -25,6 +25,7 @@ export enum FileSectionAlertType {
   UPLOAD_IN_PROGRESS,
   UPLOAD_SUCCESSFUL,
   MOVE_SUCCESSFUL,
+  REPLACE_SUCCESSFUL,
 }
 
 export const FileSectionAlert: React.FC<{
@@ -40,6 +41,9 @@ export const FileSectionAlert: React.FC<{
       )}
       {alert.type === FileSectionAlertType.MOVE_SUCCESSFUL && (
         <FileMoveSuccessful name={alert.message} />
+      )}
+      {alert.type === FileSectionAlertType.REPLACE_SUCCESSFUL && (
+        <FileReplaceSuccessful name={alert.message} />
       )}
     </>
   )
@@ -88,6 +92,24 @@ const FileMoveSuccessful: React.FC<{
         }}
       >
         File moved to {name}
+      </AlertMessage>
+    </AlertMessageContainer>
+  )
+}
+
+const FileReplaceSuccessful: React.FC<{
+  name: string
+}> = ({ name }) => {
+  return (
+    <AlertMessageContainer>
+      <AlertMessage
+        type={AlertMessageType.success}
+        hideCloseButton={true}
+        dismissButton={{
+          text: 'OK',
+        }}
+      >
+        File replaced with {name} successfully
       </AlertMessage>
     </AlertMessageContainer>
   )

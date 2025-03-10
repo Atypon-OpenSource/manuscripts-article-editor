@@ -12,6 +12,8 @@
 import { insertSupplement, NodeFile } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
+import { schema } from '@manuscripts/transform'
+import { findChildrenByType } from 'prosemirror-utils'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
@@ -88,9 +90,31 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     })
   }
 
+  const handleUseAsMain = async (supplement: NodeFile) => {
+    const mainDocument = findChildrenByType(
+      view.state.doc,
+      schema.nodes.attachment
+    )[0]
+    const tr = view.state.tr
+    const from = supplement.pos
+    const to = from + supplement.node.nodeSize
+    tr.setNodeAttribute(mainDocument.pos, 'href', supplement.file.id)
+    tr.delete(from, to)
+    view.dispatch(skipTracking(tr))
+    setAlert({
+      type: FileSectionAlertType.MOVE_SUCCESSFUL,
+      message: FileSectionType.MainFile,
+    })
+  }
+
   return (
     <>
-      {can?.uploadFile && <FileUploader onUpload={handleUpload} />}
+      {can?.uploadFile && (
+        <FileUploader
+          onUpload={handleUpload}
+          placeholder="Drag or click to upload a new file"
+        />
+      )}
       <FileSectionAlert alert={alert} />
       {supplements.map((supplement) => (
         <SupplementFile
@@ -99,6 +123,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
           onDownload={() => fileManagement.download(supplement.file)}
           onReplace={async (f) => await handleReplace(supplement, f)}
           onDetach={() => handleMoveToOtherFiles(supplement)}
+          onUseAsMain={() => handleUseAsMain(supplement)}
         />
       ))}
     </>
@@ -110,7 +135,8 @@ const SupplementFile: React.FC<{
   onDownload: () => void
   onReplace: Replace
   onDetach: () => void
-}> = ({ supplement, onDownload, onReplace, onDetach }) => {
+  onUseAsMain: () => Promise<void>
+}> = ({ supplement, onDownload, onReplace, onDetach, onUseAsMain }) => {
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {
@@ -152,6 +178,7 @@ const SupplementFile: React.FC<{
               }
             : undefined
         }
+        onUseAsMain={onUseAsMain}
       />
     </FileContainer>
   )
