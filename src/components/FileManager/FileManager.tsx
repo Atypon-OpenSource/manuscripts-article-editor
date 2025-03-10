@@ -60,7 +60,7 @@ export const FileManager: React.FC = () => {
     inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
-  const { figures, supplements, others, mainFile } = groupFiles(doc, files)
+  const { figures, supplements, others, mainDocument } = groupFiles(doc, files)
 
   return (
     <InspectorTabs
@@ -104,7 +104,7 @@ export const FileManager: React.FC = () => {
           <InlineFilesSection elements={figures} />
         </InspectorTabPanel>
         <InspectorTabPanel data-cy="main">
-          <MainFilesSection mainDocument={mainFile[0]} />
+          <MainFilesSection mainDocument={mainDocument[0]} />
         </InspectorTabPanel>
         <InspectorTabPanel data-cy="supplements">
           <SupplementsSection supplements={supplements} />
