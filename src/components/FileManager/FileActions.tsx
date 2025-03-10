@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  AttentionOrangeIcon,
   Category,
   Dialog,
   DotsIcon,
@@ -31,19 +32,35 @@ export const FileActions: React.FC<{
   onDownload?: () => void
   onReplace?: Replace
   onDetach?: () => void
+  onUseAsMain?: () => void
   move?: Move
   className?: string
-}> = ({ sectionType, onDownload, onReplace, onDetach, move, className }) => {
+}> = ({
+  sectionType,
+  onDownload,
+  onReplace,
+  onDetach,
+  onUseAsMain,
+  move,
+  className,
+}) => {
   const can = usePermissions()
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const [isMoveDialogOpen, setMoveDialogOpen] = useState<boolean>(false)
+  const [isUseAsMainDialogOpen, setUseAsMainDialogOpen] =
+    useState<boolean>(false)
 
   const showDownload = can?.downloadFiles && onDownload
   const showReplace = can?.replaceFile && onReplace
   const showDetach = can?.detachFile && onDetach
   const showMove = can?.moveFile && move
+  const showUseAsMain =
+    onUseAsMain &&
+    (sectionType === FileSectionType.OtherFile ||
+      sectionType === FileSectionType.Supplements)
 
-  const show = showDownload || showReplace || showDetach || showMove
+  const show =
+    showDownload || showReplace || showDetach || showMove || showUseAsMain
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -105,6 +122,11 @@ export const FileActions: React.FC<{
               Move to {move.sectionType}
             </FileAction>
           )}
+          {showUseAsMain && (
+            <FileAction onClick={() => setUseAsMainDialogOpen(true)}>
+              Use as main document
+            </FileAction>
+          )}
         </FileActionDropdownList>
       )}
       {showMove && (
@@ -117,7 +139,60 @@ export const FileActions: React.FC<{
           handleMove={move.handler}
         />
       )}
+      {showUseAsMain && (
+        <UseAsMainConfirmationDialog
+          data-cy="file-use-as-main-confirm-dialog"
+          isOpen={isUseAsMainDialogOpen}
+          close={() => setUseAsMainDialogOpen(false)}
+          handleUseAsMain={onUseAsMain}
+        />
+      )}
     </DropdownContainer>
+  )
+}
+
+const UseAsMainConfirmationDialog: React.FC<{
+  isOpen: boolean
+  close: () => void
+  handleUseAsMain: () => void
+}> = ({ isOpen, close, handleUseAsMain }) => {
+  const header = (
+    <>
+      <StyledIcon />
+      Use as main document
+    </>
+  )
+  const message = (
+    <>
+      This action will replace the current main document file with this one!
+      <br />
+      <br />
+      Do you want to continue?
+    </>
+  )
+
+  const handleConfirm = () => {
+    handleUseAsMain()
+    close()
+  }
+
+  return (
+    <Dialog
+      isOpen={isOpen}
+      category={Category.confirmation}
+      header={header}
+      message={message}
+      actions={{
+        primary: {
+          action: handleConfirm,
+          title: 'Replace',
+        },
+        secondary: {
+          action: () => close(),
+          title: 'Cancel',
+        },
+      }}
+    />
   )
 }
 
@@ -155,6 +230,10 @@ const MoveFileConfirmationDialog: React.FC<{
     />
   )
 }
+
+const StyledIcon = styled(AttentionOrangeIcon)`
+  margin-right: 8px;
+`
 
 export const ActionsIcon = styled.button`
   border: none;
