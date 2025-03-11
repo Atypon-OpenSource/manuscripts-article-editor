@@ -9,11 +9,13 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { insertSupplement, NodeFile } from '@manuscripts/body-editor'
+import {
+  insertAttachment,
+  insertSupplement,
+  NodeFile,
+} from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
-import { schema } from '@manuscripts/transform'
-import { findChildrenByType } from 'prosemirror-utils'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
@@ -91,16 +93,13 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   }
 
   const handleUseAsMain = async (supplement: NodeFile) => {
-    const mainDocument = findChildrenByType(
-      view.state.doc,
-      schema.nodes.attachment
-    )[0]
     const tr = view.state.tr
     const from = supplement.pos
     const to = from + supplement.node.nodeSize
-    tr.setNodeAttribute(mainDocument.pos, 'href', supplement.file.id)
     tr.delete(from, to)
     view.dispatch(skipTracking(tr))
+    insertAttachment(supplement.file, view.state, 'document', view.dispatch)
+
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.MainFile,
@@ -179,6 +178,7 @@ const SupplementFile: React.FC<{
             : undefined
         }
         onUseAsMain={onUseAsMain}
+        file={supplement.file}
       />
     </FileContainer>
   )

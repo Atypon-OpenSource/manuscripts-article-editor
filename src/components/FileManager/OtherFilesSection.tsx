@@ -9,11 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileAttachment, insertSupplement } from '@manuscripts/body-editor'
+import {
+  FileAttachment,
+  insertAttachment,
+  insertSupplement,
+} from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
-import { skipTracking } from '@manuscripts/track-changes-plugin'
-import { schema } from '@manuscripts/transform'
-import { findChildrenByType } from 'prosemirror-utils'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
@@ -70,13 +71,7 @@ export const OtherFilesSection: React.FC<{
   }
 
   const asMainDocument = async (file: FileAttachment) => {
-    const mainDocument = findChildrenByType(
-      view.state.doc,
-      schema.nodes.attachment
-    )[0]
-    const tr = view.state.tr
-    tr.setNodeAttribute(mainDocument.pos, 'href', file.id)
-    view.dispatch(skipTracking(tr))
+    insertAttachment(file, view.state, 'document', view.dispatch)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.MainFile,
@@ -142,6 +137,7 @@ const OtherFile: React.FC<{
           sectionType: FileSectionType.Supplements,
           handler: onMoveToSupplements,
         }}
+        file={file}
       />
     </FileContainer>
   )

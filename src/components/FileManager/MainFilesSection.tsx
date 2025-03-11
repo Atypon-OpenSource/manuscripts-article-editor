@@ -149,6 +149,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
               sectionType: FileSectionType.OtherFile,
               handler: () => handleMove(mainDocument),
             }}
+            file={mainDocument.file}
           />
         </MainDocumentContainer>
       ) : (
@@ -173,9 +174,12 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
             action: async () => {
               if (fileToUpload) {
                 const uploaded = await fileManagement.upload(fileToUpload)
-                const tr = view.state.tr
-                tr.setNodeAttribute(mainDocument.pos, 'href', uploaded.id)
-                view.dispatch(skipTracking(tr))
+                insertAttachment(
+                  uploaded,
+                  view.state,
+                  'document',
+                  view.dispatch
+                )
               }
               setConfirmDialogOpen(false)
               setAlert({

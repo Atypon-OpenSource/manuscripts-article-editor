@@ -9,6 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { FileAttachment } from '@manuscripts/body-editor'
 import {
   AttentionOrangeIcon,
   Category,
@@ -35,6 +36,7 @@ export const FileActions: React.FC<{
   onUseAsMain?: () => void
   move?: Move
   className?: string
+  file?: FileAttachment
 }> = ({
   sectionType,
   onDownload,
@@ -43,6 +45,7 @@ export const FileActions: React.FC<{
   onUseAsMain,
   move,
   className,
+  file,
 }) => {
   const can = usePermissions()
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
@@ -55,9 +58,7 @@ export const FileActions: React.FC<{
   const showDetach = can?.detachFile && onDetach
   const showMove = can?.moveFile && move
   const showUseAsMain =
-    onUseAsMain &&
-    (sectionType === FileSectionType.OtherFile ||
-      sectionType === FileSectionType.Supplements)
+    can?.moveFile && onUseAsMain && isValidMainDocumentFormat(file)
 
   const show =
     showDownload || showReplace || showDetach || showMove || showUseAsMain
@@ -272,3 +273,15 @@ export const FileAction = styled.div`
     background: #f2fbfc;
   }
 `
+
+const isValidMainDocumentFormat = (file?: FileAttachment): boolean => {
+  if (!file) {
+    return false
+  }
+
+  const validExtensions = ['.docx', '.doc', '.pdf', '.xml']
+
+  return validExtensions.some((ext) =>
+    file.name.toLowerCase().endsWith(ext.toLowerCase())
+  )
+}
