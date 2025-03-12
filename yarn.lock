@@ -1589,10 +1589,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.8-LEAN-4411.1":
-  version "2.8.8-LEAN-4411.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.8-LEAN-4411.1.tgz#1f8d03d75612b5e70d079d75475a5b0e66493af6"
-  integrity sha512-TPPoFjC8e8uIcpurPhP6TYRyr/w+UZNGF7gvo4wyZe3b3bdjqJYNCX+SeppFFsq2apaujW0omh5248C5LWU7Lw==
+"@manuscripts/body-editor@2.8.8-LEAN-4411.3":
+  version "2.8.8-LEAN-4411.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.8-LEAN-4411.3.tgz#b3b987f4a0a667c9f71ea0664723f974465823ea"
+  integrity sha512-G8xWXmKEZ9inU3uoP3bRAhb4pRmF/1HM5QYBI4UHR4YEY1fTGHwvEjfDNHOLjndGGbBJxz/0TLk39fCEjwstXw==
   dependencies:
     "@citation-js/core" "^0.7.18"
     "@citation-js/plugin-bibtex" "^0.7.18"
