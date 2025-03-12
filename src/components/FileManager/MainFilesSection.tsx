@@ -92,7 +92,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     }
   }
   if (!view) {
-    return
+    return null
   }
 
   const uploadFile = async (file: File) => {
