@@ -168,7 +168,15 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
         isOpen={isConfirmDialogOpen}
         category={Category.confirmation}
         header="Replace Main Document"
-        message={`This action will replace the current main document file with this one! </br> </br> Do you want to continue?`}
+        message={
+          <>
+            This action will replace the current main document file with this
+            one!
+            <br />
+            <br />
+            Do you want to continue?
+          </>
+        }
         actions={{
           primary: {
             action: async () => {
