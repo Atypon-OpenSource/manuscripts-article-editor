@@ -15,11 +15,11 @@ import React from 'react'
 
 import { useStore } from '../../store'
 import {
-  InspectorTab,
   InspectorTabList,
   InspectorTabPanel,
   InspectorTabPanels,
   InspectorTabs,
+  SecondaryInspectorTab,
 } from '../Inspector'
 import { FileManagerDragLayer } from './FileManagerDragLayer'
 import { InlineFilesSection } from './InlineFilesSection'
@@ -72,19 +72,21 @@ export const FileManager: React.FC = () => {
     >
       <FileManagerDragLayer />
       <InspectorTabList>
-        <InspectorTab data-tooltip-id="inline-tooltip">
+        <SecondaryInspectorTab data-tooltip-id="inline-tooltip">
           Inline files
-        </InspectorTab>
+        </SecondaryInspectorTab>
         <Tooltip id="inline-tooltip" place="bottom">
           Files that can be found inline in the manuscript.
         </Tooltip>
-        <InspectorTab data-tooltip-id="supplements-tooltip">
+        <SecondaryInspectorTab data-tooltip-id="supplements-tooltip">
           Supplements
-        </InspectorTab>
+        </SecondaryInspectorTab>
         <Tooltip id="supplements-tooltip" place="bottom">
           Files that were marked as supplements.
         </Tooltip>
-        <InspectorTab data-tooltip-id="other-tooltip">Other files</InspectorTab>
+        <SecondaryInspectorTab data-tooltip-id="other-tooltip">
+          Other files
+        </SecondaryInspectorTab>
         <Tooltip id="other-tooltip" place="bottom">
           Files excluded from the final submission.
         </Tooltip>
