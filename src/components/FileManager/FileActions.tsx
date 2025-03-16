@@ -37,6 +37,7 @@ export const FileActions: React.FC<{
   move?: Move
   className?: string
   file?: FileAttachment
+  accept?: string
 }> = ({
   sectionType,
   onDownload,
@@ -46,6 +47,7 @@ export const FileActions: React.FC<{
   move,
   className,
   file,
+  accept,
 }) => {
   const can = usePermissions()
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
@@ -114,6 +116,7 @@ export const FileActions: React.FC<{
                 type="file"
                 style={{ display: 'none' }}
                 onChange={handleChange}
+                accept={accept}
               />
             </>
           )}

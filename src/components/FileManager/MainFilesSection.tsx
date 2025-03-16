@@ -150,10 +150,13 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
               handler: () => handleMove(mainDocument),
             }}
             file={mainDocument.file}
+            accept=".docx, .doc, .pdf, .xml"
           />
         </MainDocumentContainer>
       ) : (
-        <MainDocumentTitle>Upload main document</MainDocumentTitle>
+        can?.uploadFile && (
+          <MainDocumentTitle>Upload main document</MainDocumentTitle>
+        )
       )}
       {can?.uploadFile && (
         <FileUploader
