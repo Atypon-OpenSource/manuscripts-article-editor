@@ -1589,11 +1589,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.11":
-  version "2.8.11"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.11.tgz#ce7440f186f1436e8e989d614a5fc56390263202"
-  integrity sha512-DlI1tSIt4CkirIjNryznUcAHekhCIKaP3i/mnyRcD2HJS8bniD8+aLGNTH8A8clnzyBhBzQBdHq5CsK/2ZIOqw==
+"@manuscripts/body-editor@2.8.12-LEAN-4411.0":
+  version "2.8.12-LEAN-4411.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.12-LEAN-4411.0.tgz#d59cc0ff94ae1ac1fb4fbabad61436575227022c"
+  integrity sha512-Dqq8/vOQMjzGaSY4p1xOCZiv6NhZEsIj+LEpkdqMX+bow1IAPM4uEAOMNiLDi9hAFgmEp5QoWOuY4CXB5NwbgQ==
   dependencies:
+    "@citation-js/core" "^0.7.18"
+    "@citation-js/plugin-bibtex" "^0.7.18"
+    "@citation-js/plugin-csl" "^0.7.18"
+    "@citation-js/plugin-doi" "^0.7.18"
+    "@citation-js/plugin-enw" "^0.3.0"
+    "@citation-js/plugin-pubmed" "^0.3.0"
+    "@citation-js/plugin-ris" "^0.7.18"
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.11"
