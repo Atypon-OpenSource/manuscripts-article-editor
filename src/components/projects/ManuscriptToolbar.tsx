@@ -57,6 +57,7 @@ const ToolbarButton = styled.button.attrs({
 
   &:disabled {
     opacity: 0.2;
+    cursor: not-allowed;
   }
 `
 
