@@ -150,7 +150,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
               handler: () => handleMove(mainDocument),
             }}
             file={mainDocument.file}
-            accept=".docx, .doc, .pdf, .xml"
+            accept=".docx, .doc, .pdf, .xml, .tex"
           />
         </MainDocumentContainer>
       ) : (
@@ -162,7 +162,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
         <FileUploader
           onUpload={handleUpload}
           placeholder="Drag or click to replace with a new file"
-          accept=".docx, .doc, .pdf, .xml"
+          accept=".docx, .doc, .pdf, .xml, .tex"
         />
       )}
       <FileSectionAlert alert={alert} />

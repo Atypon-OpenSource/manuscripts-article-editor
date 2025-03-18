@@ -282,7 +282,7 @@ const isValidMainDocumentFormat = (file?: FileAttachment): boolean => {
     return false
   }
 
-  const validExtensions = ['.docx', '.doc', '.pdf', '.xml']
+  const validExtensions = ['.docx', '.doc', '.pdf', '.xml', '.tex']
 
   return validExtensions.some((ext) =>
     file.name.toLowerCase().endsWith(ext.toLowerCase())
