@@ -10,7 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { usePermissions } from '@manuscripts/style-guide'
+import {
+  BookIcon,
+  CommentIcon,
+  ManuscriptIcon,
+  usePermissions,
+} from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
 import { getConfig } from '../../config'
@@ -20,11 +25,11 @@ import { CommentsPanel } from '../comments/CommentsPanel'
 import { FileManager } from '../FileManager/FileManager'
 import {
   InspectorContainer,
-  InspectorTab,
-  InspectorTabList,
   InspectorTabPanel,
   InspectorTabs,
   PaddedInspectorTabPanels,
+  PrimaryInspectorTab,
+  PrimaryTabList,
 } from '../Inspector'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
@@ -78,15 +83,21 @@ const Inspector: React.FC = () => {
     >
       <InspectorContainer data-cy="inspector">
         <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
-          <InspectorTabList>
-            <InspectorTab data-cy="comments-button">Comments</InspectorTab>
+          <PrimaryTabList>
+            <PrimaryInspectorTab data-cy="comments-button">
+              <CommentIcon /> Comments
+            </PrimaryInspectorTab>
             {!can.editWithoutTracking && (
-              <InspectorTab data-cy="history-button">History</InspectorTab>
+              <PrimaryInspectorTab data-cy="history-button">
+                <BookIcon /> History
+              </PrimaryInspectorTab>
             )}
             {config.features.fileManagement && (
-              <InspectorTab data-cy="files-button">Files</InspectorTab>
+              <PrimaryInspectorTab data-cy="files-button">
+                <ManuscriptIcon /> Files
+              </PrimaryInspectorTab>
             )}
-          </InspectorTabList>
+          </PrimaryTabList>
           <PaddedInspectorTabPanels>
             <InspectorTabPanel key="Comments" data-cy="comments">
               {tabIndex === COMMENTS_TAB_INDEX && (

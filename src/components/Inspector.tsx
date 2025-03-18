@@ -41,8 +41,8 @@ export const InspectorTabList = styled(TabList)`
   }
 `
 
-export const InspectorPanelTabList = styled(InspectorTabList)`
-  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
+export const PrimaryTabList = styled(InspectorTabList)`
+  background-color: #fafafa !important;
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -59,18 +59,41 @@ export const InspectorTabPanel = styled(TabPanel)`
   color: ${(props) => props.theme.colors.text.secondary};
 `
 
-export const InspectorTab = styled(Tab)`
+const BaseInspectorTab = styled(Tab)`
   && {
+    font-size: ${(props) => props.theme.font.size.normal};
     font-family: inherit;
     background: none;
-    padding: ${(props) => props.theme.grid.unit * 2}px;
     border: none;
     color: inherit;
-    border-bottom: 1px solid transparent;
     cursor: pointer;
     &:focus {
       outline: none;
     }
+  }
+`
+export const PrimaryInspectorTab = styled(BaseInspectorTab)`
+  && {
+    padding: ${(props) => props.theme.grid.unit * 2}px
+      ${(props) => props.theme.grid.unit * 6}px;
+    border-top: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    &[aria-selected='true'] {
+      border-color: #6e6e6e;
+      background: ${(props) => props.theme.colors.background.primary};
+    }
+  }
+`
+export const SecondaryInspectorTab = styled(BaseInspectorTab)`
+  && {
+    padding: ${(props) => props.theme.grid.unit * 4}px
+      ${(props) => props.theme.grid.unit * 4}px
+      ${(props) => props.theme.grid.unit * 2}px
+      ${(props) => props.theme.grid.unit * 4}px;
+    border-bottom: 1px solid transparent;
 
     &[aria-selected='true'] {
       border-color: ${(props) => props.theme.colors.brand.default};
