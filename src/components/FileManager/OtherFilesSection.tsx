@@ -9,7 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileAttachment, insertSupplement } from '@manuscripts/body-editor'
+import {
+  FileAttachment,
+  insertAttachment,
+  insertSupplement,
+} from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
@@ -66,9 +70,22 @@ export const OtherFilesSection: React.FC<{
     })
   }
 
+  const asMainDocument = async (file: FileAttachment) => {
+    insertAttachment(file, view.state, 'document', view.dispatch)
+    setAlert({
+      type: FileSectionAlertType.MOVE_SUCCESSFUL,
+      message: FileSectionType.MainFile,
+    })
+  }
+
   return (
     <div>
-      {can?.uploadFile && <FileUploader onUpload={handleUpload} />}
+      {can?.uploadFile && (
+        <FileUploader
+          onUpload={handleUpload}
+          placeholder="Drag or click to upload a new file"
+        />
+      )}
       <FileSectionAlert alert={alert} />
       {files.map((file) => (
         <OtherFile
@@ -76,6 +93,7 @@ export const OtherFilesSection: React.FC<{
           file={file}
           onDownload={() => fileManagement.download(file)}
           onMoveToSupplements={async () => await moveToSupplements(file)}
+          onUseAsMain={async () => await asMainDocument(file)}
         />
       ))}
     </div>
@@ -86,7 +104,8 @@ const OtherFile: React.FC<{
   file: FileAttachment
   onDownload: () => void
   onMoveToSupplements: () => Promise<void>
-}> = ({ file, onDownload, onMoveToSupplements }) => {
+  onUseAsMain: () => Promise<void>
+}> = ({ file, onDownload, onMoveToSupplements, onUseAsMain }) => {
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {
@@ -113,10 +132,12 @@ const OtherFile: React.FC<{
       <FileActions
         sectionType={FileSectionType.OtherFile}
         onDownload={onDownload}
+        onUseAsMain={onUseAsMain}
         move={{
           sectionType: FileSectionType.Supplements,
           handler: onMoveToSupplements,
         }}
+        file={file}
       />
     </FileContainer>
   )
