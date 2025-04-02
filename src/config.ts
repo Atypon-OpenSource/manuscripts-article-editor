@@ -21,6 +21,7 @@ export interface ManuscriptsEditorConfig {
     fileManagement: boolean
     tableEditing: boolean
     pullQuotes: boolean
+    lockBody: boolean
   }
 }
 

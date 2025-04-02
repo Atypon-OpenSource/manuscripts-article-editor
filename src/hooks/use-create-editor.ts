@@ -11,7 +11,7 @@
  */
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
-import { memoize } from 'lodash'
+import { get, memoize } from 'lodash'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -82,7 +82,6 @@ export const useCreateEditor = () => {
     getActionCapabilities(project, user, undefined, permittedActions)
   )
   const config = getConfig()
-
   const onEditorClick = useInspectorTabsContext()
 
   const props = {
@@ -117,6 +116,7 @@ export const useCreateEditor = () => {
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),
+    lockBody: config.features.lockBody,
   }
   const editor = useEditor(props)
   return editor
