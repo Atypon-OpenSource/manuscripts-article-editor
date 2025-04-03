@@ -20,12 +20,18 @@ type Files = {
 
 export interface FileUploaderProps {
   onUpload: (file: File) => void
+  placeholder: string
+  accept?: string
 }
 
 /**
  * This component will show the drag or upload file area
  */
-export const FileUploader: React.FC<FileUploaderProps> = ({ onUpload }) => {
+export const FileUploader: React.FC<FileUploaderProps> = ({
+  onUpload,
+  placeholder,
+  accept,
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const openFileDialog = () => {
@@ -66,9 +72,10 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onUpload }) => {
         type="file"
         style={{ display: 'none' }}
         onChange={handleChange}
+        accept={accept}
         value={''}
       />
-      Drag or click to upload a new file
+      {placeholder}
     </Container>
   )
 }
