@@ -11,7 +11,7 @@
  */
 import { useEditor } from '@manuscripts/body-editor'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
-import { get, memoize } from 'lodash'
+import { memoize } from 'lodash'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
