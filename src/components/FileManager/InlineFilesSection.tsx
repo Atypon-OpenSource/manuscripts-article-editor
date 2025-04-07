@@ -93,7 +93,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       })
     })
     return map
-  }, [elements, view])
+  }, [elements, view, sectionCategories])
 
   if (!view) {
     return null
