@@ -11,39 +11,89 @@
  */
 import {
   ElementFiles,
-  findGraphicalAbstractFigureElement,
+  FileAttachment,
   NodeFile,
 } from '@manuscripts/body-editor'
-import { FileType, getFileTypeIcon } from '@manuscripts/style-guide'
-import { schema } from '@manuscripts/transform'
+import {
+  FileFigureIcon,
+  FileGraphicalAbstractIcon,
+  FileImageIcon,
+} from '@manuscripts/style-guide'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
 
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
-import { FileSectionType, Replace } from './FileManager'
+import { FileSectionType } from './FileManager'
 import { FileName } from './FileName'
 
 export type InlineFilesSectionProps = {
   elements: ElementFiles[]
 }
 
+type FileMetadata = {
+  figure: ManuscriptNode
+  file: FileAttachment
+  label: string
+  icon: React.FC<React.SVGAttributes<SVGElement>>
+}
+
 export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   elements,
 }) => {
-  const [{ view, fileManagement }] = useStore((s) => ({
+  const [{ view, fileManagement, sectionCategories }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
+    sectionCategories: s.sectionCategories,
   }))
 
-  const ga = useMemo(
-    () =>
-      view ? findGraphicalAbstractFigureElement(view.state.doc) : undefined,
-    [view]
-  )
+  const metadata = useMemo(() => {
+    const map = new Map()
+    if (!view) {
+      return map
+    }
+    let figureIndex = 1
+    let imageIndex = 1
+    elements.forEach((e) => {
+      const figure = e.files[0]
+      const file = figure?.file || { id: '', name: '' }
+
+      const $pos = view.state.doc.resolve(e.pos)
+      const section = findParentNodeOfTypeClosestToPos(
+        $pos,
+        schema.nodes.graphical_abstract_section
+      )
+
+      let metadata: Partial<FileMetadata>
+      if (section) {
+        const category = section.node.attrs.category
+        metadata = {
+          label: sectionCategories.get(category)?.titles[0],
+          icon: FileGraphicalAbstractIcon,
+        }
+      } else if (e.node.type === schema.nodes.image_element) {
+        metadata = {
+          label: `Image ${imageIndex++}`,
+          icon: FileImageIcon,
+        }
+      } else {
+        metadata = {
+          label: `Figure ${figureIndex++}`,
+          icon: FileFigureIcon,
+        }
+      }
+      map.set(e.node.attrs.id, {
+        ...metadata,
+        file,
+        figure: figure?.node,
+      })
+    })
+    return map
+  }, [elements, view])
 
   if (!view) {
     return null
@@ -76,110 +126,28 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     view.dispatch(tr)
   }
 
-  const FileTypeLabels = {
-    [FileType.GraphicalAbstract]: 'Graphical Abstract',
-    [FileType.Image]: 'Image',
-    [FileType.Figure]: 'Figure',
-  }
-
-  const getElementFileType = (element: ElementFiles) => {
-    if (element.node.attrs.id === ga?.node.attrs.id) {
-      return FileType.GraphicalAbstract
-    }
-
-    if (element.node.type === schema.nodes.image_element) {
-      return FileType.Image
-    }
-    return FileType.Figure
-  }
-
-  const getElementFileLabel = (
-    element: ElementFiles,
-    counters: { [key: string]: number }
-  ) => {
-    const fileType = FileTypeLabels[getElementFileType(element)]
-    if (fileType === 'Graphical Abstract') {
-      return fileType
-    }
-    counters[fileType] = (counters[fileType] || 0) + 1
-    return `${fileType} ${counters[fileType]}`
-  }
-
-  const counters = {
-    [FileType.GraphicalAbstract]: 0,
-    [FileType.Image]: 0,
-    [FileType.Figure]: 0,
-  }
-
   return (
     <>
       {elements.map((element, index) => {
-        const figure = element.files && element.files[0]
+        const entry = metadata.get(element.node.attrs.id)
         return (
           <FileContainer
             data-cy="file-container"
             key={index}
             onClick={() => handleClick(element)}
           >
-            <ElementLabelContainer>
-              {getFileTypeIcon(getElementFileType(element))}
-              <ElementLabel>
-                {getElementFileLabel(element, counters)}:
-              </ElementLabel>
-            </ElementLabelContainer>
-            {figure && (
-              <ElementFile
-                key={figure.file.id}
-                figure={figure}
-                onReplace={async (f) => await handleReplace(figure, f)}
-                onDetach={async () => await handleDetach(figure)}
-                onDownload={() => fileManagement.download(figure.file)}
-              />
-            )}
+            <FileName file={entry.file} label={entry.label} icon={entry.icon} />
+            <FileCreatedDate file={entry.file} className="show-on-hover" />
+            <FileActions
+              data-cy="file-actions"
+              sectionType={FileSectionType.Inline}
+              onReplace={async (f) => await handleReplace(entry.figure, f)}
+              onDetach={async () => await handleDetach(entry.figure)}
+              onDownload={() => fileManagement.download(entry.file)}
+            />
           </FileContainer>
         )
       })}
     </>
   )
 }
-
-const ElementFile: React.FC<{
-  figure: NodeFile
-  onDownload: () => void
-  onReplace?: Replace
-  onDetach?: () => void
-}> = ({ figure, onDownload, onReplace, onDetach }) => {
-  return (
-    <Element>
-      <FileName file={figure.file} showIcon={false} />
-      <FileCreatedDate file={figure.file} className="show-on-hover" />
-      <FileActions
-        data-cy="file-actions"
-        sectionType={FileSectionType.Inline}
-        onDownload={figure.file ? onDownload : undefined}
-        onDetach={figure.file ? onDetach : undefined}
-        onReplace={onReplace}
-      />
-    </Element>
-  )
-}
-
-const Element = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const ElementLabelContainer = styled.div`
-  display: flex;
-  cursor: pointer;
-`
-
-const ElementLabel = styled.div`
-  color: ${(props) => props.theme.colors.text.primary};
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 20px;
-  white-space: nowrap;
-  margin-left: ${(props) => props.theme.grid.unit * 2}px;
-  align-content: center;
-`
