@@ -9,177 +9,144 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { ElementFiles, FileAttachment } from '@manuscripts/body-editor'
 import {
-  ElementFiles,
-  findGraphicalAbstractFigureElement,
-  NodeFile,
-} from '@manuscripts/body-editor'
-import { FileType, getFileTypeIcon } from '@manuscripts/style-guide'
-import { schema } from '@manuscripts/transform'
+  FileFigureIcon,
+  FileGraphicalAbstractIcon,
+  FileImageIcon,
+} from '@manuscripts/style-guide'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
 
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
-import { FileSectionType, Replace } from './FileManager'
+import { FileSectionType } from './FileManager'
 import { FileName } from './FileName'
 
 export type InlineFilesSectionProps = {
   elements: ElementFiles[]
 }
 
+type FileMetadata = {
+  element: ElementFiles
+  label: string
+  icon: React.FC<React.SVGAttributes<SVGElement>>
+  file: FileAttachment
+  node?: ManuscriptNode
+  pos?: number
+}
+
 export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   elements,
 }) => {
-  const [{ view, fileManagement }] = useStore((s) => ({
+  const [{ view, fileManagement, sectionCategories }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
+    sectionCategories: s.sectionCategories,
   }))
 
-  const ga = useMemo(
-    () =>
-      view ? findGraphicalAbstractFigureElement(view.state.doc) : undefined,
-    [view]
-  )
+  const metadata: FileMetadata[] = useMemo(() => {
+    if (!view) {
+      return []
+    }
+    let figureIndex = 1
+    let imageIndex = 1
+    return elements.map((element) => {
+      const figure = element.files[0]
+      const file = figure?.file || { id: '', name: '' }
+
+      const $pos = view.state.doc.resolve(element.pos)
+      const section = findParentNodeOfTypeClosestToPos(
+        $pos,
+        schema.nodes.graphical_abstract_section
+      )
+
+      let label
+      let icon
+      if (section) {
+        const category = section.node.attrs.category
+        label = sectionCategories.get(category)?.titles[0] || ''
+        icon = FileGraphicalAbstractIcon
+      } else if (element.node.type === schema.nodes.image_element) {
+        label = `Image ${imageIndex++}`
+        icon = FileImageIcon
+      } else {
+        label = `Figure ${figureIndex++}`
+        icon = FileFigureIcon
+      }
+      return {
+        element,
+        node: figure?.node,
+        pos: figure?.pos,
+        file,
+        label,
+        icon,
+      }
+    })
+  }, [elements, view, sectionCategories])
 
   if (!view) {
     return null
   }
 
-  const handleClick = (element: ElementFiles) => {
+  const handleClick = (metadata: FileMetadata) => {
     const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, element.pos))
+    tr.setSelection(NodeSelection.create(view.state.doc, metadata.element.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleDetach = async (figure: NodeFile) => {
+  const handleDetach = (metadata: FileMetadata) => {
+    if (!metadata.pos) {
+      return
+    }
     const tr = view.state.tr
-    tr.setNodeAttribute(figure.pos, 'src', '')
-    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
+    tr.setNodeAttribute(metadata.pos, 'src', '')
+    tr.setSelection(NodeSelection.create(tr.doc, metadata.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleReplace = async (figure: NodeFile, file: File) => {
+  const handleReplace = async (metadata: FileMetadata, file: File) => {
+    if (!metadata.pos) {
+      return
+    }
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
-    tr.setNodeAttribute(figure.pos, 'src', uploaded.id)
-    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
+    tr.setNodeAttribute(metadata.pos, 'src', uploaded.id)
+    tr.setSelection(NodeSelection.create(tr.doc, metadata.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
-  }
-
-  const FileTypeLabels = {
-    [FileType.GraphicalAbstract]: 'Graphical Abstract',
-    [FileType.Image]: 'Image',
-    [FileType.Figure]: 'Figure',
-  }
-
-  const getElementFileType = (element: ElementFiles) => {
-    if (element.node.attrs.id === ga?.node.attrs.id) {
-      return FileType.GraphicalAbstract
-    }
-
-    if (element.node.type === schema.nodes.image_element) {
-      return FileType.Image
-    }
-    return FileType.Figure
-  }
-
-  const getElementFileLabel = (
-    element: ElementFiles,
-    counters: { [key: string]: number }
-  ) => {
-    const fileType = FileTypeLabels[getElementFileType(element)]
-    if (fileType === 'Graphical Abstract') {
-      return fileType
-    }
-    counters[fileType] = (counters[fileType] || 0) + 1
-    return `${fileType} ${counters[fileType]}`
-  }
-
-  const counters = {
-    [FileType.GraphicalAbstract]: 0,
-    [FileType.Image]: 0,
-    [FileType.Figure]: 0,
   }
 
   return (
     <>
-      {elements.map((element, index) => {
-        const figure = element.files && element.files[0]
+      {metadata.map((e, index) => {
         return (
           <FileContainer
             data-cy="file-container"
             key={index}
-            onClick={() => handleClick(element)}
+            onClick={() => handleClick(e)}
           >
-            <ElementLabelContainer>
-              {getFileTypeIcon(getElementFileType(element))}
-              <ElementLabel>
-                {getElementFileLabel(element, counters)}:
-              </ElementLabel>
-            </ElementLabelContainer>
-            {figure && (
-              <ElementFile
-                key={figure.file.id}
-                figure={figure}
-                onReplace={async (f) => await handleReplace(figure, f)}
-                onDetach={async () => await handleDetach(figure)}
-                onDownload={() => fileManagement.download(figure.file)}
-              />
-            )}
+            <FileName file={e.file} label={e.label} icon={e.icon} />
+            <FileCreatedDate file={e.file} className="show-on-hover" />
+            <FileActions
+              data-cy="file-actions"
+              sectionType={FileSectionType.Inline}
+              onReplace={async (f) => await handleReplace(e, f)}
+              onDetach={() => handleDetach(e)}
+              onDownload={() => fileManagement.download(e.file)}
+            />
           </FileContainer>
         )
       })}
     </>
   )
 }
-
-const ElementFile: React.FC<{
-  figure: NodeFile
-  onDownload: () => void
-  onReplace?: Replace
-  onDetach?: () => void
-}> = ({ figure, onDownload, onReplace, onDetach }) => {
-  return (
-    <Element>
-      <FileName file={figure.file} showIcon={false} />
-      <FileCreatedDate file={figure.file} className="show-on-hover" />
-      <FileActions
-        data-cy="file-actions"
-        sectionType={FileSectionType.Inline}
-        onDownload={figure.file ? onDownload : undefined}
-        onDetach={figure.file ? onDetach : undefined}
-        onReplace={onReplace}
-      />
-    </Element>
-  )
-}
-
-const Element = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const ElementLabelContainer = styled.div`
-  display: flex;
-  cursor: pointer;
-`
-
-const ElementLabel = styled.div`
-  color: ${(props) => props.theme.colors.text.primary};
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 20px;
-  white-space: nowrap;
-  margin-left: ${(props) => props.theme.grid.unit * 2}px;
-  align-content: center;
-`
