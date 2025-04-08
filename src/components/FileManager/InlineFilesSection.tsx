@@ -9,11 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ElementFiles,
-  FileAttachment,
-  NodeFile,
-} from '@manuscripts/body-editor'
+import { ElementFiles, FileAttachment } from '@manuscripts/body-editor'
 import {
   FileFigureIcon,
   FileGraphicalAbstractIcon,
@@ -36,10 +32,12 @@ export type InlineFilesSectionProps = {
 }
 
 type FileMetadata = {
-  figure: ManuscriptNode
-  file: FileAttachment
+  element: ElementFiles
   label: string
   icon: React.FC<React.SVGAttributes<SVGElement>>
+  file: FileAttachment
+  node?: ManuscriptNode
+  pos?: number
 }
 
 export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
@@ -51,76 +49,78 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     sectionCategories: s.sectionCategories,
   }))
 
-  const metadata = useMemo(() => {
-    const map = new Map()
+  const metadata: FileMetadata[] = useMemo(() => {
     if (!view) {
-      return map
+      return []
     }
     let figureIndex = 1
     let imageIndex = 1
-    elements.forEach((e) => {
-      const figure = e.files[0]
+    return elements.map((element) => {
+      const figure = element.files[0]
       const file = figure?.file || { id: '', name: '' }
 
-      const $pos = view.state.doc.resolve(e.pos)
+      const $pos = view.state.doc.resolve(element.pos)
       const section = findParentNodeOfTypeClosestToPos(
         $pos,
         schema.nodes.graphical_abstract_section
       )
 
-      let metadata: Partial<FileMetadata>
+      let label
+      let icon
       if (section) {
         const category = section.node.attrs.category
-        metadata = {
-          label: sectionCategories.get(category)?.titles[0],
-          icon: FileGraphicalAbstractIcon,
-        }
-      } else if (e.node.type === schema.nodes.image_element) {
-        metadata = {
-          label: `Image ${imageIndex++}`,
-          icon: FileImageIcon,
-        }
+        label = sectionCategories.get(category)?.titles[0] || ''
+        icon = FileGraphicalAbstractIcon
+      } else if (element.node.type === schema.nodes.image_element) {
+        label = `Image ${imageIndex++}`
+        icon = FileImageIcon
       } else {
-        metadata = {
-          label: `Figure ${figureIndex++}`,
-          icon: FileFigureIcon,
-        }
+        label = `Figure ${figureIndex++}`
+        icon = FileFigureIcon
       }
-      map.set(e.node.attrs.id, {
-        ...metadata,
+      return {
+        element,
+        node: figure?.node,
+        pos: figure?.pos,
         file,
-        figure: figure?.node,
-      })
+        label,
+        icon,
+      }
     })
-    return map
   }, [elements, view, sectionCategories])
 
   if (!view) {
     return null
   }
 
-  const handleClick = (element: ElementFiles) => {
+  const handleClick = (metadata: FileMetadata) => {
     const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, element.pos))
+    tr.setSelection(NodeSelection.create(view.state.doc, metadata.element.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleDetach = async (figure: NodeFile) => {
+  const handleDetach = (metadata: FileMetadata) => {
+    if (!metadata.pos) {
+      return
+    }
     const tr = view.state.tr
-    tr.setNodeAttribute(figure.pos, 'src', '')
-    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
+    tr.setNodeAttribute(metadata.pos, 'src', '')
+    tr.setSelection(NodeSelection.create(tr.doc, metadata.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleReplace = async (figure: NodeFile, file: File) => {
+  const handleReplace = async (metadata: FileMetadata, file: File) => {
+    if (!metadata.pos) {
+      return
+    }
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
-    tr.setNodeAttribute(figure.pos, 'src', uploaded.id)
-    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
+    tr.setNodeAttribute(metadata.pos, 'src', uploaded.id)
+    tr.setSelection(NodeSelection.create(tr.doc, metadata.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
@@ -128,22 +128,21 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
 
   return (
     <>
-      {elements.map((element, index) => {
-        const entry = metadata.get(element.node.attrs.id)
+      {metadata.map((e, index) => {
         return (
           <FileContainer
             data-cy="file-container"
             key={index}
-            onClick={() => handleClick(element)}
+            onClick={() => handleClick(e)}
           >
-            <FileName file={entry.file} label={entry.label} icon={entry.icon} />
-            <FileCreatedDate file={entry.file} className="show-on-hover" />
+            <FileName file={e.file} label={e.label} icon={e.icon} />
+            <FileCreatedDate file={e.file} className="show-on-hover" />
             <FileActions
               data-cy="file-actions"
               sectionType={FileSectionType.Inline}
-              onReplace={async (f) => await handleReplace(entry.figure, f)}
-              onDetach={async () => await handleDetach(entry.figure)}
-              onDownload={() => fileManagement.download(entry.file)}
+              onReplace={async (f) => await handleReplace(e, f)}
+              onDetach={() => handleDetach(e)}
+              onDownload={() => fileManagement.download(e.file)}
             />
           </FileContainer>
         )
