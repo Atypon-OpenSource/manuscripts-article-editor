@@ -61,7 +61,8 @@ export const setChangeStatus = (
       change.type === 'node-change' &&
       !(
         change.dataTracked.operation === CHANGE_OPERATION.node_split ||
-        change.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
+        change.dataTracked.operation === CHANGE_OPERATION.wrap_with_node ||
+        change.dataTracked.operation === CHANGE_OPERATION.node_move
       )
     ) {
       change.children.forEach((child) => {

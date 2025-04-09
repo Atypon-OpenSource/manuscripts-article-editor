@@ -56,6 +56,9 @@ export const changeOperationAlias = (operation: string): string => {
     case 'node_split': {
       return 'Split'
     }
+    case 'node_move': {
+      return 'Move'
+    }
     default: {
       return 'null'
     }
