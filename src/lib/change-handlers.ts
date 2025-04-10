@@ -43,15 +43,20 @@ export const handleTextChange = (
   state: ManuscriptEditorState
 ): SnippetData | null => {
   const { dataTracked } = suggestion
-  const parentNodeType = getParentNode(state, suggestion.from)?.type
+  const parentNode = getParentNode(state, suggestion.from)
   let nodeName
-  if (parentNodeType) {
+
+  if (parentNode) {
+    const parentNodeType = parentNode.type
     const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
     nodeName =
       parentNodeType === schema.nodes.paragraph ||
       parentNodeType === schema.nodes.text_block
         ? 'text'
         : parentNodeName + ' text'
+    if (parentNodeType === schema.nodes.alt_title) {
+      nodeName = parentNode.attrs.type + ' title'
+    }
   }
   return {
     operation: changeOperationAlias(dataTracked.operation),
@@ -68,6 +73,7 @@ export const handleNodeChange = (
   const { node, dataTracked } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
   const nodeName = nodeNames.get(node.type) || node.type.name
+  console.log(node.type)
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
@@ -166,11 +172,18 @@ export const handleNodeChange = (
         )}</span>`,
       }
     case schema.nodes.award: {
-      const nodeName = 'Funder Info'
       return {
         operation,
-        nodeName,
+        nodeName: 'Funder Info',
         content: node.attrs.source,
+      }
+    }
+    case schema.nodes.alt_title: {
+      console.log('GOT INTO THAT CASE')
+      return {
+        operation,
+        nodeName: node.attrs.type,
+        content: node.textContent,
       }
     }
     default:
