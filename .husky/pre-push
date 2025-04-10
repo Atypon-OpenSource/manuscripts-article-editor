@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm-run-all --parallel typecheck lint
+yarn concurrently 'yarn:typecheck' 'yarn:lint' 'yarn:build'
