@@ -22,25 +22,11 @@ import styled from 'styled-components'
 
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
+import { FileContainer } from './FileContainer'
 import { FileSectionType } from './FileManager'
+import { FileName } from './FileName'
 import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
-
-const MainDocumentContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 26px 16px;
-  gap: 12px;
-  position: relative;
-  &:hover {
-    background-color: #f2fbfc;
-  }
-`
-
-const MainDocumentInfo = styled.div`
-  display: flex;
-  flex: 1;
-`
 
 const MainDocumentTitle = styled.div`
   color: ${(props) => props.theme.colors.text.primary};
@@ -51,18 +37,6 @@ const MainDocumentTitle = styled.div`
   padding: 0 16px 8px 16px;
   gap: 12px;
   position: relative;
-`
-
-const Label = styled.span`
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: 16px;
-  margin-right: 3.2px;
-  font-weight: 700;
-`
-
-const FileName = styled.span`
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: 16px;
 `
 
 export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
@@ -134,12 +108,12 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
   return (
     <div>
       {mainDocument ? (
-        <MainDocumentContainer data-cy="file-container">
-          <FileMainDocumentIcon />
-          <MainDocumentInfo>
-            <Label>Main:</Label>
-            <FileName>{mainDocument.file.name}</FileName>
-          </MainDocumentInfo>
+        <FileContainer data-cy="file-container">
+          <FileName
+            file={mainDocument.file}
+            label="Main"
+            icon={FileMainDocumentIcon}
+          />
           <FileActions
             data-cy="file-actions"
             sectionType={FileSectionType.MainFile}
@@ -152,7 +126,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
             file={mainDocument.file}
             accept=".docx, .doc, .pdf, .xml, .tex"
           />
-        </MainDocumentContainer>
+        </FileContainer>
       ) : (
         can?.uploadFile && (
           <MainDocumentTitle>Upload main document</MainDocumentTitle>
