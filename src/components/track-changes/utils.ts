@@ -62,7 +62,7 @@ export const setChangeStatus = (
       !(
         change.dataTracked.operation === CHANGE_OPERATION.node_split ||
         change.dataTracked.operation === CHANGE_OPERATION.wrap_with_node ||
-        change.dataTracked.operation === CHANGE_OPERATION.node_move
+        change.dataTracked.operation === CHANGE_OPERATION.move
       )
     ) {
       change.children.forEach((child) => {
