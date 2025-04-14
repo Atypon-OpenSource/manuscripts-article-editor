@@ -23,6 +23,7 @@ import {
 } from '../Inspector'
 import { FileManagerDragLayer } from './FileManagerDragLayer'
 import { InlineFilesSection } from './InlineFilesSection'
+import { MainFilesSection } from './MainFilesSection'
 import { OtherFilesSection } from './OtherFilesSection'
 import { SupplementsSection } from './SupplementsSection'
 
@@ -30,6 +31,7 @@ export enum FileSectionType {
   Inline = 'Inline files',
   Supplements = 'Supplements',
   OtherFile = 'Other files',
+  MainFile = 'Main Document',
 }
 
 export type Replace = (file: File) => Promise<void>
@@ -58,7 +60,7 @@ export const FileManager: React.FC = () => {
     inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
-  const { figures, supplements, others } = groupFiles(doc, files)
+  const { figures, supplements, attachments, others } = groupFiles(doc, files)
 
   return (
     <InspectorTabs
@@ -78,6 +80,12 @@ export const FileManager: React.FC = () => {
         <Tooltip id="inline-tooltip" place="bottom">
           Files that can be found inline in the manuscript.
         </Tooltip>
+        <SecondaryInspectorTab data-tooltip-id="main-tooltip">
+          Main Document
+        </SecondaryInspectorTab>
+        <Tooltip id="main-tooltip" place="bottom">
+          The main document of the manuscript.
+        </Tooltip>
         <SecondaryInspectorTab data-tooltip-id="supplements-tooltip">
           Supplements
         </SecondaryInspectorTab>
@@ -96,6 +104,9 @@ export const FileManager: React.FC = () => {
       >
         <InspectorTabPanel data-cy="inline">
           <InlineFilesSection elements={figures} />
+        </InspectorTabPanel>
+        <InspectorTabPanel data-cy="main">
+          <MainFilesSection mainDocument={attachments[0]} />
         </InspectorTabPanel>
         <InspectorTabPanel data-cy="supplements">
           <SupplementsSection supplements={supplements} />
