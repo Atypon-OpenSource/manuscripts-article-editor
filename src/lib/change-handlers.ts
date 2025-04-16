@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/body-editor'
 import {
   ChangeSet,
+  MoveChange,
   NodeAttrChange,
   NodeChange,
   RootChange,
@@ -201,6 +202,19 @@ export const handleGroupChanges = (
         c?.nodeName === 'inline_equation' ? ` ${c.content} ` : c?.content
       )
       .join(''),
+  }
+}
+
+export const handleMoveChange = (suggestion: MoveChange) => {
+  const { node, dataTracked } = suggestion
+  const operation = changeOperationAlias(dataTracked.operation) // "move"
+  if (node) {
+    const nodeName = node.type.name
+    return {
+      operation,
+      nodeName: nodeName,
+      content: node.textContent, // No additional content needed
+    }
   }
 }
 
