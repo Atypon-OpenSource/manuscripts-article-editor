@@ -90,9 +90,9 @@ export const PrimaryInspectorTab = styled(BaseInspectorTab)`
 export const SecondaryInspectorTab = styled(BaseInspectorTab)`
   && {
     padding: ${(props) => props.theme.grid.unit * 4}px
-      ${(props) => props.theme.grid.unit * 4}px
       ${(props) => props.theme.grid.unit * 2}px
-      ${(props) => props.theme.grid.unit * 4}px;
+      ${(props) => props.theme.grid.unit * 2}px
+      ${(props) => props.theme.grid.unit * 2}px;
     border-bottom: 1px solid transparent;
 
     &[aria-selected='true'] {
