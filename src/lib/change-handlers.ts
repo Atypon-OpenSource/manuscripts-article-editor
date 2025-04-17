@@ -74,7 +74,6 @@ export const handleNodeChange = (
   const { node, dataTracked } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
   const nodeName = nodeNames.get(node.type) || node.type.name
-  console.log(node.type)
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
@@ -180,7 +179,6 @@ export const handleNodeChange = (
       }
     }
     case schema.nodes.alt_title: {
-      console.log('GOT INTO THAT CASE')
       return {
         operation,
         nodeName: node.attrs.type,
