@@ -56,6 +56,17 @@ export const setChangeStatus = (
   const ids: string[] = []
 
   changes.map((change) => {
+    if (change.type === 'move-change') {
+      const flatIds = change.children.flatMap((item) => [
+        item.id,
+        ...((item.type === 'node-change' &&
+          item.children?.map((child) => child.id)) ||
+          []),
+      ])
+      ids.push(...flatIds)
+      return
+    }
+
     ids.push(change.id)
     if (
       change.type === 'node-change' &&

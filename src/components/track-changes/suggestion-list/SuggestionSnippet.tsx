@@ -15,6 +15,7 @@ import styled from 'styled-components'
 
 import {
   handleGroupChanges,
+  handleMoveChange,
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
@@ -51,6 +52,8 @@ export const SuggestionSnippet: React.FC<{ suggestions: RootChange }> = ({
         ChangeSet.isNodeAttrChange(suggestion)
       ) {
         newSnippet = handleNodeChange(suggestion, view.state)
+      } else if (ChangeSet.isMoveChange(suggestion)) {
+        newSnippet = handleMoveChange(suggestion)
       } else {
         newSnippet = handleUnknownChange()
       }
@@ -102,6 +105,7 @@ const Operation = styled.span<{ color: string }>`
       case 'delete':
         return '#F35143'
       case 'node_split':
+      case 'move':
       case 'set_attrs':
         return '#0284B0'
       default:

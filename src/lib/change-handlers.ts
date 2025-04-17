@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/body-editor'
 import {
   ChangeSet,
+  MoveChange,
   NodeAttrChange,
   NodeChange,
   RootChange,
@@ -212,6 +213,57 @@ export const handleGroupChanges = (
         c?.nodeName === 'inline_equation' ? ` ${c.content} ` : c?.content
       )
       .join(''),
+  }
+}
+
+export const handleMoveChange = (
+  suggestion: MoveChange,
+  state: ManuscriptEditorState
+): SnippetData | null => {
+  const nodeContentRetriever = new NodeTextContentRetriever(state)
+  const { node, dataTracked } = suggestion
+  const operation = changeOperationAlias(dataTracked.operation)
+  const nodeName = nodeNames.get(node.type) || node.type.name
+
+  switch (node.type) {
+    case schema.nodes.figure_element:
+    case schema.nodes.table_element:
+    case schema.nodes.embed:
+    case schema.nodes.image_element:
+      return {
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFigureLabel(node),
+      }
+
+    case schema.nodes.equation_element:
+      return {
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getEquationContent(node),
+      }
+    case schema.nodes.section: {
+      const nodeName =
+        node.attrs.category === 'subsection' ? 'Subsection' : 'Section'
+      return {
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFirstChildContent(node),
+      }
+    }
+    case schema.nodes.award: {
+      return {
+        operation,
+        nodeName: 'Funder Info',
+        content: node.attrs.source,
+      }
+    }
+    default:
+      return {
+        operation,
+        nodeName,
+        content: node.textContent,
+      }
   }
 }
 
