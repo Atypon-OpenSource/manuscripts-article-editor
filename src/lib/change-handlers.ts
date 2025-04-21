@@ -52,8 +52,8 @@ export const handleTextChange = (
     nodeName =
       parentNodeType === schema.nodes.paragraph ||
       parentNodeType === schema.nodes.text_block
-        ? 'text'
-        : parentNodeName + ' text'
+        ? 'text-test2'
+        : parentNodeName + ' text-test2'
     if (parentNodeType === schema.nodes.alt_title) {
       nodeName = parentNode.attrs.type + ' title'
     }
@@ -201,7 +201,7 @@ export const handleGroupChanges = (
 ): SnippetData | null => {
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: 'Text',
+    nodeName: 'Text-test1',
     content: suggestions
       .map((change) =>
         ChangeSet.isTextChange(change)
