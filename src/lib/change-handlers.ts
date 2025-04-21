@@ -201,7 +201,7 @@ export const handleGroupChanges = (
 ): SnippetData | null => {
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: 'Text',
+    nodeName: 'Text-test3',
     content: suggestions
       .map((change) =>
         ChangeSet.isTextChange(change)
