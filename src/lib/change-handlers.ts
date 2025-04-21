@@ -52,8 +52,8 @@ export const handleTextChange = (
     nodeName =
       parentNodeType === schema.nodes.paragraph ||
       parentNodeType === schema.nodes.text_block
-        ? 'text'
-        : parentNodeName + ' text'
+        ? 'text-test1'
+        : parentNodeName + ' text-test2'
     if (parentNodeType === schema.nodes.alt_title) {
       nodeName = parentNode.attrs.type + ' title'
     }
