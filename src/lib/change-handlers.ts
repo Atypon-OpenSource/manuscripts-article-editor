@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import {
   AffiliationAttrs,
@@ -39,22 +39,24 @@ interface SnippetData {
   content: string | null
 }
 
-// Helper function to format alt-title types (schema-aware)
-const formatAltTitleType = (node: AltTitleNode): string => {
-  const type = node.attrs.type || 'running' // Default to 'running' if type is undefined
+const getTitleDisplayName = (type: string): string => {
   switch (type) {
     case 'running':
+    case 'right-running':
       return 'Running Title'
     case 'short':
       return 'Short Title'
     default:
-      // Handle hyphenated types (e.g., "custom-type" → "Custom Type")
-      const normalizedType = type.replace(/-/g, ' ')
-      return `${normalizedType
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')} Title`
+      return `${type.charAt(0).toUpperCase() + type.slice(1)} Title`
   }
+}
+
+const isTitleNode = (nodeName: string): boolean => {
+  return (
+    nodeName.includes('Title') ||
+    nodeName === 'title' ||
+    nodeName === 'article-title'
+  )
 }
 
 export const handleTextChange = (
@@ -63,23 +65,20 @@ export const handleTextChange = (
 ): SnippetData | null => {
   const { dataTracked } = suggestion
   const parentNode = getParentNode(state, suggestion.from)
-  let nodeName = 'text' // Default to generic text
+  let nodeName
 
   if (parentNode) {
     const parentNodeType = parentNode.type
+    const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
+    nodeName =
+      parentNodeType === schema.nodes.paragraph ||
+      parentNodeType === schema.nodes.text_block
+        ? 'text'
+        : parentNodeName + ' text'
     if (parentNodeType === schema.nodes.alt_title) {
-      nodeName = formatAltTitleType(parentNode as AltTitleNode)
-    } else {
-      const parentNodeName =
-        nodeNames.get(parentNodeType) || parentNodeType?.name
-      nodeName =
-        parentNodeType === schema.nodes.paragraph ||
-        parentNodeType === schema.nodes.text_block
-          ? 'text'
-          : `${parentNodeName} text`
+      nodeName = getTitleDisplayName(parentNode.attrs.type)
     }
   }
-
   return {
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: nodeName || suggestion.nodeType.name,
@@ -157,6 +156,7 @@ export const handleNodeChange = (
         nodeName,
         content: nodeContentRetriever.getFigureLabel(node),
       }
+
     case schema.nodes.figure: {
       const parentNode = getParentNode(state, suggestion.from)!
       const nodeName = nodeNames.get(parentNode?.type) || parentNode?.type.name
@@ -166,6 +166,7 @@ export const handleNodeChange = (
         content: nodeContentRetriever.getFigureLabel(parentNode),
       }
     }
+
     case schema.nodes.inline_equation:
     case schema.nodes.equation_element:
       return {
@@ -200,7 +201,7 @@ export const handleNodeChange = (
     case schema.nodes.alt_title: {
       return {
         operation,
-        nodeName: formatAltTitleType(node as AltTitleNode),
+        nodeName: getTitleDisplayName(node.attrs.type),
         content: node.textContent,
       }
     }
@@ -219,38 +220,29 @@ export const handleGroupChanges = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
-  // Process all changes to get their SnippetData
-  const processedChanges = suggestions
-    .map((change) =>
-      ChangeSet.isTextChange(change)
-        ? handleTextChange(change, view.state)
-        : handleNodeChange(change as NodeChange, view.state)
-    )
-    .filter((change): change is SnippetData => change !== null) // Filter out null results
+  const changes = suggestions.map((change) =>
+    ChangeSet.isTextChange(change)
+      ? handleTextChange(change, view.state)
+      : handleNodeChange(change as NodeChange, view.state)
+  )
 
-  if (processedChanges.length === 0) {
-    return null
-  }
-
-  // Collect all nodeNames from the processed changes
-  const nodeNames = processedChanges.map((change) => change.nodeName)
-
-  // Determine the common nodeName: if all changes share the same nodeName, use it; otherwise, default to 'Text'
-  const commonNodeName = nodeNames.every((name) => name === nodeNames[0])
-    ? nodeNames[0]
-    : 'Text'
-
-  // Combine the content, handling inline equations as before
-  const combinedContent = processedChanges
-    .map((c) =>
-      c.nodeName === 'inline_equation' ? ` ${c.content} ` : c.content
-    )
-    .join('')
+  // Determine the most specific node name from all changes
+  const nodeName = changes.reduce((result, c) => {
+    if (!c) {
+      return result
+    }
+    // Prefer title-related names over generic 'Text'
+    return result === 'Text' || isTitleNode(c.nodeName) ? c.nodeName : result
+  }, 'Text')
 
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: commonNodeName,
-    content: combinedContent,
+    nodeName,
+    content: changes
+      .map((c) =>
+        c?.nodeName === 'inline_equation' ? ` ${c.content} ` : c?.content
+      )
+      .join(''),
   }
 }
 
