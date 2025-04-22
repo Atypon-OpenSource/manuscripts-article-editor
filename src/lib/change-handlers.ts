@@ -44,20 +44,30 @@ export const handleTextChange = (
 ): SnippetData | null => {
   const { dataTracked } = suggestion
   const parentNode = getParentNode(state, suggestion.from)
-  let nodeName
+  let nodeName = 'text' // Default to generic text
 
   if (parentNode) {
     const parentNodeType = parentNode.type
-    const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
-    nodeName =
-      parentNodeType === schema.nodes.paragraph ||
-      parentNodeType === schema.nodes.text_block
-        ? 'text-test2'
-        : parentNodeName + ' text-test2'
+    // Handle alt_title nodes with specific types like running title or short title
     if (parentNodeType === schema.nodes.alt_title) {
-      nodeName = parentNode.attrs.type + ' title'
+      const altTitleType = parentNode.attrs.type
+      nodeName =
+        altTitleType === 'running title'
+          ? 'Running Title'
+          : altTitleType === 'short title'
+          ? 'Short Title'
+          : `${altTitleType} title`
+    } else {
+      const parentNodeName =
+        nodeNames.get(parentNodeType) || parentNodeType?.name
+      nodeName =
+        parentNodeType === schema.nodes.paragraph ||
+        parentNodeType === schema.nodes.text_block
+          ? 'text'
+          : `${parentNodeName} text`
     }
   }
+
   return {
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: nodeName || suggestion.nodeType.name,
@@ -201,7 +211,7 @@ export const handleGroupChanges = (
 ): SnippetData | null => {
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: 'Text-test1',
+    nodeName: 'Text',
     content: suggestions
       .map((change) =>
         ChangeSet.isTextChange(change)
