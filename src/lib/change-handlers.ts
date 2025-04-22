@@ -24,6 +24,7 @@ import {
 } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorState,
+  ManuscriptNode,
   nodeNames,
   schema,
 } from '@manuscripts/transform'
@@ -38,6 +39,25 @@ interface SnippetData {
   content: string | null
 }
 
+const isAltTitleNode = (node: ManuscriptNode): boolean =>
+  node.type === schema.nodes.alt_title
+
+const getTitleDisplayName = (node: ManuscriptNode): string => {
+  if (isAltTitleNode(node)) {
+    const type = node.attrs.type
+    switch (type) {
+      case 'running':
+      case 'right-running':
+        return 'Running Title'
+      case 'short':
+        return 'Short Title'
+      default:
+        return `${type.charAt(0).toUpperCase() + type.slice(1)} Title`
+    }
+  }
+  return node.type.name // fallback
+}
+
 export const handleTextChange = (
   suggestion: TextChange,
   state: ManuscriptEditorState
@@ -47,15 +67,16 @@ export const handleTextChange = (
   let nodeName
 
   if (parentNode) {
-    const parentNodeType = parentNode.type
-    const parentNodeName = nodeNames.get(parentNodeType) || parentNodeType?.name
-    nodeName =
-      parentNodeType === schema.nodes.paragraph ||
-      parentNodeType === schema.nodes.text_block
-        ? 'text'
-        : parentNodeName + ' text'
-    if (parentNodeType === schema.nodes.alt_title) {
-      nodeName = parentNode.attrs.type + ' title'
+    if (isAltTitleNode(parentNode)) {
+      nodeName = getTitleDisplayName(parentNode)
+    } else {
+      const parentNodeName =
+        nodeNames.get(parentNode.type) || parentNode.type?.name
+      nodeName =
+        parentNode.type === schema.nodes.paragraph ||
+        parentNode.type === schema.nodes.text_block
+          ? 'text'
+          : parentNodeName + ' text'
     }
   }
   return {
@@ -180,7 +201,7 @@ export const handleNodeChange = (
     case schema.nodes.alt_title: {
       return {
         operation,
-        nodeName: node.attrs.type,
+        nodeName: getTitleDisplayName(node.attrs.type),
         content: node.textContent,
       }
     }
@@ -199,19 +220,38 @@ export const handleGroupChanges = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
+  const processed = suggestions.map((change) => {
+    const result = ChangeSet.isTextChange(change)
+      ? handleTextChange(change, view.state)
+      : handleNodeChange(change as NodeChange, view.state)
+
+    const node = ChangeSet.isTextChange(change)
+      ? getParentNode(view.state, change.from)
+      : (change as NodeChange).node
+
+    return {
+      result,
+      isTitle: node ? isAltTitleNode(node) : false,
+    }
+  })
+
+  // Find the first title change if any exists
+  const titleNodeName =
+    processed.find(({ isTitle }) => isTitle)?.result?.nodeName || null
+
+  // Build the content
+  const content = processed
+    .map(({ result }) =>
+      result?.nodeName === 'inline_equation'
+        ? ` ${result.content} `
+        : result?.content || ''
+    )
+    .join('')
+
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: 'Text',
-    content: suggestions
-      .map((change) =>
-        ChangeSet.isTextChange(change)
-          ? handleTextChange(change, view.state)
-          : handleNodeChange(change as NodeChange, view.state)
-      )
-      .map((c) =>
-        c?.nodeName === 'inline_equation' ? ` ${c.content} ` : c?.content
-      )
-      .join(''),
+    nodeName: titleNodeName || 'Text',
+    content,
   }
 }
 
