@@ -45,15 +45,12 @@ const isAltTitleNode = (node: ManuscriptNode): boolean =>
 const getTitleDisplayName = (node: ManuscriptNode): string => {
   if (isAltTitleNode(node)) {
     const type = node.attrs.type
-    switch (type) {
-      case 'running':
-      case 'right-running':
-        return 'Running Title'
-      case 'short':
-        return 'Short Title'
-      default:
-        return `${type.charAt(0).toUpperCase() + type.slice(1)} Title`
-    }
+    return type === 'short'
+      ? 'Short Title'
+      : type
+          .split('-')
+          .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ') + ' Title'
   }
   return node.type.name // fallback
 }
