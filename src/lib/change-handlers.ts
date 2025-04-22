@@ -39,17 +39,21 @@ interface SnippetData {
   content: string | null
 }
 
-// Helper function to format alt-title types
+// Helper function to format alt-title types (schema-aware)
 const formatAltTitleType = (node: AltTitleNode): string => {
-  const type = node.attrs.type
+  const type = node.attrs.type || 'running' // Default to 'running' if type is undefined
   switch (type) {
     case 'running':
       return 'Running Title'
     case 'short':
       return 'Short Title'
     default:
-      // Fallback for any other types that might exist
-      return `${type.charAt(0).toUpperCase()}${type.slice(1)} Title`
+      // Handle hyphenated types (e.g., "custom-type" → "Custom Type")
+      const normalizedType = type.replace(/-/g, ' ')
+      return `${normalizedType
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')} Title`
   }
 }
 
@@ -215,19 +219,38 @@ export const handleGroupChanges = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
+  // Process all changes to get their SnippetData
+  const processedChanges = suggestions
+    .map((change) =>
+      ChangeSet.isTextChange(change)
+        ? handleTextChange(change, view.state)
+        : handleNodeChange(change as NodeChange, view.state)
+    )
+    .filter((change): change is SnippetData => change !== null) // Filter out null results
+
+  if (processedChanges.length === 0) {
+    return null
+  }
+
+  // Collect all nodeNames from the processed changes
+  const nodeNames = processedChanges.map((change) => change.nodeName)
+
+  // Determine the common nodeName: if all changes share the same nodeName, use it; otherwise, default to 'Text'
+  const commonNodeName = nodeNames.every((name) => name === nodeNames[0])
+    ? nodeNames[0]
+    : 'Text'
+
+  // Combine the content, handling inline equations as before
+  const combinedContent = processedChanges
+    .map((c) =>
+      c.nodeName === 'inline_equation' ? ` ${c.content} ` : c.content
+    )
+    .join('')
+
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: 'Text',
-    content: suggestions
-      .map((change) =>
-        ChangeSet.isTextChange(change)
-          ? handleTextChange(change, view.state)
-          : handleNodeChange(change as NodeChange, view.state)
-      )
-      .map((c) =>
-        c?.nodeName === 'inline_equation' ? ` ${c.content} ` : c?.content
-      )
-      .join(''),
+    nodeName: commonNodeName,
+    content: combinedContent,
   }
 }
 
