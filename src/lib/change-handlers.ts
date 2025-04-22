@@ -23,7 +23,6 @@ import {
   TextChange,
 } from '@manuscripts/track-changes-plugin'
 import {
-  AltTitleNode,
   ManuscriptEditorState,
   nodeNames,
   schema,
