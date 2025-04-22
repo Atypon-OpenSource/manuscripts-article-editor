@@ -23,6 +23,7 @@ import {
   TextChange,
 } from '@manuscripts/track-changes-plugin'
 import {
+  AltTitleNode,
   ManuscriptEditorState,
   nodeNames,
   schema,
@@ -38,6 +39,20 @@ interface SnippetData {
   content: string | null
 }
 
+// Helper function to format alt-title types
+const formatAltTitleType = (node: AltTitleNode): string => {
+  const type = node.attrs.type
+  switch (type) {
+    case 'running':
+      return 'Running Title'
+    case 'short':
+      return 'Short Title'
+    default:
+      // Fallback for any other types that might exist
+      return `${type.charAt(0).toUpperCase()}${type.slice(1)} Title`
+  }
+}
+
 export const handleTextChange = (
   suggestion: TextChange,
   state: ManuscriptEditorState
@@ -48,15 +63,8 @@ export const handleTextChange = (
 
   if (parentNode) {
     const parentNodeType = parentNode.type
-    // Handle alt_title nodes with specific types like running title or short title
     if (parentNodeType === schema.nodes.alt_title) {
-      const altTitleType = parentNode.attrs.type
-      nodeName =
-        altTitleType === 'running title'
-          ? 'Running Title'
-          : altTitleType === 'short title'
-          ? 'Short Title'
-          : `${altTitleType} title`
+      nodeName = formatAltTitleType(parentNode as AltTitleNode)
     } else {
       const parentNodeName =
         nodeNames.get(parentNodeType) || parentNodeType?.name
@@ -145,7 +153,6 @@ export const handleNodeChange = (
         nodeName,
         content: nodeContentRetriever.getFigureLabel(node),
       }
-
     case schema.nodes.figure: {
       const parentNode = getParentNode(state, suggestion.from)!
       const nodeName = nodeNames.get(parentNode?.type) || parentNode?.type.name
@@ -155,7 +162,6 @@ export const handleNodeChange = (
         content: nodeContentRetriever.getFigureLabel(parentNode),
       }
     }
-
     case schema.nodes.inline_equation:
     case schema.nodes.equation_element:
       return {
@@ -190,7 +196,7 @@ export const handleNodeChange = (
     case schema.nodes.alt_title: {
       return {
         operation,
-        nodeName: node.attrs.type,
+        nodeName: formatAltTitleType(node as AltTitleNode),
         content: node.textContent,
       }
     }
