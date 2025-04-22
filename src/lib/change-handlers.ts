@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import {
   AffiliationAttrs,
@@ -23,6 +23,7 @@ import {
   TextChange,
 } from '@manuscripts/track-changes-plugin'
 import {
+  AltTitleNode,
   ManuscriptEditorState,
   nodeNames,
   schema,
@@ -36,6 +37,26 @@ interface SnippetData {
   operation: string
   nodeName: string
   content: string | null
+}
+
+const getTitleDisplayName = (type: string): string => {
+  switch (type) {
+    case 'running':
+    case 'right-running':
+      return 'Running Title'
+    case 'short':
+      return 'Short Title'
+    default:
+      return `${type.charAt(0).toUpperCase() + type.slice(1)} Title`
+  }
+}
+
+const isTitleNode = (nodeName: string): boolean => {
+  return (
+    nodeName.includes('Title') ||
+    nodeName === 'title' ||
+    nodeName === 'article-title'
+  )
 }
 
 export const handleTextChange = (
@@ -55,7 +76,7 @@ export const handleTextChange = (
         ? 'text'
         : parentNodeName + ' text'
     if (parentNodeType === schema.nodes.alt_title) {
-      nodeName = parentNode.attrs.type + ' title'
+      nodeName = getTitleDisplayName(parentNode.attrs.type)
     }
   }
   return {
@@ -180,7 +201,7 @@ export const handleNodeChange = (
     case schema.nodes.alt_title: {
       return {
         operation,
-        nodeName: node.attrs.type,
+        nodeName: getTitleDisplayName(node.attrs.type),
         content: node.textContent,
       }
     }
@@ -199,15 +220,25 @@ export const handleGroupChanges = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
+  const changes = suggestions.map((change) =>
+    ChangeSet.isTextChange(change)
+      ? handleTextChange(change, view.state)
+      : handleNodeChange(change as NodeChange, view.state)
+  )
+
+  // Determine the most specific node name from all changes
+  const nodeName = changes.reduce((result, c) => {
+    if (!c) {
+      return result
+    }
+    // Prefer title-related names over generic 'Text'
+    return result === 'Text' || isTitleNode(c.nodeName) ? c.nodeName : result
+  }, 'Text')
+
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: 'Text',
-    content: suggestions
-      .map((change) =>
-        ChangeSet.isTextChange(change)
-          ? handleTextChange(change, view.state)
-          : handleNodeChange(change as NodeChange, view.state)
-      )
+    nodeName,
+    content: changes
       .map((c) =>
         c?.nodeName === 'inline_equation' ? ` ${c.content} ` : c?.content
       )
