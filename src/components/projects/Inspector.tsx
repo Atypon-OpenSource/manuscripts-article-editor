@@ -16,6 +16,7 @@ import {
   ManuscriptIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
+import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 
 import { getConfig } from '../../config'
@@ -31,15 +32,18 @@ import {
   PrimaryInspectorTab,
   PrimaryTabList,
 } from '../Inspector'
+import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
+import VersionHistoryDropdown from '../VersionHistoryDropdown'
 
 const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
     inspectorOpenTabs: store.inspectorOpenTabs,
+    trackChangesStatus: store.trackState?.status,
   }))
   const config = getConfig()
 
@@ -81,44 +85,49 @@ const Inspector: React.FC = () => {
       hideWhen={'max-width: 900px'}
       resizerButton={ResizingInspectorButton}
     >
-      <InspectorContainer data-cy="inspector">
-        <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
-          <PrimaryTabList>
-            <PrimaryInspectorTab data-cy="comments-button">
-              <CommentIcon /> Comments
-            </PrimaryInspectorTab>
-            {!can.editWithoutTracking && (
-              <PrimaryInspectorTab data-cy="history-button">
-                <BookIcon /> History
+      {store.trackChangesStatus === TrackChangesStatus.viewSnapshots ? (
+        <SnapshotsList />
+      ) : (
+        <InspectorContainer data-cy="inspector">
+          <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
+            <PrimaryTabList>
+              <PrimaryInspectorTab data-cy="comments-button">
+                <CommentIcon /> Comments
               </PrimaryInspectorTab>
-            )}
-            {config.features.fileManagement && (
-              <PrimaryInspectorTab data-cy="files-button">
-                <ManuscriptIcon /> Files
-              </PrimaryInspectorTab>
-            )}
-          </PrimaryTabList>
-          <PaddedInspectorTabPanels>
-            <InspectorTabPanel key="Comments" data-cy="comments">
-              {tabIndex === COMMENTS_TAB_INDEX && (
-                <CommentsPanel key="comments" />
+              {!can.editWithoutTracking && (
+                <PrimaryInspectorTab data-cy="history-button">
+                  <BookIcon /> Changes
+                </PrimaryInspectorTab>
               )}
-            </InspectorTabPanel>
-            {!can.editWithoutTracking && (
-              <InspectorTabPanel key="History" data-cy="history">
-                {tabIndex === SUGGESTIONS_TAB_INDEX && (
-                  <TrackChangesPanel key="track-changes" />
+              {config.features.fileManagement && (
+                <PrimaryInspectorTab data-cy="files-button">
+                  <ManuscriptIcon /> Files
+                </PrimaryInspectorTab>
+              )}
+              <VersionHistoryDropdown />
+            </PrimaryTabList>
+            <PaddedInspectorTabPanels>
+              <InspectorTabPanel key="Comments" data-cy="comments">
+                {tabIndex === COMMENTS_TAB_INDEX && (
+                  <CommentsPanel key="comments" />
                 )}
               </InspectorTabPanel>
-            )}
-            {config.features.fileManagement && (
-              <InspectorTabPanel key="Files" data-cy="files">
-                {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
-              </InspectorTabPanel>
-            )}
-          </PaddedInspectorTabPanels>
-        </InspectorTabs>
-      </InspectorContainer>
+              {!can.editWithoutTracking && (
+                <InspectorTabPanel key="History" data-cy="history">
+                  {tabIndex === SUGGESTIONS_TAB_INDEX && (
+                    <TrackChangesPanel key="track-changes" />
+                  )}
+                </InspectorTabPanel>
+              )}
+              {config.features.fileManagement && (
+                <InspectorTabPanel key="Files" data-cy="files">
+                  {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
+                </InspectorTabPanel>
+              )}
+            </PaddedInspectorTabPanels>
+          </InspectorTabs>
+        </InspectorContainer>
+      )}
     </Panel>
   )
 }
