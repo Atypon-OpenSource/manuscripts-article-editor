@@ -211,7 +211,7 @@ export const handleNodeChange = (
     default:
       return {
         operation,
-        nodeName: nodeName.replaceAll('_', ' '),
+        nodeName,
         content: node.textContent,
       }
   }
