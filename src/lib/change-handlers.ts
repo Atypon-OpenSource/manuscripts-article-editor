@@ -17,7 +17,6 @@ import {
 } from '@manuscripts/body-editor'
 import {
   ChangeSet,
-  MoveChange,
   NodeAttrChange,
   NodeChange,
   RootChange,
