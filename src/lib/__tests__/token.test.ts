@@ -10,19 +10,33 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import TokenStore from '../token'
+import { TokenHandler, TokenPayload } from '../token'
+jest.mock('../../config', () => ({
+  getConfig: jest.fn(() => ({
+    authenticate: 'mock-endpoint',
+  })),
+}))
 
 describe('token', () => {
   // all of get, set, remove all in one test call
   // such as to make test ordering not be a factor in success.
+  const data: TokenPayload = {
+    userID: '123456',
+    email: 'User_test@example.com',
+    deviceID: 'device123',
+    aud: 'your-audience',
+    iss: 'your-issuer',
+    iat: 1616172290,
+    exp: 1744296871,
+  }
+  const token = ['', btoa(JSON.stringify(data)), ''].join('.')
   it('get and set', () => {
-    expect(TokenStore.get()).toBeFalsy()
+    expect(TokenHandler.get()).toBeFalsy()
 
-    const token = 'bar'
-    expect(TokenStore.set(token)).toEqual(token)
-    expect(TokenStore.get()).toEqual(token)
+    expect(TokenHandler.set(token)).toEqual(token)
+    expect(TokenHandler.get()).toEqual(token)
 
-    TokenStore.remove()
-    expect(TokenStore.get()).toBe(null)
+    TokenHandler.remove()
+    expect(TokenHandler.get()).toBe(null)
   })
 })

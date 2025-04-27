@@ -22,8 +22,8 @@ const Main: React.FC<EditorAppProps> = ({
   files,
   manuscriptID,
   projectID,
-  authToken,
   permittedActions,
+  getAuthToken,
   observer,
 }) => (
   <DndProvider backend={HTML5Backend}>
@@ -34,7 +34,7 @@ const Main: React.FC<EditorAppProps> = ({
       manuscriptID={manuscriptID}
       projectID={projectID}
       permittedActions={permittedActions}
-      authToken={authToken}
+      getAuthToken={getAuthToken}
       observer={observer}
     />
   </DndProvider>

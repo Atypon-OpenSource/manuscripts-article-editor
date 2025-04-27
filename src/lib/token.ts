@@ -9,17 +9,39 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
+import decode from 'jwt-decode'
+
+import { STORAGE_KEYS } from './storage'
 
 const storage = window.localStorage
 
-export const TOKEN_KEY = 'token'
+export interface TokenPayload {
+  userID: string
+  email: string
+  deviceID: string
+  aud: string
+  iss: string
+  iat: number
+  exp: number
+}
 
-export default {
-  get: () => storage.getItem(TOKEN_KEY),
+export const TokenHandler = {
   set: (token: string) => {
-    storage.setItem(TOKEN_KEY, token)
-
+    const { userID, exp } = decode<TokenPayload>(token)
+    if (!(userID && exp)) {
+      throw new Error('Invalid token')
+    }
+    storage.setItem(STORAGE_KEYS.token, token)
     return token
   },
-  remove: () => storage.removeItem(TOKEN_KEY),
+  get: () => storage.getItem(STORAGE_KEYS.token),
+  remove: () => storage.removeItem(STORAGE_KEYS.token),
+  isExpired: () => {
+    const token = TokenHandler.get()
+    if (!token) {
+      return true
+    }
+    const { exp } = decode<TokenPayload>(token)
+    return exp ? Date.now() >= exp * 1000 : true
+  },
 }

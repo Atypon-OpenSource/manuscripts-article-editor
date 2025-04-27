@@ -10,34 +10,36 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import tokenHandler from '../token'
-import { getCurrentUserId, TokenPayload } from '../user'
+import decode from 'jwt-decode'
 
-jest.mock('../token')
+import { TokenHandler, TokenPayload } from '../token'
 
+jest.mock('../../config', () => ({
+  getConfig: jest.fn(() => ({
+    authenticate: 'mock-endpoint',
+  })),
+}))
 describe('user', () => {
+  const data: TokenPayload = {
+    userID: '123456',
+    email: 'User_test@example.com',
+    deviceID: 'device123',
+    aud: 'your-audience',
+    iss: 'your-issuer',
+    iat: 1616172290,
+    exp: 1744296871,
+  }
+  const token = ['', btoa(JSON.stringify(data)), ''].join('.')
   test('get current user id from token', () => {
-    const data: TokenPayload = {
-      userID: '123456',
-      email: 'User_test@example.com',
-      deviceID: 'device123',
-      aud: 'your-audience',
-      iss: 'your-issuer',
-      iat: 1616172290,
-    }
-    const token = ['', btoa(JSON.stringify(data)), ''].join('.')
-    tokenHandler.set(token)
+    TokenHandler.set(token)
+    const { userID } = decode<TokenPayload>(TokenHandler.get() || '')
+    expect(userID).toBe('123456')
 
-    const result = getCurrentUserId()
-
-    expect(result).toBe('123456')
-
-    tokenHandler.remove()
+    TokenHandler.remove()
   })
 
   test('get removed current user id', () => {
-    const result = getCurrentUserId()
-
+    const result = TokenHandler.get()
     expect(result).toBeNull()
   })
 })
