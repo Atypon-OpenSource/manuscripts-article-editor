@@ -34,7 +34,7 @@ export const useCreateEditor = () => {
       style,
       locale,
       sectionCategories,
-      trackState,
+      isViewingMode,
     },
     dispatch,
     getState,
@@ -48,7 +48,7 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
-    trackState: store.trackState,
+    isViewingMode: store.isViewingMode,
   }))
 
   const api = useApi()
@@ -87,9 +87,9 @@ export const useCreateEditor = () => {
         user,
         undefined,
         permittedActions,
-        trackState?.status === 'view-snapshots'
+        isViewingMode
       ),
-    [trackState?.status]
+    [isViewingMode]
   )
   const config = getConfig()
 

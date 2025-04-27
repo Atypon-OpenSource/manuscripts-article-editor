@@ -50,7 +50,7 @@ const ManuscriptPageContainer: React.FC = () => {
         project: state.project,
         user: state.user,
         permittedActions: state.permittedActions,
-        isViewingMode: state.trackState?.status === 'view-snapshots',
+        isViewingMode: state.isViewingMode,
       }
     }
   )
