@@ -16,7 +16,6 @@ import {
   ManuscriptIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
-import { TrackChangesStatus } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 
 import { getConfig } from '../../config'
@@ -43,7 +42,7 @@ const Inspector: React.FC = () => {
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
     inspectorOpenTabs: store.inspectorOpenTabs,
-    trackChangesStatus: store.trackState?.status,
+    isViewingMode: store.isViewingMode,
   }))
   const config = getConfig()
 
@@ -85,7 +84,7 @@ const Inspector: React.FC = () => {
       hideWhen={'max-width: 900px'}
       resizerButton={ResizingInspectorButton}
     >
-      {store.trackChangesStatus === TrackChangesStatus.viewSnapshots ? (
+      {store.isViewingMode ? (
         <SnapshotsList />
       ) : (
         <InspectorContainer data-cy="inspector">
