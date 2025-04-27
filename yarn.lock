@@ -1589,16 +1589,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.40-LEAN-4160.0":
-  version "2.8.40-LEAN-4160.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.40-LEAN-4160.0.tgz#5288f2bffe689f5ae446f2b83948016a6db73715"
-  integrity sha512-c02hghPU1zEht/qJ4ykCSKE6/IJsXcppNTArtwMg59SOF1y3/mmr4MkrU7fJbdxc2NPnKvqxOgjwJTXR4VBTeA==
+"@manuscripts/body-editor@2.8.40-LEAN-4160.1":
+  version "2.8.40-LEAN-4160.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.40-LEAN-4160.1.tgz#32031cdcaaa9f0d87aa09cd48fab493de06b1ca7"
+  integrity sha512-TJF9+7G4ABUO2NfuhjjSxUdsw0nJoR7XnSEz8qcCx+rV1/+cjQhseuc2lvttWHSRmw3lkx1Lf5PFZ6faQANOqg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.13"
     "@manuscripts/style-guide" "2.1.6"
-    "@manuscripts/track-changes-plugin" "1.10.5-LEAN-4160.0"
+    "@manuscripts/track-changes-plugin" "1.10.5-LEAN-4160.1"
     "@manuscripts/transform" "3.0.55"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
@@ -1704,10 +1704,10 @@
     react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.10.5-LEAN-4160.0":
-  version "1.10.5-LEAN-4160.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.5-LEAN-4160.0.tgz#33c519bc0ec6ba4050d86337d4b18bf0fcf83275"
-  integrity sha512-LqlxTQDfoXISTqQQl3l+CbMziuPyGzLwGmPuK333ScpOWbtjFM4e6WUsqEgz9rlm2BJ7cfiv6To7f61ZzxF8og==
+"@manuscripts/track-changes-plugin@1.10.5-LEAN-4160.1":
+  version "1.10.5-LEAN-4160.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.5-LEAN-4160.1.tgz#bb10815e2e1bc89465da47058ef438b315b63ca7"
+  integrity sha512-501zomnptTJ9AcuKnwRzK2MEM/VFpfjjUXFocN7cLXGuDpqgTWiL1fHW8URL9zxSOSjUKb0j6D2x4iGbBziRgw==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
