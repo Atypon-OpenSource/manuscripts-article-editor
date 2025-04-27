@@ -126,7 +126,7 @@ const createAttrsDisplay = (
               value: references.reduce((acc, ref) => {
                 const rids = value as string[]
                 if (rids.includes(ref.attrs.id)) {
-                  const refText = ref.attrs.title || ref.attrs.doi || ''
+                  const refText = ref.attrs.title || ref.attrs.DOI || ''
                   return acc ? acc + ', \n' + refText : refText
                 }
 
