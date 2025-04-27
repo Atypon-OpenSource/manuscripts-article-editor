@@ -1589,17 +1589,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.36":
-  version "2.8.36"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.36.tgz#d36eea9b8493142868ebf23af1e2afb80d227fbf"
-  integrity sha512-Gdyyfnnku5gH9NF2cPScZxZH6ZaPTx8c9n6zmASX9T7yIL1gs1LmHztcq3eGx1z6PpxNuKXbmqG+jlrm57nmaw==
+"@manuscripts/body-editor@2.8.40-LEAN-4160.0":
+  version "2.8.40-LEAN-4160.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.40-LEAN-4160.0.tgz#5288f2bffe689f5ae446f2b83948016a6db73715"
+  integrity sha512-c02hghPU1zEht/qJ4ykCSKE6/IJsXcppNTArtwMg59SOF1y3/mmr4MkrU7fJbdxc2NPnKvqxOgjwJTXR4VBTeA==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.13"
     "@manuscripts/style-guide" "2.1.6"
-    "@manuscripts/track-changes-plugin" "1.10.4"
-    "@manuscripts/transform" "3.0.54"
+    "@manuscripts/track-changes-plugin" "1.10.5-LEAN-4160.0"
+    "@manuscripts/transform" "3.0.55"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1704,10 +1704,10 @@
     react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.10.4":
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.4.tgz#1b338794d005f2a5f716953530384ef7594aa515"
-  integrity sha512-DVOPTttLkFw7JxF9flbnQbUQaNFw7HsxGF6UZ5c8Ul/6f5t8XfA5IvOhzqGWo9IqplP60ABTH7FkjSisdisikg==
+"@manuscripts/track-changes-plugin@1.10.5-LEAN-4160.0":
+  version "1.10.5-LEAN-4160.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.5-LEAN-4160.0.tgz#33c519bc0ec6ba4050d86337d4b18bf0fcf83275"
+  integrity sha512-LqlxTQDfoXISTqQQl3l+CbMziuPyGzLwGmPuK333ScpOWbtjFM4e6WUsqEgz9rlm2BJ7cfiv6To7f61ZzxF8og==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1720,10 +1720,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.54":
-  version "3.0.54"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.54.tgz#219cf643c20530028dede721f9d4c4ba3e95dff7"
-  integrity sha512-+HqOji0/HhtHBI+slIQ5getK/7sd1kLhdy4OHhaJpiPb838Bc3lr6rrwkHtuqTucM9bfuk3525eUwnpbnwUSGg==
+"@manuscripts/transform@3.0.55":
+  version "3.0.55"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.55.tgz#66d6bcd892332705964bb308c859f7b3b8dfbe48"
+  integrity sha512-kU2RhHptf/neBOXJtkKoj7VqFvjkycC+epGwyofwiij7PZlftNK2F2bvct36rNIzCBkO8Z4asMl8WN2P2wrvpw==
   dependencies:
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.13"
