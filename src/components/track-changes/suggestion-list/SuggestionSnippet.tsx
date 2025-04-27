@@ -15,7 +15,6 @@ import styled from 'styled-components'
 
 import {
   handleGroupChanges,
-  handleMoveChange,
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
@@ -52,8 +51,6 @@ export const SuggestionSnippet: React.FC<{ suggestions: RootChange }> = ({
         ChangeSet.isNodeAttrChange(suggestion)
       ) {
         newSnippet = handleNodeChange(suggestion, view.state)
-      } else if (ChangeSet.isMoveChange(suggestion)) {
-        newSnippet = handleMoveChange(suggestion)
       } else {
         newSnippet = handleUnknownChange()
       }
