@@ -11,11 +11,6 @@
  */
 
 import { TokenHandler, TokenPayload } from '../token'
-jest.mock('../../config', () => ({
-  getConfig: jest.fn(() => ({
-    authenticate: 'mock-endpoint',
-  })),
-}))
 
 describe('token', () => {
   // all of get, set, remove all in one test call

@@ -14,11 +14,6 @@ import decode from 'jwt-decode'
 
 import { TokenHandler, TokenPayload } from '../token'
 
-jest.mock('../../config', () => ({
-  getConfig: jest.fn(() => ({
-    authenticate: 'mock-endpoint',
-  })),
-}))
 describe('user', () => {
   const data: TokenPayload = {
     userID: '123456',
