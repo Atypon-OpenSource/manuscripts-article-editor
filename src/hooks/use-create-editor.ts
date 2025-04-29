@@ -92,7 +92,6 @@ export const useCreateEditor = () => {
     [isViewingMode]
   )
   const config = getConfig()
-
   const onEditorClick = useInspectorTabsContext()
 
   const props = {
@@ -127,6 +126,7 @@ export const useCreateEditor = () => {
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),
+    lockBody: config.features.lockBody,
   }
   const editor = useEditor(props)
   return editor
