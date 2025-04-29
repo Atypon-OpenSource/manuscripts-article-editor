@@ -7,9 +7,10 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { SecondaryButton, useDropdown } from '@manuscripts/style-guide'
+
+import { SecondaryButton } from '@manuscripts/style-guide'
 import {
   TrackChangesStatus,
   trackCommands,
@@ -23,15 +24,8 @@ import useExecCmd from '../../hooks/use-exec-cmd'
 import { ManuscriptSnapshot } from '../../lib/doc'
 import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'
-import {
-  Dropdown,
-  DropdownButtonContainer,
-  DropdownContainer,
-  DropdownToggle,
-} from '../nav/Dropdown'
 
-export const SnapshotsDropdown: React.FC = () => {
-  const { wrapperRef, toggleOpen, isOpen } = useDropdown()
+export const SnapshotsList: React.FC = () => {
   const [{ view, getSnapshot, snapshots }] = useStore((store) => ({
     view: store.view,
     getSnapshot: store.getSnapshot,
@@ -46,7 +40,6 @@ export const SnapshotsDropdown: React.FC = () => {
     () => snapshots.sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
     [snapshots]
   )
-
   if (!view) {
     return null
   }
@@ -59,12 +52,10 @@ export const SnapshotsDropdown: React.FC = () => {
     view.updateState(state)
   }
 
-  const handleSelect = async (id: string) => {
+  const handleSelectSnapshot = async (id: string) => {
     if (id === selectedSnapshot?.id) {
-      handleResumeEditing()
       return
     }
-
     const snapshot = await getSnapshot(id)
     if (snapshot) {
       setDoc(view.state.doc)
@@ -74,7 +65,7 @@ export const SnapshotsDropdown: React.FC = () => {
     }
   }
 
-  const handleResumeEditing = () => {
+  const handleSelectCurrent = () => {
     if (!doc) {
       console.warn('No original doc found')
       return
@@ -82,96 +73,118 @@ export const SnapshotsDropdown: React.FC = () => {
     setDoc(undefined)
     setSelectedSnapshot(undefined)
     hydrateDocFromJSON(doc)
+    execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
+  }
+
+  const handleClose = () => {
+    if (selectedSnapshot) {
+      handleSelectCurrent()
+    }
     execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.enabled))
   }
 
   return (
-    <SnapshotContainer>
-      <DropdownContainer id={'snapshots-dropdown'} ref={wrapperRef}>
-        <DropdownButtonContainer
-          onClick={toggleOpen}
-          isOpen={isOpen}
-          className={'dropdown-toggle'}
+    <>
+      <HeaderContainer>
+        <Header>
+          <>Version history </>
+          <SecondaryText>Snapshots created on task completion </SecondaryText>
+        </Header>
+        <CloseButton onClick={handleClose}>
+          <CloseIcon /> Close
+        </CloseButton>
+      </HeaderContainer>
+      <SnapshotListContainer>
+        <SnapshotListItem
+          onClick={(e) => {
+            if (selectedSnapshot) {
+              handleSelectCurrent()
+            }
+          }}
+          key={'current'}
+          className={!selectedSnapshot ? 'selected' : ''}
         >
-          <Container>
-            <InnerContainer>
-              <Text>
-                {selectedSnapshot ? selectedSnapshot.name : 'Current'}
-                <DropdownToggle className={isOpen ? 'open' : ''} />
-              </Text>
-              {selectedSnapshot && (
-                <DateTime>
-                  <FormattedDateTime
-                    date={new Date(selectedSnapshot.createdAt).getTime() / 1000}
-                  />
-                </DateTime>
-              )}
-            </InnerContainer>
-          </Container>
-        </DropdownButtonContainer>
-        {isOpen && (
-          <SnapshotsList top={25} direction={'left'} minWidth={100}>
-            <Element
+          <SnapshotName>{'Current version'}</SnapshotName>
+        </SnapshotListItem>
+        {sortedSnapshots.map((snapshot) => {
+          return (
+            <SnapshotListItem
               onClick={(e) => {
-                if (selectedSnapshot) {
-                  handleResumeEditing()
-                }
-                toggleOpen()
+                handleSelectSnapshot(snapshot.id)
               }}
-              key={'current'}
+              key={snapshot.id}
+              className={snapshot.id === selectedSnapshot?.id ? 'selected' : ''}
             >
-              <Container>
-                <InnerContainer>
-                  <Text>{'Current'}</Text>
-                </InnerContainer>
-              </Container>
-            </Element>
-            {sortedSnapshots.map((snapshot) => {
-              return (
-                <Element
-                  onClick={(e) => {
-                    handleSelect(snapshot.id)
-                    toggleOpen()
-                  }}
-                  key={snapshot.id}
-                >
-                  <Container>
-                    <InnerContainer>
-                      <Text>{snapshot.name}</Text>
+              <SnapshotName>{snapshot.name}</SnapshotName>
 
-                      <DateTime>
-                        <FormattedDateTime
-                          date={new Date(snapshot.createdAt).getTime() / 1000}
-                        />
-                      </DateTime>
-                    </InnerContainer>
-                  </Container>
-                </Element>
-              )
-            })}
-          </SnapshotsList>
-        )}
-      </DropdownContainer>
-    </SnapshotContainer>
+              <SecondaryText>
+                <FormattedDateTime
+                  date={new Date(snapshot.createdAt).getTime() / 1000}
+                />
+              </SecondaryText>
+            </SnapshotListItem>
+          )
+        })}
+      </SnapshotListContainer>
+    </>
   )
 }
-const Container = styled.div`
+
+const HeaderContainer = styled.div`
   display: flex;
-`
-const InnerContainer = styled.div`
-  display: block;
-  text-align: left;
-  margin-left: 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${(props) => props.theme.grid.unit * 4}px
+    ${(props) => props.theme.grid.unit * 6}px;
 `
 
-const SnapshotsList = styled(Dropdown)`
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+const CloseButton = styled(SecondaryButton)`
+  padding: 4px ${(props) => props.theme.grid.unit * 3}px;
+  font-size: 14px;
+`
+const CloseIcon = styled.div`
+  display: inline-flex;
+  height: 12px;
+  padding: 8px;
+  position: relative;
+  width: 12px;
+
+  box-shadow: none;
+  text-indent: -99999px;
+  ::before,
+  ::after {
+    background-color: ${(props) => props.theme.colors.text.secondary};
+    border-radius: 2px;
+    content: ' ';
+    display: block;
+    height: 14px;
+    transform: rotate(-45deg);
+    width: 2px;
+    position: absolute;
+    top: calc(50% - 7px);
+    left: calc(50% - 1px);
+  }
+  ::after {
+    transform: rotate(45deg);
+  }
+`
+
+const SnapshotListContainer = styled.div`
   display: block;
   overflow: auto;
   padding: ${(props) => props.theme.grid.unit * 2}px 0;
 `
-const Element = styled(SecondaryButton)`
+const SnapshotListItem = styled(SecondaryButton)`
   background: ${(props) => props.theme.colors.background.primary} !important;
   display: inline-block;
+  text-align: left;
   width: 100%;
   padding: ${(props) => props.theme.grid.unit * 4}px
     ${(props) => props.theme.grid.unit * 6}px;
@@ -180,32 +193,21 @@ const Element = styled(SecondaryButton)`
   &:not([disabled]):hover {
     background: ${(props) => props.theme.colors.background.fifth} !important;
   }
-`
-const SnapshotContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 3}px;
-  margin-top: ${(props) => props.theme.grid.unit * 6}px;
-  align-items: center;
 
-  .dropdown-toggle {
-    border: none;
-    background: transparent !important;
-  }
-
-  &:hover {
-    background: ${(props) => props.theme.colors.background.fifth};
+  &.selected {
+    background: ${(props) => props.theme.colors.background.fifth} !important;
+    border-top: 1px solid #bce7f6 !important;
+    border-bottom: 1px solid #bce7f6 !important;
   }
 `
-const Text = styled.div`
+
+const SnapshotName = styled.div`
   color: ${(props) => props.theme.colors.text.primary};
   font-size: ${(props) => props.theme.font.size.normal};
   display: flex;
   align-items: center;
 `
-const DateTime = styled.div`
+const SecondaryText = styled.div`
   color: ${(props) => props.theme.colors.text.secondary};
   font-size: ${(props) => props.theme.font.size.small};
   line-height: ${(props) => props.theme.font.lineHeight.normal};

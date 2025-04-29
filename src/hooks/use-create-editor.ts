@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { useEditor } from '@manuscripts/body-editor'
+import { Project, UserProfile } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
-import { memoize } from 'lodash'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -34,6 +34,7 @@ export const useCreateEditor = () => {
       style,
       locale,
       sectionCategories,
+      isViewingMode,
     },
     dispatch,
     getState,
@@ -47,6 +48,7 @@ export const useCreateEditor = () => {
     style: store.cslStyle,
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
+    isViewingMode: store.isViewingMode,
   }))
 
   const api = useApi()
@@ -78,8 +80,16 @@ export const useCreateEditor = () => {
     return () => stepsExchanger.stop()
   }, [dispatch, stepsExchanger])
 
-  const getCapabilities = memoize((project, user, permittedActions) =>
-    getActionCapabilities(project, user, undefined, permittedActions)
+  const getCapabilities = useMemo(
+    () => (project: Project, user: UserProfile, permittedActions: string[]) =>
+      getActionCapabilities(
+        project,
+        user,
+        undefined,
+        permittedActions,
+        isViewingMode
+      ),
+    [isViewingMode]
   )
   const config = getConfig()
   const onEditorClick = useInspectorTabsContext()
