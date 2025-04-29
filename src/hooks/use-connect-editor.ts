@@ -73,10 +73,16 @@ export const useConnectEditor = () => {
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
     const trackState = trackChangesPluginKey.getState(state)
-
+    const isViewingMode = trackState?.status === 'view-snapshots'
     doWithThrottle(() => {
       // @TODO - test throttling
-      storeDispatch({ doc: state.doc, trackState, view, editor })
+      storeDispatch({
+        doc: state.doc,
+        trackState,
+        isViewingMode,
+        view,
+        editor,
+      })
     }, 200)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
