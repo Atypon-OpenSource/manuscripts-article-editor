@@ -201,6 +201,13 @@ export const handleNodeChange = (
         content: node.textContent,
       }
     }
+    case schema.nodes.quote_image: {
+      return {
+        operation,
+        nodeName: 'Pullquote image',
+        content: node.textContent,
+      }
+    }
     default:
       return {
         operation,
