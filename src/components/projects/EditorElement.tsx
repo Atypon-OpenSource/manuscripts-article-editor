@@ -38,8 +38,9 @@ import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
-  const [{ editor }] = useStore((store) => ({
+  const [{ editor, isViewingMode }] = useStore((store) => ({
     editor: store.editor,
+    isViewingMode: store.isViewingMode,
   }))
 
   const { onRender, view, dispatch } = useConnectEditor()
@@ -119,7 +120,11 @@ const EditorElement: React.FC = () => {
       <SpriteMap color="#353535" />
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
       <div id="editorDropzone" ref={drop}>
-        <div id="editor" ref={onRender}></div>
+        <div
+          id="editor"
+          key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
+          ref={onRender}
+        ></div>
       </div>
     </>
   )
