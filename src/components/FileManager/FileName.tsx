@@ -22,7 +22,7 @@ export const FileName: React.FC<{
   icon?: React.FC<React.SVGAttributes<SVGElement>>
   label?: string
 }> = ({ file, label, icon: Icon }) => {
-  const maxBaseNameLength = 30 // Adjust this value as needed
+  const maxBaseNameLength = 25 // Adjust this value as needed
 
   // Get the trimmed filename
   const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
