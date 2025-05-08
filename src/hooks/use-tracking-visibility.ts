@@ -14,8 +14,6 @@ import { useState } from 'react'
 
 export const useTrackingVisibility = (): [boolean, () => void] => {
   const [trackingVisible, setTrackingVisible] = useState(true)
-  const toggleTrackingVisibility = () => {
-    setTrackingVisible(!trackingVisible)
-  }
+  const toggleTrackingVisibility = () => setTrackingVisible(!trackingVisible)
   return [trackingVisible, toggleTrackingVisibility]
 }
