@@ -22,6 +22,10 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
+import {
+  trackChangesPluginKey,
+  TrackChangesStatus,
+} from '@manuscripts/track-changes-plugin'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -71,9 +75,22 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
-
   const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
-  const isTrackingVisible = !can.editWithoutTracking && trackingVisible
+  const [{ view }] = useStore((store) => ({ view: store.view }))
+
+  // Get tracking status from editor state
+  const trackChangesStatus = view?.state
+    ? trackChangesPluginKey.getState(view.state)?.status
+    : TrackChangesStatus.disabled
+
+  const showTrackChangesToggle =
+    !can.editWithoutTracking &&
+    trackChangesStatus !== TrackChangesStatus.viewSnapshots
+
+  const isTrackingVisible =
+    !can.editWithoutTracking &&
+    trackingVisible &&
+    trackChangesStatus !== TrackChangesStatus.viewSnapshots
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
@@ -88,7 +105,7 @@ const ManuscriptPageView: React.FC = () => {
                     <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
 
-                  {!can.editWithoutTracking && (
+                  {showTrackChangesToggle && (
                     <>
                       <Label>Show tracked changes</Label>
                       <IconButton
