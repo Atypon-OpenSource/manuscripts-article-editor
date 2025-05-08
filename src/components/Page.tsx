@@ -13,7 +13,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useStore } from '../store'
+import { TokenHandler } from '../lib/token'
 
 export const Main = styled.main`
   height: 100%;
@@ -48,13 +48,8 @@ const PageContainer = styled.div`
 `
 
 export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [{ tokenData }] = useStore((store) => ({
-    tokenData: store.tokenData,
-  }))
-
-  if (!tokenData) {
-    throw new Error('TokenData not found. User is not loggged in!')
+  if (!TokenHandler.get()) {
+    throw new Error('Authentication to manuscripts required.')
   }
-
   return <PageContainer>{children}</PageContainer>
 }

@@ -17,11 +17,16 @@ import {
   UserProfile,
 } from '@manuscripts/json-schema'
 import { ManuscriptTemplate } from '@manuscripts/transform'
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios'
 import { createContext, useContext } from 'react'
 
 import { getConfig } from '../config'
 import { ManuscriptDoc, ManuscriptSnapshot } from '../lib/doc'
+import { TokenHandler } from '../lib/token'
 import {
   CreateSnapshotResponse,
   SendStepsPayload,
@@ -33,13 +38,28 @@ import {
 
 export class Api {
   instance: AxiosInstance
+  getAuthToken: () => Promise<string | undefined>
 
-  constructor(authToken: string) {
+  constructor(getAuthToken: () => Promise<string | undefined>) {
     const config = getConfig()
     this.instance = axios.create({
       baseURL: config.api.url,
-      headers: { ...config.api.headers, Authorization: 'Bearer ' + authToken },
+      headers: { ...config.api.headers },
     })
+    this.getAuthToken = getAuthToken
+    this.instance.interceptors.request.use(this.authInterceptor)
+  }
+
+  authInterceptor = async (config: InternalAxiosRequestConfig) => {
+    if (TokenHandler.isExpired()) {
+      const token = await this.getAuthToken()
+      if (!token) {
+        throw new Error('failed to generate manuscripts token')
+      }
+      TokenHandler.set(token)
+    }
+    config.headers.Authorization = 'Bearer ' + TokenHandler.get()
+    return config
   }
 
   get = async <T>(url: string) => {

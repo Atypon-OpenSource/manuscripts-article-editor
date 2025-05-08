@@ -12,28 +12,24 @@
 
 import './lib/fonts'
 
-import decode from 'jwt-decode'
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense, useEffect } from 'react'
 
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
-import tokenHandler from './lib/token'
-import { TokenPayload } from './lib/user'
-import store from './lib/user-id'
+import { TokenHandler } from './lib/token'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 
-export { ProjectRole } from './lib/roles'
-export type { state } from './store'
-export { getUserRole } from './lib/roles'
 export type {
   AppState,
+  AppStateObserver,
   AppStateRef,
   EditorAppProps,
-  AppStateObserver,
 } from './EditorApp'
 export type { ManuscriptsEditorConfig } from './config'
+export { ProjectRole, getUserRole } from './lib/roles'
+export type { state } from './store'
 
 const ManuscriptEditor: React.FC<
   EditorAppProps & { config: ManuscriptsEditorConfig }
@@ -43,27 +39,26 @@ const ManuscriptEditor: React.FC<
   manuscriptID,
   projectID,
   permittedActions,
-  authToken,
+  getAuthToken,
   config,
   observer,
 }) => {
-  useMemo(() => {
-    if (authToken) {
-      tokenHandler.remove()
-      tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
-      const { userID } = decode<TokenPayload>(authToken)
-
-      if (!userID) {
-        throw new Error('Invalid token')
+  useEffect(() => {
+    const setToken = async () => {
+      const token = await getAuthToken()
+      if (token) {
+        TokenHandler.set(token)
       }
+    }
 
-      store.set(userID)
-    }
+    setToken().catch((error) => {
+      console.error('Error setting token:', error)
+    })
+
     return () => {
-      tokenHandler.remove()
-      store.remove()
+      TokenHandler.remove()
     }
-  }, [authToken])
+  }, [getAuthToken])
 
   setConfig(config)
 
@@ -76,10 +71,10 @@ const ManuscriptEditor: React.FC<
           <Main
             fileManagement={fileManagement}
             files={files}
-            authToken={authToken || ''}
             manuscriptID={manuscriptID}
             projectID={projectID}
             permittedActions={permittedActions}
+            getAuthToken={getAuthToken}
             observer={observer}
           />
         </Suspense>
