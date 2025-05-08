@@ -22,10 +22,6 @@ import {
   useCalcPermission,
   usePermissions,
 } from '@manuscripts/style-guide'
-import {
-  trackChangesPluginKey,
-  TrackChangesStatus,
-} from '@manuscripts/track-changes-plugin'
 import React from 'react'
 import styled from 'styled-components'
 
