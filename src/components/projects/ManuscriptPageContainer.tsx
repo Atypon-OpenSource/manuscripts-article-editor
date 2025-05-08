@@ -76,21 +76,12 @@ const ManuscriptPageContainer: React.FC = () => {
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
   const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
-  const [{ view }] = useStore((store) => ({ view: store.view }))
+  const [{ isViewingMode }] = useStore((store) => ({
+    isViewingMode: store.isViewingMode,
+  }))
 
-  // Get tracking status from editor state
-  const trackChangesStatus = view?.state
-    ? trackChangesPluginKey.getState(view.state)?.status
-    : TrackChangesStatus.disabled
-
-  const showTrackChangesToggle =
-    !can.editWithoutTracking &&
-    trackChangesStatus !== TrackChangesStatus.viewSnapshots
-
-  const isTrackingVisible =
-    !can.editWithoutTracking &&
-    trackingVisible &&
-    trackChangesStatus !== TrackChangesStatus.viewSnapshots
+  const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
+  const isTrackingVisible = showTrackChangesToggle && trackingVisible
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
