@@ -57,6 +57,7 @@ export const PaddedInspectorTabPanels = styled(InspectorTabPanels)`
 export const InspectorTabPanel = styled(TabPanel)`
   font-size: ${(props) => props.theme.font.size.normal};
   color: ${(props) => props.theme.colors.text.secondary};
+  height: 98%;
 `
 
 const BaseInspectorTab = styled(Tab)`
