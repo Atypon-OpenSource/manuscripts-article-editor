@@ -22,7 +22,6 @@ import {
 } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
-import { getConfig } from '../../config'
 import { useStore } from '../../store'
 
 const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
@@ -36,13 +35,6 @@ const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
 }
 
 const isMenuEnabled = (spec: MenuSpec) => {
-  const config = getConfig()
-  if (spec.id === 'format-table' || spec.id === 'insert-table-element') {
-    return config.features.tableEditing && spec.isEnabled
-  }
-  if (spec.id === 'insert-pullquote') {
-    return config.features.pullQuotes && spec.isEnabled
-  }
   return spec.isEnabled
 }
 
