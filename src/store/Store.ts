@@ -46,6 +46,7 @@ export type state = {
   doc: ManuscriptNode
   initialDocVersion: number
   trackState?: TrackChangesState
+  isViewingMode?: boolean
   view?: ManuscriptEditorView
   titleText: string
 

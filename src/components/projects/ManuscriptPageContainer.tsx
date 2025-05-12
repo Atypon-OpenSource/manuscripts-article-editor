@@ -44,18 +44,22 @@ import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
-  const [{ project, user, permittedActions }] = useStore((state) => {
-    return {
-      project: state.project,
-      user: state.user,
-      permittedActions: state.permittedActions,
+  const [{ project, user, permittedActions, isViewingMode }] = useStore(
+    (state) => {
+      return {
+        project: state.project,
+        user: state.user,
+        permittedActions: state.permittedActions,
+        isViewingMode: state.isViewingMode,
+      }
     }
-  })
+  )
 
   const can = useCalcPermission({
     profile: user,
     project: project,
     permittedActions,
+    isViewingMode,
   })
 
   return (
