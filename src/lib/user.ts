@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 
 import tokenHandler from './token'
 
@@ -30,6 +30,6 @@ export const getCurrentUserId = () => {
     return null
   }
 
-  const { userID } = decode<TokenPayload>(token)
+  const { userID } = jwtDecode<TokenPayload>(token)
   return userID
 }

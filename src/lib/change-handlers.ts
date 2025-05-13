@@ -30,7 +30,6 @@ import {
 } from '@manuscripts/transform'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
-import { changeOperationAlias } from './tracking'
 import { getParentNode } from './utils'
 
 interface SnippetData {
@@ -263,5 +262,26 @@ export const handleUnknownChange = (): SnippetData => {
     operation: '',
     nodeName: '',
     content: 'Unknown change!',
+  }
+}
+
+const changeOperationAlias = (operation: string): string => {
+  switch (operation) {
+    case 'delete': {
+      return 'Deleted'
+    }
+    case 'insert':
+    case 'wrap_with_node': {
+      return 'Inserted'
+    }
+    case 'set_attrs': {
+      return 'Updated'
+    }
+    case 'node_split': {
+      return 'Split'
+    }
+    default: {
+      return 'null'
+    }
   }
 }

@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import decode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 
 import { TokenPayload } from '../lib/user'
 const storage = window.localStorage
@@ -55,7 +55,7 @@ export class TokenData {
   }
 
   private parseToken = (token: string) => {
-    const { userID } = decode<TokenPayload>(token)
+    const { userID } = jwtDecode<TokenPayload>(token)
 
     if (userID) {
       this.data = {

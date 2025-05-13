@@ -12,7 +12,7 @@
 
 import './lib/fonts'
 
-import decode from 'jwt-decode'
+import {jwtDecode} from 'jwt-decode'
 import React, { Suspense, useMemo } from 'react'
 
 import { LoadingPage } from './components/Loading'
@@ -51,7 +51,7 @@ const ManuscriptEditor: React.FC<
     if (authToken) {
       tokenHandler.remove()
       tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
-      const { userID } = decode<TokenPayload>(authToken)
+      const { userID } = jwtDecode<TokenPayload>(authToken)
 
       if (!userID) {
         throw new Error('Invalid token')
