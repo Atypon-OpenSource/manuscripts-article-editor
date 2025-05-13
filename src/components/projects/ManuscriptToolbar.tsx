@@ -20,7 +20,6 @@ import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
-import { getConfig } from '../../config'
 import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 
@@ -103,7 +102,6 @@ export const ToolbarGroup = styled.div`
 
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
-  const config = getConfig()
 
   const [editor] = useStore((store) => store.editor)
 
@@ -119,9 +117,6 @@ export const ManuscriptToolbar: React.FC = () => {
     item: ToolbarButtonConfig,
     state: EditorState
   ) => {
-    if (id === 'table_element' && !config.features.tableEditing) {
-      return false
-    }
     return item.isEnabled(state)
   }
 
@@ -136,8 +131,6 @@ export const ManuscriptToolbar: React.FC = () => {
           {Object.entries(group)
             .filter(([key]) => {
               switch (key) {
-                case 'footnotes':
-                  return config.features.footnotes
                 case 'comment':
                   return can.handleOwnComments
                 default:
