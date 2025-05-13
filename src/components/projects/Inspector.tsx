@@ -18,7 +18,6 @@ import {
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
-import { getConfig } from '../../config'
 import { InspectorPrimaryTabs } from '../../hooks/use-inspector-tabs-context'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
@@ -44,7 +43,6 @@ const Inspector: React.FC = () => {
     inspectorOpenTabs: store.inspectorOpenTabs,
     isViewingMode: store.isViewingMode,
   }))
-  const config = getConfig()
 
   const can = usePermissions()
 
@@ -56,7 +54,7 @@ const Inspector: React.FC = () => {
   let index = 0
   const COMMENTS_TAB_INDEX = index++
   const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
-  const FILES_TAB_INDEX = config.features.fileManagement ? index++ : -1
+  const FILES_TAB_INDEX = index++
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -98,11 +96,9 @@ const Inspector: React.FC = () => {
                   <BookIcon /> Changes
                 </PrimaryInspectorTab>
               )}
-              {config.features.fileManagement && (
-                <PrimaryInspectorTab data-cy="files-button">
-                  <ManuscriptIcon /> Files
-                </PrimaryInspectorTab>
-              )}
+              <PrimaryInspectorTab data-cy="files-button">
+                <ManuscriptIcon /> Files
+              </PrimaryInspectorTab>
               <VersionHistoryDropdown />
             </PrimaryTabList>
             <PaddedInspectorTabPanels>
@@ -118,11 +114,9 @@ const Inspector: React.FC = () => {
                   )}
                 </InspectorTabPanel>
               )}
-              {config.features.fileManagement && (
-                <InspectorTabPanel key="Files" data-cy="files">
-                  {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
-                </InspectorTabPanel>
-              )}
+              <InspectorTabPanel key="Files" data-cy="files">
+                {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
+              </InspectorTabPanel>
             </PaddedInspectorTabPanels>
           </InspectorTabs>
         </InspectorContainer>
