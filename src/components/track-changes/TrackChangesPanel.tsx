@@ -20,7 +20,6 @@ import React, { useCallback, useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
-import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 import { setChangeStatus, setSelectedSuggestion } from './utils'
@@ -67,7 +66,6 @@ export const TrackChangesPanel: React.FC = () => {
 
   return (
     <>
-      <SnapshotsDropdown />
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
