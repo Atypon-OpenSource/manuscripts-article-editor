@@ -80,10 +80,23 @@ export class NodeTextContentRetriever {
    * Retrieves the label of a figure node.
    */
   public getFigureLabel(node: ManuscriptNode): string {
-    const objectsPlugin = objectsPluginKey.get(this.state)
-    const pluginState = objectsPlugin?.getState(this.state)
-    const target = pluginState?.get(node.attrs.id)
-    return target?.label || ''
+    try {
+      const objectsPlugin = objectsPluginKey.get(this.state)
+      if (!objectsPlugin) {
+        return ''
+      }
+
+      const pluginState = objectsPlugin.getState(this.state)
+      if (!pluginState) {
+        return ''
+      }
+
+      const target = pluginState.get(node.attrs.id)
+      return target?.label || ''
+    } catch (error) {
+      console.error('Error getting figure label:', error)
+      return ''
+    }
   }
 
   /**
