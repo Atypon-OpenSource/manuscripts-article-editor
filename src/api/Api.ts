@@ -26,7 +26,6 @@ import { createContext, useContext } from 'react'
 
 import { getConfig } from '../config'
 import { ManuscriptDoc, ManuscriptSnapshot } from '../lib/doc'
-import { TokenHandler } from '../lib/token'
 import {
   CreateSnapshotResponse,
   SendStepsPayload,
@@ -51,14 +50,11 @@ export class Api {
   }
 
   authInterceptor = async (config: InternalAxiosRequestConfig) => {
-    if (TokenHandler.isExpired()) {
-      const token = await this.getAuthToken()
-      if (!token) {
-        throw new Error('failed to generate manuscripts token')
-      }
-      TokenHandler.set(token)
+    const token = await this.getAuthToken()
+    if (!token) {
+      throw new Error('failed to generate manuscripts token')
     }
-    config.headers.Authorization = 'Bearer ' + TokenHandler.get()
+    config.headers.Authorization = 'Bearer ' + token
     return config
   }
 

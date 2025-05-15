@@ -13,8 +13,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { TokenHandler } from '../lib/token'
-
 export const Main = styled.main`
   height: 100%;
   flex: 1;
@@ -47,9 +45,8 @@ const PageContainer = styled.div`
   font-family: ${(props) => props.theme.font.family.sans};
 `
 
-export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  if (!TokenHandler.get()) {
-    throw new Error('Authentication to manuscripts required.')
-  }
+export const Page: React.FC<{
+  children: React.ReactNode
+}> = ({ children }) => {
   return <PageContainer>{children}</PageContainer>
 }

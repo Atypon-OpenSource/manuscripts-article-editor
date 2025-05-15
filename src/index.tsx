@@ -17,19 +17,18 @@ import React, { Suspense, useEffect } from 'react'
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
-import { TokenHandler } from './lib/token'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
-
+export { ProjectRole } from './lib/roles'
+export type { state } from './store'
+export { getUserRole } from './lib/roles'
 export type {
   AppState,
-  AppStateObserver,
   AppStateRef,
   EditorAppProps,
+  AppStateObserver,
 } from './EditorApp'
 export type { ManuscriptsEditorConfig } from './config'
-export { ProjectRole, getUserRole } from './lib/roles'
-export type { state } from './store'
 
 const ManuscriptEditor: React.FC<
   EditorAppProps & { config: ManuscriptsEditorConfig }
@@ -44,24 +43,28 @@ const ManuscriptEditor: React.FC<
   observer,
 }) => {
   useEffect(() => {
-    const setToken = async () => {
-      const token = await getAuthToken()
-      if (token) {
-        TokenHandler.set(token)
+    // Fetch the token when the component mounts
+    const fetchAndSetToken = async () => {
+      try {
+        const token = await getAuthToken()
+        if (token) {
+          // Handle the token here if needed
+          // Note: We don't need to store userID or authToken anymore
+        }
+      } catch (error) {
+        console.error('Failed to get auth token:', error)
       }
     }
 
-    setToken().catch((error) => {
-      console.error('Error setting token:', error)
-    })
+    fetchAndSetToken()
 
+    // Clean up function if needed
     return () => {
-      TokenHandler.remove()
+      // Any cleanup logic if necessary
     }
   }, [getAuthToken])
 
   setConfig(config)
-
   return (
     <>
       <ThemeProvider>

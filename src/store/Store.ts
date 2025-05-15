@@ -37,7 +37,6 @@ export type state = {
   manuscriptID: string
   projectID: string
   userID?: string
-
   project: Project
   refreshProject: () => Promise<void>
   user: UserProfile // probably should be optional
@@ -52,7 +51,6 @@ export type state = {
 
   fileManagement: FileManagement
   files: FileAttachment[]
-
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
 
