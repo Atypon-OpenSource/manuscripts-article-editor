@@ -7,19 +7,11 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-const storage = window.localStorage
-
-export const TOKEN_KEY = 'token'
-
-export default {
-  get: () => storage.getItem(TOKEN_KEY),
-  set: (token: string) => {
-    storage.setItem(TOKEN_KEY, token)
-
-    return token
-  },
-  remove: () => storage.removeItem(TOKEN_KEY),
+export const STORAGE_KEYS = {
+  token: 'token',
 }
+
+// maybe define window.localStorage here and export it?
