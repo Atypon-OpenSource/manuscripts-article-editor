@@ -12,7 +12,7 @@
 
 import './lib/fonts'
 
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense } from 'react'
 
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
@@ -42,28 +42,6 @@ const ManuscriptEditor: React.FC<
   config,
   observer,
 }) => {
-  useEffect(() => {
-    // Fetch the token when the component mounts
-    const fetchAndSetToken = async () => {
-      try {
-        const token = await getAuthToken()
-        if (token) {
-          // Handle the token here if needed
-          // Note: We don't need to store userID or authToken anymore
-        }
-      } catch (error) {
-        console.error('Failed to get auth token:', error)
-      }
-    }
-
-    fetchAndSetToken()
-
-    // Clean up function if needed
-    return () => {
-      // Any cleanup logic if necessary
-    }
-  }, [getAuthToken])
-
   setConfig(config)
   return (
     <>

@@ -10,8 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
+import { Loading } from './Loading'
 
 export const Main = styled.main`
   height: 100%;
@@ -47,6 +49,38 @@ const PageContainer = styled.div`
 
 export const Page: React.FC<{
   children: React.ReactNode
-}> = ({ children }) => {
+  getAuthToken: () => Promise<string | undefined>
+}> = ({ children, getAuthToken }) => {
+  const [tokenState, setTokenState] = useState<
+    'loading' | 'authenticated' | 'unauthenticated'
+  >('loading')
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        setTokenState('loading')
+        const token = await getAuthToken()
+
+        if (token) {
+          setTokenState('authenticated')
+        } else {
+          setTokenState('unauthenticated')
+        }
+      } catch (error) {
+        setTokenState('unauthenticated')
+      }
+    }
+
+    fetchToken()
+  }, [getAuthToken])
+
+  if (tokenState === 'loading') {
+    return <Loading />
+  }
+
+  if (tokenState === 'unauthenticated') {
+    throw new Error('Authentication to editor required')
+  }
+
   return <PageContainer>{children}</PageContainer>
 }

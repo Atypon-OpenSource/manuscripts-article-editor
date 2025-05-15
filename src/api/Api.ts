@@ -37,7 +37,6 @@ import {
 
 export class Api {
   instance: AxiosInstance
-  getAuthToken: () => Promise<string | undefined>
 
   constructor(getAuthToken: () => Promise<string | undefined>) {
     const config = getConfig()
@@ -45,12 +44,16 @@ export class Api {
       baseURL: config.api.url,
       headers: { ...config.api.headers },
     })
-    this.getAuthToken = getAuthToken
-    this.instance.interceptors.request.use(this.authInterceptor)
+    this.instance.interceptors.request.use((config) =>
+      this.authInterceptor(config, getAuthToken)
+    )
   }
 
-  authInterceptor = async (config: InternalAxiosRequestConfig) => {
-    const token = await this.getAuthToken()
+  authInterceptor = async (
+    config: InternalAxiosRequestConfig,
+    getToken: () => Promise<string | undefined>
+  ) => {
+    const token = await getToken()
     if (!token) {
       throw new Error('failed to generate manuscripts token')
     }

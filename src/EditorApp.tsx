@@ -119,7 +119,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   return store ? (
     <ApiContext.Provider value={api}>
       <GenericStoreProvider store={store}>
-        <Page>
+        <Page getAuthToken={getAuthToken}>
           <ManuscriptPageContainer />
         </Page>
       </GenericStoreProvider>
