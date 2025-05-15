@@ -71,9 +71,13 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
-
   const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
-  const isTrackingVisible = !can.editWithoutTracking && trackingVisible
+  const [{ isViewingMode }] = useStore((store) => ({
+    isViewingMode: store.isViewingMode,
+  }))
+
+  const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
+  const isTrackingVisible = showTrackChangesToggle && trackingVisible
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
@@ -88,7 +92,7 @@ const ManuscriptPageView: React.FC = () => {
                     <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
 
-                  {!can.editWithoutTracking && (
+                  {showTrackChangesToggle && (
                     <>
                       <Label>Show tracked changes</Label>
                       <IconButton
