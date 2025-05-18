@@ -67,7 +67,7 @@ export const FileManager: React.FC = () => {
       defaultIndex={0}
       selectedIndex={inspectorOpenTabs?.secondaryTab || 0}
       data-cy="files-tabs"
-      style={{ overflow: 'visible' }}
+      style={{ overflow: 'visible', overflowX: 'hidden' }}
       onChange={(index) =>
         dispatch({ inspectorOpenTabs: { secondaryTab: index } })
       }
