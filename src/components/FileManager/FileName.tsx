@@ -21,11 +21,12 @@ export const FileName: React.FC<{
   file: FileAttachment
   icon?: React.FC<React.SVGAttributes<SVGElement>>
   label?: string
-}> = ({ file, label, icon: Icon }) => {
-  const maxBaseNameLength = 23 // Adjust this value as needed
-
-  // Get the trimmed filename
-  const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
+  maxBaseNameLength?: number
+}> = ({ file, label, icon: Icon, maxBaseNameLength = 25 }) => {
+  const adjustedMaxBaseNameLength = label
+    ? maxBaseNameLength - label.length
+    : maxBaseNameLength
+  const trimmedFilename = trimFilename(file.name, adjustedMaxBaseNameLength)
   const tooltipID = `${file.id}-file-name-tooltip`
   return (
     <FileNameContainer data-tooltip-id={tooltipID}>
