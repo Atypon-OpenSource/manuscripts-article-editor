@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  BibliographyItemAttrs,
   bibliographyPluginKey,
   findNodeByID,
   getFootnoteLabel,
@@ -18,6 +17,7 @@ import {
   objectsPluginKey,
 } from '@manuscripts/body-editor'
 import {
+  BibliographyItemAttrs,
   FootnoteNode,
   ManuscriptEditorState,
   ManuscriptNode,
