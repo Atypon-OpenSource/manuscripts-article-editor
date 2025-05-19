@@ -59,4 +59,5 @@ export const SidebarContent = styled.div`
   position: relative;
   flex-shrink: 0;
   overflow-y: auto;
+  overflow-x: hidden;
 `
