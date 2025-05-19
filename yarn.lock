@@ -1589,17 +1589,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.70":
-  version "2.8.70"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.70.tgz#15604b1508e118f1a745c7f19bbefcec14b3c4e5"
-  integrity sha512-pzYcs9l5lGY0iQIeMKHXUxOpV3f//K7tK4e5Ewu6KVbEeG4z4lY0IlEe+xqQeImUfbbfqd/cY8AQKmhbH3dwag==
+"@manuscripts/body-editor@2.8.71":
+  version "2.8.71"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.71.tgz#3a937355b28fcc0c2ef335800ff47661b1c6bd05"
+  integrity sha512-5CCVGe8YXL4khRQ/ssugoZKOgf0ju7ED2YBtZXesfNqv4d+bmrouSFc0c/WZNwGoF77lwhSPPcOPdqwVUjzkhQ==
   dependencies:
     "@iarna/word-count" "^1.1.2"
-    "@manuscripts/json-schema" "2.2.12-LEAN-4531"
-    "@manuscripts/library" "1.3.15-LEAN-4531.2"
+    "@manuscripts/json-schema" "2.2.11"
+    "@manuscripts/library" "1.3.14"
     "@manuscripts/style-guide" "2.1.10"
     "@manuscripts/track-changes-plugin" "1.10.7"
-    "@manuscripts/transform" "3.0.66"
+    "@manuscripts/transform" "3.0.67"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1641,6 +1641,15 @@
     eslint-config-prettier "^8.5.0"
     prettier "^2.8.1"
 
+"@manuscripts/json-schema@2.2.10":
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.10.tgz#94a3f9c6ed4d2d652b8c3a658db89b62be0d459c"
+  integrity sha512-K6PRRD9RgFn6XmX9oyNg6+JCGT4E54pSeByg+TWkC9eyZwdKCXOHUu2IfWfYQqNfgMTASSIOZ2kAxZfP+lV2Rg==
+  dependencies:
+    ajv "^8.12.0"
+    deepmerge "^4.3.1"
+    uuid "^9.0.0"
+
 "@manuscripts/json-schema@2.2.11":
   version "2.2.11"
   resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.11.tgz#3dfddf02cd3d986823b1723c1db89fe3906b1f9f"
@@ -1650,19 +1659,19 @@
     deepmerge "^4.3.1"
     uuid "^9.0.0"
 
-"@manuscripts/json-schema@2.2.12-LEAN-4531":
-  version "2.2.12-LEAN-4531"
-  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.12-LEAN-4531.tgz#8fbff5362ffb47440560afe733a727ae651ff6c3"
-  integrity sha512-zl2EzU/UZb1zooP5mqCwvJl84xqAGDIqM/5//jEkihhoccZq+T6Q1Ynba2Ju0unAHwS6W2ZbXqmdZ552R+1TKw==
+"@manuscripts/json-schema@2.2.12":
+  version "2.2.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/json-schema/-/json-schema-2.2.12.tgz#73a56782552fa6236d1b69879cd43e66248a4ca2"
+  integrity sha512-MCz11Dhc1kric1oU9cnYHboPgEwwccWfuuU1XhAEilDIFe8KszAeQk5i4GBGlGLddp/Gvkr6N1gtzLl36mTE7A==
   dependencies:
     ajv "^8.12.0"
     deepmerge "^4.3.1"
     uuid "^9.0.0"
 
-"@manuscripts/library@1.3.15-LEAN-4531.2":
-  version "1.3.15-LEAN-4531.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.15-LEAN-4531.2.tgz#467c0bede1f5c930cf42ab4809846dd2e1e319b3"
-  integrity sha512-vT3X+XoT0tlRFZmJVla/siq7mwedSk2x6TGiLrve4Yb0JAgflLUjOp/tzTDT/PzRkWKDp/UVyYGYs9yTc0G9rw==
+"@manuscripts/library@1.3.14":
+  version "1.3.14"
+  resolved "https://registry.yarnpkg.com/@manuscripts/library/-/library-1.3.14.tgz#4bcaba3e06a2be58dbc2acf0c158adc448645eaf"
+  integrity sha512-1ngZvj5t2lS/r0VKZnYxbq+DzJ6wrxUpthWQMPWPUpmZ0sxNfqRRysdIN10CvDgcX3mIo1UsvuxTOKp5gsT+5A==
   dependencies:
     "@citation-js/core" "^0.7.18"
     "@citation-js/plugin-bibtex" "^0.7.18"
@@ -1671,7 +1680,7 @@
     "@citation-js/plugin-enw" "^0.3.0"
     "@citation-js/plugin-pubmed" "^0.3.0"
     "@citation-js/plugin-ris" "^0.7.18"
-    "@manuscripts/json-schema" "2.2.12-LEAN-4531"
+    "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
 "@manuscripts/style-guide@2.1.10":
@@ -1720,13 +1729,13 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.66":
-  version "3.0.66"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.66.tgz#ee46d292a6cbf93711877a2a638988da0d58209b"
-  integrity sha512-AXQiZOas3WiFLlUVWJk9KBOhRkNqRNIeYDKmgZ23qpTDi9ytG+mNfprQcpkKXjJZoGeJplE7sCKGldxYWyzCqw==
+"@manuscripts/transform@3.0.67":
+  version "3.0.67"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.67.tgz#e034d9899921631d50657f7e2b642dc592a6881d"
+  integrity sha512-K4DVptdjE46HyO4eZrEiJLMYethvEo40vNO45zxsTLX7EVT+n1vtqr+JPht4kwdJNbcfymsWyLj3iGNrdb/XLg==
   dependencies:
-    "@manuscripts/json-schema" "2.2.12-LEAN-4531"
-    "@manuscripts/library" "1.3.15-LEAN-4531.2"
+    "@manuscripts/json-schema" "2.2.12"
+    "@manuscripts/library" "1.3.14"
     debug "^4.3.4"
     jszip "^3.10.1"
     lodash "^4.17.21"
@@ -7579,7 +7588,16 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -7691,7 +7709,7 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -7704,6 +7722,13 @@ strip-ansi@^3.0.0:
   integrity sha512-VhumSSbBqDTP8p2ZLKj40UjBCV4+v8bUSEpUb4KjRgWk9pbqGF4REFj6KEagidb2f/M6AzC0EmFyDNGaw9OCzg==
   dependencies:
     ansi-regex "^2.0.0"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -8475,7 +8500,16 @@ word-wrap@^1.2.5:
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.5.tgz#d2c45c6dd4fbce621a66f136cbe328afd0410b34"
   integrity sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
