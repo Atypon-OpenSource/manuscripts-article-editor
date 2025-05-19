@@ -1589,17 +1589,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.63-LEAN-4531.1":
-  version "2.8.63-LEAN-4531.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.63-LEAN-4531.1.tgz#a99fcc122715f760dbf0aafbaec04d3b2c97a9f3"
-  integrity sha512-LRocKVL8YQ/5FUM+aUWDF7NWGtJVkQjrWenwB0KOtjPXHHQyZiCxrDWfmJk2uLS83oVwzIELlXxaR1xsQ1TXCg==
+"@manuscripts/body-editor@2.8.70":
+  version "2.8.70"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.70.tgz#15604b1508e118f1a745c7f19bbefcec14b3c4e5"
+  integrity sha512-pzYcs9l5lGY0iQIeMKHXUxOpV3f//K7tK4e5Ewu6KVbEeG4z4lY0IlEe+xqQeImUfbbfqd/cY8AQKmhbH3dwag==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.12-LEAN-4531"
     "@manuscripts/library" "1.3.15-LEAN-4531.2"
     "@manuscripts/style-guide" "2.1.10"
-    "@manuscripts/track-changes-plugin" "1.10.4"
-    "@manuscripts/transform" "3.0.63-LEAN-4531.2"
+    "@manuscripts/track-changes-plugin" "1.10.7"
+    "@manuscripts/transform" "3.0.66"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1704,40 +1704,10 @@
     react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
-"@manuscripts/style-guide@2.1.10-LEAN-4531":
-  version "2.1.10-LEAN-4531"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.10-LEAN-4531.tgz#bb804b36ea716bffed26d1c6914f007c1b4f62a1"
-  integrity sha512-uZeqT3rc719Et6QzVqgfh5DZbmgHtuRiW2qdyRrg0gUuE79/GKbVLzl6FOnN+TfpGMYXYNBRlGYL6/PxLwQMFA==
-  dependencies:
-    "@headlessui/react" "^2.1.10"
-    "@manuscripts/json-schema" "2.2.12-LEAN-4531"
-    date-fns "^2.29.3"
-    formik "^2.2.9"
-    fuzzysort "^2.0.4"
-    lodash "^4.17.21"
-    prosemirror-commands "1.5.2"
-    prosemirror-history "1.3.2"
-    prosemirror-keymap "1.2.2"
-    prosemirror-model "1.19.4"
-    prosemirror-state "1.4.3"
-    prosemirror-view "1.32.7"
-    react "^18.3.1"
-    react-dnd "^16.0.1"
-    react-dnd-html5-backend "^16.0.1"
-    react-dom "^18.3.1"
-    react-is "^18.3.1"
-    react-modal "^3.16.1"
-    react-modern-calendar-datepicker "^3.1.6"
-    react-router-dom "^5.3.4"
-    react-select "^5.7.3"
-    react-sizeme "^3.0.2"
-    react-tooltip "^5.28.0"
-    styled-components "^5.2.0"
-
-"@manuscripts/track-changes-plugin@1.10.4":
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.4.tgz#1b338794d005f2a5f716953530384ef7594aa515"
-  integrity sha512-DVOPTttLkFw7JxF9flbnQbUQaNFw7HsxGF6UZ5c8Ul/6f5t8XfA5IvOhzqGWo9IqplP60ABTH7FkjSisdisikg==
+"@manuscripts/track-changes-plugin@1.10.7":
+  version "1.10.7"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.7.tgz#466d4e9195be86508c95bfaf4d66c4bb6cd52a4d"
+  integrity sha512-y3I2XMcrRLUkkEn58BFsW2WVO9aU1qCIM2/4quOwXrpDZAHjJW/IMD3KJv1CJWIQpp/NiZEXOIvtwmDzdXuw+A==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1750,10 +1720,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.63-LEAN-4531.2":
-  version "3.0.63-LEAN-4531.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.63-LEAN-4531.2.tgz#d261f0761a8efa210690f23338f49e7fb703b3c3"
-  integrity sha512-Q0Lryh29rEZIfUFYUzXB/T66CfJSNqYodtxj6f7tVCUfH6R+P4UsvB91VdwUkUjfcRFioqNJNUNUhaU3zs7Tug==
+"@manuscripts/transform@3.0.66":
+  version "3.0.66"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.66.tgz#ee46d292a6cbf93711877a2a638988da0d58209b"
+  integrity sha512-AXQiZOas3WiFLlUVWJk9KBOhRkNqRNIeYDKmgZ23qpTDi9ytG+mNfprQcpkKXjJZoGeJplE7sCKGldxYWyzCqw==
   dependencies:
     "@manuscripts/json-schema" "2.2.12-LEAN-4531"
     "@manuscripts/library" "1.3.15-LEAN-4531.2"
