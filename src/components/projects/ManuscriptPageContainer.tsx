@@ -25,6 +25,7 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 
+import { useConnectEditor } from '../../hooks/use-connect-editor'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
 import { useStore } from '../../store'
 import { Main } from '../Page'
@@ -72,12 +73,15 @@ const ManuscriptPageContainer: React.FC = () => {
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
   const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
-  const [{ isViewingMode }] = useStore((store) => ({
+
+  const [{ isViewingMode, isComparingMode }] = useStore((store) => ({
     isViewingMode: store.isViewingMode,
+    isComparingMode: store.isComparingMode,
   }))
 
   const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
-  const isTrackingVisible = showTrackChangesToggle && trackingVisible
+  const isTrackingVisible =
+    (showTrackChangesToggle && trackingVisible) || !isComparingMode
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>

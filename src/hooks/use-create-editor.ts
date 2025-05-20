@@ -35,6 +35,7 @@ export const useCreateEditor = () => {
       locale,
       sectionCategories,
       isViewingMode,
+      isComparingMode,
       snapshots,
       getSnapshot,
     },
@@ -51,6 +52,7 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
+    isComparingMode: store.isComparingMode,
     snapshots: store.snapshots,
     getSnapshot: store.getSnapshot,
   }))
