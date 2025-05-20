@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import {
   FileAttachment,
@@ -30,11 +30,13 @@ import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
 import React, { useState } from 'react'
 import { useDrop } from 'react-dnd'
 
+import { PlaceholderWrapper } from '../../EditorApp'
 import { useConnectEditor } from '../../hooks/use-connect-editor'
 import { useWatchTitle } from '../../hooks/use-watch-title'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
+import { ManuscriptPlaceholder } from './ManuscriptPlaceholder'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
@@ -42,7 +44,7 @@ const EditorElement: React.FC = () => {
     editor: store.editor,
   }))
 
-  const { onRender, view, dispatch } = useConnectEditor()
+  const { onRender, view, dispatch, isComparingDocuments } = useConnectEditor()
   useWatchTitle()
 
   const [, drop] = useDrop({
@@ -116,11 +118,19 @@ const EditorElement: React.FC = () => {
           }}
         />
       )}
-      <SpriteMap color="#353535" />
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
-      <div id="editorDropzone" ref={drop}>
-        <div id="editor" ref={onRender}></div>
-      </div>
+      {isComparingDocuments ? (
+        <PlaceholderWrapper>
+          <ManuscriptPlaceholder />
+        </PlaceholderWrapper>
+      ) : (
+        <>
+          <SpriteMap color="#353535" />
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
+          <div id="editorDropzone" ref={drop}>
+            <div id="editor" ref={onRender}></div>
+          </div>
+        </>
+      )}
     </>
   )
 }

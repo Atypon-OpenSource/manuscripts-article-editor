@@ -13,7 +13,7 @@ import { useEditor } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { useEffect, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useApi } from '../api/Api'
 import { StepsExchanger } from '../api/StepsExchanger'
@@ -35,6 +35,8 @@ export const useCreateEditor = () => {
       locale,
       sectionCategories,
       isViewingMode,
+      snapshots,
+      getSnapshot,
     },
     dispatch,
     getState,
@@ -49,6 +51,8 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
+    snapshots: store.snapshots,
+    getSnapshot: store.getSnapshot,
   }))
 
   const api = useApi()
@@ -126,7 +130,10 @@ export const useCreateEditor = () => {
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),
+    params: useParams(),
     lockBody: config.features.lockBody,
+    snapshots: snapshots,
+    getSnapshot: getSnapshot,
   }
   const editor = useEditor(props)
   return editor
