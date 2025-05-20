@@ -14,6 +14,7 @@ import './lib/fonts'
 
 import decode from 'jwt-decode'
 import React, { Suspense, useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
@@ -23,7 +24,6 @@ import { TokenPayload } from './lib/user'
 import store from './lib/user-id'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
-
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export { getUserRole } from './lib/roles'
@@ -47,6 +47,7 @@ const ManuscriptEditor: React.FC<
   config,
   observer,
 }) => {
+  const params = useParams()
   useMemo(() => {
     if (authToken) {
       tokenHandler.remove()

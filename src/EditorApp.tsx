@@ -55,8 +55,14 @@ export interface EditorAppProps {
   observer?: AppStateObserver
 }
 
-const PlaceholderWrapper = styled.div`
+export const PlaceholderWrapper = styled.div`
   height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 1000;
   flex: 1;
   display: flex;
   flex-direction: column;
