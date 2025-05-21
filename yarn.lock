@@ -1589,15 +1589,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.71":
-  version "2.8.71"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.71.tgz#3a937355b28fcc0c2ef335800ff47661b1c6bd05"
-  integrity sha512-5CCVGe8YXL4khRQ/ssugoZKOgf0ju7ED2YBtZXesfNqv4d+bmrouSFc0c/WZNwGoF77lwhSPPcOPdqwVUjzkhQ==
+"@manuscripts/body-editor@2.8.74":
+  version "2.8.74"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.74.tgz#ee3182e5d2ccde066ef5c40ba8c8a4e2f81e7d35"
+  integrity sha512-EjSPM2oTXiEaA67lv9/0KFINMcaoDtbrscYzqTmG8wriR3WKB3/PBwQB6WoKPikOQAGsGIGLwpcDHotuuw0DEg==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.14"
-    "@manuscripts/style-guide" "2.1.10"
+    "@manuscripts/style-guide" "2.1.12"
     "@manuscripts/track-changes-plugin" "1.10.7"
     "@manuscripts/transform" "3.0.67"
     "@popperjs/core" "^2.11.8"
@@ -1683,10 +1683,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.1.10":
-  version "2.1.10"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.10.tgz#80082803d49baea65e2db438e44eb8150b328c41"
-  integrity sha512-znGmDo2pXTqstNienN8r9qz6LZHyl3M/UwNhYux0PZDxTrSLe0YFA6IKaTEnkNshGOU5ItF7c7TL18XwkvHd3Q==
+"@manuscripts/style-guide@2.1.12":
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.12.tgz#03b2b179a1b7050c9e12603d41e01f061424e36f"
+  integrity sha512-i/Wv5mZAw0BPMatpRx2fBqbg3ro5iARenHIZqG6ATvJxcQgT4iEPdyqrcBJpAYdrbvQgsI8SVOx6IjRwpAwX9g==
   dependencies:
     "@headlessui/react" "^2.1.10"
     "@manuscripts/json-schema" "2.2.11"
