@@ -127,6 +127,7 @@ export const useCreateEditor = () => {
     navigate: useNavigate(),
     location: useLocation(),
     lockBody: config.features.lockBody,
+    isViewingMode,
   }
   const editor = useEditor(props)
   return editor
