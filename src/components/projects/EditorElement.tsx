@@ -45,9 +45,9 @@ const EditorElement: React.FC = () => {
     isViewingMode: store.isViewingMode,
   }))
 
-  const { onRender, view, dispatch, isComparingDocuments } = useConnectEditor()
+  const { onRender, view, dispatch } = useConnectEditor()
   useWatchTitle()
-
+  
   const [, drop] = useDrop({
     accept: 'file',
     drop: async (item, monitor) => {
@@ -119,11 +119,6 @@ const EditorElement: React.FC = () => {
           }}
         />
       )}
-      {isComparingDocuments ? (
-        <PlaceholderWrapper>
-          <ManuscriptPlaceholder />
-        </PlaceholderWrapper>
-      ) : (
         <>
           <SpriteMap color="#353535" />
           {
@@ -139,9 +134,8 @@ const EditorElement: React.FC = () => {
               key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
               ref={onRender}
             ></div>
-          </div>
-        </>
-      )}
+        </div>
+      </>
     </>
   )
 }

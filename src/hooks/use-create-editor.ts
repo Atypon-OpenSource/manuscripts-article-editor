@@ -1,7 +1,7 @@
 /*!
- * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
  *
- * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
  *
  * The Original Code is manuscripts-frontend.
  *
@@ -21,6 +21,7 @@ import { getConfig } from '../config'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { useInspectorTabsContext } from './use-inspector-tabs-context'
+import { useCompareDocuments } from './use-compare-documents'
 
 export const useCreateEditor = () => {
   const [
@@ -35,7 +36,6 @@ export const useCreateEditor = () => {
       locale,
       sectionCategories,
       isViewingMode,
-      isComparingMode,
       snapshots,
       getSnapshot,
     },
@@ -52,12 +52,25 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
-    isComparingMode: store.isComparingMode,
     snapshots: store.snapshots,
     getSnapshot: store.getSnapshot,
   }))
 
   const api = useApi()
+  const params = useParams()
+
+  // Handle comparison mode logic in article-editor
+  const { comparedDoc, isComparingMode } = useCompareDocuments({
+    originalId: params.originalId,
+    comparisonId: params.comparisonId,
+    getSnapshot,
+    originalDoc: doc,
+  })
+
+  // Update store with comparison state
+  useEffect(() => {
+    dispatch({ isComparingMode })
+  }, [isComparingMode])
 
   const updateVersion = (v: number) => dispatch({ initialDocVersion: v })
 
@@ -107,7 +120,7 @@ export const useCreateEditor = () => {
       spellcheck: 'true',
       tabindex: '2',
     },
-    doc,
+    doc: comparedDoc || doc, // Use compared document if in comparison mode
     userID: user._id,
     debug: config.environment === 'development',
     // @TODO - move primaryLanguageCode to be an attribute on ManuscriptNode
@@ -128,11 +141,12 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    collabProvider: stepsExchanger,
+    collabProvider: isComparingMode ? undefined : stepsExchanger, // Disable collaboration in comparison mode
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),
-    params: useParams(),
+    enableCompare: isComparingMode,
+    submissionId: params.id,
     lockBody: config.features.lockBody,
     snapshots: snapshots,
     getSnapshot: getSnapshot,
