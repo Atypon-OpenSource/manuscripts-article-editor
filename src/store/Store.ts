@@ -48,6 +48,7 @@ export type state = {
   initialDocVersion: number
   trackState?: TrackChangesState
   isViewingMode?: boolean
+  isComparingMode?: boolean
   view?: ManuscriptEditorView
   titleText: string
 
