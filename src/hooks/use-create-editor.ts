@@ -152,6 +152,7 @@ export const useCreateEditor = () => {
     lockBody: config.features.lockBody,
     snapshots: snapshots,
     getSnapshot: getSnapshot,
+    isViewingMode,
   }
   const editor = useEditor(props)
   return editor
