@@ -1,24 +1,20 @@
 /*!
- * © 2025 Atypon Systems LLC
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ * The Original Code is manuscripts-frontend.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ *
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 import diff_match_patch from 'diff-match-patch'
 import { isEqual } from 'lodash'
+import { NodeType } from 'prosemirror-model'
 import { v4 as uuidv4 } from 'uuid'
 
-import { compareTextLikeContent } from './compare-documents'
 import {
   createDeleteAttrsDataTracked,
   createInsertAttrsDataTracked,
@@ -36,7 +32,7 @@ export const compareParagraphLike = (
     return compareTextLikeContent(
       originalNode,
       comparisonNode,
-      originalNode.type
+      comparisonNode.type
     )
   }
 
@@ -49,7 +45,7 @@ export const compareParagraphLike = (
   const dmp = new diff_match_patch()
   const diffs = dmp.diff_main(originalString, comparisonString)
   const content = rebuildFromDiff(diffs, originalChunks, comparisonChunks)
-  return schema.nodes.paragraph.create(comparisonNode.attrs, content)
+  return comparisonNode.type.create(comparisonNode.attrs, content)
 }
 
 export const containsOnlyTextNodes = (node: ManuscriptNode): boolean => {
@@ -499,4 +495,28 @@ const compareInlineNodeAttrs = (
   } else {
     return comparisonNode
   }
+}
+
+export const compareTextLikeContent = (
+  original: ManuscriptNode,
+  comparison: ManuscriptNode,
+  wrapperNodeType: NodeType
+): ManuscriptNode => {
+  const dmp = new diff_match_patch()
+  const diffs = dmp.diff_main(original.textContent, comparison.textContent)
+  dmp.diff_cleanupSemantic(diffs)
+  const content = diffs.map(([op, text]) => {
+    if (op === -1) {
+      return schema.text(text, [
+        schema.marks.tracked_delete.create({ dataTracked: { id: uuidv4() } }),
+      ])
+    } else if (op === 1) {
+      return schema.text(text, [
+        schema.marks.tracked_insert.create({ dataTracked: { id: uuidv4() } }),
+      ])
+    } else {
+      return schema.text(text)
+    }
+  })
+  return wrapperNodeType.create(comparison.attrs, content)
 }

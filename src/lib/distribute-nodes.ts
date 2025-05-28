@@ -1,17 +1,13 @@
 /*!
- * © 2025 Atypon Systems LLC
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ * The Original Code is manuscripts-frontend.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ *
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { ManuscriptNode } from '@manuscripts/transform'
 
@@ -36,7 +32,6 @@ export const distributeNodesForComparison = (
 ): Map<string, NodeComparison> => {
   const distributedMap = new Map<string, NodeComparison>()
 
-  // Helper function to process child nodes recursively
   const processChildNodes = (
     node: ManuscriptNode,
     isOriginal: boolean,
@@ -49,48 +44,46 @@ export const distributeNodesForComparison = (
 
       let count = 0
       node.content.forEach((childNode, index) => {
-        if (childNode.isBlock) {
-          const key = createNodeKey(childNode, count++)
-          childKeys.push(key)
+        const key = createNodeKey(childNode, count++)
+        childKeys.push(key)
 
-          // Store the position in the order map
-          if (!isOriginal) {
-            orderMap.set(key, index)
-          }
-
-          if (!parentMap.has(key)) {
-            parentMap.set(key, {
-              originalNode: isOriginal ? childNode : undefined,
-              comparisonNode: isOriginal ? undefined : childNode,
-              children: new Map<string, NodeComparison>(),
-              status: isOriginal ? 'deleted' : 'inserted',
-            })
-          } else {
-            const existingEntry = parentMap.get(key)!
-            if (isOriginal) {
-              existingEntry.originalNode = childNode
-            } else {
-              existingEntry.comparisonNode = childNode
-            }
-
-            if (existingEntry.originalNode && existingEntry.comparisonNode) {
-              existingEntry.status = 'unchanged'
-            }
-
-            if (!existingEntry.children) {
-              existingEntry.children = new Map<string, NodeComparison>()
-            }
-          }
-
-          // Recursively process children of this node
-          const childOrderMap = new Map<string, number>()
-          processChildNodes(
-            childNode,
-            isOriginal,
-            parentMap.get(key)!.children!,
-            childOrderMap
-          )
+        // Store the position in the order map
+        if (!isOriginal) {
+          orderMap.set(key, index)
         }
+
+        if (!parentMap.has(key)) {
+          parentMap.set(key, {
+            originalNode: isOriginal ? childNode : undefined,
+            comparisonNode: isOriginal ? undefined : childNode,
+            children: new Map<string, NodeComparison>(),
+            status: isOriginal ? 'deleted' : 'inserted',
+          })
+        } else {
+          const existingEntry = parentMap.get(key)!
+          if (isOriginal) {
+            existingEntry.originalNode = childNode
+          } else {
+            existingEntry.comparisonNode = childNode
+          }
+
+          if (existingEntry.originalNode && existingEntry.comparisonNode) {
+            existingEntry.status = 'unchanged'
+          }
+
+          if (!existingEntry.children) {
+            existingEntry.children = new Map<string, NodeComparison>()
+          }
+        }
+
+        // Recursively process children of this node
+        const childOrderMap = new Map<string, number>()
+        processChildNodes(
+          childNode,
+          isOriginal,
+          parentMap.get(key)!.children!,
+          childOrderMap
+        )
       })
 
       // When processing the comparison document, reorder the map based on the order of nodes
@@ -130,19 +123,13 @@ export const distributeNodesForComparison = (
     // Store original order
     topLevelOrderMap.set(key, index)
 
-    if (
-      node.type.name === 'body' ||
-      node.type.name === 'backmatter' ||
-      node.type.name === 'abstracts'
-    ) {
-      const childOrderMap = new Map<string, number>()
-      processChildNodes(
-        node,
-        true,
-        distributedMap.get(key)!.children!,
-        childOrderMap
-      )
-    }
+    const childOrderMap = new Map<string, number>()
+    processChildNodes(
+      node,
+      true,
+      distributedMap.get(key)!.children!,
+      childOrderMap
+    )
   })
 
   // Second pass: comparison nodes
@@ -169,19 +156,13 @@ export const distributeNodesForComparison = (
     }
 
     // Process children for body and backmatter nodes
-    if (
-      node.type.name === 'body' ||
-      node.type.name === 'backmatter' ||
-      node.type.name === 'abstracts'
-    ) {
-      const childOrderMap = new Map<string, number>()
-      processChildNodes(
-        node,
-        false,
-        distributedMap.get(key)!.children!,
-        childOrderMap
-      )
-    }
+    const childOrderMap = new Map<string, number>()
+    processChildNodes(
+      node,
+      false,
+      distributedMap.get(key)!.children!,
+      childOrderMap
+    )
   })
 
   // Final step: reorder the top-level map based on the comparison document
@@ -201,4 +182,4 @@ export const distributeNodesForComparison = (
   }
 
   return finalOrderedMap
-} 
+}

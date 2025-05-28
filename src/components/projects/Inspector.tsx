@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import {
@@ -42,6 +42,7 @@ const Inspector: React.FC = () => {
     selectedSuggestionID: store.selectedSuggestionID,
     inspectorOpenTabs: store.inspectorOpenTabs,
     isViewingMode: store.isViewingMode,
+    isComparingMode: store.isComparingMode,
   }))
 
   const can = usePermissions()
@@ -55,6 +56,7 @@ const Inspector: React.FC = () => {
   const COMMENTS_TAB_INDEX = index++
   const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
+
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -72,6 +74,23 @@ const Inspector: React.FC = () => {
       setTabIndex(SUGGESTIONS_TAB_INDEX)
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
+
+  if (store.isComparingMode) {
+    return (
+      <Panel
+        name={'inspector'}
+        minSize={400}
+        direction={'row'}
+        side={'start'}
+        hideWhen={'max-width: 900px'}
+        resizerButton={ResizingInspectorButton}
+      >
+        <InspectorContainer data-cy="inspector">
+          <TrackChangesPanel key="track-changes" />
+        </InspectorContainer>
+      </Panel>
+    )
+  }
 
   return (
     <Panel

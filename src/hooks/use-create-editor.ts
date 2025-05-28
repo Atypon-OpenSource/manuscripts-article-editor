@@ -1,13 +1,13 @@
 /*!
- * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
  *
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
  *
  * The Original Code is manuscripts-frontend.
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { useEditor } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
@@ -20,8 +20,8 @@ import { StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
-import { useInspectorTabsContext } from './use-inspector-tabs-context'
 import { useCompareDocuments } from './use-compare-documents'
+import { useInspectorTabsContext } from './use-inspector-tabs-context'
 
 export const useCreateEditor = () => {
   const [
@@ -59,7 +59,6 @@ export const useCreateEditor = () => {
   const api = useApi()
   const params = useParams()
 
-  // Handle comparison mode logic in article-editor
   const { comparedDoc, isComparingMode } = useCompareDocuments({
     originalId: params.originalId,
     comparisonId: params.comparisonId,
@@ -67,36 +66,39 @@ export const useCreateEditor = () => {
     originalDoc: doc,
   })
 
-  // Update store with comparison state
   useEffect(() => {
     dispatch({ isComparingMode })
-  }, [isComparingMode])
+  }, [isComparingMode, dispatch])
 
   const updateVersion = (v: number) => dispatch({ initialDocVersion: v })
 
   const stepsExchanger = useMemo(
     () =>
-      new StepsExchanger(
-        projectID,
-        manuscriptID,
-        initialDocVersion,
-        api,
-        updateVersion
-      ),
+      isComparingMode
+        ? undefined
+        : new StepsExchanger(
+            projectID,
+            manuscriptID,
+            initialDocVersion,
+            api,
+            updateVersion
+          ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [projectID, manuscriptID, api]
+    [projectID, manuscriptID, api, isComparingMode]
   )
 
   useEffect(() => {
-    stepsExchanger.isThrottling.onChange((value: boolean) => {
-      dispatch({
-        preventUnload: value,
+    if (stepsExchanger) {
+      stepsExchanger.isThrottling.onChange((value: boolean) => {
+        dispatch({
+          preventUnload: value,
+        })
       })
-    })
-    dispatch({
-      beforeUnload: () => stepsExchanger.flush(),
-    })
-    return () => stepsExchanger.stop()
+      dispatch({
+        beforeUnload: () => stepsExchanger.flush(),
+      })
+      return () => stepsExchanger.stop()
+    }
   }, [dispatch, stepsExchanger])
 
   const getCapabilities = useMemo(
@@ -145,7 +147,7 @@ export const useCreateEditor = () => {
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),
-    enableCompare: isComparingMode,
+    isComparingMode,
     submissionId: params.id,
     lockBody: config.features.lockBody,
     snapshots: snapshots,

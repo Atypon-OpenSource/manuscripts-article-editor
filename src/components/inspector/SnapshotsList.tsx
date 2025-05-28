@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { SecondaryButton } from '@manuscripts/style-guide'
+import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
 import {
   TrackChangesStatus,
   trackCommands,
@@ -18,14 +18,17 @@ import {
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import React, { useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { ManuscriptSnapshot } from '../../lib/doc'
 import { useStore } from '../../store'
 import { FormattedDateTime } from '../FormattedDateTime'
+import { CompareDocumentsModal } from '../tools/CompareDocumentsModal'
 
 export const SnapshotsList: React.FC = () => {
+  const { id: submissionId } = useParams()
   const [{ view, getSnapshot, snapshots }] = useStore((store) => ({
     view: store.view,
     getSnapshot: store.getSnapshot,
@@ -35,6 +38,7 @@ export const SnapshotsList: React.FC = () => {
   const execCmd = useExecCmd()
   const [selectedSnapshot, setSelectedSnapshot] = useState<ManuscriptSnapshot>()
   const [doc, setDoc] = useState<ManuscriptNode>()
+  const [showCompareModal, setShowCompareModal] = useState(false)
 
   const sortedSnapshots = useMemo(
     () => snapshots.sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
@@ -126,6 +130,20 @@ export const SnapshotsList: React.FC = () => {
           )
         })}
       </SnapshotListContainer>
+      <ButtonContainer>
+        <PrimaryButton onClick={() => setShowCompareModal(true)}>
+          Compare Documents
+        </PrimaryButton>
+      </ButtonContainer>
+      {showCompareModal && (
+        <CompareDocumentsModal
+          snapshots={sortedSnapshots}
+          loading={false}
+          error={null}
+          onCancel={() => setShowCompareModal(false)}
+          submissionId={submissionId}
+        />
+      )}
     </>
   )
 }
@@ -211,4 +229,11 @@ const SecondaryText = styled.div`
   color: ${(props) => props.theme.colors.text.secondary};
   font-size: ${(props) => props.theme.font.size.small};
   line-height: ${(props) => props.theme.font.lineHeight.normal};
+`
+
+const ButtonContainer = styled.div`
+  padding: ${(props) => props.theme.grid.unit * 2}px;
+  border-top: 1px solid ${(props) => props.theme.colors.border.tertiary};
+  display: flex;
+  justify-content: flex-end;
 `
