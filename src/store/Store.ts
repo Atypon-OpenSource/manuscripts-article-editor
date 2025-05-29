@@ -161,7 +161,7 @@ export class GenericStore implements Store {
     this.sources = sources
 
     const state = await buildStateFromSources(sources, this.setState)
-    this.setState({ ...this.state, ...(state as state) })
+    this.setState({ ...this.state, ...(state as state), isViewingMode: false })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
       // provide a way for the data sources to cancel the action optionally
