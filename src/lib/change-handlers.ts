@@ -147,6 +147,7 @@ export const handleNodeChange = (
     case schema.nodes.table_element:
     case schema.nodes.embed:
     case schema.nodes.image_element:
+    case schema.nodes.hero_image:
       return {
         operation,
         nodeName,
