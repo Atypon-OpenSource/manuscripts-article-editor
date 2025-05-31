@@ -21,23 +21,23 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: ../manuscripts-body-editor/manuscripts-body-editor-2.8.57.tgz
-        version: file:../manuscripts-body-editor/manuscripts-body-editor-2.8.57.tgz(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 2.8.57
+        version: 2.8.57(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.11
         version: 2.2.11
       '@manuscripts/library':
-        specifier: ../manuscripts-library/manuscripts-library-1.3.14.tgz
-        version: file:../manuscripts-library/manuscripts-library-1.3.14.tgz
+        specifier: 1.3.14
+        version: 1.3.14
       '@manuscripts/style-guide':
-        specifier: ../manuscripts-style-guide/manuscripts-style-guide-2.1.10.tgz
-        version: file:../manuscripts-style-guide/manuscripts-style-guide-2.1.10.tgz(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 2.1.10
+        version: 2.1.10(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
         specifier: 1.10.4
         version: 1.10.4
       '@manuscripts/transform':
-        specifier: ../manuscripts-transform/manuscripts-transform-3.0.59.tgz
-        version: file:../manuscripts-transform/manuscripts-transform-3.0.59.tgz(prosemirror-state@1.4.3)
+        specifier: 3.0.59
+        version: 3.0.59(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1170,9 +1170,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@manuscripts/body-editor@file:../manuscripts-body-editor/manuscripts-body-editor-2.8.57.tgz':
-    resolution: {integrity: sha512-wnpS6hFDaZlf7ZPEGGGNQvfPSIb7iMxkWCxHHnHAEDsLjD/qZ8njNuubfYiVVdBqELYS8o521SzluVPvZrMWRg==, tarball: file:../manuscripts-body-editor/manuscripts-body-editor-2.8.57.tgz}
-    version: 2.8.57
+  '@manuscripts/body-editor@2.8.57':
+    resolution: {integrity: sha512-D7DsQfQC675DanGscOXGQQTmbb54joKsEzSXO3BOG//zUuZEiQ7ZBkqzZYzQGSwjQpVTUxpzxr0vHKprTIt1fg==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1198,20 +1197,20 @@ packages:
   '@manuscripts/json-schema@2.2.11':
     resolution: {integrity: sha512-/L8N6YmyLp3VmpqPx/XgRWdbovoonqYJt5t5g5bS0+Mk/BYnj6ifNnCtQOvjS1u3Lv/v7C0kUmu5h2M/Kzhmmg==}
 
-  '@manuscripts/library@file:../manuscripts-library/manuscripts-library-1.3.14.tgz':
-    resolution: {integrity: sha512-nF8xYOWWRETQj5XOGH4mbwBXr8qYpVJHjzUQkvX+krSPhCKSXe2Vz3GvtyvUKk7ESsA3j/VoKrJs0jlWSXchkg==, tarball: file:../manuscripts-library/manuscripts-library-1.3.14.tgz}
-    version: 1.3.14
+  '@manuscripts/library@1.3.14':
+    resolution: {integrity: sha512-1ngZvj5t2lS/r0VKZnYxbq+DzJ6wrxUpthWQMPWPUpmZ0sxNfqRRysdIN10CvDgcX3mIo1UsvuxTOKp5gsT+5A==}
 
-  '@manuscripts/style-guide@file:../manuscripts-style-guide/manuscripts-style-guide-2.1.10.tgz':
-    resolution: {integrity: sha512-6P0LucmmYw1DINHGy/R72tPXP8GdD7p47Y9qcyplSXztfQPfp1ANUe8Mez2gUCX/qVt3pANV0FJuP5NZwkE/sg==, tarball: file:../manuscripts-style-guide/manuscripts-style-guide-2.1.10.tgz}
-    version: 2.1.10
+  '@manuscripts/style-guide@2.1.10':
+    resolution: {integrity: sha512-znGmDo2pXTqstNienN8r9qz6LZHyl3M/UwNhYux0PZDxTrSLe0YFA6IKaTEnkNshGOU5ItF7c7TL18XwkvHd3Q==}
 
   '@manuscripts/track-changes-plugin@1.10.4':
     resolution: {integrity: sha512-DVOPTttLkFw7JxF9flbnQbUQaNFw7HsxGF6UZ5c8Ul/6f5t8XfA5IvOhzqGWo9IqplP60ABTH7FkjSisdisikg==}
 
-  '@manuscripts/transform@file:../manuscripts-transform/manuscripts-transform-3.0.59.tgz':
-    resolution: {integrity: sha512-dxmtz3CJce/6BXQouYF6mPirOl+lPd28+h2YprDmIk1ORENu1zFxqEt218/4muI+6ediC7WCwm3q6XXyOwYBfg==, tarball: file:../manuscripts-transform/manuscripts-transform-3.0.59.tgz}
-    version: 3.0.59
+  '@manuscripts/transform@3.0.59':
+    resolution: {integrity: sha512-oOxAIlAMpAzYrti8fzyBbdr2g32qpv+HY3DgeZpZlA076Lo6QQkDUC2YTU04ai6/ZUNF7nJ//MamH0fAQiFBwg==}
+
+  '@manuscripts/transform@3.0.60':
+    resolution: {integrity: sha512-RWLoyB8K8NyfjQwDB4Iy7EUP3nym4OfWRL8hNyvGAjnH+HhS+B8X1V4QNq6AKt8Bc080NakuqsrUApBwJoHrcQ==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1640,6 +1639,12 @@ packages:
   ast-types-flow@0.0.8:
     resolution: {integrity: sha512-OH/2E5Fg20h2aPrbe+QL8JZQFko0YZaF+j4mnQ7BGhfavO7OpSLa8a0y9sBwomHdSbkhTS8TQNayBfnW5DwbvQ==}
 
+  astrocite-core@0.16.0:
+    resolution: {integrity: sha512-+NOD5Wqtcf89htPyI0iOeaPaTjncbHgBQaF3Yp6Y0l8ynJJzrweZuHVRlX8vBeaxzy+yptI91+w+Lt+ir20pnw==}
+
+  astrocite-eutils@0.16.4:
+    resolution: {integrity: sha512-TMBxlSQR0Ot9Ai8JG0N5/TFbGJoEP7q6/VhCNuN6Fyg5a7mk58OiAuLg23eXsAdU404OSnpdnVSDMs+m45VcWg==}
+
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
@@ -2067,6 +2072,9 @@ packages:
   domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
+
+  dompurify@2.5.8:
+    resolution: {integrity: sha512-o1vSNgrmYMQObbSSvF/1brBYEQPHhV1+gsmrusO7/GXtp1T9rCS8cXFqVxK/9crT1jA6Ccv+5MTSjBNqr7Sovw==}
 
   dompurify@3.2.5:
     resolution: {integrity: sha512-mLPd29uoRe9HpvwP2TxClGQBzGXeEC/we/q+bFlmPPmj2p2Ugl3r6ATu/UU1v77DXNcehiBg9zsr1dREyA/dJQ==}
@@ -2499,8 +2507,8 @@ packages:
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
 
-  fuzzysort@3.1.0:
-    resolution: {integrity: sha512-sR9BNCjBg6LNgwvxlBd0sBABvQitkLzoVY9MYYROQVX/FvfJ4Mai9LsGhDgd8qYdds0bY77VzYd5iuB+v5rwQQ==}
+  fuzzysort@2.0.4:
+    resolution: {integrity: sha512-Api1mJL+Ad7W7vnDZnWq5pGaXJjyencT+iKGia2PlHUcSsSzWwIQ3S1isiMpwpavjYtGd2FzhUIhnnhOULZgDw==}
 
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -2629,11 +2637,12 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  he@1.2.0:
+    resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
+    hasBin: true
+
   history@4.10.1:
     resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
-
-  history@5.3.0:
-    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
 
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
@@ -3753,6 +3762,9 @@ packages:
   prosemirror-collab@1.3.1:
     resolution: {integrity: sha512-4SnynYR9TTYaQVXd/ieUvsVV4PDMBzrq2xPUWutHivDuOshZXqQ5rGbZM84HEaXKbLdItse7weMGOUdDVcLKEQ==}
 
+  prosemirror-commands@1.5.2:
+    resolution: {integrity: sha512-hgLcPaakxH8tu6YvVAaILV2tXYsW3rAdDR8WNkeKGcgeMVQg3/TMhPdVoh7iAmfgVjZGtcOSjKiQaoeKjzd2mQ==}
+
   prosemirror-commands@1.6.0:
     resolution: {integrity: sha512-xn1U/g36OqXn2tn5nGmvnnimAj/g1pUx2ypJJIe8WkVX83WyJVC5LTARaxZa2AtQRwntu9Jc5zXs9gL9svp/mg==}
 
@@ -3771,6 +3783,9 @@ packages:
   prosemirror-gapcursor@1.3.2:
     resolution: {integrity: sha512-wtjswVBd2vaQRrnYZaBCbyDqr232Ed4p2QPtRIUK5FuqHYKGWkEwl08oQM4Tw7DOR0FsasARV5uJFvMZWxdNxQ==}
 
+  prosemirror-history@1.3.2:
+    resolution: {integrity: sha512-/zm0XoU/N/+u7i5zepjmZAEnpvjDtzoPWW6VmKptcAnPadN/SStsBjMImdCEbb3seiNTpveziPTIrXQbHLtU1g==}
+
   prosemirror-history@1.4.1:
     resolution: {integrity: sha512-2JZD8z2JviJrboD9cPuX/Sv/1ChFng+xh2tChQ2X4bB2HeK+rra/bmJ3xGntCcjhOqIzSDG6Id7e8RJ9QPXLEQ==}
 
@@ -3788,6 +3803,9 @@ packages:
 
   prosemirror-menu@1.2.4:
     resolution: {integrity: sha512-S/bXlc0ODQup6aiBbWVsX/eM+xJgCTAfMq/nLqaO5ID/am4wS0tTCIkzwytmao7ypEtjj39i7YbJjAgO20mIqA==}
+
+  prosemirror-model@1.19.4:
+    resolution: {integrity: sha512-RPmVXxUfOhyFdayHawjuZCxiROsm9L4FCUA6pWI+l7n2yCBsWy9VpdE1hpDHUS8Vad661YLY9AzqfjLhAKQ4iQ==}
 
   prosemirror-model@1.25.1:
     resolution: {integrity: sha512-AUvbm7qqmpZa5d9fPKMvH1Q5bqYQvAZWOGRvxsB6iFLyycvC9MwNemNVjHVrWgjaoxAfY8XVg7DbvQ/qxvI9Eg==}
@@ -3812,6 +3830,9 @@ packages:
     peerDependencies:
       prosemirror-model: ^1.19.2
       prosemirror-state: ^1.4.3
+
+  prosemirror-view@1.32.7:
+    resolution: {integrity: sha512-pvxiOoD4shW41X5bYDjRQk3DSG4fMqxh36yPMt7VYgU3dWRmqFzWJM/R6zeo1KtC8nyk717ZbQND3CC9VNeptw==}
 
   prosemirror-view@1.39.2:
     resolution: {integrity: sha512-BmOkml0QWNob165gyUxXi5K5CVUgVPpqMEAAml/qzgKn9boLUWVPzQ6LtzXw8Cn1GtRQX4ELumPxqtLTDaAKtg==}
@@ -6079,23 +6100,21 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@manuscripts/body-editor@file:../manuscripts-body-editor/manuscripts-body-editor-2.8.57.tgz(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@2.8.57(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.11
-      '@manuscripts/library': file:../manuscripts-library/manuscripts-library-1.3.14.tgz
-      '@manuscripts/style-guide': file:../manuscripts-style-guide/manuscripts-style-guide-2.1.10.tgz(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+      '@manuscripts/library': 1.3.14
+      '@manuscripts/style-guide': 2.1.10(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin': 1.10.4
-      '@manuscripts/transform': file:../manuscripts-transform/manuscripts-transform-3.0.59.tgz(prosemirror-state@1.4.3)
+      '@manuscripts/transform': 3.0.60(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
+      astrocite-eutils: 0.16.4
       codemirror: 5.65.19
-      csl-json: 0.1.0
-      dompurify: 3.2.5
+      dompurify: 2.5.8
       formik: 2.4.6(react@18.3.1)
-      fuzzysort: 3.1.0
       grapheme-splitter: 1.0.4
-      history: 5.3.0
-      lodash: 4.17.21
+      history: 4.10.1
       mathjax: 3.2.2
       oembed-providers: 1.0.20250430
       prosemirror-collab: 1.3.1
@@ -6161,7 +6180,7 @@ snapshots:
       deepmerge: 4.3.1
       uuid: 9.0.1
 
-  '@manuscripts/library@file:../manuscripts-library/manuscripts-library-1.3.14.tgz':
+  '@manuscripts/library@1.3.14':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6175,19 +6194,20 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@manuscripts/style-guide@file:../manuscripts-style-guide/manuscripts-style-guide-2.1.10.tgz(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/style-guide@2.1.10(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/json-schema': 2.2.11
       date-fns: 2.30.0
       formik: 2.4.6(react@18.3.1)
+      fuzzysort: 2.0.4
       lodash: 4.17.21
-      prosemirror-commands: 1.7.1
-      prosemirror-history: 1.4.1
-      prosemirror-keymap: 1.2.3
-      prosemirror-model: 1.25.1
+      prosemirror-commands: 1.5.2
+      prosemirror-history: 1.3.2
+      prosemirror-keymap: 1.2.2
+      prosemirror-model: 1.19.4
       prosemirror-state: 1.4.3
-      prosemirror-view: 1.39.2
+      prosemirror-view: 1.32.7
       react: 18.3.1
       react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)(react@18.3.1)
       react-dnd-html5-backend: 16.0.1
@@ -6222,10 +6242,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@file:../manuscripts-transform/manuscripts-transform-3.0.59.tgz(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@3.0.59(prosemirror-state@1.4.3)':
     dependencies:
       '@manuscripts/json-schema': 2.2.11
-      '@manuscripts/library': file:../manuscripts-library/manuscripts-library-1.3.14.tgz
+      '@manuscripts/library': 1.3.14
+      debug: 4.3.6(supports-color@5.5.0)
       jszip: 3.10.1
       lodash: 4.17.21
       mime: 3.0.0
@@ -6238,6 +6259,26 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - prosemirror-state
+      - supports-color
+
+  '@manuscripts/transform@3.0.60(prosemirror-state@1.4.3)':
+    dependencies:
+      '@manuscripts/json-schema': 2.2.11
+      '@manuscripts/library': 1.3.14
+      debug: 4.3.6(supports-color@5.5.0)
+      jszip: 3.10.1
+      lodash: 4.17.21
+      mime: 3.0.0
+      prosemirror-model: 1.25.1
+      prosemirror-tables: 1.7.1
+      prosemirror-utils: 1.2.2(prosemirror-model@1.25.1)(prosemirror-state@1.4.3)
+      semver: 7.7.2
+      uuid: 9.0.1
+      w3c-xmlserializer: 4.0.0
+    transitivePeerDependencies:
+      - encoding
+      - prosemirror-state
+      - supports-color
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -6751,6 +6792,16 @@ snapshots:
 
   ast-types-flow@0.0.8: {}
 
+  astrocite-core@0.16.0:
+    dependencies:
+      csl-json: 0.1.0
+
+  astrocite-eutils@0.16.4:
+    dependencies:
+      astrocite-core: 0.16.0
+      csl-json: 0.1.0
+      he: 1.2.0
+
   asynckit@0.4.0: {}
 
   available-typed-arrays@1.0.7:
@@ -7223,6 +7274,8 @@ snapshots:
   domhandler@5.0.3:
     dependencies:
       domelementtype: 2.3.0
+
+  dompurify@2.5.8: {}
 
   dompurify@3.2.5:
     optionalDependencies:
@@ -7869,7 +7922,7 @@ snapshots:
 
   functions-have-names@1.2.3: {}
 
-  fuzzysort@3.1.0: {}
+  fuzzysort@2.0.4: {}
 
   gensync@1.0.0-beta.2: {}
 
@@ -8011,6 +8064,8 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  he@1.2.0: {}
+
   history@4.10.1:
     dependencies:
       '@babel/runtime': 7.25.4
@@ -8019,10 +8074,6 @@ snapshots:
       tiny-invariant: 1.3.3
       tiny-warning: 1.0.3
       value-equal: 1.0.1
-
-  history@5.3.0:
-    dependencies:
-      '@babel/runtime': 7.25.4
 
   hoist-non-react-statics@3.3.2:
     dependencies:
@@ -9517,6 +9568,12 @@ snapshots:
     dependencies:
       prosemirror-state: 1.4.3
 
+  prosemirror-commands@1.5.2:
+    dependencies:
+      prosemirror-model: 1.25.1
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.10.4
+
   prosemirror-commands@1.6.0:
     dependencies:
       prosemirror-model: 1.25.1
@@ -9560,6 +9617,13 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.39.2
 
+  prosemirror-history@1.3.2:
+    dependencies:
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.10.4
+      prosemirror-view: 1.39.2
+      rope-sequence: 1.3.4
+
   prosemirror-history@1.4.1:
     dependencies:
       prosemirror-state: 1.4.3
@@ -9593,6 +9657,10 @@ snapshots:
       prosemirror-commands: 1.7.1
       prosemirror-history: 1.4.1
       prosemirror-state: 1.4.3
+
+  prosemirror-model@1.19.4:
+    dependencies:
+      orderedmap: 2.1.1
 
   prosemirror-model@1.25.1:
     dependencies:
@@ -9632,6 +9700,12 @@ snapshots:
     dependencies:
       prosemirror-model: 1.25.1
       prosemirror-state: 1.4.3
+
+  prosemirror-view@1.32.7:
+    dependencies:
+      prosemirror-model: 1.25.1
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.10.4
 
   prosemirror-view@1.39.2:
     dependencies:
