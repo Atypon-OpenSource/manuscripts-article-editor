@@ -54,9 +54,6 @@ export class Api {
     getToken: () => Promise<string | undefined>
   ) => {
     const token = await getToken()
-    if (!token) {
-      throw new Error('failed to generate manuscripts token')
-    }
     config.headers.Authorization = 'Bearer ' + token
     return config
   }
