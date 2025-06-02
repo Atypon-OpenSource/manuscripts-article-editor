@@ -62,7 +62,9 @@ export const SnapshotsList: React.FC = () => {
     }
     const snapshot = await getSnapshot(id)
     if (snapshot) {
-      setDoc(view.state.doc)
+      if (!doc) {
+        setDoc(view.state.doc)
+      }
       setSelectedSnapshot(snapshot)
       hydrateDocFromJSON(schema.nodeFromJSON(snapshot.snapshot))
       execCmd(trackCommands.setTrackingStatus(TrackChangesStatus.viewSnapshots))
