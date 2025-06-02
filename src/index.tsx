@@ -12,7 +12,7 @@
 
 import './lib/fonts'
 
-import {jwtDecode} from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import React, { Suspense, useMemo } from 'react'
 
 import { LoadingPage } from './components/Loading'
