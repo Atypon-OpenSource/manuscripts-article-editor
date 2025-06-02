@@ -1589,16 +1589,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.83-LEAN-4339.0":
-  version "2.8.83-LEAN-4339.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.83-LEAN-4339.0.tgz#3f1ae5d5bc4ef1a7b0119f45657457d902b1b1b8"
-  integrity sha512-KtQD153MyjD2S6pbMnd/fwds2mTk+pKUrmpGW4EKDGnHPdkDGWQgQYAbuLdGC8ncwJ2xkToNXObgzivslsm2TQ==
+"@manuscripts/body-editor@2.8.83-LEAN-4339.1":
+  version "2.8.83-LEAN-4339.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.83-LEAN-4339.1.tgz#9c316656bce94d7185ea159fcffdab6dd72ed8f7"
+  integrity sha512-R8sBZoMaOJ35ABtkrW/lKWSn1ZJyVTbbNHXnXLdedJ8gRPSb7IJrylLDxpQ6pUshrHIjaC9qWX0Yudt4jD9Wqw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.14"
     "@manuscripts/style-guide" "2.1.13"
-    "@manuscripts/track-changes-plugin" "1.10.9-LEAN-4339.0"
+    "@manuscripts/track-changes-plugin" "1.10.9-LEAN-4339.1"
     "@manuscripts/transform" "3.0.67"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
@@ -1713,10 +1713,10 @@
     react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.10.9-LEAN-4339.0":
-  version "1.10.9-LEAN-4339.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.9-LEAN-4339.0.tgz#0ad87f96d418c9b771b22efced70a2ab4829daf4"
-  integrity sha512-tGoECATJzrZAKQV9pLRUb4oSHhqDe/9WK4fXtFzlNP8GGVJxD2CtA9ssY/Pyac2e6hbJ5Y/njm+/Ho/vkb1big==
+"@manuscripts/track-changes-plugin@1.10.9-LEAN-4339.1":
+  version "1.10.9-LEAN-4339.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.9-LEAN-4339.1.tgz#3eec9f4006c13ed9164248d5ad8eee93dc29674c"
+  integrity sha512-OGE6d8eJqY1Dl8KLi5NHH6ohptuK6KnX3ZRwB7A4JzeGBcOyhdTj3tZFlQrW2nufzBQEjTSVPbgfdi26ouq+og==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
