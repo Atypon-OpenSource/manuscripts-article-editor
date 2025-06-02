@@ -166,7 +166,7 @@ const createAttrsDisplay = (
 
         case 'CRediTRoles':
           return (filteredAttrs[key] = {
-            label: 'CRediT Role Changed',
+            label: 'CRediT Role',
             value: Array.isArray(value)
               ? (value as CRediTRole[]).map((r) => r.vocabTerm).join(', ')
               : '',
