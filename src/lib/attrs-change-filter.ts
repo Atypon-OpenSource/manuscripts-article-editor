@@ -17,12 +17,12 @@ import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
   AffiliationNode,
   BibliographyItemNode,
+  CRediTRole,
   FootnoteNode,
   isCitationNode,
   isInlineFootnoteNode,
   ManuscriptNode,
 } from '@manuscripts/transform'
-import { CRediTRole } from '../../../manuscripts-transform/dist/types'
 
 /**
  * Filter PN node attributes to show for comparing them with old change
