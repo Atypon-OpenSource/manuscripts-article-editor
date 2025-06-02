@@ -30,13 +30,11 @@ import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
 import React, { useState } from 'react'
 import { useDrop } from 'react-dnd'
 
-import { PlaceholderWrapper } from '../../EditorApp'
 import { useConnectEditor } from '../../hooks/use-connect-editor'
 import { useWatchTitle } from '../../hooks/use-watch-title'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
-import { ManuscriptPlaceholder } from './ManuscriptPlaceholder'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')

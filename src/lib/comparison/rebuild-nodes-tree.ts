@@ -20,6 +20,7 @@ import {
 } from './create-dataTracked-attrs'
 import { NodeComparison } from './distribute-nodes'
 
+// Rebuilds the nodes tree from the distributed nodes, and applies the changes to the nodes
 export const rebuildDocNodeTree = (
   nodeId: string,
   nodeMap: Map<string, NodeComparison>
@@ -45,12 +46,10 @@ export const rebuildDocNodeTree = (
     !entry.comparisonNode?.isText &&
     !entry.originalNode?.isText
   ) {
-    console.log('deleted', entry.originalNode?.type.name)
     const finalAttrs = {
       ...baseNode.attrs,
       dataTracked: [createDeleteAttrsDataTracked('', baseNode.attrs)],
     }
-    console.log('finalAttrs828282', finalAttrs)
     return baseNode.type.create(
       finalAttrs,
       rebuiltChildren.length > 0 ? rebuiltChildren : baseNode.content

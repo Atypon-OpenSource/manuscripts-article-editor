@@ -15,6 +15,7 @@ import {
 } from '@manuscripts/track-changes-plugin'
 import { v4 as uuidv4 } from 'uuid'
 
+// Creates a dataTracked attribute for a set node attributes operation
 export const createSetAttrsDataTracked = (
   authorID: string,
   oldAttrs: Record<string, unknown>
@@ -32,6 +33,7 @@ export const createSetAttrsDataTracked = (
   }
 }
 
+// Creates a dataTracked attribute for a delete node operation
 export const createDeleteAttrsDataTracked = (
   authorID: string,
   oldAttrs: Record<string, unknown>
@@ -48,6 +50,7 @@ export const createDeleteAttrsDataTracked = (
   }
 }
 
+// Creates a dataTracked attribute for an insert node operation
 export const createInsertAttrsDataTracked = (
   authorID: string,
   newAttrs: Record<string, unknown>

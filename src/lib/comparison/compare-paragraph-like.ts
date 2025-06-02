@@ -13,7 +13,6 @@ import { ManuscriptNode, schema } from '@manuscripts/transform'
 import diff_match_patch from 'diff-match-patch'
 import { isEqual } from 'lodash'
 import { NodeType } from 'prosemirror-model'
-import { v4 as uuidv4 } from 'uuid'
 
 import {
   createDeleteAttrsDataTracked,
@@ -21,6 +20,9 @@ import {
   createSetAttrsDataTracked,
 } from './create-dataTracked-attrs'
 
+// Compares two ManuscriptNode objects that are paragraph-like
+// It checks if the nodes contain only text nodes and if so, it compares the text content
+// Otherwise, it flattens the nodes and compares the chunks
 export const compareParagraphLike = (
   originalNode: ManuscriptNode,
   comparisonNode: ManuscriptNode
@@ -48,6 +50,7 @@ export const compareParagraphLike = (
   return comparisonNode.type.create(comparisonNode.attrs, content)
 }
 
+// Checks if a node contains only text nodes
 export const containsOnlyTextNodes = (node: ManuscriptNode): boolean => {
   if (!node.content || node.content.childCount === 0) {
     return true
@@ -69,6 +72,7 @@ type FlattenedChunk = {
   node: ManuscriptNode
 }
 
+// Flattens a paragraph-like node into a list of text and inline chunks
 const flattenParagraph = (nodes: ManuscriptNode[]): FlattenedChunk[] => {
   const chunks: FlattenedChunk[] = []
   let inlineCounter = 0
@@ -94,10 +98,12 @@ const flattenParagraph = (nodes: ManuscriptNode[]): FlattenedChunk[] => {
   return chunks
 }
 
+// Stringifies a list of chunks into a single string
 const stringifyChunks = (chunks: FlattenedChunk[]): string => {
   return chunks.map((c) => c.key).join('')
 }
 
+// Rebuilds a ManuscriptNode tree from a list of diffs
 export const rebuildFromDiff = (
   diffs: [number, string][],
   originalChunks: FlattenedChunk[],
@@ -251,7 +257,7 @@ export const rebuildFromDiff = (
 
             const textNode = schema.text(textContent, [
               schema.marks.tracked_insert.create({
-                dataTracked: { id: uuidv4() },
+                dataTracked: createInsertAttrsDataTracked('', chunk.node.attrs),
               }),
             ])
             result.push(textNode)
@@ -259,7 +265,10 @@ export const rebuildFromDiff = (
             result.push(
               chunk.node.mark([
                 schema.marks.tracked_insert.create({
-                  dataTracked: { id: uuidv4() },
+                  dataTracked: createInsertAttrsDataTracked(
+                    '',
+                    chunk.node.attrs
+                  ),
                 }),
               ])
             )
@@ -354,7 +363,7 @@ export const rebuildFromDiff = (
 
             const textNode = schema.text(textContent, [
               schema.marks.tracked_delete.create({
-                dataTracked: { id: uuidv4() },
+                dataTracked: createDeleteAttrsDataTracked('', chunk.node.attrs),
               }),
             ])
             result.push(textNode)
@@ -362,7 +371,10 @@ export const rebuildFromDiff = (
             result.push(
               chunk.node.mark([
                 schema.marks.tracked_delete.create({
-                  dataTracked: { id: uuidv4() },
+                  dataTracked: createDeleteAttrsDataTracked(
+                    '',
+                    chunk.node.attrs
+                  ),
                 }),
               ])
             )
@@ -412,6 +424,7 @@ export const rebuildFromDiff = (
   return result
 }
 
+// Gets the start position of a chunk
 const getChunkStartPos = (chunks: FlattenedChunk[], index: number): number => {
   let pos = 0
   for (let i = 0; i < index; i++) {
@@ -420,6 +433,7 @@ const getChunkStartPos = (chunks: FlattenedChunk[], index: number): number => {
   return pos
 }
 
+// Gets the chunks in a range
 const getChunksInRange = (
   chunks: FlattenedChunk[],
   posMap: { startPos: number; endPos: number }[],
@@ -439,6 +453,7 @@ const getChunksInRange = (
   return result
 }
 
+// Builds a map of chunk positions
 const buildChunkPositionMap = (
   chunks: FlattenedChunk[]
 ): { startPos: number; endPos: number }[] => {
@@ -460,6 +475,7 @@ const buildChunkPositionMap = (
   return posMap
 }
 
+// Compares the attributes of two inline nodes
 const compareInlineNodeAttrs = (
   originalNode: ManuscriptNode | null,
   comparisonNode: ManuscriptNode,
@@ -497,6 +513,7 @@ const compareInlineNodeAttrs = (
   }
 }
 
+// Compares the text content of two ManuscriptNode objects
 export const compareTextLikeContent = (
   original: ManuscriptNode,
   comparison: ManuscriptNode,
@@ -508,15 +525,20 @@ export const compareTextLikeContent = (
   const content = diffs.map(([op, text]) => {
     if (op === -1) {
       return schema.text(text, [
-        schema.marks.tracked_delete.create({ dataTracked: { id: uuidv4() } }),
+        schema.marks.tracked_delete.create({
+          dataTracked: createDeleteAttrsDataTracked('', original.attrs),
+        }),
       ])
     } else if (op === 1) {
       return schema.text(text, [
-        schema.marks.tracked_insert.create({ dataTracked: { id: uuidv4() } }),
+        schema.marks.tracked_insert.create({
+          dataTracked: createInsertAttrsDataTracked('', comparison.attrs),
+        }),
       ])
     } else {
       return schema.text(text)
     }
   })
+
   return wrapperNodeType.create(comparison.attrs, content)
 }

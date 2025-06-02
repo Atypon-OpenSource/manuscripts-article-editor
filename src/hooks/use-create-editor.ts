@@ -36,7 +36,6 @@ export const useCreateEditor = () => {
       locale,
       sectionCategories,
       isViewingMode,
-      snapshots,
       getSnapshot,
     },
     dispatch,
@@ -52,7 +51,6 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
-    snapshots: store.snapshots,
     getSnapshot: store.getSnapshot,
   }))
 
@@ -150,8 +148,6 @@ export const useCreateEditor = () => {
     isComparingMode,
     submissionId: params.id,
     lockBody: config.features.lockBody,
-    snapshots: snapshots,
-    getSnapshot: getSnapshot,
     isViewingMode,
   }
   const editor = useEditor(props)

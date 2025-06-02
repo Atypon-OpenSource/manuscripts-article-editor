@@ -13,7 +13,7 @@
 import { ManuscriptNode } from '@manuscripts/transform'
 import { useEffect, useState } from 'react'
 
-import { compareDocuments } from '../lib/compare-documents'
+import { compareDocuments } from '../lib/comparison/compare-documents'
 import { ManuscriptSnapshot } from '../lib/doc'
 
 interface UseCompareDocumentsProps {

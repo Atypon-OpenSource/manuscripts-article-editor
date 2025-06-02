@@ -18,6 +18,7 @@ export type NodeComparison = {
   status?: 'deleted' | 'inserted' | 'unchanged'
 }
 
+// Creates a unique key for a node
 const createNodeKey = (node: ManuscriptNode, index = 0): string => {
   const id = node.attrs.id || node.attrs.objectId
   if (id) {
@@ -26,6 +27,10 @@ const createNodeKey = (node: ManuscriptNode, index = 0): string => {
   return `${node.type.name}:${index}`
 }
 
+// Distributes the nodes for comparison
+// It creates a map of nodes with their original and comparison nodes
+// Add status to the nodes to indicate if they are deleted, inserted or unchanged, and children nodes
+// Status helps to prevent unnecessary calculations
 export const distributeNodesForComparison = (
   originalNodes: ManuscriptNode[],
   comparisonNodes: ManuscriptNode[]

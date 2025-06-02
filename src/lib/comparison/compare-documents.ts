@@ -14,23 +14,19 @@ import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { isEqual } from 'lodash'
 import { NodeType } from 'prosemirror-model'
 
+import { ManuscriptSnapshot } from '../doc'
 import { createSetAttrsDataTracked } from './create-dataTracked-attrs'
 import { distributeNodesForComparison } from './distribute-nodes'
 import { rebuildDocNodeTree } from './rebuild-nodes-tree'
-export interface ManuscriptSnapshot {
-  id: string
-  snapshot: any
-  name: string
-  createdAt: string
-}
 
+// The entry point for the comparison mode, which is used to compare two ManuscriptNode trees
+// It distributes the nodes, rebuilds the nodes tree and then creates a new ManuscriptNode tree
 export const compareDocuments = (
   originalSnapshot: ManuscriptSnapshot,
   comparisonSnapshot: ManuscriptSnapshot
 ) => {
   const originalDocument = schema.nodeFromJSON(originalSnapshot.snapshot)
   const comparisonDocument = schema.nodeFromJSON(comparisonSnapshot.snapshot)
-
   const originalTopLevelNodes = extractTopLevelNodes(originalDocument)
   const comparisonTopLevelNodes = extractTopLevelNodes(comparisonDocument)
   const distributedNodes = distributeNodesForComparison(
@@ -38,7 +34,6 @@ export const compareDocuments = (
     comparisonTopLevelNodes
   )
   const distributedNodesArray: ManuscriptNode[] = []
-  console.log('distributedNodes', distributedNodes)
   distributedNodes.forEach((_, key) => {
     distributedNodesArray.push(rebuildDocNodeTree(key, distributedNodes))
   })
@@ -51,6 +46,7 @@ export const compareDocuments = (
   return manuscript
 }
 
+// Extracts the top level nodes from the document
 const extractTopLevelNodes = (document: ManuscriptNode) => {
   const topLevelNodes: ManuscriptNode[] = []
   document.content.forEach((node) => {
@@ -59,6 +55,7 @@ const extractTopLevelNodes = (document: ManuscriptNode) => {
   return topLevelNodes
 }
 
+// Compares the attributes of two nodes and returns a new node with the updated attributes
 export const compareSingleNodeAttrs = (
   originalNode: ManuscriptNode,
   comparisonNode: ManuscriptNode,
