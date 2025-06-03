@@ -1589,17 +1589,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.80":
-  version "2.8.80"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.80.tgz#1c8673bba182adc0502471cb77e0a63d798655a1"
-  integrity sha512-KDSX8JcbgnxHY1PpW/oQq9uM/6+kqA5e/snkhTHMTcQO5BA//asr2JMmTj5lz2cx3RiYrTqKs7lwVPNhOzB8pQ==
+"@manuscripts/body-editor@2.8.86":
+  version "2.8.86"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.86.tgz#40d6f7f7152c8b6c405daa4f2414a0a12f81940a"
+  integrity sha512-5sF7CwaQK765vXtSLUkNChCQUFI++LXL0CLvYK0YBRyBSrpHnl7FV8mSSaSzi2vSH1d9OSwzdlfg5sUGtNBgrw==
   dependencies:
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.14"
-    "@manuscripts/style-guide" "2.1.12"
-    "@manuscripts/track-changes-plugin" "1.10.7"
-    "@manuscripts/transform" "3.0.67"
+    "@manuscripts/style-guide" "2.1.13"
+    "@manuscripts/track-changes-plugin" "1.10.8"
+    "@manuscripts/transform" "3.0.69"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1683,10 +1683,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.1.12":
-  version "2.1.12"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.12.tgz#03b2b179a1b7050c9e12603d41e01f061424e36f"
-  integrity sha512-i/Wv5mZAw0BPMatpRx2fBqbg3ro5iARenHIZqG6ATvJxcQgT4iEPdyqrcBJpAYdrbvQgsI8SVOx6IjRwpAwX9g==
+"@manuscripts/style-guide@2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.13.tgz#eca8de7ed7e752a723d3251879155641bd281578"
+  integrity sha512-sgtxqt+G/S8R8XxqjGHWcek3ilYx1mpz5aorOzCvwXTDVeN0p+R6jiYXuD0WstxZe7yXdx38inPVqEK4cHt1cA==
   dependencies:
     "@headlessui/react" "^2.1.10"
     "@manuscripts/json-schema" "2.2.11"
@@ -1713,10 +1713,10 @@
     react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.10.7":
-  version "1.10.7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.7.tgz#466d4e9195be86508c95bfaf4d66c4bb6cd52a4d"
-  integrity sha512-y3I2XMcrRLUkkEn58BFsW2WVO9aU1qCIM2/4quOwXrpDZAHjJW/IMD3KJv1CJWIQpp/NiZEXOIvtwmDzdXuw+A==
+"@manuscripts/track-changes-plugin@1.10.8":
+  version "1.10.8"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.8.tgz#abe5e92106646c8fe9552dc6c2917563f138f76c"
+  integrity sha512-OINYLp8q3s59jVSr+izaK8C8szEESS4e1/oKQrzy0zneflpN5hbKRLTI8w+06HPGekng5e3Qy49NQ1ZoBloVKw==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1729,10 +1729,10 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.67":
-  version "3.0.67"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.67.tgz#e034d9899921631d50657f7e2b642dc592a6881d"
-  integrity sha512-K4DVptdjE46HyO4eZrEiJLMYethvEo40vNO45zxsTLX7EVT+n1vtqr+JPht4kwdJNbcfymsWyLj3iGNrdb/XLg==
+"@manuscripts/transform@3.0.69":
+  version "3.0.69"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.69.tgz#b40fbd18b3044137cee45df9e65943fa9810e569"
+  integrity sha512-lCKzIznsBv8JlzdvtQyRaJT8uq1Wiaue+oUShTddAvT/QR6dLqK2bpvgLhRWjWPq0lVL//OO2KAyFl6HEx8Wdw==
   dependencies:
     "@manuscripts/json-schema" "2.2.12"
     "@manuscripts/library" "1.3.14"
