@@ -17,6 +17,7 @@ import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
   AffiliationNode,
   BibliographyItemNode,
+  CRediTRole,
   FootnoteNode,
   isCitationNode,
   isInlineFootnoteNode,
@@ -159,8 +160,16 @@ const createAttrsDisplay = (
 
         case 'role':
           return (filteredAttrs[key] = {
-            label: 'Include in Authors List',
-            value: value === 'author' ? 'Yes' : 'No',
+            label: 'Role changed',
+            value: value,
+          })
+
+        case 'CRediTRoles':
+          return (filteredAttrs[key] = {
+            label: 'CRediT Role',
+            value: Array.isArray(value)
+              ? (value as CRediTRole[]).map((r) => r.vocabTerm).join(', ')
+              : '',
           })
 
         case 'src':
