@@ -27,11 +27,10 @@ export const compareDocuments = (
 ) => {
   const originalDocument = schema.nodeFromJSON(originalSnapshot.snapshot)
   const comparisonDocument = schema.nodeFromJSON(comparisonSnapshot.snapshot)
-  const originalTopLevelNodes = extractTopLevelNodes(originalDocument)
-  const comparisonTopLevelNodes = extractTopLevelNodes(comparisonDocument)
+
   const distributedNodes = distributeNodesForComparison(
-    originalTopLevelNodes,
-    comparisonTopLevelNodes
+    originalDocument,
+    comparisonDocument
   )
   const distributedNodesArray: ManuscriptNode[] = []
   distributedNodes.forEach((_, key) => {
@@ -44,15 +43,6 @@ export const compareDocuments = (
   )
 
   return manuscript
-}
-
-// Extracts the top level nodes from the document
-const extractTopLevelNodes = (document: ManuscriptNode) => {
-  const topLevelNodes: ManuscriptNode[] = []
-  document.content.forEach((node) => {
-    topLevelNodes.push(node)
-  })
-  return topLevelNodes
 }
 
 // Compares the attributes of two nodes and returns a new node with the updated attributes

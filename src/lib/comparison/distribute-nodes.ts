@@ -32,8 +32,8 @@ const createNodeKey = (node: ManuscriptNode, index = 0): string => {
 // Add status to the nodes to indicate if they are deleted, inserted or unchanged, and children nodes
 // Status helps to prevent unnecessary calculations
 export const distributeNodesForComparison = (
-  originalNodes: ManuscriptNode[],
-  comparisonNodes: ManuscriptNode[]
+  originalNodes: ManuscriptNode,
+  comparisonNodes: ManuscriptNode
 ): Map<string, NodeComparison> => {
   const distributedMap = new Map<string, NodeComparison>()
 

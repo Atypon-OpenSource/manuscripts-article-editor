@@ -18,7 +18,6 @@ import {
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import React, { useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
@@ -28,12 +27,14 @@ import { FormattedDateTime } from '../FormattedDateTime'
 import { CompareDocumentsModal } from '../tools/CompareDocumentsModal'
 
 export const SnapshotsList: React.FC = () => {
-  const { id: submissionId } = useParams()
-  const [{ view, getSnapshot, snapshots }] = useStore((store) => ({
-    view: store.view,
-    getSnapshot: store.getSnapshot,
-    snapshots: store.snapshots,
-  }))
+  const [{ view, getSnapshot, snapshots, submissionID }] = useStore(
+    (store) => ({
+      view: store.view,
+      getSnapshot: store.getSnapshot,
+      snapshots: store.snapshots,
+      submissionID: store.submissionID,
+    })
+  )
 
   const execCmd = useExecCmd()
   const [selectedSnapshot, setSelectedSnapshot] = useState<ManuscriptSnapshot>()
@@ -137,13 +138,13 @@ export const SnapshotsList: React.FC = () => {
           Compare Documents
         </PrimaryButton>
       </ButtonContainer>
-      {showCompareModal && (
+      {showCompareModal && submissionID && (
         <CompareDocumentsModal
           snapshots={sortedSnapshots}
           loading={false}
           error={null}
           onCancel={() => setShowCompareModal(false)}
-          submissionId={submissionId}
+          submissionID={submissionID}
         />
       )}
     </>
@@ -195,7 +196,6 @@ const CloseIcon = styled.div`
     transform: rotate(45deg);
   }
 `
-
 const SnapshotListContainer = styled.div`
   display: block;
   overflow: auto;

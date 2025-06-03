@@ -41,7 +41,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   onSelect,
 }) => {
   const [{ isComparingMode }] = useStore((store) => ({
-    isComparingMode: store.isComparingMode ?? false,
+    isComparingMode: store.isComparingMode,
   }))
 
   const changesByDate = (a: RootChange, b: RootChange) =>

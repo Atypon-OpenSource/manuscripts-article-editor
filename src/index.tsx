@@ -45,6 +45,7 @@ const ManuscriptEditor: React.FC<
   authToken,
   config,
   observer,
+  submissionID,
 }) => {
   useMemo(() => {
     if (authToken) {
@@ -80,6 +81,7 @@ const ManuscriptEditor: React.FC<
             projectID={projectID}
             permittedActions={permittedActions}
             observer={observer}
+            submissionID={submissionID}
           />
         </Suspense>
       </ThemeProvider>

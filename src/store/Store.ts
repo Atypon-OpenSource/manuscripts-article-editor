@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import {
@@ -38,6 +38,7 @@ export type state = {
   manuscriptID: string
   projectID: string
   userID?: string
+  submissionID?: string
 
   project: Project
   refreshProject: () => Promise<void>
@@ -162,7 +163,12 @@ export class GenericStore implements Store {
     this.sources = sources
 
     const state = await buildStateFromSources(sources, this.setState)
-    this.setState({ ...this.state, ...(state as state), isViewingMode: false })
+    this.setState({
+      ...this.state,
+      ...(state as state),
+      isViewingMode: false,
+      isComparingMode: false,
+    })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
       // provide a way for the data sources to cancel the action optionally

@@ -44,7 +44,7 @@ export const Suggestion: React.FC<Props> = ({
   const wrapperRef = useRef<HTMLLIElement>(null)
   const [trackModalVisible, setModalVisible] = useState(false)
   const [{ isComparingMode }] = useStore((store) => ({
-    isComparingMode: store.isComparingMode ?? false,
+    isComparingMode: store.isComparingMode,
   }))
 
   const handleClick = (e: React.MouseEvent) => {

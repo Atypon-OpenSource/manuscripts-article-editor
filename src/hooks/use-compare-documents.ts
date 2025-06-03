@@ -20,22 +20,13 @@ interface UseCompareDocumentsProps {
   originalId?: string
   comparisonId?: string
   getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
-  originalDoc: ManuscriptNode
-}
-
-interface UseCompareDocumentsReturn {
-  comparedDoc: ManuscriptNode | null
-  isComparingMode: boolean
-  isLoading: boolean
-  error: string | null
 }
 
 export const useCompareDocuments = ({
   originalId,
   comparisonId,
   getSnapshot,
-  originalDoc,
-}: UseCompareDocumentsProps): UseCompareDocumentsReturn => {
+}: UseCompareDocumentsProps) => {
   const [comparedDoc, setComparedDoc] = useState<ManuscriptNode | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

@@ -61,7 +61,6 @@ export const useCreateEditor = () => {
     originalId: params.originalId,
     comparisonId: params.comparisonId,
     getSnapshot,
-    originalDoc: doc,
   })
 
   useEffect(() => {
