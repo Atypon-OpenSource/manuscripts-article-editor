@@ -1589,17 +1589,24 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.86":
-  version "2.8.86"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.86.tgz#40d6f7f7152c8b6c405daa4f2414a0a12f81940a"
-  integrity sha512-5sF7CwaQK765vXtSLUkNChCQUFI++LXL0CLvYK0YBRyBSrpHnl7FV8mSSaSzi2vSH1d9OSwzdlfg5sUGtNBgrw==
+"@manuscripts/body-editor@2.9.0":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.9.0.tgz#a47df802a49f356688f8a617cda3fb9061e749db"
+  integrity sha512-4hcRaNBU3AjQhAOLAUzVsyxet9Z/iXLqYS8Gv0hOhpwb3gMJCcWQZIApVZIg0LjYFvHRAnefhk3CHWxoKzGsaQ==
   dependencies:
+    "@citation-js/core" "^0.7.18"
+    "@citation-js/plugin-bibtex" "^0.7.18"
+    "@citation-js/plugin-csl" "^0.7.18"
+    "@citation-js/plugin-doi" "^0.7.18"
+    "@citation-js/plugin-enw" "^0.3.0"
+    "@citation-js/plugin-pubmed" "^0.3.0"
+    "@citation-js/plugin-ris" "^0.7.18"
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.14"
     "@manuscripts/style-guide" "2.1.13"
     "@manuscripts/track-changes-plugin" "1.10.8"
-    "@manuscripts/transform" "3.0.69"
+    "@manuscripts/transform" "3.1.0"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1729,17 +1736,16 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.69":
-  version "3.0.69"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.69.tgz#b40fbd18b3044137cee45df9e65943fa9810e569"
-  integrity sha512-lCKzIznsBv8JlzdvtQyRaJT8uq1Wiaue+oUShTddAvT/QR6dLqK2bpvgLhRWjWPq0lVL//OO2KAyFl6HEx8Wdw==
+"@manuscripts/transform@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.1.0.tgz#d38d09b7940d7f18405d43f66db16e57e7c7cfa3"
+  integrity sha512-DOItDNFVBzLho+OSFKMJsfrI3w3gDrcUc9Usr2zdIpaX4zXTGgMSOOyEDYd7o4E0SVPPzgYK3jOgxzPXKf6g/A==
   dependencies:
     "@manuscripts/json-schema" "2.2.12"
     "@manuscripts/library" "1.3.14"
     debug "^4.3.4"
     jszip "^3.10.1"
     lodash "^4.17.21"
-    mime "^3.0.0"
     prosemirror-model "^1.18.3"
     prosemirror-tables "^1.3.5"
     prosemirror-utils "^1.2.2"
@@ -6066,11 +6072,6 @@ mime-types@^2.1.12:
   integrity sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==
   dependencies:
     mime-db "1.52.0"
-
-mime@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
-  integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
 
 mimic-fn@^2.1.0:
   version "2.1.0"
