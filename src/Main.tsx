@@ -22,8 +22,8 @@ const Main: React.FC<EditorAppProps> = ({
   files,
   manuscriptID,
   projectID,
-  authToken,
   permittedActions,
+  getAuthToken,
   observer,
   submissionID,
 }) => (
@@ -35,7 +35,7 @@ const Main: React.FC<EditorAppProps> = ({
       manuscriptID={manuscriptID}
       projectID={projectID}
       permittedActions={permittedActions}
-      authToken={authToken}
+      getAuthToken={getAuthToken}
       observer={observer}
       submissionID={submissionID}
     />

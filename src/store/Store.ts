@@ -27,7 +27,6 @@ import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
-import { TokenData } from './TokenData'
 
 export type action = { action?: string; [key: string]: any }
 
@@ -55,9 +54,6 @@ export type state = {
 
   fileManagement: FileManagement
   files: FileAttachment[]
-
-  tokenData: TokenData
-
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
 
