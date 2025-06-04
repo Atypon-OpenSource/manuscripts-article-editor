@@ -24,8 +24,8 @@ export enum InspectorPrimaryTabs {
   Files = 2,
 }
 export enum InspectorSecondaryTabsFiles {
-  SupplementsFiles = 1,
-  OtherFiles = 2,
+  SupplementsFiles = 2,
+  OtherFiles = 3,
 }
 
 export const useInspectorTabsContext = () => {

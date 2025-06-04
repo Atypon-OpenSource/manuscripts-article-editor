@@ -74,6 +74,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       } else if (element.node.type === schema.nodes.image_element) {
         label = `Image ${imageIndex++}`
         icon = FileImageIcon
+      } else if (element.node.type === schema.nodes.hero_image) {
+        label = `Hero Image`
+        icon = FileImageIcon
       } else {
         label = `Figure ${figureIndex++}`
         icon = FileFigureIcon

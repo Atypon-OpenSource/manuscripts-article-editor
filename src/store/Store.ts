@@ -27,7 +27,6 @@ import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
-import { TokenData } from './TokenData'
 
 export type action = { action?: string; [key: string]: any }
 
@@ -38,7 +37,6 @@ export type state = {
   manuscriptID: string
   projectID: string
   userID?: string
-
   project: Project
   refreshProject: () => Promise<void>
   user: UserProfile // probably should be optional
@@ -53,9 +51,6 @@ export type state = {
 
   fileManagement: FileManagement
   files: FileAttachment[]
-
-  tokenData: TokenData
-
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
 
@@ -161,7 +156,7 @@ export class GenericStore implements Store {
     this.sources = sources
 
     const state = await buildStateFromSources(sources, this.setState)
-    this.setState({ ...this.state, ...(state as state) })
+    this.setState({ ...this.state, ...(state as state), isViewingMode: false })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
       // provide a way for the data sources to cancel the action optionally

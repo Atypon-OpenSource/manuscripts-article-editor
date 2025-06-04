@@ -156,12 +156,6 @@ const createAttrsDisplay = (
               .join(', '),
           })
 
-        case 'role':
-          return (filteredAttrs[key] = {
-            label: 'Include in Authors List',
-            value: value === 'author' ? 'Yes' : 'No',
-          })
-
         case 'src':
           return (filteredAttrs[key] = {
             label: 'File',

@@ -17,7 +17,11 @@ import {
   UserProfile,
 } from '@manuscripts/json-schema'
 import { ManuscriptTemplate } from '@manuscripts/transform'
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios'
 import { createContext, useContext } from 'react'
 
 import { getConfig } from '../config'
@@ -34,12 +38,24 @@ import {
 export class Api {
   instance: AxiosInstance
 
-  constructor(authToken: string) {
+  constructor(getAuthToken: () => Promise<string | undefined>) {
     const config = getConfig()
     this.instance = axios.create({
       baseURL: config.api.url,
-      headers: { ...config.api.headers, Authorization: 'Bearer ' + authToken },
+      headers: { ...config.api.headers },
     })
+    this.instance.interceptors.request.use((config) =>
+      this.authInterceptor(config, getAuthToken)
+    )
+  }
+
+  authInterceptor = async (
+    config: InternalAxiosRequestConfig,
+    getToken: () => Promise<string | undefined>
+  ) => {
+    const token = await getToken()
+    config.headers.Authorization = 'Bearer ' + token
+    return config
   }
 
   get = async <T>(url: string) => {
