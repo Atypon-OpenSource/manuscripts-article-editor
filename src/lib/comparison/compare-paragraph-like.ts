@@ -15,9 +15,9 @@ import { isEqual } from 'lodash'
 import { NodeType } from 'prosemirror-model'
 
 import {
-  createDeleteAttrsDataTracked,
-  createInsertAttrsDataTracked,
-  createSetAttrsDataTracked,
+  createComparisonDeleteAttrsDataTracked,
+  createComparisonInsertAttrsDataTracked,
+  createComparisonSetAttrsDataTracked,
 } from './create-dataTracked-attrs'
 
 // Compares two ManuscriptNode objects that are paragraph-like
@@ -257,7 +257,7 @@ export const rebuildFromDiff = (
 
             const textNode = schema.text(textContent, [
               schema.marks.tracked_insert.create({
-                dataTracked: createInsertAttrsDataTracked('', chunk.node.attrs),
+                dataTracked: createComparisonInsertAttrsDataTracked(''),
               }),
             ])
             result.push(textNode)
@@ -265,10 +265,7 @@ export const rebuildFromDiff = (
             result.push(
               chunk.node.mark([
                 schema.marks.tracked_insert.create({
-                  dataTracked: createInsertAttrsDataTracked(
-                    '',
-                    chunk.node.attrs
-                  ),
+                  dataTracked: createComparisonInsertAttrsDataTracked(''),
                 }),
               ])
             )
@@ -363,7 +360,7 @@ export const rebuildFromDiff = (
 
             const textNode = schema.text(textContent, [
               schema.marks.tracked_delete.create({
-                dataTracked: createDeleteAttrsDataTracked('', chunk.node.attrs),
+                dataTracked: createComparisonDeleteAttrsDataTracked(''),
               }),
             ])
             result.push(textNode)
@@ -371,10 +368,7 @@ export const rebuildFromDiff = (
             result.push(
               chunk.node.mark([
                 schema.marks.tracked_delete.create({
-                  dataTracked: createDeleteAttrsDataTracked(
-                    '',
-                    chunk.node.attrs
-                  ),
+                  dataTracked: createComparisonDeleteAttrsDataTracked(''),
                 }),
               ])
             )
@@ -485,7 +479,7 @@ const compareInlineNodeAttrs = (
     return comparisonNode.type.create(
       {
         ...comparisonNode.attrs,
-        dataTracked: [createInsertAttrsDataTracked('', comparisonNode.attrs)],
+        dataTracked: [createComparisonInsertAttrsDataTracked('')],
       },
       comparisonNode.content,
       comparisonNode.marks
@@ -494,7 +488,7 @@ const compareInlineNodeAttrs = (
     return originalNode.type.create(
       {
         ...originalNode.attrs,
-        dataTracked: [createDeleteAttrsDataTracked('', originalNode.attrs)],
+        dataTracked: [createComparisonDeleteAttrsDataTracked('')],
       },
       originalNode.content,
       originalNode.marks
@@ -503,7 +497,9 @@ const compareInlineNodeAttrs = (
     return comparisonNode.type.create(
       {
         ...comparisonNode.attrs,
-        dataTracked: [createSetAttrsDataTracked('', originalNode.attrs)],
+        dataTracked: [
+          createComparisonSetAttrsDataTracked('', originalNode.attrs),
+        ],
       },
       comparisonNode.content,
       comparisonNode.marks
@@ -526,13 +522,13 @@ export const compareTextLikeContent = (
     if (op === -1) {
       return schema.text(text, [
         schema.marks.tracked_delete.create({
-          dataTracked: createDeleteAttrsDataTracked('', original.attrs),
+          dataTracked: createComparisonDeleteAttrsDataTracked(''),
         }),
       ])
     } else if (op === 1) {
       return schema.text(text, [
         schema.marks.tracked_insert.create({
-          dataTracked: createInsertAttrsDataTracked('', comparison.attrs),
+          dataTracked: createComparisonInsertAttrsDataTracked(''),
         }),
       ])
     } else {

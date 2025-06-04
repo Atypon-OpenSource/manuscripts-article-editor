@@ -15,8 +15,8 @@ import { compareSingleNodeAttrs } from './compare-documents'
 import { compareParagraphLike } from './compare-paragraph-like'
 import { compareTableElement } from './compare-table-element'
 import {
-  createDeleteAttrsDataTracked,
-  createInsertAttrsDataTracked,
+  createComparisonDeleteAttrsDataTracked,
+  createComparisonInsertAttrsDataTracked,
 } from './create-dataTracked-attrs'
 import { NodeComparison } from './distribute-nodes'
 
@@ -48,7 +48,7 @@ export const rebuildDocNodeTree = (
   ) {
     const finalAttrs = {
       ...baseNode.attrs,
-      dataTracked: [createDeleteAttrsDataTracked('', baseNode.attrs)],
+      dataTracked: [createComparisonDeleteAttrsDataTracked('')],
     }
     return baseNode.type.create(
       finalAttrs,
@@ -61,7 +61,7 @@ export const rebuildDocNodeTree = (
   ) {
     const finalAttrs = {
       ...baseNode.attrs,
-      dataTracked: [createInsertAttrsDataTracked('', baseNode.attrs)],
+      dataTracked: [createComparisonInsertAttrsDataTracked('')],
     }
     return baseNode.type.create(
       finalAttrs,

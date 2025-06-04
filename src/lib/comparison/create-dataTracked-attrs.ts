@@ -12,14 +12,15 @@
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
+  TrackedAttrs,
 } from '@manuscripts/track-changes-plugin'
 import { v4 as uuidv4 } from 'uuid'
 
-// Creates a dataTracked attribute for a set node attributes operation
-export const createSetAttrsDataTracked = (
+// Creates a dataTracked attribute for a set node attributes operation in comparison context
+export const createComparisonSetAttrsDataTracked = (
   authorID: string,
   oldAttrs: Record<string, unknown>
-) => {
+): TrackedAttrs => {
   return {
     id: uuidv4(),
     authorID,
@@ -33,36 +34,34 @@ export const createSetAttrsDataTracked = (
   }
 }
 
-// Creates a dataTracked attribute for a delete node operation
-export const createDeleteAttrsDataTracked = (
-  authorID: string,
-  oldAttrs: Record<string, unknown>
-) => {
+// Creates a dataTracked attribute for a delete node operation in comparison context
+export const createComparisonDeleteAttrsDataTracked = (
+  authorID: string
+): TrackedAttrs => {
   return {
     id: uuidv4(),
     authorID,
+    reviewedByID: null,
     operation: CHANGE_OPERATION.delete,
     status: CHANGE_STATUS.pending,
     statusUpdateAt: Date.now(),
     createdAt: Date.now(),
     updatedAt: Date.now(),
-    oldAttrs,
   }
 }
 
-// Creates a dataTracked attribute for an insert node operation
-export const createInsertAttrsDataTracked = (
-  authorID: string,
-  newAttrs: Record<string, unknown>
-) => {
+// Creates a dataTracked attribute for an insert node operation in comparison context
+export const createComparisonInsertAttrsDataTracked = (
+  authorID: string
+): TrackedAttrs => {
   return {
     id: uuidv4(),
     authorID,
+    reviewedByID: null,
     operation: CHANGE_OPERATION.insert,
     status: CHANGE_STATUS.pending,
     statusUpdateAt: Date.now(),
     createdAt: Date.now(),
     updatedAt: Date.now(),
-    newAttrs,
   }
 }

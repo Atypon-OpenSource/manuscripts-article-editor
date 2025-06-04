@@ -16,9 +16,9 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { compareParagraphLike } from './compare-paragraph-like'
 import {
-  createDeleteAttrsDataTracked,
-  createInsertAttrsDataTracked,
-  createSetAttrsDataTracked,
+  createComparisonDeleteAttrsDataTracked,
+  createComparisonInsertAttrsDataTracked,
+  createComparisonSetAttrsDataTracked,
 } from './create-dataTracked-attrs'
 
 interface NodeWithAttrs extends ManuscriptNode {
@@ -60,7 +60,9 @@ export const compareTableElement = (
         if (!isEqual(origWithAttrs.attrs, compWithAttrs.attrs)) {
           const newAttrs = {
             ...compWithAttrs.attrs,
-            dataTracked: [createSetAttrsDataTracked('', origWithAttrs.attrs)],
+            dataTracked: [
+              createComparisonSetAttrsDataTracked('', origWithAttrs.attrs),
+            ],
           }
           newContent.push(
             comparisonChild.type.create(newAttrs, comparisonChild.content)
@@ -277,7 +279,9 @@ const compareTable = (
       if (!isEqual(origWithAttrs.attrs, compWithAttrs.attrs)) {
         const newAttrs = {
           ...compWithAttrs.attrs,
-          dataTracked: [createSetAttrsDataTracked('', origWithAttrs.attrs)],
+          dataTracked: [
+            createComparisonSetAttrsDataTracked('', origWithAttrs.attrs),
+          ],
         }
         newContent.push(node.type.create(newAttrs, node.content))
       } else {
@@ -429,7 +433,9 @@ const compareTableRow = (
   const rowAttrs = { ...compRowAttrs.attrs }
 
   if (!isEqual(origRowAttrs.attrs, compRowAttrs.attrs)) {
-    rowAttrs.dataTracked = [createSetAttrsDataTracked('', origRowAttrs.attrs)]
+    rowAttrs.dataTracked = [
+      createComparisonSetAttrsDataTracked('', origRowAttrs.attrs),
+    ]
   }
 
   return schema.nodes.table_row.create(rowAttrs, newContent)
@@ -482,7 +488,9 @@ const compareTableCell = (
   const cellAttrs = { ...compCellAttrs.attrs }
 
   if (!isEqual(origCellAttrs.attrs, compCellAttrs.attrs)) {
-    cellAttrs.dataTracked = [createSetAttrsDataTracked('', origCellAttrs.attrs)]
+    cellAttrs.dataTracked = [
+      createComparisonSetAttrsDataTracked('', origCellAttrs.attrs),
+    ]
   }
 
   return comparisonCell.type.create(cellAttrs, newContent)
@@ -509,7 +517,7 @@ const markNodeAsInserted = (node: ManuscriptNode): ManuscriptNode => {
   const nodeWithAttrs = node as NodeWithAttrs
   const newAttrs = {
     ...nodeWithAttrs.attrs,
-    dataTracked: [createInsertAttrsDataTracked('', nodeWithAttrs.attrs)],
+    dataTracked: [createComparisonInsertAttrsDataTracked('')],
   }
 
   return node.type.create(newAttrs, newContent, node.marks)
@@ -536,7 +544,7 @@ const markNodeAsDeleted = (node: ManuscriptNode): ManuscriptNode => {
   const nodeWithAttrs = node as NodeWithAttrs
   const newAttrs = {
     ...nodeWithAttrs.attrs,
-    dataTracked: [createDeleteAttrsDataTracked('', nodeWithAttrs.attrs)],
+    dataTracked: [createComparisonDeleteAttrsDataTracked('')],
   }
 
   return node.type.create(newAttrs, newContent, node.marks)
@@ -557,7 +565,7 @@ const markRowAsInserted = (row: ManuscriptNode): ManuscriptNode => {
   const rowWithAttrs = row as NodeWithAttrs
   const newAttrs = {
     ...rowWithAttrs.attrs,
-    dataTracked: [createInsertAttrsDataTracked('', rowWithAttrs.attrs)],
+    dataTracked: [createComparisonInsertAttrsDataTracked('')],
   }
 
   return schema.nodes.table_row.create(newAttrs, newContent)
@@ -578,7 +586,7 @@ const markRowAsDeleted = (row: ManuscriptNode): ManuscriptNode => {
   const rowWithAttrs = row as NodeWithAttrs
   const newAttrs = {
     ...rowWithAttrs.attrs,
-    dataTracked: [createDeleteAttrsDataTracked('', rowWithAttrs.attrs)],
+    dataTracked: [createComparisonDeleteAttrsDataTracked('')],
   }
 
   return schema.nodes.table_row.create(newAttrs, newContent)
@@ -599,7 +607,7 @@ const markCellAsInserted = (cell: ManuscriptNode): ManuscriptNode => {
   const cellWithAttrs = cell as NodeWithAttrs
   const newAttrs = {
     ...cellWithAttrs.attrs,
-    dataTracked: [createInsertAttrsDataTracked('', cellWithAttrs.attrs)],
+    dataTracked: [createComparisonInsertAttrsDataTracked('')],
   }
 
   return cell.type.create(newAttrs, newContent)
@@ -620,7 +628,7 @@ const markCellAsDeleted = (cell: ManuscriptNode): ManuscriptNode => {
   const cellWithAttrs = cell as NodeWithAttrs
   const newAttrs = {
     ...cellWithAttrs.attrs,
-    dataTracked: [createDeleteAttrsDataTracked('', cellWithAttrs.attrs)],
+    dataTracked: [createComparisonDeleteAttrsDataTracked('')],
   }
 
   return cell.type.create(newAttrs, newContent)

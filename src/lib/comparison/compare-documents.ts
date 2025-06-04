@@ -15,7 +15,7 @@ import { isEqual } from 'lodash'
 import { NodeType } from 'prosemirror-model'
 
 import { ManuscriptSnapshot } from '../doc'
-import { createSetAttrsDataTracked } from './create-dataTracked-attrs'
+import { createComparisonSetAttrsDataTracked } from './create-dataTracked-attrs'
 import { distributeNodesForComparison } from './distribute-nodes'
 import { rebuildDocNodeTree } from './rebuild-nodes-tree'
 
@@ -58,7 +58,7 @@ export const compareSingleNodeAttrs = (
     return nodeType.create(
       {
         ...comparisonAttrs,
-        dataTracked: [createSetAttrsDataTracked('', originalAttrs)],
+        dataTracked: [createComparisonSetAttrsDataTracked('', originalAttrs)],
       },
       rebuiltChildren.length > 0
         ? rebuiltChildren
