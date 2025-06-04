@@ -96,8 +96,8 @@ export const distributeNodesForComparison = (
         const orderedMap = new Map<string, NodeComparison>()
 
         const sortedKeys = [...parentMap.keys()].sort((a, b) => {
-          const posA = orderMap.get(a) ?? 999
-          const posB = orderMap.get(b) ?? 999
+          const posA = orderMap.get(a) ?? Number.MAX_VALUE
+          const posB = orderMap.get(b) ?? Number.MAX_VALUE
           return posA - posB
         })
 
@@ -176,8 +176,10 @@ export const distributeNodesForComparison = (
   // Sort keys based on their position in the comparison document
   const sortedKeys = [...distributedMap.keys()].sort((a, b) => {
     // Use the position from comparison document, or fallback to original if not in comparison
-    const posA = comparisonOrderMap.get(a) ?? topLevelOrderMap.get(a) ?? 999
-    const posB = comparisonOrderMap.get(b) ?? topLevelOrderMap.get(b) ?? 999
+    const posA =
+      comparisonOrderMap.get(a) ?? topLevelOrderMap.get(a) ?? Number.MAX_VALUE
+    const posB =
+      comparisonOrderMap.get(b) ?? topLevelOrderMap.get(b) ?? Number.MAX_VALUE
     return posA - posB
   })
 
