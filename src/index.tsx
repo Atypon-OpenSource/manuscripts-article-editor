@@ -12,18 +12,13 @@
 
 import './lib/fonts'
 
-import { jwtDecode } from 'jwt-decode'
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense } from 'react'
 
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
-import tokenHandler from './lib/token'
-import { TokenPayload } from './lib/user'
-import store from './lib/user-id'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
-
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export { getUserRole } from './lib/roles'
@@ -43,30 +38,11 @@ const ManuscriptEditor: React.FC<
   manuscriptID,
   projectID,
   permittedActions,
-  authToken,
+  getAuthToken,
   config,
   observer,
 }) => {
-  useMemo(() => {
-    if (authToken) {
-      tokenHandler.remove()
-      tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
-      const { userID } = jwtDecode<TokenPayload>(authToken)
-
-      if (!userID) {
-        throw new Error('Invalid token')
-      }
-
-      store.set(userID)
-    }
-    return () => {
-      tokenHandler.remove()
-      store.remove()
-    }
-  }, [authToken])
-
   setConfig(config)
-
   return (
     <>
       <ThemeProvider>
@@ -76,10 +52,10 @@ const ManuscriptEditor: React.FC<
           <Main
             fileManagement={fileManagement}
             files={files}
-            authToken={authToken || ''}
             manuscriptID={manuscriptID}
             projectID={projectID}
             permittedActions={permittedActions}
+            getAuthToken={getAuthToken}
             observer={observer}
           />
         </Suspense>

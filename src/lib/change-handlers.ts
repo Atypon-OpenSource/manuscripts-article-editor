@@ -146,6 +146,7 @@ export const handleNodeChange = (
     case schema.nodes.table_element:
     case schema.nodes.embed:
     case schema.nodes.image_element:
+    case schema.nodes.hero_image:
       return {
         operation,
         nodeName,
@@ -265,7 +266,7 @@ export const handleUnknownChange = (): SnippetData => {
   }
 }
 
-const changeOperationAlias = (operation: string): string => {
+export const changeOperationAlias = (operation: string): string => {
   switch (operation) {
     case 'delete': {
       return 'Deleted'
@@ -279,6 +280,9 @@ const changeOperationAlias = (operation: string): string => {
     }
     case 'node_split': {
       return 'Split'
+    }
+    case 'move': {
+      return 'Move'
     }
     default: {
       return 'null'
