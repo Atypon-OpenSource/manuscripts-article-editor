@@ -33,6 +33,7 @@ export const FileActions: React.FC<{
   onDownload?: () => void
   onReplace?: Replace
   onDetach?: () => void
+  onDelete?: () => void
   onUseAsMain?: () => void
   move?: Move
   className?: string
@@ -43,6 +44,7 @@ export const FileActions: React.FC<{
   onDownload,
   onReplace,
   onDetach,
+  onDelete,
   onUseAsMain,
   move,
   className,
@@ -58,6 +60,7 @@ export const FileActions: React.FC<{
   const showDownload = can?.downloadFiles && onDownload
   const showReplace = can?.replaceFile && onReplace
   const showDetach = can?.detachFile && onDetach
+  const showDelete = can?.editArticle && onDelete
   const showMove = can?.moveFile && move
   const showUseAsMain =
     can?.moveFile && onUseAsMain && isValidMainDocumentFormat(file)
@@ -121,6 +124,7 @@ export const FileActions: React.FC<{
             </>
           )}
           {showDetach && <FileAction onClick={onDetach}>Detach</FileAction>}
+          {showDelete && <FileAction onClick={onDelete}>Delete</FileAction>}
           {showMove && (
             <FileAction onClick={() => setMoveDialogOpen(true)}>
               Move to {move.sectionType}
