@@ -14,30 +14,42 @@ import {
   FileFigureIcon,
   FileGraphicalAbstractIcon,
   FileImageIcon,
+  Tooltip,
+  TriangleCollapsedIcon,
+  TriangleExpandedIcon,
 } from '@manuscripts/style-guide'
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 
+import { trimFilename } from '../../lib/files'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
-import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
+import {
+  FileGroup,
+  FileGroupContainer,
+  FileGroupHeader,
+  FileGroupItemContainer,
+  FileLabel,
+  ToggleIcon,
+} from './FileGroup'
 import { FileSectionType } from './FileManager'
-import { FileName } from './FileName'
-
-export type InlineFilesSectionProps = {
-  elements: ElementFiles[]
-}
+import { FileNameText } from './FileName'
+import { FileTypeIcon } from './FileTypeIcon'
 
 type FileMetadata = {
   element: ElementFiles
   label: string
   icon: React.FC<React.SVGAttributes<SVGElement>>
-  file: FileAttachment
-  node?: ManuscriptNode
-  pos?: number
+  files: FileAttachment[]
+  nodes?: ManuscriptNode[]
+  positions?: number[]
+}
+
+export type InlineFilesSectionProps = {
+  elements: ElementFiles[]
 }
 
 export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
@@ -49,24 +61,21 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     sectionCategories: s.sectionCategories,
   }))
 
-  const metadata: FileMetadata[] = useMemo(() => {
+  const groupedMetadata: FileMetadata[] = useMemo(() => {
     if (!view) {
       return []
     }
     let figureIndex = 1
     let imageIndex = 1
+    
     return elements.map((element) => {
-      const figure = element.files[0]
-      const file = figure?.file || { id: '', name: '' }
-
       const $pos = view.state.doc.resolve(element.pos)
       const section = findParentNodeOfTypeClosestToPos(
         $pos,
         schema.nodes.graphical_abstract_section
       )
 
-      let label
-      let icon
+      let label, icon
       if (section) {
         const category = section.node.attrs.category
         label = sectionCategories.get(category)?.titles[0] || ''
@@ -80,11 +89,11 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       }
       return {
         element,
-        node: figure?.node,
-        pos: figure?.pos,
-        file,
         label,
         icon,
+        files: element.files.map((f) => f.file || { id: '', name: '' }),
+        nodes: element.files.map((f) => f.node),
+        positions: element.files.map((f) => f.pos),
       }
     })
   }, [elements, view, sectionCategories])
@@ -93,34 +102,58 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     return null
   }
 
-  const handleClick = (metadata: FileMetadata) => {
+  const handleClick = (element: ElementFiles) => {
     const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, metadata.element.pos))
+    tr.setSelection(NodeSelection.create(view.state.doc, element.pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleDetach = (metadata: FileMetadata) => {
-    if (!metadata.pos) {
+  const handleFileClick = (pos?: number) => {
+    if (!pos) {
       return
     }
     const tr = view.state.tr
-    tr.setNodeAttribute(metadata.pos, 'src', '')
-    tr.setSelection(NodeSelection.create(tr.doc, metadata.pos))
+    tr.setSelection(NodeSelection.create(view.state.doc, pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleReplace = async (metadata: FileMetadata, file: File) => {
-    if (!metadata.pos) {
+  const handleDetach = (pos?: number) => {
+    if (!pos) {
+      return
+    }
+    const tr = view.state.tr
+    tr.setNodeAttribute(pos, 'src', '')
+    tr.setSelection(NodeSelection.create(tr.doc, pos))
+    tr.scrollIntoView()
+    view.focus()
+    view.dispatch(tr)
+  }
+
+  const handleDelete = (pos?: number) => {
+    if (!pos || !view) {
+      return
+    }
+
+    const node = view.state.doc.nodeAt(pos)
+    if (node?.type === schema.nodes.figure) {
+      const tr = view.state.tr
+      tr.delete(pos, pos + node.nodeSize)
+      view.dispatch(tr)
+    }
+  }
+
+  const handleReplace = async (pos?: number, file?: File) => {
+    if (!pos || !file) {
       return
     }
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
-    tr.setNodeAttribute(metadata.pos, 'src', uploaded.id)
-    tr.setSelection(NodeSelection.create(tr.doc, metadata.pos))
+    tr.setNodeAttribute(pos, 'src', uploaded.id)
+    tr.setSelection(NodeSelection.create(tr.doc, pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
@@ -128,23 +161,76 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
 
   return (
     <>
-      {metadata.map((e, index) => {
+      {groupedMetadata.map((group, groupIndex) => {
+        const [isOpen, setOpen] = useState(true)
+        const toggleOpen = (e: React.MouseEvent) => {
+          e.stopPropagation()
+          setOpen(!isOpen)
+        }
+
         return (
-          <FileContainer
+          <FileGroupContainer
             data-cy="file-container"
-            key={index}
-            onClick={() => handleClick(e)}
+            key={groupIndex}
+            onClick={() => handleClick(group.element)}
           >
-            <FileName file={e.file} label={e.label} icon={e.icon} />
-            <FileCreatedDate file={e.file} className="show-on-hover" />
-            <FileActions
-              data-cy="file-actions"
-              sectionType={FileSectionType.Inline}
-              onReplace={async (f) => await handleReplace(e, f)}
-              onDetach={() => handleDetach(e)}
-              onDownload={() => fileManagement.download(e.file)}
-            />
-          </FileContainer>
+            <FileGroupHeader>
+              <div>
+                <group.icon className="file-icon" />
+                {group.label && <FileLabel>{group.label}:</FileLabel>}
+              </div>
+              {group.files.length > 0 && (
+                <ToggleIcon isOpen={isOpen} onClick={toggleOpen}>
+                  {isOpen ? (
+                    <TriangleExpandedIcon />
+                  ) : (
+                    <TriangleCollapsedIcon />
+                  )}
+                </ToggleIcon>
+              )}
+            </FileGroupHeader>
+            {isOpen && group.files.length > 0 && (
+              <FileGroup>
+                {group.files.map((file, fileIndex) => (
+                  <FileGroupItemContainer
+                    key={fileIndex}
+                    data-tooltip-id={`${file.id}-file-name-tooltip`}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleFileClick(group.positions?.[fileIndex])
+                    }}
+                  >
+                    <FileTypeIcon file={file} />
+                    <FileNameText data-cy="filename">
+                      {file.name ? trimFilename(file.name, 25) : 'Figure'}
+                      <Tooltip
+                        id={`${file.id}-file-name-tooltip`}
+                        place="bottom"
+                      >
+                        {file.name || 'Figure'}
+                      </Tooltip>
+                    </FileNameText>
+                    <FileCreatedDate file={file} className="show-on-hover" />
+                    <FileActions
+                      sectionType={FileSectionType.Inline}
+                      onReplace={async (f) =>
+                        await handleReplace(group.positions?.[fileIndex], f)
+                      }
+                      onDetach={() =>
+                        handleDetach(group.positions?.[fileIndex])
+                      }
+                      onDownload={() => fileManagement.download(file)}
+                      onDelete={
+                        fileIndex !== 0 //// Skip displaying the delete option for the first figure
+                          ? () => handleDelete(group.positions?.[fileIndex])
+                          : undefined
+                      }
+                    />
+                  </FileGroupItemContainer>
+                ))}
+              </FileGroup>
+            )}
+          </FileGroupContainer>
         )
       })}
     </>
