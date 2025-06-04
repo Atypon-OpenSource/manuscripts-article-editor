@@ -99,9 +99,8 @@ export const rebuildDocNodeTree = (
     )
   }
 
-  const finalAttrs = { ...baseNode.attrs }
-  const contentToUse =
+  return baseNode.type.create(
+    { ...baseNode.attrs },
     rebuiltChildren.length > 0 ? rebuiltChildren : baseNode.content
-
-  return baseNode.type.create(finalAttrs, contentToUse)
+  )
 }
