@@ -10,13 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, {
-  MutableRefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Api, ApiContext } from './api/Api'
@@ -24,6 +18,7 @@ import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
+import { AppStateObserver } from './hooks/use-app-state-observer'
 import {
   BasicSource,
   createStore,
@@ -31,17 +26,6 @@ import {
   GenericStoreProvider,
   state,
 } from './store'
-
-export type AppState = {
-  get: () => state | undefined
-  update: (state: Partial<state>) => void
-}
-export type AppStateRef = MutableRefObject<AppState | undefined>
-
-export type AppStateObserver = {
-  state: AppStateRef
-  onUpdate: (state: state) => void
-}
 
 export interface EditorAppProps {
   fileManagement: FileManagement
