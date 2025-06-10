@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
 import React, {
@@ -51,10 +51,17 @@ export interface EditorAppProps {
   permittedActions: string[]
   getAuthToken: () => Promise<string | undefined>
   observer?: AppStateObserver
+  submissionID: string
 }
 
 const PlaceholderWrapper = styled.div`
   height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 1000;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -70,6 +77,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   files,
   getAuthToken,
   observer,
+  submissionID,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const loadedRef = useRef<boolean>(false)
@@ -89,6 +97,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       manuscriptID,
       files,
       permittedActions,
+      submissionID,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
