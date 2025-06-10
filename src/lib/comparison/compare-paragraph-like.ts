@@ -39,12 +39,12 @@ export const compareParagraphLike = (
   }
 
   const originalChunks = flattenParagraph(
-    Array.from({ length: originalNode.content.childCount }, (_, i) => 
+    Array.from({ length: originalNode.content.childCount }, (_, i) =>
       originalNode.content.child(i)
     )
   )
   const comparisonChunks = flattenParagraph(
-    Array.from({ length: comparisonNode.content.childCount }, (_, i) => 
+    Array.from({ length: comparisonNode.content.childCount }, (_, i) =>
       comparisonNode.content.child(i)
     )
   )
