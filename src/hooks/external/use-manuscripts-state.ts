@@ -9,17 +9,51 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { isEqual } from 'lodash'
-import { useCallback, useContext, useEffect, useState } from 'react'
 
-import { state } from '../store'
-import { AppStateObserverContext } from './use-app-state-observer'
+import {
+  createContext,
+  MutableRefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
-export const useEditorState = <T>(selector: (s: state) => T) => {
+import isEqual from '../../lib/deeper-equal'
+import { state } from '../../store'
+
+export type ManuscriptsState = {
+  get: () => state | undefined
+  update: (state: Partial<state>) => void
+}
+
+export type ManuscriptsStateRef = MutableRefObject<ManuscriptsState | undefined>
+
+export type ManuscriptsStateSubscription = (state: state) => void
+
+export type ManuscriptsStateObserver = {
+  state: ManuscriptsStateRef
+  onUpdate: (state: state) => void
+  subscribe: (sub: ManuscriptsStateSubscription) => void
+  unsubscribe: (sub: ManuscriptsStateSubscription) => void
+}
+
+export const ManuscriptsStateObserverContext = createContext<
+  ManuscriptsStateObserver | undefined
+>(undefined)
+
+export const useManuscriptsStateObserver = () => {
+  const stateRef = useRef<ManuscriptsState>()
+  return useMemo(() => newObserver(stateRef), [])
+}
+
+export const useManuscriptsState = <T>(selector: (s: state) => T) => {
   const [value, setValue] = useState<T>()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   selector = useCallback(selector, [])
-  const observer = useContext(AppStateObserverContext)
+  const observer = useContext(ManuscriptsStateObserverContext)
   useEffect(() => {
     if (!observer) {
       return
@@ -36,4 +70,25 @@ export const useEditorState = <T>(selector: (s: state) => T) => {
     }
   }, [observer, selector])
   return [value]
+}
+
+const newObserver = (
+  stateRef: ManuscriptsStateRef
+): ManuscriptsStateObserver => {
+  const subs: Set<ManuscriptsStateSubscription> = new Set()
+  const subscribe = (sub: ManuscriptsStateSubscription) => {
+    subs.add(sub)
+  }
+  const unsubscribe = (sub: ManuscriptsStateSubscription) => {
+    subs.delete(sub)
+  }
+  const onUpdate = (state: state) => {
+    subs.forEach((sub) => sub(state))
+  }
+  return {
+    state: stateRef,
+    onUpdate,
+    subscribe,
+    unsubscribe,
+  }
 }

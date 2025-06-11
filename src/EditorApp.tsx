@@ -18,7 +18,7 @@ import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
-import { AppStateObserver } from './hooks/use-app-state-observer'
+import { ManuscriptsStateObserver } from './hooks/external/use-manuscripts-state'
 import {
   BasicSource,
   createStore,
@@ -34,7 +34,7 @@ export interface EditorAppProps {
   projectID: string
   permittedActions: string[]
   getAuthToken: () => Promise<string | undefined>
-  observer?: AppStateObserver
+  observer?: ManuscriptsStateObserver
 }
 
 const PlaceholderWrapper = styled.div`

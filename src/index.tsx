@@ -22,10 +22,8 @@ import { ThemeProvider } from './theme/ThemeProvider'
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export { getUserRole } from './lib/roles'
-export * from './hooks/use-app-state-observer'
-export * from './hooks/use-editor-state'
+export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
-export type { FileAttachment } from '@manuscripts/body-editor'
 
 const ManuscriptEditor: React.FC<
   EditorAppProps & { config: ManuscriptsEditorConfig }
