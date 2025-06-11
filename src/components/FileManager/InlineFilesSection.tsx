@@ -18,7 +18,7 @@ import {
   TriangleCollapsedIcon,
   TriangleExpandedIcon,
 } from '@manuscripts/style-guide'
-import { ManuscriptNode, schema } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo, useState } from 'react'
@@ -43,9 +43,7 @@ type FileMetadata = {
   element: ElementFiles
   label: string
   icon: React.FC<React.SVGAttributes<SVGElement>>
-  files: FileAttachment[]
-  nodes?: ManuscriptNode[]
-  positions?: number[]
+  files: { file: FileAttachment | null; pos: number }[]
 }
 
 export type InlineFilesSectionProps = {
@@ -91,9 +89,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
         element,
         label,
         icon,
-        files: element.files.map((f) => f.file || { id: '', name: '' }),
-        nodes: element.files.map((f) => f.node),
-        positions: element.files.map((f) => f.pos),
+        files: element.files,
       }
     })
   }, [elements, view, sectionCategories])
@@ -209,38 +205,48 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
             </FileGroupHeader>
             {isOpen && group.files.length > 0 && (
               <FileGroup>
-                {group.files.map((file, fileIndex) => (
+                {group.files.map((fileAttachment, fileIndex) => (
                   <FileGroupItemContainer
                     key={fileIndex}
-                    data-tooltip-id={`${file.id}-file-name-tooltip`}
+                    data-tooltip-id={`${fileAttachment.file?.id}-file-name-tooltip`}
                     onClick={(e) => {
                       e.stopPropagation()
-                      handleFileClick(group.positions?.[fileIndex])
+                      handleFileClick(fileAttachment.pos)
                     }}
                   >
-                    <FileTypeIcon file={file} />
+                    {fileAttachment.file && (
+                      <FileTypeIcon file={fileAttachment.file} />
+                    )}
                     <FileNameText data-cy="filename">
-                      {file.name ? trimFilename(file.name, 25) : 'Figure'}
+                      {fileAttachment.file?.name
+                        ? trimFilename(fileAttachment.file.name, 25)
+                        : 'Figure'}
                       <Tooltip
-                        id={`${file.id}-file-name-tooltip`}
+                        id={`${fileAttachment.file?.id}-file-name-tooltip`}
                         place="bottom"
                       >
-                        {file.name || 'Figure'}
+                        {fileAttachment.file?.name || 'Figure'}
                       </Tooltip>
                     </FileNameText>
-                    <FileCreatedDate file={file} className="show-on-hover" />
+                    {fileAttachment.file && (
+                      <FileCreatedDate
+                        file={fileAttachment.file}
+                        className="show-on-hover"
+                      />
+                    )}
                     <FileActions
                       sectionType={FileSectionType.Inline}
                       onReplace={async (f) =>
-                        await handleReplace(group.positions?.[fileIndex], f)
+                        await handleReplace(fileAttachment.pos, f)
                       }
-                      onDetach={() =>
-                        handleDetach(group.positions?.[fileIndex])
+                      onDetach={() => handleDetach(fileAttachment.pos)}
+                      onDownload={() =>
+                        fileAttachment.file &&
+                        fileManagement.download(fileAttachment.file)
                       }
-                      onDownload={() => fileManagement.download(file)}
                       onDelete={
                         fileIndex !== 0 // Skip displaying the delete option for the first figure
-                          ? () => handleDelete(group.positions?.[fileIndex])
+                          ? () => handleDelete(fileAttachment.pos)
                           : undefined
                       }
                     />
