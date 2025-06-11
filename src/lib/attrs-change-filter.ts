@@ -10,9 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileAttachment } from '@manuscripts/body-editor'
+import { bibliographyItemTypes, FileAttachment } from '@manuscripts/body-editor'
 import { BibliographicDate, BibliographicName } from '@manuscripts/json-schema'
-import { bibliographyItemTypes } from '@manuscripts/library'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
   AffiliationNode,
@@ -22,6 +21,8 @@ import {
   isInlineFootnoteNode,
   ManuscriptNode,
 } from '@manuscripts/transform'
+
+const bibliographyItemTypeMap = new Map(bibliographyItemTypes)
 
 /**
  * Filter PN node attributes to show for comparing them with old change
@@ -91,9 +92,7 @@ const createAttrsDisplay = (
         case 'type':
           return (filteredAttrs[key] = {
             label: getLabel(key),
-            value:
-              bibliographyItemTypes.get(value as CSL.ItemType) ||
-              (value as string),
+            value: bibliographyItemTypeMap.get(value) || (value as string),
           })
 
         case 'bibliographicName':

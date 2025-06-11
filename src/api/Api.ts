@@ -99,7 +99,7 @@ export class Api {
   getUser = () => this.get<UserProfile>('user')
 
   getCSLLocale = (lang: string) =>
-    lang !== 'en-US' ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
+    lang ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
 
   getTemplate = (id?: string) =>
     id ? this.get<ManuscriptTemplate>(`/templates?id=${id}`) : undefined

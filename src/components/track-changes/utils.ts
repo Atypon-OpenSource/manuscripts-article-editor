@@ -59,10 +59,7 @@ export const setChangeStatus = (
     ids.push(change.id)
     if (
       change.type === 'node-change' &&
-      !(
-        change.dataTracked.operation === CHANGE_OPERATION.node_split ||
-        change.dataTracked.operation === CHANGE_OPERATION.wrap_with_node
-      )
+      !(change.dataTracked.operation === CHANGE_OPERATION.node_split)
     ) {
       change.children.forEach((child) => {
         ids.push(child.id)
