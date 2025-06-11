@@ -24,6 +24,11 @@ import {
 import isEqual from '../../lib/deeper-equal'
 import { state } from '../../store'
 
+/**
+ * These hooks are not used within the editor, but exposed to the parent app
+ * to allow it to observe the state of the editor.
+ */
+
 export type ManuscriptsState = {
   get: () => state | undefined
   update: (state: Partial<state>) => void
