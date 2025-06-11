@@ -57,18 +57,13 @@ export const FileActions: React.FC<{
   const [isUseAsMainDialogOpen, setUseAsMainDialogOpen] =
     useState<boolean>(false)
 
-  const hasUploadedFile = file?.id
-
-  const showDownload = hasUploadedFile && can?.downloadFiles && onDownload
-  const showReplace = hasUploadedFile && can?.replaceFile && onReplace
-  const showDetach = hasUploadedFile && can?.detachFile && onDetach
-  const showDelete = can?.editArticle && onDelete
+  const showDownload = can?.downloadFiles && onDownload
+  const showReplace = can?.replaceFile && onReplace
+  const showDetach = can?.detachFile && onDetach
+  const showDelete = can?.detachFile && onDelete
   const showMove = can?.moveFile && move
   const showUseAsMain =
-    hasUploadedFile &&
-    can?.moveFile &&
-    onUseAsMain &&
-    isValidMainDocumentFormat(file)
+    can?.moveFile && onUseAsMain && isValidMainDocumentFormat(file)
 
   const show =
     showDownload || showReplace || showDetach || showMove || showUseAsMain
