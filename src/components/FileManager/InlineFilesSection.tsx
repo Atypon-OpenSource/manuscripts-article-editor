@@ -43,7 +43,7 @@ type FileMetadata = {
   element: ElementFiles
   label: string
   icon: React.FC<React.SVGAttributes<SVGElement>>
-  files: { file: FileAttachment | null; pos: number }[]
+  files: { file: FileAttachment | null, pos: number }[]
 }
 
 export type InlineFilesSectionProps = {
