@@ -85,11 +85,12 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
         label = `Figure ${figureIndex++}`
         icon = FileFigureIcon
       }
+
       return {
         element,
         label,
         icon,
-        files: element.files,
+        files: element.files.filter((f) => f.file && f.file.id), // Filter out empty files
       }
     })
   }, [elements, view, sectionCategories])
