@@ -1589,17 +1589,24 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@manuscripts/body-editor@2.8.81-LEAN-4576.1":
-  version "2.8.81-LEAN-4576.1"
-  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.8.81-LEAN-4576.1.tgz#ad7a2dedf324145a7763f79f43983463babfa1bd"
-  integrity sha512-CbJ/2OT9S55Ktw7KKDFgfy6vnGqU06zdKsyh6WvtPHexdbshfAepW59WyNT2I9bQmO8D+A2T1NNuoEJdFipyjg==
+"@manuscripts/body-editor@2.9.1":
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/body-editor/-/body-editor-2.9.1.tgz#7a5c85c6e7f11e3b8307782ebcf2775ecdc85483"
+  integrity sha512-zYNkc5UDiZ4kQL2qp2SXCVQcqf2b7R4LB94gDZanc3h5q9AsfIEA1aNLQDU7yCGFV10aloJy5lQMY+wB3pNC6A==
   dependencies:
+    "@citation-js/core" "^0.7.18"
+    "@citation-js/plugin-bibtex" "^0.7.18"
+    "@citation-js/plugin-csl" "^0.7.18"
+    "@citation-js/plugin-doi" "^0.7.18"
+    "@citation-js/plugin-enw" "^0.3.0"
+    "@citation-js/plugin-pubmed" "^0.3.0"
+    "@citation-js/plugin-ris" "^0.7.18"
     "@iarna/word-count" "^1.1.2"
     "@manuscripts/json-schema" "2.2.11"
     "@manuscripts/library" "1.3.14"
-    "@manuscripts/style-guide" "2.1.12"
-    "@manuscripts/track-changes-plugin" "1.10.7"
-    "@manuscripts/transform" "3.0.68-LEAN-4576.0"
+    "@manuscripts/style-guide" "2.1.13"
+    "@manuscripts/track-changes-plugin" "1.10.9"
+    "@manuscripts/transform" "3.1.0"
     "@popperjs/core" "^2.11.8"
     astrocite-eutils "^0.16.4"
     codemirror "^5.58.1"
@@ -1683,10 +1690,10 @@
     "@manuscripts/json-schema" "2.2.10"
     citeproc "^2.4.62"
 
-"@manuscripts/style-guide@2.1.12":
-  version "2.1.12"
-  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.12.tgz#03b2b179a1b7050c9e12603d41e01f061424e36f"
-  integrity sha512-i/Wv5mZAw0BPMatpRx2fBqbg3ro5iARenHIZqG6ATvJxcQgT4iEPdyqrcBJpAYdrbvQgsI8SVOx6IjRwpAwX9g==
+"@manuscripts/style-guide@2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@manuscripts/style-guide/-/style-guide-2.1.13.tgz#eca8de7ed7e752a723d3251879155641bd281578"
+  integrity sha512-sgtxqt+G/S8R8XxqjGHWcek3ilYx1mpz5aorOzCvwXTDVeN0p+R6jiYXuD0WstxZe7yXdx38inPVqEK4cHt1cA==
   dependencies:
     "@headlessui/react" "^2.1.10"
     "@manuscripts/json-schema" "2.2.11"
@@ -1713,10 +1720,10 @@
     react-tooltip "^5.28.0"
     styled-components "^5.2.0"
 
-"@manuscripts/track-changes-plugin@1.10.7":
-  version "1.10.7"
-  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.7.tgz#466d4e9195be86508c95bfaf4d66c4bb6cd52a4d"
-  integrity sha512-y3I2XMcrRLUkkEn58BFsW2WVO9aU1qCIM2/4quOwXrpDZAHjJW/IMD3KJv1CJWIQpp/NiZEXOIvtwmDzdXuw+A==
+"@manuscripts/track-changes-plugin@1.10.9":
+  version "1.10.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/track-changes-plugin/-/track-changes-plugin-1.10.9.tgz#b879f180075cf4c965f447f9f69a6019a33d6a78"
+  integrity sha512-XzJZ3EUPfxQBmv+DTfAAGfQRs5v7joo3BbWZcPVsQHN0YbWuw9/rDexHGwYBVd193Zb+/nKk3ByWZCNqWiJgMQ==
   dependencies:
     debug "^4.3.4"
     prosemirror-commands "^1.5.0"
@@ -1729,17 +1736,16 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.29.1"
 
-"@manuscripts/transform@3.0.68-LEAN-4576.0":
-  version "3.0.68-LEAN-4576.0"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.0.68-LEAN-4576.0.tgz#210ca3d149887903f52a51d51fc325d676451881"
-  integrity sha512-V6foG9EZdsQlk0sUpKjn5EQo7y3gUZakRbEbNv4qzxYqvcXULAqIcsBHrpiBLqJvCRMTLF2JOoQ98JgjtWCI1A==
+"@manuscripts/transform@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-3.1.0.tgz#d38d09b7940d7f18405d43f66db16e57e7c7cfa3"
+  integrity sha512-DOItDNFVBzLho+OSFKMJsfrI3w3gDrcUc9Usr2zdIpaX4zXTGgMSOOyEDYd7o4E0SVPPzgYK3jOgxzPXKf6g/A==
   dependencies:
     "@manuscripts/json-schema" "2.2.12"
     "@manuscripts/library" "1.3.14"
     debug "^4.3.4"
     jszip "^3.10.1"
     lodash "^4.17.21"
-    mime "^3.0.0"
     prosemirror-model "^1.18.3"
     prosemirror-tables "^1.3.5"
     prosemirror-utils "^1.2.2"
@@ -2076,11 +2082,6 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
-
-"@types/jwt-decode@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@types/jwt-decode/-/jwt-decode-2.2.1.tgz#afdf5c527fcfccbd4009b5fd02d1e18241f2d2f2"
-  integrity sha512-aWw2YTtAdT7CskFyxEX2K21/zSDStuf/ikI3yBqmwpwJF0pS+/IX5DWv+1UFffZIbruP6cnT9/LAJV1gFwAT1A==
 
 "@types/lodash@^4.14.202":
   version "4.17.7"
@@ -5459,11 +5460,6 @@ jszip@^3.10.1:
     readable-stream "~2.3.6"
     setimmediate "^1.0.5"
 
-jwt-decode@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
-  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
-
 keyv@^4.5.3:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"
@@ -6076,11 +6072,6 @@ mime-types@^2.1.12:
   integrity sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==
   dependencies:
     mime-db "1.52.0"
-
-mime@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
-  integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
 
 mimic-fn@^2.1.0:
   version "2.1.0"
