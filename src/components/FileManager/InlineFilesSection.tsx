@@ -98,6 +98,22 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     })
   }, [elements, view, sectionCategories])
 
+  const [openGroupIndexes, setOpenGroupIndexes] = useState<Set<number>>(
+    new Set(groupedMetadata.map((_, index) => index))
+  )
+
+  const toggleGroupOpen = (groupIndex: number) => {
+    setOpenGroupIndexes((prevOpenIndexes) => {
+      const newOpenIndexes = new Set(prevOpenIndexes)
+      if (newOpenIndexes.has(groupIndex)) {
+        newOpenIndexes.delete(groupIndex)
+      } else {
+        newOpenIndexes.add(groupIndex)
+      }
+      return newOpenIndexes
+    })
+  }
+
   if (!view) {
     return null
   }
@@ -162,11 +178,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   return (
     <>
       {groupedMetadata.map((group, groupIndex) => {
-        const [isOpen, setOpen] = useState(true)
-        const toggleOpen = (e: React.MouseEvent) => {
-          e.stopPropagation()
-          setOpen(!isOpen)
-        }
+        const isOpen = openGroupIndexes.has(groupIndex)
 
         return (
           <FileGroupContainer
@@ -180,7 +192,13 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                 {group.label && <FileLabel>{group.label}:</FileLabel>}
               </div>
               {group.files.length > 0 && (
-                <ToggleIcon isOpen={isOpen} onClick={toggleOpen}>
+                <ToggleIcon
+                  isOpen={isOpen}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    toggleGroupOpen(groupIndex)
+                  }}
+                >
                   {isOpen ? (
                     <TriangleExpandedIcon />
                   ) : (
