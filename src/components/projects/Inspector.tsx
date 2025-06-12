@@ -56,7 +56,7 @@ const Inspector: React.FC = () => {
 
   let index = 0
   const COMMENTS_TAB_INDEX = index++
-  const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
+  const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
   useEffect(() => {
     if (comment) {
@@ -72,9 +72,9 @@ const Inspector: React.FC = () => {
 
   useEffect(() => {
     if (suggestion) {
-      setTabIndex(SUGGESTIONS_TAB_INDEX)
+      setTabIndex(HISTORY_TAB_INDEX)
     }
-  }, [suggestion, SUGGESTIONS_TAB_INDEX])
+  }, [suggestion, HISTORY_TAB_INDEX])
 
   return (
     <Panel
@@ -111,10 +111,10 @@ const Inspector: React.FC = () => {
                   data-tooltip-id="changes-tab-tooltip"
                 >
                   <BookIcon />{' '}
-                  <TabLabel isVisible={tabIndex === SUGGESTIONS_TAB_INDEX}>
+                  <TabLabel isVisible={tabIndex === HISTORY_TAB_INDEX}>
                     Changes
                   </TabLabel>
-                  {tabIndex !== SUGGESTIONS_TAB_INDEX && (
+                  {tabIndex !== HISTORY_TAB_INDEX && (
                     <Tooltip id="changes-tab-tooltip" place="top">
                       Changes
                     </Tooltip>
@@ -146,7 +146,7 @@ const Inspector: React.FC = () => {
               </InspectorTabPanel>
               {!can.editWithoutTracking && (
                 <InspectorTabPanel key="History" data-cy="history">
-                  {tabIndex === SUGGESTIONS_TAB_INDEX && (
+                  {tabIndex === HISTORY_TAB_INDEX && (
                     <TrackChangesPanel key="track-changes" />
                   )}
                 </InspectorTabPanel>
