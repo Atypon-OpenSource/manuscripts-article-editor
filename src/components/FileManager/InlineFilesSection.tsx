@@ -259,3 +259,4 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     </>
   )
 }
+
