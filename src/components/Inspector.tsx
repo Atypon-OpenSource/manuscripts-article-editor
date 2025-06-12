@@ -11,17 +11,37 @@
  */
 
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
-import React, {
-  HTMLAttributes,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-// styled comps loose html attributes so we need to pass it through using a type
-type HTMLAttrsProxy = HTMLAttributes<HTMLElement>
+export const TabLabel: React.FC<{
+  isVisible: boolean
+  children: React.ReactNode
+}> = ({ isVisible, children }) => {
+  const ref = useRef<HTMLSpanElement>(null)
+  const [width, setWidth] = useState(0)
+  const skip = useMemo(() => !ref.current, [isVisible]) // skipping transition on mount to avoid animating the tab when page loads and looks weird
+
+  useLayoutEffect(() => {
+    let width = 0
+    if (ref.current) {
+      if (!isVisible) {
+        width = 0
+      } else {
+        width = ref.current.scrollWidth
+      }
+    }
+    setWidth(width)
+  }, [isVisible])
+
+  return (
+    <>
+      <TabText ref={ref} targetWidth={width} skipTransition={skip}>
+        {children}
+      </TabText>
+    </>
+  )
+}
 
 export const InspectorContainer = styled.div`
   border-left: 1px solid ${(props) => props.theme.colors.border.tertiary};
@@ -125,36 +145,6 @@ export const InspectorTabPanelHeading = styled.div`
 export const Spacer = styled.span`
   flex: 1 0 auto;
 `
-
-export const TabLabel: React.FC<{
-  isVisible: boolean
-  children: React.ReactNode
-}> = ({ isVisible, children }) => {
-  const ref = useRef<HTMLSpanElement>(null)
-  const [width, setWidth] = useState(0)
-  const skip = useMemo(() => !ref.current, [isVisible]) // skipping transition on mount to avoid animating the tab when page loads and looks weird
-
-  useLayoutEffect(() => {
-    let width = 0
-    if (ref.current) {
-      if (!isVisible) {
-        width = 0
-      } else {
-        width = ref.current.scrollWidth
-      }
-    }
-    setWidth(width)
-  }, [isVisible])
-
-  return (
-    <>
-      <TabText ref={ref} targetWidth={width} skipTransition={skip}>
-        {children}
-      </TabText>
-    </>
-  )
-}
-
 export const TabText = styled.span<{
   targetWidth: number
   skipTransition: boolean
