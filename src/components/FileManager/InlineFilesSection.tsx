@@ -184,10 +184,8 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
             onClick={() => handleClick(group.element)}
           >
             <FileGroupHeader>
-              <div>
-                <group.icon className="file-icon" />
-                {group.label && <FileLabel>{group.label}:</FileLabel>}
-              </div>
+              <group.icon className="file-icon" />
+              {group.label && <FileLabel>{group.label}:</FileLabel>}
               {group.files.length > 0 && (
                 <ToggleIcon
                   isOpen={isOpen}

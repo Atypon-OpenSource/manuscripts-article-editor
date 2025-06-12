@@ -47,30 +47,31 @@ export const FileGroupItemContainer = styled.div`
   }
 `
 
-export const FileGroupHeader = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  justify-content: space-between;
-  padding-right: 20px;
-
-  > div:first-child {
-    display: flex;
-  }
-`
-
 export const FileGroup = styled.div`
   display: block;
 `
-
 export const FileLabel = styled.div`
   color: ${(props) => props.theme.colors.text.primary};
   font-weight: bold;
   font-size: 16px;
   line-height: 20px;
   white-space: nowrap;
-  margin-left: ${(props) => props.theme.grid.unit * 2}px;
   align-content: center;
+`
+
+export const FileGroupHeader = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-right: 20px;
+
+  .file-icon {
+    margin-right: ${(props) => props.theme.grid.unit * 2}px; /* Adjust as needed */
+  }
+
+  ${FileLabel} { 
+    margin-right: auto;
+  }
 `
 
 export const ToggleIcon = styled.div<{ isOpen: boolean }>`
