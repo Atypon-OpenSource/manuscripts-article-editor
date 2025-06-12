@@ -103,7 +103,7 @@ const BaseInspectorTab = styled(Tab)`
     }
   }
 `
-export const PrimaryInspectorTab = styled(BaseInspectorTab)<HTMLAttrsProxy>`
+export const PrimaryInspectorTab = styled(BaseInspectorTab)`
   && {
     padding: ${(props) => props.theme.grid.unit * 2.5}px
       ${(props) => props.theme.grid.unit * 5}px
