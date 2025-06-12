@@ -66,10 +66,11 @@ export const FileGroupHeader = styled.div`
   padding-right: 20px;
 
   .file-icon {
-    margin-right: ${(props) => props.theme.grid.unit * 2}px; /* Adjust as needed */
+    margin-right: ${(props) =>
+      props.theme.grid.unit * 2}px; /* Adjust as needed */
   }
 
-  ${FileLabel} { 
+  ${FileLabel} {
     margin-right: auto;
   }
 `

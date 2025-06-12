@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { ElementFiles, FileAttachment } from '@manuscripts/body-editor'
+import { ElementFiles, NodeFile } from '@manuscripts/body-editor' // Added NodeFile import
 import {
   FileFigureIcon,
   FileGraphicalAbstractIcon,
@@ -43,7 +43,7 @@ type FileMetadata = {
   element: ElementFiles
   label: string
   icon: React.FC<React.SVGAttributes<SVGElement>>
-  files: { file: FileAttachment | null, pos: number }[]
+  files: NodeFile[]
 }
 
 export type InlineFilesSectionProps = {
@@ -90,7 +90,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
         element,
         label,
         icon,
-        files: element.files.filter((f) => f.file && f.file.id), // Filter out empty files
+        files: element.files.filter((f) => f.file.id),
       }
     })
   }, [elements, view, sectionCategories])
