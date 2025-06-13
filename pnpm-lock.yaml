@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 2.9.1-LEAN-2023.1
-        version: 2.9.1-LEAN-2023.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 2.9.3-LEAN-2023.0
+        version: 2.9.3-LEAN-2023.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
@@ -30,11 +30,11 @@ importers:
         specifier: 2.1.14-LEAN-2023.0
         version: 2.1.14-LEAN-2023.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
-        specifier: 1.10.9-LEAN-2023.0
-        version: 1.10.9-LEAN-2023.0
+        specifier: 1.10.10-LEAN-2023.1
+        version: 1.10.10-LEAN-2023.1
       '@manuscripts/transform':
-        specifier: 3.1.1-LEAN-2023.0
-        version: 3.1.1-LEAN-2023.0(prosemirror-state@1.4.3)
+        specifier: 3.1.3-LEAN-2023.0
+        version: 3.1.3-LEAN-2023.0(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1170,8 +1170,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@manuscripts/body-editor@2.9.1-LEAN-2023.1':
-    resolution: {integrity: sha512-8XBstpjI8mO9+OkL/ZxBkdYB2Az7e7HVG3nw9Y3CiZiVtD9vmYhx6DKpHK6DbfPitaHfU4tvu5aT1TH6w0ADQg==}
+  '@manuscripts/body-editor@2.9.3-LEAN-2023.0':
+    resolution: {integrity: sha512-JHMcq877z1ZAsqcW47wBrWaWo+XrPtrcPSeAQUiNtORhNt2RHUBNP2KZvfPVokmLx9IshH8OlfVeakfjSEhCiA==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1198,11 +1198,11 @@ packages:
     resolution: {integrity: sha512-ET9VaSbYLidJkb/uGBIPVWJ+T3vMfPwhVE/M44hXzRb0pLO9Rni9ISwNJoHBnMmNLCUubhF1j/VqVz+e6pzc6g==}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/track-changes-plugin@1.10.9-LEAN-2023.0':
-    resolution: {integrity: sha512-9Vuc2ziR1KLErv01WLbFOpqZ577tPqc3LrY1SxMUXsQ0ABhvz024CUzVEirKQmQCjGl4JzgomJnLdlbSGLz+kA==}
+  '@manuscripts/track-changes-plugin@1.10.10-LEAN-2023.1':
+    resolution: {integrity: sha512-xHjHu60x51ioaUnPcetMoU5G3yrjg7tWZtNdjIYmgqU3H6I5hZ3Vdc/DBuQbTi10ulXmqo/QyOijY8BdVs9jMA==}
 
-  '@manuscripts/transform@3.1.1-LEAN-2023.0':
-    resolution: {integrity: sha512-LJdilLtAVgZG3rtUpUB+0jx4R05ujFQ4obLabJnqU0tjPgVvT3TFdI5/gkxJbzBeS0mMRH5C9PrCwLjmmZua5Q==}
+  '@manuscripts/transform@3.1.3-LEAN-2023.0':
+    resolution: {integrity: sha512-/e1nLkTsNRVs2A7+wL9SkmHv5A6OL9JR082i98zHPsI9kdqIHQRRMviAXUmR6SqUuI7t76zMzdStIaMPV7FkBg==}
     engines: {node: '>=20.16.0'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -4766,7 +4766,7 @@ snapshots:
       '@babel/traverse': 7.25.4(supports-color@5.5.0)
       '@babel/types': 7.25.4
       convert-source-map: 2.0.0
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -6051,7 +6051,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@manuscripts/body-editor@2.9.1-LEAN-2023.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@2.9.3-LEAN-2023.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6063,8 +6063,8 @@ snapshots:
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
       '@manuscripts/style-guide': 2.1.14-LEAN-2023.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
-      '@manuscripts/track-changes-plugin': 1.10.9-LEAN-2023.0
-      '@manuscripts/transform': 3.1.1-LEAN-2023.0(prosemirror-state@1.4.3)
+      '@manuscripts/track-changes-plugin': 1.10.10-LEAN-2023.1
+      '@manuscripts/transform': 3.1.3-LEAN-2023.0(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -6166,7 +6166,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@manuscripts/track-changes-plugin@1.10.9-LEAN-2023.0':
+  '@manuscripts/track-changes-plugin@1.10.10-LEAN-2023.1':
     dependencies:
       debug: 4.4.1(supports-color@5.5.0)
       prosemirror-commands: 1.7.1
@@ -6178,7 +6178,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@3.1.1-LEAN-2023.0(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@3.1.3-LEAN-2023.0(prosemirror-state@1.4.3)':
     dependencies:
       '@manuscripts/json-schema': 2.2.12
       citeproc: 2.4.63
@@ -6563,7 +6563,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -8018,14 +8018,14 @@ snapshots:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -8317,7 +8317,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
       istanbul-lib-coverage: 3.2.2
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -8616,7 +8616,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.6.3
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -9125,7 +9125,7 @@ snapshots:
 
   micromark@2.11.4:
     dependencies:
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
       parse-entities: 2.0.0
     transitivePeerDependencies:
       - supports-color
@@ -9133,7 +9133,7 @@ snapshots:
   micromark@3.2.0:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.1.0
       micromark-factory-space: 1.1.0
@@ -10378,7 +10378,7 @@ snapshots:
       '@types/node': 18.19.47
       '@types/unist': 2.0.11
       concat-stream: 2.0.0
-      debug: 4.3.6
+      debug: 4.4.1(supports-color@5.5.0)
       fault: 2.0.1
       glob: 8.1.0
       ignore: 5.3.2
