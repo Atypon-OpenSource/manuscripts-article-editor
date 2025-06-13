@@ -23,23 +23,14 @@ export const TabLabel: React.FC<{
   const skip = useMemo(() => !ref.current, [isVisible]) // skipping transition on mount to avoid animating the tab when page loads and looks weird
 
   useLayoutEffect(() => {
-    let width = 0
-    if (ref.current) {
-      if (!isVisible) {
-        width = 0
-      } else {
-        width = ref.current.scrollWidth
-      }
-    }
+    const width = isVisible && ref.current ? ref.current.scrollWidth : 0
     setWidth(width)
   }, [isVisible])
 
   return (
-    <>
-      <TabText ref={ref} targetWidth={width} skipTransition={skip}>
-        {children}
-      </TabText>
-    </>
+    <TabText ref={ref} targetWidth={width} skipTransition={skip}>
+      {children}
+    </TabText>
   )
 }
 
