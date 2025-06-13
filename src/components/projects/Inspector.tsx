@@ -12,8 +12,9 @@
 
 import {
   BookIcon,
-  CommentIcon,
+  ChatIcon,
   ManuscriptIcon,
+  Tooltip,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
@@ -29,6 +30,8 @@ import {
   PaddedInspectorTabPanels,
   PrimaryInspectorTab,
   PrimaryTabList,
+  Spacer,
+  TabLabel,
 } from '../Inspector'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
@@ -53,7 +56,7 @@ const Inspector: React.FC = () => {
 
   let index = 0
   const COMMENTS_TAB_INDEX = index++
-  const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
+  const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
   useEffect(() => {
     if (comment) {
@@ -69,9 +72,9 @@ const Inspector: React.FC = () => {
 
   useEffect(() => {
     if (suggestion) {
-      setTabIndex(SUGGESTIONS_TAB_INDEX)
+      setTabIndex(HISTORY_TAB_INDEX)
     }
-  }, [suggestion, SUGGESTIONS_TAB_INDEX])
+  }, [suggestion, HISTORY_TAB_INDEX])
 
   return (
     <Panel
@@ -88,17 +91,51 @@ const Inspector: React.FC = () => {
         <InspectorContainer data-cy="inspector">
           <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
             <PrimaryTabList>
-              <PrimaryInspectorTab data-cy="comments-button">
-                <CommentIcon /> Comments
+              <PrimaryInspectorTab
+                data-cy="comments-button"
+                data-tooltip-id="comments-tab-tooltip"
+              >
+                <ChatIcon />{' '}
+                <TabLabel isVisible={tabIndex === COMMENTS_TAB_INDEX}>
+                  Comments
+                </TabLabel>
+                {tabIndex !== COMMENTS_TAB_INDEX && (
+                  <Tooltip id="comments-tab-tooltip" place="top">
+                    Comments
+                  </Tooltip>
+                )}
               </PrimaryInspectorTab>
               {!can.editWithoutTracking && (
-                <PrimaryInspectorTab data-cy="history-button">
-                  <BookIcon /> Changes
+                <PrimaryInspectorTab
+                  data-cy="history-button"
+                  data-tooltip-id="changes-tab-tooltip"
+                >
+                  <BookIcon />{' '}
+                  <TabLabel isVisible={tabIndex === HISTORY_TAB_INDEX}>
+                    Changes
+                  </TabLabel>
+                  {tabIndex !== HISTORY_TAB_INDEX && (
+                    <Tooltip id="changes-tab-tooltip" place="top">
+                      Changes
+                    </Tooltip>
+                  )}
                 </PrimaryInspectorTab>
               )}
-              <PrimaryInspectorTab data-cy="files-button">
-                <ManuscriptIcon /> Files
+              <PrimaryInspectorTab
+                data-cy="files-button"
+                data-tooltip-id="files-tab-tooltip"
+              >
+                <ManuscriptIcon />
+                <TabLabel isVisible={tabIndex === FILES_TAB_INDEX}>
+                  Files
+                </TabLabel>
+                {tabIndex !== FILES_TAB_INDEX && (
+                  <Tooltip id="files-tab-tooltip" place="top">
+                    Files
+                  </Tooltip>
+                )}
               </PrimaryInspectorTab>
+              <Spacer />
               <VersionHistoryDropdown />
             </PrimaryTabList>
             <PaddedInspectorTabPanels>
@@ -109,7 +146,7 @@ const Inspector: React.FC = () => {
               </InspectorTabPanel>
               {!can.editWithoutTracking && (
                 <InspectorTabPanel key="History" data-cy="history">
-                  {tabIndex === SUGGESTIONS_TAB_INDEX && (
+                  {tabIndex === HISTORY_TAB_INDEX && (
                     <TrackChangesPanel key="track-changes" />
                   )}
                 </InspectorTabPanel>
