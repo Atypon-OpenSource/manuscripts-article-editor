@@ -30,7 +30,6 @@ import {
 } from '@manuscripts/transform'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
-import { changeOperationAlias } from './tracking'
 import { getParentNode } from './utils'
 
 interface SnippetData {
@@ -147,6 +146,7 @@ export const handleNodeChange = (
     case schema.nodes.table_element:
     case schema.nodes.embed:
     case schema.nodes.image_element:
+    case schema.nodes.hero_image:
       return {
         operation,
         nodeName,
@@ -263,5 +263,29 @@ export const handleUnknownChange = (): SnippetData => {
     operation: '',
     nodeName: '',
     content: 'Unknown change!',
+  }
+}
+
+export const changeOperationAlias = (operation: string): string => {
+  switch (operation) {
+    case 'delete': {
+      return 'Deleted'
+    }
+    case 'insert':
+    case 'wrap_with_node': {
+      return 'Inserted'
+    }
+    case 'set_attrs': {
+      return 'Updated'
+    }
+    case 'node_split': {
+      return 'Split'
+    }
+    case 'move': {
+      return 'Move'
+    }
+    default: {
+      return 'null'
+    }
   }
 }

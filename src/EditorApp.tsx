@@ -24,7 +24,6 @@ import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
-import { getCurrentUserId } from './lib/user'
 import {
   BasicSource,
   createStore,
@@ -32,7 +31,6 @@ import {
   GenericStoreProvider,
   state,
 } from './store'
-import { TokenData } from './store/TokenData'
 
 export type AppState = {
   get: () => state | undefined
@@ -51,7 +49,7 @@ export interface EditorAppProps {
   manuscriptID: string
   projectID: string
   permittedActions: string[]
-  authToken: string
+  getAuthToken: () => Promise<string | undefined>
   observer?: AppStateObserver
 }
 
@@ -70,17 +68,14 @@ const EditorApp: React.FC<EditorAppProps> = ({
   permittedActions,
   fileManagement,
   files,
-  authToken,
+  getAuthToken,
   observer,
 }) => {
-  const userID = getCurrentUserId()
-
   const [store, setStore] = useState<GenericStore>()
-
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
-  const api = useMemo(() => new Api(authToken), [authToken])
+  const api = useMemo(() => new Api(getAuthToken), [getAuthToken])
 
   useEffect(() => {
     // implement remount for the store if component is retriggered
@@ -94,8 +89,6 @@ const EditorApp: React.FC<EditorAppProps> = ({
       manuscriptID,
       files,
       permittedActions,
-      userID: userID || '',
-      tokenData: new TokenData(),
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
