@@ -10,13 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, {
-  MutableRefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Api, ApiContext } from './api/Api'
@@ -24,6 +18,7 @@ import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
+import { ManuscriptsStateObserver } from './hooks/external/use-manuscripts-state'
 import {
   BasicSource,
   createStore,
@@ -32,17 +27,6 @@ import {
   state,
 } from './store'
 
-export type AppState = {
-  get: () => state | undefined
-  update: (state: Partial<state>) => void
-}
-export type AppStateRef = MutableRefObject<AppState | undefined>
-
-export type AppStateObserver = {
-  state: AppStateRef
-  onUpdate: (state: state) => void
-}
-
 export interface EditorAppProps {
   fileManagement: FileManagement
   files: FileAttachment[]
@@ -50,7 +34,7 @@ export interface EditorAppProps {
   projectID: string
   permittedActions: string[]
   getAuthToken: () => Promise<string | undefined>
-  observer?: AppStateObserver
+  observer?: ManuscriptsStateObserver
 }
 
 const PlaceholderWrapper = styled.div`
