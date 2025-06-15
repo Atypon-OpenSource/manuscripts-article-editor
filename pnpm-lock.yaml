@@ -27,8 +27,8 @@ importers:
         specifier: 2.2.12
         version: 2.2.12
       '@manuscripts/style-guide':
-        specifier: 3.0.0
-        version: 3.0.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.0.1-LEAN-4623.1
+        version: 3.0.1-LEAN-4623.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
         specifier: 2.0.0
         version: 2.0.0
@@ -1196,6 +1196,10 @@ packages:
 
   '@manuscripts/style-guide@3.0.0':
     resolution: {integrity: sha512-BMV1xAE1wIQJP3NAkscOpeiiPdLXyguyFYH6o/RCvDAU4VImEOdXHY2x/vUrTUjAEfGY2+MENwEV/RznMALFrw==}
+    engines: {node: '>=20.16.0'}
+
+  '@manuscripts/style-guide@3.0.1-LEAN-4623.1':
+    resolution: {integrity: sha512-werER75g9UqWru8ISbwzaiSf6GNlrD09FHwizFDQcRMSjFJQuwECBkFcF6rEXFwvdSjoOjz7pzXsOKc6C1qkpw==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.0.0':
@@ -6135,6 +6139,38 @@ snapshots:
       uuid: 9.0.1
 
   '@manuscripts/style-guide@3.0.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+    dependencies:
+      '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@manuscripts/json-schema': 2.2.12
+      date-fns: 2.30.0
+      formik: 2.4.6(react@18.3.1)
+      lodash: 4.17.21
+      prosemirror-commands: 1.7.1
+      prosemirror-history: 1.4.1
+      prosemirror-keymap: 1.2.3
+      prosemirror-model: 1.25.0
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.40.0
+      react: 18.3.1
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)(react@18.3.1)
+      react-dnd-html5-backend: 16.0.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-is: 18.3.1
+      react-modal: 3.16.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-modern-calendar-datepicker: 3.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router-dom: 5.3.4(react@18.3.1)
+      react-select: 5.10.1(@types/react@18.3.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-sizeme: 3.0.2
+      react-tooltip: 5.28.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      styled-components: 5.3.11(@babel/core@7.23.7)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/hoist-non-react-statics'
+      - '@types/node'
+      - '@types/react'
+      - supports-color
+
+  '@manuscripts/style-guide@3.0.1-LEAN-4623.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/json-schema': 2.2.12
