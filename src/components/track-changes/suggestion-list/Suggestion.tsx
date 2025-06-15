@@ -18,7 +18,7 @@ import TrackModal from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
 
-const scrollIntoView = (element: HTMLElement) => {
+export const scrollIntoView = (element: HTMLElement) => {
   const rect = element.getBoundingClientRect()
   if (rect.bottom > window.innerHeight || rect.top < 150) {
     element.scrollIntoView()
