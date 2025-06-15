@@ -7,11 +7,13 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import styled from 'styled-components'
+
+import { IssuesPanel } from './inspector/IssuesPanel'
 
 export const InspectorContainer = styled.div`
   border-left: 1px solid ${(props) => props.theme.colors.border.tertiary};
@@ -33,7 +35,7 @@ export const InspectorTabs = styled(TabGroup)`
 export const InspectorTabList = styled(TabList)`
   && {
     background: none;
-    justify-content: center;
+    justify-content: space-between;
     font-size: ${(props) => props.theme.font.size.normal};
     color: ${(props) => props.theme.colors.text.primary};
     flex-shrink: 0;
@@ -43,6 +45,7 @@ export const InspectorTabList = styled(TabList)`
 
 export const PrimaryTabList = styled(InspectorTabList)`
   background-color: #fafafa !important;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -75,16 +78,38 @@ const BaseInspectorTab = styled(Tab)`
 `
 export const PrimaryInspectorTab = styled(BaseInspectorTab)`
   && {
-    padding: ${(props) => props.theme.grid.unit * 2}px
-      ${(props) => props.theme.grid.unit * 6}px;
-    border-top: 3px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 2px;
+    padding: 10px 20px;
+    border-right: 1px solid ${(props) => props.theme.colors.border.tertiary};
+    position: relative;
+    min-width: 40px;
 
+    /* Style the wrapper div */
+    div {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      justify-content: center;
+    }
+
+    /* Hide text by default */
+    span {
+      display: none;
+    }
+
+    /* Show text when tab is active */
     &[aria-selected='true'] {
-      border-color: #6e6e6e;
+      border-top: 3px solid #4f4f4f;
       background: ${(props) => props.theme.colors.background.primary};
+      margin-bottom: -1px;
+      span {
+        display: inline;
+        margin-left: 4px;
+      }
+    }
+
+    /* Ensure icon is always visible */
+    svg {
+      flex-shrink: 0;
     }
   }
 `
@@ -105,4 +130,28 @@ export const SecondaryInspectorTab = styled(BaseInspectorTab)`
 
 export const InspectorTabPanelHeading = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
+`
+
+export const WarningBadge = styled.div`
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #f35143;
+  color: white;
+  border-radius: 50%;
+  min-width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1;
+  z-index: 10;
+`
+
+export const IconWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
 `

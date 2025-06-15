@@ -7,13 +7,16 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 import {
   BookIcon,
   CommentIcon,
+  DangerIcon,
   ManuscriptIcon,
+  Tooltip,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
@@ -23,13 +26,16 @@ import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import { FileManager } from '../FileManager/FileManager'
 import {
+  IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
   InspectorTabs,
   PaddedInspectorTabPanels,
   PrimaryInspectorTab,
   PrimaryTabList,
+  WarningBadge,
 } from '../Inspector'
+import { IssuesPanel } from '../inspector/IssuesPanel'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
@@ -42,6 +48,8 @@ const Inspector: React.FC = () => {
     selectedSuggestionID: store.selectedSuggestionID,
     inspectorOpenTabs: store.inspectorOpenTabs,
     isViewingMode: store.isViewingMode,
+    view: store.view,
+    warningsCount: store.warningsCount || 0,
   }))
 
   const can = usePermissions()
@@ -55,6 +63,8 @@ const Inspector: React.FC = () => {
   const COMMENTS_TAB_INDEX = index++
   const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
+  const ISSUES_TAB_INDEX = index++
+
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -62,16 +72,27 @@ const Inspector: React.FC = () => {
   }, [comment, COMMENTS_TAB_INDEX])
 
   useEffect(() => {
-    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
-      setTabIndex(FILES_TAB_INDEX)
-    }
-  }, [inspectorOpenTabs, FILES_TAB_INDEX])
-
-  useEffect(() => {
     if (suggestion) {
       setTabIndex(SUGGESTIONS_TAB_INDEX)
     }
   }, [suggestion, SUGGESTIONS_TAB_INDEX])
+
+  useEffect(() => {
+    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
+      setTabIndex(FILES_TAB_INDEX)
+    } else if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Issues) {
+      setTabIndex(ISSUES_TAB_INDEX)
+    }
+  }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
+
+  // Effect to control warning decorations visibility
+  useEffect(() => {
+    if (store.view) {
+      const tr = store.view.state.tr
+      tr.setMeta(detectInconsistencyPluginKey, tabIndex === ISSUES_TAB_INDEX)
+      store.view.dispatch(tr)
+    }
+  }, [tabIndex, ISSUES_TAB_INDEX, store.view])
 
   return (
     <Panel
@@ -88,19 +109,52 @@ const Inspector: React.FC = () => {
         <InspectorContainer data-cy="inspector">
           <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
             <PrimaryTabList>
-              <PrimaryInspectorTab data-cy="comments-button">
-                <CommentIcon /> Comments
-              </PrimaryInspectorTab>
-              {!can.editWithoutTracking && (
-                <PrimaryInspectorTab data-cy="history-button">
-                  <BookIcon /> Changes
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <PrimaryInspectorTab data-cy="comments-button">
+                  <div data-tooltip-id="comments-tooltip">
+                    <CommentIcon /> <span>Comments</span>
+                  </div>
                 </PrimaryInspectorTab>
-              )}
-              <PrimaryInspectorTab data-cy="files-button">
-                <ManuscriptIcon /> Files
-              </PrimaryInspectorTab>
+                {!can.editWithoutTracking && (
+                  <PrimaryInspectorTab data-cy="history-button">
+                    <div data-tooltip-id="changes-tooltip">
+                      <BookIcon /> <span>Changes</span>
+                    </div>
+                  </PrimaryInspectorTab>
+                )}
+                <PrimaryInspectorTab data-cy="files-button">
+                  <div data-tooltip-id="files-tooltip">
+                    <ManuscriptIcon /> <span>Files</span>
+                  </div>
+                </PrimaryInspectorTab>
+                <PrimaryInspectorTab data-cy="issues-button">
+                  <div data-tooltip-id="issues-tooltip">
+                    <IconWrapper>
+                      <DangerIcon />
+                      {store.warningsCount > 0 && (
+                        <WarningBadge>{store.warningsCount}</WarningBadge>
+                      )}
+                    </IconWrapper>
+                    <span>Issues</span>
+                  </div>
+                </PrimaryInspectorTab>
+              </div>
               <VersionHistoryDropdown />
             </PrimaryTabList>
+            <Tooltip id="comments-tooltip" place="bottom">
+              Comments
+            </Tooltip>
+            {!can.editWithoutTracking && (
+              <Tooltip id="changes-tooltip" place="bottom">
+                Changes
+              </Tooltip>
+            )}
+            <Tooltip id="files-tooltip" place="bottom">
+              Files
+            </Tooltip>
+            <Tooltip id="issues-tooltip" place="bottom">
+              Issues
+            </Tooltip>
             <PaddedInspectorTabPanels>
               <InspectorTabPanel key="Comments" data-cy="comments">
                 {tabIndex === COMMENTS_TAB_INDEX && (
@@ -116,6 +170,9 @@ const Inspector: React.FC = () => {
               )}
               <InspectorTabPanel key="Files" data-cy="files">
                 {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
+              </InspectorTabPanel>
+              <InspectorTabPanel key="Issues" data-cy="issues">
+                {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}
               </InspectorTabPanel>
             </PaddedInspectorTabPanels>
           </InspectorTabs>
