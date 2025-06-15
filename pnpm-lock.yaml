@@ -33,8 +33,8 @@ importers:
         specifier: 2.0.0
         version: 2.0.0
       '@manuscripts/transform':
-        specifier: 4.0.1-LEAN-4579.0
-        version: 4.0.1-LEAN-4579.0(prosemirror-state@1.4.3)
+        specifier: 4.0.1-LEAN-4579.1
+        version: 4.0.1-LEAN-4579.1(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1203,6 +1203,10 @@ packages:
 
   '@manuscripts/transform@4.0.1-LEAN-4579.0':
     resolution: {integrity: sha512-r+gqq+W73sWpSNEF8eXNZoYI8WG+EKw3R6enhy8p1uKp8Wjom1EpndRNSqpo1QuZh8RN1Gpn63pwY8Xx3kqk0g==}
+    engines: {node: '>=20.16.0'}
+
+  '@manuscripts/transform@4.0.1-LEAN-4579.1':
+    resolution: {integrity: sha512-JiezeVyH1FvSs4tygQQBWkWYICtO3jSdvOSMj4ZKlOURlEliRO8x6mxlFR46V3+PX26u3+Wjq1oebe+G7k8S0Q==}
     engines: {node: '>=20.16.0'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -6193,6 +6197,21 @@ snapshots:
     transitivePeerDependencies:
       - prosemirror-state
 
+  '@manuscripts/transform@4.0.1-LEAN-4579.1(prosemirror-state@1.4.3)':
+    dependencies:
+      '@manuscripts/json-schema': 2.2.12
+      citeproc: 2.4.63
+      jszip: 3.10.1
+      lodash: 4.17.21
+      prosemirror-model: 1.25.0
+      prosemirror-tables: 1.7.1
+      prosemirror-utils: 1.2.2(prosemirror-model@1.25.0)(prosemirror-state@1.4.3)
+      semver: 7.7.2
+      uuid: 9.0.1
+      w3c-xmlserializer: 4.0.0
+    transitivePeerDependencies:
+      - prosemirror-state
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -6513,7 +6532,7 @@ snapshots:
       debug: 4.3.6
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.6.3
+      semver: 7.7.2
       tsutils: 3.21.0(typescript@4.9.5)
     optionalDependencies:
       typescript: 4.9.5
