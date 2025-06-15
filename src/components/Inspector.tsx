@@ -20,6 +20,7 @@ export const TabLabel: React.FC<{
 }> = ({ isVisible, children }) => {
   const ref = useRef<HTMLSpanElement>(null)
   const [width, setWidth] = useState(0)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const skip = useMemo(() => !ref.current, [isVisible]) // skipping transition on mount to avoid animating the tab when page loads and looks weird
 
   useLayoutEffect(() => {
