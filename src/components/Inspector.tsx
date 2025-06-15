@@ -7,33 +7,12 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
+
 import styled from 'styled-components'
-
-export const TabLabel: React.FC<{
-  isVisible: boolean
-  children: React.ReactNode
-}> = ({ isVisible, children }) => {
-  const ref = useRef<HTMLSpanElement>(null)
-  const [width, setWidth] = useState(0)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const skip = useMemo(() => !ref.current, [isVisible]) // skipping transition on mount to avoid animating the tab when page loads and looks weird
-
-  useLayoutEffect(() => {
-    const width = isVisible && ref.current ? ref.current.scrollWidth : 0
-    setWidth(width)
-  }, [isVisible])
-
-  return (
-    <TabText ref={ref} targetWidth={width} skipTransition={skip}>
-      {children}
-    </TabText>
-  )
-}
 
 export const InspectorContainer = styled.div`
   border-left: 1px solid ${(props) => props.theme.colors.border.tertiary};
