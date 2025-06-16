@@ -16,6 +16,7 @@ import {
   ContributorAttrs,
 } from '@manuscripts/body-editor'
 import {
+  CHANGE_OPERATION,
   ChangeSet,
   NodeAttrChange,
   NodeChange,
@@ -29,9 +30,9 @@ import {
   schema,
 } from '@manuscripts/transform'
 
-import { NodeTextContentRetriever } from './node-content-retriever'
-import { changeOperationAlias } from './tracking'
-import { getParentNode } from './utils'
+import {NodeTextContentRetriever} from './node-content-retriever'
+import {changeOperationAlias} from './tracking'
+import {getParentNode} from './utils'
 
 interface SnippetData {
   operation: string
@@ -223,7 +224,7 @@ export const handleGroupChanges = (
   doc: any,
   dataTracked: any
 ): SnippetData | null => {
-  const processed = suggestions.map((change) => {
+  const processed = suggestions.filter(c => c.dataTracked.operation !== CHANGE_OPERATION.reference).map((change) => {
     const result = ChangeSet.isTextChange(change)
       ? handleTextChange(change, view.state)
       : handleNodeChange(change as NodeChange, view.state)
@@ -253,7 +254,7 @@ export const handleGroupChanges = (
 
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: titleNodeName || 'Text',
+    nodeName: titleNodeName || (dataTracked.operation === 'change_node' && dataTracked.node || 'Text'),
     content,
   }
 }
