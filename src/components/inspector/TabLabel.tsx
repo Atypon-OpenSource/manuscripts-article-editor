@@ -11,8 +11,9 @@
  */
 
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import { TabText } from '../Inspector'
+
 import { useDidMount } from '../../hooks/use-did-mount'
+import { TabText } from '../Inspector'
 
 export const TabLabel: React.FC<{
   isVisible: boolean
@@ -26,6 +27,7 @@ export const TabLabel: React.FC<{
     setSkip(!didMount)
     const width = isVisible && ref.current ? ref.current.scrollWidth : 0
     setWidth(width)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible])
 
   const didMount = useDidMount()

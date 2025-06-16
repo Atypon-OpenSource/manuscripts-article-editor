@@ -11,7 +11,6 @@
  */
 
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
-
 import styled from 'styled-components'
 
 export const InspectorContainer = styled.div`

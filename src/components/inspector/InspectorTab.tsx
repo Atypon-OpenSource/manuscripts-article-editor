@@ -9,10 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { Tooltip } from '@manuscripts/style-guide'
 import React, { useId } from 'react'
+
 import { PrimaryInspectorTab } from '../Inspector'
 import { TabLabel } from './TabLabel'
-import { Tooltip } from '@manuscripts/style-guide'
 
 export const InspectorTab: React.FC<{
   isVisible: boolean

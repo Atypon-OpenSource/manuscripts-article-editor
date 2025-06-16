@@ -30,12 +30,12 @@ import {
   PrimaryTabList,
   Spacer,
 } from '../Inspector'
+import { InspectorTab } from '../inspector/InspectorTab'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import VersionHistoryDropdown from '../VersionHistoryDropdown'
-import { InspectorTab } from '../inspector/InspectorTab'
 
 const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
