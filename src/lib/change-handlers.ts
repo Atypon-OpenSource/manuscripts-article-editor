@@ -194,7 +194,6 @@ export const handleNodeChange = (
         content: node.attrs.source,
       }
     }
-    // TODO: checking why ts is not complaining about the type of node.attrs.type as parameter in getTitleDisplayName
     case schema.nodes.alt_title: {
       return {
         operation,

@@ -13,8 +13,6 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import styled from 'styled-components'
 
-import { IssuesPanel } from './inspector/IssuesPanel'
-
 export const InspectorContainer = styled.div`
   border-left: 1px solid ${(props) => props.theme.colors.border.tertiary};
   box-sizing: border-box;

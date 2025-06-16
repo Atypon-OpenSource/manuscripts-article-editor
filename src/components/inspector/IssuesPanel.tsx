@@ -10,27 +10,32 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { detectInconsistencyPluginKey, Warning } from '@manuscripts/body-editor'
+import {
+  detectInconsistencyPluginKey,
+  Inconsistency,
+} from '@manuscripts/body-editor'
 import { ArrowDownCircleIcon } from '@manuscripts/style-guide'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { scrollIntoView } from '../../lib/utils'
 import { useStore } from '../../store'
-import { scrollIntoView } from '../track-changes/suggestion-list/Suggestion'
 
 const IssuesContainer = styled.div`
   padding: ${(props) => props.theme.grid.unit * 2}px;
 `
 
-const CollapsibleHeader = styled.div`
+const CollapsibleHeader = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: ${(props) => props.theme.grid.unit * 3}px
     ${(props) => props.theme.grid.unit * 2}px;
-  cursor: pointer;
   margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
+  background: none;
+  border: none;
+  width: 100%;
 `
 
 const HeaderTitle = styled.h2`
@@ -40,7 +45,7 @@ const HeaderTitle = styled.h2`
   color: ${(props) => props.theme.colors.text.primary};
 `
 
-const CollapseIcon = styled.button<{ isCollapsed: boolean }>`
+const CollapseIcon = styled.span<{ isCollapsed: boolean }>`
   background: #fff;
   border: none;
   padding: 0;
@@ -66,11 +71,12 @@ const CollapseIcon = styled.button<{ isCollapsed: boolean }>`
   }
 `
 
-const WarningsList = styled.div<{ isVisible: boolean }>`
-  display: ${(props) => (props.isVisible ? 'block' : 'none')};
+const InconsistenciesList = styled.div`
+  padding: ${(props) => props.theme.grid.unit * 2}px
+    ${(props) => props.theme.grid.unit * 3}px;
 `
 
-const WarningItem = styled.div<{ isFocused: boolean }>`
+const InconsistencyItem = styled.div<{ isFocused: boolean }>`
   padding: 12px 8px;
   margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
   border: ${(props) =>
@@ -91,7 +97,7 @@ const WarningItem = styled.div<{ isFocused: boolean }>`
   }
 `
 
-const WarningMessage = styled.p`
+const InconsistencyMessage = styled.p`
   margin: 0;
   color: ${(props) => props.theme.colors.text.primary};
   font-size: ${(props) => props.theme.font.size.normal};
@@ -107,25 +113,26 @@ const NoIssuesMessage = styled.div`
 
 export const IssuesPanel: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
-  const [selectedWarningIndex, setSelectedWarningIndex] = useState<
+  const [selectedInconsistencyIndex, setSelectedInconsistencyIndex] = useState<
     number | null
   >(null)
-  const [store] = useStore((store) => ({
-    view: store.view,
-  }))
+  const [view] = useStore((store) => store.view)
 
-  const warnings = store.view?.state
-    ? detectInconsistencyPluginKey.getState(store.view.state)?.warnings || []
+  const inconsistencies = view?.state
+    ? detectInconsistencyPluginKey.getState(view.state)?.inconsistencies || []
     : []
 
-  const handleWarningClick = (warning: Warning, index: number) => {
-    setSelectedWarningIndex(index)
-    if (store.view) {
-      const tr = store.view.state.tr
-      tr.setSelection(NodeSelection.create(tr.doc, warning.pos))
-      store.view.dispatch(tr)
+  const handleInconsistencyClick = (
+    inconsistency: Inconsistency,
+    index: number
+  ) => {
+    setSelectedInconsistencyIndex(index)
+    if (view) {
+      const tr = view.state.tr
+      tr.setSelection(NodeSelection.create(tr.doc, inconsistency.pos))
+      view.dispatch(tr)
 
-      const domNode = store.view.nodeDOM(warning.pos)
+      const domNode = view.nodeDOM(inconsistency.pos)
       if (domNode && domNode instanceof HTMLElement) {
         scrollIntoView(domNode)
       }
@@ -139,28 +146,34 @@ export const IssuesPanel: React.FC = () => {
   return (
     <IssuesContainer>
       <CollapsibleHeader onClick={toggleCollapsed}>
-        <HeaderTitle>Inconsistencies ({warnings.length})</HeaderTitle>
+        <HeaderTitle>Inconsistencies ({inconsistencies.length})</HeaderTitle>
         <CollapseIcon isCollapsed={isCollapsed}>
           <ArrowDownCircleIcon />
         </CollapseIcon>
       </CollapsibleHeader>
 
-      <WarningsList isVisible={!isCollapsed}>
-        {warnings.length === 0 ? (
-          <NoIssuesMessage>No issues found</NoIssuesMessage>
-        ) : (
-          warnings.map((warning: Warning, index: number) => (
-            <WarningItem
-              key={index}
-              isFocused={selectedWarningIndex === index}
-              onClick={() => handleWarningClick(warning, index)}
-              data-cy="warning"
-            >
-              <WarningMessage>{warning.message}</WarningMessage>
-            </WarningItem>
-          ))
-        )}
-      </WarningsList>
+      {!isCollapsed && (
+        <InconsistenciesList>
+          {inconsistencies.length === 0 ? (
+            <NoIssuesMessage>No issues found</NoIssuesMessage>
+          ) : (
+            inconsistencies.map(
+              (inconsistency: Inconsistency, index: number) => (
+                <InconsistencyItem
+                  key={inconsistency.pos}
+                  isFocused={selectedInconsistencyIndex === index}
+                  onClick={() => handleInconsistencyClick(inconsistency, index)}
+                  data-cy="inconsistency"
+                >
+                  <InconsistencyMessage>
+                    {inconsistency.message}
+                  </InconsistencyMessage>
+                </InconsistencyItem>
+              )
+            )
+          )}
+        </InconsistenciesList>
+      )}
     </IssuesContainer>
   )
 }

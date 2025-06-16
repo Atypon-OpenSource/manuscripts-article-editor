@@ -70,13 +70,13 @@ export const useConnectEditor = () => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
 
-  const warningsCount = useMemo(() => {
-    return detectInconsistencyPluginKey.getState(state)?.warnings?.length || 0
+  const inconsistencies = useMemo(() => {
+    return detectInconsistencyPluginKey.getState(state)?.inconsistencies || []
   }, [state])
 
   useEffect(() => {
-    storeDispatch({ warningsCount })
-  }, [storeDispatch, warningsCount])
+    storeDispatch({ inconsistencies })
+  }, [storeDispatch, inconsistencies])
 
   useEffect(() => {
     storeDispatch({ editor })

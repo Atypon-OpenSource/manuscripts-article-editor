@@ -49,7 +49,7 @@ const Inspector: React.FC = () => {
     inspectorOpenTabs: store.inspectorOpenTabs,
     isViewingMode: store.isViewingMode,
     view: store.view,
-    warningsCount: store.warningsCount || 0,
+    inconsistencies: store.inconsistencies || [],
   }))
 
   const can = usePermissions()
@@ -131,8 +131,10 @@ const Inspector: React.FC = () => {
                   <div data-tooltip-id="issues-tooltip">
                     <IconWrapper>
                       <DangerIcon />
-                      {store.warningsCount > 0 && (
-                        <WarningBadge>{store.warningsCount}</WarningBadge>
+                      {store.inconsistencies.length > 0 && (
+                        <WarningBadge>
+                          {store.inconsistencies.length}
+                        </WarningBadge>
                       )}
                     </IconWrapper>
                     <span>Issues</span>

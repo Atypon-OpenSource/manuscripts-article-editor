@@ -14,16 +14,10 @@ import { RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { scrollIntoView } from '../../../lib/utils'
 import TrackModal from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
-
-export const scrollIntoView = (element: HTMLElement) => {
-  const rect = element.getBoundingClientRect()
-  if (rect.bottom > window.innerHeight || rect.top < 150) {
-    element.scrollIntoView()
-  }
-}
 
 interface Props {
   suggestions: RootChange
