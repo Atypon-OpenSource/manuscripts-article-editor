@@ -71,7 +71,7 @@ export const FileGroupHeader = styled.div`
   }
 
   ${FileLabel} {
-    margin-right: auto;
+    flex: 1;
   }
 `
 

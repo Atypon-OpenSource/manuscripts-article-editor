@@ -176,6 +176,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     <>
       {groupedMetadata.map((group, groupIndex) => {
         const isOpen = openGroupIndexes.has(groupIndex)
+        const figureCount = group.files.length
 
         return (
           <FileGroupContainer
@@ -219,13 +220,15 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     <FileNameText data-cy="filename">
                       {fileAttachment.file?.name
                         ? trimFilename(fileAttachment.file.name, 25)
-                        : 'Figure'}
-                      <Tooltip
-                        id={`${fileAttachment.file?.id}-file-name-tooltip`}
-                        place="bottom"
-                      >
-                        {fileAttachment.file?.name || 'Figure'}
-                      </Tooltip>
+                        : 'Unknown file'}
+                      {fileAttachment.file?.name && (
+                        <Tooltip
+                          id={`${fileAttachment.file?.id}-file-name-tooltip`}
+                          place="bottom"
+                        >
+                          {fileAttachment.file?.name || 'Figure'}
+                        </Tooltip>
+                      )}
                     </FileNameText>
                     {fileAttachment.file && (
                       <FileCreatedDate
@@ -244,7 +247,8 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                         fileManagement.download(fileAttachment.file)
                       }
                       onDelete={
-                        fileIndex !== 0 // Skip displaying the delete option for the first figure
+                        figureCount > 1 // Skip displaying the delete option for the last remaining figure
+
                           ? () => handleDelete(fileAttachment.pos)
                           : undefined
                       }
