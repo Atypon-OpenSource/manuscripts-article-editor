@@ -14,7 +14,6 @@ import {
   BookIcon,
   ChatIcon,
   ManuscriptIcon,
-  Tooltip,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
@@ -28,16 +27,15 @@ import {
   InspectorTabPanel,
   InspectorTabs,
   PaddedInspectorTabPanels,
-  PrimaryInspectorTab,
   PrimaryTabList,
   Spacer,
-  TabLabel,
 } from '../Inspector'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 import VersionHistoryDropdown from '../VersionHistoryDropdown'
+import { InspectorTab } from '../inspector/InspectorTab'
 
 const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
@@ -91,50 +89,29 @@ const Inspector: React.FC = () => {
         <InspectorContainer data-cy="inspector">
           <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
             <PrimaryTabList>
-              <PrimaryInspectorTab
-                data-cy="comments-button"
-                data-tooltip-id="comments-tab-tooltip"
+              <InspectorTab
+                cy="comments-button"
+                icon={<ChatIcon />}
+                isVisible={tabIndex === COMMENTS_TAB_INDEX}
               >
-                <ChatIcon />{' '}
-                <TabLabel isVisible={tabIndex === COMMENTS_TAB_INDEX}>
-                  Comments
-                </TabLabel>
-                {tabIndex !== COMMENTS_TAB_INDEX && (
-                  <Tooltip id="comments-tab-tooltip" place="top">
-                    Comments
-                  </Tooltip>
-                )}
-              </PrimaryInspectorTab>
+                Comments
+              </InspectorTab>
               {!can.editWithoutTracking && (
-                <PrimaryInspectorTab
-                  data-cy="history-button"
-                  data-tooltip-id="changes-tab-tooltip"
+                <InspectorTab
+                  cy="history-button"
+                  icon={<BookIcon />}
+                  isVisible={tabIndex === HISTORY_TAB_INDEX}
                 >
-                  <BookIcon />{' '}
-                  <TabLabel isVisible={tabIndex === HISTORY_TAB_INDEX}>
-                    Changes
-                  </TabLabel>
-                  {tabIndex !== HISTORY_TAB_INDEX && (
-                    <Tooltip id="changes-tab-tooltip" place="top">
-                      Changes
-                    </Tooltip>
-                  )}
-                </PrimaryInspectorTab>
+                  Changes
+                </InspectorTab>
               )}
-              <PrimaryInspectorTab
-                data-cy="files-button"
-                data-tooltip-id="files-tab-tooltip"
+              <InspectorTab
+                cy="files-button"
+                icon={<ManuscriptIcon />}
+                isVisible={tabIndex === FILES_TAB_INDEX}
               >
-                <ManuscriptIcon />
-                <TabLabel isVisible={tabIndex === FILES_TAB_INDEX}>
-                  Files
-                </TabLabel>
-                {tabIndex !== FILES_TAB_INDEX && (
-                  <Tooltip id="files-tab-tooltip" place="top">
-                    Files
-                  </Tooltip>
-                )}
-              </PrimaryInspectorTab>
+                Files
+              </InspectorTab>
               <Spacer />
               <VersionHistoryDropdown />
             </PrimaryTabList>

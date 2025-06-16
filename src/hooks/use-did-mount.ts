@@ -18,5 +18,5 @@ export const useDidMount = () => {
   useEffect(() => {
     didMount.current = true
   }, [])
-  return !!didMount
+  return didMount.current
 }

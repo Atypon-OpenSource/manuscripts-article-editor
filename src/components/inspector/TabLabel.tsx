@@ -20,15 +20,17 @@ export const TabLabel: React.FC<{
 }> = ({ isVisible, children }) => {
   const ref = useRef<HTMLSpanElement>(null)
   const [width, setWidth] = useState(0)
-  const didMount = useDidMount()
+  const [skip, setSkip] = useState(false)
 
   useLayoutEffect(() => {
+    setSkip(!didMount)
     const width = isVisible && ref.current ? ref.current.scrollWidth : 0
     setWidth(width)
   }, [isVisible])
 
+  const didMount = useDidMount()
   return (
-    <TabText ref={ref} targetWidth={width} skipTransition={!didMount}>
+    <TabText ref={ref} targetWidth={width} skipTransition={skip}>
       {children}
     </TabText>
   )
