@@ -7,12 +7,12 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import {
   BookIcon,
-  CommentIcon,
+  ChatIcon,
   ManuscriptIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
@@ -27,9 +27,10 @@ import {
   InspectorTabPanel,
   InspectorTabs,
   PaddedInspectorTabPanels,
-  PrimaryInspectorTab,
   PrimaryTabList,
+  Spacer,
 } from '../Inspector'
+import { InspectorTab } from '../inspector/InspectorTab'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
@@ -53,7 +54,7 @@ const Inspector: React.FC = () => {
 
   let index = 0
   const COMMENTS_TAB_INDEX = index++
-  const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
+  const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
   useEffect(() => {
     if (comment) {
@@ -69,9 +70,9 @@ const Inspector: React.FC = () => {
 
   useEffect(() => {
     if (suggestion) {
-      setTabIndex(SUGGESTIONS_TAB_INDEX)
+      setTabIndex(HISTORY_TAB_INDEX)
     }
-  }, [suggestion, SUGGESTIONS_TAB_INDEX])
+  }, [suggestion, HISTORY_TAB_INDEX])
 
   return (
     <Panel
@@ -88,17 +89,30 @@ const Inspector: React.FC = () => {
         <InspectorContainer data-cy="inspector">
           <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
             <PrimaryTabList>
-              <PrimaryInspectorTab data-cy="comments-button">
-                <CommentIcon /> Comments
-              </PrimaryInspectorTab>
+              <InspectorTab
+                cy="comments-button"
+                icon={<ChatIcon />}
+                isVisible={tabIndex === COMMENTS_TAB_INDEX}
+              >
+                Comments
+              </InspectorTab>
               {!can.editWithoutTracking && (
-                <PrimaryInspectorTab data-cy="history-button">
-                  <BookIcon /> Changes
-                </PrimaryInspectorTab>
+                <InspectorTab
+                  cy="history-button"
+                  icon={<BookIcon />}
+                  isVisible={tabIndex === HISTORY_TAB_INDEX}
+                >
+                  Changes
+                </InspectorTab>
               )}
-              <PrimaryInspectorTab data-cy="files-button">
-                <ManuscriptIcon /> Files
-              </PrimaryInspectorTab>
+              <InspectorTab
+                cy="files-button"
+                icon={<ManuscriptIcon />}
+                isVisible={tabIndex === FILES_TAB_INDEX}
+              >
+                Files
+              </InspectorTab>
+              <Spacer />
               <VersionHistoryDropdown />
             </PrimaryTabList>
             <PaddedInspectorTabPanels>
@@ -109,7 +123,7 @@ const Inspector: React.FC = () => {
               </InspectorTabPanel>
               {!can.editWithoutTracking && (
                 <InspectorTabPanel key="History" data-cy="history">
-                  {tabIndex === SUGGESTIONS_TAB_INDEX && (
+                  {tabIndex === HISTORY_TAB_INDEX && (
                     <TrackChangesPanel key="track-changes" />
                   )}
                 </InspectorTabPanel>
