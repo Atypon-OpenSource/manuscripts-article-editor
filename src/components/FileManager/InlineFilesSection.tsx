@@ -248,7 +248,6 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                       }
                       onDelete={
                         figureCount > 1 // Skip displaying the delete option for the last remaining figure
-
                           ? () => handleDelete(fileAttachment.pos)
                           : undefined
                       }
