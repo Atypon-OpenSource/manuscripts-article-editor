@@ -7,13 +7,14 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import {
   CommentKey,
   FileAttachment,
   FileManagement,
+  Inconsistency,
 } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
@@ -76,6 +77,7 @@ export type state = {
   cslLocale?: string
   cslStyle?: string
   hasPendingSuggestions?: boolean
+  inconsistencies?: Inconsistency[]
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
   inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
