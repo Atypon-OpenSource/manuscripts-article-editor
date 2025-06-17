@@ -93,11 +93,6 @@ export const PrimaryInspectorTab = styled(BaseInspectorTab)`
       justify-content: center;
     }
 
-    /* Hide text by default */
-    span {
-      display: none;
-    }
-
     /* Show text when tab is active */
     &[aria-selected='true'] {
       padding-top: ${(props) => props.theme.grid.unit * 2.5 - 2}px;

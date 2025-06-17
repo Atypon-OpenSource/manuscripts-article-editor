@@ -16,7 +16,6 @@ import {
   ChatIcon,
   DangerIcon,
   ManuscriptIcon,
-  Tooltip,
   usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
@@ -35,8 +34,8 @@ import {
   Spacer,
   WarningBadge,
 } from '../Inspector'
-import { IssuesPanel } from '../inspector/IssuesPanel'
 import { InspectorTab } from '../inspector/InspectorTab'
+import { IssuesPanel } from '../inspector/IssuesPanel'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
@@ -135,14 +134,16 @@ const Inspector: React.FC = () => {
               </InspectorTab>
               <InspectorTab
                 cy="issues-button"
-                icon={<IconWrapper>
-                      <DangerIcon />
-                      {store.inconsistencies.length > 0 && (
-                        <WarningBadge>
-                          {store.inconsistencies.length}
-                        </WarningBadge>
-                      )}
-                    </IconWrapper>}
+                icon={
+                  <IconWrapper>
+                    <DangerIcon />
+                    {store.inconsistencies.length > 0 && (
+                      <WarningBadge>
+                        {store.inconsistencies.length}
+                      </WarningBadge>
+                    )}
+                  </IconWrapper>
+                }
                 isVisible={tabIndex === ISSUES_TAB_INDEX}
               >
                 Issues
@@ -150,20 +151,6 @@ const Inspector: React.FC = () => {
               <Spacer />
               <VersionHistoryDropdown />
             </PrimaryTabList>
-            <Tooltip id="comments-tooltip" place="bottom">
-              Comments
-            </Tooltip>
-            {!can.editWithoutTracking && (
-              <Tooltip id="changes-tooltip" place="bottom">
-                Changes
-              </Tooltip>
-            )}
-            <Tooltip id="files-tooltip" place="bottom">
-              Files
-            </Tooltip>
-            <Tooltip id="issues-tooltip" place="bottom">
-              Issues
-            </Tooltip>
             <PaddedInspectorTabPanels>
               <InspectorTabPanel key="Comments" data-cy="comments">
                 {tabIndex === COMMENTS_TAB_INDEX && (
@@ -179,9 +166,6 @@ const Inspector: React.FC = () => {
               )}
               <InspectorTabPanel key="Files" data-cy="files">
                 {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
-              </InspectorTabPanel>
-              <InspectorTabPanel key="Issues" data-cy="issues">
-                {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}
               </InspectorTabPanel>
               <InspectorTabPanel key="Issues" data-cy="issues">
                 {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}
