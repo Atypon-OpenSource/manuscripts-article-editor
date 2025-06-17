@@ -13,7 +13,7 @@
 import { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 import {
   BookIcon,
-  CommentIcon,
+  ChatIcon,
   DangerIcon,
   ManuscriptIcon,
   Tooltip,
@@ -31,11 +31,12 @@ import {
   InspectorTabPanel,
   InspectorTabs,
   PaddedInspectorTabPanels,
-  PrimaryInspectorTab,
   PrimaryTabList,
+  Spacer,
   WarningBadge,
 } from '../Inspector'
 import { IssuesPanel } from '../inspector/IssuesPanel'
+import { InspectorTab } from '../inspector/InspectorTab'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
@@ -61,7 +62,7 @@ const Inspector: React.FC = () => {
 
   let index = 0
   const COMMENTS_TAB_INDEX = index++
-  const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
+  const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
   const ISSUES_TAB_INDEX = index++
 
@@ -73,9 +74,9 @@ const Inspector: React.FC = () => {
 
   useEffect(() => {
     if (suggestion) {
-      setTabIndex(SUGGESTIONS_TAB_INDEX)
+      setTabIndex(HISTORY_TAB_INDEX)
     }
-  }, [suggestion, SUGGESTIONS_TAB_INDEX])
+  }, [suggestion, HISTORY_TAB_INDEX])
 
   useEffect(() => {
     if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
@@ -109,38 +110,44 @@ const Inspector: React.FC = () => {
         <InspectorContainer data-cy="inspector">
           <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
             <PrimaryTabList>
-              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <PrimaryInspectorTab data-cy="comments-button">
-                  <div data-tooltip-id="comments-tooltip">
-                    <CommentIcon /> <span>Comments</span>
-                  </div>
-                </PrimaryInspectorTab>
-                {!can.editWithoutTracking && (
-                  <PrimaryInspectorTab data-cy="history-button">
-                    <div data-tooltip-id="changes-tooltip">
-                      <BookIcon /> <span>Changes</span>
-                    </div>
-                  </PrimaryInspectorTab>
-                )}
-                <PrimaryInspectorTab data-cy="files-button">
-                  <div data-tooltip-id="files-tooltip">
-                    <ManuscriptIcon /> <span>Files</span>
-                  </div>
-                </PrimaryInspectorTab>
-                <PrimaryInspectorTab data-cy="issues-button">
-                  <div data-tooltip-id="issues-tooltip">
-                    <IconWrapper>
+              <InspectorTab
+                cy="comments-button"
+                icon={<ChatIcon />}
+                isVisible={tabIndex === COMMENTS_TAB_INDEX}
+              >
+                Comments
+              </InspectorTab>
+              {!can.editWithoutTracking && (
+                <InspectorTab
+                  cy="history-button"
+                  icon={<BookIcon />}
+                  isVisible={tabIndex === HISTORY_TAB_INDEX}
+                >
+                  Changes
+                </InspectorTab>
+              )}
+              <InspectorTab
+                cy="files-button"
+                icon={<ManuscriptIcon />}
+                isVisible={tabIndex === FILES_TAB_INDEX}
+              >
+                Files
+              </InspectorTab>
+              <InspectorTab
+                cy="issues-button"
+                icon={<IconWrapper>
                       <DangerIcon />
                       {store.inconsistencies.length > 0 && (
                         <WarningBadge>
                           {store.inconsistencies.length}
                         </WarningBadge>
                       )}
-                    </IconWrapper>
-                    <span>Issues</span>
-                  </div>
-                </PrimaryInspectorTab>
-              </div>
+                    </IconWrapper>}
+                isVisible={tabIndex === ISSUES_TAB_INDEX}
+              >
+                Issues
+              </InspectorTab>
+              <Spacer />
               <VersionHistoryDropdown />
             </PrimaryTabList>
             <Tooltip id="comments-tooltip" place="bottom">
@@ -165,13 +172,16 @@ const Inspector: React.FC = () => {
               </InspectorTabPanel>
               {!can.editWithoutTracking && (
                 <InspectorTabPanel key="History" data-cy="history">
-                  {tabIndex === SUGGESTIONS_TAB_INDEX && (
+                  {tabIndex === HISTORY_TAB_INDEX && (
                     <TrackChangesPanel key="track-changes" />
                   )}
                 </InspectorTabPanel>
               )}
               <InspectorTabPanel key="Files" data-cy="files">
                 {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
+              </InspectorTabPanel>
+              <InspectorTabPanel key="Issues" data-cy="issues">
+                {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}
               </InspectorTabPanel>
               <InspectorTabPanel key="Issues" data-cy="issues">
                 {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}

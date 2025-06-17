@@ -33,7 +33,7 @@ export const InspectorTabs = styled(TabGroup)`
 export const InspectorTabList = styled(TabList)`
   && {
     background: none;
-    justify-content: space-between;
+    justify-content: flex-start;
     font-size: ${(props) => props.theme.font.size.normal};
     color: ${(props) => props.theme.colors.text.primary};
     flex-shrink: 0;
@@ -76,10 +76,14 @@ const BaseInspectorTab = styled(Tab)`
 `
 export const PrimaryInspectorTab = styled(BaseInspectorTab)`
   && {
-    padding: 10px 20px;
-    border-right: 1px solid ${(props) => props.theme.colors.border.tertiary};
+    padding: ${(props) => props.theme.grid.unit * 2.5}px
+      ${(props) => props.theme.grid.unit * 5}px
+      ${(props) => props.theme.grid.unit * 2.5}px;
+    border: 1px solid #f2f2f2;
+    display: flex;
+    align-items: center;
     position: relative;
-    min-width: 40px;
+    gap: 2px;
 
     /* Style the wrapper div */
     div {
@@ -96,7 +100,10 @@ export const PrimaryInspectorTab = styled(BaseInspectorTab)`
 
     /* Show text when tab is active */
     &[aria-selected='true'] {
-      border-top: 3px solid #4f4f4f;
+      padding-top: ${(props) => props.theme.grid.unit * 2.5 - 2}px;
+      border-top-color: #6e6e6e;
+      border-top-width: 3px;
+      border-bottom-color: transparent;
       background: ${(props) => props.theme.colors.background.primary};
       margin-bottom: -1px;
       span {
@@ -152,4 +159,20 @@ export const IconWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+`
+export const Spacer = styled.span`
+  flex: 1 0 auto;
+`
+export const TabText = styled.span<{
+  targetWidth: number
+  skipTransition: boolean
+}>`
+  margin-left: 0.1em;
+  overflow: hidden;
+  display: block;
+  opacity: ${(props) => (props.targetWidth > 0 ? '1' : '0')};
+  max-width: ${(props) => props.targetWidth}px;
+  transition: max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')}
+      ease,
+    opacity ${(props) => (props.skipTransition ? '0s' : '0.5s')};
 `
