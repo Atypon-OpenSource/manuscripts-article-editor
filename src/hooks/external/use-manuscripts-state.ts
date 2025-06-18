@@ -54,10 +54,17 @@ export const useManuscriptsStateObserver = () => {
   return useMemo(() => newObserver(stateRef), [])
 }
 
-export const useManuscriptsState = <T>(selector: (s: state) => T) => {
+/**
+ * Get the value of the state of the editor.
+ * The selector param is memoized and the flush param is used to force reevaluation.
+ */
+export const useManuscriptsState = <T>(
+  selector: (s: state) => T,
+  flush = false
+) => {
   const [value, setValue] = useState<T>()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  selector = useCallback(selector, [])
+  selector = useCallback(selector, [flush])
   const observer = useContext(ManuscriptsStateObserverContext)
   useEffect(() => {
     if (!observer) {
