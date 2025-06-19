@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
@@ -33,7 +33,7 @@ export const InspectorTabs = styled(TabGroup)`
 export const InspectorTabList = styled(TabList)`
   && {
     background: none;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: ${(props) => props.theme.font.size.normal};
     color: ${(props) => props.theme.colors.text.primary};
     flex-shrink: 0;
@@ -75,15 +75,20 @@ const BaseInspectorTab = styled(Tab)`
 `
 export const PrimaryInspectorTab = styled(BaseInspectorTab)`
   && {
-    padding: ${(props) => props.theme.grid.unit * 2}px
-      ${(props) => props.theme.grid.unit * 6}px;
-    border-top: 3px solid transparent;
+    padding: ${(props) => props.theme.grid.unit * 2.5}px
+      ${(props) => props.theme.grid.unit * 5}px
+      ${(props) => props.theme.grid.unit * 2.5}px;
+    border: 1px solid #f2f2f2;
     display: flex;
     align-items: center;
+    position: relative;
     gap: 2px;
 
     &[aria-selected='true'] {
-      border-color: #6e6e6e;
+      padding-top: ${(props) => props.theme.grid.unit * 2.5 - 2}px;
+      border-top-color: #6e6e6e;
+      border-top-width: 3px;
+      border-bottom-color: transparent;
       background: ${(props) => props.theme.colors.background.primary};
     }
   }
@@ -105,4 +110,21 @@ export const SecondaryInspectorTab = styled(BaseInspectorTab)`
 
 export const InspectorTabPanelHeading = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
+`
+
+export const Spacer = styled.span`
+  flex: 1 0 auto;
+`
+export const TabText = styled.span<{
+  targetWidth: number
+  skipTransition: boolean
+}>`
+  margin-left: 0.1em;
+  overflow: hidden;
+  display: block;
+  opacity: ${(props) => (props.targetWidth > 0 ? '1' : '0')};
+  max-width: ${(props) => props.targetWidth}px;
+  transition: max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')}
+      ease,
+    opacity ${(props) => (props.skipTransition ? '0s' : '0.5s')};
 `

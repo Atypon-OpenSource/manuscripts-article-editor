@@ -31,7 +31,11 @@ const VersionHistoryDropdown: React.FC = () => {
 
   return (
     <DropdownContainer ref={wrapperRef}>
-      <ToggleDropdownButton onClick={toggleOpen}>
+      <ToggleDropdownButton
+        data-cy="version-history-button"
+        title="Version History"
+        onClick={toggleOpen}
+      >
         <DotsIcon />
       </ToggleDropdownButton>
 
@@ -66,7 +70,7 @@ const ToggleDropdownButton = styled.button`
   border: none;
   background: transparent;
   cursor: pointer;
-  padding-left: 24px;
+  padding: 8px 16px;
   &:focus {
     outline: none;
   }
