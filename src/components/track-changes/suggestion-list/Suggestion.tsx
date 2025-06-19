@@ -7,13 +7,14 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import { RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { useStore } from '../../../store'
 import TrackModal from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
@@ -42,6 +43,9 @@ export const Suggestion: React.FC<Props> = ({
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
   const [trackModalVisible, setModalVisible] = useState(false)
+  const [{ isComparingMode }] = useStore((store) => ({
+    isComparingMode: store.isComparingMode,
+  }))
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -63,13 +67,15 @@ export const Suggestion: React.FC<Props> = ({
         <SuggestionSnippet suggestions={suggestions} />
       </FocusHandle>
 
-      <Actions>
-        <SuggestionActions
-          suggestions={suggestions}
-          handleAccept={onAccept}
-          handleReject={onReject}
-        />
-      </Actions>
+      {!isComparingMode && (
+        <Actions>
+          <SuggestionActions
+            suggestions={suggestions}
+            handleAccept={onAccept}
+            handleReject={onReject}
+          />
+        </Actions>
+      )}
 
       {trackModalVisible && (
         <TrackModal
