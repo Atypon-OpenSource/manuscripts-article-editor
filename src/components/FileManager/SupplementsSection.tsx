@@ -16,7 +16,7 @@ import {
 } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useState } from 'react' // Added useState import
+import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
@@ -128,7 +128,6 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
           onReplace={async (f) => await handleReplace(supplement, f)}
           onDetach={() => handleMoveToOtherFiles(supplement)}
           onUseAsMain={() => handleUseAsMain(supplement)}
-          // Pass the new props for dropdown management
           openDropdownFileId={openDropdownFileId}
           setOpenDropdownFileId={setOpenDropdownFileId}
         />
@@ -199,8 +198,7 @@ const SupplementFile: React.FC<{
         }
         onUseAsMain={onUseAsMain}
         file={supplement.file}
-        // Pass the new props for dropdown management
-        fileId={supplement.file.id || null} // Use the unique ID of the current supplement file
+        fileId={supplement.file.id || null}
         openDropdownFileId={openDropdownFileId}
         setOpenDropdownFileId={setOpenDropdownFileId}
       />

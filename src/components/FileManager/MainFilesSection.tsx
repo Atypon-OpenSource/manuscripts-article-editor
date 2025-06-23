@@ -130,8 +130,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
             }}
             file={mainDocument.file}
             accept=".docx, .doc, .pdf, .xml, .tex"
-            // Pass the new props for dropdown management
-            fileId={mainDocument.file.id || null} // Use the unique ID of the main document file
+            fileId={mainDocument.file.id || null}
             openDropdownFileId={openDropdownFileId}
             setOpenDropdownFileId={setOpenDropdownFileId}
           />

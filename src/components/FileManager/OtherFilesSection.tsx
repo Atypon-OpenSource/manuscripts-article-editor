@@ -15,7 +15,7 @@ import {
   insertSupplement,
 } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react' // Added useState import
+import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
@@ -99,7 +99,6 @@ export const OtherFilesSection: React.FC<{
           onDownload={() => fileManagement.download(file)}
           onMoveToSupplements={async () => await moveToSupplements(file)}
           onUseAsMain={async () => await asMainDocument(file)}
-          // Pass the new props for dropdown management
           openDropdownFileId={openDropdownFileId}
           setOpenDropdownFileId={setOpenDropdownFileId}
         />
@@ -157,8 +156,7 @@ const OtherFile: React.FC<{
           handler: onMoveToSupplements,
         }}
         file={file}
-        // Pass the new props for dropdown management
-        fileId={file.id || null} // Use the unique ID of the current file
+        fileId={file.id || null}
         openDropdownFileId={openDropdownFileId}
         setOpenDropdownFileId={setOpenDropdownFileId}
       />
