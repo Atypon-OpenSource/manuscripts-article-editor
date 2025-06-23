@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { ElementFiles, NodeFile } from '@manuscripts/body-editor' // Added NodeFile import
+import { ElementFiles, NodeFile } from '@manuscripts/body-editor'
 import {
   FileFigureIcon,
   FileGraphicalAbstractIcon,
@@ -58,6 +58,11 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     fileManagement: s.fileManagement,
     sectionCategories: s.sectionCategories,
   }))
+
+  // New state to manage which file's dropdown is open
+  const [openDropdownFileId, setOpenDropdownFileId] = useState<string | null>(
+    null
+  )
 
   const groupedMetadata: FileMetadata[] = useMemo(() => {
     if (!view) {
@@ -247,10 +252,14 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                         fileManagement.download(fileAttachment.file)
                       }
                       onDelete={
-                        figureCount > 1 // Skip displaying the delete option for the last remaining figure
+                        figureCount > 1
                           ? () => handleDelete(fileAttachment.pos)
                           : undefined
                       }
+                      // Pass new props for dropdown management
+                      fileId={fileAttachment.file?.id || null}
+                      openDropdownFileId={openDropdownFileId}
+                      setOpenDropdownFileId={setOpenDropdownFileId}
                     />
                   </FileGroupItemContainer>
                 ))}

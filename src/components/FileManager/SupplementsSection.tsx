@@ -16,7 +16,7 @@ import {
 } from '@manuscripts/body-editor'
 import { usePermissions } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react' // Added useState import
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
@@ -34,7 +34,7 @@ export type SupplementsSectionProps = {
 }
 
 /**
- *  This component represents the other files in the file section.
+ * This component represents the other files in the file section.
  */
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
@@ -45,6 +45,11 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   }))
 
   const can = usePermissions()
+
+  // State to manage which file's dropdown is open in this section
+  const [openDropdownFileId, setOpenDropdownFileId] = useState<string | null>(
+    null
+  )
 
   const [alert, setAlert] = useState({
     type: FileSectionAlertType.NONE,
@@ -123,6 +128,9 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
           onReplace={async (f) => await handleReplace(supplement, f)}
           onDetach={() => handleMoveToOtherFiles(supplement)}
           onUseAsMain={() => handleUseAsMain(supplement)}
+          // Pass the new props for dropdown management
+          openDropdownFileId={openDropdownFileId}
+          setOpenDropdownFileId={setOpenDropdownFileId}
         />
       ))}
     </>
@@ -135,7 +143,19 @@ const SupplementFile: React.FC<{
   onReplace: Replace
   onDetach: () => void
   onUseAsMain: () => Promise<void>
-}> = ({ supplement, onDownload, onReplace, onDetach, onUseAsMain }) => {
+  // New props passed from SupplementsSection
+  openDropdownFileId: string | null
+  setOpenDropdownFileId: (fileId: string | null) => void
+}> = ({
+  supplement,
+  onDownload,
+  onReplace,
+  onDetach,
+  onUseAsMain,
+  // Destructure new props
+  openDropdownFileId,
+  setOpenDropdownFileId,
+}) => {
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {
@@ -179,6 +199,10 @@ const SupplementFile: React.FC<{
         }
         onUseAsMain={onUseAsMain}
         file={supplement.file}
+        // Pass the new props for dropdown management
+        fileId={supplement.file.id || null} // Use the unique ID of the current supplement file
+        openDropdownFileId={openDropdownFileId}
+        setOpenDropdownFileId={setOpenDropdownFileId}
       />
     </FileContainer>
   )

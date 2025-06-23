@@ -27,6 +27,10 @@ export const FileGroupItemContainer = styled.div`
 
   svg {
     width: 16px;
+
+    path {
+      fill: #6e6e6e;
+    }
   }
 
   &.dragging {
