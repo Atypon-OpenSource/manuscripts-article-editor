@@ -19,7 +19,7 @@ export const FileGroupItemContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 24px 18px;
+  padding: 12px 18px;
 
   .react-tooltip {
     max-width: 100% !important;
@@ -64,6 +64,7 @@ export const FileGroupHeader = styled.div`
   align-items: center;
   cursor: pointer;
   padding-right: 20px;
+  margin-bottom: 20px;
 
   .file-icon {
     margin-right: ${(props) =>
