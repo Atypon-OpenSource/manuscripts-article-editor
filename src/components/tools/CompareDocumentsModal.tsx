@@ -64,7 +64,7 @@ export const CompareDocumentsModal: React.FC<CompareDocumentsModalProps> = ({
     >
       <StyledModalContainer>
         <StyledModalHeader>
-          <ModalTitle>Compare Documents</ModalTitle>
+          <ModalTitle>Compare Snapshots</ModalTitle>
           <CloseButton onClick={handleClose} />
         </StyledModalHeader>
         <StyledModalBody>
