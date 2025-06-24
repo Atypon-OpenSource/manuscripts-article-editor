@@ -135,7 +135,7 @@ export const SnapshotsList: React.FC = () => {
       </SnapshotListContainer>
       <ButtonContainer>
         <PrimaryButton onClick={() => setShowCompareModal(true)}>
-          Compare Documents
+          Compare Snapshots
         </PrimaryButton>
       </ButtonContainer>
       {showCompareModal && submissionID && (
