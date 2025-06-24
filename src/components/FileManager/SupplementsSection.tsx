@@ -198,9 +198,6 @@ const SupplementFile: React.FC<{
         }
         onUseAsMain={onUseAsMain}
         file={supplement.file}
-        fileId={supplement.file.id || null}
-        openDropdownFileId={openDropdownFileId}
-        setOpenDropdownFileId={setOpenDropdownFileId}
       />
     </FileContainer>
   )

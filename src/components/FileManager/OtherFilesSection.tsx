@@ -156,9 +156,6 @@ const OtherFile: React.FC<{
           handler: onMoveToSupplements,
         }}
         file={file}
-        fileId={file.id || null}
-        openDropdownFileId={openDropdownFileId}
-        setOpenDropdownFileId={setOpenDropdownFileId}
       />
     </FileContainer>
   )

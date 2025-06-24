@@ -59,11 +59,6 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     sectionCategories: s.sectionCategories,
   }))
 
-  // New state to manage which file's dropdown is open
-  const [openDropdownFileId, setOpenDropdownFileId] = useState<string | null>(
-    null
-  )
-
   const groupedMetadata: FileMetadata[] = useMemo(() => {
     if (!view) {
       return []
@@ -256,10 +251,6 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                           ? () => handleDelete(fileAttachment.pos)
                           : undefined
                       }
-                      // Pass new props for dropdown management
-                      fileId={fileAttachment.file?.id || null}
-                      openDropdownFileId={openDropdownFileId}
-                      setOpenDropdownFileId={setOpenDropdownFileId}
                     />
                   </FileGroupItemContainer>
                 ))}
