@@ -7,19 +7,20 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { useEditor } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { useEffect, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useApi } from '../api/Api'
 import { StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
+import { useCompareDocuments } from './use-compare-documents'
 import { useInspectorTabsContext } from './use-inspector-tabs-context'
 
 export const useCreateEditor = () => {
@@ -35,6 +36,7 @@ export const useCreateEditor = () => {
       locale,
       sectionCategories,
       isViewingMode,
+      getSnapshot,
     },
     dispatch,
     getState,
@@ -49,35 +51,51 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
+    getSnapshot: store.getSnapshot,
   }))
 
   const api = useApi()
+  const params = useParams()
+
+  const { comparedDoc, isComparingMode } = useCompareDocuments({
+    originalId: params.originalId,
+    comparisonId: params.comparisonId,
+    getSnapshot,
+  })
+
+  useEffect(() => {
+    dispatch({ isComparingMode })
+  }, [isComparingMode, dispatch])
 
   const updateVersion = (v: number) => dispatch({ initialDocVersion: v })
 
   const stepsExchanger = useMemo(
     () =>
-      new StepsExchanger(
-        projectID,
-        manuscriptID,
-        initialDocVersion,
-        api,
-        updateVersion
-      ),
+      isComparingMode
+        ? undefined
+        : new StepsExchanger(
+            projectID,
+            manuscriptID,
+            initialDocVersion,
+            api,
+            updateVersion
+          ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [projectID, manuscriptID, api]
+    [projectID, manuscriptID, api, isComparingMode]
   )
 
   useEffect(() => {
-    stepsExchanger.isThrottling.onChange((value: boolean) => {
-      dispatch({
-        preventUnload: value,
+    if (stepsExchanger) {
+      stepsExchanger.isThrottling.onChange((value: boolean) => {
+        dispatch({
+          preventUnload: value,
+        })
       })
-    })
-    dispatch({
-      beforeUnload: () => stepsExchanger.flush(),
-    })
-    return () => stepsExchanger.stop()
+      dispatch({
+        beforeUnload: () => stepsExchanger.flush(),
+      })
+      return () => stepsExchanger.stop()
+    }
   }, [dispatch, stepsExchanger])
 
   const getCapabilities = useMemo(
@@ -101,7 +119,7 @@ export const useCreateEditor = () => {
       spellcheck: 'true',
       tabindex: '2',
     },
-    doc,
+    doc: comparedDoc || doc, // Use compared document if in comparison mode
     userID: user._id,
     debug: config.environment === 'development',
     // @TODO - move primaryLanguageCode to be an attribute on ManuscriptNode
@@ -122,10 +140,12 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    collabProvider: stepsExchanger,
+    collabProvider: isComparingMode ? undefined : stepsExchanger, // Disable collaboration in comparison mode
     sectionCategories: sectionCategories,
     navigate: useNavigate(),
     location: useLocation(),
+    isComparingMode,
+    submissionId: params.id,
     lockBody: config.features.lockBody,
     isViewingMode,
   }
