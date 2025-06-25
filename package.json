@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "4.2.0",
+  "version": "4.2.2",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -23,14 +23,15 @@
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "preversion": "npm-run-all --parallel typecheck lint",
     "prepare": "husky install",
-    "version": "pnpm build"
+    "version": "pnpm build",
+    "unlink-all": "rm pnpm-workspace.yaml && pnpm install"
   },
   "dependencies": {
     "@fontsource/lato": "5.2.5",
     "@fontsource/pt-sans": "5.2.5",
     "@fontsource/pt-serif": "5.2.5",
     "@headlessui/react": "2.2.3",
-    "@manuscripts/body-editor": "3.2.0",
+    "@manuscripts/body-editor": "3.2.2",
     "@manuscripts/json-schema": "2.2.12",
     "@manuscripts/style-guide": "3.1.0",
     "@manuscripts/track-changes-plugin": "2.0.1",
