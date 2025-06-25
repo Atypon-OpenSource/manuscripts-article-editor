@@ -34,7 +34,7 @@ export type SupplementsSectionProps = {
 }
 
 /**
- *  This component represents the other files in the file section.
+ * This component represents the other files in the file section.
  */
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
