@@ -99,7 +99,7 @@ export const FileActions: React.FC<{
       document.addEventListener('mousedown', handleClickOutside)
       return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isOpen, wrapperRef])
+  }, [isOpen, wrapperRef, toggleOpen])
 
   if (!show) {
     return null
