@@ -23,7 +23,8 @@
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "preversion": "npm-run-all --parallel typecheck lint",
     "prepare": "husky install",
-    "version": "pnpm build"
+    "version": "pnpm build",
+    "unlink-all": "rm pnpm-workspace.yaml && pnpm install"
   },
   "dependencies": {
     "@fontsource/lato": "5.2.5",
