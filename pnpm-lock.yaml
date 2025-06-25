@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.2.3
-        version: 3.2.3(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.2.4-LEAN-4611-v0.0
+        version: 3.2.4-LEAN-4611-v0.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
@@ -1170,8 +1170,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@manuscripts/body-editor@3.2.3':
-    resolution: {integrity: sha512-Hjqlr4DDKkFaBYAQ6MnEuMAYxTo9n2uAcmxwniOxJUDmN9lvAzjBSrlX+pts8brZN0VFlmDibw3/D4cy13aNNQ==}
+  '@manuscripts/body-editor@3.2.4-LEAN-4611-v0.0':
+    resolution: {integrity: sha512-GEWI0itoFW98g7gsxQFXuNdfXhJwK9jrVg0hpklWU4HCKO6XD+6/PI2lfWPT0gKMbI7kLGft01YXLmT9BXe2Ew==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.2.4-LEAN-4611-v0.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1200,10 +1200,6 @@ packages:
 
   '@manuscripts/track-changes-plugin@2.0.1':
     resolution: {integrity: sha512-PtFbN927mwar93qgGuhA1AHqtwpniWRP/PQ6uxCbpptYRM5NPXxLNeIF7z0ziiD9Jf9d7cJXPJbG9vJ4LYXlzw==}
-
-  '@manuscripts/transform@4.2.0':
-    resolution: {integrity: sha512-ra1NKtS1dPZh5iC9Z0EjCrWnkJoJmy8GdeFmCtFQS9sCARKaOIG5u6bHtewk55wbbXG4vFFCCmfhy/MwajSGZg==}
-    engines: {node: '>=20.16.0'}
 
   '@manuscripts/transform@4.2.1-LEAN-4611-v0.0':
     resolution: {integrity: sha512-My/RchI0zoRR9MTL7bdq1nJ3RJNxLE5Il+sb7oL5GN6lomjI5SkxNdeFccAYlBkVa2tlgnIdDw/NKVHlUrE6Uw==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/transform/-/@manuscripts/transform-4.2.1-LEAN-4611-v0.0.tgz}
@@ -6055,7 +6051,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@manuscripts/body-editor@3.2.3(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.2.4-LEAN-4611-v0.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6068,7 +6064,7 @@ snapshots:
       '@manuscripts/json-schema': 2.2.12
       '@manuscripts/style-guide': 3.1.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin': 2.0.1
-      '@manuscripts/transform': 4.2.0(prosemirror-state@1.4.3)
+      '@manuscripts/transform': 4.2.1-LEAN-4611-v0.0(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -6181,21 +6177,6 @@ snapshots:
       prosemirror-view: 1.40.0
     transitivePeerDependencies:
       - supports-color
-
-  '@manuscripts/transform@4.2.0(prosemirror-state@1.4.3)':
-    dependencies:
-      '@manuscripts/json-schema': 2.2.12
-      citeproc: 2.4.63
-      jszip: 3.10.1
-      lodash: 4.17.21
-      prosemirror-model: 1.25.0
-      prosemirror-tables: 1.7.1
-      prosemirror-utils: 1.2.2(prosemirror-model@1.25.0)(prosemirror-state@1.4.3)
-      semver: 7.7.2
-      uuid: 9.0.1
-      w3c-xmlserializer: 4.0.0
-    transitivePeerDependencies:
-      - prosemirror-state
 
   '@manuscripts/transform@4.2.1-LEAN-4611-v0.0(prosemirror-state@1.4.3)':
     dependencies:
