@@ -51,7 +51,11 @@ export class NodeTextContentRetriever {
     if (node.type === schema.nodes.citation) {
       const text = bib?.renderedCitations.get(id)
       const citation = domPurify.sanitize(
-        text && text !== '(n.d.)' ? text : 'Missing citation data',
+        text === '(n.d.)'
+          ? 'Missing citation data'
+          : text && text !== '[NO_PRINTED_FORM]'
+          ? text
+          : ' ',
         {
           ALLOWED_TAGS: ['i', 'b', 'span', 'sup', 'sub', '#text'],
         }
