@@ -41,11 +41,6 @@ export const OtherFilesSection: React.FC<{
 
   const can = usePermissions()
 
-  // State to manage which file's dropdown is open in this section
-  const [openDropdownFileId, setOpenDropdownFileId] = useState<string | null>(
-    null
-  )
-
   const [alert, setAlert] = useState({
     type: FileSectionAlertType.NONE,
     message: '',
@@ -99,8 +94,6 @@ export const OtherFilesSection: React.FC<{
           onDownload={() => fileManagement.download(file)}
           onMoveToSupplements={async () => await moveToSupplements(file)}
           onUseAsMain={async () => await asMainDocument(file)}
-          openDropdownFileId={openDropdownFileId}
-          setOpenDropdownFileId={setOpenDropdownFileId}
         />
       ))}
     </div>
@@ -112,18 +105,7 @@ const OtherFile: React.FC<{
   onDownload: () => void
   onMoveToSupplements: () => Promise<void>
   onUseAsMain: () => Promise<void>
-  // New props passed from OtherFilesSection
-  openDropdownFileId: string | null
-  setOpenDropdownFileId: (fileId: string | null) => void
-}> = ({
-  file,
-  onDownload,
-  onMoveToSupplements,
-  onUseAsMain,
-  // Destructure new props
-  openDropdownFileId,
-  setOpenDropdownFileId,
-}) => {
+}> = ({ file, onDownload, onMoveToSupplements, onUseAsMain }) => {
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {

@@ -39,10 +39,6 @@ export const FileActions: React.FC<{
   className?: string
   file?: FileAttachment
   accept?: string
-  // New props for dropdown management
-  fileId: string | null // The ID of the current file
-  openDropdownFileId: string | null // The ID of the file whose dropdown is currently open
-  setOpenDropdownFileId: (fileId: string | null) => void // Function to set the open dropdown ID
 }> = ({
   sectionType,
   onDownload,
@@ -54,18 +50,13 @@ export const FileActions: React.FC<{
   className,
   file,
   accept,
-  fileId,
-  openDropdownFileId,
-  setOpenDropdownFileId,
 }) => {
   const can = usePermissions()
-  const { wrapperRef } = useDropdown()
+  const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const [isMoveDialogOpen, setMoveDialogOpen] = useState<boolean>(false)
   const [isUseAsMainDialogOpen, setUseAsMainDialogOpen] =
     useState<boolean>(false)
-
-  // Determine if this specific dropdown should be open
-  const isOpen = openDropdownFileId === fileId
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const showDownload = can?.downloadFiles && onDownload
   const showReplace = can?.replaceFile && onReplace
@@ -78,12 +69,12 @@ export const FileActions: React.FC<{
   const show =
     showDownload || showReplace || showDetach || showMove || showUseAsMain
 
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (onReplace && event && event.target && event.target.files) {
-      const file = event.target.files[0]
-      await onReplace(file)
+    if (onReplace && event?.target?.files?.[0]) {
+      await onReplace(event.target.files[0])
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
@@ -93,39 +84,22 @@ export const FileActions: React.FC<{
     }
   }
 
-  // Handle closing the dropdown when clicking outside of it
+  // Fix: Close dropdown when clicking outside or pressing escape
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         wrapperRef.current &&
         !wrapperRef.current.contains(event.target as Node)
       ) {
-        if (isOpen) {
-          // Only close if this dropdown is open
-          setOpenDropdownFileId(null)
-        }
+        toggleOpen()
       }
     }
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isOpen, wrapperRef, setOpenDropdownFileId])
-
-  // Toggle dropdown visibility
-  const toggleDropdown = () => {
-    if (isOpen) {
-      setOpenDropdownFileId(null) // Close this dropdown
-    } else {
-      setOpenDropdownFileId(fileId) // Open this dropdown
-    }
-  }
+  }, [isOpen, wrapperRef])
 
   if (!show) {
     return null
@@ -134,7 +108,10 @@ export const FileActions: React.FC<{
   return (
     <DropdownContainer ref={wrapperRef}>
       <ActionsIcon
-        onClick={toggleDropdown}
+        onClick={(e) => {
+          e.stopPropagation()
+          toggleOpen()
+        }}
         type="button"
         className="show-on-hover"
         data-cy="file-actions"
@@ -150,7 +127,7 @@ export const FileActions: React.FC<{
           className={className}
           width={192}
           top={5}
-          onClick={() => setOpenDropdownFileId(null)} // Close when an action is clicked
+          onClick={(e) => e.stopPropagation()}
         >
           {showDownload && (
             <FileAction onClick={onDownload}>Download</FileAction>
@@ -183,7 +160,6 @@ export const FileActions: React.FC<{
       )}
       {showMove && (
         <MoveFileConfirmationDialog
-          data-cy="file-move-confirm-dialog"
           isOpen={isMoveDialogOpen}
           close={() => setMoveDialogOpen(false)}
           source={sectionType}
