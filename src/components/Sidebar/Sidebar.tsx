@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-const SidebarCommonStyles = css`
+export const Sidebar = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -21,36 +21,8 @@ const SidebarCommonStyles = css`
     ${(props) => props.theme.grid.unit * 2}px;
   width: 100%;
   overflow: hidden;
-`
-
-export const Sidebar = styled.div`
-  ${SidebarCommonStyles};
   background: ${(props) => props.theme.colors.background.secondary};
   border-right: 1px solid ${(props) => props.theme.colors.border.tertiary};
-`
-
-export const ModalSidebar = styled.div`
-  ${SidebarCommonStyles};
-  background-color: ${(props) => props.theme.colors.background.secondary};
-  border-top-left-radius: ${(props) => props.theme.grid.radius.default};
-  border-bottom-left-radius: ${(props) => props.theme.grid.radius.default};
-  max-width: 40vw;
-  overflow: auto;
-  width: 340px;
-`
-
-export const StyledModalMain = styled.div`
-  box-sizing: border-box;
-  max-width: 60vw;
-  width: 480px;
-`
-
-export const ModalBody = styled.div`
-  align-items: stretch;
-  display: flex;
-  flex: 1;
-  height: 90vh;
-  max-height: 680px;
 `
 
 export const SidebarContent = styled.div`

@@ -159,6 +159,9 @@ importers:
       eslint:
         specifier: 9.29.0
         version: 9.29.0
+      eslint-plugin-diff:
+        specifier: ^2.0.3
+        version: 2.0.3(eslint@9.29.0)
       eslint-plugin-header:
         specifier: 3.1.1
         version: 3.1.1(eslint@9.29.0)
@@ -2354,6 +2357,12 @@ packages:
         optional: true
       eslint-import-resolver-webpack:
         optional: true
+
+  eslint-plugin-diff@2.0.3:
+    resolution: {integrity: sha512-pkSwOTjPxqtplq+Ea+9i75QMdmJrItu6oxIG6EWY8bJ5veBNMUrp6Oti+5L6SW20FfjX+CmlZz+fyiWGG1POaQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      eslint: '>=6.7.0'
 
   eslint-plugin-header@3.1.1:
     resolution: {integrity: sha512-9vlKxuJ4qf793CmeeSrZUvVClw6amtpghq3CuWcB5cUNnWHQhgcqy5eF8oVKFk1G3Y/CbchGfEaw3wiIJaNmVg==}
@@ -7816,6 +7825,10 @@ snapshots:
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
+
+  eslint-plugin-diff@2.0.3(eslint@9.29.0):
+    dependencies:
+      eslint: 9.29.0
 
   eslint-plugin-header@3.1.1(eslint@9.29.0):
     dependencies:

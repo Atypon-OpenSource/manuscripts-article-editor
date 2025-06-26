@@ -78,6 +78,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
     createStore([props, apiSource])
       .then((s) => {
         setStore(s)
+        return s
       })
       .catch((e) => {
         console.error(e)
