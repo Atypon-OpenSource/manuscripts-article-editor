@@ -13,7 +13,7 @@
 import styled from 'styled-components'
 
 export const Sidebar = styled.div`
-  box-sizing: border-box;
+   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: 100%;
