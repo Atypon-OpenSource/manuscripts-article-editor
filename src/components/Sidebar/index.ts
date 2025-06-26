@@ -12,5 +12,3 @@
 
 export * from './Sidebar'
 export * from './SidebarHeaderFooter'
-export * from './SidebarPersonContainer'
-export * from './SidebarSearch'

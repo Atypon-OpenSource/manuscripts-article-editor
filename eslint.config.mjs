@@ -7,32 +7,29 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
+import { FlatCompat } from '@eslint/eslintrc'
+import js from '@eslint/js'
+import config from '@manuscripts/eslint-config'
+import cpalLicense from '@manuscripts/eslint-config/config/cpal-license.js'
+import { defineConfig } from 'eslint/config'
+import header from 'eslint-plugin-header'
 
-import styled from 'styled-components'
+header.rules.header.meta.schema = false
 
-interface SidebarPersonContainerProps {
-  selected?: boolean
-}
+const compat = new FlatCompat({
+  recommendedConfig: js.configs.recommended,
+})
 
-export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
-  align-items: center;
-  background-color: ${(props) =>
-    props.selected ? props.theme.colors.background.fifth : 'unset'};
-  border: 1px solid
-    ${(props) =>
-      props.selected ? props.theme.colors.border.primary : 'transparent'};
-  border-left: 0;
-  border-right: 0;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  margin: 0 -${(props) => props.theme.grid.unit * 5}px;
-  padding: ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 5}px;
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.background.fifth};
-  }
-`
+export default defineConfig([
+  ...compat.config(config),
+  ...compat.extends('plugin:diff/diff'),
+  {
+    rules: {
+      'header/header': [2, 'block', cpalLicense('manuscripts-frontend')],
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+])

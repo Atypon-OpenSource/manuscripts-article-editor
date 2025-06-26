@@ -14,7 +14,7 @@ import { RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import TrackModal from '../TrackModal'
+import { TrackModal } from '../TrackModal'
 import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
 
