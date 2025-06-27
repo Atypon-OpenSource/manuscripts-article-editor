@@ -9,16 +9,9 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  insertAttachment,
-  insertSupplement,
-  NodeFile,
-} from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
+import { NodeFile } from '@manuscripts/body-editor'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useState } from 'react'
-import { useDrag } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
+import React, { useState } from 'react'
 
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
@@ -27,18 +20,17 @@ import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
 import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
-import { FileUploader } from './FileUploader'
 import { ToggleHeader } from './ToggleHeader'
 
 export type SupplementsSectionProps = {
-  supplements: NodeFile[]
+  linkedFiles: NodeFile[]
 }
 
 /**
- * This component represents the other files in the file section.
+ * This component represents the section for linked supplemental files.
  */
-export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
-  supplements,
+export const LinkedFilesSection: React.FC<SupplementsSectionProps> = ({
+  linkedFiles,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggleVisibility = () => setIsOpen((prev) => !prev)
@@ -47,8 +39,6 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     view: s.view,
     fileManagement: s.fileManagement,
   }))
-
-  const can = usePermissions()
 
   const [alert, setAlert] = useState({
     type: FileSectionAlertType.NONE,
@@ -72,23 +62,16 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     return uploaded
   }
 
-  const handleUpload = async (file: File) => {
-    const uploaded = await upload(file)
-    insertSupplement(uploaded, view.state, view.dispatch)
-  }
-
-  const handleReplace = async (supplement: NodeFile, file: File) => {
+  const handleReplace = async (linkedFile: NodeFile, file: File) => {
     const uploaded = await upload(file)
     const tr = view.state.tr
-    tr.setNodeAttribute(supplement.pos, 'href', uploaded.id)
+    tr.setNodeAttribute(linkedFile.pos, 'extLink', uploaded.id)
     view.dispatch(skipTracking(tr))
   }
 
-  const handleMoveToOtherFiles = (supplement: NodeFile) => {
+  const handleMoveToOtherFiles = (linkedFile: NodeFile) => {
     const tr = view.state.tr
-    const from = supplement.pos
-    const to = from + supplement.node.nodeSize
-    tr.delete(from, to)
+    tr.setNodeAttribute(linkedFile.pos, 'extLink', '')
     view.dispatch(skipTracking(tr))
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
@@ -96,44 +79,23 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     })
   }
 
-  const handleUseAsMain = async (supplement: NodeFile) => {
-    const tr = view.state.tr
-    const from = supplement.pos
-    const to = from + supplement.node.nodeSize
-    tr.delete(from, to)
-    view.dispatch(skipTracking(tr))
-    insertAttachment(supplement.file, view.state, 'document', view.dispatch)
-
-    setAlert({
-      type: FileSectionAlertType.MOVE_SUCCESSFUL,
-      message: FileSectionType.MainFile,
-    })
-  }
-
   return (
     <>
-      {can?.uploadFile && (
-        <FileUploader
-          onUpload={handleUpload}
-          placeholder="Drag or click to upload a new file"
-        />
-      )}
       <ToggleHeader
-        title="Supplement files"
+        title="Linked Files"
         isOpen={isOpen}
         onToggle={toggleVisibility}
       />
       {isOpen && (
         <>
           <FileSectionAlert alert={alert} />
-          {supplements.map((supplement) => (
+          {linkedFiles.map((file) => (
             <SupplementFile
-              key={supplement.node.attrs.id}
-              supplement={supplement}
-              onDownload={() => fileManagement.download(supplement.file)}
-              onReplace={async (f) => await handleReplace(supplement, f)}
-              onDetach={() => handleMoveToOtherFiles(supplement)}
-              onUseAsMain={() => handleUseAsMain(supplement)}
+              key={file.node.attrs.id}
+              linkedFile={file}
+              onDownload={() => fileManagement.download(file.file)}
+              onReplace={(f) => handleReplace(file, f)}
+              onDetach={() => handleMoveToOtherFiles(file)}
             />
           ))}
         </>
@@ -143,55 +105,29 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
 }
 
 const SupplementFile: React.FC<{
-  supplement: NodeFile
+  linkedFile: NodeFile
   onDownload: () => void
   onReplace: Replace
   onDetach: () => void
-  onUseAsMain: () => Promise<void>
-}> = ({ supplement, onDownload, onReplace, onDetach, onUseAsMain }) => {
-  const [{ isDragging }, dragRef, preview] = useDrag({
-    type: 'file',
-    item: {
-      file: supplement.file,
-    },
-    end: (_, monitor) => {
-      if (monitor.didDrop()) {
-        onDetach()
-      }
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  })
-
-  useEffect(() => {
-    preview(getEmptyImage())
-  }, [preview])
-
+}> = ({ linkedFile, onDownload, onReplace, onDetach }) => {
   return (
-    <FileContainer
-      data-cy="file-container"
-      key={supplement.file.id}
-      ref={dragRef}
-      className={isDragging ? 'dragging' : ''}
-    >
-      <FileName file={supplement.file} />
-      <FileCreatedDate file={supplement.file} className="show-on-hover" />
+    <FileContainer data-cy="file-container" key={linkedFile.file.id}>
+      <FileName file={linkedFile.file} />
+      <FileCreatedDate file={linkedFile.file} className="show-on-hover" />
       <FileActions
         data-cy="file-actions"
         sectionType={FileSectionType.Supplements}
-        onDownload={supplement.file ? onDownload : undefined}
+        onDownload={linkedFile.file ? onDownload : undefined}
         onReplace={onReplace}
         move={
-          supplement.file
+          linkedFile.file
             ? {
                 sectionType: FileSectionType.OtherFile,
                 handler: onDetach,
               }
             : undefined
         }
-        onUseAsMain={onUseAsMain}
-        file={supplement.file}
+        file={linkedFile.file}
       />
     </FileContainer>
   )
