@@ -20,6 +20,7 @@ import { Category, Dialog } from '@manuscripts/style-guide'
 import {
   FigureNode,
   generateNodeID,
+  ImageElementNode,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
   schema,
@@ -35,6 +36,7 @@ import { useWatchTitle } from '../../hooks/use-watch-title'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
+import { ThemeProvider } from 'styled-components'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
@@ -50,10 +52,13 @@ const EditorElement: React.FC = () => {
     accept: 'file',
     drop: async (item, monitor) => {
       const offset = monitor.getSourceClientOffset()
+      console.log('offset ......................')
+      console.log(offset)
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
         const file = item.file as FileAttachment
+        console.log('File: ', file)
 
         if (!file || !docPos || !docPos.pos) {
           return false
@@ -67,8 +72,24 @@ const EditorElement: React.FC = () => {
         const targetNode =
           view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
         switch (targetNode.type) {
+          case schema.nodes.image_element: {
+            const attrs: Record<string, unknown> = {
+              extLink: file.id,
+            }
+            const imageElement = targetNode as ImageElementNode
+            console.log(`Target Node: ${targetNode.type.name}`)
+            console.log('imageElement: ', imageElement)
+            console.log('File: ', file)
+            console.log('attrs: ', attrs)
+            setNodeAttrs(view.state, dispatch, imageElement.attrs.id, attrs)
+            break
+          }
           case schema.nodes.figure: {
             const figure = targetNode as FigureNode
+            console.log(`Target Node: ${targetNode.type.name}`)
+            console.log('imageElement: ', figure)
+            console.log('File: ', file)
+            console.log('attrs: ', attrs)
             setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
             break
           }
@@ -146,6 +167,8 @@ const addFigureAtFigCaptionPosition = (
   attrs: Record<string, unknown>,
   file: FileAttachment
 ) => {
+
+
   const { view, dispatch } = editor
   if (!view) {
     return
@@ -197,6 +220,10 @@ const addFigureAtFigureElementPosition = (
   pos: number,
   attrs: Record<string, unknown>
 ) => {
+  console.log('addFigureAtFigureElementPosition called with attrs:')
+  console.log('attrs:',attrs)
+  console.log('pos:', pos)
+  console.log('node:', node)
   const { view, dispatch } = editor
   if (!view) {
     return
