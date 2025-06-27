@@ -29,7 +29,7 @@ import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 /**
- *  This component represents the other files in the file section.
+ * This component represents the other files in the file section.
  */
 export const OtherFilesSection: React.FC<{
   files: FileAttachment[]
