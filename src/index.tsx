@@ -23,12 +23,7 @@ export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export { getUserRole } from './lib/roles'
-export type {
-  AppState,
-  AppStateRef,
-  EditorAppProps,
-  AppStateObserver,
-} from './EditorApp'
+export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
 
 const ManuscriptEditor: React.FC<
