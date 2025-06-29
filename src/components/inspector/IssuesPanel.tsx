@@ -30,8 +30,7 @@ const CollapsibleHeader = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${(props) => props.theme.grid.unit * 3}px
-    ${(props) => props.theme.grid.unit * 2}px;
+  padding: 12px 12px 4px 12px;
   margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
   background: none;
   border: none;
@@ -40,8 +39,9 @@ const CollapsibleHeader = styled.button`
 
 const HeaderTitle = styled.h2`
   margin: 0;
-  font-size: ${(props) => props.theme.font.size.large};
-  font-weight: 600;
+  font-size: ${(props) => props.theme.font.size.medium};
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
   color: ${(props) => props.theme.colors.text.primary};
 `
 
@@ -87,7 +87,7 @@ const InconsistencyItem = styled.div<{ isFocused: boolean }>`
   background-color: ${(props) =>
     props.isFocused ? '#FFF1F0' + ' !important' : '#fff'};
   position: relative;
-
+  font-family: 'Lato', sans-serif;
   &:hover {
     background-color: #f2f2f2;
   }
@@ -97,10 +97,19 @@ const InconsistencyItem = styled.div<{ isFocused: boolean }>`
   }
 `
 
-const InconsistencyMessage = styled.p`
+const InconsistencyTitle = styled.span`
   margin: 0;
   color: ${(props) => props.theme.colors.text.primary};
-  font-size: ${(props) => props.theme.font.size.normal};
+  font-size: ${(props) => props.theme.font.size.small};
+  line-height: 1.4;
+  font-weight: 700;
+  margin-right: 3.2px;
+`
+
+const InconsistencyMessage = styled.span`
+  margin: 0;
+  color: ${(props) => props.theme.colors.text.primary};
+  font-size: ${(props) => props.theme.font.size.small};
   line-height: 1.4;
 `
 
@@ -165,6 +174,9 @@ export const IssuesPanel: React.FC = () => {
                   onClick={() => handleInconsistencyClick(inconsistency, index)}
                   data-cy="inconsistency"
                 >
+                  <InconsistencyTitle>
+                    {inconsistency.nodeDescription}:
+                  </InconsistencyTitle>
                   <InconsistencyMessage>
                     {inconsistency.message}
                   </InconsistencyMessage>

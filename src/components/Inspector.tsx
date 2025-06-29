@@ -141,11 +141,12 @@ export const WarningBadge = styled.div`
   border-radius: 50%;
   min-width: 14px;
   height: 14px;
+  font-family: 'Lato', sans-serif;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: bold;
+  justify-content: space-around;
+  font-size: 9px;
+  font-weight: 400;
   line-height: 1;
   z-index: 10;
 `
