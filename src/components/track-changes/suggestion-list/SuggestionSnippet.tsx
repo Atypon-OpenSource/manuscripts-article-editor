@@ -12,6 +12,7 @@
 import { ChangeSet, RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { escape } from 'lodash'
 
 import {
   handleGroupChanges,
@@ -67,7 +68,7 @@ export const SuggestionSnippet: React.FC<{ suggestions: RootChange }> = ({
           {snippet?.operation}:
         </Operation>
         <NodeName>{snippet?.nodeName}</NodeName>
-        <SnippetContent content={snippet?.content || ''} />
+        <SnippetContent content={escape(snippet?.content || '')} />
       </>
     </SnippetText>
   )
