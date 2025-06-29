@@ -20,7 +20,7 @@ import {
   useDropdown,
   usePermissions,
 } from '@manuscripts/style-guide'
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { FileSectionType, Move, Replace } from './FileManager'
@@ -33,6 +33,7 @@ export const FileActions: React.FC<{
   onDownload?: () => void
   onReplace?: Replace
   onDetach?: () => void
+  onDelete?: () => void
   onUseAsMain?: () => void
   move?: Move
   className?: string
@@ -43,6 +44,7 @@ export const FileActions: React.FC<{
   onDownload,
   onReplace,
   onDetach,
+  onDelete,
   onUseAsMain,
   move,
   className,
@@ -54,10 +56,12 @@ export const FileActions: React.FC<{
   const [isMoveDialogOpen, setMoveDialogOpen] = useState<boolean>(false)
   const [isUseAsMainDialogOpen, setUseAsMainDialogOpen] =
     useState<boolean>(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const showDownload = can?.downloadFiles && onDownload
   const showReplace = can?.replaceFile && onReplace
   const showDetach = can?.detachFile && onDetach
+  const showDelete = can?.detachFile && onDelete
   const showMove = can?.moveFile && move
   const showUseAsMain =
     can?.moveFile && onUseAsMain && isValidMainDocumentFormat(file)
@@ -65,12 +69,12 @@ export const FileActions: React.FC<{
   const show =
     showDownload || showReplace || showDetach || showMove || showUseAsMain
 
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (onReplace && event && event.target && event.target.files) {
-      const file = event.target.files[0]
-      await onReplace(file)
+    if (onReplace && event?.target?.files?.[0]) {
+      await onReplace(event.target.files[0])
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
@@ -80,6 +84,23 @@ export const FileActions: React.FC<{
     }
   }
 
+  // Fix: Close dropdown when clicking outside or pressing escape
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        toggleOpen()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen, wrapperRef, toggleOpen])
+
   if (!show) {
     return null
   }
@@ -87,7 +108,10 @@ export const FileActions: React.FC<{
   return (
     <DropdownContainer ref={wrapperRef}>
       <ActionsIcon
-        onClick={toggleOpen}
+        onClick={(e) => {
+          e.stopPropagation()
+          toggleOpen()
+        }}
         type="button"
         className="show-on-hover"
         data-cy="file-actions"
@@ -103,7 +127,7 @@ export const FileActions: React.FC<{
           className={className}
           width={192}
           top={5}
-          onClick={toggleOpen}
+          onClick={(e) => e.stopPropagation()}
         >
           {showDownload && (
             <FileAction onClick={onDownload}>Download</FileAction>
@@ -121,6 +145,7 @@ export const FileActions: React.FC<{
             </>
           )}
           {showDetach && <FileAction onClick={onDetach}>Detach</FileAction>}
+          {showDelete && <FileAction onClick={onDelete}>Delete</FileAction>}
           {showMove && (
             <FileAction onClick={() => setMoveDialogOpen(true)}>
               Move to {move.sectionType}
@@ -135,7 +160,6 @@ export const FileActions: React.FC<{
       )}
       {showMove && (
         <MoveFileConfirmationDialog
-          data-cy="file-move-confirm-dialog"
           isOpen={isMoveDialogOpen}
           close={() => setMoveDialogOpen(false)}
           source={sectionType}
