@@ -91,7 +91,7 @@ const Label = styled.div`
 const Container = styled(DropdownContainer)`
   padding-top: ${(props) => props.theme.grid.unit * 4}px;
   padding-left: ${(props) => props.theme.grid.unit * 4}px;
-
+  width: fit-content;
   .dropdown-toggle {
     border: none;
     background: transparent !important;
