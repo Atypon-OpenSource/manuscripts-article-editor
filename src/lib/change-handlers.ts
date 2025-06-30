@@ -90,6 +90,7 @@ export const handleNodeChange = (
   const { node, dataTracked } = suggestion
   const operation = changeOperationAlias(dataTracked.operation)
   const nodeName = nodeNames.get(node.type) || node.type.name
+  const parentNode = getParentNode(state, suggestion.from)!
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
@@ -106,6 +107,17 @@ export const handleNodeChange = (
       return {
         operation,
         nodeName,
+        content: nodeContentRetriever.getFootnoteContent(state, node),
+      }
+    }
+    case schema.nodes.figcaption: {
+      return {
+        operation,
+        nodeName:
+          parentNode?.type === schema.nodes.box_element
+            ? 'label'
+            : 'figcaption',
+
         content: nodeContentRetriever.getFootnoteContent(state, node),
       }
     }
@@ -155,7 +167,6 @@ export const handleNodeChange = (
       }
 
     case schema.nodes.figure: {
-      const parentNode = getParentNode(state, suggestion.from)!
       const nodeName = nodeNames.get(parentNode?.type) || parentNode?.type.name
       return {
         operation,
