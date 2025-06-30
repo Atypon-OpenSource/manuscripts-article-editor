@@ -28,6 +28,7 @@ import {
   nodeNames,
   schema,
 } from '@manuscripts/transform'
+import { escape } from 'lodash'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
@@ -77,7 +78,7 @@ export const handleTextChange = (
   return {
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: nodeName || suggestion.nodeType.name,
-    content: suggestion.text,
+    content: escape(suggestion.text),
   }
 }
 
