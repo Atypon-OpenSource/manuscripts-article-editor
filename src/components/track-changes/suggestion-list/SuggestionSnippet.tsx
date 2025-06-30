@@ -39,8 +39,6 @@ export const SuggestionSnippet: React.FC<{ suggestions: RootChange }> = ({
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
-  console.log(suggestions[0])
-
   useEffect(() => {
     let newSnippet: SnippetData | null = null
     if (view) {
