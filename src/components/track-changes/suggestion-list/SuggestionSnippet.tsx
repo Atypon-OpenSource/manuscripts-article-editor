@@ -10,9 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { ChangeSet, RootChange } from '@manuscripts/track-changes-plugin'
+import { escape } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { escape } from 'lodash'
 
 import {
   handleGroupChanges,
