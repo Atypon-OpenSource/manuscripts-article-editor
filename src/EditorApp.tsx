@@ -62,7 +62,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   const api = useMemo(() => new Api(getAuthToken), [getAuthToken])
 
   useEffect(() => {
-    // implement remount for the store if component is retriggered
+    // implement remount for the store if component is retriggered.
     if (loadedRef.current) {
       return
     }

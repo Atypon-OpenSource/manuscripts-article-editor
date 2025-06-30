@@ -51,16 +51,20 @@ export class NodeTextContentRetriever {
     if (node.type === schema.nodes.citation) {
       const text = bib?.renderedCitations.get(id)
       const citation = domPurify.sanitize(
-        text && text !== '[NO_PRINTED_FORM]' ? text : ' ',
+        text === '(n.d.)'
+          ? 'Missing citation data'
+          : text && text !== '[NO_PRINTED_FORM]'
+          ? text
+          : ' ',
         {
           ALLOWED_TAGS: ['i', 'b', 'span', 'sup', 'sub', '#text'],
         }
       )
       return citation ? citation.replace(/<[^>]*>/g, '') : ''
     } else {
-      return `<span> ${node.attrs.title || 'untitled'} </span> ${metadata(
-        node.attrs as BibliographyItemAttrs
-      )}`
+      return `<span> ${
+        node.attrs.title || node.attrs.literal || 'untitled'
+      } </span> ${metadata(node.attrs as BibliographyItemAttrs)}`
     }
   }
 
