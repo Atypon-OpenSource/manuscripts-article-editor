@@ -31,6 +31,7 @@ import {
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
+import { escape } from 'lodash'
 
 interface SnippetData {
   operation: string
@@ -77,7 +78,7 @@ export const handleTextChange = (
   return {
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: nodeName || suggestion.nodeType.name,
-    content: suggestion.text,
+    content: escape(suggestion.text),
   }
 }
 
