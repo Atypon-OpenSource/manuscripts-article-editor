@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import {
   FileAttachment,
@@ -117,21 +117,23 @@ const EditorElement: React.FC = () => {
           }}
         />
       )}
-      <SpriteMap color="#353535" />
-      {
-        /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */
-        // Changing the `key` forces React to recreate the DOM node,
-        // which triggers a fresh ProseMirror EditorView instance.
-        // This is necessary because EditorView does not pick up props changes
-        // (like `editable`, `nodeViews`, or `getCapabilities`) once initialized.
-      }
-      <div id="editorDropzone" ref={drop}>
-        <div
-          id="editor"
-          key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
-          ref={onRender}
-        ></div>
-      </div>
+      <>
+        <SpriteMap color="#353535" />
+        {
+          /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */
+          // Changing the `key` forces React to recreate the DOM node,
+          // which triggers a fresh ProseMirror EditorView instance.
+          // This is necessary because EditorView does not pick up props changes
+          // (like `editable`, `nodeViews`, or `getCapabilities`) once initialized.
+        }
+        <div id="editorDropzone" ref={drop}>
+          <div
+            id="editor"
+            key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
+            ref={onRender}
+          ></div>
+        </div>
+      </>
     </>
   )
 }
