@@ -50,6 +50,7 @@ const Inspector: React.FC = () => {
     isViewingMode: store.isViewingMode,
     view: store.view,
     inconsistencies: store.inconsistencies || [],
+    isComparingMode: store.isComparingMode,
   }))
 
   const can = usePermissions()
@@ -93,6 +94,22 @@ const Inspector: React.FC = () => {
       store.view.dispatch(tr)
     }
   }, [tabIndex, ISSUES_TAB_INDEX, store.view])
+  if (store.isComparingMode) {
+    return (
+      <Panel
+        name={'inspector'}
+        minSize={400}
+        direction={'row'}
+        side={'start'}
+        hideWhen={'max-width: 900px'}
+        resizerButton={ResizingInspectorButton}
+      >
+        <InspectorContainer data-cy="inspector">
+          <TrackChangesPanel key="track-changes" />
+        </InspectorContainer>
+      </Panel>
+    )
+  }
 
   return (
     <Panel
