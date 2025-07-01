@@ -22,14 +22,14 @@ import { FileName } from './FileName'
 import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
 import { ToggleHeader } from './ToggleHeader'
 
-export type SupplementsSectionProps = {
+export type LinkedFilesSectionProps = {
   linkedFiles: NodeFile[]
 }
 
 /**
  * This component represents the section for linked supplemental files.
  */
-export const LinkedFilesSection: React.FC<SupplementsSectionProps> = ({
+export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
   linkedFiles,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -90,7 +90,7 @@ export const LinkedFilesSection: React.FC<SupplementsSectionProps> = ({
         <>
           <FileSectionAlert alert={alert} />
           {linkedFiles.map((file) => (
-            <SupplementFile
+            <LinkedFile
               key={file.node.attrs.id}
               linkedFile={file}
               onDownload={() => fileManagement.download(file.file)}
@@ -104,7 +104,7 @@ export const LinkedFilesSection: React.FC<SupplementsSectionProps> = ({
   )
 }
 
-const SupplementFile: React.FC<{
+const LinkedFile: React.FC<{
   linkedFile: NodeFile
   onDownload: () => void
   onReplace: Replace
