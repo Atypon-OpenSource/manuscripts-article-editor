@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import '@manuscripts/body-editor/styles/Editor.css'
@@ -72,12 +72,15 @@ const ManuscriptPageContainer: React.FC = () => {
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
   const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
-  const [{ isViewingMode }] = useStore((store) => ({
+
+  const [{ isViewingMode, isComparingMode }] = useStore((store) => ({
     isViewingMode: store.isViewingMode,
+    isComparingMode: store.isComparingMode,
   }))
 
   const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
-  const isTrackingVisible = showTrackChangesToggle && trackingVisible
+  const isTrackingVisible =
+    (showTrackChangesToggle && trackingVisible) || isComparingMode
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
