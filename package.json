@@ -18,7 +18,7 @@
     "build:cjs": "tsc --outDir dist/cjs --module commonjs",
     "build:es": "tsc --outDir dist/es --declarationDir dist/types --declaration",
     "test": "TZ=UTC jest --runInBand --detectOpenHandles --forceExit",
-    "lint": "eslint src types --ext .ts,.tsx --max-warnings 0",
+    "lint": "ESLINT_PLUGIN_DIFF_COMMIT=master eslint src types --ext .ts,.tsx --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "preversion": "npm-run-all --parallel typecheck lint",
