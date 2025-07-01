@@ -33,11 +33,11 @@ import {
   FileGroupHeader,
   FileGroupItemContainer,
   FileLabel,
-  ToggleIcon,
 } from './FileGroup'
 import { FileSectionType } from './FileManager'
 import { FileNameText } from './FileName'
 import { FileTypeIcon } from './FileTypeIcon'
+import { ToggleIcon } from './ToggleHeader'
 
 type FileMetadata = {
   element: ElementFiles
