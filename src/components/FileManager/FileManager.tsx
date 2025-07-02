@@ -11,7 +11,7 @@
  */
 import { groupFiles } from '@manuscripts/body-editor'
 import { Tooltip } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { useStore } from '../../store'
 import {
@@ -60,7 +60,9 @@ export const FileManager: React.FC = () => {
     inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
-  const { figures, supplements, attachments, others } = groupFiles(doc, files)
+  const { figures, supplements, attachments, others } = useMemo(() => {
+    return groupFiles(doc, files)
+  }, [doc, files])
 
   return (
     <InspectorTabs

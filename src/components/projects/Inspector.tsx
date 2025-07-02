@@ -43,6 +43,7 @@ const Inspector: React.FC = () => {
     selectedSuggestionID: store.selectedSuggestionID,
     inspectorOpenTabs: store.inspectorOpenTabs,
     isViewingMode: store.isViewingMode,
+    isComparingMode: store.isComparingMode,
   }))
 
   const can = usePermissions()
@@ -56,6 +57,7 @@ const Inspector: React.FC = () => {
   const COMMENTS_TAB_INDEX = index++
   const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
+
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -73,6 +75,23 @@ const Inspector: React.FC = () => {
       setTabIndex(HISTORY_TAB_INDEX)
     }
   }, [suggestion, HISTORY_TAB_INDEX])
+
+  if (store.isComparingMode) {
+    return (
+      <Panel
+        name={'inspector'}
+        minSize={400}
+        direction={'row'}
+        side={'start'}
+        hideWhen={'max-width: 900px'}
+        resizerButton={ResizingInspectorButton}
+      >
+        <InspectorContainer data-cy="inspector">
+          <TrackChangesPanel key="track-changes" />
+        </InspectorContainer>
+      </Panel>
+    )
+  }
 
   return (
     <Panel
