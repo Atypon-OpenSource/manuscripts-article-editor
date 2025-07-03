@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { NodesSelection } from '@manuscripts/body-editor'
+import { InlineNodesSelection, NodesSelection } from '@manuscripts/body-editor'
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
@@ -31,6 +31,13 @@ export const setSelectedSuggestion = (
   const view = editor.view
   const tr = state.tr
   if (suggestions.length > 1) {
+    tr.setSelection(
+      new InlineNodesSelection(
+        state.doc.resolve(suggestions[0].from),
+        state.doc.resolve(suggestions[suggestions.length - 1].to)
+      )
+    )
+  } else if (suggestions[0].dataTracked.operation === 'structure') {
     tr.setSelection(
       new NodesSelection(
         state.doc.resolve(suggestions[0].from),
