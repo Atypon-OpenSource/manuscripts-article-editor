@@ -26,7 +26,6 @@ export interface CompareDocumentsModalProps {
   snapshots: SnapshotLabel[]
   loading?: boolean
   error?: string | null
-  onCompare?: (originalId: string, comparisonId: string) => void
   onCancel: () => void
 }
 
