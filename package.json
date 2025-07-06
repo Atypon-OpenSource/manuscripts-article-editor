@@ -19,6 +19,7 @@
     "build:es": "tsc --outDir dist/es --declarationDir dist/types --declaration",
     "test": "TZ=UTC jest --runInBand --detectOpenHandles --forceExit",
     "lint": "eslint src types --ext .ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint src types --ext .ts,.tsx --max-warnings 0 --fix",
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "preversion": "npm-run-all --parallel typecheck lint",

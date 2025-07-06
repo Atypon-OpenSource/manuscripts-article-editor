@@ -35,7 +35,6 @@ export interface EditorAppProps {
   permittedActions: string[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
-  submissionID: string
 }
 
 const PlaceholderWrapper = styled.div`
@@ -61,7 +60,6 @@ const EditorApp: React.FC<EditorAppProps> = ({
   files,
   getAuthToken,
   observer,
-  submissionID,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const loadedRef = useRef<boolean>(false)
@@ -81,7 +79,6 @@ const EditorApp: React.FC<EditorAppProps> = ({
       manuscriptID,
       files,
       permittedActions,
-      submissionID,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])

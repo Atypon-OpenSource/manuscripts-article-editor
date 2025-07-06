@@ -13,7 +13,7 @@ import { useEditor } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
 import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { useEffect, useMemo } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useApi } from '../api/Api'
 import { StepsExchanger } from '../api/StepsExchanger'
@@ -55,11 +55,11 @@ export const useCreateEditor = () => {
   }))
 
   const api = useApi()
-  const params = useParams()
+  const [searchParams] = useSearchParams()
 
   const { comparedDoc, isComparingMode } = useCompareDocuments({
-    originalId: params.originalId,
-    comparisonId: params.comparisonId,
+    originalId: searchParams.get('originalId') || undefined,
+    comparisonId: searchParams.get('comparisonId') || undefined,
     getSnapshot,
   })
 
@@ -145,7 +145,6 @@ export const useCreateEditor = () => {
     navigate: useNavigate(),
     location: useLocation(),
     isComparingMode,
-    submissionId: params.id,
     lockBody: config.features.lockBody,
     isViewingMode,
   }

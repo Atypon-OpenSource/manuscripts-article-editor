@@ -208,7 +208,7 @@ export const handleNodeChange = (
     case schema.nodes.alt_title: {
       return {
         operation,
-        nodeName: getTitleDisplayName(node.attrs.type),
+        nodeName: getTitleDisplayName(node),
         content: node.textContent,
       }
     }
