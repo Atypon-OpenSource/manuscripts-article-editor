@@ -21,14 +21,19 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
+<<<<<<< HEAD
         specifier: 3.2.8-LEAN-4610.1
         version: 3.2.8-LEAN-4610.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+=======
+        specifier: 3.2.11
+        version: 3.2.11(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+>>>>>>> master
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
       '@manuscripts/style-guide':
-        specifier: 3.1.0
-        version: 3.1.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.1.2
+        version: 3.1.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
         specifier: 2.0.1
         version: 2.0.1
@@ -1176,8 +1181,13 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
+<<<<<<< HEAD
   '@manuscripts/body-editor@3.2.8-LEAN-4610.1':
     resolution: {integrity: sha512-MOgssQG+d3N7yitVAYEk/QKLqE9m+E5lYuALKdmyJnSeUy1mMPUAowkF6uQOIonv/+NdnS/ViLF2o5Ad++7tAA==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.2.8-LEAN-4610.1.tgz}
+=======
+  '@manuscripts/body-editor@3.2.11':
+    resolution: {integrity: sha512-7URHCgpaEFcnZnigNE6FAYvoGF2FX6G5Nptil1rE0FZQ8oTxS9Se0irYjOf1aOK56/o7/zEd068HJDhYL623BA==}
+>>>>>>> master
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1200,8 +1210,8 @@ packages:
   '@manuscripts/json-schema@2.2.12':
     resolution: {integrity: sha512-MCz11Dhc1kric1oU9cnYHboPgEwwccWfuuU1XhAEilDIFe8KszAeQk5i4GBGlGLddp/Gvkr6N1gtzLl36mTE7A==}
 
-  '@manuscripts/style-guide@3.1.0':
-    resolution: {integrity: sha512-0d1ncRiyvMbHvSLH4lxwoYxlcT5uygcBYRjKlxfKW82BSE5z32EMP2tWbbq1CdZ/rHzijmfeZaPFemMxjikq5w==}
+  '@manuscripts/style-guide@3.1.2':
+    resolution: {integrity: sha512-flBUU6/0a08fBp1onQO+KVHALG7ApG0skAyAeZFHMtCY//lEuX2K8rPYv7GeJNSMXNyVls7PvxC5ujnkGWP+nw==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.0.1':
@@ -6063,7 +6073,11 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+<<<<<<< HEAD
   '@manuscripts/body-editor@3.2.8-LEAN-4610.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+=======
+  '@manuscripts/body-editor@3.2.11(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+>>>>>>> master
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6074,7 +6088,7 @@ snapshots:
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
-      '@manuscripts/style-guide': 3.1.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+      '@manuscripts/style-guide': 3.1.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin': 2.0.1
       '@manuscripts/transform': 4.2.1(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
@@ -6146,7 +6160,7 @@ snapshots:
       deepmerge: 4.3.1
       uuid: 9.0.1
 
-  '@manuscripts/style-guide@3.1.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/style-guide@3.1.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/json-schema': 2.2.12
