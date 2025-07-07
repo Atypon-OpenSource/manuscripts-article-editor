@@ -30,16 +30,17 @@ export const setSelectedSuggestion = (
   const state = editor.state
   const view = editor.view
   const tr = state.tr
-  if (suggestions.length > 1) {
+  if (suggestions[0].dataTracked.operation === 'structure') {
     tr.setSelection(
-      new InlineNodesSelection(
+      new NodesSelection(
         state.doc.resolve(suggestions[0].from),
         state.doc.resolve(suggestions[suggestions.length - 1].to)
       )
     )
-  } else if (suggestions[0].dataTracked.operation === 'structure') {
+  }
+  if (suggestions.length > 1) {
     tr.setSelection(
-      new NodesSelection(
+      new InlineNodesSelection(
         state.doc.resolve(suggestions[0].from),
         state.doc.resolve(suggestions[suggestions.length - 1].to)
       )
