@@ -27,7 +27,7 @@ const Main: React.FC<EditorAppProps> = ({
   observer,
   submissionID,
 }) => (
-  <DndProvider backend={HTML5Backend}>
+  <DndProvider backend={HTML5Backend} context={window}>
     <GlobalStyle />
     <EditorApp
       fileManagement={fileManagement}

@@ -14,7 +14,7 @@ import {
   insertSupplement,
   NodeFile,
 } from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
+import { ToggleHeader, usePermissions } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
@@ -28,7 +28,6 @@ import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
 import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
-import { ToggleHeader } from './ToggleHeader'
 
 export type SupplementsSectionProps = {
   supplements: NodeFile[]
@@ -111,7 +110,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   }
 
   return (
-    <>
+    <div data-cy="supplements-section">
       {can?.uploadFile && (
         <FileUploader
           onUpload={handleUpload}
@@ -138,7 +137,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
           ))}
         </>
       )}
-    </>
+    </div>
   )
 }
 

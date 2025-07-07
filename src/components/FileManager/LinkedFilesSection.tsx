@@ -7,10 +7,11 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { NodeFile } from '@manuscripts/body-editor'
-import { skipTracking } from '@manuscripts/track-changes-plugin'
+import { ToggleHeader } from '@manuscripts/style-guide'
+import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 
 import { useStore } from '../../store'
@@ -20,9 +21,8 @@ import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
 import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
-import { ToggleHeader } from './ToggleHeader'
 
-export type LinkedFilesSectionProps = {
+type LinkedFilesSectionProps = {
   linkedFiles: NodeFile[]
 }
 
@@ -64,15 +64,23 @@ export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
 
   const handleReplace = async (linkedFile: NodeFile, file: File) => {
     const uploaded = await upload(file)
+    const pos = linkedFile.pos
     const tr = view.state.tr
-    tr.setNodeAttribute(linkedFile.pos, 'extLink', uploaded.id)
-    view.dispatch(skipTracking(tr))
+    tr.setNodeAttribute(pos, 'extLink', uploaded.id)
+    tr.setSelection(NodeSelection.create(tr.doc, pos))
+    tr.scrollIntoView()
+    view.focus()
+    view.dispatch(tr)
   }
 
   const handleMoveToOtherFiles = (linkedFile: NodeFile) => {
     const tr = view.state.tr
-    tr.setNodeAttribute(linkedFile.pos, 'extLink', '')
-    view.dispatch(skipTracking(tr))
+    const pos = linkedFile.pos
+    tr.setNodeAttribute(pos, 'extLink', '')
+    tr.setSelection(NodeSelection.create(tr.doc, pos))
+    tr.scrollIntoView()
+    view.focus()
+    view.dispatch(tr)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.OtherFile,
@@ -80,7 +88,7 @@ export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
   }
 
   return (
-    <>
+    <div data-cy="linked-files-section">
       <ToggleHeader
         title="Linked Files"
         isOpen={isOpen}
@@ -100,7 +108,7 @@ export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
           ))}
         </>
       )}
-    </>
+    </div>
   )
 }
 
@@ -111,7 +119,7 @@ const LinkedFile: React.FC<{
   onDetach: () => void
 }> = ({ linkedFile, onDownload, onReplace, onDetach }) => {
   return (
-    <FileContainer data-cy="file-container" key={linkedFile.file.id}>
+    <FileContainer data-cy="file-container">
       <FileName file={linkedFile.file} />
       <FileCreatedDate file={linkedFile.file} className="show-on-hover" />
       <FileActions
