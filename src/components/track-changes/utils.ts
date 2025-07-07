@@ -52,7 +52,14 @@ export const setSelectedSuggestion = (
   }
 
   view?.focus()
-  view?.dispatch(tr.scrollIntoView())
+  try {
+    view?.dispatch(tr.scrollIntoView())
+  } catch (e) {
+    console.warn(
+      "Unable to select a node and scroll to it. Check if it's visible. Error: " +
+        e
+    )
+  }
 }
 
 export const setChangeStatus = (
