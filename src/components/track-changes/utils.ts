@@ -37,8 +37,7 @@ export const setSelectedSuggestion = (
         state.doc.resolve(suggestions[suggestions.length - 1].to)
       )
     )
-  }
-  if (suggestions.length > 1) {
+  } else if (suggestions.length > 1) {
     tr.setSelection(
       new InlineNodesSelection(
         state.doc.resolve(suggestions[0].from),
