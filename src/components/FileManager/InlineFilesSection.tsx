@@ -14,6 +14,7 @@ import {
   FileFigureIcon,
   FileGraphicalAbstractIcon,
   FileImageIcon,
+  ToggleIcon,
   Tooltip,
   TriangleCollapsedIcon,
   TriangleExpandedIcon,
@@ -33,7 +34,6 @@ import {
   FileGroupHeader,
   FileGroupItemContainer,
   FileLabel,
-  ToggleIcon,
 } from './FileGroup'
 import { FileSectionType } from './FileManager'
 import { FileNameText } from './FileName'
