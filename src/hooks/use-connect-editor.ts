@@ -7,9 +7,13 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { commentsKey, selectedSuggestionKey } from '@manuscripts/body-editor'
+import {
+  commentsKey,
+  detectInconsistencyPluginKey,
+  selectedSuggestionKey,
+} from '@manuscripts/body-editor'
 import { trackChangesPluginKey } from '@manuscripts/track-changes-plugin'
 import { useEffect, useLayoutEffect, useMemo } from 'react'
 
@@ -65,6 +69,14 @@ export const useConnectEditor = () => {
   useEffect(() => {
     storeDispatch({ hasPendingSuggestions })
   }, [storeDispatch, hasPendingSuggestions])
+
+  const inconsistencies = useMemo(() => {
+    return detectInconsistencyPluginKey.getState(state)?.inconsistencies || []
+  }, [state])
+
+  useEffect(() => {
+    storeDispatch({ inconsistencies })
+  }, [storeDispatch, inconsistencies])
 
   useEffect(() => {
     storeDispatch({ editor })
