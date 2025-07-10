@@ -37,3 +37,10 @@ export const decodeHTMLEntities = (text: string) => {
   el.innerHTML = text
   return el.innerText
 }
+
+export const scrollIntoView = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect()
+  if (rect.bottom > window.innerHeight || rect.top < 150) {
+    element.scrollIntoView()
+  }
+}
