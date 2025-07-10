@@ -13,7 +13,9 @@ import {
   FileAttachment,
   findParentElement,
   getMatchingChild,
+  getMediaTypeInfo,
   insertFigure,
+  insertMedia,
   useEditor,
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
@@ -22,6 +24,7 @@ import {
   generateNodeID,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
+  MediaNode,
   schema,
 } from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
@@ -64,18 +67,47 @@ const EditorElement: React.FC = () => {
           src: file.id,
         }
 
-        const targetNode =
-          view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
+        let targetNode = view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
+
+        if (targetNode.type === schema.nodes.figcaption) {
+          const mediaNodeWithPos = findParentNodeClosestToPos(
+            resolvedPos,
+            (node) => node.type === schema.nodes.media
+          )
+          if (mediaNodeWithPos) {
+            targetNode = mediaNodeWithPos.node
+          }
+        }
+
         switch (targetNode.type) {
           case schema.nodes.figure: {
             const figure = targetNode as FigureNode
             setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
             break
           }
+          case schema.nodes.media: {
+            const media = targetNode as MediaNode
+            setNodeAttrs(view.state, dispatch, media.attrs.id, {
+              href: file.id,
+            })
+            break
+          }
           case schema.nodes.figcaption:
           case schema.nodes.caption:
           case schema.nodes.caption_title: {
-            addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
+            const mediaNodeWithPos = findParentNodeClosestToPos(
+              resolvedPos,
+              (node) => node.type === schema.nodes.media
+            )
+
+            if (mediaNodeWithPos) {
+              const media = mediaNodeWithPos.node as MediaNode
+              setNodeAttrs(view.state, dispatch, media.attrs.id, {
+                href: file.id,
+              })
+            } else {
+              addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
+            }
             break
           }
           case schema.nodes.figure_element: {
@@ -93,7 +125,18 @@ const EditorElement: React.FC = () => {
             view.focus()
             dispatch(tr)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-            insertFigure(file, view.state, dispatch)
+
+            const mediaInfo = getMediaTypeInfo(file.name)
+
+            if (mediaInfo.isVideo || mediaInfo.isAudio) {
+              insertMedia(view.state, dispatch, {
+                href: file.id,
+                mimetype: mediaInfo.mimetype,
+                mimeSubtype: mediaInfo.mimeSubtype,
+              })
+            } else {
+              insertFigure(file, view.state, dispatch)
+            }
           }
         }
         return true
@@ -185,7 +228,18 @@ const addFigureAtFigCaptionPosition = (
     )
     view.focus()
     dispatch(transaction)
-    insertFigure(file, view.state, dispatch)
+
+    const mediaInfo = getMediaTypeInfo(file.name)
+
+    if (mediaInfo.isVideo || mediaInfo.isAudio) {
+      insertMedia(view.state, dispatch, {
+        href: file.id,
+        mimetype: mediaInfo.mimetype,
+        mimeSubtype: mediaInfo.mimeSubtype,
+      })
+    } else {
+      insertFigure(file, view.state, dispatch)
+    }
   }
 }
 
