@@ -37,7 +37,6 @@ const ManuscriptEditor: React.FC<
   getAuthToken,
   config,
   observer,
-  submissionID,
 }) => {
   setConfig(config)
   return (
@@ -54,7 +53,6 @@ const ManuscriptEditor: React.FC<
             permittedActions={permittedActions}
             getAuthToken={getAuthToken}
             observer={observer}
-            submissionID={submissionID}
           />
         </Suspense>
       </ThemeProvider>

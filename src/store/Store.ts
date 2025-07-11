@@ -38,7 +38,6 @@ export type state = {
   manuscriptID: string
   projectID: string
   userID?: string
-  submissionID?: string
 
   project: Project
   refreshProject: () => Promise<void>
