@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.2.20-LEAN-4642.1
-        version: 3.2.20-LEAN-4642.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.2.20-LEAN-4642.2
+        version: 3.2.20-LEAN-4642.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
@@ -33,8 +33,8 @@ importers:
         specifier: 2.0.3
         version: 2.0.3
       '@manuscripts/transform':
-        specifier: 4.2.5-LEAN-4642.0
-        version: 4.2.5-LEAN-4642.0(prosemirror-state@1.4.3)
+        specifier: 4.2.5-LEAN-4642.2
+        version: 4.2.5-LEAN-4642.2(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1176,8 +1176,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@manuscripts/body-editor@3.2.20-LEAN-4642.1':
-    resolution: {integrity: sha512-j/J2NavAhchGr6kAI01MWpd0UlTt2jYh2HI04IpJszkARr4G5lR7GCqq8hJ58/8wA8TXnOoFiFByOmXoB2PoUQ==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.2.20-LEAN-4642.1.tgz}
+  '@manuscripts/body-editor@3.2.20-LEAN-4642.2':
+    resolution: {integrity: sha512-zOfj1xOeX8pAEQl1Lf+Otr7nTh9c3fIWDqA+jdiHcb3WcvnNHerC1VWViXV8He/mlCAFhhlJG5XN1Z/QM4/dMA==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.2.20-LEAN-4642.2.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1207,8 +1207,8 @@ packages:
   '@manuscripts/track-changes-plugin@2.0.3':
     resolution: {integrity: sha512-YkP0To42MSisYLK4OrGmx3HDX2C5/3o/wpQd3HrO508nuh+CxG1RjC00debm3lfGWXNkqB7i88p38Dk8BqI+4A==}
 
-  '@manuscripts/transform@4.2.5-LEAN-4642.0':
-    resolution: {integrity: sha512-zXLWnz051zdanpIIZZkqvt23eOi4jEy9t2zZGolyTiw5mFQhfkUUu8gQOGQv8ETu5rKdkDNAfOQQubigso+Ezw==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/transform/-/@manuscripts/transform-4.2.5-LEAN-4642.0.tgz}
+  '@manuscripts/transform@4.2.5-LEAN-4642.2':
+    resolution: {integrity: sha512-JGXZdgtaTubaOA2o+bDhBjtqG/rBryUTPTdn18omiqH5zS1qf3zftsOVN9WoZ8Zm8yF0FNih1sQuq3zAdy3Zpg==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/transform/-/@manuscripts/transform-4.2.5-LEAN-4642.2.tgz}
     engines: {node: '>=20.16.0'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -6063,7 +6063,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@manuscripts/body-editor@3.2.20-LEAN-4642.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.2.20-LEAN-4642.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6076,7 +6076,7 @@ snapshots:
       '@manuscripts/json-schema': 2.2.12
       '@manuscripts/style-guide': 3.1.5(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin': 2.0.3
-      '@manuscripts/transform': 4.2.5-LEAN-4642.0(prosemirror-state@1.4.3)
+      '@manuscripts/transform': 4.2.5-LEAN-4642.2(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -6190,7 +6190,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@4.2.5-LEAN-4642.0(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.2.5-LEAN-4642.2(prosemirror-state@1.4.3)':
     dependencies:
       '@manuscripts/json-schema': 2.2.12
       citeproc: 2.4.63
