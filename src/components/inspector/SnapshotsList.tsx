@@ -27,14 +27,11 @@ import { FormattedDateTime } from '../FormattedDateTime'
 import { CompareDocumentsModal } from '../tools/CompareDocumentsModal'
 
 export const SnapshotsList: React.FC = () => {
-  const [{ view, getSnapshot, snapshots, submissionID }] = useStore(
-    (store) => ({
-      view: store.view,
-      getSnapshot: store.getSnapshot,
-      snapshots: store.snapshots,
-      submissionID: store.submissionID,
-    })
-  )
+  const [{ view, getSnapshot, snapshots }] = useStore((store) => ({
+    view: store.view,
+    getSnapshot: store.getSnapshot,
+    snapshots: store.snapshots,
+  }))
 
   const execCmd = useExecCmd()
   const [selectedSnapshot, setSelectedSnapshot] = useState<ManuscriptSnapshot>()
@@ -138,13 +135,12 @@ export const SnapshotsList: React.FC = () => {
           Compare Snapshots
         </PrimaryButton>
       </ButtonContainer>
-      {showCompareModal && submissionID && (
+      {showCompareModal && (
         <CompareDocumentsModal
           snapshots={sortedSnapshots}
           loading={false}
           error={null}
           onCancel={() => setShowCompareModal(false)}
-          submissionID={submissionID}
         />
       )}
     </>
