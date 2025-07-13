@@ -81,4 +81,6 @@ const List = styled.ul`
   font-size: inherit;
   padding: 0;
   margin: 0;
+  height: 75vh;
+  overflow-y: auto;
 `
