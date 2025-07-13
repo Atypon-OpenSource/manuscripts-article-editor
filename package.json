@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "4.2.24",
+  "version": "4.2.25",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -19,6 +19,7 @@
     "build:es": "tsc --outDir dist/es --declarationDir dist/types --declaration",
     "test": "TZ=UTC jest --runInBand --detectOpenHandles --forceExit",
     "lint": "eslint src types --ext .ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint src types --ext .ts,.tsx --max-warnings 0 --fix",
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"{src,stories,tests}/**/*.{js,ts,tsx,css}\"",
     "preversion": "npm-run-all --parallel typecheck lint",
