@@ -26,9 +26,7 @@ export interface CompareDocumentsModalProps {
   snapshots: SnapshotLabel[]
   loading?: boolean
   error?: string | null
-  onCompare?: (originalId: string, comparisonId: string) => void
   onCancel: () => void
-  submissionID: string
 }
 
 export const CompareDocumentsModal: React.FC<CompareDocumentsModalProps> = ({
@@ -36,7 +34,6 @@ export const CompareDocumentsModal: React.FC<CompareDocumentsModalProps> = ({
   loading = false,
   error = null,
   onCancel,
-  submissionID,
 }) => {
   const [isOpen, setOpen] = useState(true)
   const [originalDocId, setOriginalDocId] = useState<string>('')
@@ -44,10 +41,10 @@ export const CompareDocumentsModal: React.FC<CompareDocumentsModalProps> = ({
 
   const handleCompare = () => {
     setOpen(false)
-    window.open(
-      `/editor/${submissionID}/compare/${originalDocId}/${comparisonDocId}`,
-      '_blank'
-    )
+    const currentUrl = new URL(window.location.href)
+    currentUrl.searchParams.set('originalId', originalDocId)
+    currentUrl.searchParams.set('comparisonId', comparisonDocId)
+    window.open(currentUrl.toString(), '_blank')
     handleClose()
   }
 
