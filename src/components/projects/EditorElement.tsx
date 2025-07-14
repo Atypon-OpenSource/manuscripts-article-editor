@@ -20,11 +20,11 @@ import {
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import {
+  EmbedNode,
   FigureNode,
   generateNodeID,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
-  MediaNode,
   schema,
 } from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
@@ -72,7 +72,7 @@ const EditorElement: React.FC = () => {
         if (targetNode.type === schema.nodes.figcaption) {
           const mediaNodeWithPos = findParentNodeClosestToPos(
             resolvedPos,
-            (node) => node.type === schema.nodes.media
+            (node) => node.type === schema.nodes.embed
           )
           if (mediaNodeWithPos) {
             targetNode = mediaNodeWithPos.node
@@ -85,8 +85,8 @@ const EditorElement: React.FC = () => {
             setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
             break
           }
-          case schema.nodes.media: {
-            const media = targetNode as MediaNode
+          case schema.nodes.embed: {
+            const media = targetNode as EmbedNode
             setNodeAttrs(view.state, dispatch, media.attrs.id, {
               href: file.id,
             })
@@ -97,11 +97,11 @@ const EditorElement: React.FC = () => {
           case schema.nodes.caption_title: {
             const mediaNodeWithPos = findParentNodeClosestToPos(
               resolvedPos,
-              (node) => node.type === schema.nodes.media
+              (node) => node.type === schema.nodes.embed
             )
 
             if (mediaNodeWithPos) {
-              const media = mediaNodeWithPos.node as MediaNode
+              const media = mediaNodeWithPos.node as EmbedNode
               setNodeAttrs(view.state, dispatch, media.attrs.id, {
                 href: file.id,
               })
