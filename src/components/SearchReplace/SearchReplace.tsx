@@ -87,6 +87,7 @@ export const SearchReplace: React.FC = () => {
     const view = editor.view
     if (view) {
       const tr = view.state.tr
+      tr.setMeta('searchReplace', true) // Mark this as a search-replace operation
       tr.replaceWith(
         matches[current].from,
         matches[current].to,
@@ -124,6 +125,7 @@ export const SearchReplace: React.FC = () => {
         })
       }
       tr.setMeta('massSearchReplace', true) // needed to make tc-plugin not to freak out about a large amount of steps
+      tr.setMeta('searchReplaceOperation', true) // Mark this as a search-replace operation
       view.dispatch(tr)
       view.dispatch(view.state.tr.setMeta(searchReplacePluginKey, { value }))
     }
