@@ -25,7 +25,6 @@ const Main: React.FC<EditorAppProps> = ({
   permittedActions,
   getAuthToken,
   observer,
-  submissionID,
 }) => (
   <DndProvider backend={HTML5Backend} context={window}>
     <GlobalStyle />
@@ -37,7 +36,6 @@ const Main: React.FC<EditorAppProps> = ({
       permittedActions={permittedActions}
       getAuthToken={getAuthToken}
       observer={observer}
-      submissionID={submissionID}
     />
   </DndProvider>
 )

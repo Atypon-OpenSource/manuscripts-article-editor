@@ -43,6 +43,7 @@ export const InspectorTabList = styled(TabList)`
 
 export const PrimaryTabList = styled(InspectorTabList)`
   background-color: #fafafa !important;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -84,12 +85,31 @@ export const PrimaryInspectorTab = styled(BaseInspectorTab)`
     position: relative;
     gap: 2px;
 
+    /* Style the wrapper div */
+    div {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      justify-content: center;
+    }
+
+    /* Show text when tab is active */
     &[aria-selected='true'] {
       padding-top: ${(props) => props.theme.grid.unit * 2.5 - 2}px;
       border-top-color: #6e6e6e;
       border-top-width: 3px;
       border-bottom-color: transparent;
       background: ${(props) => props.theme.colors.background.primary};
+      margin-bottom: -1px;
+      span {
+        display: inline;
+        margin-left: 4px;
+      }
+    }
+
+    /* Ensure icon is always visible */
+    svg {
+      flex-shrink: 0;
     }
   }
 `
@@ -112,6 +132,30 @@ export const InspectorTabPanelHeading = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
+export const WarningBadge = styled.div`
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #f35143;
+  color: white;
+  border-radius: 50%;
+  min-width: 14px;
+  height: 14px;
+  font-family: 'Lato', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1;
+  z-index: 10;
+`
+
+export const IconWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`
 export const Spacer = styled.span`
   flex: 1 0 auto;
 `
