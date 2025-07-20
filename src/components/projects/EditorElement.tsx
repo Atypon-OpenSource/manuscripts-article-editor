@@ -14,8 +14,8 @@ import {
   findParentElement,
   getMatchingChild,
   getMediaTypeInfo,
+  insertEmbed,
   insertFigure,
-  insertMedia,
   useEditor,
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
@@ -68,7 +68,6 @@ const EditorElement: React.FC = () => {
         }
 
         let targetNode = view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
-
         if (targetNode.type === schema.nodes.figcaption) {
           const mediaNodeWithPos = findParentNodeClosestToPos(
             resolvedPos,
@@ -127,9 +126,8 @@ const EditorElement: React.FC = () => {
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
 
             const mediaInfo = getMediaTypeInfo(file.name)
-
             if (mediaInfo.isVideo || mediaInfo.isAudio) {
-              insertMedia(view.state, dispatch, {
+              insertEmbed(view.state, dispatch, {
                 href: file.id,
                 mimetype: mediaInfo.mimetype,
                 mimeSubtype: mediaInfo.mimeSubtype,
@@ -232,7 +230,7 @@ const addFigureAtFigCaptionPosition = (
     const mediaInfo = getMediaTypeInfo(file.name)
 
     if (mediaInfo.isVideo || mediaInfo.isAudio) {
-      insertMedia(view.state, dispatch, {
+      insertEmbed(view.state, dispatch, {
         href: file.id,
         mimetype: mediaInfo.mimetype,
         mimeSubtype: mediaInfo.mimeSubtype,
