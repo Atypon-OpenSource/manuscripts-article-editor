@@ -81,7 +81,7 @@ const Inspector: React.FC = () => {
   useEffect(() => {
     if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
       setTabIndex(FILES_TAB_INDEX)
-    } else if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Issues) {
+    } else if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Quality) {
       setTabIndex(ISSUES_TAB_INDEX)
     }
   }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
@@ -163,7 +163,7 @@ const Inspector: React.FC = () => {
                 }
                 isVisible={tabIndex === ISSUES_TAB_INDEX}
               >
-                Issues
+                Quality
               </InspectorTab>
               <Spacer />
               <VersionHistoryDropdown />
