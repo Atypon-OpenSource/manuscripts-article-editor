@@ -155,7 +155,7 @@ export const IssuesPanel: React.FC = () => {
   return (
     <IssuesContainer>
       <CollapsibleHeader onClick={toggleCollapsed}>
-        <HeaderTitle>Inconsistencies ({inconsistencies.length})</HeaderTitle>
+        <HeaderTitle>Errors ({inconsistencies.length})</HeaderTitle>
         <CollapseIcon isCollapsed={isCollapsed}>
           <ArrowDownCircleIcon />
         </CollapseIcon>
@@ -164,7 +164,7 @@ export const IssuesPanel: React.FC = () => {
       {!isCollapsed && (
         <InconsistenciesList>
           {inconsistencies.length === 0 ? (
-            <NoIssuesMessage>No issues found</NoIssuesMessage>
+            <NoIssuesMessage>No errors found</NoIssuesMessage>
           ) : (
             inconsistencies.map(
               (inconsistency: Inconsistency, index: number) => (
