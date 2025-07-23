@@ -13,9 +13,6 @@ import {
   FileAttachment,
   findParentElement,
   getMatchingChild,
-  getMediaTypeInfo,
-  insertEmbed,
-  insertFigure,
   useEditor,
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
@@ -36,6 +33,7 @@ import { useDrop } from 'react-dnd'
 import { useConnectEditor } from '../../hooks/use-connect-editor'
 import { useWatchTitle } from '../../hooks/use-watch-title'
 import { setNodeAttrs } from '../../lib/node-attrs'
+import { insertMediaOrFigure } from '../../lib/utils'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
@@ -68,8 +66,13 @@ const EditorElement: React.FC = () => {
         }
 
         let targetNode = view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
-        if (targetNode.type === schema.nodes.figcaption) {
-          const mediaNodeWithPos = findParentNodeClosestToPos(
+        let mediaNodeWithPos
+        if (
+          targetNode.type === schema.nodes.figcaption ||
+          targetNode.type === schema.nodes.caption ||
+          targetNode.type === schema.nodes.caption_title
+        ) {
+          mediaNodeWithPos = findParentNodeClosestToPos(
             resolvedPos,
             (node) => node.type === schema.nodes.embed
           )
@@ -94,11 +97,6 @@ const EditorElement: React.FC = () => {
           case schema.nodes.figcaption:
           case schema.nodes.caption:
           case schema.nodes.caption_title: {
-            const mediaNodeWithPos = findParentNodeClosestToPos(
-              resolvedPos,
-              (node) => node.type === schema.nodes.embed
-            )
-
             if (mediaNodeWithPos) {
               const media = mediaNodeWithPos.node as EmbedNode
               setNodeAttrs(view.state, dispatch, media.attrs.id, {
@@ -125,16 +123,7 @@ const EditorElement: React.FC = () => {
             dispatch(tr)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
 
-            const mediaInfo = getMediaTypeInfo(file.name)
-            if (mediaInfo.isVideo || mediaInfo.isAudio) {
-              insertEmbed(view.state, dispatch, {
-                href: file.id,
-                mimetype: mediaInfo.mimetype,
-                mimeSubtype: mediaInfo.mimeSubtype,
-              })
-            } else {
-              insertFigure(file, view.state, dispatch)
-            }
+            insertMediaOrFigure(file, view, dispatch)
           }
         }
         return true
@@ -227,17 +216,7 @@ const addFigureAtFigCaptionPosition = (
     view.focus()
     dispatch(transaction)
 
-    const mediaInfo = getMediaTypeInfo(file.name)
-
-    if (mediaInfo.isVideo || mediaInfo.isAudio) {
-      insertEmbed(view.state, dispatch, {
-        href: file.id,
-        mimetype: mediaInfo.mimetype,
-        mimeSubtype: mediaInfo.mimeSubtype,
-      })
-    } else {
-      insertFigure(file, view.state, dispatch)
-    }
+    insertMediaOrFigure(file, view, dispatch)
   }
 }
 
