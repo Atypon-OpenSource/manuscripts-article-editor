@@ -26,7 +26,9 @@ const Main: React.FC<EditorAppProps> = ({
   getAuthToken,
   observer,
 }) => (
-  <DndProvider backend={HTML5Backend}>
+  <DndProvider backend={HTML5Backend} context={window}>
+    {/* Using context={window} to to access the same DndProvider context, avoiding conflicts when multiple React roots
+     try to initialize their own HTML5Backend instances.*/}
     <GlobalStyle />
     <EditorApp
       fileManagement={fileManagement}
