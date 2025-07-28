@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "4.2.40",
+  "version": "4.2.41",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -26,11 +26,6 @@
     "prepare": "husky install",
     "version": "pnpm build",
     "unlink-all": "rm pnpm-workspace.yaml && pnpm install"
-  },
-  "pnpm": {
-    "overrides": {
-      "form-data": "4.0.4"
-    }
   },
   "dependencies": {
     "@fontsource/lato": "5.2.5",
