@@ -27,11 +27,6 @@
     "version": "pnpm build",
     "unlink-all": "rm pnpm-workspace.yaml && pnpm install"
   },
-  "pnpm": {
-    "overrides": {
-      "form-data": "4.0.4"
-    }
-  },
   "dependencies": {
     "@fontsource/lato": "5.2.5",
     "@fontsource/pt-sans": "5.2.5",
