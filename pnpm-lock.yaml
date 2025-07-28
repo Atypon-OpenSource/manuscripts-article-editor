@@ -24,17 +24,17 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.2.32
-        version: 3.2.32(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.2.33-LEAN-4647.0
+        version: 3.2.33-LEAN-4647.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
       '@manuscripts/style-guide':
-        specifier: 3.1.6
-        version: 3.1.6(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.1.7-LEAN-4647.0
+        version: 3.1.7-LEAN-4647.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
-        specifier: 2.0.7
-        version: 2.0.7
+        specifier: 2.0.8-LEAN-4647.0
+        version: 2.0.8-LEAN-4647.0
       '@manuscripts/transform':
         specifier: 4.2.9
         version: 4.2.9(prosemirror-state@1.4.3)
@@ -1179,8 +1179,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@manuscripts/body-editor@3.2.32':
-    resolution: {integrity: sha512-DDbrf3AWGbOqNUWKW7RCQ43DeWgdDNKRatLRRZsHaGs6P3oJi/UpKtPGHCPF+P/Mf8QRnMEvSyVQ1ec31gznUw==}
+  '@manuscripts/body-editor@3.2.33-LEAN-4647.0':
+    resolution: {integrity: sha512-WVLTXkAkqhF9SFitJMa3CfutGy2GlpZsnJPhh4uIQ2ysUYqYZeS55Yb/5mFbysn0hfQezz+GhCgc2n/GBtVCOA==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.2.33-LEAN-4647.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1203,12 +1203,12 @@ packages:
   '@manuscripts/json-schema@2.2.12':
     resolution: {integrity: sha512-MCz11Dhc1kric1oU9cnYHboPgEwwccWfuuU1XhAEilDIFe8KszAeQk5i4GBGlGLddp/Gvkr6N1gtzLl36mTE7A==}
 
-  '@manuscripts/style-guide@3.1.6':
-    resolution: {integrity: sha512-wPflO2eBWhENrG4YiA0fHWsb3FhEtdEIU6qhFDAgR79EUeyyGPBRewOt5L2LGv8CtjkFR8cG79i4THHj9yuv7Q==}
+  '@manuscripts/style-guide@3.1.7-LEAN-4647.0':
+    resolution: {integrity: sha512-OsSsEigeT86EAX/OWIX8ym8CA0+PyvADwUB7XdE1uolfAiaDW4MfNg1rWy+olTVexVl5uEYzQUNdc1+KqEz/4w==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/style-guide/-/@manuscripts/style-guide-3.1.7-LEAN-4647.0.tgz}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/track-changes-plugin@2.0.7':
-    resolution: {integrity: sha512-EG3OOOf+P672/OQoXbcwURH3sfiru3MR9XlhDF4/hRA68Jtaic6U4NLxd6cWShrsl+ENyWabeuV/Ha9qWR066g==}
+  '@manuscripts/track-changes-plugin@2.0.8-LEAN-4647.0':
+    resolution: {integrity: sha512-D6cJNLKIbwkCYQyvCLevdG5sNg0hfSdv1qnLYiWJ2Sl2fb72Xg9NMWEMNMmZdS671iVsR6gTtWQzFkAgSkvniQ==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/track-changes-plugin/-/@manuscripts/track-changes-plugin-2.0.8-LEAN-4647.0.tgz}
 
   '@manuscripts/transform@4.2.9':
     resolution: {integrity: sha512-y9rNB7Y6WYldVLufZ28Hz1Wg55i0CcpeAiv/pXCgGkrj7IUZTFpI5MN9/gcZdwle2011syCpg5sHOy7cxSL15Q==}
@@ -6066,7 +6066,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@manuscripts/body-editor@3.2.32(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.2.33-LEAN-4647.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6077,8 +6077,8 @@ snapshots:
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
-      '@manuscripts/style-guide': 3.1.6(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
-      '@manuscripts/track-changes-plugin': 2.0.7
+      '@manuscripts/style-guide': 3.1.7-LEAN-4647.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)
+      '@manuscripts/track-changes-plugin': 2.0.8-LEAN-4647.0
       '@manuscripts/transform': 4.2.9(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
@@ -6149,7 +6149,7 @@ snapshots:
       deepmerge: 4.3.1
       uuid: 9.0.1
 
-  '@manuscripts/style-guide@3.1.6(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/style-guide@3.1.7-LEAN-4647.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.5)(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/json-schema': 2.2.12
@@ -6181,7 +6181,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@manuscripts/track-changes-plugin@2.0.7':
+  '@manuscripts/track-changes-plugin@2.0.8-LEAN-4647.0':
     dependencies:
       debug: 4.4.1(supports-color@5.5.0)
       prosemirror-commands: 1.7.1
