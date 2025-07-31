@@ -8,7 +8,7 @@ Manuscripts is highly modular: it is composed out of a series of NPM published m
 
 ### Data model
 
-- [@manuscripts/manuscripts-json-schema](https://www.npmjs.com/package/@manuscripts/manuscripts-json-schema) (source code at [gitlab.com/mpapp-public/manuscripts-json-schema](https://gitlab.com/mpapp-public/manuscripts-json-schema)): a JSON schema describing the application's data model used in this and other manuscripts.io based applications, plus browser, Node.js and [Couchbase Sync Gateway](https://github.com/couchbase/sync_gateway) executable validator functions.
+- [@manuscripts/manuscripts-json-schema](https://www.npmjs.com/package/@manuscripts/manuscripts-json-schema) (source code at [gitlab.com/mpapp-public/manuscripts-json-schema](https://gitlab.com/mpapp-public/manuscripts-json-schema)): a JSON schema describing the application's data model usaed in this and other manuscripts.io based applications, plus browser, Node.js and [Couchbase Sync Gateway](https://github.com/couchbase/sync_gateway) executable validator functions.
 - [@manuscripts/manuscripts-json-schema-utils](https://www.npmjs.com/package/@manuscripts/manuscripts-json-schema-utils) (source at [gitlab.com/mpapp-public/manuscripts-json-schema-utils/](https://gitlab.com/mpapp-public/manuscripts-json-schema-utils/)): a set of utility functions for working with [Manuscripts JSON schema](https://gitlab.com/mpapp-public/manuscripts-json-schema) formatted data.
 
 ### Data synchronisation
