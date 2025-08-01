@@ -20,6 +20,7 @@ module.exports = {
     '!src/lib/fonts.ts',
     '!src/lib/service-worker.ts',
   ],
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
   coverageReporters: ['text-summary'],
   coverageThreshold: {
     global: {
