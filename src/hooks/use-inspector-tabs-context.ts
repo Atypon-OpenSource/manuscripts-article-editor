@@ -22,6 +22,7 @@ export enum InspectorPrimaryTabs {
   Comments = 0,
   History = 1,
   Files = 2,
+  Quality = 3,
 }
 export enum InspectorSecondaryTabsFiles {
   SupplementsFiles = 2,

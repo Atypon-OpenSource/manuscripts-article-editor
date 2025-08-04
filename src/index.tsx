@@ -19,6 +19,7 @@ import { ManuscriptsEditorConfig, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
+export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export { getUserRole } from './lib/roles'
@@ -36,7 +37,6 @@ const ManuscriptEditor: React.FC<
   getAuthToken,
   config,
   observer,
-  submissionID,
 }) => {
   setConfig(config)
   return (
@@ -53,7 +53,6 @@ const ManuscriptEditor: React.FC<
             permittedActions={permittedActions}
             getAuthToken={getAuthToken}
             observer={observer}
-            submissionID={submissionID}
           />
         </Suspense>
       </ThemeProvider>

@@ -10,9 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 import {
   BookIcon,
   ChatIcon,
+  DangerIcon,
   ManuscriptIcon,
   usePermissions,
 } from '@manuscripts/style-guide'
@@ -23,14 +25,17 @@ import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import { FileManager } from '../FileManager/FileManager'
 import {
+  IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
   InspectorTabs,
   PaddedInspectorTabPanels,
   PrimaryTabList,
   Spacer,
+  WarningBadge,
 } from '../Inspector'
 import { InspectorTab } from '../inspector/InspectorTab'
+import { IssuesPanel } from '../inspector/IssuesPanel'
 import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
@@ -43,6 +48,8 @@ const Inspector: React.FC = () => {
     selectedSuggestionID: store.selectedSuggestionID,
     inspectorOpenTabs: store.inspectorOpenTabs,
     isViewingMode: store.isViewingMode,
+    view: store.view,
+    inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
   }))
 
@@ -57,6 +64,7 @@ const Inspector: React.FC = () => {
   const COMMENTS_TAB_INDEX = index++
   const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
+  const ISSUES_TAB_INDEX = index++
 
   useEffect(() => {
     if (comment) {
@@ -65,17 +73,27 @@ const Inspector: React.FC = () => {
   }, [comment, COMMENTS_TAB_INDEX])
 
   useEffect(() => {
-    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
-      setTabIndex(FILES_TAB_INDEX)
-    }
-  }, [inspectorOpenTabs, FILES_TAB_INDEX])
-
-  useEffect(() => {
     if (suggestion) {
       setTabIndex(HISTORY_TAB_INDEX)
     }
   }, [suggestion, HISTORY_TAB_INDEX])
 
+  useEffect(() => {
+    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
+      setTabIndex(FILES_TAB_INDEX)
+    } else if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Quality) {
+      setTabIndex(ISSUES_TAB_INDEX)
+    }
+  }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
+
+  // Effect to control warning decorations visibility
+  useEffect(() => {
+    if (store.view) {
+      const tr = store.view.state.tr
+      tr.setMeta(detectInconsistencyPluginKey, tabIndex === ISSUES_TAB_INDEX)
+      store.view.dispatch(tr)
+    }
+  }, [tabIndex, ISSUES_TAB_INDEX, store.view])
   if (store.isComparingMode) {
     return (
       <Panel
@@ -131,6 +149,22 @@ const Inspector: React.FC = () => {
               >
                 Files
               </InspectorTab>
+              <InspectorTab
+                cy="issues-button"
+                icon={
+                  <IconWrapper>
+                    <DangerIcon />
+                    {store.inconsistencies.length > 0 && (
+                      <WarningBadge>
+                        {store.inconsistencies.length}
+                      </WarningBadge>
+                    )}
+                  </IconWrapper>
+                }
+                isVisible={tabIndex === ISSUES_TAB_INDEX}
+              >
+                Quality
+              </InspectorTab>
               <Spacer />
               <VersionHistoryDropdown />
             </PrimaryTabList>
@@ -149,6 +183,9 @@ const Inspector: React.FC = () => {
               )}
               <InspectorTabPanel key="Files" data-cy="files">
                 {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
+              </InspectorTabPanel>
+              <InspectorTabPanel key="Issues" data-cy="issues">
+                {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}
               </InspectorTabPanel>
             </PaddedInspectorTabPanels>
           </InspectorTabs>
