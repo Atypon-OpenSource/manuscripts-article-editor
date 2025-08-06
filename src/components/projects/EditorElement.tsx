@@ -13,6 +13,7 @@ import {
   FileAttachment,
   findParentElement,
   getMatchingChild,
+  getMediaTypeInfo,
   useEditor,
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
@@ -61,6 +62,7 @@ const EditorElement: React.FC = () => {
         }
 
         const resolvedPos = view.state.doc.resolve(docPos.pos)
+        const mediaInfo = getMediaTypeInfo(file.name)
         const attrs: Record<string, unknown> = {
           src: file.id,
         }
@@ -91,6 +93,8 @@ const EditorElement: React.FC = () => {
             const media = targetNode as EmbedNode
             setNodeAttrs(view.state, dispatch, media.attrs.id, {
               href: file.id,
+              mimetype: mediaInfo.mimetype,
+              mimeSubtype: mediaInfo.mimeSubtype,
             })
             break
           }
@@ -101,6 +105,8 @@ const EditorElement: React.FC = () => {
               const media = mediaNodeWithPos.node as EmbedNode
               setNodeAttrs(view.state, dispatch, media.attrs.id, {
                 href: file.id,
+                mimetype: mediaInfo.mimetype,
+                mimeSubtype: mediaInfo.mimeSubtype,
               })
             } else {
               addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
