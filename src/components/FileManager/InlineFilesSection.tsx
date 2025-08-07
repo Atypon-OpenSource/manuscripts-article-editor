@@ -9,11 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { ElementFiles, NodeFile } from '@manuscripts/body-editor'
+import {
+  ElementFiles,
+  getMediaTypeInfo,
+  NodeFile,
+} from '@manuscripts/body-editor'
 import {
   FileFigureIcon,
   FileGraphicalAbstractIcon,
   FileImageIcon,
+  FileVideoIcon,
   Tooltip,
   TriangleCollapsedIcon,
   TriangleExpandedIcon,
@@ -81,6 +86,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       } else if (element.node.type === schema.nodes.image_element) {
         label = `Image ${imageIndex++}`
         icon = FileImageIcon
+      } else if (element.node.type === schema.nodes.embed) {
+        label = `Media ${figureIndex++}`
+        icon = FileVideoIcon
       } else {
         label = `Figure ${figureIndex++}`
         icon = FileFigureIcon
@@ -139,7 +147,16 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       return
     }
     const tr = view.state.tr
-    tr.setNodeAttribute(pos, 'src', '')
+    const node = tr.doc.nodeAt(pos)
+
+    if (node) {
+      if (node.type === schema.nodes.embed) {
+        tr.setNodeAttribute(pos, 'href', '')
+      } else {
+        tr.setNodeAttribute(pos, 'src', '')
+      }
+    }
+
     tr.setSelection(NodeSelection.create(tr.doc, pos))
     tr.scrollIntoView()
     view.focus()
@@ -152,7 +169,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     }
 
     const node = view.state.doc.nodeAt(pos)
-    if (node?.type === schema.nodes.figure) {
+    if (
+      node?.type === schema.nodes.figure ||
+      node?.type === schema.nodes.embed
+    ) {
       const tr = view.state.tr
       tr.delete(pos, pos + node.nodeSize)
       view.dispatch(tr)
@@ -165,7 +185,19 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     }
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
-    tr.setNodeAttribute(pos, 'src', uploaded.id)
+    const node = tr.doc.nodeAt(pos)
+
+    if (node) {
+      if (node.type === schema.nodes.embed) {
+        const mediaInfo = getMediaTypeInfo(file)
+        tr.setNodeAttribute(pos, 'href', uploaded.id)
+        tr.setNodeAttribute(pos, 'mimetype', mediaInfo.mimetype)
+        tr.setNodeAttribute(pos, 'mimeSubtype', mediaInfo.mimeSubtype)
+      } else {
+        tr.setNodeAttribute(pos, 'src', uploaded.id)
+      }
+    }
+
     tr.setSelection(NodeSelection.create(tr.doc, pos))
     tr.scrollIntoView()
     view.focus()
