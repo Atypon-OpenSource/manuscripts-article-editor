@@ -26,7 +26,11 @@ import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
-import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
+import {
+  FileSectionAlert,
+  FileSectionAlertType,
+  setUploadProgressAlert,
+} from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 export type SupplementsSectionProps = {

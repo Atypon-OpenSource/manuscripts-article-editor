@@ -18,8 +18,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { FileContainer } from './FileContainer'
-import { FileNameText } from './FileName'
 import { FileSectionType } from './FileManager'
+import { FileNameText } from './FileName'
 
 export enum FileSectionAlertType {
   NONE,

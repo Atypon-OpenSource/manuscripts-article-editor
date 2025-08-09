@@ -25,7 +25,11 @@ import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
 import { FileSectionType } from './FileManager'
 import { FileName } from './FileName'
-import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
+import {
+  FileSectionAlert,
+  FileSectionAlertType,
+  setUploadProgressAlert,
+} from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 const MainDocumentTitle = styled.div`
@@ -38,17 +42,6 @@ const MainDocumentTitle = styled.div`
   gap: 12px;
   position: relative;
 `
-
-export const setUploadProgressAlert =
-  (setAlert: (t: { type: FileSectionAlertType; message: string }) => void) =>
-  (percentage: number) => {
-    if (percentage < 99) {
-      setAlert({
-        type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
-        message: FileSectionType.MainFile + ` ${percentage}%`,
-      })
-    }
-  }
 
 export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
   mainDocument,
