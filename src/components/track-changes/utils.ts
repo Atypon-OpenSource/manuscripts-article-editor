@@ -30,7 +30,7 @@ export const setSelectedSuggestion = (
   const state = editor.state
   const view = editor.view
   const tr = state.tr
-  if (suggestions[0].dataTracked.operation === 'structure') {
+  if (suggestions[0].dataTracked.operation === CHANGE_OPERATION.structure) {
     tr.setSelection(
       new NodesSelection(
         state.doc.resolve(suggestions[0].from),
