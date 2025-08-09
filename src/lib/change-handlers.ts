@@ -16,6 +16,7 @@ import {
   ContributorAttrs,
 } from '@manuscripts/body-editor'
 import {
+  CHANGE_OPERATION,
   ChangeSet,
   NodeAttrChange,
   NodeChange,
@@ -28,7 +29,6 @@ import {
   nodeNames,
   schema,
 } from '@manuscripts/transform'
-import { escape } from 'lodash'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
@@ -91,6 +91,14 @@ export const handleNodeChange = (
   const operation = changeOperationAlias(dataTracked.operation)
   const nodeName = nodeNames.get(node.type) || node.type.name
   const parentNode = getParentNode(state, suggestion.from)!
+
+  if (dataTracked.operation === CHANGE_OPERATION.structure) {
+    return {
+      operation,
+      nodeName,
+      content: nodeContentRetriever.getFirstChildContent(node),
+    }
+  }
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
@@ -265,7 +273,11 @@ export const handleGroupChanges = (
 
   return {
     operation: changeOperationAlias(dataTracked.operation),
-    nodeName: titleNodeName || 'Text',
+    nodeName:
+      titleNodeName ||
+      (suggestions[0].type === 'node-change' &&
+        processed[0].result?.nodeName) ||
+      'Text',
     content,
   }
 }
@@ -289,6 +301,9 @@ export const changeOperationAlias = (operation: string): string => {
     }
     case 'set_attrs': {
       return 'Updated'
+    }
+    case 'structure': {
+      return 'Convert To'
     }
     case 'node_split': {
       return 'Split'
