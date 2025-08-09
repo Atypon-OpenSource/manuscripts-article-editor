@@ -97,7 +97,7 @@ export const handleNodeChange = (
     return {
       operation,
       nodeName,
-      content: nodeContentRetriever.getFirstChildContent(node),
+      content: nodeContentRetriever.getFirstChildContent(node) + ' ',
     }
   }
 
