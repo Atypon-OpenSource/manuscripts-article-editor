@@ -60,7 +60,10 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    const uploaded = await fileManagement.upload(file)
+    const uploaded = await fileManagement.upload(
+      file,
+      setUploadProgressAlert(setAlert, FileSectionType.Supplements)
+    )
     setAlert({
       type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
       message: '',

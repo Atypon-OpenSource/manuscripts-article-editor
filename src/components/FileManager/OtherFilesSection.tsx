@@ -55,7 +55,10 @@ export const OtherFilesSection: React.FC<{
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    await fileManagement.upload(file)
+    await fileManagement.upload(
+      file,
+      setUploadProgressAlert(setAlert, FileSectionType.OtherFile)
+    )
     setAlert({
       type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
       message: '',

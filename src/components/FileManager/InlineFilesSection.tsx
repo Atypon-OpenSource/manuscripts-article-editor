@@ -163,7 +163,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     if (!pos || !file) {
       return
     }
-    const uploaded = await fileManagement.upload(file)
+    const uploaded = await fileManagement.upload(
+      file,
+      setUploadProgressAlert(setAlert, FileSectionType.Inline)
+    )
     const tr = view.state.tr
     tr.setNodeAttribute(pos, 'src', uploaded.id)
     tr.setSelection(NodeSelection.create(tr.doc, pos))
