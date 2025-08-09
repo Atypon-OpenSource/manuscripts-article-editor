@@ -29,6 +29,7 @@ import {
   nodeNames,
   schema,
 } from '@manuscripts/transform'
+import { escape } from 'lodash'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
