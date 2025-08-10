@@ -199,7 +199,6 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
 
 export default DocumentLanguageSelector
 
-// Styled components remain exactly the same as in your original code
 const Container = styled.div`
   position: relative;
 `

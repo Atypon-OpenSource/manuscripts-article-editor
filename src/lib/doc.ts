@@ -84,10 +84,8 @@ export const setManuscriptPrimaryLanguageCode = (
     const tr = state.tr
 
     if (state.doc.type === schema.nodes.manuscript) {
-      // Use setDocAttribute to update the document-level attributes
       tr.setDocAttribute('primaryLanguageCode', languageCode)
 
-      // Dispatch the transaction to trigger the save mechanism
       dispatch(tr)
 
       return true
