@@ -78,6 +78,7 @@ export type state = {
 
   cslLocale?: string
   cslStyle?: string
+  documentLanguage?: string
   hasPendingSuggestions?: boolean
   inconsistencies?: Inconsistency[]
   sectionCategories: Map<string, SectionCategory>

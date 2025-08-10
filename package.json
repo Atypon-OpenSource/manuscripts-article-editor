@@ -28,6 +28,7 @@
     "unlink-all": "rm pnpm-workspace.yaml && pnpm install"
   },
   "dependencies": {
+    "@cospired/i18n-iso-languages": "^4.2.0",
     "@fontsource/lato": "5.2.5",
     "@fontsource/pt-sans": "5.2.5",
     "@fontsource/pt-serif": "5.2.5",

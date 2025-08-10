@@ -1,0 +1,172 @@
+/*!
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ *
+ * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ *
+ * The Original Code is manuscripts-frontend.
+ *
+ * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ *
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
+ */
+
+import {
+  DotsIcon,
+  DropdownContainer,
+  DropdownList,
+  useDropdown,
+} from '@manuscripts/style-guide'
+import {
+  TrackChangesStatus,
+  trackCommands,
+} from '@manuscripts/track-changes-plugin'
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
+
+import useExecCmd from '../hooks/use-exec-cmd'
+import { setManuscriptPrimaryLanguageCode } from '../lib/doc'
+import { useStore } from '../store/useStore'
+import DocumentLanguageSelector from './DocumentLanguageSelector'
+
+const DocumentOptionsDropdown: React.FC = () => {
+  const { isOpen, toggleOpen, wrapperRef } = useDropdown()
+  const execCmd = useExecCmd()
+
+  const [storeState, dispatch, getState] = useStore((s) => ({
+    documentLanguage: s.documentLanguage,
+    doc: s.doc,
+  }))
+
+  // Initialize documentLanguage from document's primaryLanguageCode when component loads
+  useEffect(() => {
+    if (storeState.doc && !storeState.documentLanguage) {
+      const documentLanguage = storeState.doc.attrs?.primaryLanguageCode || 'en'
+      console.log('🔧 Initializing documentLanguage from document:', documentLanguage)
+      dispatch({ documentLanguage })
+    }
+  }, [storeState.doc, storeState.documentLanguage, dispatch])
+
+  // Get selected language from store, document's primaryLanguageCode, or default to 'en'
+  const selectedLanguage =
+    storeState.documentLanguage ||
+    storeState.doc?.attrs?.primaryLanguageCode ||
+    'en'
+
+  console.log('Current selected language:', selectedLanguage)
+  console.log(' Store documentLanguage:', storeState.documentLanguage)
+  console.log(' Document primaryLanguageCode:', storeState.doc?.attrs?.primaryLanguageCode)
+
+  const handleLanguageChange = async (languageCode: string) => {
+    console.log('Language changed to:', languageCode)
+    console.log('Document state BEFORE update:', storeState.doc?.attrs)
+    
+    // Update the store with the new language
+    dispatch({ documentLanguage: languageCode })
+
+    // Update the manuscript node's primaryLanguageCode attribute
+    const currentState = getState()
+    if (currentState.view && currentState.doc) {
+      // Try to update the document directly in the store
+      const updatedDoc = currentState.doc.type.create(
+        { ...currentState.doc.attrs, primaryLanguageCode: languageCode },
+        currentState.doc.content,
+        currentState.doc.marks
+      )
+
+      // Update the document in the store
+      dispatch({ doc: updatedDoc })
+      
+      console.log('🔧 Successfully updated document in store')
+      console.log('🔧 New document attrs:', updatedDoc.attrs)
+
+      // Also try the ProseMirror update as a backup
+      const success = setManuscriptPrimaryLanguageCode(
+        currentState.view,
+        languageCode
+      )
+      if (!success) {
+        console.log('🔧 ProseMirror update failed, but store update succeeded')
+      }
+      
+      // Check the document state after a brief delay to see if it was updated
+      setTimeout(() => {
+        const updatedState = getState()
+        console.log('🔧 Document state AFTER update:', updatedState.doc?.attrs)
+        console.log('🔧 Document primaryLanguageCode after update:', updatedState.doc?.attrs?.primaryLanguageCode)
+        console.log('🔧 Store documentLanguage after update:', updatedState.documentLanguage)
+      }, 100)
+    } else {
+      console.error('Editor view or document not available')
+    }
+  }
+
+  return (
+    <DropdownContainer ref={wrapperRef}>
+      <ToggleDropdownButton
+        data-cy="document-options-button"
+        title="Document Options"
+        onClick={toggleOpen}
+      >
+        <DotsIcon />
+      </ToggleDropdownButton>
+
+      {isOpen && (
+        <HistoryDropdownList
+          data-cy="document-options-dropdown"
+          direction="right"
+          width={192}
+          top={5}
+          onClick={toggleOpen}
+        >
+          <DropdownItem
+            onClick={() =>
+              execCmd(
+                trackCommands.setTrackingStatus(
+                  TrackChangesStatus.viewSnapshots
+                )
+              )
+            }
+          >
+            Version history
+          </DropdownItem>
+          <DocumentLanguageSelector
+            selectedLanguage={selectedLanguage}
+            onLanguageChange={handleLanguageChange}
+            onCloseParent={toggleOpen}
+          />
+        </HistoryDropdownList>
+      )}
+    </DropdownContainer>
+  )
+}
+
+export default DocumentOptionsDropdown
+
+const ToggleDropdownButton = styled.button`
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px 16px;
+  &:focus {
+    outline: none;
+  }
+`
+
+const DropdownItem = styled.div`
+  font-family: ${(props) => props.theme.font.family.Lato};
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${(props) => props.theme.colors.text.primary};
+  padding: 16px;
+
+  &:hover {
+    background: ${(props) => props.theme.colors.background.fifth};
+  }
+`
+
+const HistoryDropdownList = styled(DropdownList)`
+  top: 0;
+  right: 50%;
+  border-radius: 8px;
+`
