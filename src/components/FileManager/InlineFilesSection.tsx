@@ -23,7 +23,7 @@ import {
   TriangleCollapsedIcon,
   TriangleExpandedIcon,
 } from '@manuscripts/style-guide'
-import { schema } from '@manuscripts/transform'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo, useState } from 'react'
@@ -142,19 +142,16 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     view.dispatch(tr)
   }
 
-  const handleDetach = (pos?: number) => {
+  const handleDetach = (node: ManuscriptNode, pos?: number) => {
     if (!pos) {
       return
     }
     const tr = view.state.tr
-    const node = tr.doc.nodeAt(pos)
 
-    if (node) {
-      if (node.type === schema.nodes.embed) {
-        tr.setNodeAttribute(pos, 'href', '')
-      } else {
-        tr.setNodeAttribute(pos, 'src', '')
-      }
+    if (node.type === schema.nodes.embed) {
+      tr.setNodeAttribute(pos, 'href', '')
+    } else {
+      tr.setNodeAttribute(pos, 'src', '')
     }
 
     tr.setSelection(NodeSelection.create(tr.doc, pos))
@@ -163,12 +160,11 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     view.dispatch(tr)
   }
 
-  const handleDelete = (pos?: number) => {
+  const handleDelete = (node: ManuscriptNode, pos?: number) => {
     if (!pos || !view) {
       return
     }
 
-    const node = view.state.doc.nodeAt(pos)
     if (
       node?.type === schema.nodes.figure ||
       node?.type === schema.nodes.embed
@@ -179,23 +175,24 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     }
   }
 
-  const handleReplace = async (pos?: number, file?: File) => {
+  const handleReplace = async (
+    node: ManuscriptNode,
+    pos?: number,
+    file?: File
+  ) => {
     if (!pos || !file) {
       return
     }
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
-    const node = tr.doc.nodeAt(pos)
 
-    if (node) {
-      if (node.type === schema.nodes.embed) {
-        const mediaInfo = getMediaTypeInfo(file)
-        tr.setNodeAttribute(pos, 'href', uploaded.id)
-        tr.setNodeAttribute(pos, 'mimetype', mediaInfo.mimetype)
-        tr.setNodeAttribute(pos, 'mimeSubtype', mediaInfo.mimeSubtype)
-      } else {
-        tr.setNodeAttribute(pos, 'src', uploaded.id)
-      }
+    if (node.type === schema.nodes.embed) {
+      const mediaInfo = getMediaTypeInfo(file)
+      tr.setNodeAttribute(pos, 'href', uploaded.id)
+      tr.setNodeAttribute(pos, 'mimetype', mediaInfo.mimetype)
+      tr.setNodeAttribute(pos, 'mimeSubtype', mediaInfo.mimeSubtype)
+    } else {
+      tr.setNodeAttribute(pos, 'src', uploaded.id)
     }
 
     tr.setSelection(NodeSelection.create(tr.doc, pos))
@@ -271,16 +268,26 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     <FileActions
                       sectionType={FileSectionType.Inline}
                       onReplace={async (f) =>
-                        await handleReplace(fileAttachment.pos, f)
+                        await handleReplace(
+                          fileAttachment.node,
+                          fileAttachment.pos,
+                          f
+                        )
                       }
-                      onDetach={() => handleDetach(fileAttachment.pos)}
+                      onDetach={() =>
+                        handleDetach(fileAttachment.node, fileAttachment.pos)
+                      }
                       onDownload={() =>
                         fileAttachment.file &&
                         fileManagement.download(fileAttachment.file)
                       }
                       onDelete={
                         figureCount > 1
-                          ? () => handleDelete(fileAttachment.pos)
+                          ? () =>
+                              handleDelete(
+                                fileAttachment.node,
+                                fileAttachment.pos
+                              )
                           : undefined
                       }
                     />
