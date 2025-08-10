@@ -210,11 +210,11 @@ const LanguageSelectorButton = styled.div`
   justify-content: space-between;
   font-family: ${(props) => props.theme.font.family.Lato};
   cursor: pointer;
-  font-size: 14px; // User changed
+  font-size: 14px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
-  padding: 10px 16px; // User changed
-  width: 100%; // User changed
+  padding: 10px 16px;
+  width: 100%;
 
   &:hover {
     background: ${(props) => props.theme.colors.background.fifth};
@@ -260,16 +260,15 @@ const LanguageSubmenu = styled.div`
 `
 
 const LanguageOption = styled.div<{ $isSelected: boolean }>`
-  // User changed prop name
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: ${(props) => props.theme.font.family.Lato};
   cursor: pointer;
-  font-size: 14px; // User changed
+  font-size: 14px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
-  padding: 10px 16px; // User changed
+  padding: 10px 16px;
 
   &:hover {
     background: ${(props) => props.theme.colors.background.fifth};

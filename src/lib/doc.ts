@@ -24,7 +24,6 @@ export type ManuscriptSnapshot = {
   name: string
   snapshot: PMDoc
   createdAt: string
-  updatedAt: string
 }
 
 export type ManuscriptDoc = {

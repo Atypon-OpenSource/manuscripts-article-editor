@@ -24,9 +24,9 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
-import { setManuscriptPrimaryLanguageCode } from '../lib/doc'
 import { useStore } from '../store/useStore'
 import DocumentLanguageSelector from './DocumentLanguageSelector'
+import { setManuscriptPrimaryLanguageCode } from '../lib/doc'
 
 const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
@@ -57,25 +57,8 @@ const DocumentOptionsDropdown: React.FC = () => {
 
     // Update the manuscript node's primaryLanguageCode attribute
     const currentState = getState()
-    if (currentState.view && currentState.doc) {
-      // Try to update the document directly in the store
-      const updatedDoc = currentState.doc.type.create(
-        { ...currentState.doc.attrs, primaryLanguageCode: languageCode },
-        currentState.doc.content,
-        currentState.doc.marks
-      )
-
-      // Update the document in the store
-      dispatch({ doc: updatedDoc })
-
-      // Also try the ProseMirror update as a backup
-      const success = setManuscriptPrimaryLanguageCode(
-        currentState.view,
-        languageCode
-      )
-      if (!success) {
-        // ProseMirror update failed, but store update succeeded
-      }
+    if (currentState.view) {
+      setManuscriptPrimaryLanguageCode(currentState.view, languageCode)
     }
   }
 
