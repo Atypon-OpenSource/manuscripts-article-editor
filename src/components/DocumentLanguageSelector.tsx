@@ -12,7 +12,12 @@
 
 import isoLanguages from '@cospired/i18n-iso-languages'
 import englishLanguageData from '@cospired/i18n-iso-languages/langs/en.json'
-import { TickIcon, TriangleCollapsedIcon } from '@manuscripts/style-guide'
+import {
+  DropdownContainer,
+  DropdownList,
+  TickIcon,
+  TriangleCollapsedIcon,
+} from '@manuscripts/style-guide'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -134,7 +139,7 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
   }
 
   return (
-    <Container ref={submenuRef}>
+    <DropdownContainer ref={submenuRef}>
       <LanguageSelectorButton onClick={handleLanguageButtonClick}>
         <LanguageHeader>
           <LanguageLabel>
@@ -147,7 +152,7 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
       </LanguageSelectorButton>
 
       {isSubmenuOpen && (
-        <LanguageSubmenu>
+        <StyledDropdownList direction="right" width={231} top={18} height={400}>
           {/* Common languages section */}
           {languageOptions.filter((lang) => lang.isCommon).length > 0 && (
             <>
@@ -159,7 +164,6 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
                     onClick={(event) =>
                       handleLanguageSelect(event, language.code)
                     }
-                    $isSelected={selectedLanguage === language.code}
                   >
                     {language.name}
                     {language.nativeName && ` (${language.nativeName})`}
@@ -180,7 +184,6 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
               <LanguageOption
                 key={language.code}
                 onClick={(event) => handleLanguageSelect(event, language.code)}
-                $isSelected={selectedLanguage === language.code}
               >
                 {language.name}
                 {language.nativeName && ` (${language.nativeName})`}
@@ -191,16 +194,37 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
                 )}
               </LanguageOption>
             ))}
-        </LanguageSubmenu>
+        </StyledDropdownList>
       )}
-    </Container>
+    </DropdownContainer>
   )
 }
 
 export default DocumentLanguageSelector
 
-const Container = styled.div`
-  position: relative;
+const StyledDropdownList = styled(DropdownList)`
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 8px;
+
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${(props) => props.theme.colors.background.secondary};
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #6e6e6e;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #6e6e6e;
+  }
 `
 
 const LanguageSelectorButton = styled.div`
@@ -243,22 +267,7 @@ const SelectedLanguageText = styled.span`
   margin-top: 2px;
 `
 
-const LanguageSubmenu = styled.div`
-  position: absolute;
-  top: 71px;
-  right: 0;
-  background: ${(props) => props.theme.colors.background.primary};
-  border: 1px solid ${(props) => props.theme.colors.border.secondary};
-  border-radius: 8px;
-  box-shadow: ${(props) => props.theme.shadow.dropShadow};
-  min-width: 231px;
-  z-index: 9999;
-  max-height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
-`
-
-const LanguageOption = styled.div<{ $isSelected: boolean }>`
+const LanguageOption = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -268,20 +277,10 @@ const LanguageOption = styled.div<{ $isSelected: boolean }>`
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
   padding: 10px 16px;
-
-  &:hover {
-    background: ${(props) => props.theme.colors.background.fifth};
-  }
-
-  ${(props) =>
-    props.$isSelected &&
-    `
-    background: ${props.theme.colors.background.fifth};
-  `}
 `
 
 const TickIconWrapper = styled.div`
   svg path {
-    fill: #e6e6e;
+    fill: #6e6e6e;
   }
 `
