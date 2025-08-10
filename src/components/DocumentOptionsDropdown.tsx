@@ -20,42 +20,26 @@ import {
   TrackChangesStatus,
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
+import { setManuscriptPrimaryLanguageCode } from '../lib/doc'
 import { useStore } from '../store/useStore'
 import DocumentLanguageSelector from './DocumentLanguageSelector'
-import { setManuscriptPrimaryLanguageCode } from '../lib/doc'
 
 const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
 
-  const [storeState, dispatch, getState] = useStore((s) => ({
-    documentLanguage: s.documentLanguage,
+  const [storeState, , getState] = useStore((s) => ({
     doc: s.doc,
   }))
 
-  // Initialize documentLanguage from document's primaryLanguageCode when component loads
-  useEffect(() => {
-    if (storeState.doc && !storeState.documentLanguage) {
-      const documentLanguage = storeState.doc.attrs?.primaryLanguageCode || 'en'
-      dispatch({ documentLanguage })
-    }
-  }, [storeState.doc, storeState.documentLanguage, dispatch])
-
-  // Get selected language from store, document's primaryLanguageCode, or default to 'en'
-  const selectedLanguage =
-    storeState.documentLanguage ||
-    storeState.doc?.attrs?.primaryLanguageCode ||
-    'en'
+  // Get selected language from document's primaryLanguageCode or default to 'en'
+  const selectedLanguage = storeState.doc?.attrs?.primaryLanguageCode || 'en'
 
   const handleLanguageChange = async (languageCode: string) => {
-    // Update the store with the new language
-    dispatch({ documentLanguage: languageCode })
-
-    // Update the manuscript node's primaryLanguageCode attribute
     const currentState = getState()
     if (currentState.view) {
       setManuscriptPrimaryLanguageCode(currentState.view, languageCode)
