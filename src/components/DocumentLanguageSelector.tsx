@@ -246,17 +246,17 @@ const SelectedLanguageText = styled.span`
 
 const LanguageSubmenu = styled.div`
   position: absolute;
-  top: 83px; // User changed
+  top: 71px;
   right: 0;
   background: ${(props) => props.theme.colors.background.primary};
   border: 1px solid ${(props) => props.theme.colors.border.secondary};
-  border-radius: 8px; // User changed
+  border-radius: 8px;
   box-shadow: ${(props) => props.theme.shadow.dropShadow};
-  min-width: 231px; // User changed
+  min-width: 231px;
   z-index: 9999;
   max-height: 400px;
   overflow-y: auto;
-  overflow-x: hidden; // User changed
+  overflow-x: hidden;
 `
 
 const LanguageOption = styled.div<{ $isSelected: boolean }>`

@@ -41,7 +41,6 @@ const DocumentOptionsDropdown: React.FC = () => {
   useEffect(() => {
     if (storeState.doc && !storeState.documentLanguage) {
       const documentLanguage = storeState.doc.attrs?.primaryLanguageCode || 'en'
-      console.log('🔧 Initializing documentLanguage from document:', documentLanguage)
       dispatch({ documentLanguage })
     }
   }, [storeState.doc, storeState.documentLanguage, dispatch])
@@ -52,14 +51,7 @@ const DocumentOptionsDropdown: React.FC = () => {
     storeState.doc?.attrs?.primaryLanguageCode ||
     'en'
 
-  console.log('Current selected language:', selectedLanguage)
-  console.log(' Store documentLanguage:', storeState.documentLanguage)
-  console.log(' Document primaryLanguageCode:', storeState.doc?.attrs?.primaryLanguageCode)
-
   const handleLanguageChange = async (languageCode: string) => {
-    console.log('Language changed to:', languageCode)
-    console.log('Document state BEFORE update:', storeState.doc?.attrs)
-    
     // Update the store with the new language
     dispatch({ documentLanguage: languageCode })
 
@@ -75,9 +67,6 @@ const DocumentOptionsDropdown: React.FC = () => {
 
       // Update the document in the store
       dispatch({ doc: updatedDoc })
-      
-      console.log('🔧 Successfully updated document in store')
-      console.log('🔧 New document attrs:', updatedDoc.attrs)
 
       // Also try the ProseMirror update as a backup
       const success = setManuscriptPrimaryLanguageCode(
@@ -85,18 +74,8 @@ const DocumentOptionsDropdown: React.FC = () => {
         languageCode
       )
       if (!success) {
-        console.log('🔧 ProseMirror update failed, but store update succeeded')
+        // ProseMirror update failed, but store update succeeded
       }
-      
-      // Check the document state after a brief delay to see if it was updated
-      setTimeout(() => {
-        const updatedState = getState()
-        console.log('🔧 Document state AFTER update:', updatedState.doc?.attrs)
-        console.log('🔧 Document primaryLanguageCode after update:', updatedState.doc?.attrs?.primaryLanguageCode)
-        console.log('🔧 Store documentLanguage after update:', updatedState.documentLanguage)
-      }, 100)
-    } else {
-      console.error('Editor view or document not available')
     }
   }
 
