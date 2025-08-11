@@ -31,6 +31,7 @@ import {
   schema,
 } from '@manuscripts/transform'
 import { escape } from 'lodash'
+import { findChildrenByType } from 'prosemirror-utils'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
@@ -64,36 +65,50 @@ const getTitleDisplayName = (node: ManuscriptNode): string => {
   return node.type.name
 }
 
-// Helper functions for snippet content extraction
-const getSectionTitle = (sectionNode: ManuscriptNode): string => {
-  return sectionNode.content.firstChild?.textContent || ''
-}
-
-const getFirstParagraph = (sectionNode: ManuscriptNode): string => {
-  return sectionNode.content.child(1)?.textContent || ''
-}
-
-const getFirstChildSectionTitle = (sectionNode: ManuscriptNode): string => {
-  const childSection = sectionNode.content.child(1)
-  return childSection ? getSectionTitle(childSection) : ''
-}
-
 // Handle indentation changes
 const handleIndentationChange = (
-  node: ManuscriptNode,
   dataTracked: NodeMoveAttrs,
-  operation: string
+  operation: string,
+  doc: ManuscriptNode
 ): SnippetData => {
-  const nodeName = dataTracked.indentationNodeType || ''
+  if (!dataTracked.moveNodeId) {
+    return { operation, nodeName: '', content: '' }
+  }
+
+  let foundNode: ManuscriptNode | null = null
+  doc.descendants((n: ManuscriptNode) => {
+    if (foundNode) {
+      return false
+    }
+    const tracked = n.attrs?.dataTracked as TrackedAttrs[] | null
+    if (
+      Array.isArray(tracked) &&
+      tracked.some(
+        (t) =>
+          t.operation === 'delete' && t.moveNodeId === dataTracked.moveNodeId
+      )
+    ) {
+      foundNode = n
+    }
+  })
+
+  if (!foundNode) {
+    return { operation, nodeName: '', content: '' }
+  }
+
+  const nodeType = foundNode ? (foundNode as ManuscriptNode).type : null
+  const nodeName = nodeType ? nodeType.name : ''
   let content = ''
 
-  if (dataTracked.indentationNodeType === 'paragraph') {
-    content = getFirstParagraph(node)
-  } else {
-    // section
-    content = dataTracked.indentationCreatesContainer
-      ? getFirstChildSectionTitle(node)
-      : getSectionTitle(node)
+  // Get content
+  if (nodeType === schema.nodes.section) {
+    const title = findChildrenByType(
+      foundNode as ManuscriptNode,
+      schema.nodes.section_title
+    )[0]
+    content = (title.node as ManuscriptNode).textContent || ''
+  } else if (nodeType === schema.nodes.paragraph) {
+    content = (foundNode as ManuscriptNode).textContent || ''
   }
 
   return { operation, nodeName, content }
@@ -143,9 +158,9 @@ export const handleNodeChange = (
   // Early return for indentation changes
   if (isIndentation(dataTracked)) {
     return handleIndentationChange(
-      node,
       dataTracked as NodeMoveAttrs,
-      operation
+      operation,
+      state.doc
     )
   }
 
