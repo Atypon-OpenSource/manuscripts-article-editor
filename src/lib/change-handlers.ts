@@ -136,7 +136,7 @@ export const handleTextChange = (
     }
   }
   return {
-    operation: changeOperationAlias(dataTracked.operation),
+    operation: changeOperationAlias(dataTracked),
     nodeName: nodeName || suggestion.nodeType.name,
     content: escape(suggestion.text),
   }
@@ -148,10 +148,7 @@ export const handleNodeChange = (
 ): SnippetData | null => {
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
-  const operation = changeOperationAlias(
-    dataTracked.operation,
-    (dataTracked as NodeMoveAttrs).indentationType
-  )
+  const operation = changeOperationAlias(dataTracked)
   const nodeName = nodeNames.get(node.type) || node.type.name
   const parentNode = getParentNode(state, suggestion.from)!
 
@@ -336,7 +333,7 @@ export const handleGroupChanges = (
     .join('')
 
   return {
-    operation: changeOperationAlias(dataTracked.operation),
+    operation: changeOperationAlias(dataTracked),
     nodeName: titleNodeName || 'Text',
     content,
   }
@@ -350,10 +347,8 @@ export const handleUnknownChange = (): SnippetData => {
   }
 }
 
-export const changeOperationAlias = (
-  operation: string,
-  indentationType?: 'indent' | 'unindent'
-): string => {
+export const changeOperationAlias = (dataTracked: TrackedAttrs): string => {
+  const { operation } = dataTracked
   switch (operation) {
     case 'delete': {
       return 'Deleted'
@@ -370,6 +365,7 @@ export const changeOperationAlias = (
     }
     case 'move': {
       // Check for indentation
+      const indentationType = dataTracked.indentationType
       if (indentationType) {
         return indentationType === 'indent' ? 'Indented' : 'Unindented'
       }
