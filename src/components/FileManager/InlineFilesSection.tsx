@@ -70,6 +70,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     }
     let figureIndex = 1
     let imageIndex = 1
+    let mediaIndex = 1
 
     return elements.map((element) => {
       const $pos = view.state.doc.resolve(element.pos)
@@ -87,7 +88,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
         label = `Image ${imageIndex++}`
         icon = FileImageIcon
       } else if (element.node.type === schema.nodes.embed) {
-        label = `Media ${figureIndex++}`
+        label = `Media ${mediaIndex++}`
         icon = FileVideoIcon
       } else {
         label = `Figure ${figureIndex++}`
