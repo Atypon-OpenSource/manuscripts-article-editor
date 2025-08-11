@@ -50,6 +50,14 @@ const NATIVE_NAMES: Record<string, string> = {
 
 const COMMON_LANGUAGES = Object.keys(NATIVE_NAMES)
 
+// Fallback language object for English
+const ENGLISH_FALLBACK: LanguageOption = {
+  code: 'en',
+  name: 'English',
+  nativeName: 'English',
+  isCommon: true,
+}
+
 // Get display name for selected language
 const getSelectedLanguageName = (
   selectedLanguage: string,
@@ -59,12 +67,8 @@ const getSelectedLanguageName = (
     return 'English (Default)'
   }
 
-  const lang = allLanguages.find((l) => l.code === selectedLanguage) || {
-    code: 'en',
-    name: 'English',
-    nativeName: 'English',
-    isCommon: true,
-  }
+  const lang =
+    allLanguages.find((l) => l.code === selectedLanguage) || ENGLISH_FALLBACK
 
   return lang.code === 'en'
     ? 'English (Default)'
@@ -128,14 +132,7 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
       } catch (error) {
         console.error('Failed to load language data:', error)
         // Fallback to English only if loading fails
-        setAllLanguages([
-          {
-            code: 'en',
-            name: 'English',
-            nativeName: 'English',
-            isCommon: true,
-          },
-        ])
+        setAllLanguages([ENGLISH_FALLBACK])
       }
     }
 
