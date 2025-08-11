@@ -35,7 +35,7 @@
     "@manuscripts/body-editor": "3.3.1-LEAN-4582-draft-v2.0",
     "@manuscripts/json-schema": "2.2.12",
     "@manuscripts/style-guide": "3.2.0",
-    "@manuscripts/track-changes-plugin": "2.0.9",
+    "@manuscripts/track-changes-plugin": "2.0.10-LEAN-4582-draft-v2.0",
     "@manuscripts/transform": "4.2.11",
     "@popperjs/core": "2.11.8",
     "date-fns": "4.1.0",
