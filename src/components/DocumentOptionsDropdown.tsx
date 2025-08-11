@@ -24,29 +24,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
-import { useStore } from '../store/useStore'
 import DocumentLanguageSelector from './DocumentLanguageSelector'
 
 const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
-
-  const [storeState] = useStore((s) => ({
-    doc: s.doc,
-    view: s.view,
-  }))
-
-  // Get selected language from document's primaryLanguageCode or default to 'en'
-  const selectedLanguage = storeState.doc?.attrs?.primaryLanguageCode || 'en'
-
-  const handleLanguageChange = async (languageCode: string) => {
-    if (storeState.view) {
-      const { state, dispatch } = storeState.view
-      const tr = state.tr
-      tr.setDocAttribute('primaryLanguageCode', languageCode)
-      dispatch(tr)
-    }
-  }
 
   return (
     <DropdownContainer ref={wrapperRef}>
@@ -77,11 +59,7 @@ const DocumentOptionsDropdown: React.FC = () => {
           >
             Version history
           </DropdownItem>
-          <DocumentLanguageSelector
-            selectedLanguage={selectedLanguage}
-            onLanguageChange={handleLanguageChange}
-            onCloseParent={toggleOpen}
-          />
+          <DocumentLanguageSelector onCloseParent={toggleOpen} />
         </HistoryDropdownList>
       )}
     </DropdownContainer>

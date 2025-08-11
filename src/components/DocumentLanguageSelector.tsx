@@ -21,6 +21,8 @@ import {
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { useStore } from '../store/useStore'
+
 interface LanguageOption {
   code: string
   name: string
@@ -29,8 +31,6 @@ interface LanguageOption {
 }
 
 interface DocumentLanguageSelectorProps {
-  selectedLanguage: string
-  onLanguageChange?: (languageCode: string) => void
   onCloseParent?: () => void
 }
 
@@ -52,10 +52,15 @@ const NATIVE_NAMES: Record<string, string> = {
 const COMMON_LANGUAGES = Object.keys(NATIVE_NAMES)
 
 const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
-  selectedLanguage,
-  onLanguageChange,
   onCloseParent,
 }) => {
+  const [storeState] = useStore((s) => ({
+    doc: s.doc,
+    view: s.view,
+  }))
+
+  // Get selected language from document's primaryLanguageCode or default to 'en'
+  const selectedLanguage = storeState.doc?.attrs?.primaryLanguageCode || 'en'
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false)
   const [allLanguages, setAllLanguages] = useState<LanguageOption[]>([])
   const submenuRef = useRef<HTMLDivElement>(null)
@@ -135,7 +140,12 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
     languageCode: string
   ) => {
     event.stopPropagation()
-    onLanguageChange?.(languageCode)
+    if (storeState.view) {
+      const { state, dispatch } = storeState.view
+      const tr = state.tr
+      tr.setDocAttribute('primaryLanguageCode', languageCode)
+      dispatch(tr)
+    }
   }
 
   return (
