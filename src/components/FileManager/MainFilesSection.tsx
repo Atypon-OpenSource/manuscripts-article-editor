@@ -25,7 +25,11 @@ import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
 import { FileSectionType } from './FileManager'
 import { FileName } from './FileName'
-import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
+import {
+  FileSectionAlert,
+  FileSectionAlertType,
+  setUploadProgressAlert,
+} from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 const MainDocumentTitle = styled.div`
@@ -74,7 +78,10 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    const uploaded = await fileManagement.upload(file)
+    const uploaded = await fileManagement.upload(
+      file,
+      setUploadProgressAlert(setAlert, FileSectionType.MainFile)
+    )
     insertAttachment(uploaded, view.state, 'document', view.dispatch)
     setAlert({
       type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
@@ -101,7 +108,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     view.dispatch(skipTracking(tr))
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
-      message: FileSectionType.OtherFile,
+      message: FileSectionType.MainFile,
     })
   }
 
@@ -120,7 +127,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
             onDownload={handleDownload}
             onReplace={handleReplace}
             move={{
-              sectionType: FileSectionType.OtherFile,
+              sectionType: FileSectionType.MainFile,
               handler: () => handleMove(mainDocument),
             }}
             file={mainDocument.file}
@@ -158,7 +165,10 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
           primary: {
             action: async () => {
               if (fileToUpload) {
-                const uploaded = await fileManagement.upload(fileToUpload)
+                const uploaded = await fileManagement.upload(
+                  fileToUpload,
+                  setUploadProgressAlert(setAlert, FileSectionType.MainFile)
+                )
                 insertAttachment(
                   uploaded,
                   view.state,
