@@ -11,7 +11,6 @@
  */
 
 import isoLanguages from '@cospired/i18n-iso-languages'
-import englishLanguageData from '@cospired/i18n-iso-languages/langs/en.json'
 import {
   DropdownContainer,
   DropdownList,
@@ -51,6 +50,47 @@ const NATIVE_NAMES: Record<string, string> = {
 
 const COMMON_LANGUAGES = Object.keys(NATIVE_NAMES)
 
+// Get display name for selected language
+const getSelectedLanguageName = (
+  selectedLanguage: string,
+  allLanguages: LanguageOption[]
+): string => {
+  if (!allLanguages.length) {
+    return 'English (Default)'
+  }
+
+  const lang =
+    allLanguages.find((l) => l.code === selectedLanguage) ||
+    allLanguages.find((l) => l.code === 'en')
+
+  if (!lang) {
+    return 'English (Default)'
+  }
+
+  return lang.code === 'en'
+    ? 'English (Default)'
+    : `${lang.name}${lang.nativeName ? ` (${lang.nativeName})` : ''}`
+}
+
+const LanguageOptionItem: React.FC<{
+  language: LanguageOption
+  isSelected: boolean
+  onSelect: (event: React.MouseEvent, languageCode: string) => void
+}> = ({ language, isSelected, onSelect }) => (
+  <LanguageOption
+    key={language.code}
+    onClick={(event) => onSelect(event, language.code)}
+  >
+    {language.name}
+    {language.nativeName && ` (${language.nativeName})`}
+    {isSelected && (
+      <TickIconWrapper>
+        <TickIcon />
+      </TickIconWrapper>
+    )}
+  </LanguageOption>
+)
+
 const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
   onCloseParent,
 }) => {
@@ -65,49 +105,54 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
   const [allLanguages, setAllLanguages] = useState<LanguageOption[]>([])
   const submenuRef = useRef<HTMLDivElement>(null)
 
-  // Initialize language data and load all languages
-  useEffect(() => {
-    isoLanguages.registerLocale(englishLanguageData)
+// Initialize language data and load all languages
+useEffect(() => {
+  const loadLanguages = async () => {
+    try {
+      // Dynamically import the English language data
+      const englishLanguageData = await import(
+        '@cospired/i18n-iso-languages/langs/en.json'
+      )
+      isoLanguages.registerLocale(englishLanguageData.default)
 
-    // Get all available language codes
-    const languageCodes = isoLanguages.getAlpha2Codes()
-    const languagesList = Object.keys(languageCodes).map((code) => ({
-      code,
-      name: isoLanguages.getName(code, 'en') || code,
-      nativeName:
-        NATIVE_NAMES[code] || isoLanguages.getName(code, code) || undefined,
-      isCommon: COMMON_LANGUAGES.includes(code),
-    }))
+      // Get all available language codes
+      const languageCodes = isoLanguages.getAlpha2Codes()
+      const languagesList = Object.keys(languageCodes).map((code) => ({
+        code,
+        name: isoLanguages.getName(code, 'en') || code,
+        nativeName:
+          NATIVE_NAMES[code] || isoLanguages.getName(code, code) || undefined,
+        isCommon: COMMON_LANGUAGES.includes(code),
+      }))
 
-    setAllLanguages(languagesList)
-  }, [])
+      setAllLanguages(languagesList)
+    } catch (error) {
+      console.error('Failed to load language data:', error)
+      // Fallback to English only if loading fails
+      setAllLanguages([{
+        code: 'en',
+        name: 'English',
+        nativeName: 'English',
+        isCommon: true
+      }])
+    }
+  }
+
+  loadLanguages()
+}, [])
 
   // Prepare language options with common languages first
   const languageOptions = useMemo(() => {
-    const common = allLanguages.filter((lang) => lang.isCommon)
-    const others = allLanguages.filter((lang) => !lang.isCommon)
-
-    return [...common, ...others]
+    return [...allLanguages].sort((a, b) => {
+      // Sort common languages first
+      if (a.isCommon && !b.isCommon) return -1
+      if (!a.isCommon && b.isCommon) return 1
+      // Then sort alphabetically by name
+      return a.name.localeCompare(b.name)
+    })
   }, [allLanguages])
 
-  // Get display name for selected language
-  const getSelectedLanguageName = () => {
-    if (!allLanguages.length) {
-      return 'English (Default)'
-    }
 
-    const lang =
-      allLanguages.find((l) => l.code === selectedLanguage) ||
-      allLanguages.find((l) => l.code === 'en')
-
-    if (!lang) {
-      return 'English (Default)'
-    }
-
-    return lang.code === 'en'
-      ? 'English (Default)'
-      : `${lang.name}${lang.nativeName ? ` (${lang.nativeName})` : ''}`
-  }
 
   // Close submenu when clicking outside
   useEffect(() => {
@@ -156,54 +201,21 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
             Document language <TriangleCollapsedIcon />
           </LanguageLabel>
           <SelectedLanguageText>
-            {getSelectedLanguageName()}
+            {getSelectedLanguageName(selectedLanguage, allLanguages)}
           </SelectedLanguageText>
         </LanguageHeader>
       </LanguageSelectorButton>
 
       {isSubmenuOpen && (
         <StyledDropdownList direction="right" width={231} top={18} height={400}>
-          {/* Common languages section */}
-          {languageOptions.filter((lang) => lang.isCommon).length > 0 && (
-            <>
-              {languageOptions
-                .filter((lang) => lang.isCommon)
-                .map((language) => (
-                  <LanguageOption
-                    key={language.code}
-                    onClick={(event) =>
-                      handleLanguageSelect(event, language.code)
-                    }
-                  >
-                    {language.name}
-                    {language.nativeName && ` (${language.nativeName})`}
-                    {selectedLanguage === language.code && (
-                      <TickIconWrapper>
-                        <TickIcon />
-                      </TickIconWrapper>
-                    )}
-                  </LanguageOption>
-                ))}
-            </>
-          )}
-
-          {/* All other languages */}
-          {languageOptions
-            .filter((lang) => !lang.isCommon)
-            .map((language) => (
-              <LanguageOption
-                key={language.code}
-                onClick={(event) => handleLanguageSelect(event, language.code)}
-              >
-                {language.name}
-                {language.nativeName && ` (${language.nativeName})`}
-                {selectedLanguage === language.code && (
-                  <TickIconWrapper>
-                    <TickIcon />
-                  </TickIconWrapper>
-                )}
-              </LanguageOption>
-            ))}
+          {languageOptions.map((language) => (
+            <LanguageOptionItem
+              key={language.code}
+              language={language}
+              isSelected={selectedLanguage === language.code}
+              onSelect={handleLanguageSelect}
+            />
+          ))}
         </StyledDropdownList>
       )}
     </DropdownContainer>

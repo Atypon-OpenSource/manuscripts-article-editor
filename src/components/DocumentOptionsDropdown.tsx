@@ -49,6 +49,7 @@ const DocumentOptionsDropdown: React.FC = () => {
           onClick={toggleOpen}
         >
           <DropdownItem
+            data-cy="version-history-button"
             onClick={() =>
               execCmd(
                 trackCommands.setTrackingStatus(
