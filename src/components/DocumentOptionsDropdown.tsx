@@ -24,7 +24,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
-import { setManuscriptPrimaryLanguageCode } from '../lib/doc'
 import { useStore } from '../store/useStore'
 import DocumentLanguageSelector from './DocumentLanguageSelector'
 
@@ -32,17 +31,20 @@ const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
 
-  const [storeState, , getState] = useStore((s) => ({
+  const [storeState] = useStore((s) => ({
     doc: s.doc,
+    view: s.view,
   }))
 
   // Get selected language from document's primaryLanguageCode or default to 'en'
   const selectedLanguage = storeState.doc?.attrs?.primaryLanguageCode || 'en'
 
   const handleLanguageChange = async (languageCode: string) => {
-    const currentState = getState()
-    if (currentState.view) {
-      setManuscriptPrimaryLanguageCode(currentState.view, languageCode)
+    if (storeState.view) {
+      const { state, dispatch } = storeState.view
+      const tr = state.tr
+      tr.setDocAttribute('primaryLanguageCode', languageCode)
+      dispatch(tr)
     }
   }
 

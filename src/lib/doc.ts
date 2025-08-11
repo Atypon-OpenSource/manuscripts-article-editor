@@ -10,12 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CHANGE_OPERATION } from '@manuscripts/track-changes-plugin'
-import {
-  ManuscriptEditorState,
-  ManuscriptEditorView,
-  ManuscriptNode,
-  schema,
-} from '@manuscripts/transform'
+import { ManuscriptEditorState, ManuscriptNode } from '@manuscripts/transform'
 
 export type PMDoc = any
 
@@ -70,29 +65,4 @@ const filterUnchangedContent = (node: ManuscriptNode) => {
 export const getDocWithoutTrackContent = (state: ManuscriptEditorState) => {
   const doc = state.doc
   return doc.type.create(doc.attrs, filterUnchangedContent(doc), doc.marks)
-}
-
-/**
- * Updates the primaryLanguageCode attribute on the manuscript node
- */
-export const setManuscriptPrimaryLanguageCode = (
-  view: ManuscriptEditorView,
-  languageCode: string
-): boolean => {
-  try {
-    const { state, dispatch } = view
-    const tr = state.tr
-
-    if (state.doc.type === schema.nodes.manuscript) {
-      tr.setDocAttribute('primaryLanguageCode', languageCode)
-
-      dispatch(tr)
-
-      return true
-    } else {
-      return false
-    }
-  } catch (error) {
-    return false
-  }
 }
