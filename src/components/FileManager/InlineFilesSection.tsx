@@ -68,18 +68,23 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     if (!view) {
       return []
     }
+
     let figureIndex = 1
     let imageIndex = 1
     let mediaIndex = 1
 
-    return elements.map((element) => {
+    const groups: FileMetadata[] = []
+
+    for (const element of elements) {
       const $pos = view.state.doc.resolve(element.pos)
       const section = findParentNodeOfTypeClosestToPos(
         $pos,
         schema.nodes.graphical_abstract_section
       )
 
-      let label, icon
+      let label: string
+      let icon: React.FC<React.SVGAttributes<SVGElement>>
+
       if (section) {
         const category = section.node.attrs.category
         label = sectionCategories.get(category)?.titles[0] || ''
@@ -90,18 +95,25 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       } else if (element.node.type === schema.nodes.embed) {
         label = `Media ${mediaIndex++}`
         icon = FileVideoIcon
+
+        const hasUploadedFile = element.files.some((f) => !!f.file.id)
+        if (!hasUploadedFile) {
+          continue
+        }
       } else {
         label = `Figure ${figureIndex++}`
         icon = FileFigureIcon
       }
 
-      return {
+      groups.push({
         element,
         label,
         icon,
         files: element.files.filter((f) => f.file.id),
-      }
-    })
+      })
+    }
+
+    return groups
   }, [elements, view, sectionCategories])
 
   const [openGroupIndexes, setOpenGroupIndexes] = useState<Set<number>>(
