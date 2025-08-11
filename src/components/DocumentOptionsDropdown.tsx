@@ -42,7 +42,7 @@ const DocumentOptionsDropdown: React.FC = () => {
 
       {isOpen && (
         <HistoryDropdownList
-          data-cy="document-options-dropdown"
+          data-cy="history-dropdown"
           direction="right"
           width={192}
           top={5}
