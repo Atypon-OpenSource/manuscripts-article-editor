@@ -59,12 +59,11 @@ const getSelectedLanguageName = (
     return 'English (Default)'
   }
 
-  const lang =
-    allLanguages.find((l) => l.code === selectedLanguage) ||
-    allLanguages.find((l) => l.code === 'en')
-
-  if (!lang) {
-    return 'English (Default)'
+  const lang = allLanguages.find((l) => l.code === selectedLanguage) || {
+    code: 'en',
+    name: 'English',
+    nativeName: 'English',
+    isCommon: true,
   }
 
   return lang.code === 'en'
@@ -105,54 +104,58 @@ const DocumentLanguageSelector: React.FC<DocumentLanguageSelectorProps> = ({
   const [allLanguages, setAllLanguages] = useState<LanguageOption[]>([])
   const submenuRef = useRef<HTMLDivElement>(null)
 
-// Initialize language data and load all languages
-useEffect(() => {
-  const loadLanguages = async () => {
-    try {
-      // Dynamically import the English language data
-      const englishLanguageData = await import(
-        '@cospired/i18n-iso-languages/langs/en.json'
-      )
-      isoLanguages.registerLocale(englishLanguageData.default)
+  // Initialize language data and load all languages
+  useEffect(() => {
+    const loadLanguages = async () => {
+      try {
+        // Dynamically import the English language data
+        const englishLanguageData = await import(
+          '@cospired/i18n-iso-languages/langs/en.json'
+        )
+        isoLanguages.registerLocale(englishLanguageData.default)
 
-      // Get all available language codes
-      const languageCodes = isoLanguages.getAlpha2Codes()
-      const languagesList = Object.keys(languageCodes).map((code) => ({
-        code,
-        name: isoLanguages.getName(code, 'en') || code,
-        nativeName:
-          NATIVE_NAMES[code] || isoLanguages.getName(code, code) || undefined,
-        isCommon: COMMON_LANGUAGES.includes(code),
-      }))
+        // Get all available language codes
+        const languageCodes = isoLanguages.getAlpha2Codes()
+        const languagesList = Object.keys(languageCodes).map((code) => ({
+          code,
+          name: isoLanguages.getName(code, 'en') || code,
+          nativeName:
+            NATIVE_NAMES[code] || isoLanguages.getName(code, code) || undefined,
+          isCommon: COMMON_LANGUAGES.includes(code),
+        }))
 
-      setAllLanguages(languagesList)
-    } catch (error) {
-      console.error('Failed to load language data:', error)
-      // Fallback to English only if loading fails
-      setAllLanguages([{
-        code: 'en',
-        name: 'English',
-        nativeName: 'English',
-        isCommon: true
-      }])
+        setAllLanguages(languagesList)
+      } catch (error) {
+        console.error('Failed to load language data:', error)
+        // Fallback to English only if loading fails
+        setAllLanguages([
+          {
+            code: 'en',
+            name: 'English',
+            nativeName: 'English',
+            isCommon: true,
+          },
+        ])
+      }
     }
-  }
 
-  loadLanguages()
-}, [])
+    loadLanguages()
+  }, [])
 
   // Prepare language options with common languages first
   const languageOptions = useMemo(() => {
     return [...allLanguages].sort((a, b) => {
       // Sort common languages first
-      if (a.isCommon && !b.isCommon) return -1
-      if (!a.isCommon && b.isCommon) return 1
+      if (a.isCommon && !b.isCommon) {
+        return -1
+      }
+      if (!a.isCommon && b.isCommon) {
+        return 1
+      }
       // Then sort alphabetically by name
       return a.name.localeCompare(b.name)
     })
   }, [allLanguages])
-
-
 
   // Close submenu when clicking outside
   useEffect(() => {
