@@ -112,11 +112,11 @@ export class NodeTextContentRetriever {
   ): string {
     const rid = attrs.rids[0]
     if (!rid) {
-      return ''
+      return '?'
     }
     const footnote = findNodeByID(state.doc, rid)?.node
     if (!footnote) {
-      return ''
+      return '?'
     }
     const label = getFootnoteLabel(state, footnote as FootnoteNode)
     const text = footnote.textContent ?? ''
