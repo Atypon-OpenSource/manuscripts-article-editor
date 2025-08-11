@@ -21,6 +21,7 @@ import {
   EmbedNode,
   FigureNode,
   generateNodeID,
+  ImageElementNode,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
   schema,
@@ -56,7 +57,6 @@ const EditorElement: React.FC = () => {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
         const file = item.file as FileAttachment
-
         if (!file || !docPos || !docPos.pos) {
           return false
         }
@@ -84,6 +84,14 @@ const EditorElement: React.FC = () => {
         }
 
         switch (targetNode.type) {
+          case schema.nodes.image_element: {
+            const attrs: Record<string, unknown> = {
+              extLink: file.id,
+            }
+            const imageElement = targetNode as ImageElementNode
+            setNodeAttrs(view.state, dispatch, imageElement.attrs.id, attrs)
+            break
+          }
           case schema.nodes.figure: {
             const figure = targetNode as FigureNode
             setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)

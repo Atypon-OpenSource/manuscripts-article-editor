@@ -169,6 +169,11 @@ const createAttrsDisplay = (
             label: 'File',
             value: files.find((f) => f.id === value)?.name || (value as string),
           })
+        case 'extLink':
+          return (filteredAttrs[key] = {
+            label: 'Linked File',
+            value: files.find((f) => f.id === value)?.name || (value as string),
+          })
         case 'issued':
           return (filteredAttrs[key] = {
             label: 'year',
