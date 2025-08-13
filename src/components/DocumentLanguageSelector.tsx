@@ -35,7 +35,7 @@ interface DocumentLanguageSelectorProps {
 
 // Native names lookup for common languages
 const NATIVE_NAMES: Record<string, string> = {
-  en: 'English',
+  en: 'Default',
   es: 'Español',
   fr: 'Français',
   de: 'Deutsch',
@@ -275,6 +275,7 @@ const LanguageHeader = styled.span`
 const LanguageLabel = styled.span`
   display: flex;
   align-items: center;
+  font-size: 16px;
 
   svg {
     top: 10px;
@@ -284,7 +285,7 @@ const LanguageLabel = styled.span`
 `
 
 const SelectedLanguageText = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   color: ${(props) => props.theme.colors.text.secondary};
   margin-top: 2px;
 `
