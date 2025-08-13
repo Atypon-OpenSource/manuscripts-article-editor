@@ -18,6 +18,7 @@ export interface ManuscriptsEditorConfig {
   }
   features: {
     lockBody: boolean
+    allowedElementTypes?: string[]
   }
 }
 

@@ -139,6 +139,7 @@ export const useCreateEditor = () => {
     location: useLocation(),
     isComparingMode,
     lockBody: config.features.lockBody,
+    allowedElementTypes: config.features.allowedElementTypes,
     isViewingMode,
   }
   const editor = useEditor(props)
