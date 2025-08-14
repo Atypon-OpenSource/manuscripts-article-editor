@@ -23,6 +23,7 @@ import React, { useEffect, useState } from 'react'
 import { InspectorPrimaryTabs } from '../../hooks/use-inspector-tabs-context'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
+import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
 import { FileManager } from '../FileManager/FileManager'
 import {
   IconWrapper,
@@ -40,7 +41,6 @@ import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
-import VersionHistoryDropdown from '../VersionHistoryDropdown'
 
 const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
@@ -166,7 +166,7 @@ const Inspector: React.FC = () => {
                 Quality
               </InspectorTab>
               <Spacer />
-              <VersionHistoryDropdown />
+              <DocumentOptionsDropdown />
             </PrimaryTabList>
             <PaddedInspectorTabPanels>
               <InspectorTabPanel key="Comments" data-cy="comments">

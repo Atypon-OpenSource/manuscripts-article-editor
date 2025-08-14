@@ -24,16 +24,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
+import DocumentLanguageSelector from './DocumentLanguageSelector'
 
-const VersionHistoryDropdown: React.FC = () => {
+const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
 
   return (
     <DropdownContainer ref={wrapperRef}>
       <ToggleDropdownButton
-        data-cy="version-history-button"
-        title="Version History"
+        data-cy="document-options-button"
+        title="Document Options"
         onClick={toggleOpen}
       >
         <DotsIcon />
@@ -48,6 +49,7 @@ const VersionHistoryDropdown: React.FC = () => {
           onClick={toggleOpen}
         >
           <DropdownItem
+            data-cy="version-history-button"
             onClick={() =>
               execCmd(
                 trackCommands.setTrackingStatus(
@@ -58,13 +60,14 @@ const VersionHistoryDropdown: React.FC = () => {
           >
             Version history
           </DropdownItem>
+          <DocumentLanguageSelector onCloseParent={toggleOpen} />
         </HistoryDropdownList>
       )}
     </DropdownContainer>
   )
 }
 
-export default VersionHistoryDropdown
+export default DocumentOptionsDropdown
 
 const ToggleDropdownButton = styled.button`
   border: none;
@@ -75,6 +78,7 @@ const ToggleDropdownButton = styled.button`
     outline: none;
   }
 `
+
 const DropdownItem = styled.div`
   font-family: ${(props) => props.theme.font.family.Lato};
   cursor: pointer;
@@ -82,7 +86,12 @@ const DropdownItem = styled.div`
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
   padding: 16px;
+
+  &:hover {
+    background: ${(props) => props.theme.colors.background.fifth};
+  }
 `
+
 const HistoryDropdownList = styled(DropdownList)`
   top: 0;
   right: 50%;
