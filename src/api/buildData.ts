@@ -52,6 +52,9 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   data.sectionCategories = new Map(
     template.sectionCategories.map((c) => [c.id, c])
   )
+  if (template.allowedElementTypes) {
+    data.allowedElementTypes = template.allowedElementTypes
+  }
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
 

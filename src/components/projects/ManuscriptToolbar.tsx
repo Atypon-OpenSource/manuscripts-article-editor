@@ -20,7 +20,6 @@ import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
-import { getConfig } from '../../config'
 import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 
@@ -104,8 +103,10 @@ export const ToolbarGroup = styled.div`
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
 
-  const [editor] = useStore((store) => store.editor)
-  const config = getConfig()
+  const [{ editor, allowedElementTypes }] = useStore((store) => ({
+    editor: store.editor,
+    allowedElementTypes: store.allowedElementTypes,
+  }))
 
   if (!editor || !editor.view) {
     return null
@@ -122,8 +123,6 @@ export const ManuscriptToolbar: React.FC = () => {
     return item.isEnabled(state)
   }
 
-  const allowed = config?.features?.allowedElementTypes
-
   return (
     <ToolbarContainer data-cy="toolbar">
       <ToolbarGroup>
@@ -138,8 +137,8 @@ export const ManuscriptToolbar: React.FC = () => {
                 case 'comment':
                   return can.handleOwnComments
                 default:
-                  if (groupKey === 'element' && allowed) {
-                    return allowed.includes(key)
+                  if (groupKey === 'element' && allowedElementTypes) {
+                    return allowedElementTypes.includes(key)
                   }
                   return true
               }
