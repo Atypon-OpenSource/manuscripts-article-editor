@@ -41,7 +41,7 @@ export const theme: DefaultTheme = {
       warning: colors.butteryYellow,
       selected: colors.aliceBlue,
       tracked: {
-        active: colors.powderBlue,
+        active: '#e6f7fc',
         default: colors.white,
         hover: colors.seashellGrey,
       },
