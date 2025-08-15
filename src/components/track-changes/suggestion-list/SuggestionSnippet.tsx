@@ -53,7 +53,6 @@ export const SuggestionSnippet: React.FC<Props> = ({
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
-  // LEAN-4796
 
   const author = collaboratorsById.get(dataTracked?.authorID)
   const name = author?.bibliographicName
@@ -93,7 +92,6 @@ export const SuggestionSnippet: React.FC<Props> = ({
             <AuthorContainer>
               <AvatarIcon width={16} height={16} />
               <AuthorName>{authorName}</AuthorName>{' '}
-              {/* {dataTracked?.authorID} */}
             </AuthorContainer>
             <MetadataDate date={dataTracked?.createdAt} />
           </CardMetadata>
@@ -176,6 +174,13 @@ export const CardHeader = styled.div`
 `
 export const CardBody = styled.div`
   position: relative;
+  display: block;
+  width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &[data-mathjax='true'] {
+    text-overflow: unset;
+  }
 `
 
 export const CardMetadata = styled.div`
@@ -203,13 +208,8 @@ const SnippetText = styled.div`
   line-height: ${(props) => props.theme.font.lineHeight.normal};
   width: 100%;
   white-space: nowrap;
-  overflow: hidden;
   color: ${(props) => props.theme.colors.text.primary};
   display: block;
-  text-overflow: ellipsis;
-  &[data-mathjax='true'] {
-    text-overflow: unset;
-  }
 `
 
 const Operation = styled.span<{ color: string }>`
