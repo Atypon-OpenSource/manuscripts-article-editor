@@ -83,7 +83,7 @@ export type state = {
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
   inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
-  allowedElementTypes?: string[]
+  hiddenNodeTypes?: string[]
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

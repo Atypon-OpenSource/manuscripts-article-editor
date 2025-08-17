@@ -103,9 +103,9 @@ export const ToolbarGroup = styled.div`
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
 
-  const [{ editor, allowedElementTypes }] = useStore((store) => ({
+  const [{ editor, hiddenNodeTypes }] = useStore((store) => ({
     editor: store.editor,
-    allowedElementTypes: store.allowedElementTypes,
+    hiddenNodeTypes: store.hiddenNodeTypes,
   }))
 
   if (!editor || !editor.view) {
@@ -137,8 +137,8 @@ export const ManuscriptToolbar: React.FC = () => {
                 case 'comment':
                   return can.handleOwnComments
                 default:
-                  if (groupKey === 'element' && allowedElementTypes) {
-                    return allowedElementTypes.includes(key)
+                  if (groupKey === 'element' && hiddenNodeTypes) {
+                    return !hiddenNodeTypes.includes(key)
                   }
                   return true
               }

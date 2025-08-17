@@ -52,7 +52,7 @@ const filterMenu = (
   spec: MenuSpec,
   can: Capabilities
 ): MenuSpec | undefined => {
-  if (spec.isAllowed === false) {
+  if (spec.isHidden === true) {
     return undefined
   }
   if (!isAccessGranted(spec, can)) {

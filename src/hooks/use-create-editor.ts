@@ -36,7 +36,7 @@ export const useCreateEditor = () => {
       locale,
       sectionCategories,
       isViewingMode,
-      allowedElementTypes,
+      hiddenNodeTypes,
     },
     dispatch,
     getState,
@@ -51,7 +51,7 @@ export const useCreateEditor = () => {
     locale: store.cslLocale,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
-    allowedElementTypes: store.allowedElementTypes,
+    hiddenNodeTypes: store.hiddenNodeTypes,
   }))
 
   const api = useApi()
@@ -141,7 +141,7 @@ export const useCreateEditor = () => {
     location: useLocation(),
     isComparingMode,
     lockBody: config.features.lockBody,
-    allowedElementTypes: allowedElementTypes,
+    hiddenNodeTypes: hiddenNodeTypes,
     isViewingMode,
   }
   const editor = useEditor(props)
