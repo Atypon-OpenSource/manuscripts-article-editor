@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
+import LanguageDropdown from '@manuscripts/body-editor/src/components/LanguageDropdown'
 import {
   DotsIcon,
   DropdownContainer,
@@ -24,11 +25,24 @@ import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
-import DocumentLanguageSelector from './DocumentLanguageSelector'
+import { useStore } from '../store/useStore'
 
 const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
+  const [storeState] = useStore((s) => ({
+    doc: s.doc,
+    view: s.view,
+  }))
+
+  const handleLanguageChange = async (languageCode: string) => {
+    if (storeState.view) {
+      const { state, dispatch } = storeState.view
+      const tr = state.tr
+      tr.setDocAttribute('primaryLanguageCode', languageCode)
+      dispatch(tr)
+    }
+  }
 
   return (
     <DropdownContainer ref={wrapperRef}>
@@ -60,7 +74,13 @@ const DocumentOptionsDropdown: React.FC = () => {
           >
             Version history
           </DropdownItem>
-          <DocumentLanguageSelector onCloseParent={toggleOpen} />
+          <LanguageDropdown
+            showButton={true}
+            buttonLabel="Document language"
+            currentLanguage={storeState.doc?.attrs?.primaryLanguageCode || 'en'}
+            onLanguageSelect={handleLanguageChange}
+            onCloseParent={toggleOpen}
+          />
         </HistoryDropdownList>
       )}
     </DropdownContainer>
