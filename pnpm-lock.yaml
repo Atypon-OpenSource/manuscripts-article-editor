@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@cospired/i18n-iso-languages':
-        specifier: ^4.2.0
-        version: 4.2.0
       '@fontsource/lato':
         specifier: 5.2.5
         version: 5.2.5
@@ -898,10 +895,6 @@ packages:
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@citation-js/core': ^0.7.0
-
-  '@cospired/i18n-iso-languages@4.2.0':
-    resolution: {integrity: sha512-vy8cq1176MTxVwB1X9niQjcIYOH29F8Huxtx8hLmT5Uz3l1ztGDGri8KN/4zE7LV2mCT7JrcAoNV/I9yb+lNUw==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   '@csstools/color-helpers@5.0.2':
     resolution: {integrity: sha512-JqWH1vsgdGcw2RR6VliXXdA0/59LttzlU8UlRT/iUUsEeWfYq8I+K0yhihEUTTHLRm1EXvpsCx3083EU15ecsA==}
@@ -5559,8 +5552,6 @@ snapshots:
       '@citation-js/core': 0.7.18
       '@citation-js/date': 0.5.1
       '@citation-js/name': 0.4.2
-
-  '@cospired/i18n-iso-languages@4.2.0': {}
 
   '@csstools/color-helpers@5.0.2': {}
 
