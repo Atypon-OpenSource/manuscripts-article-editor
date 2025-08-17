@@ -55,18 +55,6 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   if (template.hiddenNodeTypes) {
     data.hiddenNodeTypes = template.hiddenNodeTypes
   }
-  
-  // TODO: Remove this testing override before production
-  // Testing dummy data for MM-010 - hide some common elements to test the functionality
-  if (process.env.NODE_ENV === 'development') {
-    data.hiddenNodeTypes = [
-      'blockquote_element',   // Hide block quotes
-      'pullquote_element',    // Hide pull quotes  
-      'equation_element',     // Hide math equations
-      'comment',              // Hide comments
-      'embed'                 // Hide embedded media
-    ]
-  }
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
 
