@@ -24,20 +24,20 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.3.4-LEAN-4793.2
-        version: 3.3.4-LEAN-4793.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.3.4-LEAN-4793.3
+        version: 3.3.4-LEAN-4793.3(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
       '@manuscripts/style-guide':
-        specifier: 3.2.2-LEAN-4793.0
-        version: 3.2.2-LEAN-4793.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.2.2-LEAN-4793.1
+        version: 3.2.2-LEAN-4793.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
         specifier: 2.0.10
         version: 2.0.10
       '@manuscripts/transform':
-        specifier: 4.2.13-LEAN-4793.0
-        version: 4.2.13-LEAN-4793.0(prosemirror-state@1.4.3)
+        specifier: 4.2.13-LEAN-4793.1
+        version: 4.2.13-LEAN-4793.1(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1178,8 +1178,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.29':
     resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
 
-  '@manuscripts/body-editor@3.3.4-LEAN-4793.2':
-    resolution: {integrity: sha512-0NQxQ7tYXtKPjNL+dUTapQnIiSlBTfcmEiA3zeNchdptvSc4SwKiFXOi6LIJ+tIeaSGVLaCoSk5A3EkP//R+5w==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.3.4-LEAN-4793.2.tgz}
+  '@manuscripts/body-editor@3.3.4-LEAN-4793.3':
+    resolution: {integrity: sha512-PkfG5lKOJ3cgv9vxXxGlHdGByJYL1gAKOs26u+g9ZoEG0JNZw2a4ijbw/tTDPBUvtxYWM0JmZdJbuk/6GRyhzA==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.3.4-LEAN-4793.3.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1202,15 +1202,15 @@ packages:
   '@manuscripts/json-schema@2.2.12':
     resolution: {integrity: sha512-MCz11Dhc1kric1oU9cnYHboPgEwwccWfuuU1XhAEilDIFe8KszAeQk5i4GBGlGLddp/Gvkr6N1gtzLl36mTE7A==}
 
-  '@manuscripts/style-guide@3.2.2-LEAN-4793.0':
-    resolution: {integrity: sha512-jpWKt184Ue6jojPwx91PiPyHEkYCIxITfp8f9+1v4ZjGYD4AWnB+tQiP+CsfS54hVCFefFfnEmvdYAtdyU+nNQ==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/style-guide/-/@manuscripts/style-guide-3.2.2-LEAN-4793.0.tgz}
+  '@manuscripts/style-guide@3.2.2-LEAN-4793.1':
+    resolution: {integrity: sha512-dOsz2HVmuPXg+/RZECwqh9ys3M49WBFLpKrL0mvuHA0XFbxhpJ/WMVmeBR11a8++TzIG1DouEhFgOrWXzhs9uQ==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/style-guide/-/@manuscripts/style-guide-3.2.2-LEAN-4793.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.0.10':
     resolution: {integrity: sha512-rtZWsKvdsvVuQCL1tIcqzoyud3AJ1R4vWJt7vTfzQWnskUoVYPd8oQaSEelpg6oOK9V5uPzIR+sRjqabwlnGrA==}
 
-  '@manuscripts/transform@4.2.13-LEAN-4793.0':
-    resolution: {integrity: sha512-oJ2fTTNYEEES1C2ZEAyllBIwBZf+2QxoV7iS/s6RETngpr5P2QCDUYySXiOoDQ735TeSnsWp8jJxV4/Fzt1ohw==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/transform/-/@manuscripts/transform-4.2.13-LEAN-4793.0.tgz}
+  '@manuscripts/transform@4.2.13-LEAN-4793.1':
+    resolution: {integrity: sha512-exmHO8KtOMuzVSHuq3bFQ/jKpo1A9h2LoJLaO8/GxpOIv+QPgHZXc2gRSNVHXMisLGRz86qAiIhu31pyyVV/YA==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/transform/-/@manuscripts/transform-4.2.13-LEAN-4793.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -5971,7 +5971,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.4
 
-  '@manuscripts/body-editor@3.3.4-LEAN-4793.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.3.4-LEAN-4793.3(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5982,9 +5982,9 @@ snapshots:
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
-      '@manuscripts/style-guide': 3.2.2-LEAN-4793.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+      '@manuscripts/style-guide': 3.2.2-LEAN-4793.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin': 2.0.10
-      '@manuscripts/transform': 4.2.13-LEAN-4793.0(prosemirror-state@1.4.3)
+      '@manuscripts/transform': 4.2.13-LEAN-4793.1(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -6054,7 +6054,7 @@ snapshots:
       deepmerge: 4.3.1
       uuid: 9.0.1
 
-  '@manuscripts/style-guide@3.2.2-LEAN-4793.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/style-guide@3.2.2-LEAN-4793.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/json-schema': 2.2.12
@@ -6098,7 +6098,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@4.2.13-LEAN-4793.0(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.2.13-LEAN-4793.1(prosemirror-state@1.4.3)':
     dependencies:
       '@manuscripts/json-schema': 2.2.12
       citeproc: 2.4.63
