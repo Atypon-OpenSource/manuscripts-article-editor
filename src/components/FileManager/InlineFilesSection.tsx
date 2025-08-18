@@ -9,16 +9,22 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { ElementFiles, NodeFile } from '@manuscripts/body-editor'
+import {
+  ElementFiles,
+  getMediaTypeInfo,
+  NodeFile,
+} from '@manuscripts/body-editor'
 import {
   FileFigureIcon,
   FileGraphicalAbstractIcon,
   FileImageIcon,
+  FileVideoIcon,
+  ToggleIcon,
   Tooltip,
   TriangleCollapsedIcon,
   TriangleExpandedIcon,
 } from '@manuscripts/style-guide'
-import { schema } from '@manuscripts/transform'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo, useState } from 'react'
@@ -33,7 +39,6 @@ import {
   FileGroupHeader,
   FileGroupItemContainer,
   FileLabel,
-  ToggleIcon,
 } from './FileGroup'
 import { FileSectionType } from './FileManager'
 import { FileNameText } from './FileName'
@@ -63,17 +68,23 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     if (!view) {
       return []
     }
+
     let figureIndex = 1
     let imageIndex = 1
+    let mediaIndex = 1
 
-    return elements.map((element) => {
+    const groups: FileMetadata[] = []
+
+    for (const element of elements) {
       const $pos = view.state.doc.resolve(element.pos)
       const section = findParentNodeOfTypeClosestToPos(
         $pos,
         schema.nodes.graphical_abstract_section
       )
 
-      let label, icon
+      let label: string
+      let icon: React.FC<React.SVGAttributes<SVGElement>>
+
       if (section) {
         const category = section.node.attrs.category
         label = sectionCategories.get(category)?.titles[0] || ''
@@ -81,18 +92,28 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       } else if (element.node.type === schema.nodes.image_element) {
         label = `Image ${imageIndex++}`
         icon = FileImageIcon
+      } else if (element.node.type === schema.nodes.embed) {
+        label = `Media ${mediaIndex++}`
+        icon = FileVideoIcon
+
+        const hasUploadedFile = element.files.some((f) => !!f.file.id)
+        if (!hasUploadedFile) {
+          continue
+        }
       } else {
         label = `Figure ${figureIndex++}`
         icon = FileFigureIcon
       }
 
-      return {
+      groups.push({
         element,
         label,
         icon,
         files: element.files.filter((f) => f.file.id),
-      }
-    })
+      })
+    }
+
+    return groups
   }, [elements, view, sectionCategories])
 
   const [openGroupIndexes, setOpenGroupIndexes] = useState<Set<number>>(
@@ -134,38 +155,59 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     view.dispatch(tr)
   }
 
-  const handleDetach = (pos?: number) => {
+  const handleDetach = (node: ManuscriptNode, pos?: number) => {
     if (!pos) {
       return
     }
     const tr = view.state.tr
-    tr.setNodeAttribute(pos, 'src', '')
+
+    if (node.type === schema.nodes.embed) {
+      tr.setNodeAttribute(pos, 'href', '')
+    } else {
+      tr.setNodeAttribute(pos, 'src', '')
+    }
+
     tr.setSelection(NodeSelection.create(tr.doc, pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleDelete = (pos?: number) => {
+  const handleDelete = (node: ManuscriptNode, pos?: number) => {
     if (!pos || !view) {
       return
     }
 
-    const node = view.state.doc.nodeAt(pos)
-    if (node?.type === schema.nodes.figure) {
+    if (
+      node?.type === schema.nodes.figure ||
+      node?.type === schema.nodes.embed
+    ) {
       const tr = view.state.tr
       tr.delete(pos, pos + node.nodeSize)
       view.dispatch(tr)
     }
   }
 
-  const handleReplace = async (pos?: number, file?: File) => {
+  const handleReplace = async (
+    node: ManuscriptNode,
+    pos?: number,
+    file?: File
+  ) => {
     if (!pos || !file) {
       return
     }
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
-    tr.setNodeAttribute(pos, 'src', uploaded.id)
+
+    if (node.type === schema.nodes.embed) {
+      const mediaInfo = getMediaTypeInfo(file)
+      tr.setNodeAttribute(pos, 'href', uploaded.id)
+      tr.setNodeAttribute(pos, 'mimetype', mediaInfo.mimetype)
+      tr.setNodeAttribute(pos, 'mimeSubtype', mediaInfo.mimeSubtype)
+    } else {
+      tr.setNodeAttribute(pos, 'src', uploaded.id)
+    }
+
     tr.setSelection(NodeSelection.create(tr.doc, pos))
     tr.scrollIntoView()
     view.focus()
@@ -239,16 +281,26 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     <FileActions
                       sectionType={FileSectionType.Inline}
                       onReplace={async (f) =>
-                        await handleReplace(fileAttachment.pos, f)
+                        await handleReplace(
+                          fileAttachment.node,
+                          fileAttachment.pos,
+                          f
+                        )
                       }
-                      onDetach={() => handleDetach(fileAttachment.pos)}
+                      onDetach={() =>
+                        handleDetach(fileAttachment.node, fileAttachment.pos)
+                      }
                       onDownload={() =>
                         fileAttachment.file &&
                         fileManagement.download(fileAttachment.file)
                       }
                       onDelete={
                         figureCount > 1
-                          ? () => handleDelete(fileAttachment.pos)
+                          ? () =>
+                              handleDelete(
+                                fileAttachment.node,
+                                fileAttachment.pos
+                              )
                           : undefined
                       }
                     />
