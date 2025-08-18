@@ -108,7 +108,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     view.dispatch(skipTracking(tr))
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
-      message: FileSectionType.MainFile,
+      message: FileSectionType.OtherFile,
     })
   }
 
@@ -127,7 +127,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
             onDownload={handleDownload}
             onReplace={handleReplace}
             move={{
-              sectionType: FileSectionType.MainFile,
+              sectionType: FileSectionType.OtherFile,
               handler: () => handleMove(mainDocument),
             }}
             file={mainDocument.file}
