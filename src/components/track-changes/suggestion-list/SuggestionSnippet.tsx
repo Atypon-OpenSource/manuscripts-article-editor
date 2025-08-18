@@ -106,10 +106,12 @@ export const SuggestionSnippet: React.FC<Props> = ({
           )}
         </CardHeader>
         <CardBody data-cy="card-body">
-          <Operation color={dataTracked.operation}>
-            {snippet?.operation}:
-          </Operation>
-          <NodeName>{snippet?.nodeName}</NodeName>
+          {snippet?.operation && (
+            <Operation color={dataTracked.operation}>
+              {snippet?.operation}:
+            </Operation>
+          )}
+          {snippet?.nodeName && <NodeName>{snippet?.nodeName}</NodeName>}
           <SnippetContent content={snippet?.content || ''} />
         </CardBody>
       </Card>
