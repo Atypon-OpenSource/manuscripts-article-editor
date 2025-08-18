@@ -162,6 +162,7 @@ export const SearchReplace: React.FC = () => {
             highlightCurrent: true,
           })
         }}
+        isReadOnlyMode={isReadOnlyMode}
       />
     )
   }

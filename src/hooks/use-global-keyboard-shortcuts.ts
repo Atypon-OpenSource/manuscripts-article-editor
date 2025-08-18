@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { activateSearch } from '@manuscripts/body-editor'
+import { activateSearch, activateSearchReplace } from '@manuscripts/body-editor'
 import { useEffect } from 'react'
 
 import { useStore } from '../store'
@@ -30,6 +30,19 @@ export const useGlobalKeyboardShortcuts = () => {
         event.preventDefault()
         if (editor?.view) {
           activateSearch(editor.view.state, editor.view.dispatch)
+        }
+        return
+      }
+
+      // Shift+Ctrl+h / Shift+Cmd+h - Activate search & replace
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.shiftKey &&
+        event.key === 'h'
+      ) {
+        event.preventDefault()
+        if (editor?.view) {
+          activateSearchReplace(editor.view.state, editor.view.dispatch)
         }
         return
       }
