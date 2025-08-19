@@ -33,7 +33,6 @@ import { SearchField } from './SearchField'
 export const SearchReplace: React.FC = () => {
   const [{ editor, userRole }] = useStore((state) => ({
     editor: state.editor,
-    project: state.project,
     userRole: state.userRole,
   }))
   const [replacement, setReplacement] = useState('')
