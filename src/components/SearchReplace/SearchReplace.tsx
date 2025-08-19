@@ -182,11 +182,9 @@ export const SearchReplace: React.FC = () => {
             total={matches.length}
             setNewSearchValue={setNewSearchValue}
           />
-          {!isReadOnlyMode && (
-            <IconButton onClick={() => setAdvanced(true)}>
-              <DotsIcon />
-            </IconButton>
-          )}
+          <IconButton onClick={() => setAdvanced(true)}>
+            <DotsIcon />
+          </IconButton>
           <CloseButton
             onClick={() => deactivate()}
             data-cy="modal-close-button"
