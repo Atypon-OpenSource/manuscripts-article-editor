@@ -40,13 +40,13 @@ export const useGlobalKeyboardShortcuts = () => {
     }
 
     const { view } = editor
-    const keymap = {
-      'Mod-f': () => activateSearch(view.state, view.dispatch),
-      'Shift-Mod-h': () => activateSearchReplace(view.state, view.dispatch),
-    }
+    const keymap = new Map([
+      ['Mod-f', () => activateSearch(view.state, view.dispatch)],
+      ['Shift-Mod-h', () => activateSearchReplace(view.state, view.dispatch)],
+    ])
 
     const handleGlobalKeydown = (event: KeyboardEvent) => {
-      for (const [keys, command] of Object.entries(keymap)) {
+      for (const [keys, command] of keymap) {
         if (parseKey(keys, event)) {
           event.preventDefault()
           command()
