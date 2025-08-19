@@ -15,6 +15,17 @@ import { useEffect } from 'react'
 
 import { useStore } from '../store'
 
+const parseKey = (keyString: string, event: KeyboardEvent): boolean => {
+  const parts = keyString.split('-')
+  const key = parts.pop()?.toLowerCase()
+
+  return (
+    event.key.toLowerCase() === key &&
+    parts.includes('Mod') === (event.ctrlKey || event.metaKey) &&
+    parts.includes('Shift') === event.shiftKey
+  )
+}
+
 /**
  * Hook to handle global keyboard shortcuts that work even when the editor isn't focused.
  * Useful for viewer mode where users can't focus the editor but still need shortcuts,
@@ -24,31 +35,27 @@ export const useGlobalKeyboardShortcuts = () => {
   const [editor] = useStore((state) => state.editor)
 
   useEffect(() => {
-    const handleGlobalKeydown = (event: KeyboardEvent) => {
-      // Cmd+F / Ctrl+F - Activate search
-      if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
-        event.preventDefault()
-        if (editor?.view) {
-          activateSearch(editor.view.state, editor.view.dispatch)
-        }
-        return
-      }
+    if (!editor?.view) {
+      return
+    }
 
-      // Shift+Ctrl+h / Shift+Cmd+h - Activate search & replace
-      if (
-        (event.ctrlKey || event.metaKey) &&
-        event.shiftKey &&
-        event.key === 'h'
-      ) {
-        event.preventDefault()
-        if (editor?.view) {
-          activateSearchReplace(editor.view.state, editor.view.dispatch)
+    const { view } = editor
+    const keymap = {
+      'Mod-f': () => activateSearch(view.state, view.dispatch),
+      'Shift-Mod-h': () => activateSearchReplace(view.state, view.dispatch),
+    }
+
+    const handleGlobalKeydown = (event: KeyboardEvent) => {
+      for (const [keys, command] of Object.entries(keymap)) {
+        if (parseKey(keys, event)) {
+          event.preventDefault()
+          command()
+          return
         }
-        return
       }
     }
 
     document.addEventListener('keydown', handleGlobalKeydown)
     return () => document.removeEventListener('keydown', handleGlobalKeydown)
-  }, [editor?.view])
+  }, [editor])
 }
