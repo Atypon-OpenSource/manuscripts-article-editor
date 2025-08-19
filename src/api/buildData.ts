@@ -10,11 +10,24 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { UserProfile } from '@manuscripts/json-schema'
-import { schema } from '@manuscripts/transform'
+import { ManuscriptNodeType, schema } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
+
+const convertNodeNamesToTypes = (nodeNames: string[]): ManuscriptNodeType[] => {
+  return nodeNames
+    .map((nodeName) => {
+      const nodeType = schema.nodes[nodeName]
+      if (!nodeType) {
+        console.warn(`Unknown node type: ${nodeName}`)
+        return null
+      }
+      return nodeType
+    })
+    .filter((nodeType) => nodeType !== null)
+}
 
 const getDocumentData = async (
   projectID: string,
@@ -53,8 +66,9 @@ const getManuscriptData = async (templateID: string, api: Api) => {
     template.sectionCategories.map((c) => [c.id, c])
   )
   if (template.hiddenNodeTypes) {
-    data.hiddenNodeTypes = template.hiddenNodeTypes
+    data.hiddenNodeTypes = convertNodeNamesToTypes(template.hiddenNodeTypes)
   }
+
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
 

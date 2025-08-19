@@ -16,6 +16,7 @@ import {
   TypeSelector,
 } from '@manuscripts/body-editor'
 import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
@@ -138,7 +139,8 @@ export const ManuscriptToolbar: React.FC = () => {
                   return can.handleOwnComments
                 default:
                   if (groupKey === 'element' && hiddenNodeTypes) {
-                    return !hiddenNodeTypes.includes(key)
+                    const nodeType = schema.nodes[key]
+                    return nodeType ? !hiddenNodeTypes.includes(nodeType) : true
                   }
                   return true
               }
