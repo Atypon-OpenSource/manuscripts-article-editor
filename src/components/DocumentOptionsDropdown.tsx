@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import LanguageDropdown from '@manuscripts/body-editor'
+import { LanguageDropdown } from '@manuscripts/body-editor'
 import {
   DotsIcon,
   DropdownContainer,
