@@ -11,6 +11,7 @@
  */
 
 import {
+  templateAllows,
   toolbar,
   ToolbarButtonConfig,
   TypeSelector,
@@ -104,9 +105,8 @@ export const ToolbarGroup = styled.div`
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
 
-  const [{ editor, hiddenNodeTypes }] = useStore((store) => ({
+  const [{ editor }] = useStore((store) => ({
     editor: store.editor,
-    hiddenNodeTypes: store.hiddenNodeTypes,
   }))
 
   if (!editor || !editor.view) {
@@ -138,9 +138,9 @@ export const ManuscriptToolbar: React.FC = () => {
                 case 'comment':
                   return can.handleOwnComments
                 default:
-                  if (groupKey === 'element' && hiddenNodeTypes) {
+                  if (groupKey === 'element') {
                     const nodeType = schema.nodes[key]
-                    return nodeType ? !hiddenNodeTypes.includes(nodeType) : true
+                    return nodeType ? templateAllows(state, nodeType) : true
                   }
                   return true
               }
