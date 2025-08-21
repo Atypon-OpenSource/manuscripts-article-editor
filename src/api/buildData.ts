@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import { UserProfile } from '@manuscripts/json-schema'
-import { ManuscriptNodeType, schema } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
-const convertNodeNamesToTypes = (nodeNames: string[]): ManuscriptNodeType[] => {
+const convertNodeNamesToTypes = (nodeNames: string[]) => {
   return nodeNames
     .map((nodeName) => {
       const nodeType = schema.nodes[nodeName]
