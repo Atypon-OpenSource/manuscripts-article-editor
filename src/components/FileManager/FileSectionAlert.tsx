@@ -18,6 +18,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { FileContainer } from './FileContainer'
+import { FileSectionType } from './FileManager'
 import { FileNameText } from './FileName'
 
 export enum FileSectionAlertType {
@@ -27,6 +28,20 @@ export enum FileSectionAlertType {
   MOVE_SUCCESSFUL,
   REPLACE_SUCCESSFUL,
 }
+
+export const setUploadProgressAlert =
+  (
+    setAlert: (t: { type: FileSectionAlertType; message: string }) => void,
+    type: FileSectionType
+  ) =>
+  (percentage: number) => {
+    if (percentage < 99) {
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
+        message: type + ` ${percentage}%`,
+      })
+    }
+  }
 
 export const FileSectionAlert: React.FC<{
   alert: { type: FileSectionAlertType; message: string }
