@@ -21,38 +21,16 @@ import styled from 'styled-components'
 
 import { buildAuthorName, getAuthorID } from '../../lib/comments'
 import { useStore } from '../../store'
+import {
+  AuthorContainer,
+  AuthorName,
+  CardHeader,
+  CardMetadata,
+} from '../track-changes/suggestion-list/SuggestionSnippet'
 import { CommentActions } from './CommentActions'
 import { CommentBody } from './CommentBody'
 import { DeleteCommentConfirmation } from './DeleteCommentConfirmation'
 
-const CommentHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-`
-
-const CommentMetadata = styled.div`
-  display: flex;
-  align-items: center;
-  padding-right: 8px;
-`
-
-const AuthorContainer = styled.div`
-  display: flex;
-  color: #353535;
-  font-weight: 400;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  flex-grow: 1;
-  text-overflow: ellipsis;
-  margin-right: 8px;
-
-  svg {
-    padding-right: 10px;
-    flex-shrink: 0;
-  }
-`
 const CommentTarget = styled.div`
   font-size: 14px;
   color: #353535;
@@ -174,26 +152,26 @@ export const CommentCard: React.FC<CommentCardProps> = ({
 
   return (
     <Card>
-      <CommentHeader data-cy="comment-header">
-        <CommentMetadata>
+      <CardHeader data-cy="comment-header">
+        <CardMetadata>
           <AuthorContainer>
             {authorName ? (
               <>
-                <AvatarIcon width={20} height={20} />
-                <>{authorName}</>
+                <AvatarIcon width={16} height={16} />
+                <AuthorName>{authorName}</AuthorName>
               </>
             ) : (
               !isReply && (
                 <>
-                  <SystemUserAvatarIcon width={20} height={20} />
-                  <>System</>
+                  <SystemUserAvatarIcon width={16} height={16} />
+                  <AuthorName>System</AuthorName>
                 </>
               )
             )}
           </AuthorContainer>
           {timestamp && <Timestamp date={timestamp * 1000} />}
           {numOfReplies !== 0 && <RepliesCount>{numOfReplies}</RepliesCount>}
-        </CommentMetadata>
+        </CardMetadata>
         <CommentActions
           comment={comment}
           isResolveEnabled={isResolveEnabled && !isReply}
@@ -202,7 +180,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
           onEdit={handleEdit}
           toggleResolve={handleToggleResolve}
         />
-      </CommentHeader>
+      </CardHeader>
       {comment.node.attrs.originalText && (
         <CommentTarget>{comment.node.attrs.originalText}</CommentTarget>
       )}

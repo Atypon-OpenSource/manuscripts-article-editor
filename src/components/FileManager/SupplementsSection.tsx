@@ -14,7 +14,7 @@ import {
   insertSupplement,
   NodeFile,
 } from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
+import { ToggleHeader, usePermissions } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
@@ -26,7 +26,11 @@ import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType, Replace } from './FileManager'
 import { FileName } from './FileName'
-import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
+import {
+  FileSectionAlert,
+  FileSectionAlertType,
+  setUploadProgressAlert,
+} from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 export type SupplementsSectionProps = {
@@ -39,6 +43,9 @@ export type SupplementsSectionProps = {
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
 }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const toggleVisibility = () => setIsOpen((prev) => !prev)
+
   const [{ view, fileManagement }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
@@ -60,7 +67,10 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    const uploaded = await fileManagement.upload(file)
+    const uploaded = await fileManagement.upload(
+      file,
+      setUploadProgressAlert(setAlert, FileSectionType.Supplements)
+    )
     setAlert({
       type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
       message: '',
@@ -107,25 +117,34 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   }
 
   return (
-    <>
+    <div data-cy="supplements-section">
       {can?.uploadFile && (
         <FileUploader
           onUpload={handleUpload}
           placeholder="Drag or click to upload a new file"
         />
       )}
-      <FileSectionAlert alert={alert} />
-      {supplements.map((supplement) => (
-        <SupplementFile
-          key={supplement.node.attrs.id}
-          supplement={supplement}
-          onDownload={() => fileManagement.download(supplement.file)}
-          onReplace={async (f) => await handleReplace(supplement, f)}
-          onDetach={() => handleMoveToOtherFiles(supplement)}
-          onUseAsMain={() => handleUseAsMain(supplement)}
-        />
-      ))}
-    </>
+      <ToggleHeader
+        title="Supplement files"
+        isOpen={isOpen}
+        onToggle={toggleVisibility}
+      />
+      {isOpen && (
+        <>
+          <FileSectionAlert alert={alert} />
+          {supplements.map((supplement) => (
+            <SupplementFile
+              key={supplement.node.attrs.id}
+              supplement={supplement}
+              onDownload={() => fileManagement.download(supplement.file)}
+              onReplace={async (f) => await handleReplace(supplement, f)}
+              onDetach={() => handleMoveToOtherFiles(supplement)}
+              onUseAsMain={() => handleUseAsMain(supplement)}
+            />
+          ))}
+        </>
+      )}
+    </div>
   )
 }
 
