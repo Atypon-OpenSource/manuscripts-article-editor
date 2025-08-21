@@ -18,7 +18,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
   },
-  "include": ["src", "stories", "types", "webpack.*.ts"]
+  "include": ["src", "types"]
 }
