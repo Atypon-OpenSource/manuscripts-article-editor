@@ -20,22 +20,23 @@ import {
   CloseButton,
   DotsIcon,
   IconButton,
+  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
-import { ProjectRole } from '../../lib/roles'
 import { useStore } from '../../store'
 import { DelayUnmount } from '../DelayUnmount'
 import { Advanced } from './AdvancedSearch'
 import { SearchField } from './SearchField'
 
 export const SearchReplace: React.FC = () => {
-  const [{ editor, userRole }] = useStore((state) => ({
+  const [{ editor }] = useStore((state) => ({
     editor: state.editor,
-    userRole: state.userRole,
   }))
   const [replacement, setReplacement] = useState('')
+  const can = usePermissions()
+  const isReadOnlyMode = !can.editArticle
 
   const setPluginState = useCallback(
     function (values: Partial<SearchReplacePluginState>) {
@@ -74,8 +75,6 @@ export const SearchReplace: React.FC = () => {
   const value = pluginState?.value || ''
   const caseSensitive = pluginState?.caseSensitive || false
   const ignoreDiacritics = pluginState?.ignoreDiacritics || false
-  // Check if user is viewer (read-only mode)
-  const isReadOnlyMode = userRole === ProjectRole.viewer
 
   function moveMatch(side: 'left' | 'right') {
     const newMatch = getNewMatch(side, current, selection, matches)
