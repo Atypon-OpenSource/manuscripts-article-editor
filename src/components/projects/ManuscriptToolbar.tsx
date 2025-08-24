@@ -11,11 +11,13 @@
  */
 
 import {
+  templateAllows,
   toolbar,
   ToolbarButtonConfig,
   TypeSelector,
 } from '@manuscripts/body-editor'
 import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
@@ -103,7 +105,9 @@ export const ToolbarGroup = styled.div`
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
 
-  const [editor] = useStore((store) => store.editor)
+  const [{ editor }] = useStore((store) => ({
+    editor: store.editor,
+  }))
 
   if (!editor || !editor.view) {
     return null
@@ -134,6 +138,10 @@ export const ManuscriptToolbar: React.FC = () => {
                 case 'comment':
                   return can.handleOwnComments
                 default:
+                  if (groupKey === 'element') {
+                    const nodeType = schema.nodes[key]
+                    return nodeType ? templateAllows(state, nodeType) : true
+                  }
                   return true
               }
             })
