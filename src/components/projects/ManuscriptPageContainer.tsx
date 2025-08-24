@@ -25,6 +25,7 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 
+import { useGlobalKeyboardShortcuts } from '../../hooks/use-global-keyboard-shortcuts'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
 import { useStore } from '../../store'
 import { Main } from '../Page'
@@ -44,6 +45,9 @@ import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
+  // Enable global keyboard shortcuts
+  useGlobalKeyboardShortcuts()
+
   const [{ project, user, permittedActions, isViewingMode }] = useStore(
     (state) => {
       return {
