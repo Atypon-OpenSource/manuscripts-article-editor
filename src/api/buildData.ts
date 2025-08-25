@@ -16,6 +16,19 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
+const convertNodeNamesToTypes = (nodeNames: string[]) => {
+  return nodeNames
+    .map((nodeName) => {
+      const nodeType = schema.nodes[nodeName]
+      if (!nodeType) {
+        console.warn(`Unknown node type: ${nodeName}`)
+        return null
+      }
+      return nodeType
+    })
+    .filter((nodeType) => nodeType !== null)
+}
+
 const getDocumentData = async (
   projectID: string,
   manuscriptID: string,
@@ -52,6 +65,10 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   data.sectionCategories = new Map(
     template.sectionCategories.map((c) => [c.id, c])
   )
+  if (template.hiddenNodeTypes) {
+    data.hiddenNodeTypes = convertNodeNamesToTypes(template.hiddenNodeTypes)
+  }
+
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
 
