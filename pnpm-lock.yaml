@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@cospired/i18n-iso-languages':
-        specifier: ^4.2.0
-        version: 4.2.0
       '@fontsource/lato':
         specifier: 5.2.5
         version: 5.2.5
@@ -24,20 +21,20 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.4.1
-        version: 3.4.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.5.2
+        version: 3.5.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
       '@manuscripts/style-guide':
-        specifier: 3.2.1
-        version: 3.2.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.3.0
+        version: 3.3.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
-        specifier: 2.0.10
-        version: 2.0.10
+        specifier: 2.0.11
+        version: 2.0.11
       '@manuscripts/transform':
-        specifier: 4.2.13
-        version: 4.2.13(prosemirror-state@1.4.3)
+        specifier: 4.2.14
+        version: 4.2.14(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1178,8 +1175,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.29':
     resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
 
-  '@manuscripts/body-editor@3.4.1':
-    resolution: {integrity: sha512-Ie3CTP+fy4wQl+d7HMBdw9vySSO1rEghXbQxTd3jctWynSt4/Otzt7oilmG6gpVfXhinqUGDTbN/wgNNrp6lRw==}
+  '@manuscripts/body-editor@3.5.2':
+    resolution: {integrity: sha512-umFp7zWybIVZV+OivpAHVQrlibA9BZbjT4qShKNtHYGzZX0itd9ZTxfbs5QlR2J4K6dYshdZsKFzlIiaBhFGOQ==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1202,15 +1199,15 @@ packages:
   '@manuscripts/json-schema@2.2.12':
     resolution: {integrity: sha512-MCz11Dhc1kric1oU9cnYHboPgEwwccWfuuU1XhAEilDIFe8KszAeQk5i4GBGlGLddp/Gvkr6N1gtzLl36mTE7A==}
 
-  '@manuscripts/style-guide@3.2.1':
-    resolution: {integrity: sha512-GERHDCCxZY0AKq7VJMz1xYM10PbN3o9iZAHRHw4IuSrcIGWjSR7BexTl7Fb4MepkHEXJtzwupe5Wbr9k0VfMxw==}
+  '@manuscripts/style-guide@3.3.0':
+    resolution: {integrity: sha512-kUXC89CwPeQojNdWm0lnufe6LVE3KtOHC2hqEf0QzvatgPiVtqujDIYlnhcDbr/cEADHmfDb4F0EpMPoWqoj9Q==}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/track-changes-plugin@2.0.10':
-    resolution: {integrity: sha512-rtZWsKvdsvVuQCL1tIcqzoyud3AJ1R4vWJt7vTfzQWnskUoVYPd8oQaSEelpg6oOK9V5uPzIR+sRjqabwlnGrA==}
+  '@manuscripts/track-changes-plugin@2.0.11':
+    resolution: {integrity: sha512-VmxaJIYRKeOI1OaQPw7+t0WaLhfNW8Hf6oilADE8l2iZoXhYa6wzof7Z8MBm+yns8Dm3wYapn/kORChlMfaAPA==}
 
-  '@manuscripts/transform@4.2.13':
-    resolution: {integrity: sha512-mEesdLcsWvOlt0y2W2+GxmYvq7b3xcEukwLn6AxUFQdBIsF5+SO0c2tKZrL3Asspp1CbKxKBevklKAaBiQYfMA==}
+  '@manuscripts/transform@4.2.14':
+    resolution: {integrity: sha512-6ccoosWgrLleq+hiTiE5tD1OP0i1AFYEyiaNXrSYN8SRjje+pCitSVReGzOVV9pv6zZ7UeSEm2jGiLCIUcFEOg==}
     engines: {node: '>=20.16.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -5971,7 +5968,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.4
 
-  '@manuscripts/body-editor@3.4.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.5.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5980,11 +5977,12 @@ snapshots:
       '@citation-js/plugin-enw': 0.3.0(@citation-js/core@0.7.18)
       '@citation-js/plugin-pubmed': 0.3.0(@citation-js/core@0.7.18)
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
+      '@cospired/i18n-iso-languages': 4.2.0
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
-      '@manuscripts/style-guide': 3.2.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
-      '@manuscripts/track-changes-plugin': 2.0.10
-      '@manuscripts/transform': 4.2.13(prosemirror-state@1.4.3)
+      '@manuscripts/style-guide': 3.3.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+      '@manuscripts/track-changes-plugin': 2.0.11
+      '@manuscripts/transform': 4.2.14(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -6054,7 +6052,7 @@ snapshots:
       deepmerge: 4.3.1
       uuid: 9.0.1
 
-  '@manuscripts/style-guide@3.2.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/style-guide@3.3.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/json-schema': 2.2.12
@@ -6086,7 +6084,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@manuscripts/track-changes-plugin@2.0.10':
+  '@manuscripts/track-changes-plugin@2.0.11':
     dependencies:
       debug: 4.4.1(supports-color@5.5.0)
       prosemirror-commands: 1.7.1
@@ -6098,7 +6096,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@4.2.13(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.2.14(prosemirror-state@1.4.3)':
     dependencies:
       '@manuscripts/json-schema': 2.2.12
       citeproc: 2.4.63
