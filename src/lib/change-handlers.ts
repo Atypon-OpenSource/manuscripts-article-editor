@@ -16,6 +16,7 @@ import {
   ContributorAttrs,
 } from '@manuscripts/body-editor'
 import {
+  CHANGE_OPERATION,
   ChangeSet,
   NodeAttrChange,
   NodeChange,
@@ -152,6 +153,13 @@ export const handleNodeChange = (
   const nodeName = nodeNames.get(node.type) || node.type.name
   const parentNode = getParentNode(state, suggestion.from)!
 
+  if (dataTracked.operation === CHANGE_OPERATION.structure) {
+    return {
+      operation,
+      nodeName,
+      content: nodeContentRetriever.getFirstChildContent(node) + ' ',
+    }
+  }
   // Early return for indentation changes
   if (isIndentation(dataTracked)) {
     return handleIndentationChange(
@@ -334,7 +342,11 @@ export const handleGroupChanges = (
 
   return {
     operation: changeOperationAlias(dataTracked),
-    nodeName: titleNodeName || 'Text',
+    nodeName:
+      titleNodeName ||
+      (suggestions[0].type === 'node-change' &&
+        processed[0].result?.nodeName) ||
+      'Text',
     content,
   }
 }
@@ -359,6 +371,9 @@ export const changeOperationAlias = (dataTracked: TrackedAttrs): string => {
     }
     case 'set_attrs': {
       return 'Updated'
+    }
+    case 'structure': {
+      return 'Convert To'
     }
     case 'node_split': {
       return 'Split'
