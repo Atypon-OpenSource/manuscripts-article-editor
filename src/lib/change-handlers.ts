@@ -159,7 +159,7 @@ export const handleNodeChange = (
       nodeName,
       content: nodeContentRetriever.getFirstChildContent(node) + ' ',
     }
- }
+  }
   // Early return for indentation changes
   if (isIndentation(dataTracked)) {
     return handleIndentationChange(
