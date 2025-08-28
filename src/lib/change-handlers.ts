@@ -16,11 +16,14 @@ import {
   ContributorAttrs,
 } from '@manuscripts/body-editor'
 import {
+  CHANGE_OPERATION,
   ChangeSet,
   NodeAttrChange,
   NodeChange,
+  NodeMoveAttrs,
   RootChange,
   TextChange,
+  TrackedAttrs,
 } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorState,
@@ -29,6 +32,7 @@ import {
   schema,
 } from '@manuscripts/transform'
 import { escape } from 'lodash'
+import { findChildrenByType } from 'prosemirror-utils'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
@@ -37,6 +41,14 @@ interface SnippetData {
   operation: string
   nodeName: string
   content: string | null
+}
+
+// Check if this is an indentation operation
+const isIndentation = (dataTracked: TrackedAttrs): boolean => {
+  return (
+    dataTracked.operation === 'move' &&
+    !!(dataTracked as NodeMoveAttrs).indentationType
+  )
 }
 
 const isAltTitleNode = (node: ManuscriptNode): boolean =>
@@ -52,6 +64,55 @@ const getTitleDisplayName = (node: ManuscriptNode): string => {
     )
   }
   return node.type.name
+}
+
+// Handle indentation changes
+const handleIndentationChange = (
+  dataTracked: NodeMoveAttrs,
+  operation: string,
+  doc: ManuscriptNode
+): SnippetData => {
+  if (!dataTracked.moveNodeId) {
+    return { operation, nodeName: '', content: '' }
+  }
+
+  let foundNode: ManuscriptNode | null = null
+  doc.descendants((n: ManuscriptNode) => {
+    if (foundNode) {
+      return false
+    }
+    const tracked = n.attrs?.dataTracked as TrackedAttrs[] | null
+    if (
+      Array.isArray(tracked) &&
+      tracked.some(
+        (t) =>
+          t.operation === 'delete' && t.moveNodeId === dataTracked.moveNodeId
+      )
+    ) {
+      foundNode = n
+    }
+  })
+
+  if (!foundNode) {
+    return { operation, nodeName: '', content: '' }
+  }
+
+  const nodeType = foundNode ? (foundNode as ManuscriptNode).type : null
+  const nodeName = nodeType ? nodeType.name : ''
+  let content = ''
+
+  // Get content
+  if (nodeType === schema.nodes.section) {
+    const title = findChildrenByType(
+      foundNode as ManuscriptNode,
+      schema.nodes.section_title
+    )[0]
+    content = (title.node as ManuscriptNode).textContent || ''
+  } else if (nodeType === schema.nodes.paragraph) {
+    content = (foundNode as ManuscriptNode).textContent || ''
+  }
+
+  return { operation, nodeName, content }
 }
 
 export const handleTextChange = (
@@ -76,7 +137,7 @@ export const handleTextChange = (
     }
   }
   return {
-    operation: changeOperationAlias(dataTracked.operation),
+    operation: changeOperationAlias(dataTracked),
     nodeName: nodeName || suggestion.nodeType.name,
     content: escape(suggestion.text),
   }
@@ -88,9 +149,25 @@ export const handleNodeChange = (
 ): SnippetData | null => {
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
-  const operation = changeOperationAlias(dataTracked.operation)
+  const operation = changeOperationAlias(dataTracked)
   const nodeName = nodeNames.get(node.type) || node.type.name
   const parentNode = getParentNode(state, suggestion.from)!
+
+  if (dataTracked.operation === CHANGE_OPERATION.structure) {
+    return {
+      operation,
+      nodeName,
+      content: nodeContentRetriever.getFirstChildContent(node) + ' ',
+    }
+  }
+  // Early return for indentation changes
+  if (isIndentation(dataTracked)) {
+    return handleIndentationChange(
+      dataTracked as NodeMoveAttrs,
+      operation,
+      state.doc
+    )
+  }
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
@@ -271,8 +348,12 @@ export const handleGroupChanges = (
     .join('')
 
   return {
-    operation: changeOperationAlias(dataTracked.operation),
-    nodeName: titleNodeName || 'Text',
+    operation: changeOperationAlias(dataTracked),
+    nodeName:
+      titleNodeName ||
+      (suggestions[0].type === 'node-change' &&
+        processed[0].result?.nodeName) ||
+      'Text',
     content,
   }
 }
@@ -285,7 +366,8 @@ export const handleUnknownChange = (): SnippetData => {
   }
 }
 
-export const changeOperationAlias = (operation: string): string => {
+export const changeOperationAlias = (dataTracked: TrackedAttrs): string => {
+  const { operation } = dataTracked
   switch (operation) {
     case 'delete': {
       return 'Deleted'
@@ -297,10 +379,18 @@ export const changeOperationAlias = (operation: string): string => {
     case 'set_attrs': {
       return 'Updated'
     }
+    case 'structure': {
+      return 'Convert To'
+    }
     case 'node_split': {
       return 'Split'
     }
     case 'move': {
+      // Check for indentation
+      const indentationType = dataTracked.indentationType
+      if (indentationType) {
+        return indentationType === 'indent' ? 'Indented' : 'Unindented'
+      }
       return 'Move'
     }
     default: {
