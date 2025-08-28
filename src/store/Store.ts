@@ -21,6 +21,7 @@ import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorView,
   ManuscriptNode,
+  ManuscriptNodeType,
   SectionCategory,
 } from '@manuscripts/transform'
 
@@ -83,6 +84,7 @@ export type state = {
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
   inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
+  hiddenNodeTypes?: ManuscriptNodeType[]
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
