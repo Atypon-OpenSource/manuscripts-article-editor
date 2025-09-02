@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.5.4
-        version: 3.5.4(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.5.5-LEAN-4807.0
+        version: 3.5.5-LEAN-4807.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
@@ -30,8 +30,8 @@ importers:
         specifier: 3.3.0
         version: 3.3.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
-        specifier: 2.0.12
-        version: 2.0.12
+        specifier: 2.0.13-LEAN-4807.0
+        version: 2.0.13-LEAN-4807.0
       '@manuscripts/transform':
         specifier: 4.2.14
         version: 4.2.14(prosemirror-state@1.4.3)
@@ -1175,8 +1175,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.29':
     resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
 
-  '@manuscripts/body-editor@3.5.4':
-    resolution: {integrity: sha512-ePTlR50mWmINuSO+b+fPAEUa0LSDN7ZXAej3iaKafM3yvYejSiBkM2MosJXlOAzvBScBBd9+rrOF5tuNBgM62w==}
+  '@manuscripts/body-editor@3.5.5-LEAN-4807.0':
+    resolution: {integrity: sha512-f9Hr+cJFvdJN4zE34paN8mG40P8lJy+E+GCXBvIHsPt1+tPnErFflAAWy+HwdimRMkgi8VvCH6UeVuGnEQpJ2g==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.5.5-LEAN-4807.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1203,8 +1203,8 @@ packages:
     resolution: {integrity: sha512-kUXC89CwPeQojNdWm0lnufe6LVE3KtOHC2hqEf0QzvatgPiVtqujDIYlnhcDbr/cEADHmfDb4F0EpMPoWqoj9Q==}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/track-changes-plugin@2.0.12':
-    resolution: {integrity: sha512-dDvDmnKv4+ohK4zHiOyxraS5BwADqWe5dQbLutDd+SK8Ef1BdsuhYIPviR3I4ISneOVmCNtIDxaFgEn2WWTGxw==}
+  '@manuscripts/track-changes-plugin@2.0.13-LEAN-4807.0':
+    resolution: {integrity: sha512-NXjsUBCcj/Co75i1cmwN4vhF3LySrWRNj608CNc8kygvgNAm7LpYXgWFXvhtUM5ax3Lz5ABMcuD2RWm9D2i4Pw==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/track-changes-plugin/-/@manuscripts/track-changes-plugin-2.0.13-LEAN-4807.0.tgz}
 
   '@manuscripts/transform@4.2.14':
     resolution: {integrity: sha512-6ccoosWgrLleq+hiTiE5tD1OP0i1AFYEyiaNXrSYN8SRjje+pCitSVReGzOVV9pv6zZ7UeSEm2jGiLCIUcFEOg==}
@@ -5968,7 +5968,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.4
 
-  '@manuscripts/body-editor@3.5.4(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.5.5-LEAN-4807.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5981,7 +5981,7 @@ snapshots:
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
       '@manuscripts/style-guide': 3.3.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
-      '@manuscripts/track-changes-plugin': 2.0.12
+      '@manuscripts/track-changes-plugin': 2.0.13-LEAN-4807.0
       '@manuscripts/transform': 4.2.14(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
@@ -6084,7 +6084,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@manuscripts/track-changes-plugin@2.0.12':
+  '@manuscripts/track-changes-plugin@2.0.13-LEAN-4807.0':
     dependencies:
       debug: 4.4.1(supports-color@5.5.0)
       prosemirror-commands: 1.7.1
