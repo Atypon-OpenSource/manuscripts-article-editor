@@ -42,6 +42,7 @@ export const Advanced: React.FC<{
   setCaseSensitive: (val: boolean) => void
   setIgnoreDiacritics: (val: boolean) => void
   onInputFocus: () => void
+  isReadOnlyMode: boolean
 }> = ({
   isOpen,
   handleClose,
@@ -59,6 +60,7 @@ export const Advanced: React.FC<{
   ignoreDiacritics,
   setIgnoreDiacritics,
   onInputFocus,
+  isReadOnlyMode,
 }) => (
   <>
     <DraggableModal isOpen={isOpen} onRequestClose={() => handleClose()}>
@@ -92,6 +94,7 @@ export const Advanced: React.FC<{
             placeholder={'Replace with'}
             aria-label="Replace with"
             type={'text'}
+            disabled={isReadOnlyMode}
           />
         </FieldGroup>
         <OptionsGroup>
@@ -117,10 +120,16 @@ export const Advanced: React.FC<{
           </CheckBoxGroup>
         </OptionsGroup>
         <ButtonsSection>
-          <SecondaryButton onClick={() => replaceCurrent()}>
+          <SecondaryButton
+            onClick={() => replaceCurrent()}
+            disabled={isReadOnlyMode}
+          >
             Replace
           </SecondaryButton>
-          <SecondaryButton onClick={() => replaceAll()}>
+          <SecondaryButton
+            onClick={() => replaceAll()}
+            disabled={isReadOnlyMode}
+          >
             Replace All
           </SecondaryButton>
           <PrimaryButton onClick={() => movePrev()}>Previous</PrimaryButton>
