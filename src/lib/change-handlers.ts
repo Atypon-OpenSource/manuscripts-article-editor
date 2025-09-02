@@ -297,6 +297,13 @@ export const handleNodeChange = (
         content: node.textContent,
       }
     }
+    case schema.nodes.subtitles: {
+      return {
+        operation,
+        nodeName: 'Subtitle',
+        content: node.textContent,
+      }
+    }
     default:
       return {
         operation,
