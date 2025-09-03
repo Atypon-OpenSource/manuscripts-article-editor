@@ -86,18 +86,14 @@ const Inspector: React.FC = () => {
     }
   }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
 
-  // Handle focus on main document events from PDF attachments
   useEffect(() => {
     const handleMainDocumentSelection = (event: CustomEvent) => {
       if (event.detail.action === 'select-main-document') {
-        // Switch to Files tab
         setTabIndex(FILES_TAB_INDEX)
-
-        // Update inspector state to show Files tab and Main Document section
         dispatch({
           inspectorOpenTabs: {
             primaryTab: InspectorPrimaryTabs.Files,
-            secondaryTab: 1, // Main Document is at index 1 in FileManager tabs
+            secondaryTab: 1,
           },
         })
       }
@@ -107,13 +103,11 @@ const Inspector: React.FC = () => {
       'selectMainDocument',
       handleMainDocumentSelection as EventListener
     )
-
-    return () => {
+    return () =>
       document.removeEventListener(
         'selectMainDocument',
         handleMainDocumentSelection as EventListener
       )
-    }
   }, [dispatch, FILES_TAB_INDEX])
 
   // Effect to control warning decorations visibility
