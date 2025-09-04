@@ -18,6 +18,7 @@ import {
 import {
   CHANGE_OPERATION,
   ChangeSet,
+  MarkChange,
   NodeAttrChange,
   NodeChange,
   NodeMoveAttrs,
@@ -139,6 +140,18 @@ export const handleTextChange = (
   return {
     operation: changeOperationAlias(dataTracked),
     nodeName: nodeName || suggestion.nodeType.name,
+    content: escape(suggestion.text),
+  }
+}
+
+export const handleMarkChange = (
+  suggestion: MarkChange,
+  _: ManuscriptEditorState
+) => {
+  const { dataTracked } = suggestion
+  return {
+    operation: changeOperationAlias(dataTracked.operation),
+    nodeName: suggestion.mark.type.name,
     content: escape(suggestion.text),
   }
 }
