@@ -111,7 +111,7 @@ export const IssuesPanel: React.FC = () => {
   return (
     <IssuesContainer>
       <ToggleHeader
-        title="Errors"
+        title={`Errors (${inconsistencies.length})`}
         isOpen={isCollapsed}
         onToggle={toggleCollapsed}
       />
