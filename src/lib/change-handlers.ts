@@ -17,6 +17,7 @@ import {
 } from '@manuscripts/body-editor'
 import {
   ChangeSet,
+  MarkChange,
   NodeAttrChange,
   NodeChange,
   RootChange,
@@ -78,6 +79,18 @@ export const handleTextChange = (
   return {
     operation: changeOperationAlias(dataTracked.operation),
     nodeName: nodeName || suggestion.nodeType.name,
+    content: escape(suggestion.text),
+  }
+}
+
+export const handleMarkChange = (
+  suggestion: MarkChange,
+  _: ManuscriptEditorState
+) => {
+  const { dataTracked } = suggestion
+  return {
+    operation: changeOperationAlias(dataTracked.operation),
+    nodeName: suggestion.mark.type.name,
     content: escape(suggestion.text),
   }
 }

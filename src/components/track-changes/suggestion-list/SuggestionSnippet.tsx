@@ -16,6 +16,7 @@ import styled from 'styled-components'
 
 import {
   handleGroupChanges,
+  handleMarkChange,
   handleNodeChange,
   handleTextChange,
   handleUnknownChange,
@@ -70,6 +71,8 @@ export const SuggestionSnippet: React.FC<Props> = ({
         newSnippet = handleGroupChanges(suggestions, view, doc, dataTracked)
       } else if (ChangeSet.isTextChange(suggestion)) {
         newSnippet = handleTextChange(suggestion, view.state)
+      } else if (ChangeSet.isMarkChange(suggestion)) {
+        newSnippet = handleMarkChange(suggestion, view.state)
       } else if (
         ChangeSet.isNodeChange(suggestion) ||
         ChangeSet.isNodeAttrChange(suggestion)
