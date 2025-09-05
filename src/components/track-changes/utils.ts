@@ -76,6 +76,14 @@ export const setChangeStatus = (
       !(change.dataTracked.operation === CHANGE_OPERATION.node_split)
     ) {
       change.children.forEach((child) => {
+        // this to make sure we don't lose changes that are paired with other changes like node split
+        if (
+          status === 'rejected' &&
+          change.dataTracked.operation === CHANGE_OPERATION.delete &&
+          child.dataTracked.operation === CHANGE_OPERATION.reference
+        ) {
+          return
+        }
         ids.push(child.id)
       })
     }
