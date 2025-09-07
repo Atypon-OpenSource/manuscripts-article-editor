@@ -56,7 +56,7 @@ export const useInspectorTabsContext = () => {
         inspectorOpenTabs.secondaryTab =
           InspectorSecondaryTabsFiles.SupplementsFiles
         break
-      case 'open-main-document':
+      case 'select-main-document':
         event.stopPropagation()
         inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
         inspectorOpenTabs.secondaryTab =
