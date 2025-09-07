@@ -43,7 +43,7 @@ import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 
 const Inspector: React.FC = () => {
-  const [store, dispatch] = useStore((store) => ({
+  const [store] = useStore((store) => ({
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
     inspectorOpenTabs: store.inspectorOpenTabs,
@@ -85,30 +85,6 @@ const Inspector: React.FC = () => {
       setTabIndex(ISSUES_TAB_INDEX)
     }
   }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
-
-  useEffect(() => {
-    const handleMainDocumentSelection = (event: CustomEvent) => {
-      if (event.detail.action === 'select-main-document') {
-        setTabIndex(FILES_TAB_INDEX)
-        dispatch({
-          inspectorOpenTabs: {
-            primaryTab: InspectorPrimaryTabs.Files,
-            secondaryTab: 1,
-          },
-        })
-      }
-    }
-
-    document.addEventListener(
-      'selectMainDocument',
-      handleMainDocumentSelection as EventListener
-    )
-    return () =>
-      document.removeEventListener(
-        'selectMainDocument',
-        handleMainDocumentSelection as EventListener
-      )
-  }, [dispatch, FILES_TAB_INDEX])
 
   // Effect to control warning decorations visibility
   useEffect(() => {
