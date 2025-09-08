@@ -152,7 +152,7 @@ export const handleMarkChange = (
 ) => {
   const { dataTracked } = suggestion
   return {
-    operation: changeOperationAlias(dataTracked.operation),
+    operation: changeOperationAlias(dataTracked),
     nodeName: suggestion.mark.type.name,
     content: escape(suggestion.text),
   }
@@ -321,7 +321,7 @@ export const handleNodeChange = (
   }
 }
 
-export const handleGroupChanges = (
+export const buildSnippet = (
   suggestions: RootChange,
   view: ManuscriptEditorView,
   dataTracked: any
@@ -364,11 +364,7 @@ export const handleGroupChanges = (
 
   return {
     operation: changeOperationAlias(dataTracked),
-    nodeName:
-      titleNodeName ||
-      (suggestions[0].type === 'node-change' &&
-        processed[0].result?.nodeName) ||
-      'Text',
+    nodeName: titleNodeName || 'Text',
     content,
   }
 }

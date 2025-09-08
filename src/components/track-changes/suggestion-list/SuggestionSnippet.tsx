@@ -10,17 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { AvatarIcon, RelativeDate } from '@manuscripts/style-guide'
-import { ChangeSet, RootChange } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useMemo, useState } from 'react'
+import { RootChange } from '@manuscripts/track-changes-plugin'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
-import {
-  handleGroupChanges,
-  handleMarkChange,
-  handleNodeChange,
-  handleTextChange,
-  handleUnknownChange,
-} from '../../../lib/change-handlers'
+import { buildSnippet } from '../../../lib/change-handlers'
 import { useStore } from '../../../store'
 import SnippetContent from './SnippetContent'
 import SuggestionActions from './SuggestionActions'
@@ -66,7 +60,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
   const snippet: SnippetData | null = useMemo(() => {
     let newSnippet: SnippetData | null = null
     if (view) {
-      newSnippet = handleGroupChanges(suggestions, view, dataTracked)
+      newSnippet = buildSnippet(suggestions, view, dataTracked)
     }
     return newSnippet
     // eslint-disable-next-line react-hooks/exhaustive-deps
