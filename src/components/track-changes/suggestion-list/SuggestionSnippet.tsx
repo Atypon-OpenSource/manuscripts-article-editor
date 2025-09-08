@@ -11,7 +11,7 @@
  */
 import { AvatarIcon, RelativeDate } from '@manuscripts/style-guide'
 import { ChangeSet, RootChange } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import {
@@ -51,7 +51,6 @@ export const SuggestionSnippet: React.FC<Props> = ({
     doc: store.doc,
     collaboratorsById: store.collaboratorsById,
   }))
-  const [snippet, setSnippet] = useState<SnippetData | null>(null)
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
@@ -64,28 +63,14 @@ export const SuggestionSnippet: React.FC<Props> = ({
         : name.given
       : ''
 
-  useEffect(() => {
+  const snippet: SnippetData | null = useMemo(() => {
     let newSnippet: SnippetData | null = null
     if (view) {
-      if (suggestions.length > 1) {
-        newSnippet = handleGroupChanges(suggestions, view, doc, dataTracked)
-      } else if (ChangeSet.isTextChange(suggestion)) {
-        newSnippet = handleTextChange(suggestion, view.state)
-      } else if (ChangeSet.isMarkChange(suggestion)) {
-        newSnippet = handleMarkChange(suggestion, view.state)
-      } else if (
-        ChangeSet.isNodeChange(suggestion) ||
-        ChangeSet.isNodeAttrChange(suggestion)
-      ) {
-        newSnippet = handleNodeChange(suggestion, view.state)
-      } else {
-        newSnippet = handleUnknownChange()
-      }
-
-      setSnippet(newSnippet)
+      newSnippet = handleGroupChanges(suggestions, view, dataTracked)
     }
+    return newSnippet
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestion, doc, view])
+  }, [suggestion, view])
 
   return (
     <SnippetText>

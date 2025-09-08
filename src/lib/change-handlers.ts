@@ -22,9 +22,11 @@ import {
   NodeChange,
   RootChange,
   TextChange,
+  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorState,
+  ManuscriptEditorView,
   ManuscriptNode,
   nodeNames,
   schema,
@@ -244,37 +246,44 @@ export const handleNodeChange = (
 
 export const handleGroupChanges = (
   suggestions: RootChange,
-  view: any,
-  doc: any,
+  view: ManuscriptEditorView,
   dataTracked: any
-): SnippetData | null => {
-  const processed = suggestions.map((change) => {
-    const result = ChangeSet.isTextChange(change)
-      ? handleTextChange(change, view.state)
-      : handleNodeChange(change as NodeChange, view.state)
+) => {
+  let content = ''
+  let titleNodeName = ''
+  suggestions.forEach((change: TrackedChange) => {
+    let result = null
+    let node: ManuscriptNode | null = null
 
-    const node = ChangeSet.isTextChange(change)
-      ? getParentNode(view.state, change.from)
-      : (change as NodeChange).node
+    if (ChangeSet.isNodeChange(change) || ChangeSet.isNodeAttrChange(change)) {
+      result = handleNodeChange(change, view.state)
+      node = change.node
+    } else if (ChangeSet.isTextChange(change)) {
+      result = handleTextChange(change, view.state)
+      node = getParentNode(view.state, change.from)
+    } else if (ChangeSet.isMarkChange(change)) {
+      result = handleMarkChange(change, view.state)
+      titleNodeName = result.nodeName
+    } else {
+      handleUnknownChange()
+    }
+
+    content +=
+      result?.nodeName === schema.nodes.inline_equation.name
+        ? ` ${result.content} `
+        : result?.content || ''
+
+    const isTitle = node ? isAltTitleNode(node) : false
+    // Find the first title change if any exists
+    if (!titleNodeName && isTitle && result?.nodeName) {
+      titleNodeName = result.nodeName
+    }
 
     return {
       result,
-      isTitle: node ? isAltTitleNode(node) : false,
+      isTitle: isTitle,
     }
   })
-
-  // Find the first title change if any exists
-  const titleNodeName =
-    processed.find(({ isTitle }) => isTitle)?.result?.nodeName || null
-
-  // Build the content
-  const content = processed
-    .map(({ result }) =>
-      result?.nodeName === 'inline_equation'
-        ? ` ${result.content} `
-        : result?.content || ''
-    )
-    .join('')
 
   return {
     operation: changeOperationAlias(dataTracked.operation),
