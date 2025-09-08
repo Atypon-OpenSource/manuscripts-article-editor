@@ -24,8 +24,8 @@ import {
   NodeMoveAttrs,
   RootChange,
   TextChange,
-  TrackedChange,
   TrackedAttrs,
+  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorState,
@@ -154,7 +154,7 @@ export const handleMarkChange = (
   return {
     operation: changeOperationAlias(dataTracked),
     nodeName: suggestion.mark.type.name,
-    content: escape(suggestion.text),
+    content: escape(suggestion.node.text),
   }
 }
 

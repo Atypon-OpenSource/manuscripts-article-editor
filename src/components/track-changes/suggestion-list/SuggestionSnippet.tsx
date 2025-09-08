@@ -40,7 +40,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
   handleAccept,
   handleReject,
 }) => {
-  const [{ doc, view, collaboratorsById }] = useStore((store) => ({
+  const [{ view, collaboratorsById }] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
     collaboratorsById: store.collaboratorsById,
