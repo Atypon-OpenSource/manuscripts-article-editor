@@ -111,8 +111,10 @@ const createAttrsDisplay = (
                 const rids = value as string[]
                 if (rids.includes(fn.attrs.id)) {
                   const fnText =
-                    fn.text?.substring(0, limit) +
-                    (fn.text && fn.text.length > limit ? '...' : '')
+                    fn.textContent?.substring(0, limit) +
+                    (fn.textContent && fn.textContent.length > limit
+                      ? '...'
+                      : '')
                   return acc ? acc + ', ' + fnText : fnText
                 }
                 return acc
