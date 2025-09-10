@@ -18,7 +18,6 @@ import {
   isNodeComment,
   setCommentSelection,
 } from '@manuscripts/body-editor'
-import { buildContribution } from '@manuscripts/json-schema'
 import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
@@ -105,7 +104,14 @@ export const CommentsPanel: React.FC = () => {
       id: generateNodeID(schema.nodes.comment),
       contents,
       target,
-      contributions: [buildContribution(user._id)],
+      contributions: [
+        {
+          _id: generateNodeID(schema.nodes.comment),
+          objectType: 'MPContribution',
+          profileID: user._id,
+          timestamp: Date.now(),
+        },
+      ],
       resolved: false,
     }
 
