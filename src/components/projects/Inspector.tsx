@@ -94,6 +94,7 @@ const Inspector: React.FC = () => {
       store.view.dispatch(tr)
     }
   }, [tabIndex, ISSUES_TAB_INDEX, store.view])
+
   if (store.isComparingMode) {
     return (
       <Panel
