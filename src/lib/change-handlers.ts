@@ -335,7 +335,7 @@ export const buildSnippet = (
 ) => {
   let content = ''
   let title = ''
-  let titleNode: ManuscriptNode | null = null
+  let titleNodeName = ''
   suggestions.forEach((change: TrackedChange) => {
     let result: SnippetData | null = null
     let node: ManuscriptNode | null = null
@@ -348,12 +348,12 @@ export const buildSnippet = (
       node = getParentNode(view.state, change.from)
     } else if (ChangeSet.isMarkChange(change)) {
       result = handleMarkChange(change, view.state)
-      // title = result.nodeName
     } else {
       handleUnknownChange()
     }
 
-    titleNode = node && isAltTitleNode(node) ? node : null
+    titleNodeName =
+      result && node && isAltTitleNode(node) ? result.nodeName : ''
 
     content +=
       result?.nodeName === schema.nodes.inline_equation.name
@@ -365,8 +365,8 @@ export const buildSnippet = (
     }
 
     // Find the first title change if any exists and use its nodeName for the change name
-    if (titleNode) {
-      title = titleNode.nodeName
+    if (titleNodeName) {
+      title = titleNodeName
     }
 
     return {
