@@ -32,7 +32,7 @@
     "@fontsource/pt-sans": "5.2.5",
     "@fontsource/pt-serif": "5.2.5",
     "@headlessui/react": "2.2.3",
-    "@manuscripts/body-editor": "3.5.13-LEAN-4805.0",
+    "@manuscripts/body-editor": "3.5.13-LEAN-4805.2",
     "@manuscripts/json-schema": "2.2.12",
     "@manuscripts/style-guide": "3.3.0",
     "@manuscripts/track-changes-plugin": "2.0.14-LEAN-4805.0",
