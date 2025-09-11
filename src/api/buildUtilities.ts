@@ -50,9 +50,19 @@ export const buildUtilities = (
     })
   }
 
+  const updateUserRole = async (userID: string, role: string) => {
+    try {
+      await api.updateUserRole(projectID, userID, role)
+    } catch (error) {
+      console.error('Failed to update user role:', error)
+      throw error
+    }
+  }
+
   return {
     createSnapshot,
     refreshProject,
+    updateUserRole,
     getSnapshot: api.getSnapshot,
   }
 }

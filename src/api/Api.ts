@@ -136,6 +136,9 @@ export class Api {
   createProject = (projectId: string, title: string) =>
     this.post<Project>(`project/${projectId}`, { title })
 
+  updateUserRole = (projectId: string, userID: string, role: string) =>
+    this.post(`project/${projectId}/userRole`, { userID, role })
+
   getSnapshot = (snapshotID: string) =>
     this.get<ManuscriptSnapshot>(`snapshot/${snapshotID}`)
 
