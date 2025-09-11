@@ -334,9 +334,10 @@ export const buildSnippet = (
   dataTracked: any
 ) => {
   let content = ''
-  let titleNodeName = ''
+  let title = ''
+  let titleNode: ManuscriptNode | null = null
   suggestions.forEach((change: TrackedChange) => {
-    let result = null
+    let result: SnippetData | null = null
     let node: ManuscriptNode | null = null
 
     if (ChangeSet.isNodeChange(change) || ChangeSet.isNodeAttrChange(change)) {
@@ -347,31 +348,35 @@ export const buildSnippet = (
       node = getParentNode(view.state, change.from)
     } else if (ChangeSet.isMarkChange(change)) {
       result = handleMarkChange(change, view.state)
-      titleNodeName = result.nodeName
+      // title = result.nodeName
     } else {
       handleUnknownChange()
     }
+
+    titleNode = node && isAltTitleNode(node) ? node : null
 
     content +=
       result?.nodeName === schema.nodes.inline_equation.name
         ? ` ${result.content} `
         : result?.content || ''
 
-    const isTitle = node ? isAltTitleNode(node) : false
-    // Find the first title change if any exists
-    if (!titleNodeName && isTitle && result?.nodeName) {
-      titleNodeName = result.nodeName
+    if (result?.nodeName) {
+      title = result.nodeName
+    }
+
+    // Find the first title change if any exists and use its nodeName for the change name
+    if (titleNode) {
+      title = titleNode.nodeName
     }
 
     return {
       result,
-      isTitle: isTitle,
     }
   })
 
   return {
     operation: changeOperationAlias(dataTracked),
-    nodeName: titleNodeName || 'Text',
+    nodeName: title || 'Text',
     content,
   }
 }
