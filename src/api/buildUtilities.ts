@@ -40,14 +40,21 @@ export const buildUtilities = (
     if (!userID) {
       return
     }
+
     const project = await api.getProject(projectID)
+
     if (!project) {
       return
     }
+
+    const newUserRole = getUserRole(project, userID)
+    console.log('new Role is', newUserRole)
+
     updateState({
       project,
-      userRole: getUserRole(project, userID),
+      userRole: newUserRole,
     })
+    console.log('State updated.')
   }
 
   return {
