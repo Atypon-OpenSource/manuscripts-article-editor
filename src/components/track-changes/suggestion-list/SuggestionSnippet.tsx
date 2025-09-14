@@ -45,7 +45,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
   handleAccept,
   handleReject,
 }) => {
-  const [{ doc, view, collaboratorsById }] = useStore((store) => ({
+  const [{ doc, view, collaboratorsById }, , getState] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
     collaboratorsById: store.collaboratorsById,
@@ -74,7 +74,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
         ChangeSet.isNodeChange(suggestion) ||
         ChangeSet.isNodeAttrChange(suggestion)
       ) {
-        newSnippet = handleNodeChange(suggestion, view.state)
+        newSnippet = handleNodeChange(suggestion, view.state, getState().files)
       } else {
         newSnippet = handleUnknownChange()
       }

@@ -14,6 +14,7 @@ import {
   affiliationLabel,
   authorLabel,
   ContributorAttrs,
+  FileAttachment,
 } from '@manuscripts/body-editor'
 import {
   CHANGE_OPERATION,
@@ -145,7 +146,8 @@ export const handleTextChange = (
 
 export const handleNodeChange = (
   suggestion: NodeChange | NodeAttrChange,
-  state: ManuscriptEditorState
+  state: ManuscriptEditorState,
+  getFiles?: FileAttachment[]
 ): SnippetData | null => {
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
@@ -281,6 +283,15 @@ export const handleNodeChange = (
         operation,
         nodeName: 'Funder Info',
         content: node.attrs.source,
+      }
+    }
+    case schema.nodes.supplement: {
+      const files = getFiles
+      const file = files?.find((f) => f.id === node.attrs.href)
+      return {
+        operation,
+        nodeName,
+        content: file ? file.name : '',
       }
     }
     case schema.nodes.alt_title: {
