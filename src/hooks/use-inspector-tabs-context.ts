@@ -25,6 +25,7 @@ export enum InspectorPrimaryTabs {
   Quality = 3,
 }
 export enum InspectorSecondaryTabsFiles {
+  MainDocument = 1,
   SupplementsFiles = 2,
   OtherFiles = 3,
 }
@@ -54,6 +55,12 @@ export const useInspectorTabsContext = () => {
         inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
         inspectorOpenTabs.secondaryTab =
           InspectorSecondaryTabsFiles.SupplementsFiles
+        break
+      case 'select-main-document':
+        event.stopPropagation()
+        inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
+        inspectorOpenTabs.secondaryTab =
+          InspectorSecondaryTabsFiles.MainDocument
         break
       default:
         break
