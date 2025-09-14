@@ -11,12 +11,12 @@
  */
 import {
   Bundle,
+  ManuscriptTemplate,
   Model,
-  ObjectTypes,
+  objectTypes,
   Project,
   UserProfile,
-} from '@manuscripts/json-schema'
-import { ManuscriptTemplate } from '@manuscripts/transform'
+} from '@manuscripts/transform'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -123,7 +123,7 @@ export class Api {
       throw new Error('Models are wrong.')
     }
     for (const model of models) {
-      if (model.objectType === ObjectTypes.Project) {
+      if (model.objectType === objectTypes.Project) {
         return model as Project
       }
     }

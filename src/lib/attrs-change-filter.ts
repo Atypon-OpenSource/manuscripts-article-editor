@@ -11,10 +11,10 @@
  */
 
 import { bibliographyItemTypes, FileAttachment } from '@manuscripts/body-editor'
-import { BibliographicDate, BibliographicName } from '@manuscripts/json-schema'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
   AffiliationNode,
+  BibliographicName,
   BibliographyItemNode,
   CreditRole,
   FootnoteNode,
@@ -179,9 +179,7 @@ const createAttrsDisplay = (
         case 'issued':
           return (filteredAttrs[key] = {
             label: 'year',
-            value: ((value as BibliographicDate)?.['date-parts'] || []).join(
-              '/'
-            ),
+            value: (value?.['date-parts'] || []).join('/'),
           })
         case 'containerTitle':
           return (filteredAttrs[key] = {
