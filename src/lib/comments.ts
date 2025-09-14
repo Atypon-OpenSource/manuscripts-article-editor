@@ -45,7 +45,7 @@ export const buildAuthorName = (user: UserProfile | undefined) => {
   if (!user) {
     return ''
   }
-  return [user.bibliographicName.given, user.bibliographicName.family]
+  return [user.bibliographicName?.given, user.bibliographicName?.family]
     .filter(Boolean)
     .join(' ')
 }
