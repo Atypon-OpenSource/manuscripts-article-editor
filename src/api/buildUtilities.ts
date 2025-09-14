@@ -35,34 +35,43 @@ export const buildUtilities = (
   }
 
   const refreshProject = async () => {
+    console.log('refreshProject: Starting project refresh', {
+      projectID,
+      timestamp: new Date().toISOString(),
+    })
+
     const state = getState()
     const userID = state.userID
     if (!userID) {
+      console.log('refreshProject: No userID found, skipping refresh')
       return
     }
+
+    console.log('refreshProject: Fetching project data...', { userID })
     const project = await api.getProject(projectID)
     if (!project) {
+      console.log('refreshProject: No project data received')
       return
     }
+
+    const newUserRole = getUserRole(project, userID)
+    console.log('refreshProject: Updating state with new project data', {
+      projectId: project._id,
+      userRole: newUserRole,
+      timestamp: new Date().toISOString(),
+    })
+
     updateState({
       project,
-      userRole: getUserRole(project, userID),
+      userRole: newUserRole,
     })
-  }
 
-  const updateUserRole = async (userID: string, role: string) => {
-    try {
-      await api.updateUserRole(projectID, userID, role)
-    } catch (error) {
-      console.error('Failed to update user role:', error)
-      throw error
-    }
+    console.log('refreshProject: Project refresh completed')
   }
 
   return {
     createSnapshot,
     refreshProject,
-    updateUserRole,
     getSnapshot: api.getSnapshot,
   }
 }

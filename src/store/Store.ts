@@ -42,7 +42,6 @@ export type state = {
 
   project: Project
   refreshProject: () => Promise<void>
-  updateUserRole: (userID: string, role: string) => Promise<void>
   user: UserProfile // probably should be optional
 
   editor: PMEditor
