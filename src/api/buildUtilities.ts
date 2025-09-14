@@ -35,19 +35,36 @@ export const buildUtilities = (
   }
 
   const refreshProject = async () => {
+    console.log('refreshProject: Starting project refresh', {
+      projectID,
+    })
+
     const state = getState()
     const userID = state.userID
     if (!userID) {
+      console.log('refreshProject: No userID found, skipping refresh')
       return
     }
+
+    console.log('refreshProject: Fetching project data...', { userID })
     const project = await api.getProject(projectID)
     if (!project) {
+      console.log('refreshProject: No project data received')
       return
     }
+
+    const newUserRole = getUserRole(project, userID)
+    console.log('refreshProject: Updating state with new project data', {
+      projectId: project._id,
+      userRole: newUserRole,
+    })
+
     updateState({
       project,
-      userRole: getUserRole(project, userID),
+      userRole: newUserRole,
     })
+
+    console.log('refreshProject: Project refresh completed')
   }
 
   return {
