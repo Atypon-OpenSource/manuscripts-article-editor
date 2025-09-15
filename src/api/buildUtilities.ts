@@ -43,45 +43,25 @@ export const buildUtilities = (
       timestamp: new Date().toISOString(),
     })
 
-    // Try to get userID from parameter first, then from state as fallback
-    let effectiveUserID: string | undefined = userID
-    if (!effectiveUserID) {
-      const state = getState()
-      effectiveUserID = state.userID
+    if (!userID) {
       console.log(
-        'refreshProject round3: userID not provided, trying to get from state',
-        {
-          stateUserID: effectiveUserID,
-          stateUserIDType: typeof effectiveUserID,
-        }
-      )
-    }
-
-    if (!effectiveUserID) {
-      console.log(
-        'refreshProject round3: No userID available from parameter or state, skipping refresh',
-        {
-          paramUserID: userID,
-          paramUserIDType: typeof userID,
-          stateUserID: effectiveUserID,
-          stateUserIDType: typeof effectiveUserID,
-        }
+        'refreshProject: No userID provided to utility function, skipping refresh',
+        { userID, userIDType: typeof userID }
       )
       return
     }
 
-    console.log('refreshProject: Fetching project data...', { effectiveUserID })
+    console.log('refreshProject: Fetching project data...', { userID })
     const project = await api.getProject(projectID)
     if (!project) {
       console.log('refreshProject: No project data received')
       return
     }
 
-    const newUserRole = getUserRole(project, effectiveUserID)
+    const newUserRole = getUserRole(project, userID)
     console.log('refreshProject: Updating state with new project data', {
       projectId: project._id,
       userRole: newUserRole,
-      effectiveUserID,
       timestamp: new Date().toISOString(),
     })
 
