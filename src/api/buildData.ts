@@ -105,8 +105,11 @@ export const buildData = async (
     user: user,
     userID: user._id,
     userIDType: typeof user._id,
+    userUserID: user.userID,
+    userUserIDType: typeof user.userID,
     userBibliographicName: user.bibliographicName,
     userEmail: user.email,
+    userKeys: Object.keys(user),
   })
 
   const doc = await getDocumentData(projectID, manuscriptID, api)
@@ -123,12 +126,29 @@ export const buildData = async (
     projectProofers: project?.proofers,
   })
 
-  const role = project ? getUserRole(project, user._id) : null
+  // Try both userID formats to see which one works
+  const roleWithUserID = project ? getUserRole(project, user.userID) : null
+  const roleWithId = project ? getUserRole(project, user._id) : null
 
-  console.log('buildData: Initial role calculation:', {
+  console.log('buildData: Role calculation comparison:', {
+    userUserID: user.userID,
+    userUserIDType: typeof user.userID,
     userID: user._id,
-    userRole: role,
-    userRoleType: typeof role,
+    userIDType: typeof user._id,
+    roleWithUserID: roleWithUserID,
+    roleWithId: roleWithId,
+    projectAnnotators: project?.annotators,
+    projectEditors: project?.editors,
+    projectViewers: project?.viewers,
+  })
+
+  // Use the one that gives a valid role
+  const role = roleWithUserID || roleWithId
+
+  console.log('buildData: Final role selection:', {
+    selectedRole: role,
+    selectedRoleType: typeof role,
+    usedUserID: roleWithUserID ? 'user.userID' : 'user._id',
   })
 
   const users = await getUserData(projectID, user, api)

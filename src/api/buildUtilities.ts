@@ -54,8 +54,8 @@ export const buildUtilities = (
     // Try multiple ways to get userID
     const userIDSources = [
       { name: 'state.userID', value: state.userID },
+      { name: 'state.user.userID', value: state.user?.userID }, // This should match role arrays
       { name: 'state.user._id', value: state.user?._id },
-      { name: 'state.user.userID', value: state.user?.userID },
     ]
 
     console.log('refreshProject: Testing userID sources:', userIDSources)
