@@ -101,10 +101,36 @@ export const buildData = async (
     return {}
   }
 
+  console.log('buildData: Initial user data from API:', {
+    user: user,
+    userID: user._id,
+    userIDType: typeof user._id,
+    userBibliographicName: user.bibliographicName,
+    userEmail: user.email,
+  })
+
   const doc = await getDocumentData(projectID, manuscriptID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const project = await api.getProject(projectID)
-  const role = project ? getUserRole(project, user.userID) : null
+
+  console.log('buildData: Project data for role calculation:', {
+    projectId: project?._id,
+    projectOwners: project?.owners,
+    projectWriters: project?.writers,
+    projectViewers: project?.viewers,
+    projectEditors: project?.editors,
+    projectAnnotators: project?.annotators,
+    projectProofers: project?.proofers,
+  })
+
+  const role = project ? getUserRole(project, user._id) : null
+
+  console.log('buildData: Initial role calculation:', {
+    userID: user._id,
+    userRole: role,
+    userRoleType: typeof role,
+  })
+
   const users = await getUserData(projectID, user, api)
 
   return {
