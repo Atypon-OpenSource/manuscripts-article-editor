@@ -14,12 +14,6 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
-// get userID from state
-const getUserID = (getState: () => Partial<state>) => {
-  const state = getState()
-  return state.user?.userID || null
-}
-
 export const buildUtilities = (
   projectID: string,
   manuscriptID: string,
