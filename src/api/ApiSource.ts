@@ -36,6 +36,13 @@ export class ApiSource implements StoreDataSourceStrategy {
     const manuscriptID = state.manuscriptID
     const userID = state.userID // Retrieve the userID from the state object
 
+    console.log('ApiSource: Building utilities with:', {
+      manuscriptID,
+      projectID,
+      userID,
+      userIDType: typeof userID,
+    })
+
     if (manuscriptID && projectID && userID) {
       await this.checkTransformVersion()
       this.data = await buildData(projectID, manuscriptID, this.api)
@@ -45,7 +52,7 @@ export class ApiSource implements StoreDataSourceStrategy {
         () => this.data,
         setState,
         this.api,
-        userID 
+        userID
       )
     }
     next({ ...state, ...this.data, ...this.utilities })

@@ -38,12 +38,15 @@ export const buildUtilities = (
   const refreshProject = async () => {
     console.log('refreshProject: Starting project refresh', {
       projectID,
+      userID,
+      userIDType: typeof userID,
       timestamp: new Date().toISOString(),
     })
 
     if (!userID) {
       console.log(
-        'refreshProject: No userID provided to utility function, skipping refresh'
+        'refreshProject: No userID provided to utility function, skipping refresh',
+        { userID, userIDType: typeof userID }
       )
       return
     }
