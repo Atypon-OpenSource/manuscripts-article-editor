@@ -41,7 +41,8 @@ export const buildUtilities = (
   }
 
   const refreshProject = async () => {
-    const userID = getUserID(getState)
+    const state = getState()
+    const userID = state.user?.userID || null
     if (!userID) {
       return
     }
