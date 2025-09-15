@@ -63,7 +63,7 @@ export const TrackChangesPanel: React.FC = () => {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  const title = isComparingMode ? 'Changes' : 'Suggestions'
   return (
     <>
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
@@ -71,7 +71,7 @@ export const TrackChangesPanel: React.FC = () => {
         type="all"
         changes={changeSet?.groupChanges || []}
         selectionID={selectedSuggestionID}
-        title="Suggestions"
+        title={title}
         sortBy={sortBy}
         onAccept={(change) => {
           if (!isComparingMode) {
