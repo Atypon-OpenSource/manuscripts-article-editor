@@ -36,7 +36,7 @@ export const buildUtilities = (
 
   const refreshProject = async () => {
     const state = getState()
-    const userID = state.user?.userID || null
+    const userID = state.user?.userID
     if (!userID) {
       return
     }
