@@ -60,11 +60,9 @@ export const buildUtilities = (
       return
     }
 
-    const newUserRole = getUserRole(project, userID)
-
     updateState({
       project,
-      userRole: newUserRole,
+      userRole: getUserRole(project, userID),
     })
   }
 
