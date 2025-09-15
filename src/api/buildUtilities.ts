@@ -14,6 +14,12 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
+// get userID from state
+const getUserID = (getState: () => Partial<state>) => {
+  const state = getState()
+  return state.user?.userID || null
+}
+
 export const buildUtilities = (
   projectID: string,
   manuscriptID: string,
@@ -35,36 +41,20 @@ export const buildUtilities = (
   }
 
   const refreshProject = async () => {
-    console.log('refreshProject: Starting project refresh', {
-      projectID,
-    })
-
-    const state = getState()
-    const userID = state.userID
+    const userID = getUserID(getState)
     if (!userID) {
-      console.log('refreshProject: No userID found, skipping refresh')
       return
     }
 
-    console.log('refreshProject: Fetching project data...', { userID })
     const project = await api.getProject(projectID)
     if (!project) {
-      console.log('refreshProject: No project data received')
       return
     }
-
-    const newUserRole = getUserRole(project, userID)
-    console.log('refreshProject: Updating state with new project data', {
-      projectId: project._id,
-      userRole: newUserRole,
-    })
 
     updateState({
       project,
-      userRole: newUserRole,
+      userRole: getUserRole(project, userID),
     })
-
-    console.log('refreshProject: Project refresh completed')
   }
 
   return {
