@@ -19,7 +19,8 @@ export const buildUtilities = (
   manuscriptID: string,
   getState: () => Partial<state>,
   updateState: (state: Partial<state>) => void,
-  api: Api
+  api: Api,
+  userID: string // Added userID parameter
 ): Partial<state> => {
   const createSnapshot = async (name: string) => {
     const state = getState()
@@ -40,10 +41,10 @@ export const buildUtilities = (
       timestamp: new Date().toISOString(),
     })
 
-    const state = getState()
-    const userID = state.userID
     if (!userID) {
-      console.log('refreshProject: No userID found, skipping refresh')
+      console.log(
+        'refreshProject: No userID provided to utility function, skipping refresh'
+      )
       return
     }
 
