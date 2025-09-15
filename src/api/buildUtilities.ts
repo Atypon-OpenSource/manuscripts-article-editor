@@ -14,30 +14,26 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
-// Unified utility to get userID from state or API
-const getUserID = async (
-  getState: () => Partial<state>,
-  api: Api
-): Promise<string | null> => {
+// Unified utility to get userID from state
+const getUserID = (getState: () => Partial<state>): string | null => {
   const state = getState()
 
   // First try to get userID from state (preferred format)
   if (state.userID) {
+    console.log('state.userID')
     return state.userID
   }
 
   // Try to get userID from user object in state
   if (state.user?.userID) {
+    console.log('state.user.userID')
+
     return state.user.userID
   }
 
-  // Fallback to API call
-  try {
-    const userProfile = await api.getUser()
-    return userProfile?.userID || userProfile?._id || null
-  } catch (error) {
-    return null
-  }
+  // If no userID found, this indicates a state initialization problem
+  console.error('getUserID: No userID found in state. This should not happen.')
+  return null
 }
 
 export const buildUtilities = (
@@ -61,7 +57,7 @@ export const buildUtilities = (
   }
 
   const refreshProject = async () => {
-    const userID = await getUserID(getState, api)
+    const userID = getUserID(getState)
     if (!userID) {
       return
     }
