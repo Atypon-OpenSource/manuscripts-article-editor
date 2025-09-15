@@ -36,11 +36,13 @@ export class ApiSource implements StoreDataSourceStrategy {
     const manuscriptID = state.manuscriptID
     const userID = state.userID // Retrieve the userID from the state object
 
-    console.log('ApiSource: Building utilities with:', {
+    console.log('ApiSource: Building utilities with state:', {
       manuscriptID,
       projectID,
       userID,
       userIDType: typeof userID,
+      stateKeys: Object.keys(state),
+      timestamp: new Date().toISOString(),
     })
 
     if (manuscriptID && projectID && userID) {

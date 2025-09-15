@@ -107,6 +107,14 @@ export const useCreateEditor = () => {
   const config = getConfig()
   const onEditorClick = useInspectorTabsContext()
 
+  // Debug logging for user object
+  console.log('useCreateEditor: Creating editor props with user:', {
+    user: user,
+    userId: user?._id,
+    userType: typeof user,
+    timestamp: new Date().toISOString(),
+  })
+
   const props = {
     attributes: {
       class: 'manuscript-editor',
