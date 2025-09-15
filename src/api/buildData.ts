@@ -16,6 +16,11 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
+// Unified utility to get userID from user object (preferred format first)
+const getUserIDFromUser = (user: any): string | null => {
+  return user?.userID || user?._id || null
+}
+
 const convertNodeNamesToTypes = (nodeNames: string[]) => {
   return nodeNames
     .map((nodeName) => {
@@ -105,10 +110,9 @@ export const buildData = async (
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const project = await api.getProject(projectID)
 
-  // Try user.userID first (preferred format), then fallback to user._id
-  const role = project
-    ? getUserRole(project, user.userID) || getUserRole(project, user._id)
-    : null
+  // Use unified approach to get userID
+  const userID = getUserIDFromUser(user)
+  const role = project && userID ? getUserRole(project, userID) : null
 
   const users = await getUserData(projectID, user, api)
 
