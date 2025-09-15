@@ -101,55 +101,14 @@ export const buildData = async (
     return {}
   }
 
-  console.log('buildData: Initial user data from API:', {
-    user: user,
-    userID: user._id,
-    userIDType: typeof user._id,
-    userUserID: user.userID,
-    userUserIDType: typeof user.userID,
-    userBibliographicName: user.bibliographicName,
-    userEmail: user.email,
-    userKeys: Object.keys(user),
-  })
-
   const doc = await getDocumentData(projectID, manuscriptID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const project = await api.getProject(projectID)
 
-  console.log('buildData: Project data for role calculation:', {
-    projectId: project?._id,
-    projectOwners: project?.owners,
-    projectWriters: project?.writers,
-    projectViewers: project?.viewers,
-    projectEditors: project?.editors,
-    projectAnnotators: project?.annotators,
-    projectProofers: project?.proofers,
-  })
-
-  // Try both userID formats to see which one works
-  const roleWithUserID = project ? getUserRole(project, user.userID) : null
-  const roleWithId = project ? getUserRole(project, user._id) : null
-
-  console.log('buildData: Role calculation comparison:', {
-    userUserID: user.userID,
-    userUserIDType: typeof user.userID,
-    userID: user._id,
-    userIDType: typeof user._id,
-    roleWithUserID: roleWithUserID,
-    roleWithId: roleWithId,
-    projectAnnotators: project?.annotators,
-    projectEditors: project?.editors,
-    projectViewers: project?.viewers,
-  })
-
-  // Use the one that gives a valid role
-  const role = roleWithUserID || roleWithId
-
-  console.log('buildData: Final role selection:', {
-    selectedRole: role,
-    selectedRoleType: typeof role,
-    usedUserID: roleWithUserID ? 'user.userID' : 'user._id',
-  })
+  // Try user.userID first (preferred format), then fallback to user._id
+  const role = project
+    ? getUserRole(project, user.userID) || getUserRole(project, user._id)
+    : null
 
   const users = await getUserData(projectID, user, api)
 

@@ -35,143 +35,37 @@ export const buildUtilities = (
   }
 
   const refreshProject = async () => {
-    console.log('=== refreshProject: Starting comprehensive userID testing ===')
     const state = getState()
 
-    // Log all available state data
-    console.log('refreshProject: Available state data:', {
-      stateKeys: Object.keys(state),
-      stateUserID: state.userID,
-      stateUserIDType: typeof state.userID,
-      stateUser: state.user,
-      stateUserType: typeof state.user,
-      stateUserIDFromUser: state.user?._id,
-      stateUserIDFromUserType: typeof state.user?._id,
-      stateUserBibliographicName: state.user?.bibliographicName,
-      stateUserEmail: state.user?.email,
-    })
-
-    // Try multiple ways to get userID
-    const userIDSources = [
-      { name: 'state.userID', value: state.userID },
-      { name: 'state.user.userID', value: state.user?.userID }, // This should match role arrays
-      { name: 'state.user._id', value: state.user?._id },
-    ]
-
-    console.log('refreshProject: Testing userID sources:', userIDSources)
-
-    // Find the first valid userID
-    let userID: string | null = null
-    let userIDSource: string | null = null
-
-    for (const source of userIDSources) {
-      if (source.value) {
-        userID = source.value
-        userIDSource = source.name
-        console.log(`refreshProject: Found userID from ${source.name}:`, {
-          userID: userID,
-          userIDType: typeof userID,
-          userIDLength: userID?.length,
-        })
-        break
-      }
-    }
+    // Try to get userID from state, with fallback to API
+    let userID = state.userID || state.user?.userID || state.user?._id
 
     // If still no userID, try API as fallback
     if (!userID) {
-      console.log(
-        'refreshProject: No userID from state, trying API fallback...'
-      )
       try {
         const userProfile = await api.getUser()
-        userID = userProfile?._id || null
-        userIDSource = 'api.getUser()._id'
-        console.log('refreshProject: Got userID from API:', {
-          userID: userID,
-          userIDType: typeof userID,
-          userIDLength: userID?.length,
-          userProfile: userProfile,
-        })
+        userID = userProfile?._id
       } catch (error) {
-        console.log('refreshProject: Failed to get user from API:', error)
+        // Silently fail if API call fails
+        return
       }
     }
 
     if (!userID) {
-      console.log(
-        'refreshProject: No userID available from any source, skipping refresh'
-      )
       return
     }
 
-    console.log('refreshProject: Final userID selected:', {
-      userID: userID,
-      userIDType: typeof userID,
-      userIDLength: userID?.length,
-      source: userIDSource,
-    })
-
-    console.log('refreshProject: Fetching project data...', { userID })
     const project = await api.getProject(projectID)
     if (!project) {
-      console.log('refreshProject: No project data received')
       return
     }
 
-    // Log project role arrays
-    console.log('refreshProject: Project role arrays:', {
-      projectId: project._id,
-      projectOwners: project.owners,
-      projectWriters: project.writers,
-      projectViewers: project.viewers,
-      projectEditors: project.editors,
-      projectAnnotators: project.annotators,
-      projectProofers: project.proofers,
-      ownersCount: project.owners?.length,
-      writersCount: project.writers?.length,
-      viewersCount: project.viewers?.length,
-      editorsCount: project.editors?.length,
-      annotatorsCount: project.annotators?.length,
-      proofersCount: project.proofers?.length,
-    })
-
-    // Test userID against each role array
-    const roleChecks = {
-      isOwner: project.owners?.includes(userID),
-      isWriter: project.writers?.includes(userID),
-      isViewer: project.viewers?.includes(userID),
-      isEditor: project.editors?.includes(userID),
-      isAnnotator: project.annotators?.includes(userID),
-      isProofer: project.proofers?.includes(userID),
-    }
-
-    console.log('refreshProject: Role checks for userID:', {
-      userID: userID,
-      roleChecks: roleChecks,
-      isInAnyRole: Object.values(roleChecks).some(Boolean),
-    })
-
     const newUserRole = getUserRole(project, userID)
-    console.log('refreshProject: getUserRole result:', {
-      userID: userID,
-      userRole: newUserRole,
-      userRoleType: typeof newUserRole,
-    })
-
-    console.log('refreshProject: Updating state with new project data', {
-      projectId: project._id,
-      userRole: newUserRole,
-      userID: userID,
-      userIDSource: userIDSource,
-      timestamp: new Date().toISOString(),
-    })
 
     updateState({
       project,
       userRole: newUserRole,
     })
-
-    console.log('=== refreshProject: Project refresh completed ===')
   }
 
   return {
