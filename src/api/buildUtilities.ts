@@ -19,8 +19,7 @@ export const buildUtilities = (
   manuscriptID: string,
   getState: () => Partial<state>,
   updateState: (state: Partial<state>) => void,
-  api: Api,
-  userID: string // Added userID parameter
+  api: Api
 ): Partial<state> => {
   const createSnapshot = async (name: string) => {
     const state = getState()
@@ -36,41 +35,19 @@ export const buildUtilities = (
   }
 
   const refreshProject = async () => {
-    console.log('refreshProject: Starting project refresh', {
-      projectID,
-      userID,
-      userIDType: typeof userID,
-      timestamp: new Date().toISOString(),
-    })
-
+    const state = getState()
+    const userID = state.userID
     if (!userID) {
-      console.log(
-        'refreshProject: No userID provided to utility function, skipping refresh',
-        { userID, userIDType: typeof userID }
-      )
       return
     }
-
-    console.log('refreshProject: Fetching project data...', { userID })
     const project = await api.getProject(projectID)
     if (!project) {
-      console.log('refreshProject: No project data received')
       return
     }
-
-    const newUserRole = getUserRole(project, userID)
-    console.log('refreshProject: Updating state with new project data', {
-      projectId: project._id,
-      userRole: newUserRole,
-      timestamp: new Date().toISOString(),
-    })
-
     updateState({
       project,
-      userRole: newUserRole,
+      userRole: getUserRole(project, userID),
     })
-
-    console.log('refreshProject: Project refresh completed')
   }
 
   return {
