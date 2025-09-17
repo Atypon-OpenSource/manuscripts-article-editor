@@ -45,10 +45,11 @@ export const SuggestionSnippet: React.FC<Props> = ({
   handleAccept,
   handleReject,
 }) => {
-  const [{ doc, view, collaboratorsById }, , getState] = useStore((store) => ({
+  const [{ doc, view, collaboratorsById, files }] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
     collaboratorsById: store.collaboratorsById,
+    files: store.files,
   }))
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
   const suggestion = suggestions[0]
@@ -74,7 +75,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
         ChangeSet.isNodeChange(suggestion) ||
         ChangeSet.isNodeAttrChange(suggestion)
       ) {
-        newSnippet = handleNodeChange(suggestion, view.state, getState().files)
+        newSnippet = handleNodeChange(suggestion, view.state, files)
       } else {
         newSnippet = handleUnknownChange()
       }
@@ -82,7 +83,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
       setSnippet(newSnippet)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestion, doc, view])
+  }, [suggestion, doc, view, files])
 
   return (
     <SnippetText>

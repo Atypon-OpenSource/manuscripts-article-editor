@@ -147,7 +147,7 @@ export const handleTextChange = (
 export const handleNodeChange = (
   suggestion: NodeChange | NodeAttrChange,
   state: ManuscriptEditorState,
-  getFiles?: FileAttachment[]
+  files?: FileAttachment[]
 ): SnippetData | null => {
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
@@ -286,7 +286,6 @@ export const handleNodeChange = (
       }
     }
     case schema.nodes.supplement: {
-      const files = getFiles
       const file = files?.find((f) => f.id === node.attrs.href)
       return {
         operation,
