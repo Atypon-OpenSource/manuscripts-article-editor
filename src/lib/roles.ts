@@ -18,7 +18,6 @@ export enum ProjectRole {
   viewer = 'Viewer',
   editor = 'Editor', // someone who can propose, approve and reject suggestions, and create and resolve comments, but nothing else
   annotator = 'Annotator', // someone who can propose suggestions to content, and create comments, but nothing else
-  proofer = 'Proofer',
 }
 
 export const isOwner = (project: Project, userID: string) =>
@@ -35,9 +34,6 @@ export const isEditor = (project: Project, userID: string) =>
 
 export const isAnnotator = (project: Project, userID: string) =>
   project.annotators?.includes(userID)
-
-export const isProofer = (project: Project, userID: string) =>
-  project.proofers?.includes(userID)
 
 export const getUserRole = (project: Project, userID: string) => {
   if (isOwner(project, userID)) {
@@ -58,10 +54,6 @@ export const getUserRole = (project: Project, userID: string) => {
 
   if (isAnnotator(project, userID)) {
     return ProjectRole.annotator
-  }
-
-  if (isProofer(project, userID)) {
-    return ProjectRole.proofer
   }
 
   return null
