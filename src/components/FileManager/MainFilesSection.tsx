@@ -79,16 +79,27 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    const uploaded = await fileManagement.upload(
-      file,
-      setUploadProgressAlert(setAlert, FileSectionType.MainFile)
-    )
-    insertAttachment(uploaded, view.state, 'document', view.dispatch)
-    setAlert({
-      type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
-      message: '',
-    })
-    return uploaded
+    try {
+      const uploaded = await fileManagement.upload(
+        file,
+        setUploadProgressAlert(setAlert, FileSectionType.MainFile)
+      )
+      insertAttachment(uploaded, view.state, 'document', view.dispatch)
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
+        message: '',
+      })
+      return uploaded
+    } catch (error) {
+      const errorMessage = error
+        ? error.cause?.result
+        : error.message || 'Unknown error occurred'
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_ERROR,
+        message: errorMessage,
+      })
+      throw error
+    }
   }
 
   const handleDownload = () => {
