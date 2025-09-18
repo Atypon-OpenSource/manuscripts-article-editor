@@ -77,9 +77,10 @@ const BaseInspectorTab = styled(Tab)`
 export const PrimaryInspectorTab = styled(BaseInspectorTab)`
   && {
     padding: ${(props) => props.theme.grid.unit * 2.5}px
-      ${(props) => props.theme.grid.unit * 5}px
+      ${(props) => props.theme.grid.unit * 4}px
       ${(props) => props.theme.grid.unit * 2.5}px;
     border: 1px solid #f2f2f2;
+    white-space: nowrap;
     display: flex;
     align-items: center;
     position: relative;

@@ -42,6 +42,12 @@ import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 
+export type PluginInspectorTab = {
+  title: string
+  icon: React.ReactNode
+  content: React.ReactNode
+}
+
 const Inspector: React.FC = () => {
   const [store] = useStore((store) => ({
     selectedCommentKey: store.selectedCommentKey,
@@ -52,6 +58,8 @@ const Inspector: React.FC = () => {
     inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
   }))
+
+  const [pluginTab] = useStore((store) => store.pluginInspectorTab)
 
   const can = usePermissions()
 
@@ -65,6 +73,7 @@ const Inspector: React.FC = () => {
   const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
   const FILES_TAB_INDEX = index++
   const ISSUES_TAB_INDEX = index++
+  const PLUGIN_TAB = pluginTab ? index++ : -2
 
   useEffect(() => {
     if (comment) {
@@ -166,6 +175,15 @@ const Inspector: React.FC = () => {
               >
                 Quality
               </InspectorTab>
+              {pluginTab && (
+                <InspectorTab
+                  cy="plugin-button"
+                  icon={<IconWrapper>{pluginTab.icon}</IconWrapper>}
+                  isVisible={tabIndex === PLUGIN_TAB}
+                >
+                  {pluginTab.title}
+                </InspectorTab>
+              )}
               <Spacer />
               <DocumentOptionsDropdown />
             </PrimaryTabList>
@@ -188,6 +206,11 @@ const Inspector: React.FC = () => {
               <InspectorTabPanel key="Issues" data-cy="issues">
                 {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}
               </InspectorTabPanel>
+              {pluginTab && (
+                <InspectorTabPanel key="Plugin" data-cy="plugin">
+                  {tabIndex === PLUGIN_TAB && pluginTab.content}
+                </InspectorTabPanel>
+              )}
             </PaddedInspectorTabPanels>
           </InspectorTabs>
         </InspectorContainer>

@@ -17,6 +17,7 @@ import React, { Suspense } from 'react'
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
+export type { EditorAppProps } from './EditorApp'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
@@ -37,6 +38,7 @@ const ManuscriptEditor: React.FC<
   getAuthToken,
   config,
   observer,
+  pluginInspectorTab,
 }) => {
   setConfig(config)
   return (
@@ -53,6 +55,7 @@ const ManuscriptEditor: React.FC<
             permittedActions={permittedActions}
             getAuthToken={getAuthToken}
             observer={observer}
+            pluginInspectorTab={pluginInspectorTab}
           />
         </Suspense>
       </ThemeProvider>
