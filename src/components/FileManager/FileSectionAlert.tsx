@@ -85,7 +85,7 @@ const FileUploadInProgressAlert: React.FC<{
 const FileUploadSuccessful: React.FC = () => {
   return (
     <AlertMessageContainer>
-      <AlertMessage
+      <StyledAlertMessage
         type={AlertMessageType.success}
         hideCloseButton={true}
         dismissButton={{
@@ -93,7 +93,7 @@ const FileUploadSuccessful: React.FC = () => {
         }}
       >
         File uploaded successfully
-      </AlertMessage>
+      </StyledAlertMessage>
     </AlertMessageContainer>
   )
 }
@@ -103,7 +103,7 @@ const FileUploadErrorAlert: React.FC<{
 }> = ({ message }) => {
   return (
     <AlertMessageContainer>
-      <AlertMessage
+      <StyledAlertMessage
         type={AlertMessageType.error}
         hideCloseButton={true}
         dismissButton={{
@@ -111,7 +111,7 @@ const FileUploadErrorAlert: React.FC<{
         }}
       >
         Upload failed: {message}
-      </AlertMessage>
+      </StyledAlertMessage>
     </AlertMessageContainer>
   )
 }
@@ -121,7 +121,7 @@ const FileMoveSuccessful: React.FC<{
 }> = ({ name }) => {
   return (
     <AlertMessageContainer>
-      <AlertMessage
+      <StyledAlertMessage
         type={AlertMessageType.success}
         hideCloseButton={true}
         dismissButton={{
@@ -129,7 +129,7 @@ const FileMoveSuccessful: React.FC<{
         }}
       >
         File moved to {name}
-      </AlertMessage>
+      </StyledAlertMessage>
     </AlertMessageContainer>
   )
 }
@@ -139,7 +139,7 @@ const FileReplaceSuccessful: React.FC<{
 }> = ({ name }) => {
   return (
     <AlertMessageContainer>
-      <AlertMessage
+      <StyledAlertMessage
         type={AlertMessageType.success}
         hideCloseButton={true}
         dismissButton={{
@@ -147,7 +147,7 @@ const FileReplaceSuccessful: React.FC<{
         }}
       >
         File replaced with {name} successfully
-      </AlertMessage>
+      </StyledAlertMessage>
     </AlertMessageContainer>
   )
 }
@@ -155,6 +155,9 @@ const FileReplaceSuccessful: React.FC<{
 const AlertMessageContainer = styled.div`
   margin-left: 16px;
   margin-right: 16px;
+`
+const StyledAlertMessage = styled(AlertMessage)`
+  font-size: 14px;
 `
 
 const FileUploadContainer = styled(FileContainer)`
