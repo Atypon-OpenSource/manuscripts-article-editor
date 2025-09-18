@@ -25,11 +25,11 @@ import {
   SectionCategory,
 } from '@manuscripts/transform'
 
+import { PluginInspectorTab } from '../components/projects/Inspector'
 import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
-import { PluginInspectorTab } from '../components/projects/Inspector'
 
 export type action = { action?: string; [key: string]: any }
 
