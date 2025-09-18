@@ -10,16 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { AvatarIcon, RelativeDate } from '@manuscripts/style-guide'
-import { ChangeSet, RootChange } from '@manuscripts/track-changes-plugin'
-import React, { useEffect, useState } from 'react'
+import { RootChange } from '@manuscripts/track-changes-plugin'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
-import {
-  handleGroupChanges,
-  handleNodeChange,
-  handleTextChange,
-  handleUnknownChange,
-} from '../../../lib/change-handlers'
+import { buildSnippet } from '../../../lib/change-handlers'
 import { useStore } from '../../../store'
 import SnippetContent from './SnippetContent'
 import SuggestionActions from './SuggestionActions'
@@ -45,12 +40,11 @@ export const SuggestionSnippet: React.FC<Props> = ({
   handleAccept,
   handleReject,
 }) => {
-  const [{ doc, view, collaboratorsById }] = useStore((store) => ({
+  const [{ view, collaboratorsById }] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
     collaboratorsById: store.collaboratorsById,
   }))
-  const [snippet, setSnippet] = useState<SnippetData | null>(null)
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
@@ -63,26 +57,14 @@ export const SuggestionSnippet: React.FC<Props> = ({
         : name.given
       : ''
 
-  useEffect(() => {
+  const snippet: SnippetData | null = useMemo(() => {
     let newSnippet: SnippetData | null = null
     if (view) {
-      if (suggestions.length > 1) {
-        newSnippet = handleGroupChanges(suggestions, view, doc, dataTracked)
-      } else if (ChangeSet.isTextChange(suggestion)) {
-        newSnippet = handleTextChange(suggestion, view.state)
-      } else if (
-        ChangeSet.isNodeChange(suggestion) ||
-        ChangeSet.isNodeAttrChange(suggestion)
-      ) {
-        newSnippet = handleNodeChange(suggestion, view.state)
-      } else {
-        newSnippet = handleUnknownChange()
-      }
-
-      setSnippet(newSnippet)
+      newSnippet = buildSnippet(suggestions, view, dataTracked)
     }
+    return newSnippet
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestion, doc, view])
+  }, [suggestion, view])
 
   return (
     <SnippetText>
