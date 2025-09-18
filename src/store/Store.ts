@@ -29,6 +29,7 @@ import { useCreateEditor } from '../hooks/use-create-editor'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
+import { PluginInspectorTab } from '../components/projects/Inspector'
 
 export type action = { action?: string; [key: string]: any }
 
@@ -85,6 +86,8 @@ export type state = {
   originalPmDoc?: JSON
   inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
   hiddenNodeTypes?: ManuscriptNodeType[]
+
+  pluginInspectorTab?: PluginInspectorTab // an inspector tab injected (plugged in) from the parent app
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void

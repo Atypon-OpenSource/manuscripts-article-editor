@@ -26,6 +26,7 @@ import {
   GenericStoreProvider,
   state,
 } from './store'
+import { PluginInspectorTab } from './components/projects/Inspector'
 
 export interface EditorAppProps {
   fileManagement: FileManagement
@@ -35,6 +36,7 @@ export interface EditorAppProps {
   permittedActions: string[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
+  pluginInspectorTab?: PluginInspectorTab
 }
 
 const PlaceholderWrapper = styled.div`
@@ -60,6 +62,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   files,
   getAuthToken,
   observer,
+  pluginInspectorTab,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const loadedRef = useRef<boolean>(false)
@@ -79,6 +82,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       manuscriptID,
       files,
       permittedActions,
+      pluginInspectorTab,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
