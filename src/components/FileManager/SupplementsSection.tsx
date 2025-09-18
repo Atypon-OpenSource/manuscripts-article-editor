@@ -80,6 +80,8 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error occurred'
+      console.error('Upload failed:', error, errorMessage)
+      console.log('error', error)
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,
