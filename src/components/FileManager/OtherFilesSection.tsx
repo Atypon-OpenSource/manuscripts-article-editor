@@ -69,8 +69,9 @@ export const OtherFilesSection: React.FC<{
         message: '',
       })
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred'
+      const errorMessage = error
+        ? error.cause?.result
+        : error.message || 'Unknown error occurred'
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,
