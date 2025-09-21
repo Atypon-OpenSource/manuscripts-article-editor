@@ -14,7 +14,7 @@ import {
   detectInconsistencyPluginKey,
   Inconsistency,
 } from '@manuscripts/body-editor'
-import { ArrowDownCircleIcon } from '@manuscripts/style-guide'
+import { ToggleHeader } from '@manuscripts/style-guide'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -24,51 +24,6 @@ import { useStore } from '../../store'
 
 const IssuesContainer = styled.div`
   padding: ${(props) => props.theme.grid.unit * 2}px;
-`
-
-const CollapsibleHeader = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 12px 4px 12px;
-  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
-  background: none;
-  border: none;
-  width: 100%;
-`
-
-const HeaderTitle = styled.h2`
-  margin: 0;
-  font-size: ${(props) => props.theme.font.size.medium};
-  font-weight: 700;
-  font-family: 'Lato', sans-serif;
-  color: ${(props) => props.theme.colors.text.primary};
-`
-
-const CollapseIcon = styled.span<{ isCollapsed: boolean }>`
-  background: #fff;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: ${(props) =>
-    props.isCollapsed ? 'rotate(0deg)' : 'rotate(-180deg)'};
-  transition: transform 0.2s ease;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  svg {
-    width: 19px;
-    height: 19px;
-  }
 `
 
 const InconsistenciesList = styled.div`
@@ -142,6 +97,7 @@ export const IssuesPanel: React.FC = () => {
       view.dispatch(tr)
 
       const domNode = view.nodeDOM(inconsistency.pos)
+
       if (domNode && domNode instanceof HTMLElement) {
         scrollIntoView(domNode)
       }
@@ -154,12 +110,11 @@ export const IssuesPanel: React.FC = () => {
 
   return (
     <IssuesContainer>
-      <CollapsibleHeader onClick={toggleCollapsed}>
-        <HeaderTitle>Errors ({inconsistencies.length})</HeaderTitle>
-        <CollapseIcon isCollapsed={isCollapsed}>
-          <ArrowDownCircleIcon />
-        </CollapseIcon>
-      </CollapsibleHeader>
+      <ToggleHeader
+        title={`Errors (${inconsistencies.length})`}
+        isOpen={isCollapsed}
+        onToggle={toggleCollapsed}
+      />
 
       {!isCollapsed && (
         <InconsistenciesList>
@@ -169,7 +124,7 @@ export const IssuesPanel: React.FC = () => {
             inconsistencies.map(
               (inconsistency: Inconsistency, index: number) => (
                 <InconsistencyItem
-                  key={inconsistency.pos}
+                  key={index}
                   isFocused={selectedInconsistencyIndex === index}
                   onClick={() => handleInconsistencyClick(inconsistency, index)}
                   data-cy="inconsistency"
