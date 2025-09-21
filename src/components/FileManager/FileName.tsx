@@ -23,10 +23,7 @@ export const FileName: React.FC<{
   label?: string
   maxBaseNameLength?: number
 }> = ({ file, label, icon: Icon, maxBaseNameLength = 25 }) => {
-  const adjustedMaxBaseNameLength = label
-    ? maxBaseNameLength - label.length
-    : maxBaseNameLength
-  const trimmedFilename = trimFilename(file.name, adjustedMaxBaseNameLength)
+  const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
   const tooltipID = `${file.id}-file-name-tooltip`
   return (
     <FileNameContainer data-tooltip-id={tooltipID}>
