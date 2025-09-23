@@ -83,7 +83,11 @@ export type state = {
   inconsistencies?: Inconsistency[]
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
-  inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
+  inspectorOpenTabs?: { primaryTab: number | null; secondaryTab: number | null }
+  setInspectorOpenTabs?: (
+    primaryTab: number | null,
+    secondaryTab: number | null
+  ) => void
   hiddenNodeTypes?: ManuscriptNodeType[]
 }
 export type reducer = (payload: any, store: state, action?: string) => state
@@ -184,6 +188,16 @@ export class GenericStore implements Store {
       // if you are looking for a way to listen to the data changes in the store from inside data source, use beforeAction
       (source) => source.updateStore && source.updateStore(this.setState)
     )
+    // expose a safe callback for opening inspector tabs to consumers
+    this.setState((prev) => ({
+      ...prev,
+      setInspectorOpenTabs: (
+        primaryTab: number | null,
+        secondaryTab: number | null
+      ) => {
+        this.dispatchAction({ inspectorOpenTabs: { primaryTab, secondaryTab } })
+      },
+    }))
     // listening to changes after state applied
     this.sources.map((source) => {
       if (source.afterAction) {
