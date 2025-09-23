@@ -17,6 +17,7 @@ import {
   usePermissions,
 } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
+import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -100,6 +101,18 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     setFileToUpload(file)
     setConfirmDialogOpen(true)
   }
+
+  const handleMainDocumentClick = (pos?: number) => {
+    if (!pos) {
+      return
+    }
+    const tr = view.state.tr
+    tr.setSelection(NodeSelection.create(view.state.doc, pos))
+    tr.scrollIntoView()
+    view.focus()
+    view.dispatch(tr)
+  }
+
   const handleMove = (mainFile: NodeFile) => {
     const tr = view.state.tr
     const from = mainFile.pos
@@ -112,10 +125,26 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     })
   }
 
+  const isPDF = (file: any) => {
+    if (file.name && file.name.toLowerCase().endsWith('.pdf')) {
+      return true
+    }
+
+    return false
+  }
+
   return (
     <div>
       {mainDocument ? (
-        <FileContainer data-cy="file-container">
+        <FileContainer
+          data-cy="file-container"
+          onClick={(e) => {
+            e.stopPropagation()
+            if (isPDF(mainDocument.file)) {
+              handleMainDocumentClick(mainDocument.pos)
+            }
+          }}
+        >
           <FileName
             file={mainDocument.file}
             label="Main"

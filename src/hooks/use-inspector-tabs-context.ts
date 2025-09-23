@@ -25,6 +25,7 @@ export enum InspectorPrimaryTabs {
   Quality = 3,
 }
 export enum InspectorSecondaryTabsFiles {
+  MainDocument = 1,
   SupplementsFiles = 2,
   OtherFiles = 3,
 }
