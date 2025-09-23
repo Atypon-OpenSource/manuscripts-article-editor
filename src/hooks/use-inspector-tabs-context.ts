@@ -30,7 +30,7 @@ export enum InspectorSecondaryTabsFiles {
   OtherFiles = 3,
 }
 
-enum InspectorAction {
+export enum InspectorAction {
   OpenOtherFiles = 'open-other-files',
   OpenSupplementFiles = 'open-supplement-files',
   OpenQualityReport = 'open-quality-report',
