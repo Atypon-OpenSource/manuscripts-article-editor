@@ -83,6 +83,7 @@ function prepareTabs(action?: InspectorAction) {
   }
   switch (action) {
     // @TODO - implement the rest of actions
+    // case 'selec-main-file':
     case 'open-other-files':
       inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
       inspectorOpenTabs.secondaryTab = InspectorSecondaryTabsFiles.OtherFiles

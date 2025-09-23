@@ -36,14 +36,16 @@ export const buildUtilities = (
 
   const refreshProject = async () => {
     const state = getState()
-    const userID = state.userID
+    const userID = state.user?.userID
     if (!userID) {
       return
     }
+
     const project = await api.getProject(projectID)
     if (!project) {
       return
     }
+
     updateState({
       project,
       userRole: getUserRole(project, userID),

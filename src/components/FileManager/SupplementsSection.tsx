@@ -67,15 +67,26 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    const uploaded = await fileManagement.upload(
-      file,
-      setUploadProgressAlert(setAlert, FileSectionType.Supplements)
-    )
-    setAlert({
-      type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
-      message: '',
-    })
-    return uploaded
+    try {
+      const uploaded = await fileManagement.upload(
+        file,
+        setUploadProgressAlert(setAlert, FileSectionType.Supplements)
+      )
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
+        message: '',
+      })
+      return uploaded
+    } catch (error) {
+      const errorMessage = error
+        ? error.cause?.result
+        : error.message || 'Unknown error occurred'
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_ERROR,
+        message: errorMessage,
+      })
+      throw error
+    }
   }
 
   const handleUpload = async (file: File) => {
