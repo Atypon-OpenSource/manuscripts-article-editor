@@ -18,15 +18,18 @@ import {
 import {
   CHANGE_OPERATION,
   ChangeSet,
+  MarkChange,
   NodeAttrChange,
   NodeChange,
   NodeMoveAttrs,
   RootChange,
   TextChange,
   TrackedAttrs,
+  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorState,
+  ManuscriptEditorView,
   ManuscriptNode,
   nodeNames,
   schema,
@@ -140,6 +143,18 @@ export const handleTextChange = (
     operation: changeOperationAlias(dataTracked),
     nodeName: nodeName || suggestion.nodeType.name,
     content: escape(suggestion.text),
+  }
+}
+
+export const handleMarkChange = (
+  suggestion: MarkChange,
+  _: ManuscriptEditorState
+) => {
+  const { dataTracked } = suggestion
+  return {
+    operation: changeOperationAlias(dataTracked),
+    nodeName: suggestion.mark.type.name,
+    content: escape(suggestion.node.text),
   }
 }
 
@@ -313,47 +328,55 @@ export const handleNodeChange = (
   }
 }
 
-export const handleGroupChanges = (
+export const buildSnippet = (
   suggestions: RootChange,
-  view: any,
-  doc: any,
+  view: ManuscriptEditorView,
   dataTracked: any
-): SnippetData | null => {
-  const processed = suggestions.map((change) => {
-    const result = ChangeSet.isTextChange(change)
-      ? handleTextChange(change, view.state)
-      : handleNodeChange(change as NodeChange, view.state)
+) => {
+  let content = ''
+  let title = ''
+  let titleNodeName = ''
+  suggestions.forEach((change: TrackedChange) => {
+    let result: SnippetData | null = null
+    let node: ManuscriptNode | null = null
 
-    const node = ChangeSet.isTextChange(change)
-      ? getParentNode(view.state, change.from)
-      : (change as NodeChange).node
+    if (ChangeSet.isNodeChange(change) || ChangeSet.isNodeAttrChange(change)) {
+      result = handleNodeChange(change, view.state)
+      node = change.node
+    } else if (ChangeSet.isTextChange(change)) {
+      result = handleTextChange(change, view.state)
+      node = getParentNode(view.state, change.from)
+    } else if (ChangeSet.isMarkChange(change)) {
+      result = handleMarkChange(change, view.state)
+    } else {
+      handleUnknownChange()
+    }
+
+    titleNodeName =
+      result && node && isAltTitleNode(node) ? result.nodeName : ''
+
+    content +=
+      result?.nodeName === schema.nodes.inline_equation.name
+        ? ` ${result.content} `
+        : result?.content || ''
+
+    if (result?.nodeName) {
+      title = result.nodeName
+    }
+
+    // Find the first title change if any exists and use its nodeName for the change name
+    if (titleNodeName) {
+      title = titleNodeName
+    }
 
     return {
       result,
-      isTitle: node ? isAltTitleNode(node) : false,
     }
   })
 
-  // Find the first title change if any exists
-  const titleNodeName =
-    processed.find(({ isTitle }) => isTitle)?.result?.nodeName || null
-
-  // Build the content
-  const content = processed
-    .map(({ result }) =>
-      result?.nodeName === 'inline_equation'
-        ? ` ${result.content} `
-        : result?.content || ''
-    )
-    .join('')
-
   return {
     operation: changeOperationAlias(dataTracked),
-    nodeName:
-      titleNodeName ||
-      (suggestions[0].type === 'node-change' &&
-        processed[0].result?.nodeName) ||
-      'Text',
+    nodeName: title || 'Text',
     content,
   }
 }
