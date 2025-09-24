@@ -37,6 +37,7 @@ import { useWatchTitle } from '../../hooks/use-watch-title'
 import { setNodeAttrs } from '../../lib/node-attrs'
 import { insertMediaOrFigure } from '../../lib/utils'
 import { useStore } from '../../store'
+import { DOIDisplay } from '../DOI/DOIDisplay'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
 const EditorElement: React.FC = () => {
@@ -176,6 +177,7 @@ const EditorElement: React.FC = () => {
             key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
             ref={onRender}
           ></div>
+          <DOIDisplay />
         </div>
       </>
     </>
