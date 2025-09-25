@@ -102,7 +102,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
 
   const handleUpload = async (file: File) => {
     const uploaded = await upload(file)
-    insertSupplement(uploaded, view.state, view.dispatch)
+    insertSupplement(uploaded, view)
   }
 
   const handleReplace = async (supplement: NodeFile, file: File) => {

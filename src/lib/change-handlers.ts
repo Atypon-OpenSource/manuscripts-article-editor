@@ -308,6 +308,13 @@ export const handleNodeChange = (
         content: file ? file.name : '',
       }
     }
+    case schema.nodes.supplements: {
+      return {
+        operation,
+        nodeName,
+        content: '',
+      }
+    }
     case schema.nodes.alt_title: {
       return {
         operation,
