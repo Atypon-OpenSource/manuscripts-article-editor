@@ -26,7 +26,10 @@ export type { state } from './store'
 export { getUserRole } from './lib/roles'
 export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
-export { InspectorPrimaryTabs } from './hooks/use-inspector-tabs-context'
+export {
+  InspectorPanel,
+  InspectorAction,
+} from './hooks/use-inspector-tabs-context'
 
 const ManuscriptEditor: React.FC<
   EditorAppProps & { config: ManuscriptsEditorConfig }

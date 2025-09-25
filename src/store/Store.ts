@@ -27,6 +27,7 @@ import {
 
 import { PluginInspectorTab } from '../components/projects/Inspector'
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { InspectorAction } from '../hooks/use-inspector-tabs-context'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
@@ -85,10 +86,7 @@ export type state = {
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
   inspectorOpenTabs?: { primaryTab: number | null; secondaryTab: number | null }
-  setInspectorOpenTabs?: (
-    primaryTab: number | null,
-    secondaryTab: number | null
-  ) => void
+  doInspectorTab?: (action: InspectorAction) => void
   hiddenNodeTypes?: ManuscriptNodeType[]
 
   pluginInspectorTab?: PluginInspectorTab // an inspector tab injected (plugged in) from the parent app
@@ -191,16 +189,6 @@ export class GenericStore implements Store {
       // if you are looking for a way to listen to the data changes in the store from inside data source, use beforeAction
       (source) => source.updateStore && source.updateStore(this.setState)
     )
-    // expose a safe callback for opening inspector tabs to consumers
-    this.setState((prev) => ({
-      ...prev,
-      setInspectorOpenTabs: (
-        primaryTab: number | null,
-        secondaryTab: number | null
-      ) => {
-        this.dispatchAction({ inspectorOpenTabs: { primaryTab, secondaryTab } })
-      },
-    }))
     // listening to changes after state applied
     this.sources.map((source) => {
       if (source.afterAction) {
