@@ -40,10 +40,11 @@ export const SuggestionSnippet: React.FC<Props> = ({
   handleAccept,
   handleReject,
 }) => {
-  const [{ view, collaboratorsById }] = useStore((store) => ({
+  const [{ view, collaboratorsById, files }] = useStore((store) => ({
     view: store.view,
     doc: store.doc,
     collaboratorsById: store.collaboratorsById,
+    files: store.files,
   }))
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
@@ -60,11 +61,11 @@ export const SuggestionSnippet: React.FC<Props> = ({
   const snippet: SnippetData | null = useMemo(() => {
     let newSnippet: SnippetData | null = null
     if (view) {
-      newSnippet = buildSnippet(suggestions, view, dataTracked)
+      newSnippet = buildSnippet(suggestions, view, dataTracked, files)
     }
     return newSnippet
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestion, view])
+  }, [suggestion, view, files])
 
   return (
     <SnippetText>
