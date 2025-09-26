@@ -182,9 +182,6 @@ const Inspector: React.FC = () => {
                 isVisible={tabIndex === ISSUES_TAB_INDEX}
               >
                 Issues
-                {errorCount}
-                ||
-                {warningCount}
               </InspectorTab>
               {pluginTab && (
                 <InspectorTab
