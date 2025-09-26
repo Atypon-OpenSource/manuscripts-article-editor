@@ -30,6 +30,25 @@ export enum InspectorSecondaryTabsFiles {
   OtherFiles = 3,
 }
 
+export enum InspectorAction {
+  OpenOtherFiles = 'open-other-files',
+  OpenSupplementFiles = 'open-supplement-files',
+  OpenQualityReport = 'open-quality-report',
+  OpenSuggestions = 'open-suggestion',
+}
+
+export const useInspectorTabsParentControl = () => {
+  const [_, dispatch] = useStore((state) => state.inspectorOpenTabs)
+
+  function doInspectorTab(tab: InspectorAction) {
+    const preppedTabs = prepareTabs(tab)
+    if (preppedTabs.primaryTab != null || preppedTabs.secondaryTab != null) {
+      dispatch({ inspectorOpenTabs: preppedTabs })
+    }
+  }
+  dispatch({ doInspectorTab })
+}
+
 export const useInspectorTabsContext = () => {
   const [_, dispatch] = useStore((state) => state.inspectorOpenTabs)
 
@@ -40,38 +59,42 @@ export const useInspectorTabsContext = () => {
     event: MouseEvent
   ) {
     const target = event.target as HTMLElement
-    const inspectorOpenTabs: InspectorOpenTabs = {
-      primaryTab: null,
-      secondaryTab: null,
-    }
-    switch (target.dataset.action) {
-      case 'open-other-files':
-        event.stopPropagation()
-        inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
-        inspectorOpenTabs.secondaryTab = InspectorSecondaryTabsFiles.OtherFiles
-        break
-      case 'open-supplement-files':
-        event.stopPropagation()
-        inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
-        inspectorOpenTabs.secondaryTab =
-          InspectorSecondaryTabsFiles.SupplementsFiles
-        break
-      case 'select-main-document':
-        event.stopPropagation()
-        inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
-        inspectorOpenTabs.secondaryTab =
-          InspectorSecondaryTabsFiles.MainDocument
-        break
-      default:
-        break
-    }
     if (
-      inspectorOpenTabs.primaryTab != null ||
-      inspectorOpenTabs.secondaryTab != null
+      target.dataset.action &&
+      Object.values(InspectorAction).includes(
+        target.dataset.action as InspectorAction
+      )
     ) {
-      dispatch({ inspectorOpenTabs })
+      const preppedTabs = prepareTabs(target.dataset.action as InspectorAction)
+      if (preppedTabs.primaryTab != null || preppedTabs.secondaryTab != null) {
+        event.stopPropagation()
+        dispatch({ inspectorOpenTabs: preppedTabs })
+      }
     }
   }
 
   return setTabs
+}
+
+function prepareTabs(action?: InspectorAction) {
+  const inspectorOpenTabs: InspectorOpenTabs = {
+    primaryTab: null,
+    secondaryTab: null,
+  }
+  switch (action) {
+    // @TODO - implement the rest of actions
+    // case 'selec-main-file':
+    case 'open-other-files':
+      inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
+      inspectorOpenTabs.secondaryTab = InspectorSecondaryTabsFiles.OtherFiles
+      break
+    case 'open-supplement-files':
+      inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
+      inspectorOpenTabs.secondaryTab =
+        InspectorSecondaryTabsFiles.SupplementsFiles
+      break
+    default:
+      break
+  }
+  return inspectorOpenTabs
 }
