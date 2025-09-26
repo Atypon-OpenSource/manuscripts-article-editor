@@ -137,7 +137,7 @@ export const WarningBadge = styled.div`
   position: absolute;
   top: -6px;
   right: -6px;
-  background-color: #f35143;
+  background-color: #fe8f1f;
   color: white;
   border-radius: 50%;
   min-width: 14px;
@@ -150,6 +150,9 @@ export const WarningBadge = styled.div`
   font-weight: 400;
   line-height: 1;
   z-index: 10;
+`
+export const ErrorBadge = styled(WarningBadge)`
+  background-color: #f35143;
 `
 
 export const IconWrapper = styled.div`
