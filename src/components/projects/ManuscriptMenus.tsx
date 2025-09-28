@@ -85,7 +85,15 @@ const filterMenu = (
   if (!isAccessGranted(spec, can)) {
     return undefined
   }
-  const submenu = spec.submenu ? filterSeparators(spec.submenu, can) : undefined
+  const submenu = spec.submenu
+    ? filterSeparators(
+        spec.submenu.map((m) => filterSubmenu(m, can)).filter(Boolean) as (
+          | MenuSpec
+          | MenuSeparator
+        )[],
+        can
+      )
+    : undefined
   return {
     ...spec,
     isEnabled: isMenuEnabled(spec),
