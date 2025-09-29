@@ -60,12 +60,16 @@ const Inspector: React.FC = () => {
     isComparingMode: store.isComparingMode,
   }))
 
-  const errorCount = store.inconsistencies?.filter(
-    (i) => i.severity === 'error'
-  ).length
-  const warningCount = store.inconsistencies?.filter(
-    (i) => i.severity === 'warning'
-  ).length
+  let errorCount = 0
+  let warningCount = 0
+
+  store.inconsistencies?.forEach((i) => {
+    if (i.severity === 'error') {
+      errorCount++
+    } else if (i.severity === 'warning') {
+      warningCount++
+    }
+  })
 
   const [pluginTab] = useStore((store) => store.pluginInspectorTab)
 

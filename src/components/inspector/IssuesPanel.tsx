@@ -14,167 +14,37 @@ import {
   detectInconsistencyPluginKey,
   Inconsistency,
 } from '@manuscripts/body-editor'
-import { ToggleHeader } from '@manuscripts/style-guide'
-import { NodeSelection } from 'prosemirror-state'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import { scrollIntoView } from '../../lib/utils'
 import { useStore } from '../../store'
+import { IssuesSection } from './IssuesSection'
 
 const IssuesContainer = styled.div`
   padding: ${(props) => props.theme.grid.unit * 2}px;
 `
 
-const InconsistenciesList = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 3}px;
-`
-
-const InconsistencyItem = styled.div<{
-  isFocused: boolean
-  severity: 'error' | 'warning'
-}>`
-  padding: 12px 8px;
-  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
-  border-radius: 4px;
-  cursor: pointer;
-  position: relative;
-  font-family: 'Lato', sans-serif;
-
-  border: ${(props) =>
-    props.isFocused
-      ? `1px solid ${
-          props.severity === 'error'
-            ? props.theme.colors.button.error.border.default
-            : '#FE8F1F'
-        }`
-      : `1px solid #C9C9C9`};
-
-  box-shadow: ${(props) =>
-    props.isFocused
-      ? `-4px 0 0 0 ${
-          props.severity === 'error'
-            ? props.theme.colors.button.error.border.default
-            : '#FE8F1F'
-        }`
-      : 'none'};
-
-  background-color: ${(props) =>
-    props.isFocused
-      ? props.severity === 'error'
-        ? `${props.theme.colors.background.error} !important`
-        : '#fffcdb !important'
-      : '#fff'};
-
-  &:hover {
-    background-color: #f2f2f2;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`
-
-const InconsistencyTitle = styled.span`
-  margin: 0;
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: ${(props) => props.theme.font.size.small};
-  line-height: 1.4;
-  font-weight: 700;
-  margin-right: 3.2px;
-`
-
-const InconsistencyMessage = styled.span`
-  margin: 0;
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: ${(props) => props.theme.font.size.small};
-  line-height: 1.4;
-`
-
 export const IssuesPanel: React.FC = () => {
-  const [selectedInconsistencyKey, setSelectedInconsistencyKey] = useState<
-    string | null
-  >(null)
   const [view] = useStore((store) => store.view)
-
   const inconsistencies = view?.state
     ? detectInconsistencyPluginKey.getState(view.state)?.inconsistencies || []
     : []
 
-  const errors = inconsistencies.filter(
-    (inconsistency) => inconsistency.severity === 'error'
-  )
-  const warnings = inconsistencies.filter(
-    (inconsistency) => inconsistency.severity === 'warning'
-  )
+  const errors: Inconsistency[] = []
+  const warnings: Inconsistency[] = []
 
-  const [errorsOpen, setErrorsOpen] = useState(errors.length > 0)
-  const [warningsOpen, setWarningsOpen] = useState(warnings.length > 0)
-
-  const handleInconsistencyClick = (
-    key: string,
-    inconsistency: Inconsistency
-  ) => {
-    setSelectedInconsistencyKey(key)
-    if (view) {
-      const tr = view.state.tr
-      tr.setSelection(NodeSelection.create(tr.doc, inconsistency.pos))
-      view.dispatch(tr)
-
-      const domNode = view.nodeDOM(inconsistency.pos)
-
-      if (domNode && domNode instanceof HTMLElement) {
-        scrollIntoView(domNode)
-      }
+  inconsistencies.forEach((inconsistency) => {
+    if (inconsistency.severity === 'error') {
+      errors.push(inconsistency)
+    } else if (inconsistency.severity === 'warning') {
+      warnings.push(inconsistency)
     }
-  }
-
-  const toggleErrors = () => setErrorsOpen((prev) => !prev)
-  const toggleWarnings = () => setWarningsOpen((prev) => !prev)
-
-  const renderSection = (
-    title: string,
-    items: Inconsistency[],
-    isOpen: boolean,
-    toggle: () => void
-  ) => (
-    <section className={`${title.toLowerCase()}-section`}>
-      <ToggleHeader
-        title={`${title} (${items.length})`}
-        isOpen={isOpen}
-        onToggle={toggle}
-      />
-      {isOpen && items.length > 0 && (
-        <InconsistenciesList>
-          {items.map((inconsistency, index) => {
-            const key = `${title}-${index}`
-            return (
-              <InconsistencyItem
-                key={key}
-                isFocused={selectedInconsistencyKey === key}
-                severity={inconsistency.severity as 'error' | 'warning'}
-                onClick={() => handleInconsistencyClick(key, inconsistency)}
-                data-cy="inconsistency"
-              >
-                <InconsistencyTitle>
-                  {inconsistency.nodeDescription}:
-                </InconsistencyTitle>
-                <InconsistencyMessage>
-                  {inconsistency.message}
-                </InconsistencyMessage>
-              </InconsistencyItem>
-            )
-          })}
-        </InconsistenciesList>
-      )}
-    </section>
-  )
+  })
 
   return (
     <IssuesContainer>
-      {renderSection('Errors', errors, errorsOpen, toggleErrors)}
-      {renderSection('Warnings', warnings, warningsOpen, toggleWarnings)}
+      <IssuesSection title="Errors" items={errors} />
+      <IssuesSection title="Warnings" items={warnings} />
     </IssuesContainer>
   )
 }
