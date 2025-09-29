@@ -14,7 +14,7 @@ import {
   detectInconsistencyPluginKey,
   Inconsistency,
 } from '@manuscripts/body-editor'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from '../../store'
@@ -26,6 +26,9 @@ const IssuesContainer = styled.div`
 
 export const IssuesPanel: React.FC = () => {
   const [view] = useStore((store) => store.view)
+  const [selectedInconsistencyKey, setSelectedInconsistencyKey] = useState<
+    string | null
+  >(null)
   const inconsistencies = view?.state
     ? detectInconsistencyPluginKey.getState(view.state)?.inconsistencies || []
     : []
@@ -43,8 +46,18 @@ export const IssuesPanel: React.FC = () => {
 
   return (
     <IssuesContainer>
-      <IssuesSection title="Errors" items={errors} />
-      <IssuesSection title="Warnings" items={warnings} />
+      <IssuesSection
+        title="Errors"
+        items={errors}
+        selectedInconsistencyKey={selectedInconsistencyKey}
+        setSelectedInconsistencyKey={setSelectedInconsistencyKey}
+      />
+      <IssuesSection
+        title="Warnings"
+        items={warnings}
+        selectedInconsistencyKey={selectedInconsistencyKey}
+        setSelectedInconsistencyKey={setSelectedInconsistencyKey}
+      />
     </IssuesContainer>
   )
 }

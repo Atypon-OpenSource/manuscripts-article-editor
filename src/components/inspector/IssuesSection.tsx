@@ -22,17 +22,18 @@ import { useStore } from '../../store'
 type IssuesSectionProps = {
   title: string
   items: Inconsistency[]
+  selectedInconsistencyKey: string | null
+  setSelectedInconsistencyKey: (key: string | null) => void
 }
 
 export const IssuesSection: React.FC<IssuesSectionProps> = ({
   title,
   items,
+  selectedInconsistencyKey,
+  setSelectedInconsistencyKey,
 }) => {
   const [isOpen, setIsOpen] = useState(items.length > 0)
   const toggleOpen = () => setIsOpen((prev) => !prev)
-  const [selectedInconsistencyKey, setSelectedInconsistencyKey] = useState<
-    string | null
-  >(null)
   const [view] = useStore((store) => store.view)
 
   const handleInconsistencyClick = (
