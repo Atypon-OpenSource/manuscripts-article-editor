@@ -12,9 +12,11 @@
 
 import { Comment } from '@manuscripts/body-editor'
 import {
+  DeleteIcon,
   DotsIcon,
   DropdownContainer,
   DropdownList,
+  IconButton,
   useDropdown,
 } from '@manuscripts/style-guide'
 import React from 'react'
@@ -108,6 +110,29 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
       {isResolveEnabled && (
         <CommentResolveButton comment={comment} onClick={toggleResolve} />
       )}
+    </Container>
+  )
+}
+
+export const OrphanCommentActions: React.FC<{
+  onDelete: () => void
+  isReply: boolean
+  isOwn: boolean
+}> = ({ onDelete, isReply, isOwn }) => {
+  if (!isOwn || isReply) {
+    return null
+  }
+
+  return (
+    <Container>
+      <IconButton
+        className="delete-button"
+        data-cy="orphan-comment-delete"
+        onClick={onDelete}
+        iconColor={'#333333'}
+      >
+        <DeleteIcon />
+      </IconButton>
     </Container>
   )
 }
