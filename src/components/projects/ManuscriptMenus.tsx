@@ -38,8 +38,7 @@ const isMenuEnabled = (spec: MenuSpec) => {
   return spec.isEnabled
 }
 
-// Helper function to filter consecutive separators
-const filterSeparators = (
+const filterSubmenu = (
   items: (MenuSpec | MenuSeparator)[],
   can: Capabilities
 ): (MenuSpec | MenuSeparator)[] => {
@@ -49,12 +48,12 @@ const filterSeparators = (
   for (const item of items) {
     if (isMenuSeparator(item)) {
       // Only add separator if previous item wasn't a separator
-      if (!previousWasSeparator) {
+      if (!previousWasSeparator && filtered.length > 0) {
         filtered.push(item)
         previousWasSeparator = true
       }
     } else {
-      const filteredItem = filterSubmenu(item, can)
+      const filteredItem = filterMenu(item, can)
       if (filteredItem) {
         filtered.push(filteredItem)
         previousWasSeparator = false
@@ -63,16 +62,6 @@ const filterSeparators = (
   }
 
   return filtered
-}
-
-const filterSubmenu = (
-  spec: MenuSpec | MenuSeparator,
-  can: Capabilities
-): MenuSpec | MenuSeparator | undefined => {
-  if (isMenuSeparator(spec)) {
-    return spec
-  }
-  return filterMenu(spec, can)
 }
 
 const filterMenu = (
@@ -85,15 +74,9 @@ const filterMenu = (
   if (!isAccessGranted(spec, can)) {
     return undefined
   }
-  const submenu = spec.submenu
-    ? filterSeparators(
-        spec.submenu.map((m) => filterSubmenu(m, can)).filter(Boolean) as (
-          | MenuSpec
-          | MenuSeparator
-        )[],
-        can
-      )
-    : undefined
+
+  const submenu = spec.submenu ? filterSubmenu(spec.submenu, can) : undefined
+
   return {
     ...spec,
     isEnabled: isMenuEnabled(spec),
