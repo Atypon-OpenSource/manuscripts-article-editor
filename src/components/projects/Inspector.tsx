@@ -59,7 +59,7 @@ const Inspector: React.FC = () => {
     inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
   }))
-
+  const inconsistenciesCount = store.inconsistencies?.length
   let errorCount = 0
   let warningCount = 0
 
@@ -176,11 +176,12 @@ const Inspector: React.FC = () => {
                 icon={
                   <IconWrapper>
                     <DangerIcon />
-                    {errorCount > 0 ? (
-                      <ErrorBadge>{errorCount}</ErrorBadge>
-                    ) : warningCount > 0 ? (
+                    {errorCount > 0 && (
+                      <ErrorBadge>{inconsistenciesCount}</ErrorBadge>
+                    )}
+                    {errorCount === 0 && warningCount > 0 && (
                       <WarningBadge>{warningCount}</WarningBadge>
-                    ) : null}
+                    )}
                   </IconWrapper>
                 }
                 isVisible={tabIndex === ISSUES_TAB_INDEX}
