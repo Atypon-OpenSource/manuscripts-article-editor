@@ -63,7 +63,11 @@ export const Advanced: React.FC<{
   isReadOnlyMode,
 }) => (
   <>
-    <DraggableModal isOpen={isOpen} onRequestClose={() => handleClose()}>
+    <DraggableModal
+      isOpen={isOpen}
+      onRequestClose={() => handleClose()}
+      hideOverlay={true}
+    >
       <ModalHeader>
         <CloseButton
           onClick={() => handleClose()}
