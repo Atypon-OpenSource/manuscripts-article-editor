@@ -45,3 +45,9 @@ export type StepsListener = (
   steps: unknown[],
   clientIDs: number[]
 ) => void
+
+export interface Language {
+  code: string
+  name: string
+  nativeName: string
+}

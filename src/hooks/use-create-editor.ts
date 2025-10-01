@@ -34,6 +34,7 @@ export const useCreateEditor = () => {
       fileManagement,
       style,
       locale,
+      languages,
       sectionCategories,
       isViewingMode,
       hiddenNodeTypes,
@@ -49,6 +50,7 @@ export const useCreateEditor = () => {
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
+    languages: store.languages,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
     hiddenNodeTypes: store.hiddenNodeTypes,
@@ -137,6 +139,7 @@ export const useCreateEditor = () => {
     fileManagement: fileManagement,
     collabProvider: isComparingMode ? undefined : stepsExchanger, // Disable collaboration in comparison mode
     sectionCategories: sectionCategories,
+    languages: languages,
     navigate: useNavigate(),
     location: useLocation(),
     isComparingMode,

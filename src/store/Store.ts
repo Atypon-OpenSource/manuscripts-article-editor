@@ -25,6 +25,7 @@ import {
   SectionCategory,
 } from '@manuscripts/transform'
 
+import { Language } from '../api/types'
 import { PluginInspectorTab } from '../components/projects/Inspector'
 import { useCreateEditor } from '../hooks/use-create-editor'
 import { InspectorAction } from '../hooks/use-inspector-tabs-context'
@@ -81,6 +82,7 @@ export type state = {
 
   cslLocale?: string
   cslStyle?: string
+  languages: Language[]
   hasPendingSuggestions?: boolean
   inconsistencies?: Inconsistency[]
   sectionCategories: Map<string, SectionCategory>
