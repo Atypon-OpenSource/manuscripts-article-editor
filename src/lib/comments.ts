@@ -45,8 +45,9 @@ export const buildThreads = (
 }
 
 /**
- *  will filter out orphan comments with their reply nodes from comments plugin,
- *  as that plugin filters comments that have a target id associated with a node
+ *  will filter out orphan comments with their reply nodes using comments plugin
+ *  as a reference to decide if the comment is an orphan or not, as that plugin
+ *  includes only comments that have a target id associated with a node
  */
 export const getOrphanComments = (state: EditorState) => {
   const comments = (state && commentsKey.getState(state)?.comments) || undefined
