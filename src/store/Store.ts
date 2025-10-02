@@ -27,6 +27,7 @@ import {
 
 import { PluginInspectorTab } from '../components/projects/Inspector'
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { InspectorAction } from '../hooks/use-inspector-tabs-context'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
@@ -84,7 +85,8 @@ export type state = {
   inconsistencies?: Inconsistency[]
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
-  inspectorOpenTabs?: { primaryTab: number; secondaryTab: number }
+  inspectorOpenTabs?: { primaryTab: number | null; secondaryTab: number | null }
+  doInspectorTab?: (action: InspectorAction) => void
   hiddenNodeTypes?: ManuscriptNodeType[]
 
   pluginInspectorTab?: PluginInspectorTab // an inspector tab injected (plugged in) from the parent app
