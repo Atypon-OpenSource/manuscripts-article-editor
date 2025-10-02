@@ -20,12 +20,16 @@ import {
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
-import { InspectorPrimaryTabs } from '../../hooks/use-inspector-tabs-context'
+import {
+  InspectorPanel,
+  useInspectorTabsParentControl,
+} from '../../hooks/use-inspector-tabs-context'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
 import { FileManager } from '../FileManager/FileManager'
 import {
+  ErrorBadge,
   IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
@@ -49,6 +53,7 @@ export type PluginInspectorTab = {
 }
 
 const Inspector: React.FC = () => {
+  useInspectorTabsParentControl()
   const [store] = useStore((store) => ({
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
@@ -58,6 +63,17 @@ const Inspector: React.FC = () => {
     inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
   }))
+  const inconsistenciesCount = store.inconsistencies?.length
+  let errorCount = 0
+  let warningCount = 0
+
+  store.inconsistencies?.forEach((i) => {
+    if (i.severity === 'error') {
+      errorCount++
+    } else if (i.severity === 'warning') {
+      warningCount++
+    }
+  })
 
   const [pluginTab] = useStore((store) => store.pluginInspectorTab)
 
@@ -88,9 +104,11 @@ const Inspector: React.FC = () => {
   }, [suggestion, HISTORY_TAB_INDEX])
 
   useEffect(() => {
-    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
+    if (inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Files) {
       setTabIndex(FILES_TAB_INDEX)
-    } else if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Quality) {
+    } else if (
+      inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Quality
+    ) {
       setTabIndex(ISSUES_TAB_INDEX)
     }
   }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
@@ -164,16 +182,17 @@ const Inspector: React.FC = () => {
                 icon={
                   <IconWrapper>
                     <DangerIcon />
-                    {store.inconsistencies.length > 0 && (
-                      <WarningBadge>
-                        {store.inconsistencies.length}
-                      </WarningBadge>
+                    {errorCount > 0 && (
+                      <ErrorBadge>{inconsistenciesCount}</ErrorBadge>
+                    )}
+                    {errorCount === 0 && warningCount > 0 && (
+                      <WarningBadge>{warningCount}</WarningBadge>
                     )}
                   </IconWrapper>
                 }
                 isVisible={tabIndex === ISSUES_TAB_INDEX}
               >
-                Quality
+                Issues
               </InspectorTab>
               {pluginTab && (
                 <InspectorTab
