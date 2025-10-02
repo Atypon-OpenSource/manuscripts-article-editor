@@ -20,7 +20,10 @@ import {
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
-import { InspectorPrimaryTabs } from '../../hooks/use-inspector-tabs-context'
+import {
+  InspectorPanel,
+  useInspectorTabsParentControl,
+} from '../../hooks/use-inspector-tabs-context'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
@@ -50,6 +53,7 @@ export type PluginInspectorTab = {
 }
 
 const Inspector: React.FC = () => {
+  useInspectorTabsParentControl()
   const [store] = useStore((store) => ({
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
@@ -100,9 +104,11 @@ const Inspector: React.FC = () => {
   }, [suggestion, HISTORY_TAB_INDEX])
 
   useEffect(() => {
-    if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Files) {
+    if (inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Files) {
       setTabIndex(FILES_TAB_INDEX)
-    } else if (inspectorOpenTabs?.primaryTab === InspectorPrimaryTabs.Quality) {
+    } else if (
+      inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Quality
+    ) {
       setTabIndex(ISSUES_TAB_INDEX)
     }
   }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
