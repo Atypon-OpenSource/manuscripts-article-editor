@@ -29,6 +29,7 @@ import { CommentsPanel } from '../comments/CommentsPanel'
 import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
 import { FileManager } from '../FileManager/FileManager'
 import {
+  ErrorBadge,
   IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
@@ -62,6 +63,17 @@ const Inspector: React.FC = () => {
     inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
   }))
+  const inconsistenciesCount = store.inconsistencies?.length
+  let errorCount = 0
+  let warningCount = 0
+
+  store.inconsistencies?.forEach((i) => {
+    if (i.severity === 'error') {
+      errorCount++
+    } else if (i.severity === 'warning') {
+      warningCount++
+    }
+  })
 
   const [pluginTab] = useStore((store) => store.pluginInspectorTab)
 
@@ -170,16 +182,17 @@ const Inspector: React.FC = () => {
                 icon={
                   <IconWrapper>
                     <DangerIcon />
-                    {store.inconsistencies.length > 0 && (
-                      <WarningBadge>
-                        {store.inconsistencies.length}
-                      </WarningBadge>
+                    {errorCount > 0 && (
+                      <ErrorBadge>{inconsistenciesCount}</ErrorBadge>
+                    )}
+                    {errorCount === 0 && warningCount > 0 && (
+                      <WarningBadge>{warningCount}</WarningBadge>
                     )}
                   </IconWrapper>
                 }
                 isVisible={tabIndex === ISSUES_TAB_INDEX}
               >
-                Quality
+                Issues
               </InspectorTab>
               {pluginTab && (
                 <InspectorTab
