@@ -14,6 +14,7 @@ import {
   affiliationLabel,
   authorLabel,
   ContributorAttrs,
+  FileAttachment,
 } from '@manuscripts/body-editor'
 import {
   CHANGE_OPERATION,
@@ -160,7 +161,8 @@ export const handleMarkChange = (
 
 export const handleNodeChange = (
   suggestion: NodeChange | NodeAttrChange,
-  state: ManuscriptEditorState
+  state: ManuscriptEditorState,
+  files?: FileAttachment[]
 ): SnippetData | null => {
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
@@ -298,6 +300,21 @@ export const handleNodeChange = (
         content: node.attrs.source,
       }
     }
+    case schema.nodes.supplement: {
+      const file = files?.find((f) => f.id === node.attrs.href)
+      return {
+        operation,
+        nodeName,
+        content: file ? file.name : '',
+      }
+    }
+    case schema.nodes.supplements: {
+      return {
+        operation,
+        nodeName,
+        content: '',
+      }
+    }
     case schema.nodes.alt_title: {
       return {
         operation,
@@ -331,7 +348,8 @@ export const handleNodeChange = (
 export const buildSnippet = (
   suggestions: RootChange,
   view: ManuscriptEditorView,
-  dataTracked: any
+  dataTracked: any,
+  files?: FileAttachment[]
 ) => {
   let content = ''
   let title = ''
@@ -341,7 +359,7 @@ export const buildSnippet = (
     let node: ManuscriptNode | null = null
 
     if (ChangeSet.isNodeChange(change) || ChangeSet.isNodeAttrChange(change)) {
-      result = handleNodeChange(change, view.state)
+      result = handleNodeChange(change, view.state, files)
       node = change.node
     } else if (ChangeSet.isTextChange(change)) {
       result = handleTextChange(change, view.state)
