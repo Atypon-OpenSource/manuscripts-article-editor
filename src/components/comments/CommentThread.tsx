@@ -10,10 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CommentAttrs } from '@manuscripts/body-editor'
-import { TextButton, usePermissions } from '@manuscripts/style-guide'
+import { TextButton } from '@manuscripts/style-guide'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { commentsByTime, Thread } from '../../lib/comments'
 import { CommentCard } from './CommentCard'
 import { ReplyBox } from './ReplyBox'

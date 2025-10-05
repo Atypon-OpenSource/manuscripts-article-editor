@@ -14,7 +14,7 @@ import {
   insertSupplement,
   NodeFile,
 } from '@manuscripts/body-editor'
-import { ToggleHeader, usePermissions } from '@manuscripts/style-guide'
+import { ToggleHeader } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
@@ -23,6 +23,7 @@ import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'

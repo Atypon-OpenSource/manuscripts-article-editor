@@ -10,10 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { usePermissions } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 
 const TrackChangesOn = styled.div`
