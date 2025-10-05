@@ -12,8 +12,6 @@
 import {
   Bundle,
   ManuscriptTemplate,
-  Model,
-  objectTypes,
   Project,
   UserProfile,
 } from '@manuscripts/transform'
@@ -118,19 +116,11 @@ export class Api {
     this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
 
   getProject = async (projectID: string) => {
-    const models = await this.get<Model[]>(`project/${projectID}`)
-    if (!models) {
-      throw new Error('Models are wrong.')
+    const response = await this.get<Project>(`project/${projectID}`)
+    if (!response) {
+      throw new Error('Project not found.')
     }
-    for (const model of models) {
-      if (model.objectType === objectTypes.Project) {
-        return model as Project
-      }
-    }
-  }
-
-  saveProject = (projectId: string, models: Model[]) => {
-    return this.put(`project/${projectId}`, { data: models })
+    return response
   }
 
   createProject = (projectId: string, title: string) =>
