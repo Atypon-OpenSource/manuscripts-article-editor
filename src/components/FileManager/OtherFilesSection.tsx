@@ -80,7 +80,7 @@ export const OtherFilesSection: React.FC<{
   }
 
   const moveToSupplements = async (file: FileAttachment) => {
-    insertSupplement(file, view.state, view.dispatch)
+    insertSupplement(file, view)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.Supplements,

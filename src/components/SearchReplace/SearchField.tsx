@@ -57,7 +57,7 @@ const FieldWrapper = styled(TextField.withComponent('div'))`
   display: flex;
   padding: 0;
   align-items: center;
-  max-width: 350px;
+  max-width: 280px;
   ${TextField} {
     border: none;
   }
