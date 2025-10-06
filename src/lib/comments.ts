@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { Comment, isReply } from '@manuscripts/body-editor'
-import { UserProfile } from '@manuscripts/json-schema'
+import { UserProfile } from '@manuscripts/transform'
 
 export type Thread = {
   comment: Comment

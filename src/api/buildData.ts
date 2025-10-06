@@ -9,8 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfile } from '@manuscripts/json-schema'
-import { schema } from '@manuscripts/transform'
+import { schema, UserProfile } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'

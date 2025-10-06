@@ -11,12 +11,10 @@
  */
 import {
   Bundle,
-  Model,
-  ObjectTypes,
+  ManuscriptTemplate,
   Project,
   UserProfile,
-} from '@manuscripts/json-schema'
-import { ManuscriptTemplate } from '@manuscripts/transform'
+} from '@manuscripts/transform'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -118,19 +116,11 @@ export class Api {
     this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
 
   getProject = async (projectID: string) => {
-    const models = await this.get<Model[]>(`project/${projectID}`)
-    if (!models) {
-      throw new Error('Models are wrong.')
+    const response = await this.get<Project>(`project/${projectID}`)
+    if (!response) {
+      throw new Error('Project not found.')
     }
-    for (const model of models) {
-      if (model.objectType === ObjectTypes.Project) {
-        return model as Project
-      }
-    }
-  }
-
-  saveProject = (projectId: string, models: Model[]) => {
-    return this.put(`project/${projectId}`, { data: models })
+    return response
   }
 
   createProject = (projectId: string, title: string) =>
