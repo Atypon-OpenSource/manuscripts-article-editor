@@ -10,14 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  ArrowDownCircleIcon,
-  IconButton,
-  usePermissions,
-} from '@manuscripts/style-guide'
+import { ArrowDownCircleIcon, IconButton } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../lib/capabilities'
 import ApproveAllButton from './track-changes/ApproveAllButton'
 
 const Section = styled.div`
@@ -29,7 +26,7 @@ const Section = styled.div`
 
 const Heading = styled.div`
   display: flex;
-  padding: ${(props) => props.theme.grid.unit * 2}px;
+  margin: ${(props) => props.theme.grid.unit * 2}px 0;
   cursor: pointer;
 `
 

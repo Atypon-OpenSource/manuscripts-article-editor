@@ -15,18 +15,20 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 
 import {
-  CapabilitiesProvider,
   IconButton,
   SliderOffIcon,
   SliderOnIcon,
-  useCalcPermission,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
 import { useGlobalKeyboardShortcuts } from '../../hooks/use-global-keyboard-shortcuts'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
+import {
+  CapabilitiesProvider,
+  useCalcPermission,
+  usePermissions,
+} from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { Main } from '../Page'
 import { SearchReplace } from '../SearchReplace'
