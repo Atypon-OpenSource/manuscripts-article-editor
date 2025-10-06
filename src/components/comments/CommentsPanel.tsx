@@ -207,7 +207,7 @@ export const CommentsPanel: React.FC = () => {
         onToggle={toggleActiveComments}
       />
       {isActiveCommentsCollapsed && (
-        <>
+        <div data-cy="active-comments">
           {!!threads.length && (
             <Header>
               <CheckboxLabel>
@@ -236,7 +236,7 @@ export const CommentsPanel: React.FC = () => {
                 insertCommentReply={insertCommentReply}
               />
             ))}
-        </>
+        </div>
       )}
       <ToggleHeader
         title={`Orphan Comments (${orphanThreads.length})`}
@@ -244,7 +244,7 @@ export const CommentsPanel: React.FC = () => {
         onToggle={toggleOrphanComments}
       />
       {isOrphanCommentsCollapsed && (
-        <>
+        <div data-cy="orphan-comments">
           {orphanThreads
             .filter((c) => showResolved || !c.comment.node.attrs.resolved)
             .map((c, i, a) => (
@@ -254,15 +254,15 @@ export const CommentsPanel: React.FC = () => {
                   isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null
                 }
                 thread={c}
-                isSelected={isSelected(c)}
+                isSelected={false}
                 isOrphanComment={true}
-                onSelect={() => setSelectedComment(c.comment)}
+                onSelect={() => ''}
                 onSave={handleSave}
                 onDelete={handleDelete}
                 insertCommentReply={insertCommentReply}
               />
             ))}
-        </>
+        </div>
       )}
     </>
   )
