@@ -63,7 +63,11 @@ export const Advanced: React.FC<{
   isReadOnlyMode,
 }) => (
   <>
-    <DraggableModal isOpen={isOpen} onRequestClose={() => handleClose()}>
+    <DraggableModal
+      isOpen={isOpen}
+      onRequestClose={() => handleClose()}
+      hideOverlay={true}
+    >
       <ModalHeader>
         <CloseButton
           onClick={() => handleClose()}
@@ -71,32 +75,33 @@ export const Advanced: React.FC<{
         />
       </ModalHeader>
       <SearchForm>
-        <h3>Find and Replace</h3>
-        <FieldGroup>
-          <Label>Find</Label>
-          <SearchField
-            value={value}
-            onInputFocus={() => onInputFocus()}
-            total={total}
-            current={current}
-            setNewSearchValue={setNewSearchValue}
-          />
-        </FieldGroup>
-        <FieldGroup>
-          <Label>Replace With</Label>
-          <TextField
-            onChange={(e) => {
-              setReplaceValue(e.target.value)
-            }}
-            autoComplete="off"
-            role="searchbox"
-            spellCheck={false}
-            placeholder={'Replace with'}
-            aria-label="Replace with"
-            type={'text'}
-            disabled={isReadOnlyMode}
-          />
-        </FieldGroup>
+        <Group>
+          <FieldGroup>
+            <Label>Find</Label>
+            <SearchField
+              value={value}
+              onInputFocus={() => onInputFocus()}
+              total={total}
+              current={current}
+              setNewSearchValue={setNewSearchValue}
+            />
+          </FieldGroup>
+          <FieldGroup>
+            <Label>Replace With</Label>
+            <TextField
+              onChange={(e) => {
+                setReplaceValue(e.target.value)
+              }}
+              autoComplete="off"
+              role="searchbox"
+              spellCheck={false}
+              placeholder={'Replace with'}
+              aria-label="Replace with"
+              type={'text'}
+              disabled={isReadOnlyMode}
+            />
+          </FieldGroup>
+        </Group>
         <OptionsGroup>
           <CheckBoxGroup>
             <CheckboxField
@@ -151,27 +156,37 @@ const CheckBoxGroup = styled.div`
 const OptionsGroup = styled.div`
   display: flex;
   flex-flow: column;
-  max-width: 350px;
-  margin: 0.5rem 0 2.5rem auto;
+  margin: 0 2.5rem;
 `
 
 const FieldGroup = styled.div`
   display: flex;
-  margin-bottom: 2rem;
   align-items: center;
   justify-content: space-between;
-  & > input {
-    max-width: 350px;
+  input {
+    width: 280px;
+    height: 30px;
   }
+`
+
+const Group = styled.div`
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
 `
 
 const Label = styled(TextFieldLabel)`
   text-transform: none;
+  margin-right: 10px;
 `
 
 const ButtonsSection = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: end;
+  margin-left: auto;
+  button:not(:last-child) {
+    margin-right: 1rem;
+  }
   button {
     min-width: 100px;
   }
@@ -179,4 +194,6 @@ const ButtonsSection = styled.div`
 const SearchForm = styled.div`
   min-width: 465px;
   max-width: 100%;
+  height: 100%;
+  display: flex;
 `
