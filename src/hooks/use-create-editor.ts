@@ -11,13 +11,13 @@
  */
 import { useEditor } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
-import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useApi } from '../api/Api'
 import { StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
+import { getCapabilities as getActionCapabilities } from '../lib/capabilities'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { useCompareDocuments } from './use-compare-documents'
