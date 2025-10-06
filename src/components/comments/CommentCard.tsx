@@ -14,11 +14,11 @@ import {
   AvatarIcon,
   RelativeDate,
   SystemUserAvatarIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { buildAuthorName, getAuthorID } from '../../lib/comments'
 import { useStore } from '../../store'
 import {

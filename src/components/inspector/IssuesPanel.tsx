@@ -14,133 +14,50 @@ import {
   detectInconsistencyPluginKey,
   Inconsistency,
 } from '@manuscripts/body-editor'
-import { ToggleHeader } from '@manuscripts/style-guide'
-import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { scrollIntoView } from '../../lib/utils'
 import { useStore } from '../../store'
+import { IssuesSection } from './IssuesSection'
 
 const IssuesContainer = styled.div`
   padding: ${(props) => props.theme.grid.unit * 2}px;
 `
 
-const InconsistenciesList = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 2}px
-    ${(props) => props.theme.grid.unit * 3}px;
-`
-
-const InconsistencyItem = styled.div<{ isFocused: boolean }>`
-  padding: 12px 8px;
-  margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
-  border: ${(props) =>
-    props.isFocused ? `1px solid #F35143` : `1px solid #C9C9C9`};
-  box-shadow: ${(props) => (props.isFocused ? `-4px 0 0 0  #F35143` : `none`)};
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: ${(props) =>
-    props.isFocused ? '#FFF1F0' + ' !important' : '#fff'};
-  position: relative;
-  font-family: 'Lato', sans-serif;
-  &:hover {
-    background-color: #f2f2f2;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`
-
-const InconsistencyTitle = styled.span`
-  margin: 0;
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: ${(props) => props.theme.font.size.small};
-  line-height: 1.4;
-  font-weight: 700;
-  margin-right: 3.2px;
-`
-
-const InconsistencyMessage = styled.span`
-  margin: 0;
-  color: ${(props) => props.theme.colors.text.primary};
-  font-size: ${(props) => props.theme.font.size.small};
-  line-height: 1.4;
-`
-
-const NoIssuesMessage = styled.div`
-  padding: ${(props) => props.theme.grid.unit * 4}px;
-  text-align: center;
-  color: ${(props) => props.theme.colors.text.secondary};
-  font-style: italic;
-`
-
 export const IssuesPanel: React.FC = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const [selectedInconsistencyIndex, setSelectedInconsistencyIndex] = useState<
-    number | null
-  >(null)
   const [view] = useStore((store) => store.view)
-
+  const [selectedInconsistencyKey, setSelectedInconsistencyKey] = useState<
+    string | null
+  >(null)
   const inconsistencies = view?.state
     ? detectInconsistencyPluginKey.getState(view.state)?.inconsistencies || []
     : []
 
-  const handleInconsistencyClick = (
-    inconsistency: Inconsistency,
-    index: number
-  ) => {
-    setSelectedInconsistencyIndex(index)
-    if (view) {
-      const tr = view.state.tr
-      tr.setSelection(NodeSelection.create(tr.doc, inconsistency.pos))
-      view.dispatch(tr)
+  const errors: Inconsistency[] = []
+  const warnings: Inconsistency[] = []
 
-      const domNode = view.nodeDOM(inconsistency.pos)
-
-      if (domNode && domNode instanceof HTMLElement) {
-        scrollIntoView(domNode)
-      }
+  inconsistencies.forEach((inconsistency) => {
+    if (inconsistency.severity === 'error') {
+      errors.push(inconsistency)
+    } else if (inconsistency.severity === 'warning') {
+      warnings.push(inconsistency)
     }
-  }
-
-  const toggleCollapsed = () => {
-    setIsCollapsed(!isCollapsed)
-  }
+  })
 
   return (
     <IssuesContainer>
-      <ToggleHeader
-        title={`Errors (${inconsistencies.length})`}
-        isOpen={isCollapsed}
-        onToggle={toggleCollapsed}
+      <IssuesSection
+        title="Errors"
+        items={errors}
+        selectedInconsistencyKey={selectedInconsistencyKey}
+        setSelectedInconsistencyKey={setSelectedInconsistencyKey}
       />
-
-      {!isCollapsed && (
-        <InconsistenciesList>
-          {inconsistencies.length === 0 ? (
-            <NoIssuesMessage>No errors found</NoIssuesMessage>
-          ) : (
-            inconsistencies.map(
-              (inconsistency: Inconsistency, index: number) => (
-                <InconsistencyItem
-                  key={index}
-                  isFocused={selectedInconsistencyIndex === index}
-                  onClick={() => handleInconsistencyClick(inconsistency, index)}
-                  data-cy="inconsistency"
-                >
-                  <InconsistencyTitle>
-                    {inconsistency.nodeDescription}:
-                  </InconsistencyTitle>
-                  <InconsistencyMessage>
-                    {inconsistency.message}
-                  </InconsistencyMessage>
-                </InconsistencyItem>
-              )
-            )
-          )}
-        </InconsistenciesList>
-      )}
+      <IssuesSection
+        title="Warnings"
+        items={warnings}
+        selectedInconsistencyKey={selectedInconsistencyKey}
+        setSelectedInconsistencyKey={setSelectedInconsistencyKey}
+      />
     </IssuesContainer>
   )
 }
