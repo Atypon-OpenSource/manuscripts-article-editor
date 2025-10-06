@@ -14,11 +14,11 @@ import {
   insertAttachment,
   insertSupplement,
 } from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'

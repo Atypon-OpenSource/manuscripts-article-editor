@@ -16,12 +16,13 @@ import {
   ToolbarButtonConfig,
   TypeSelector,
 } from '@manuscripts/body-editor'
-import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+import { Tooltip } from '@manuscripts/style-guide'
 import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 

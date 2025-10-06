@@ -16,7 +16,6 @@ import {
   ChatIcon,
   DangerIcon,
   ManuscriptIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
@@ -24,6 +23,7 @@ import {
   InspectorPanel,
   useInspectorTabsParentControl,
 } from '../../hooks/use-inspector-tabs-context'
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
