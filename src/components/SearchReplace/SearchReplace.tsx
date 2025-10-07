@@ -20,11 +20,11 @@ import {
   CloseButton,
   DotsIcon,
   IconButton,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { DelayUnmount } from '../DelayUnmount'
 import { Advanced } from './AdvancedSearch'

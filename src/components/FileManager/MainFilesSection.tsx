@@ -14,13 +14,13 @@ import {
   Category,
   Dialog,
   FileMainDocumentIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
