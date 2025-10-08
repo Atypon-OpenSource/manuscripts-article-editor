@@ -80,7 +80,6 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       isNew ? comment.node.attrs.id : null
     )
 
-
     useEffect(() => {
       if (cardsRef.current) {
         const contentHeight = cardsRef.current.scrollHeight

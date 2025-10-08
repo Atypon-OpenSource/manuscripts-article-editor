@@ -129,7 +129,10 @@ export const CommentCard: React.FC<CommentCardProps> = ({
       onDelete(commentID)
     } else {
       // For existing comments, if the original content is empty, delete it
-      if (!comment.node.attrs.contents || comment.node.attrs.contents.trim() === '') {
+      if (
+        !comment.node.attrs.contents ||
+        comment.node.attrs.contents.trim() === ''
+      ) {
         onDelete(commentID)
       }
     }
