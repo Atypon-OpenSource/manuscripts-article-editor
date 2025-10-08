@@ -80,11 +80,6 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       isNew ? comment.node.attrs.id : null
     )
 
-    useEffect(() => {
-      if (!isSelected) {
-        setEditingCommentId(null)
-      }
-    }, [isSelected])
 
     useEffect(() => {
       if (cardsRef.current) {

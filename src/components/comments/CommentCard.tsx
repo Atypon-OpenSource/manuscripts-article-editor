@@ -127,6 +127,11 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     setEditingCommentId(null)
     if (isNew) {
       onDelete(commentID)
+    } else {
+      // For existing comments, if the original content is empty, delete it
+      if (!comment.node.attrs.contents || comment.node.attrs.contents.trim() === '') {
+        onDelete(commentID)
+      }
     }
   }
 
