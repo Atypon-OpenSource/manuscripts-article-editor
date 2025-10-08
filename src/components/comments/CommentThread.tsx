@@ -81,12 +81,6 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     )
 
     useEffect(() => {
-      if (!isSelected) {
-        setEditingCommentId(null)
-      }
-    }, [isSelected])
-
-    useEffect(() => {
       if (cardsRef.current) {
         const contentHeight = cardsRef.current.scrollHeight
         setShowMore(contentHeight > 280)
