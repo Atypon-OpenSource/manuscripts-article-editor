@@ -36,6 +36,16 @@ import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+
+const CommentsList = styled.div`
+  overflow-y: auto;
+`
+
 const Header = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -66,13 +76,10 @@ export const CommentsPanel: React.FC = () => {
   )
 
   const [showResolved, setShowResolved] = useState(true)
-  const [isActiveCommentsCollapsed, setToggleActiveComments] = useState(true)
-  const [isOrphanCommentsCollapsed, setToggleOrphanComments] = useState(false)
+  const [openTab, toggleTab] = useState<'active' | 'orphan'>('active')
 
-  const toggleActiveComments = () =>
-    setToggleActiveComments(!isActiveCommentsCollapsed)
-  const toggleOrphanComments = () =>
-    setToggleOrphanComments(!isOrphanCommentsCollapsed)
+  const toggleCommentsTab = () =>
+    toggleTab(openTab === 'active' ? 'orphan' : 'active')
 
   const comments = useMemo(
     () =>
@@ -200,14 +207,14 @@ export const CommentsPanel: React.FC = () => {
   }
 
   return (
-    <>
+    <Container>
       <ToggleHeader
         title={`Active comments (${threads.length})`}
-        isOpen={isActiveCommentsCollapsed}
-        onToggle={toggleActiveComments}
+        isOpen={openTab === 'active'}
+        onToggle={toggleCommentsTab}
       />
-      {isActiveCommentsCollapsed && (
-        <div data-cy="active-comments">
+      {openTab === 'active' && (
+        <CommentsList data-cy="active-comments">
           {!!threads.length && (
             <Header>
               <CheckboxLabel>
@@ -236,15 +243,15 @@ export const CommentsPanel: React.FC = () => {
                 insertCommentReply={insertCommentReply}
               />
             ))}
-        </div>
+        </CommentsList>
       )}
       <ToggleHeader
-        title={`Orphan Comments (${orphanThreads.length})`}
-        isOpen={isOrphanCommentsCollapsed}
-        onToggle={toggleOrphanComments}
+        title={`Orphaned Comments (${orphanThreads.length})`}
+        isOpen={openTab === 'orphan'}
+        onToggle={toggleCommentsTab}
       />
-      {isOrphanCommentsCollapsed && (
-        <div data-cy="orphan-comments">
+      {openTab === 'orphan' && (
+        <CommentsList data-cy="orphan-comments">
           {orphanThreads
             .filter((c) => showResolved || !c.comment.node.attrs.resolved)
             .map((c, i, a) => (
@@ -262,8 +269,8 @@ export const CommentsPanel: React.FC = () => {
                 insertCommentReply={insertCommentReply}
               />
             ))}
-        </div>
+        </CommentsList>
       )}
-    </>
+    </Container>
   )
 }
