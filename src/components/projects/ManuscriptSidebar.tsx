@@ -11,9 +11,9 @@
  */
 
 import { ManuscriptOutline } from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
 import React from 'react'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import PageSidebar from '../PageSidebar'
 
