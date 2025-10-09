@@ -33,8 +33,8 @@ import {
   IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
+  InspectorTabPanels,
   InspectorTabs,
-  PaddedInspectorTabPanels,
   PrimaryTabList,
   Spacer,
   WarningBadge,
@@ -206,7 +206,7 @@ const Inspector: React.FC = () => {
               <Spacer />
               <DocumentOptionsDropdown />
             </PrimaryTabList>
-            <PaddedInspectorTabPanels>
+            <InspectorTabPanels>
               <InspectorTabPanel key="Comments" data-cy="comments">
                 {tabIndex === COMMENTS_TAB_INDEX && (
                   <CommentsPanel key="comments" />
@@ -230,7 +230,7 @@ const Inspector: React.FC = () => {
                   {tabIndex === PLUGIN_TAB && pluginTab.content}
                 </InspectorTabPanel>
               )}
-            </PaddedInspectorTabPanels>
+            </InspectorTabPanels>
           </InspectorTabs>
         </InspectorContainer>
       )}

@@ -19,7 +19,11 @@ import {
   setCommentSelection,
 } from '@manuscripts/body-editor'
 import { buildContribution } from '@manuscripts/json-schema'
-import { CheckboxField, CheckboxLabel } from '@manuscripts/style-guide'
+import {
+  CheckboxField,
+  CheckboxLabel,
+  ToggleHeader,
+} from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
@@ -27,10 +31,20 @@ import { findChildrenByType } from 'prosemirror-utils'
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { buildThreads, Thread } from '../../lib/comments'
+import { buildThreads, getOrphanComments, Thread } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+
+const CommentsList = styled.div`
+  overflow-y: auto;
+`
 
 const Header = styled.div`
   display: flex;
@@ -40,6 +54,7 @@ const Header = styled.div`
 
 const CheckboxLabelText = styled.div`
   color: ${(props) => props.theme.colors.text.primary} !important;
+  margin: 0 !important;
 `
 
 const scrollIntoView = (element: HTMLElement) => {
@@ -61,15 +76,30 @@ export const CommentsPanel: React.FC = () => {
   )
 
   const [showResolved, setShowResolved] = useState(true)
+  const [openTab, toggleTab] = useState<'active' | 'orphan'>('active')
+
+  const toggleCommentsTab = () =>
+    toggleTab(openTab === 'active' ? 'orphan' : 'active')
 
   const comments = useMemo(
     () =>
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,
     [view?.state, doc] // eslint-disable-line react-hooks/exhaustive-deps
   )
+
+  const orphanComments = useMemo(
+    () => view?.state && getOrphanComments(view.state),
+    [view?.state] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   const threads = useMemo(
     () => (comments ? buildThreads([...comments.values()], newCommentID) : []),
     [comments, newCommentID]
+  )
+
+  const orphanThreads = useMemo(
+    () => (orphanComments ? buildThreads([...orphanComments.values()]) : []),
+    [orphanComments]
   )
 
   const selectedRef = useCallback((e: HTMLElement | null) => {
@@ -146,12 +176,20 @@ export const CommentsPanel: React.FC = () => {
   }
 
   const handleDelete = (id: string) => {
-    const comment = comments?.get(id)
+    const comment = comments?.get(id) || orphanComments?.get(id)
     if (!comment || !view) {
       return
     }
     const tr = view.state.tr
     tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
+    if (orphanComments?.get(id)) {
+      const thread = orphanThreads.find(
+        ({ comment }) => comment.node.attrs.id === id
+      )
+      thread?.replies.map((reply) =>
+        tr.delete(reply.pos, reply.pos + reply.node.nodeSize)
+      )
+    }
     deleteHighlightMarkers(id, tr)
     view.dispatch(skipTracking(tr))
   }
@@ -164,36 +202,75 @@ export const CommentsPanel: React.FC = () => {
     return null
   }
 
-  if (!threads.length) {
+  if (!threads.length && !orphanThreads.length) {
     return <CommentsPlaceholder />
   }
 
   return (
-    <>
-      <Header>
-        <CheckboxLabel>
-          <CheckboxField
-            name={'show-resolved'}
-            checked={showResolved}
-            onChange={(e) => setShowResolved(e.target.checked)}
-          />
-          <CheckboxLabelText>See resolved</CheckboxLabelText>
-        </CheckboxLabel>
-      </Header>
-      {threads
-        .filter((c) => showResolved || !c.comment.node.attrs.resolved)
-        .map((c, i, a) => (
-          <CommentThread
-            key={c.comment.node.attrs.id}
-            ref={isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null}
-            thread={c}
-            isSelected={isSelected(c)}
-            onSelect={() => setSelectedComment(c.comment)}
-            onSave={handleSave}
-            onDelete={handleDelete}
-            insertCommentReply={insertCommentReply}
-          />
-        ))}
-    </>
+    <Container>
+      <ToggleHeader
+        title={`Active comments (${threads.length})`}
+        isOpen={openTab === 'active'}
+        onToggle={toggleCommentsTab}
+      />
+      {openTab === 'active' && (
+        <CommentsList data-cy="active-comments">
+          {!!threads.length && (
+            <Header>
+              <CheckboxLabel>
+                <CheckboxField
+                  name={'show-resolved'}
+                  checked={showResolved}
+                  onChange={(e) => setShowResolved(e.target.checked)}
+                />
+                <CheckboxLabelText>See resolved</CheckboxLabelText>
+              </CheckboxLabel>
+            </Header>
+          )}
+          {threads
+            .filter((c) => showResolved || !c.comment.node.attrs.resolved)
+            .map((c, i, a) => (
+              <CommentThread
+                key={c.comment.node.attrs.id}
+                ref={
+                  isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null
+                }
+                thread={c}
+                isSelected={isSelected(c)}
+                onSelect={() => setSelectedComment(c.comment)}
+                onSave={handleSave}
+                onDelete={handleDelete}
+                insertCommentReply={insertCommentReply}
+              />
+            ))}
+        </CommentsList>
+      )}
+      <ToggleHeader
+        title={`Orphaned Comments (${orphanThreads.length})`}
+        isOpen={openTab === 'orphan'}
+        onToggle={toggleCommentsTab}
+      />
+      {openTab === 'orphan' && (
+        <CommentsList data-cy="orphan-comments">
+          {orphanThreads
+            .filter((c) => showResolved || !c.comment.node.attrs.resolved)
+            .map((c, i, a) => (
+              <CommentThread
+                key={c.comment.node.attrs.id}
+                ref={
+                  isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null
+                }
+                thread={c}
+                isSelected={false}
+                isOrphanComment={true}
+                onSelect={() => ''}
+                onSave={handleSave}
+                onDelete={handleDelete}
+                insertCommentReply={insertCommentReply}
+              />
+            ))}
+        </CommentsList>
+      )}
+    </Container>
   )
 }

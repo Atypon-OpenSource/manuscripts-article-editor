@@ -51,10 +51,6 @@ export const InspectorTabPanels = styled(TabPanels)`
   overflow-y: auto;
 `
 
-export const PaddedInspectorTabPanels = styled(InspectorTabPanels)`
-  padding-bottom: 64px; // allow space for chat button
-`
-
 export const InspectorTabPanel = styled(TabPanel)`
   font-size: ${(props) => props.theme.font.size.normal};
   color: ${(props) => props.theme.colors.text.secondary};
