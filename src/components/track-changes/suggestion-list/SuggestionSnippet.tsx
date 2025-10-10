@@ -40,12 +40,14 @@ export const SuggestionSnippet: React.FC<Props> = ({
   handleAccept,
   handleReject,
 }) => {
-  const [{ view, collaboratorsById, files }] = useStore((store) => ({
-    view: store.view,
-    doc: store.doc,
-    collaboratorsById: store.collaboratorsById,
-    files: store.files,
-  }))
+  const [{ view, collaboratorsById, files, isTrackingChangesVisible }] =
+    useStore((store) => ({
+      view: store.view,
+      doc: store.doc,
+      collaboratorsById: store.collaboratorsById,
+      files: store.files,
+      isTrackingChangesVisible: store.isTrackingChangesVisible,
+    }))
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
@@ -69,7 +71,11 @@ export const SuggestionSnippet: React.FC<Props> = ({
 
   return (
     <SnippetText>
-      <Card isFocused={isFocused} data-cy="suggestion-card">
+      <Card
+        isFocused={isFocused}
+        isTrackingChangesVisible={isTrackingChangesVisible}
+        data-cy="suggestion-card"
+      >
         <CardHeader data-cy="card-header">
           <CardMetadata data-cy="card-metadata">
             <AuthorContainer>
@@ -90,7 +96,11 @@ export const SuggestionSnippet: React.FC<Props> = ({
         </CardHeader>
         <CardBody data-cy="card-body">
           {snippet?.operation && (
-            <Operation color={dataTracked.operation}>
+            <Operation
+              color={
+                isTrackingChangesVisible ? dataTracked.operation : 'default'
+              }
+            >
               {snippet?.operation}:
             </Operation>
           )}
@@ -108,6 +118,7 @@ const CardActions = styled.div`
 
 export const Card = styled.div<{
   isFocused: boolean
+  isTrackingChangesVisible: boolean
 }>`
   display: flex;
   flex-direction: column;
@@ -117,11 +128,11 @@ export const Card = styled.div<{
   padding: 8px;
   margin-bottom: 6px;
   border: ${(props) =>
-    props.isFocused
+    props.isFocused && props.isTrackingChangesVisible
       ? `1px solid ${props.theme.colors.border.tracked.active}`
       : `1px solid ${props.theme.colors.border.tracked.default}`};
   box-shadow: ${(props) =>
-    props.isFocused
+    props.isFocused && props.isTrackingChangesVisible
       ? `-4px 0 0 0  ${props.theme.colors.border.tracked.active}`
       : `none`};
   border-radius: 4px;
@@ -130,24 +141,26 @@ export const Card = styled.div<{
   position: relative;
   color: ${(props) => props.theme.colors.text.primary};
   background: ${(props) =>
-    props.isFocused
+    props.isFocused && props.isTrackingChangesVisible
       ? props.theme.colors.background.tracked.active + ' !important'
       : props.theme.colors.background.tracked.default};
 
   ${(props) =>
-    props.isFocused
+    props.isFocused && props.isTrackingChangesVisible
       ? `${CardActions} {
         visibility: visible;
       }`
       : ''}
+  ${(props) =>
+    props.isTrackingChangesVisible
+      ? `&:hover {
+      background: ${props.theme.colors.background.tracked.hover};
 
-  &:hover {
-    background: ${(props) => props.theme.colors.background.tracked.hover};
-
-    ${CardActions} {
-      visibility: visible;
-    }
-  }
+      ${CardActions} {
+        visibility: visible;
+      }
+    }`
+      : ''}
 `
 export const CardHeader = styled.div`
   display: flex;
