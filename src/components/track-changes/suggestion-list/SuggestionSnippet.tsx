@@ -116,6 +116,11 @@ const CardActions = styled.div`
   visibility: hidden;
 `
 
+const isActive = (props: {
+  isFocused: boolean
+  isTrackingChangesVisible: boolean
+}) => props.isFocused && props.isTrackingChangesVisible
+
 export const Card = styled.div<{
   isFocused: boolean
   isTrackingChangesVisible: boolean
@@ -128,11 +133,11 @@ export const Card = styled.div<{
   padding: 8px;
   margin-bottom: 6px;
   border: ${(props) =>
-    props.isFocused && props.isTrackingChangesVisible
+    isActive(props)
       ? `1px solid ${props.theme.colors.border.tracked.active}`
       : `1px solid ${props.theme.colors.border.tracked.default}`};
   box-shadow: ${(props) =>
-    props.isFocused && props.isTrackingChangesVisible
+    isActive(props)
       ? `-4px 0 0 0  ${props.theme.colors.border.tracked.active}`
       : `none`};
   border-radius: 4px;
@@ -141,12 +146,12 @@ export const Card = styled.div<{
   position: relative;
   color: ${(props) => props.theme.colors.text.primary};
   background: ${(props) =>
-    props.isFocused && props.isTrackingChangesVisible
+    isActive(props)
       ? props.theme.colors.background.tracked.active + ' !important'
       : props.theme.colors.background.tracked.default};
 
   ${(props) =>
-    props.isFocused && props.isTrackingChangesVisible
+    isActive(props)
       ? `${CardActions} {
         visibility: visible;
       }`
