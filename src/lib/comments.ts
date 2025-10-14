@@ -9,8 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { Comment, isReply } from '@manuscripts/body-editor'
+import { Comment, commentsKey, isReply } from '@manuscripts/body-editor'
 import { UserProfile } from '@manuscripts/json-schema'
+import { schema } from '@manuscripts/transform'
+import { EditorState } from 'prosemirror-state'
+import { findChildrenByType, flatten } from 'prosemirror-utils'
 
 export type Thread = {
   comment: Comment
@@ -39,6 +42,40 @@ export const buildThreads = (
         (reply) => reply.node.attrs.target === c.node.attrs.id // Find replies for each comment
       ),
     }))
+}
+
+/**
+ *  will filter out orphan comments with their reply nodes using comments plugin
+ *  as a reference to decide if the comment is an orphan or not, as that plugin
+ *  includes only comments that have a target id associated with a node
+ */
+export const getOrphanComments = (state: EditorState) => {
+  const comments = (state && commentsKey.getState(state)?.comments) || undefined
+
+  if (!comments) {
+    return undefined
+  }
+
+  const commentsNode = findChildrenByType(state.doc, schema.nodes.comments)[0]
+  const allComments = flatten(commentsNode.node)
+  const orphanComments = allComments.filter(
+    ({ node }) => !comments?.has(node.attrs.id)
+  )
+  const orphanCommentsReplays = allComments.filter(
+    ({ node }) =>
+      isReply({ node } as Comment) &&
+      orphanComments.find(
+        (orphan) => orphan.node.attrs.id === node.attrs.target
+      )
+  )
+  return new Map(
+    [...orphanComments.values(), ...orphanCommentsReplays]
+      .map(
+        ({ node, pos }) =>
+          ({ node, pos: commentsNode.pos + pos + 1 } as Comment)
+      )
+      .map((comment) => [comment.node.attrs.id as string, comment])
+  )
 }
 
 export const buildAuthorName = (user: UserProfile | undefined) => {
