@@ -57,6 +57,7 @@ export interface CommentThreadProps {
   onSave: (comment: CommentAttrs) => void
   onDelete: (id: string) => void
   insertCommentReply: (target: string, contents: string) => void
+  isOrphanComment?: boolean
 }
 
 export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
@@ -68,6 +69,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       onSave,
       onDelete,
       insertCommentReply,
+      isOrphanComment,
     } = props
 
     const can = usePermissions()
@@ -111,6 +113,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             numOfReplies={replies.length}
             isNew={isNew}
             isEndOfThread={!replies.length}
+            isOrphanComment={isOrphanComment || false}
             editingCommentId={editingCommentId}
             setEditingCommentId={setEditingCommentId}
             onDelete={onDelete}
@@ -128,6 +131,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
                     numOfReplies={0}
                     isNew={false}
                     isEndOfThread={index === replies.length - 1}
+                    isOrphanComment={isOrphanComment || false}
                     editingCommentId={editingCommentId}
                     setEditingCommentId={setEditingCommentId}
                     onDelete={onDelete}
@@ -147,12 +151,15 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             </ButtonContainer>
           </>
         )}
-        {can.createComment && isSelected && editingCommentId === null && (
-          <ReplyBox
-            insertCommentReply={insertCommentReply}
-            commentID={comment.node.attrs.id}
-          />
-        )}
+        {can.createComment &&
+          isSelected &&
+          editingCommentId === null &&
+          !isOrphanComment && (
+            <ReplyBox
+              insertCommentReply={insertCommentReply}
+              commentID={comment.node.attrs.id}
+            />
+          )}
       </Container>
     )
   }
