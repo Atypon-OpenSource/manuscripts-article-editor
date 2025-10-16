@@ -21,7 +21,6 @@ import { useDoWithThrottle } from '../api/savingUtilities'
 import { useStore } from '../store'
 import { useCreateEditor } from './use-create-editor'
 import { useDebugUtils } from './use-debug-utils'
-import { useHandleSnapshot } from './use-handle-snapshot'
 
 export const useConnectEditor = () => {
   const [_, storeDispatch] = useStore((store) => store.manuscriptID)
@@ -29,13 +28,7 @@ export const useConnectEditor = () => {
   const editor = useCreateEditor()
 
   const { state, view } = editor
-  const handleSnapshot = useHandleSnapshot(view)
   useDebugUtils()
-
-  useEffect(() => {
-    storeDispatch({ handleSnapshot })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view?.state])
 
   useLayoutEffect(() => {
     const trackState = trackChangesPluginKey.getState(state)
