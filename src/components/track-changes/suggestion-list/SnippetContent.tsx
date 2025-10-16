@@ -33,12 +33,6 @@ const SnippetContent: React.FC<ContentProps> = ({ content }) => {
 export default SnippetContent
 
 const StyledContent = styled.span`
-  color: #353535;
-  font-family: Lato, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-
   .inspector-list-item::after {
     content: '...';
   }

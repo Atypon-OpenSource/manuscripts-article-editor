@@ -36,12 +36,16 @@ export const Suggestion: React.FC<Props> = ({
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
   const [trackModalVisible, setModalVisible] = useState(false)
-  const [{ isComparingMode }] = useStore((store) => ({
+  const [{ isComparingMode, isTrackingChangesVisible }] = useStore((store) => ({
     isComparingMode: store.isComparingMode,
+    isTrackingChangesVisible: store.isTrackingChangesVisible,
   }))
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
+    if (!isTrackingChangesVisible) {
+      return
+    }
     setModalVisible(true)
     if (onSelect) {
       onSelect()
@@ -56,7 +60,11 @@ export const Suggestion: React.FC<Props> = ({
 
   return (
     <Wrapper data-cy="suggestion" isFocused={isSelected} ref={wrapperRef}>
-      <FocusHandle href="#" onClick={handleClick}>
+      <FocusHandle
+        isTrackingChangesVisible={isTrackingChangesVisible}
+        href="#"
+        onClick={handleClick}
+      >
         <SuggestionSnippet
           suggestions={suggestions}
           isComparingMode={isComparingMode}
@@ -82,8 +90,12 @@ const Wrapper = styled.li<{
   isFocused: boolean
 }>``
 
-const FocusHandle = styled.a`
+const FocusHandle = styled.a<{
+  isTrackingChangesVisible: boolean
+}>`
   color: inherit;
   text-decoration: none;
   overflow: hidden;
+  cursor: ${(props) =>
+    props.isTrackingChangesVisible ? 'pointer' : 'default'};
 `
