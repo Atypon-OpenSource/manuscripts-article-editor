@@ -53,6 +53,7 @@ export type state = {
   trackState?: TrackChangesState
   isViewingMode?: boolean
   isComparingMode?: boolean
+  isTrackingChangesVisible: boolean
   view?: ManuscriptEditorView
   titleText: string
 
@@ -171,6 +172,7 @@ export class GenericStore implements Store {
       ...(state as state),
       isViewingMode: false,
       isComparingMode: false,
+      isTrackingChangesVisible: true,
     })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
