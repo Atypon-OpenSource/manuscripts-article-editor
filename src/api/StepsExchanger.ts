@@ -35,6 +35,25 @@ export class ObservableBoolean {
   }
 }
 
+/**
+ * Utility function to check if the Step is related to a comment.
+ */
+const hasCommentStep = (steps: Step[]): boolean => {
+  return steps.some((step) => {
+    // Only 'replace' steps carry a slice/content that might contain a new node.
+    if (step.toJSON().stepType === 'replace') {
+      const slice = (step.toJSON() as any).slice
+      if (slice && slice.content) {
+        // Look through the inserted content for a node of type 'comment'.
+        return slice.content.some(
+          (contentNode: any) => contentNode.type === 'comment'
+        )
+      }
+    }
+    return false
+  })
+}
+
 export class StepsExchanger extends CollabProvider {
   projectID: string
   manuscriptID: string
@@ -73,6 +92,14 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
+    const isCommentStep = hasCommentStep(steps)
+    // If a comment step is detected and it's NOT an explicit flush (i.e., auto-save attempt),
+    // we immediately return without queuing the save.
+    if (isCommentStep && !flush) {
+      return Promise.resolve()
+    }
+    // ------------------------
+
     this.flushImmediately = this.debounce(
       async () => {
         const response = await this.api.sendSteps(
