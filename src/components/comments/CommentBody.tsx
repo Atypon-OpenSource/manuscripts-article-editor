@@ -18,6 +18,7 @@ import {
 import React, {
   ChangeEvent,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -83,6 +84,9 @@ export interface CommentBodyProps {
   onCancel: () => void
 }
 
+// Create a global store for preserved content per comment ID
+export const preservedContentStore = new Map<string, string>()
+
 export const CommentBody: React.FC<CommentBodyProps> = ({
   comment,
   isEditing,
@@ -90,10 +94,53 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
   onCancel,
 }) => {
   const editor = useRef<HTMLTextAreaElement | null>(null)
-  const handleSave = () => {
-    if (editor.current) {
-      onSave(editor.current.value)
+  const commentId = comment.node.attrs.id
+  const isCancellingRef = useRef(false)
+
+  // Initialize value with preserved content or comment contents
+  const [value, setValue] = useState(() => {
+    const preserved = preservedContentStore.get(commentId)
+    return preserved !== undefined
+      ? preserved
+      : comment.node.attrs.contents || ''
+  })
+
+  // Update preserved content in global store when value changes
+  useEffect(() => {
+    preservedContentStore.set(commentId, value)
+  }, [value, commentId])
+
+  // Restore preserved content when isEditing becomes true
+  useEffect(() => {
+    if (isEditing) {
+      const preserved = preservedContentStore.get(commentId)
+      if (preserved !== undefined) {
+        setValue(preserved)
+      }
     }
+  }, [isEditing, commentId])
+
+  const handleSave = () => {
+    // Don't save if we're in the middle of cancelling
+    if (isCancellingRef.current) {
+      return
+    }
+
+    if (value.trim()) {
+      onSave(value)
+      preservedContentStore.delete(commentId)
+    }
+  }
+
+  const handleCancel = () => {
+    // Set flag to prevent any saves during cancel
+    isCancellingRef.current = true
+
+    // Clear preserved content from global store on cancel
+    preservedContentStore.delete(commentId)
+
+    // Call the parent's onCancel
+    onCancel()
   }
 
   const ref = useCallback((e: HTMLTextAreaElement | null) => {
@@ -103,14 +150,14 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
     editor.current = e
   }, [])
 
-  const [value, setValue] = useState(editor.current?.value || '')
-
   const disableSaveButton = useMemo(
     () => !value.length || comment.node.attrs.contents === value,
     [comment.node.attrs.contents, value]
   )
-  const onTextChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
+
+  const onTextChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value)
+  }, [])
 
   return (
     <>
@@ -119,12 +166,17 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
           <CommentEditor
             data-cy="comment-editor"
             ref={ref}
-            defaultValue={comment.node.attrs.contents}
+            value={value}
             onChange={onTextChange}
-            onBlur={(event) => !event.target.value.length && onCancel()}
+            onBlur={() => {
+              // If the comment is empty, automatically cancel/discard it
+              if (!value.trim()) {
+                handleCancel()
+              }
+            }}
           ></CommentEditor>
           <EditorActions data-cy="comment-actions">
-            <TertiaryButton onClick={onCancel}>Cancel</TertiaryButton>
+            <TertiaryButton onClick={handleCancel}>Cancel</TertiaryButton>
             <PrimaryButton onClick={handleSave} disabled={disableSaveButton}>
               Save
             </PrimaryButton>

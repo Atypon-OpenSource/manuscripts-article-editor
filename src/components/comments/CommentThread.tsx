@@ -16,6 +16,7 @@ import styled from 'styled-components'
 
 import { usePermissions } from '../../lib/capabilities'
 import { commentsByTime, Thread } from '../../lib/comments'
+import { preservedContentStore } from './CommentBody'
 import { CommentCard } from './CommentCard'
 import { ReplyBox } from './ReplyBox'
 
@@ -78,8 +79,22 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
 
     const cardsRef = useRef<HTMLDivElement>(null)
     const [showMore, setShowMore] = useState(false)
+
+    // Initialize editingCommentId: set to comment ID if it's new OR has UNSAVED preserved content
     const [editingCommentId, setEditingCommentId] = useState<string | null>(
-      isNew ? comment.node.attrs.id : null
+      () => {
+        const commentId = comment.node.attrs.id
+        if (isNew) {
+          return commentId
+        }
+        // Check if there's preserved content that's different from saved content (unsaved changes)
+        const preservedContent = preservedContentStore.get(commentId)
+        const savedContent = comment.node.attrs.contents
+        if (preservedContent && preservedContent !== savedContent) {
+          return commentId
+        }
+        return null
+      }
     )
 
     useEffect(() => {
