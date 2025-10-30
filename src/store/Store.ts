@@ -53,6 +53,7 @@ export type state = {
   trackState?: TrackChangesState
   isViewingMode?: boolean
   isComparingMode?: boolean
+  isTrackingChangesVisible: boolean
   view?: ManuscriptEditorView
   titleText: string
 
@@ -62,7 +63,6 @@ export type state = {
   collaboratorsById: Map<string, UserProfile>
 
   snapshots: SnapshotLabel[]
-  createSnapshot: (name: string) => Promise<void>
   getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
   permittedActions: string[]
@@ -77,8 +77,6 @@ export type state = {
   preventUnload?: boolean
   beforeUnload?: () => void
   userRole: ProjectRole | null
-
-  handleSnapshot: (name: string) => Promise<void>
 
   cslLocale?: string
   cslStyle?: string
@@ -174,6 +172,7 @@ export class GenericStore implements Store {
       ...(state as state),
       isViewingMode: false,
       isComparingMode: false,
+      isTrackingChangesVisible: true,
     })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
