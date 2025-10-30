@@ -132,11 +132,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     setEditingCommentId(null)
 
     // Delete comment if it's new OR if it has no saved content (empty)
-    if (
-      isNew ||
-      !comment.node.attrs.contents ||
-      comment.node.attrs.contents.trim() === ''
-    ) {
+    if (isNew || comment.node.attrs.contents.trim() === '') {
       onDelete(commentID)
     }
   }

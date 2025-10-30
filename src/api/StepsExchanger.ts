@@ -35,23 +35,44 @@ export class ObservableBoolean {
   }
 }
 
-/**
- * Utility function to check if the Step is related to a comment.
- */
-const hasCommentStep = (steps: Step[]): boolean => {
-  return steps.some((step) => {
-    // Only 'replace' steps carry a slice/content that might contain a new node.
-    if (step.toJSON().stepType === 'replace') {
-      const slice = (step.toJSON() as any).slice
-      if (slice && slice.content) {
-        // Look through the inserted content for a node of type 'comment'.
-        return slice.content.some(
-          (contentNode: any) => contentNode.type === 'comment'
-        )
+// Inspect steps for comment changes
+const commentSteps = (
+  steps: Step[]
+): { hasCommentChange: boolean; hasNonEmptyComment: boolean } => {
+  let hasCommentChange = false
+  let hasNonEmptyComment = false
+
+  for (const step of steps) {
+    const json: any = step.toJSON()
+    const type = json.stepType
+
+    if (type === 'replace') {
+      const content: any[] | undefined = json.slice?.content
+      if (Array.isArray(content)) {
+        for (const n of content) {
+          if (n?.type === 'comment') {
+            hasCommentChange = true
+            const c = (n?.attrs?.contents ?? '').toString().trim()
+            if (c.length > 0) {
+              hasNonEmptyComment = true
+            }
+          }
+        }
       }
     }
-    return false
-  })
+
+    if (type === 'setNodeMarkup') {
+      if (json.type === 'comment') {
+        hasCommentChange = true
+        const c = (json.attrs?.contents ?? '').toString().trim()
+        if (c.length > 0) {
+          hasNonEmptyComment = true
+        }
+      }
+    }
+  }
+
+  return { hasCommentChange, hasNonEmptyComment }
 }
 
 export class StepsExchanger extends CollabProvider {
@@ -92,13 +113,14 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
-    const isCommentStep = hasCommentStep(steps)
-    // If a comment step is detected and it's NOT an explicit flush (i.e., auto-save attempt),
-    // we immediately return without queuing the save.
-    if (isCommentStep && !flush) {
+    // Guard: do not send draft-only comment steps unless explicitly flushed
+    const { hasCommentChange, hasNonEmptyComment } = commentSteps(steps)
+    if (!flush && hasCommentChange && !hasNonEmptyComment) {
       return Promise.resolve()
     }
-    // ------------------------
+
+    // If there is a non-empty comment change, send immediately (no debounce)
+    const effectiveFlush = flush || (hasCommentChange && hasNonEmptyComment)
 
     this.flushImmediately = this.debounce(
       async () => {
@@ -122,11 +144,11 @@ export class StepsExchanger extends CollabProvider {
         }
       },
       THROTTLING_INTERVAL,
-      flush,
+      effectiveFlush,
       () => this.isThrottling.setValue(false)
     )
 
-    if (!flush) {
+    if (!effectiveFlush) {
       this.isThrottling.setValue(true)
     }
 

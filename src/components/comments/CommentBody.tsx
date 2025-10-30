@@ -25,6 +25,7 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 
+import { usePreservedComments } from '../../hooks/use-preserved-comments'
 import { decodeHTMLEntities } from '../../lib/utils'
 
 const CommentEditor = styled.textarea`
@@ -84,9 +85,6 @@ export interface CommentBodyProps {
   onCancel: () => void
 }
 
-// Create a global store for preserved content per comment ID
-export const preservedContentStore = new Map<string, string>()
-
 export const CommentBody: React.FC<CommentBodyProps> = ({
   comment,
   isEditing,
@@ -96,29 +94,45 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
   const editor = useRef<HTMLTextAreaElement | null>(null)
   const commentId = comment.node.attrs.id
   const isCancellingRef = useRef(false)
+  const {
+    get: getPreserved,
+    set: setPreserved,
+    remove: removePreserved,
+  } = usePreservedComments()
+  const savedContentsRef = useRef<string>(comment.node.attrs.contents || '')
 
   // Initialize value with preserved content or comment contents
   const [value, setValue] = useState(() => {
-    const preserved = preservedContentStore.get(commentId)
+    const preserved = getPreserved(commentId)
     return preserved !== undefined
       ? preserved
       : comment.node.attrs.contents || ''
   })
 
-  // Update preserved content in global store when value changes
   useEffect(() => {
-    preservedContentStore.set(commentId, value)
-  }, [value, commentId])
+    if (!isEditing) {
+      return
+    }
+    const trimmed = value.trim()
+    if (!trimmed) {
+      return
+    }
+    if (trimmed === savedContentsRef.current) {
+      return
+    }
+    setPreserved(commentId, trimmed)
+  }, [value, isEditing, commentId, setPreserved])
 
   // Restore preserved content when isEditing becomes true
   useEffect(() => {
-    if (isEditing) {
-      const preserved = preservedContentStore.get(commentId)
-      if (preserved !== undefined) {
-        setValue(preserved)
-      }
+    if (!isEditing) {
+      return
     }
-  }, [isEditing, commentId])
+    const preserved = getPreserved(commentId)
+    if (preserved !== undefined) {
+      setValue(preserved)
+    }
+  }, [isEditing, commentId, getPreserved])
 
   const handleSave = () => {
     // Don't save if we're in the middle of cancelling
@@ -128,7 +142,7 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
 
     if (value.trim()) {
       onSave(value)
-      preservedContentStore.delete(commentId)
+      removePreserved(commentId)
     }
   }
 
@@ -136,8 +150,8 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
     // Set flag to prevent any saves during cancel
     isCancellingRef.current = true
 
-    // Clear preserved content from global store on cancel
-    preservedContentStore.delete(commentId)
+    // Clear preserved content from store on cancel
+    removePreserved(commentId)
 
     // Call the parent's onCancel
     onCancel()
