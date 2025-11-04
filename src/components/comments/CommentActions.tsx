@@ -5,7 +5,7 @@
  *
  * The Original Code is manuscripts-frontend.
  *
- * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
+ * The Original Developer is tddhe Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
