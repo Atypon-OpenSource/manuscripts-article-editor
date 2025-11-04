@@ -13,6 +13,7 @@ import {
   Comment,
   CommentAttrs,
   commentsKey,
+  FORBID_DEBOUNCE_META_KEY,
   HighlightMarkerAttrs,
   InlineComment,
   isNodeComment,
@@ -147,17 +148,24 @@ export const CommentsPanel: React.FC = () => {
     if (comments) {
       const pos = comments.pos + 1
       const tr = view.state.tr.insert(pos, comment)
+      tr.setMeta(FORBID_DEBOUNCE_META_KEY, true)
       view.dispatch(skipTracking(tr))
     }
   }
 
   const handleSave = (attrs: CommentAttrs) => {
+    // Don't save empty comments
+    if (!attrs.contents || !attrs.contents.trim()) {
+      return
+    }
     const comment = comments?.get(attrs.id)
     if (!comment || !view) {
       return
     }
     const tr = view.state.tr
     tr.setNodeMarkup(comment.pos, undefined, attrs)
+    // Set meta to forbid debounce - this triggers immediate flush
+    tr.setMeta(FORBID_DEBOUNCE_META_KEY, true)
     view.dispatch(skipTracking(tr))
   }
 
@@ -191,6 +199,8 @@ export const CommentsPanel: React.FC = () => {
       )
     }
     deleteHighlightMarkers(id, tr)
+    // Set meta to forbid debounce - this triggers immediate flush
+    tr.setMeta(FORBID_DEBOUNCE_META_KEY, true)
     view.dispatch(skipTracking(tr))
   }
 
