@@ -35,46 +35,6 @@ export class ObservableBoolean {
   }
 }
 
-// Inspect steps for comment changes
-const commentSteps = (
-  steps: Step[]
-): { hasCommentChange: boolean; hasNonEmptyComment: boolean } => {
-  let hasCommentChange = false
-  let hasNonEmptyComment = false
-
-  for (const step of steps) {
-    const json: any = step.toJSON()
-    const type = json.stepType
-
-    if (type === 'replace') {
-      const content: any[] | undefined = json.slice?.content
-      if (Array.isArray(content)) {
-        for (const n of content) {
-          if (n?.type === 'comment') {
-            hasCommentChange = true
-            const c = (n?.attrs?.contents ?? '').toString().trim()
-            if (c.length > 0) {
-              hasNonEmptyComment = true
-            }
-          }
-        }
-      }
-    }
-
-    if (type === 'setNodeMarkup') {
-      if (json.type === 'comment') {
-        hasCommentChange = true
-        const c = (json.attrs?.contents ?? '').toString().trim()
-        if (c.length > 0) {
-          hasNonEmptyComment = true
-        }
-      }
-    }
-  }
-
-  return { hasCommentChange, hasNonEmptyComment }
-}
-
 export class StepsExchanger extends CollabProvider {
   projectID: string
   manuscriptID: string
@@ -113,15 +73,6 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
-    // Guard: do not send draft-only comment steps unless explicitly flushed
-    const { hasCommentChange, hasNonEmptyComment } = commentSteps(steps)
-    if (!flush && hasCommentChange && !hasNonEmptyComment) {
-      return Promise.resolve()
-    }
-
-    // If there is a non-empty comment change, send immediately (no debounce)
-    const effectiveFlush = flush || (hasCommentChange && hasNonEmptyComment)
-
     this.flushImmediately = this.debounce(
       async () => {
         const response = await this.api.sendSteps(
@@ -144,11 +95,11 @@ export class StepsExchanger extends CollabProvider {
         }
       },
       THROTTLING_INTERVAL,
-      effectiveFlush,
+      flush,
       () => this.isThrottling.setValue(false)
     )
 
-    if (!effectiveFlush) {
+    if (!flush) {
       this.isThrottling.setValue(true)
     }
 
