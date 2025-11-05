@@ -10,10 +10,10 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  clearCommentSelection,
   Comment,
   CommentAttrs,
   commentsKey,
-  FORBID_DEBOUNCE_META_KEY,
   HighlightMarkerAttrs,
   InlineComment,
   isNodeComment,
@@ -29,9 +29,10 @@ import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
 import { findChildrenByType } from 'prosemirror-utils'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { usePreservedComments } from '../../hooks/use-preserved-comments'
 import { buildThreads, getOrphanComments, Thread } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
@@ -79,14 +80,86 @@ export const CommentsPanel: React.FC = () => {
   const [showResolved, setShowResolved] = useState(true)
   const [openTab, toggleTab] = useState<'active' | 'orphan'>('active')
 
+  const { get: getPreserved } = usePreservedComments()
+  const hasCleanedUpOnLoadRef = useRef(false)
+  const prevNewCommentIDRef = useRef<string | undefined>(undefined)
+
   const toggleCommentsTab = () =>
     toggleTab(openTab === 'active' ? 'orphan' : 'active')
+
+  useEffect(() => {
+    if (!view) {
+      return
+    }
+
+    if (
+      prevNewCommentIDRef.current !== undefined &&
+      prevNewCommentIDRef.current !== newCommentID &&
+      prevNewCommentIDRef.current !== null
+    ) {
+      const currentSelection = commentsKey.getState(view.state)?.selection
+      if (currentSelection && currentSelection.id !== newCommentID) {
+        const tr = view.state.tr
+        clearCommentSelection(tr)
+        tr.setMeta('skipCollabSync', true)
+        view.dispatch(skipTracking(tr))
+      }
+    }
+
+    prevNewCommentIDRef.current = newCommentID
+  }, [newCommentID, view])
 
   const comments = useMemo(
     () =>
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,
     [view?.state, doc] // eslint-disable-line react-hooks/exhaustive-deps
   )
+
+  const deleteHighlightMarkers = useCallback(
+    (id: string, tr: Transaction) => {
+      const nodes = findChildrenByType(doc, schema.nodes.highlight_marker)
+
+      // Sort nodes in reverse order by position to ensure deletions do not affect the positions of subsequent nodes
+      nodes.sort((a, b) => b.pos - a.pos)
+      nodes.forEach(({ node, pos }) => {
+        const attrs = node.attrs as HighlightMarkerAttrs
+
+        if (attrs.id === id) {
+          tr.delete(pos, pos + node.nodeSize)
+        }
+      })
+    },
+    [doc]
+  )
+
+  useEffect(() => {
+    if (!view || !comments || hasCleanedUpOnLoadRef.current) {
+      return
+    }
+
+    hasCleanedUpOnLoadRef.current = true
+
+    let hasEmptyComments = false
+    const tr = view.state.tr
+
+    comments.forEach((comment) => {
+      const commentId = comment.node.attrs.id
+      const contents = comment.node.attrs.contents || ''
+      const preservedContent = getPreserved(commentId)
+      const hasPreservedContent =
+        preservedContent && preservedContent.trim() !== ''
+
+      if (contents.trim() === '' && !hasPreservedContent) {
+        tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
+        deleteHighlightMarkers(commentId, tr)
+        hasEmptyComments = true
+      }
+    })
+
+    if (hasEmptyComments) {
+      view.dispatch(skipTracking(tr))
+    }
+  }, [view, comments, getPreserved, deleteHighlightMarkers])
 
   const orphanComments = useMemo(
     () => view?.state && getOrphanComments(view.state),
@@ -148,13 +221,11 @@ export const CommentsPanel: React.FC = () => {
     if (comments) {
       const pos = comments.pos + 1
       const tr = view.state.tr.insert(pos, comment)
-      tr.setMeta(FORBID_DEBOUNCE_META_KEY, true)
       view.dispatch(skipTracking(tr))
     }
   }
 
   const handleSave = (attrs: CommentAttrs) => {
-    // Don't save empty comments
     if (!attrs.contents || !attrs.contents.trim()) {
       return
     }
@@ -164,23 +235,7 @@ export const CommentsPanel: React.FC = () => {
     }
     const tr = view.state.tr
     tr.setNodeMarkup(comment.pos, undefined, attrs)
-    // Set meta to forbid debounce - this triggers immediate flush
-    tr.setMeta(FORBID_DEBOUNCE_META_KEY, true)
     view.dispatch(skipTracking(tr))
-  }
-
-  const deleteHighlightMarkers = (id: string, tr: Transaction) => {
-    const nodes = findChildrenByType(doc, schema.nodes.highlight_marker)
-
-    // Sort nodes in reverse order by position to ensure deletions do not affect the positions of subsequent nodes
-    nodes.sort((a, b) => b.pos - a.pos)
-    nodes.forEach(({ node, pos }) => {
-      const attrs = node.attrs as HighlightMarkerAttrs
-
-      if (attrs.id === id) {
-        tr.delete(pos, pos + node.nodeSize)
-      }
-    })
   }
 
   const handleDelete = (id: string) => {
@@ -199,8 +254,6 @@ export const CommentsPanel: React.FC = () => {
       )
     }
     deleteHighlightMarkers(id, tr)
-    // Set meta to forbid debounce - this triggers immediate flush
-    tr.setMeta(FORBID_DEBOUNCE_META_KEY, true)
     view.dispatch(skipTracking(tr))
   }
 
