@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.6.26-LEAN-4941.0
-        version: 3.6.26-LEAN-4941.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.7.0
+        version: 3.7.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
@@ -30,8 +30,8 @@ importers:
         specifier: 3.3.5
         version: 3.3.5(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
-        specifier: 2.1.2-LEAN-4941.0
-        version: 2.1.2-LEAN-4941.0
+        specifier: 2.2.0
+        version: 2.2.0
       '@manuscripts/transform':
         specifier: 4.3.8
         version: 4.3.8(prosemirror-state@1.4.3)
@@ -1171,8 +1171,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.29':
     resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
 
-  '@manuscripts/body-editor@3.6.26-LEAN-4941.0':
-    resolution: {integrity: sha512-fwg5PLIrAv5i0/pwUJG9oXRxTBuuP4LVEXud6PUP0WLNv6tbGqcIN3BUfyIUbTfXfySJts4dWJhQdEgiEYFbyA==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.6.26-LEAN-4941.0.tgz}
+  '@manuscripts/body-editor@3.7.0':
+    resolution: {integrity: sha512-RMmN9mTgWS6pOBp72W4HiF0VOkvy07eKJeRfJTfzYfdZi+pMCAkVymCLrMc+GzA/zgCUrzH0ZpsoDmBZ3a7kuA==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1199,8 +1199,8 @@ packages:
     resolution: {integrity: sha512-39Q0myAegcXGBciiCFFBPZTmebpLe1V62YCF0TjlZDdblYqRcW1dVVsvrGXML87+nUUK6j0JidYrUGCkVH8bVg==}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/track-changes-plugin@2.1.2-LEAN-4941.0':
-    resolution: {integrity: sha512-whk5bC/WhnrguhV1yI6tV2IFb3z+S3fjeS3BsX6b3c0AabHTlTOZ5znJALt2IIAZmGorEtY6ONt2NpFVm2gUvw==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/track-changes-plugin/-/@manuscripts/track-changes-plugin-2.1.2-LEAN-4941.0.tgz}
+  '@manuscripts/track-changes-plugin@2.2.0':
+    resolution: {integrity: sha512-19uGxLQvMuEAoPwnouHFzhowWB/0W1xWDXUYwcpj6QM/2/d6jV7dWxZA32W8dNKj4bGEfKtymrYZn3/g40Fkew==}
 
   '@manuscripts/transform@4.3.8':
     resolution: {integrity: sha512-zpILuNQ7+PzxXiYEi3vpSjdYQcB6W+TLkJ2GLSytOccnm4MjGtDrM8EJLTj9EHANO+8AvJwOV6v7oU+SndNkHA==}
@@ -5962,7 +5962,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.4
 
-  '@manuscripts/body-editor@3.6.26-LEAN-4941.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.7.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5974,7 +5974,7 @@ snapshots:
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
       '@manuscripts/style-guide': 3.3.5(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
-      '@manuscripts/track-changes-plugin': 2.1.2-LEAN-4941.0
+      '@manuscripts/track-changes-plugin': 2.2.0
       '@manuscripts/transform': 4.3.8(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
@@ -6077,7 +6077,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@manuscripts/track-changes-plugin@2.1.2-LEAN-4941.0':
+  '@manuscripts/track-changes-plugin@2.2.0':
     dependencies:
       debug: 4.4.1(supports-color@5.5.0)
       prosemirror-commands: 1.7.1
