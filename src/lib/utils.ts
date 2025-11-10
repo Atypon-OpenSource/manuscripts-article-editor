@@ -9,7 +9,14 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { EditorState } from 'prosemirror-state'
+import {
+  FileAttachment,
+  getMediaTypeInfo,
+  insertEmbed,
+  insertFigure,
+} from '@manuscripts/body-editor'
+import { ManuscriptEditorView } from '@manuscripts/transform'
+import { EditorState, Transaction } from 'prosemirror-state'
 
 export const getParentNode = (state: EditorState, pos: number) => {
   const resolvedPos = state.doc.resolve(pos)
@@ -36,4 +43,28 @@ export const decodeHTMLEntities = (text: string) => {
   const el = document.createElement('div')
   el.innerHTML = text
   return el.innerText
+}
+
+export const scrollIntoView = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect()
+  if (rect.bottom > window.innerHeight || rect.top < 150) {
+    element.scrollIntoView()
+  }
+}
+
+export const insertMediaOrFigure = (
+  file: FileAttachment,
+  view: ManuscriptEditorView,
+  dispatch: (tr: Transaction) => void
+) => {
+  const mediaInfo = getMediaTypeInfo(file.name)
+  if (mediaInfo.isVideo || mediaInfo.isAudio) {
+    insertEmbed(view.state, dispatch, {
+      href: file.id,
+      mimetype: mediaInfo.mimetype,
+      mimeSubtype: mediaInfo.mimeSubtype,
+    })
+  } else {
+    insertFigure(file, view.state, dispatch)
+  }
 }

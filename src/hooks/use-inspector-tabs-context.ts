@@ -14,18 +14,49 @@ import { ManuscriptNode } from '@manuscripts/transform'
 import { useStore } from '../store'
 
 export interface InspectorOpenTabs {
-  primaryTab: InspectorPrimaryTabs | null
-  secondaryTab: InspectorSecondaryTabsFiles | null
+  primaryTab: InspectorPrimaryTab | null
+  secondaryTab: InspectorTabFiles | null
 }
 
-export enum InspectorPrimaryTabs {
+export enum InspectorPrimaryTab {
   Comments = 0,
   History = 1,
   Files = 2,
+  Quality = 3,
 }
-export enum InspectorSecondaryTabsFiles {
+
+export enum InspectorTabFiles {
+  InlineFiles = 0,
+  MainDocument = 1,
   SupplementsFiles = 2,
   OtherFiles = 3,
+}
+
+export const InspectorPanel = {
+  Primary: InspectorPrimaryTab,
+  Files: InspectorTabFiles,
+} as const
+
+export enum InspectorAction {
+  OpenInlineFiles = 'open-inline-files',
+  OpenMainDocument = 'open-main-document',
+  OpenOtherFiles = 'open-other-files',
+  OpenSupplementFiles = 'open-supplement-files',
+  OpenQualityReport = 'open-quality-report',
+  OpenSuggestions = 'open-suggestion',
+  OpenComments = 'open-comments',
+}
+
+export const useInspectorTabsParentControl = () => {
+  const [_, dispatch] = useStore((state) => state.inspectorOpenTabs)
+
+  function doInspectorTab(action: InspectorAction) {
+    const preppedTabs = prepareTabs(action)
+    if (preppedTabs.primaryTab != null) {
+      dispatch({ inspectorOpenTabs: preppedTabs })
+    }
+  }
+  dispatch({ doInspectorTab })
 }
 
 export const useInspectorTabsContext = () => {
@@ -38,32 +69,60 @@ export const useInspectorTabsContext = () => {
     event: MouseEvent
   ) {
     const target = event.target as HTMLElement
-    const inspectorOpenTabs: InspectorOpenTabs = {
-      primaryTab: null,
-      secondaryTab: null,
-    }
-    switch (target.dataset.action) {
-      case 'open-other-files':
-        event.stopPropagation()
-        inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
-        inspectorOpenTabs.secondaryTab = InspectorSecondaryTabsFiles.OtherFiles
-        break
-      case 'open-supplement-files':
-        event.stopPropagation()
-        inspectorOpenTabs.primaryTab = InspectorPrimaryTabs.Files
-        inspectorOpenTabs.secondaryTab =
-          InspectorSecondaryTabsFiles.SupplementsFiles
-        break
-      default:
-        break
-    }
+
     if (
-      inspectorOpenTabs.primaryTab != null ||
-      inspectorOpenTabs.secondaryTab != null
+      target.dataset.action &&
+      Object.values(InspectorAction).includes(
+        target.dataset.action as InspectorAction
+      )
     ) {
-      dispatch({ inspectorOpenTabs })
+      const preppedTabs = prepareTabs(target.dataset.action as InspectorAction)
+      if (preppedTabs.primaryTab != null) {
+        event.stopPropagation()
+        dispatch({ inspectorOpenTabs: preppedTabs })
+      }
     }
   }
 
   return setTabs
+}
+
+function prepareTabs(action?: InspectorAction) {
+  const inspectorOpenTabs: InspectorOpenTabs = {
+    primaryTab: null,
+    secondaryTab: null,
+  }
+  switch (action) {
+    case 'open-inline-files':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Files
+      inspectorOpenTabs.secondaryTab = InspectorPanel.Files.InlineFiles
+      break
+    case 'open-main-document':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Files
+      inspectorOpenTabs.secondaryTab = InspectorPanel.Files.MainDocument
+      break
+    case 'open-other-files':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Files
+      inspectorOpenTabs.secondaryTab = InspectorPanel.Files.OtherFiles
+      break
+    case 'open-supplement-files':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Files
+      inspectorOpenTabs.secondaryTab = InspectorPanel.Files.SupplementsFiles
+      break
+    case 'open-quality-report':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Quality
+      inspectorOpenTabs.secondaryTab = null
+      break
+    case 'open-suggestion':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.History
+      inspectorOpenTabs.secondaryTab = null
+      break
+    case 'open-comments':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Comments
+      inspectorOpenTabs.secondaryTab = null
+      break
+    default:
+      break
+  }
+  return inspectorOpenTabs
 }

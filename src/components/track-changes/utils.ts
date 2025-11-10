@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { NodesSelection } from '@manuscripts/body-editor'
+import { InlineNodesSelection, NodesSelection } from '@manuscripts/body-editor'
 import {
   CHANGE_OPERATION,
   CHANGE_STATUS,
@@ -30,9 +30,16 @@ export const setSelectedSuggestion = (
   const state = editor.state
   const view = editor.view
   const tr = state.tr
-  if (suggestions.length > 1) {
+  if (suggestions[0].dataTracked.operation === CHANGE_OPERATION.structure) {
     tr.setSelection(
       new NodesSelection(
+        state.doc.resolve(suggestions[0].from),
+        state.doc.resolve(suggestions[suggestions.length - 1].to)
+      )
+    )
+  } else if (suggestions.length > 1) {
+    tr.setSelection(
+      new InlineNodesSelection(
         state.doc.resolve(suggestions[0].from),
         state.doc.resolve(suggestions[suggestions.length - 1].to)
       )
@@ -45,7 +52,14 @@ export const setSelectedSuggestion = (
   }
 
   view?.focus()
-  view?.dispatch(tr.scrollIntoView())
+  try {
+    view?.dispatch(tr.scrollIntoView())
+  } catch (e) {
+    console.warn(
+      "Unable to select a node and scroll to it. Check if it's visible. Error: " +
+        e
+    )
+  }
 }
 
 export const setChangeStatus = (
@@ -62,6 +76,14 @@ export const setChangeStatus = (
       !(change.dataTracked.operation === CHANGE_OPERATION.node_split)
     ) {
       change.children.forEach((child) => {
+        // this to make sure we don't lose changes that are paired with other changes like node split
+        if (
+          status === 'rejected' &&
+          change.dataTracked.operation === CHANGE_OPERATION.delete &&
+          child.dataTracked.operation === CHANGE_OPERATION.reference
+        ) {
+          return
+        }
         ids.push(child.id)
       })
     }

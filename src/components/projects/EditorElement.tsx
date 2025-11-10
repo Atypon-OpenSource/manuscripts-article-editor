@@ -13,13 +13,15 @@ import {
   FileAttachment,
   findParentElement,
   getMatchingChild,
-  insertFigure,
+  getMediaTypeInfo,
   useEditor,
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import {
+  EmbedNode,
   FigureNode,
   generateNodeID,
+  ImageElementNode,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
   schema,
@@ -33,6 +35,7 @@ import { useDrop } from 'react-dnd'
 import { useConnectEditor } from '../../hooks/use-connect-editor'
 import { useWatchTitle } from '../../hooks/use-watch-title'
 import { setNodeAttrs } from '../../lib/node-attrs'
+import { insertMediaOrFigure } from '../../lib/utils'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
@@ -54,28 +57,68 @@ const EditorElement: React.FC = () => {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
         const file = item.file as FileAttachment
-
         if (!file || !docPos || !docPos.pos) {
           return false
         }
 
         const resolvedPos = view.state.doc.resolve(docPos.pos)
+        const mediaInfo = getMediaTypeInfo(file.name)
         const attrs: Record<string, unknown> = {
           src: file.id,
         }
 
-        const targetNode =
-          view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
+        let targetNode = view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
+        let mediaNodeWithPos
+        if (
+          targetNode.type === schema.nodes.figcaption ||
+          targetNode.type === schema.nodes.caption ||
+          targetNode.type === schema.nodes.caption_title
+        ) {
+          mediaNodeWithPos = findParentNodeClosestToPos(
+            resolvedPos,
+            (node) => node.type === schema.nodes.embed
+          )
+          if (mediaNodeWithPos) {
+            targetNode = mediaNodeWithPos.node
+          }
+        }
+
         switch (targetNode.type) {
+          case schema.nodes.image_element: {
+            const attrs: Record<string, unknown> = {
+              extLink: file.id,
+            }
+            const imageElement = targetNode as ImageElementNode
+            setNodeAttrs(view.state, dispatch, imageElement.attrs.id, attrs)
+            break
+          }
           case schema.nodes.figure: {
             const figure = targetNode as FigureNode
             setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
             break
           }
+          case schema.nodes.embed: {
+            const media = targetNode as EmbedNode
+            setNodeAttrs(view.state, dispatch, media.attrs.id, {
+              href: file.id,
+              mimetype: mediaInfo.mimetype,
+              mimeSubtype: mediaInfo.mimeSubtype,
+            })
+            break
+          }
           case schema.nodes.figcaption:
           case schema.nodes.caption:
           case schema.nodes.caption_title: {
-            addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
+            if (mediaNodeWithPos) {
+              const media = mediaNodeWithPos.node as EmbedNode
+              setNodeAttrs(view.state, dispatch, media.attrs.id, {
+                href: file.id,
+                mimetype: mediaInfo.mimetype,
+                mimeSubtype: mediaInfo.mimeSubtype,
+              })
+            } else {
+              addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
+            }
             break
           }
           case schema.nodes.figure_element: {
@@ -93,7 +136,8 @@ const EditorElement: React.FC = () => {
             view.focus()
             dispatch(tr)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-            insertFigure(file, view.state, dispatch)
+
+            insertMediaOrFigure(file, view, dispatch)
           }
         }
         return true
@@ -185,7 +229,8 @@ const addFigureAtFigCaptionPosition = (
     )
     view.focus()
     dispatch(transaction)
-    insertFigure(file, view.state, dispatch)
+
+    insertMediaOrFigure(file, view, dispatch)
   }
 }
 

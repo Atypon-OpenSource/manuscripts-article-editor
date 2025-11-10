@@ -17,13 +17,19 @@ import React, { Suspense } from 'react'
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
+export type { EditorAppProps } from './EditorApp'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
+export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export { getUserRole } from './lib/roles'
 export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
+export {
+  InspectorPanel,
+  InspectorAction,
+} from './hooks/use-inspector-tabs-context'
 
 const ManuscriptEditor: React.FC<
   EditorAppProps & { config: ManuscriptsEditorConfig }
@@ -36,7 +42,7 @@ const ManuscriptEditor: React.FC<
   getAuthToken,
   config,
   observer,
-  submissionID,
+  pluginInspectorTab,
 }) => {
   setConfig(config)
   return (
@@ -53,7 +59,7 @@ const ManuscriptEditor: React.FC<
             permittedActions={permittedActions}
             getAuthToken={getAuthToken}
             observer={observer}
-            submissionID={submissionID}
+            pluginInspectorTab={pluginInspectorTab}
           />
         </Suspense>
       </ThemeProvider>

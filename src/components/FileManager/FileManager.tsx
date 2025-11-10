@@ -11,7 +11,7 @@
  */
 import { groupFiles } from '@manuscripts/body-editor'
 import { Tooltip } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { useStore } from '../../store'
 import {
@@ -23,6 +23,7 @@ import {
 } from '../Inspector'
 import { FileManagerDragLayer } from './FileManagerDragLayer'
 import { InlineFilesSection } from './InlineFilesSection'
+import { LinkedFilesSection } from './LinkedFilesSection'
 import { MainFilesSection } from './MainFilesSection'
 import { OtherFilesSection } from './OtherFilesSection'
 import { SupplementsSection } from './SupplementsSection'
@@ -49,7 +50,7 @@ export type Move = {
  *
  * File section component consist of three types of files which is:
  * 1- Inline files.
- * 2- Supplemental files.
+ * 2- Supplemental files. + linked files.
  * 3- Other files.
  */
 
@@ -60,7 +61,10 @@ export const FileManager: React.FC = () => {
     inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
-  const { figures, supplements, attachments, others } = groupFiles(doc, files)
+  const { figures, supplements, attachments, linkedFiles, others } =
+    useMemo(() => {
+      return groupFiles(doc, files)
+    }, [doc, files])
 
   return (
     <InspectorTabs
@@ -110,6 +114,7 @@ export const FileManager: React.FC = () => {
         </InspectorTabPanel>
         <InspectorTabPanel data-cy="supplements">
           <SupplementsSection supplements={supplements} />
+          <LinkedFilesSection linkedFiles={linkedFiles} />
         </InspectorTabPanel>
         <InspectorTabPanel data-cy="other">
           <OtherFilesSection files={others} />

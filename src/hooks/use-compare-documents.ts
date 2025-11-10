@@ -12,21 +12,19 @@
 
 import { ManuscriptNode } from '@manuscripts/transform'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import { compareDocuments } from '../lib/comparison/compare-documents'
-import { ManuscriptSnapshot } from '../lib/doc'
+import { useStore } from '../store'
 
-interface UseCompareDocumentsProps {
-  originalId?: string
-  comparisonId?: string
-  getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
-}
+export const useCompareDocuments = () => {
+  const [searchParams] = useSearchParams()
+  const originalId = searchParams.get('originalId') || undefined
+  const comparisonId = searchParams.get('comparisonId') || undefined
 
-export const useCompareDocuments = ({
-  originalId,
-  comparisonId,
-  getSnapshot,
-}: UseCompareDocumentsProps) => {
+  const [{ getSnapshot }] = useStore((store) => ({
+    getSnapshot: store.getSnapshot,
+  }))
   const [comparedDoc, setComparedDoc] = useState<ManuscriptNode | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

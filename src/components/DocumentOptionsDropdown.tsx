@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { LanguageDropdown } from '@manuscripts/body-editor'
 import {
   DotsIcon,
   DropdownContainer,
@@ -24,16 +25,31 @@ import React from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
+import { useStore } from '../store/useStore'
 
-const VersionHistoryDropdown: React.FC = () => {
+const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
+  const [storeState] = useStore((s) => ({
+    doc: s.doc,
+    view: s.view,
+    languages: s.languages,
+  }))
+
+  const handleLanguageChange = async (languageCode: string) => {
+    if (storeState.view) {
+      const { state, dispatch } = storeState.view
+      const tr = state.tr
+      tr.setDocAttribute('primaryLanguageCode', languageCode)
+      dispatch(tr)
+    }
+  }
 
   return (
     <DropdownContainer ref={wrapperRef}>
       <ToggleDropdownButton
-        data-cy="version-history-button"
-        title="Version History"
+        data-cy="document-options-button"
+        title="Document Options"
         onClick={toggleOpen}
       >
         <DotsIcon />
@@ -48,6 +64,7 @@ const VersionHistoryDropdown: React.FC = () => {
           onClick={toggleOpen}
         >
           <DropdownItem
+            data-cy="version-history-button"
             onClick={() =>
               execCmd(
                 trackCommands.setTrackingStatus(
@@ -58,13 +75,21 @@ const VersionHistoryDropdown: React.FC = () => {
           >
             Version history
           </DropdownItem>
+          <LanguageDropdown
+            showButton={true}
+            buttonLabel="Document language"
+            currentLanguage={storeState.doc?.attrs?.primaryLanguageCode || 'en'}
+            onLanguageSelect={handleLanguageChange}
+            onCloseParent={toggleOpen}
+            languages={storeState.languages}
+          />
         </HistoryDropdownList>
       )}
     </DropdownContainer>
   )
 }
 
-export default VersionHistoryDropdown
+export default DocumentOptionsDropdown
 
 const ToggleDropdownButton = styled.button`
   border: none;
@@ -75,6 +100,7 @@ const ToggleDropdownButton = styled.button`
     outline: none;
   }
 `
+
 const DropdownItem = styled.div`
   font-family: ${(props) => props.theme.font.family.Lato};
   cursor: pointer;
@@ -82,7 +108,12 @@ const DropdownItem = styled.div`
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
   padding: 16px;
+
+  &:hover {
+    background: ${(props) => props.theme.colors.background.fifth};
+  }
 `
+
 const HistoryDropdownList = styled(DropdownList)`
   top: 0;
   right: 50%;

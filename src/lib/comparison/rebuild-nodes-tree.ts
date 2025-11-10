@@ -35,7 +35,12 @@ export const rebuildDocNodeTree = (
     throw new Error(`No node available for "${nodeId}"`)
   }
   const rebuiltChildren: ManuscriptNode[] = []
-  if (entry.children && !baseNode?.isTextblock) {
+  if (
+    entry.children &&
+    !baseNode?.isTextblock &&
+    entry.status !== 'deleted' &&
+    entry.status !== 'inserted'
+  ) {
     for (const childId of entry.children.keys()) {
       const childNode = rebuildDocNodeTree(childId, entry.children)
       rebuiltChildren.push(childNode)
@@ -50,10 +55,7 @@ export const rebuildDocNodeTree = (
       ...baseNode.attrs,
       dataTracked: [createComparisonDeleteAttrsDataTracked('')],
     }
-    return baseNode.type.create(
-      finalAttrs,
-      rebuiltChildren.length > 0 ? rebuiltChildren : baseNode.content
-    )
+    return baseNode.type.create(finalAttrs, baseNode.content)
   } else if (
     entry.status === 'inserted' &&
     !entry.comparisonNode?.isText &&
@@ -63,10 +65,7 @@ export const rebuildDocNodeTree = (
       ...baseNode.attrs,
       dataTracked: [createComparisonInsertAttrsDataTracked('')],
     }
-    return baseNode.type.create(
-      finalAttrs,
-      rebuiltChildren.length > 0 ? rebuiltChildren : baseNode.content
-    )
+    return baseNode.type.create(finalAttrs, baseNode.content)
   } else if (
     entry.comparisonNode?.type == schema.nodes.table_element &&
     entry.originalNode?.type == schema.nodes.table_element

@@ -14,20 +14,29 @@ import {
   affiliationLabel,
   authorLabel,
   ContributorAttrs,
+  FileAttachment,
 } from '@manuscripts/body-editor'
 import {
+  CHANGE_OPERATION,
   ChangeSet,
+  MarkChange,
   NodeAttrChange,
   NodeChange,
+  NodeMoveAttrs,
   RootChange,
   TextChange,
+  TrackedAttrs,
+  TrackedChange,
 } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorState,
+  ManuscriptEditorView,
   ManuscriptNode,
   nodeNames,
   schema,
 } from '@manuscripts/transform'
+import { escape } from 'lodash'
+import { findChildrenByType } from 'prosemirror-utils'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
@@ -36,6 +45,14 @@ interface SnippetData {
   operation: string
   nodeName: string
   content: string | null
+}
+
+// Check if this is an indentation operation
+const isIndentation = (dataTracked: TrackedAttrs): boolean => {
+  return (
+    dataTracked.operation === 'move' &&
+    !!(dataTracked as NodeMoveAttrs).indentationType
+  )
 }
 
 const isAltTitleNode = (node: ManuscriptNode): boolean =>
@@ -51,6 +68,55 @@ const getTitleDisplayName = (node: ManuscriptNode): string => {
     )
   }
   return node.type.name
+}
+
+// Handle indentation changes
+const handleIndentationChange = (
+  dataTracked: NodeMoveAttrs,
+  operation: string,
+  doc: ManuscriptNode
+): SnippetData => {
+  if (!dataTracked.moveNodeId) {
+    return { operation, nodeName: '', content: '' }
+  }
+
+  let foundNode: ManuscriptNode | null = null
+  doc.descendants((n: ManuscriptNode) => {
+    if (foundNode) {
+      return false
+    }
+    const tracked = n.attrs?.dataTracked as TrackedAttrs[] | null
+    if (
+      Array.isArray(tracked) &&
+      tracked.some(
+        (t) =>
+          t.operation === 'delete' && t.moveNodeId === dataTracked.moveNodeId
+      )
+    ) {
+      foundNode = n
+    }
+  })
+
+  if (!foundNode) {
+    return { operation, nodeName: '', content: '' }
+  }
+
+  const nodeType = foundNode ? (foundNode as ManuscriptNode).type : null
+  const nodeName = nodeType ? nodeType.name : ''
+  let content = ''
+
+  // Get content
+  if (nodeType === schema.nodes.section) {
+    const title = findChildrenByType(
+      foundNode as ManuscriptNode,
+      schema.nodes.section_title
+    )[0]
+    content = (title.node as ManuscriptNode).textContent || ''
+  } else if (nodeType === schema.nodes.paragraph) {
+    content = (foundNode as ManuscriptNode).textContent || ''
+  }
+
+  return { operation, nodeName, content }
 }
 
 export const handleTextChange = (
@@ -75,21 +141,50 @@ export const handleTextChange = (
     }
   }
   return {
-    operation: changeOperationAlias(dataTracked.operation),
+    operation: changeOperationAlias(dataTracked),
     nodeName: nodeName || suggestion.nodeType.name,
-    content: suggestion.text,
+    content: escape(suggestion.text),
+  }
+}
+
+export const handleMarkChange = (
+  suggestion: MarkChange,
+  _: ManuscriptEditorState
+) => {
+  const { dataTracked } = suggestion
+  return {
+    operation: changeOperationAlias(dataTracked),
+    nodeName: suggestion.mark.type.name,
+    content: escape(suggestion.node.text),
   }
 }
 
 export const handleNodeChange = (
   suggestion: NodeChange | NodeAttrChange,
-  state: ManuscriptEditorState
+  state: ManuscriptEditorState,
+  files?: FileAttachment[]
 ): SnippetData | null => {
   const nodeContentRetriever = new NodeTextContentRetriever(state)
   const { node, dataTracked } = suggestion
-  const operation = changeOperationAlias(dataTracked.operation)
+  const operation = changeOperationAlias(dataTracked)
   const nodeName = nodeNames.get(node.type) || node.type.name
   const parentNode = getParentNode(state, suggestion.from)!
+
+  if (dataTracked.operation === CHANGE_OPERATION.structure) {
+    return {
+      operation,
+      nodeName,
+      content: nodeContentRetriever.getFirstChildContent(node) + ' ',
+    }
+  }
+  // Early return for indentation changes
+  if (isIndentation(dataTracked)) {
+    return handleIndentationChange(
+      dataTracked as NodeMoveAttrs,
+      operation,
+      state.doc
+    )
+  }
 
   switch (node.type) {
     case schema.nodes.inline_footnote: {
@@ -205,10 +300,25 @@ export const handleNodeChange = (
         content: node.attrs.source,
       }
     }
+    case schema.nodes.supplement: {
+      const file = files?.find((f) => f.id === node.attrs.href)
+      return {
+        operation,
+        nodeName,
+        content: file ? file.name : '',
+      }
+    }
+    case schema.nodes.supplements: {
+      return {
+        operation,
+        nodeName,
+        content: '',
+      }
+    }
     case schema.nodes.alt_title: {
       return {
         operation,
-        nodeName: getTitleDisplayName(node.attrs.type),
+        nodeName: getTitleDisplayName(node),
         content: node.textContent,
       }
     }
@@ -216,6 +326,13 @@ export const handleNodeChange = (
       return {
         operation,
         nodeName: 'Pullquote image',
+        content: node.textContent,
+      }
+    }
+    case schema.nodes.subtitles: {
+      return {
+        operation,
+        nodeName: 'Subtitle',
         content: node.textContent,
       }
     }
@@ -228,43 +345,56 @@ export const handleNodeChange = (
   }
 }
 
-export const handleGroupChanges = (
+export const buildSnippet = (
   suggestions: RootChange,
-  view: any,
-  doc: any,
-  dataTracked: any
-): SnippetData | null => {
-  const processed = suggestions.map((change) => {
-    const result = ChangeSet.isTextChange(change)
-      ? handleTextChange(change, view.state)
-      : handleNodeChange(change as NodeChange, view.state)
+  view: ManuscriptEditorView,
+  dataTracked: any,
+  files?: FileAttachment[]
+) => {
+  let content = ''
+  let title = ''
+  let titleNodeName = ''
+  suggestions.forEach((change: TrackedChange) => {
+    let result: SnippetData | null = null
+    let node: ManuscriptNode | null = null
 
-    const node = ChangeSet.isTextChange(change)
-      ? getParentNode(view.state, change.from)
-      : (change as NodeChange).node
+    if (ChangeSet.isNodeChange(change) || ChangeSet.isNodeAttrChange(change)) {
+      result = handleNodeChange(change, view.state, files)
+      node = change.node
+    } else if (ChangeSet.isTextChange(change)) {
+      result = handleTextChange(change, view.state)
+      node = getParentNode(view.state, change.from)
+    } else if (ChangeSet.isMarkChange(change)) {
+      result = handleMarkChange(change, view.state)
+    } else {
+      handleUnknownChange()
+    }
+
+    titleNodeName =
+      result && node && isAltTitleNode(node) ? result.nodeName : ''
+
+    content +=
+      result?.nodeName === schema.nodes.inline_equation.name
+        ? ` ${result.content} `
+        : result?.content || ''
+
+    if (result?.nodeName) {
+      title = result.nodeName
+    }
+
+    // Find the first title change if any exists and use its nodeName for the change name
+    if (titleNodeName) {
+      title = titleNodeName
+    }
 
     return {
       result,
-      isTitle: node ? isAltTitleNode(node) : false,
     }
   })
 
-  // Find the first title change if any exists
-  const titleNodeName =
-    processed.find(({ isTitle }) => isTitle)?.result?.nodeName || null
-
-  // Build the content
-  const content = processed
-    .map(({ result }) =>
-      result?.nodeName === 'inline_equation'
-        ? ` ${result.content} `
-        : result?.content || ''
-    )
-    .join('')
-
   return {
-    operation: changeOperationAlias(dataTracked.operation),
-    nodeName: titleNodeName || 'Text',
+    operation: changeOperationAlias(dataTracked),
+    nodeName: title || 'Text',
     content,
   }
 }
@@ -277,7 +407,8 @@ export const handleUnknownChange = (): SnippetData => {
   }
 }
 
-export const changeOperationAlias = (operation: string): string => {
+export const changeOperationAlias = (dataTracked: TrackedAttrs): string => {
+  const { operation } = dataTracked
   switch (operation) {
     case 'delete': {
       return 'Deleted'
@@ -289,10 +420,18 @@ export const changeOperationAlias = (operation: string): string => {
     case 'set_attrs': {
       return 'Updated'
     }
+    case 'structure': {
+      return 'Convert To'
+    }
     case 'node_split': {
       return 'Split'
     }
     case 'move': {
+      // Check for indentation
+      const indentationType = dataTracked.indentationType
+      if (indentationType) {
+        return indentationType === 'indent' ? 'Indented' : 'Unindented'
+      }
       return 'Move'
     }
     default: {

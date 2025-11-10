@@ -79,36 +79,3 @@ export const FileGroupHeader = styled.div`
     flex: 1;
   }
 `
-
-export const ToggleIcon = styled.div<{ isOpen: boolean }>`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1px solid #e2e2e2;
-  text-align: center;
-  cursor: pointer;
-
-  svg {
-    width: 19px;
-    height: 19px;
-    transition: transform 0.2s ease; // Smooth transition for rotation
-  }
-
-  // Style for TriangleCollapsedIcon (when collapsed)
-  ${(props) =>
-    !props.isOpen &&
-    `
-    svg {
-      transform: rotate(270deg); // Point downward when collapsed
-    }
-  `}
-
-  // Style for TriangleExpandedIcon (when expanded)
-  ${(props) =>
-    props.isOpen &&
-    `
-    svg {
-      transform: rotate(0deg); // Point upward when expanded
-    }
-  `}
-`

@@ -14,45 +14,23 @@ import {
   AvatarIcon,
   RelativeDate,
   SystemUserAvatarIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { buildAuthorName, getAuthorID } from '../../lib/comments'
 import { useStore } from '../../store'
-import { CommentActions } from './CommentActions'
+import {
+  AuthorContainer,
+  AuthorName,
+  CardHeader,
+  CardMetadata,
+} from '../track-changes/suggestion-list/SuggestionSnippet'
+import { CommentActions, OrphanCommentActions } from './CommentActions'
 import { CommentBody } from './CommentBody'
 import { DeleteCommentConfirmation } from './DeleteCommentConfirmation'
 
-const CommentHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-`
-
-const CommentMetadata = styled.div`
-  display: flex;
-  align-items: center;
-  padding-right: 8px;
-`
-
-const AuthorContainer = styled.div`
-  display: flex;
-  color: #353535;
-  font-weight: 400;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  flex-grow: 1;
-  text-overflow: ellipsis;
-  margin-right: 8px;
-
-  svg {
-    padding-right: 10px;
-    flex-shrink: 0;
-  }
-`
 const CommentTarget = styled.div`
   font-size: 14px;
   color: #353535;
@@ -91,6 +69,7 @@ interface CommentCardProps {
   numOfReplies: number
   isNew: boolean
   isEndOfThread: boolean
+  isOrphanComment: boolean | false
   editingCommentId: string | null
   setEditingCommentId: (id: string | null) => void
   onSave: (comment: CommentAttrs) => void
@@ -103,6 +82,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   numOfReplies,
   isNew,
   isEndOfThread,
+  isOrphanComment,
   editingCommentId,
   setEditingCommentId,
   onSave,
@@ -174,35 +154,43 @@ export const CommentCard: React.FC<CommentCardProps> = ({
 
   return (
     <Card>
-      <CommentHeader data-cy="comment-header">
-        <CommentMetadata>
+      <CardHeader data-cy="comment-header">
+        <CardMetadata>
           <AuthorContainer>
             {authorName ? (
               <>
-                <AvatarIcon width={20} height={20} />
-                <>{authorName}</>
+                <AvatarIcon width={16} height={16} />
+                <AuthorName>{authorName}</AuthorName>
               </>
             ) : (
               !isReply && (
                 <>
-                  <SystemUserAvatarIcon width={20} height={20} />
-                  <>System</>
+                  <SystemUserAvatarIcon width={16} height={16} />
+                  <AuthorName>System</AuthorName>
                 </>
               )
             )}
           </AuthorContainer>
           {timestamp && <Timestamp date={timestamp * 1000} />}
           {numOfReplies !== 0 && <RepliesCount>{numOfReplies}</RepliesCount>}
-        </CommentMetadata>
-        <CommentActions
-          comment={comment}
-          isResolveEnabled={isResolveEnabled && !isReply}
-          isActionsEnabled={isActionsEnabled && isEndOfThread}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-          toggleResolve={handleToggleResolve}
-        />
-      </CommentHeader>
+        </CardMetadata>
+        {!isOrphanComment ? (
+          <CommentActions
+            comment={comment}
+            isResolveEnabled={isResolveEnabled && !isReply}
+            isActionsEnabled={isActionsEnabled && isEndOfThread}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            toggleResolve={handleToggleResolve}
+          />
+        ) : (
+          <OrphanCommentActions
+            isReply={isReply}
+            isOwn={isOwn}
+            onDelete={handleDelete}
+          />
+        )}
+      </CardHeader>
       {comment.node.attrs.originalText && (
         <CommentTarget>{comment.node.attrs.originalText}</CommentTarget>
       )}

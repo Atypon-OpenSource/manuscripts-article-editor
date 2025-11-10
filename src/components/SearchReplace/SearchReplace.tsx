@@ -24,14 +24,19 @@ import {
 import React, { useCallback, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { DelayUnmount } from '../DelayUnmount'
 import { Advanced } from './AdvancedSearch'
 import { SearchField } from './SearchField'
 
 export const SearchReplace: React.FC = () => {
-  const [editor] = useStore((state) => state.editor)
+  const [{ editor }] = useStore((state) => ({
+    editor: state.editor,
+  }))
   const [replacement, setReplacement] = useState('')
+  const can = usePermissions()
+  const isReadOnlyMode = !can.editArticle
 
   const setPluginState = useCallback(
     function (values: Partial<SearchReplacePluginState>) {
@@ -155,6 +160,7 @@ export const SearchReplace: React.FC = () => {
             highlightCurrent: true,
           })
         }}
+        isReadOnlyMode={isReadOnlyMode}
       />
     )
   }

@@ -18,11 +18,11 @@ import {
   DropdownContainer,
   DropdownList,
   useDropdown,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { FileSectionType, Move, Replace } from './FileManager'
 
 /**

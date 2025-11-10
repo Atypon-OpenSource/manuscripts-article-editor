@@ -21,9 +21,11 @@ export const trimFilename = (filename: string, maxLength: number) => {
   const extension = filename.substring(lastDotIndex) // Includes the dot
 
   if (baseName.length > maxLength) {
-    // Trim the base name and add ellipsis
-    const truncatedBaseName = baseName.substring(0, maxLength - 3) // Leave space for ellipsis
-    return `${truncatedBaseName}...${extension}`
+    const sideLength = Math.floor(maxLength / 2.5)
+    const firstLetters = baseName.substring(0, sideLength)
+    const lastLetters = baseName.substring(baseName.length - sideLength)
+    const ellipsis = '\u2026'
+    return `${firstLetters}${ellipsis}${lastLetters}${extension}`
   }
 
   return filename

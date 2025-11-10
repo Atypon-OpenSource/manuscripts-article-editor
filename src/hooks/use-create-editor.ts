@@ -11,13 +11,13 @@
  */
 import { useEditor } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
-import { getCapabilities as getActionCapabilities } from '@manuscripts/style-guide'
 import { useEffect, useMemo } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useApi } from '../api/Api'
 import { StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
+import { getCapabilities as getActionCapabilities } from '../lib/capabilities'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { useCompareDocuments } from './use-compare-documents'
@@ -34,9 +34,10 @@ export const useCreateEditor = () => {
       fileManagement,
       style,
       locale,
+      languages,
       sectionCategories,
       isViewingMode,
-      getSnapshot,
+      hiddenNodeTypes,
     },
     dispatch,
     getState,
@@ -49,19 +50,15 @@ export const useCreateEditor = () => {
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
+    languages: store.languages,
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
-    getSnapshot: store.getSnapshot,
+    hiddenNodeTypes: store.hiddenNodeTypes,
   }))
 
   const api = useApi()
-  const params = useParams()
 
-  const { comparedDoc, isComparingMode } = useCompareDocuments({
-    originalId: params.originalId,
-    comparisonId: params.comparisonId,
-    getSnapshot,
-  })
+  const { comparedDoc, isComparingMode } = useCompareDocuments()
 
   useEffect(() => {
     dispatch({ isComparingMode })
@@ -142,11 +139,12 @@ export const useCreateEditor = () => {
     fileManagement: fileManagement,
     collabProvider: isComparingMode ? undefined : stepsExchanger, // Disable collaboration in comparison mode
     sectionCategories: sectionCategories,
+    languages: languages,
     navigate: useNavigate(),
     location: useLocation(),
     isComparingMode,
-    submissionId: params.id,
     lockBody: config.features.lockBody,
+    hiddenNodeTypes: hiddenNodeTypes,
     isViewingMode,
   }
   const editor = useEditor(props)

@@ -14,18 +14,23 @@ import {
   Category,
   Dialog,
   FileMainDocumentIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
+import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
 import { FileSectionType } from './FileManager'
 import { FileName } from './FileName'
-import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
+import {
+  FileSectionAlert,
+  FileSectionAlertType,
+  setUploadProgressAlert,
+} from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 const MainDocumentTitle = styled.div`
@@ -74,13 +79,27 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    const uploaded = await fileManagement.upload(file)
-    insertAttachment(uploaded, view.state, 'document', view.dispatch)
-    setAlert({
-      type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
-      message: '',
-    })
-    return uploaded
+    try {
+      const uploaded = await fileManagement.upload(
+        file,
+        setUploadProgressAlert(setAlert, FileSectionType.MainFile)
+      )
+      insertAttachment(uploaded, view.state, 'document', view.dispatch)
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
+        message: '',
+      })
+      return uploaded
+    } catch (error) {
+      const errorMessage = error
+        ? error.cause?.result
+        : error.message || 'Unknown error occurred'
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_ERROR,
+        message: errorMessage,
+      })
+      throw error
+    }
   }
 
   const handleDownload = () => {
@@ -93,6 +112,18 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     setFileToUpload(file)
     setConfirmDialogOpen(true)
   }
+
+  const handleMainDocumentClick = (pos?: number) => {
+    if (!pos) {
+      return
+    }
+    const tr = view.state.tr
+    tr.setSelection(NodeSelection.create(view.state.doc, pos))
+    tr.scrollIntoView()
+    view.focus()
+    view.dispatch(tr)
+  }
+
   const handleMove = (mainFile: NodeFile) => {
     const tr = view.state.tr
     const from = mainFile.pos
@@ -105,10 +136,26 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     })
   }
 
+  const isPDF = (file: any) => {
+    if (file.name && file.name.toLowerCase().endsWith('.pdf')) {
+      return true
+    }
+
+    return false
+  }
+
   return (
     <div>
       {mainDocument ? (
-        <FileContainer data-cy="file-container">
+        <FileContainer
+          data-cy="file-container"
+          onClick={(e) => {
+            e.stopPropagation()
+            if (isPDF(mainDocument.file)) {
+              handleMainDocumentClick(mainDocument.pos)
+            }
+          }}
+        >
           <FileName
             file={mainDocument.file}
             label="Main"
@@ -158,7 +205,10 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
           primary: {
             action: async () => {
               if (fileToUpload) {
-                const uploaded = await fileManagement.upload(fileToUpload)
+                const uploaded = await fileManagement.upload(
+                  fileToUpload,
+                  setUploadProgressAlert(setAlert, FileSectionType.MainFile)
+                )
                 insertAttachment(
                   uploaded,
                   view.state,

@@ -15,17 +15,20 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 
 import {
-  CapabilitiesProvider,
   IconButton,
   SliderOffIcon,
   SliderOnIcon,
-  useCalcPermission,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import { useGlobalKeyboardShortcuts } from '../../hooks/use-global-keyboard-shortcuts'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
+import {
+  CapabilitiesProvider,
+  useCalcPermission,
+  usePermissions,
+} from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { Main } from '../Page'
 import { SearchReplace } from '../SearchReplace'
@@ -44,6 +47,9 @@ import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
+  // Enable global keyboard shortcuts
+  useGlobalKeyboardShortcuts()
+
   const [{ project, user, permittedActions, isViewingMode }] = useStore(
     (state) => {
       return {
@@ -71,7 +77,8 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
-  const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
+  const [isTrackingChangesVisible, toggleTrackingChangesVisibility] =
+    useTrackingVisibility()
 
   const [{ isViewingMode, isComparingMode }] = useStore((store) => ({
     isViewingMode: store.isViewingMode,
@@ -80,7 +87,7 @@ const ManuscriptPageView: React.FC = () => {
 
   const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
   const isTrackingVisible =
-    (showTrackChangesToggle && trackingVisible) || isComparingMode
+    (showTrackChangesToggle && isTrackingChangesVisible) || isComparingMode
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
@@ -100,9 +107,13 @@ const ManuscriptPageView: React.FC = () => {
                       <Label>Show tracked changes</Label>
                       <IconButton
                         defaultColor={true}
-                        onClick={toggleTrackingVisibility}
+                        onClick={toggleTrackingChangesVisibility}
                       >
-                        {trackingVisible ? <SliderOnIcon /> : <SliderOffIcon />}
+                        {isTrackingChangesVisible ? (
+                          <SliderOnIcon />
+                        ) : (
+                          <SliderOffIcon />
+                        )}
                       </IconButton>
                     </>
                   )}

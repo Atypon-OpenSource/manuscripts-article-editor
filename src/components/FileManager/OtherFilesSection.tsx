@@ -14,18 +14,22 @@ import {
   insertAttachment,
   insertSupplement,
 } from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType } from './FileManager'
 import { FileName } from './FileName'
-import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
+import {
+  FileSectionAlert,
+  FileSectionAlertType,
+  setUploadProgressAlert,
+} from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 /**
@@ -55,15 +59,28 @@ export const OtherFilesSection: React.FC<{
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    await fileManagement.upload(file)
-    setAlert({
-      type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
-      message: '',
-    })
+    try {
+      await fileManagement.upload(
+        file,
+        setUploadProgressAlert(setAlert, FileSectionType.OtherFile)
+      )
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
+        message: '',
+      })
+    } catch (error) {
+      const errorMessage = error
+        ? error.cause?.result
+        : error.message || 'Unknown error occurred'
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_ERROR,
+        message: errorMessage,
+      })
+    }
   }
 
   const moveToSupplements = async (file: FileAttachment) => {
-    insertSupplement(file, view.state, view.dispatch)
+    insertSupplement(file, view)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.Supplements,

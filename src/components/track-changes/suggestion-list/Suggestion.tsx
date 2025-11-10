@@ -14,17 +14,10 @@ import { RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { scrollIntoView } from '../../../lib/utils'
 import { useStore } from '../../../store'
 import TrackModal from '../TrackModal'
-import SuggestionActions from './SuggestionActions'
 import { SuggestionSnippet } from './SuggestionSnippet'
-
-const scrollIntoView = (element: HTMLElement) => {
-  const rect = element.getBoundingClientRect()
-  if (rect.bottom > window.innerHeight || rect.top < 150) {
-    element.scrollIntoView()
-  }
-}
 
 interface Props {
   suggestions: RootChange
@@ -43,12 +36,16 @@ export const Suggestion: React.FC<Props> = ({
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
   const [trackModalVisible, setModalVisible] = useState(false)
-  const [{ isComparingMode }] = useStore((store) => ({
+  const [{ isComparingMode, isTrackingChangesVisible }] = useStore((store) => ({
     isComparingMode: store.isComparingMode,
+    isTrackingChangesVisible: store.isTrackingChangesVisible,
   }))
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
+    if (!isTrackingChangesVisible) {
+      return
+    }
     setModalVisible(true)
     if (onSelect) {
       onSelect()
@@ -63,19 +60,19 @@ export const Suggestion: React.FC<Props> = ({
 
   return (
     <Wrapper data-cy="suggestion" isFocused={isSelected} ref={wrapperRef}>
-      <FocusHandle href="#" onClick={handleClick}>
-        <SuggestionSnippet suggestions={suggestions} />
+      <FocusHandle
+        isTrackingChangesVisible={isTrackingChangesVisible}
+        href="#"
+        onClick={handleClick}
+      >
+        <SuggestionSnippet
+          suggestions={suggestions}
+          isComparingMode={isComparingMode}
+          isFocused={isSelected}
+          handleAccept={onAccept}
+          handleReject={onReject}
+        />
       </FocusHandle>
-
-      {!isComparingMode && (
-        <Actions>
-          <SuggestionActions
-            suggestions={suggestions}
-            handleAccept={onAccept}
-            handleReject={onReject}
-          />
-        </Actions>
-      )}
 
       {trackModalVisible && (
         <TrackModal
@@ -89,64 +86,16 @@ export const Suggestion: React.FC<Props> = ({
   )
 }
 
-const Actions = styled.div`
-  visibility: hidden;
-`
-
 const Wrapper = styled.li<{
   isFocused: boolean
+}>``
+
+const FocusHandle = styled.a<{
+  isTrackingChangesVisible: boolean
 }>`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: ${(props) => props.theme.grid.unit * 4}px;
-  padding: 6px 8px;
-  min-height: 28px;
-  margin-bottom: 6px;
-  border: ${(props) =>
-    props.isFocused
-      ? `1px solid ${props.theme.colors.border.tracked.active}`
-      : `1px solid ${props.theme.colors.border.tracked.default}`};
-  box-shadow: ${(props) =>
-    props.isFocused
-      ? `-4px 0 0 0  ${props.theme.colors.border.tracked.active}`
-      : `none`};
-  list-style-type: none;
-  font-size: ${(props) => props.theme.font.size.small};
-  border-radius: 4px;
-  max-height: 40px;
-  /* FocusHandle should cover entire card: */
-  position: relative;
-  color: ${(props) => props.theme.colors.text.primary};
-  background: ${(props) =>
-    props.isFocused
-      ? props.theme.colors.background.tracked.active + ' !important'
-      : props.theme.colors.background.tracked.default};
-
-  ${(props) =>
-    props.isFocused
-      ? `${Actions} {
-        visibility: visible;
-      }`
-      : ''}
-
-  &:hover {
-    background: ${(props) => props.theme.colors.background.tracked.hover};
-
-    ${Actions} {
-      visibility: visible;
-    }
-  }
-`
-
-const FocusHandle = styled.a`
-  display: flex;
-  gap: ${(props) => props.theme.grid.unit * 1}px;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
   color: inherit;
   text-decoration: none;
   overflow: hidden;
+  cursor: ${(props) =>
+    props.isTrackingChangesVisible ? 'pointer' : 'default'};
 `

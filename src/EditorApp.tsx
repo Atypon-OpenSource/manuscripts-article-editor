@@ -16,6 +16,7 @@ import styled from 'styled-components'
 import { Api, ApiContext } from './api/Api'
 import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
+import { PluginInspectorTab } from './components/projects/Inspector'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
 import { ManuscriptsStateObserver } from './hooks/external/use-manuscripts-state'
@@ -35,7 +36,7 @@ export interface EditorAppProps {
   permittedActions: string[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
-  submissionID: string
+  pluginInspectorTab?: PluginInspectorTab
 }
 
 const PlaceholderWrapper = styled.div`
@@ -61,7 +62,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   files,
   getAuthToken,
   observer,
-  submissionID,
+  pluginInspectorTab,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const loadedRef = useRef<boolean>(false)
@@ -81,7 +82,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       manuscriptID,
       files,
       permittedActions,
-      submissionID,
+      pluginInspectorTab,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])

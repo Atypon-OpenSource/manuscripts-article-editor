@@ -111,8 +111,10 @@ const createAttrsDisplay = (
                 const rids = value as string[]
                 if (rids.includes(fn.attrs.id)) {
                   const fnText =
-                    fn.text?.substring(0, limit) +
-                    (fn.text && fn.text.length > limit ? '...' : '')
+                    fn.textContent?.substring(0, limit) +
+                    (fn.textContent && fn.textContent.length > limit
+                      ? '...'
+                      : '')
                   return acc ? acc + ', ' + fnText : fnText
                 }
                 return acc
@@ -169,6 +171,11 @@ const createAttrsDisplay = (
             label: 'File',
             value: files.find((f) => f.id === value)?.name || (value as string),
           })
+        case 'extLink':
+          return (filteredAttrs[key] = {
+            label: 'Linked File',
+            value: files.find((f) => f.id === value)?.name || (value as string),
+          })
         case 'issued':
           return (filteredAttrs[key] = {
             label: 'year',
@@ -196,6 +203,16 @@ const createAttrsDisplay = (
           filteredAttrs[key] = {
             label: 'Institution Name',
             value: value as string,
+          }
+          return
+
+        case 'priority':
+          // show the value of priority only if it's a number
+          if (typeof value === 'number') {
+            filteredAttrs[key] = {
+              label: 'Author reordered',
+              value: String(value),
+            }
           }
           return
 
