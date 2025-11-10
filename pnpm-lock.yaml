@@ -21,14 +21,14 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/body-editor':
-        specifier: 3.7.2
-        version: 3.7.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.7.3-LEAN-5086.0
+        version: 3.7.3-LEAN-5086.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
       '@manuscripts/style-guide':
-        specifier: 3.3.5
-        version: 3.3.5(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+        specifier: 3.3.6-LEAN-5086.0
+        version: 3.3.6-LEAN-5086.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin':
         specifier: 2.2.0
         version: 2.2.0
@@ -1171,8 +1171,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.29':
     resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
 
-  '@manuscripts/body-editor@3.7.2':
-    resolution: {integrity: sha512-K+oJzN/5HGzkNd8OcnoY5w3KIwAZIkTbTg4eA6gGmAnkGhUHZ2NWqOtjoOH0wwsdP9Sp2lgFgHcc2ivati6Y6g==}
+  '@manuscripts/body-editor@3.7.3-LEAN-5086.0':
+    resolution: {integrity: sha512-GpVvGmJVF4m9fXGAIxoKzQQdSH6QpZ+rMm+3ZM9f2Mn7/thQFnyDjjvSpQvVZi4za1lRDXfn28hdDpH/BlDcAA==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/body-editor/-/@manuscripts/body-editor-3.7.3-LEAN-5086.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1195,8 +1195,8 @@ packages:
   '@manuscripts/json-schema@2.2.12':
     resolution: {integrity: sha512-MCz11Dhc1kric1oU9cnYHboPgEwwccWfuuU1XhAEilDIFe8KszAeQk5i4GBGlGLddp/Gvkr6N1gtzLl36mTE7A==}
 
-  '@manuscripts/style-guide@3.3.5':
-    resolution: {integrity: sha512-39Q0myAegcXGBciiCFFBPZTmebpLe1V62YCF0TjlZDdblYqRcW1dVVsvrGXML87+nUUK6j0JidYrUGCkVH8bVg==}
+  '@manuscripts/style-guide@3.3.6-LEAN-5086.0':
+    resolution: {integrity: sha512-KVextOqOjVB5iwOQkDamvL6VrgHLe9PhSX25M1Tuu7cJ1iU+ByyWWx9JrYV/EqJI1xdYznytZGmkFkBxewsUBQ==, tarball: https://us-west4-npm.pkg.dev/atypon-artifact/lwf-virtual-npm-repo/@manuscripts/style-guide/-/@manuscripts/style-guide-3.3.6-LEAN-5086.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.2.0':
@@ -5962,7 +5962,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.4
 
-  '@manuscripts/body-editor@3.7.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/body-editor@3.7.3-LEAN-5086.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5973,7 +5973,7 @@ snapshots:
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
-      '@manuscripts/style-guide': 3.3.5(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
+      '@manuscripts/style-guide': 3.3.6-LEAN-5086.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)
       '@manuscripts/track-changes-plugin': 2.2.0
       '@manuscripts/transform': 4.3.9(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
@@ -6045,7 +6045,7 @@ snapshots:
       deepmerge: 4.3.1
       uuid: 9.0.1
 
-  '@manuscripts/style-guide@3.3.5(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
+  '@manuscripts/style-guide@3.3.6-LEAN-5086.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@18.3.21))(@types/node@20.17.46)(@types/react@18.3.21)':
     dependencies:
       '@headlessui/react': 2.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@manuscripts/json-schema': 2.2.12
