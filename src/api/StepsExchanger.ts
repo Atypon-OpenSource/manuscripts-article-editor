@@ -71,6 +71,7 @@ export class StepsExchanger extends CollabProvider {
     version: number,
     steps: Step[],
     clientID: string,
+    onSuccess: () => void,
     flush = false
   ) {
     this.flushImmediately = this.debounce(
@@ -92,6 +93,7 @@ export class StepsExchanger extends CollabProvider {
           console.error('Failed to send steps', response.error)
         } else {
           this.attempt = 0
+          onSuccess()
         }
       },
       THROTTLING_INTERVAL,
