@@ -222,6 +222,7 @@ export class Api {
       if (!ws) {
         return
       }
+      console.log('CLOSING CONNECTION FOR UNUSED Websocket')
       ws.removeEventListener('open', onOpen)
       ws.removeEventListener('message', onMessage)
       ws.removeEventListener('close', onClose)

@@ -67,8 +67,8 @@ export const useCreateEditor = () => {
   const updateVersion = (v: number) => dispatch({ initialDocVersion: v })
 
   const stepsExchanger = useMemo(
-    () =>
-      isComparingMode
+    () => {
+      return isComparingMode
         ? undefined
         : new StepsExchanger(
             projectID,
@@ -76,9 +76,10 @@ export const useCreateEditor = () => {
             initialDocVersion,
             api,
             updateVersion
-          ),
+          )
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [projectID, manuscriptID, api, isComparingMode]
+    []
   )
 
   useEffect(() => {
