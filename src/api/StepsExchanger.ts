@@ -159,9 +159,12 @@ export class StepsExchanger extends CollabProvider {
     console.log(this)
   }
 
-  unsubscribe() {
+  unsubscribe = () => {
+    // @TODO change in base class to be a function and not a prop
     console.log('onNewSteps callback unsubscribe')
-    this.newStepsListener = () => {}
+    if (StepsExchanger.instance) {
+      StepsExchanger.instance.newStepsListener = () => {}
+    }
   }
 
   async stepsSince(version: number) {
