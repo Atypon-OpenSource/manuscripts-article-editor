@@ -163,7 +163,9 @@ export class StepsExchanger extends CollabProvider {
     // @TODO change in base class to be a function and not a prop
     console.log('onNewSteps callback unsubscribe')
     if (StepsExchanger.instance) {
-      StepsExchanger.instance.newStepsListener = () => {}
+      StepsExchanger.instance.newStepsListener = () => {
+        console.log('empty listener')
+      }
     }
   }
 
