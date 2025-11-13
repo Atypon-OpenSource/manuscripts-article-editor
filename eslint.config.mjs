@@ -7,25 +7,29 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2020 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-const cpalLicense = require('@manuscripts/eslint-config/config/cpal-license')
+import { FlatCompat } from '@eslint/eslintrc'
+import js from '@eslint/js'
+import config from '@manuscripts/eslint-config'
+import cpalLicense from '@manuscripts/eslint-config/config/cpal-license.js'
+import { defineConfig } from 'eslint/config'
+import header from 'eslint-plugin-header'
 
-module.exports = {
-  extends: '@manuscripts/eslint-config',
-  rules: {
-    'header/header': [2, 'block', cpalLicense('manuscripts-frontend')],
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off',
-    'import/no-named-as-default': 'off',
-    'import/no-named-as-default-member': 'off',
-    'promise/always-return': 'off',
-    'promise/no-nesting': 'off',
-    'promise/no-promise-in-callback': 'off',
-    'react/no-deprecated': 'off',
-    'jsx-a11y/no-autofocus': 'off',
-    'jsx-a11y/no-onchange': 'off',
+header.rules.header.meta.schema = false
+
+const compat = new FlatCompat({
+  recommendedConfig: js.configs.recommended,
+})
+
+export default defineConfig([
+  ...compat.config(config),
+  ...compat.extends('plugin:diff/diff'),
+  {
+    rules: {
+      'header/header': [2, 'block', cpalLicense('manuscripts-frontend')],
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
   },
-}
+])
