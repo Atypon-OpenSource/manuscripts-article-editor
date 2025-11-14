@@ -49,9 +49,7 @@ export class StepsExchanger extends CollabProvider {
   isThrottling: ObservableBoolean
   attempt = 0
 
-  // private constructor
   constructor(
-    // private constructor = final class, here because of singleton pattern used here
     projectID: string,
     manuscriptID: string,
     currentVersion: number,
@@ -120,7 +118,6 @@ export class StepsExchanger extends CollabProvider {
     this.currentVersion = version
     this.updateStoreVersion(version)
     if (steps.length) {
-      //TODO send steps to listener
       this.newStepsListener()
     }
   }
@@ -128,11 +125,9 @@ export class StepsExchanger extends CollabProvider {
   stopped = true
 
   start() {
-    console.log('CONNECTION ====ATTEMPTED==== OPENED')
     if (this.stopped === false) {
       return
     }
-    console.log('CONNECTION OPENED')
     this.closeConnection = this.api.listenToSteps(
       this.projectID,
       this.manuscriptID,
@@ -143,7 +138,6 @@ export class StepsExchanger extends CollabProvider {
   }
 
   stop() {
-    console.log('CONNECTION STOPPED')
     this.stopped = true
     this.closeConnection()
   }
@@ -154,17 +148,15 @@ export class StepsExchanger extends CollabProvider {
 
   onNewSteps(listener: CollabProvider['newStepsListener']) {
     this.start()
-    console.log('onNewSteps callback received: ' + typeof listener)
     this.newStepsListener = listener
     console.log(this)
   }
 
-  unsubscribe = () => {
+  unsubscribe() {
     // @TODO change in base class to be a function and not a prop
-    console.log('onNewSteps callback unsubscribe')
     if (StepsExchanger.instance) {
       StepsExchanger.instance.newStepsListener = () => {
-        console.log('empty listener')
+        console.warn('Listener for incoming steps is not assigned')
       }
     }
   }
