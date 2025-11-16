@@ -45,7 +45,7 @@ export const saveWithDebounce = () => {
 
 export const useDoWithThrottle = () => {
   const throttled = useRef(() => null)
-  const timeout = useRef<number>()
+  const timeout = useRef<number | undefined>(undefined)
 
   return (fn: () => any, interval = 4000) => {
     throttled.current = fn

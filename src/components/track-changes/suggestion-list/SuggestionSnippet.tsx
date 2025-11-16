@@ -141,8 +141,8 @@ export const Card = styled.div<{
     isActive(props)
       ? `1px solid ${props.theme.colors.border.tracked.active}`
       : props.isTrackingChangesVisible
-      ? `1px solid ${props.theme.colors.border.tracked.default}`
-      : `1px solid #dfdfdf`};
+        ? `1px solid ${props.theme.colors.border.tracked.default}`
+        : `1px solid #dfdfdf`};
   box-shadow: ${(props) =>
     isActive(props)
       ? `-4px 0 0 0  ${props.theme.colors.border.tracked.active}`

@@ -50,7 +50,7 @@ export const ManuscriptsStateObserverContext = createContext<
 >(undefined)
 
 export const useManuscriptsStateObserver = () => {
-  const stateRef = useRef<ManuscriptsState>()
+  const stateRef = useRef<ManuscriptsState | undefined>(undefined)
   return useMemo(() => newObserver(stateRef), [])
 }
 
