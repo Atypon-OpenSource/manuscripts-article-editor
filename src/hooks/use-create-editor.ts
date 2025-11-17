@@ -170,7 +170,7 @@ export const useCreateEditor = () => {
       return getState().files
     },
     fileManagement: fileManagement,
-    collabProvider: isComparingMode ? undefined : stepsExchanger,
+    collabProvider: isComparingMode ? undefined : stepsExchanger, // Disable collaboration in comparison mode
     sectionCategories: sectionCategories,
     languages: languages,
     navigate: useNavigate(),
