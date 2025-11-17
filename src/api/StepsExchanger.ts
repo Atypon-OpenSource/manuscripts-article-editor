@@ -19,18 +19,37 @@ import { saveWithDebounce } from './savingUtilities'
 const MAX_ATTEMPTS = 20
 const THROTTLING_INTERVAL = 1200
 
-export type Subscription = (value: boolean) => void
+export type Subscription<T> = (value: T) => void
+export type SaveStatus = 'saving' | 'saved' | 'offline' | 'failed' | 'idle'
+
+export class ObservableString {
+  value: SaveStatus = 'idle'
+
+  private subs: Subscription<SaveStatus>[] = []
+
+  setValue(value: SaveStatus) {
+    if (this.value !== value) {
+      this.value = value
+      this.subs.forEach((s) => s(value))
+    }
+  }
+
+  onChange(sub: Subscription<SaveStatus>) {
+    this.subs.push(sub)
+  }
+}
 
 export class ObservableBoolean {
   value = false
-  private subs: Subscription[] = []
+
+  private subs: Subscription<boolean>[] = []
 
   setValue(value: boolean) {
     this.value = value
     this.subs.forEach((s) => s(value))
   }
 
-  onChange(sub: Subscription) {
+  onChange(sub: Subscription<boolean>) {
     this.subs.push(sub)
   }
 }
@@ -39,13 +58,12 @@ export class StepsExchanger extends CollabProvider {
   projectID: string
   manuscriptID: string
   api: Api
-
   debounce: ReturnType<typeof saveWithDebounce>
   flushImmediately?: () => void
   updateStoreVersion: (version: number) => void
   closeConnection: () => void
-
   isThrottling: ObservableBoolean
+  saveStatus: ObservableString
   attempt = 0
 
   constructor(
@@ -56,10 +74,13 @@ export class StepsExchanger extends CollabProvider {
     updateStoreVersion: (version: number) => void
   ) {
     super()
+
     this.projectID = projectID
     this.manuscriptID = manuscriptID
     this.currentVersion = currentVersion
     this.isThrottling = new ObservableBoolean()
+    this.saveStatus = new ObservableString()
+    this.saveStatus.setValue('idle')
     this.debounce = saveWithDebounce()
     this.api = api
     this.start()
@@ -73,8 +94,14 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
+    if (steps.length === 0) {
+      return Promise.resolve()
+    }
+
     this.flushImmediately = this.debounce(
       async () => {
+        this.saveStatus.setValue('saving')
+
         const response = await this.api.sendSteps(
           this.projectID,
           this.manuscriptID,
@@ -84,13 +111,16 @@ export class StepsExchanger extends CollabProvider {
             clientID,
           }
         )
+
         if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
           console.warn('Retrying')
           this.newStepsListener()
           this.attempt++
         } else if (response.error) {
           console.error('Failed to send steps', response.error)
+          this.saveStatus.setValue('failed')
         } else {
+          this.saveStatus.setValue('saved')
           this.attempt = 0
         }
       },
@@ -109,6 +139,7 @@ export class StepsExchanger extends CollabProvider {
   async receiveSteps(version: number, steps: unknown[], clientIDs: number[]) {
     this.currentVersion = version
     this.updateStoreVersion(version)
+
     if (steps.length) {
       //TODO send steps to listener
       this.newStepsListener()
@@ -142,6 +173,7 @@ export class StepsExchanger extends CollabProvider {
       this.manuscriptID,
       version
     )
+
     if (response) {
       return {
         steps: response.steps.map((s) => Step.fromJSON(schema, s)),
