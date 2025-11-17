@@ -19,7 +19,7 @@ import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeClosestToPos } from 'prosemirror-utils'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
@@ -225,6 +225,13 @@ const SupplementFile: React.FC<{
     }),
   })
 
+  const drag = useCallback(
+    (node: HTMLDivElement | null) => {
+      dragRef(node)
+    },
+    [dragRef]
+  )
+
   useEffect(() => {
     preview(getEmptyImage())
   }, [preview])
@@ -233,7 +240,7 @@ const SupplementFile: React.FC<{
     <FileContainer
       data-cy="file-container"
       key={supplement.file.id}
-      ref={dragRef}
+      ref={drag}
       className={isDragging ? 'dragging' : ''}
       onClick={onClick}
     >

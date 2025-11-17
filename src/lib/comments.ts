@@ -72,7 +72,7 @@ export const getOrphanComments = (state: EditorState) => {
     [...orphanComments.values(), ...orphanCommentsReplays]
       .map(
         ({ node, pos }) =>
-          ({ node, pos: commentsNode.pos + pos + 1 } as Comment)
+          ({ node, pos: commentsNode.pos + pos + 1 }) as Comment
       )
       .map((comment) => [comment.node.attrs.id as string, comment])
   )

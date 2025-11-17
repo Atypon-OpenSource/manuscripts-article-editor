@@ -87,8 +87,8 @@ export const TrackChangesPanel: React.FC = () => {
           isComparingMode
             ? undefined
             : changeSet?.pending.length
-            ? handleAcceptAll
-            : undefined
+              ? handleAcceptAll
+              : undefined
         }
         onSelect={handleSelect}
       />

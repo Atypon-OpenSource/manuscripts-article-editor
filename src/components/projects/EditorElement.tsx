@@ -29,7 +29,7 @@ import {
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
 import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
 import { useConnectEditor } from '../../hooks/use-connect-editor'
@@ -49,7 +49,7 @@ const EditorElement: React.FC = () => {
   const { onRender, view, dispatch } = useConnectEditor()
   useWatchTitle()
 
-  const [, drop] = useDrop({
+  const [, dropRef] = useDrop({
     accept: 'file',
     drop: async (item, monitor) => {
       const offset = monitor.getSourceClientOffset()
@@ -145,6 +145,13 @@ const EditorElement: React.FC = () => {
       return false
     },
   })
+
+  const drop = useCallback(
+    (node: HTMLDivElement | null) => {
+      dropRef(node)
+    },
+    [dropRef]
+  )
 
   return (
     <>
