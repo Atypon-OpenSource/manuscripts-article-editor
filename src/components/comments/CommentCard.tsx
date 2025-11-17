@@ -117,17 +117,22 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   const handleEdit = () => {
     setEditingCommentId(commentID)
   }
+
   const handleSave = (contents: string) => {
-    onSave({
-      ...comment.node.attrs,
-      contents,
-    })
+    if (contents.trim() && contents !== comment.node.attrs.contents) {
+      onSave({
+        ...comment.node.attrs,
+        contents,
+      })
+    }
     setEditingCommentId(null)
   }
 
   const handleCancel = () => {
     setEditingCommentId(null)
-    if (isNew) {
+
+    // Delete comment if it's new OR if it has no saved content (empty)
+    if (isNew || comment.node.attrs.contents.trim() === '') {
       onDelete(commentID)
     }
   }
