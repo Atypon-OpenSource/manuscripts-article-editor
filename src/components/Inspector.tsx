@@ -172,3 +172,9 @@ export const TabText = styled.span<{
       ease,
     opacity ${(props) => (props.skipTransition ? '0s' : '0.5s')};
 `
+export const TabsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fafafa;
+`
