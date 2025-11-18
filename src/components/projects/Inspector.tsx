@@ -206,7 +206,7 @@ const Inspector: React.FC = () => {
                   </InspectorTab>
                 )}
               </PrimaryTabList>
-                <DocumentOptionsDropdown />
+              <DocumentOptionsDropdown />
             </TabsContainer>
             <InspectorTabPanels>
               <InspectorTabPanel key="Comments" data-cy="comments">
