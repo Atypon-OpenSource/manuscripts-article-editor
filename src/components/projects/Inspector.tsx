@@ -36,7 +36,6 @@ import {
   InspectorTabPanels,
   InspectorTabs,
   PrimaryTabList,
-  Spacer,
   TabsContainer,
   WarningBadge,
 } from '../Inspector'
