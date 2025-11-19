@@ -201,11 +201,15 @@ const Bar = styled.div`
   width: 100%;
 
   &.bar1 {
-    animation: growBar1 2.5s infinite, moveBar1 2.5s infinite;
+    animation:
+      growBar1 2.5s infinite,
+      moveBar1 2.5s infinite;
   }
 
   &.bar2 {
-    animation: growBar2 2.5s infinite, moveBar2 2.5s infinite;
+    animation:
+      growBar2 2.5s infinite,
+      moveBar2 2.5s infinite;
   }
 
   @keyframes growBar1 {
