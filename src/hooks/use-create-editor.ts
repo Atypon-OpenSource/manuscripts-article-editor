@@ -94,7 +94,7 @@ export const useCreateEditor = () => {
         })
       })
 
-      let savedTimeout: NodeJS.Timeout | null = null
+      let savedTimeout: ReturnType<typeof setTimeout> | null = null
 
       stepsExchanger.saveStatus.onChange((status: SaveStatus) => {
         if (status === 'idle') {

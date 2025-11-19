@@ -25,32 +25,32 @@ export type SaveStatus = 'saving' | 'saved' | 'offline' | 'failed' | 'idle'
 export class ObservableString {
   value: SaveStatus = 'idle'
 
-  private subs: Subscription<SaveStatus>[] = []
+  private sub: Subscription<SaveStatus> | undefined = undefined
 
   setValue(value: SaveStatus) {
     if (this.value !== value) {
       this.value = value
-      this.subs.forEach((s) => s(value))
+      this.sub?.(value)
     }
   }
 
   onChange(sub: Subscription<SaveStatus>) {
-    this.subs.push(sub)
+    this.sub = sub
   }
 }
 
 export class ObservableBoolean {
   value = false
 
-  private subs: Subscription<boolean>[] = []
+  private sub: Subscription<boolean> | undefined = undefined
 
   setValue(value: boolean) {
     this.value = value
-    this.subs.forEach((s) => s(value))
+    this.sub?.(value)
   }
 
   onChange(sub: Subscription<boolean>) {
-    this.subs.push(sub)
+    this.sub = sub
   }
 }
 
@@ -80,7 +80,6 @@ export class StepsExchanger extends CollabProvider {
     this.currentVersion = currentVersion
     this.isThrottling = new ObservableBoolean()
     this.saveStatus = new ObservableString()
-    this.saveStatus.setValue('idle')
     this.debounce = saveWithDebounce()
     this.api = api
     this.start()
@@ -113,7 +112,6 @@ export class StepsExchanger extends CollabProvider {
         )
 
         if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
-          console.warn('Retrying')
           this.newStepsListener()
           this.attempt++
         } else if (response.error) {
