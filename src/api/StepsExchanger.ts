@@ -26,11 +26,29 @@ export class ObservableString {
   value: SaveStatus = 'idle'
 
   private sub: Subscription<SaveStatus> | undefined = undefined
+  private savingTimeout: ReturnType<typeof setTimeout> | undefined = undefined
 
   setValue(value: SaveStatus) {
     if (this.value !== value) {
       this.value = value
       this.sub?.(value)
+
+      // Clear any existing timeout
+      if (this.savingTimeout) {
+        clearTimeout(this.savingTimeout)
+        this.savingTimeout = undefined
+      }
+
+      // If status is 'saving', set a timeout to clear it after 3 seconds to prevent getting stuck
+      if (value === 'saving') {
+        this.savingTimeout = setTimeout(() => {
+          if (this.value === 'saving') {
+            this.value = 'idle'
+            this.sub?.('idle')
+          }
+          this.savingTimeout = undefined
+        }, 3000)
+      }
     }
   }
 
@@ -111,9 +129,16 @@ export class StepsExchanger extends CollabProvider {
           }
         )
 
-        if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
-          this.newStepsListener()
-          this.attempt++
+        if (response.error === 'conflict') {
+          if (this.attempt < MAX_ATTEMPTS) {
+            // Conflict, retry is possible (attempt 0 to 19)
+            this.newStepsListener()
+            this.attempt++
+          } else {
+            // Conflict, max attempts reached (attempt 20). Treat as failure and show error icon.
+            this.saveStatus.setValue('failed')
+            this.attempt = 0 // Reset attempt counter
+          }
         } else if (response.error) {
           console.error('Failed to send steps', response.error)
           this.saveStatus.setValue('failed')
