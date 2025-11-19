@@ -43,7 +43,6 @@ export const InspectorTabList = styled(TabList)`
 
 export const PrimaryTabList = styled(InspectorTabList)`
   background-color: #fafafa !important;
-  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -168,7 +167,14 @@ export const TabText = styled.span<{
   display: block;
   opacity: ${(props) => (props.targetWidth > 0 ? '1' : '0')};
   max-width: ${(props) => props.targetWidth}px;
-  transition: max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')}
-      ease,
+  transition:
+    max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')} ease,
     opacity ${(props) => (props.skipTransition ? '0s' : '0.5s')};
+`
+export const TabsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fafafa;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
