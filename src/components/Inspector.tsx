@@ -43,7 +43,6 @@ export const InspectorTabList = styled(TabList)`
 
 export const PrimaryTabList = styled(InspectorTabList)`
   background-color: #fafafa !important;
-  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -177,4 +176,5 @@ export const TabsContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: #fafafa;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
