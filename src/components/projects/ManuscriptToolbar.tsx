@@ -164,7 +164,7 @@ export const ManuscriptToolbar: React.FC = () => {
                     disabled={!isEnabled(key, item, state)}
                     onClick={(e) => {
                       e.preventDefault()
-                      item.run(state, view.dispatch)
+                      item.run(state, view.dispatch, view)
                       view && view.focus()
                     }}
                   >
