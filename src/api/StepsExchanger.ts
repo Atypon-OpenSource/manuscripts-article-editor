@@ -149,7 +149,6 @@ export class StepsExchanger extends CollabProvider {
   onNewSteps(listener: CollabProvider['newStepsListener']) {
     this.start()
     this.newStepsListener = listener
-    console.log(this)
   }
 
   unsubscribe() {
