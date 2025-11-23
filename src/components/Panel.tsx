@@ -69,7 +69,7 @@ const Panel: React.FC<PanelProps> = (props) => {
     hidden: false,
   })
 
-  const hideWhenQuery = useRef<MediaQueryList>()
+  const hideWhenQuery = useRef<MediaQueryList | undefined>(undefined)
   const firstRender = useRef(true)
   const [{ selectedCommentKey, selectedSuggestionID, inspectorOpenTabs }] =
     useStore((store) => ({
