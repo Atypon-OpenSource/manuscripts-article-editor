@@ -16,7 +16,7 @@ import { Step } from 'prosemirror-transform'
 import { Api } from './Api'
 import { saveWithDebounce } from './savingUtilities'
 
-const MAX_ATTEMPTS = 20
+const MAX_ATTEMPTS = 10
 const THROTTLING_INTERVAL = 1200
 const REQUEST_TIMEOUT_MS = 10000
 
