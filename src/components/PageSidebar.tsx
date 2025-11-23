@@ -23,8 +23,8 @@ interface Props {
   minSize?: number
   name: string
   side: 'end' | 'start'
-  sidebarFooter?: string | JSX.Element
-  sidebarTitle: string | JSX.Element
+  sidebarFooter?: string | React.ReactNode
+  sidebarTitle: string | React.ReactNode
 }
 
 const PageSidebar: React.FunctionComponent<Props> = ({
