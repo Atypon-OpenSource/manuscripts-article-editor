@@ -18,6 +18,7 @@ import { saveWithDebounce } from './savingUtilities'
 
 const MAX_ATTEMPTS = 20
 const THROTTLING_INTERVAL = 1200
+const REQUEST_TIMEOUT_MS = 10000
 
 export type Subscription<T> = (value: T) => void
 export type SaveStatus = 'saving' | 'saved' | 'offline' | 'failed' | 'idle'
@@ -33,13 +34,11 @@ export class ObservableString {
       this.value = value
       this.sub?.(value)
 
-      // Clear any existing timeout
       if (this.savingTimeout) {
         clearTimeout(this.savingTimeout)
         this.savingTimeout = undefined
       }
 
-      // If status is 'saving', set a timeout to clear it after 3 seconds to prevent getting stuck
       if (value === 'saving') {
         this.savingTimeout = setTimeout(() => {
           if (this.value === 'saving') {
@@ -100,9 +99,38 @@ export class StepsExchanger extends CollabProvider {
     this.saveStatus = new ObservableString()
     this.debounce = saveWithDebounce()
     this.api = api
-    this.start()
     this.updateStoreVersion = updateStoreVersion
+
+    if (!navigator.onLine) {
+      this.saveStatus.setValue('offline')
+    } else {
+      this.start()
+    }
+
+    this.addNetworkListeners()
     this.stop = this.stop.bind(this)
+  }
+
+  private addNetworkListeners() {
+    window.addEventListener('online', this.handleOnline)
+    window.addEventListener('offline', this.handleOffline)
+  }
+
+  private removeNetworkListeners() {
+    window.removeEventListener('online', this.handleOnline)
+    window.removeEventListener('offline', this.handleOffline)
+  }
+
+  private handleOnline = () => {
+    console.log('Connection recovered. Going back online.')
+    this.saveStatus.setValue('idle')
+    this.start()
+  }
+
+  private handleOffline = () => {
+    console.log('Connection lost. Going offline.')
+    this.saveStatus.setValue('offline')
+    this.closeConnection()
   }
 
   async sendSteps(
@@ -111,37 +139,41 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
-    if (steps.length === 0) {
-      return Promise.resolve()
-    }
 
     this.flushImmediately = this.debounce(
       async () => {
         this.saveStatus.setValue('saving')
 
-        const response = await this.api.sendSteps(
-          this.projectID,
-          this.manuscriptID,
-          {
+        const timeoutPromise = new Promise<{ error: string }>((resolve) => {
+          setTimeout(() => {
+            resolve({ error: 'timeout' })
+          }, REQUEST_TIMEOUT_MS)
+        })
+
+        const response = await Promise.race([
+          this.api.sendSteps(this.projectID, this.manuscriptID, {
             steps: steps,
             version,
             clientID,
-          }
-        )
+          }),
+          timeoutPromise,
+        ])
 
-        if (response.error === 'conflict') {
+        if (response.error === 'timeout') {
+          this.saveStatus.setValue(navigator.onLine ? 'failed' : 'offline')
+          this.attempt = 0
+        } else if (response.error === 'conflict') {
           if (this.attempt < MAX_ATTEMPTS) {
-            // Conflict, retry is possible (attempt 0 to 19)
             this.newStepsListener()
             this.attempt++
           } else {
-            // Conflict, max attempts reached (attempt 20). Treat as failure and show error icon.
             this.saveStatus.setValue('failed')
-            this.attempt = 0 // Reset attempt counter
+            this.attempt = 0
           }
         } else if (response.error) {
           console.error('Failed to send steps', response.error)
           this.saveStatus.setValue('failed')
+          this.attempt = 0
         } else {
           this.saveStatus.setValue('saved')
           this.attempt = 0
@@ -170,16 +202,21 @@ export class StepsExchanger extends CollabProvider {
   }
 
   start() {
-    this.closeConnection = this.api.listenToSteps(
-      this.projectID,
-      this.manuscriptID,
-      (version, steps, clientIDs) =>
-        this.receiveSteps(version, steps, clientIDs)
-    )
+    if (navigator.onLine) {
+      this.closeConnection = this.api.listenToSteps(
+        this.projectID,
+        this.manuscriptID,
+        (version, steps, clientIDs) =>
+          this.receiveSteps(version, steps, clientIDs)
+      )
+    } else {
+      this.closeConnection = () => {}
+    }
   }
 
   stop() {
     this.closeConnection()
+    this.removeNetworkListeners()
   }
 
   flush() {
@@ -191,6 +228,10 @@ export class StepsExchanger extends CollabProvider {
   }
 
   async stepsSince(version: number) {
+    if (this.saveStatus.value === 'offline') {
+      return
+    }
+
     const response = await this.api.getStepsSince(
       this.projectID,
       this.manuscriptID,
