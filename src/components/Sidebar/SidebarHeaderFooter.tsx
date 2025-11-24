@@ -50,7 +50,7 @@ interface SidebarHeaderInterface {
   cancelText?: string
   confirmText?: string
   isCancel?: boolean
-  title: string | JSX.Element
+  title: string | React.ReactNode
 }
 
 export const SidebarHeader: React.FunctionComponent<SidebarHeaderInterface> = ({
