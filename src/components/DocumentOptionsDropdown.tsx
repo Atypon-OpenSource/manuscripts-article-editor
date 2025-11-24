@@ -118,4 +118,5 @@ const HistoryDropdownList = styled(DropdownList)`
   top: 0;
   right: 50%;
   border-radius: 8px;
+  margin-right: 8px;
 `
