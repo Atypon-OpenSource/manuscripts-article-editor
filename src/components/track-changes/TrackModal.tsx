@@ -37,7 +37,7 @@ interface Props {
   changeId: string
   isVisible: boolean
   setVisible: (to: boolean) => void
-  children?: React.ReactChild
+  children?: React.ReactNode
 }
 
 type PropRef = HTMLElement
