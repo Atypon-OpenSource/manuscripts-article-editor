@@ -100,6 +100,9 @@ export class StepsExchanger extends CollabProvider {
     this.debounce = saveWithDebounce()
     this.api = api
     this.updateStoreVersion = updateStoreVersion
+    // Initialize closeConnection as no-op to ensure it's always defined
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this.closeConnection = () => {}
 
     if (!navigator.onLine) {
       this.saveStatus.setValue('offline')
@@ -144,38 +147,50 @@ export class StepsExchanger extends CollabProvider {
       async () => {
         this.saveStatus.setValue('saving')
 
-        const timeoutPromise = new Promise<{ error: string }>((resolve) => {
-          setTimeout(() => {
-            resolve({ error: 'timeout' })
-          }, REQUEST_TIMEOUT_MS)
-        })
+        const abortController = new AbortController()
+        const timeoutId = setTimeout(() => {
+          abortController.abort()
+        }, REQUEST_TIMEOUT_MS)
 
-        const response = await Promise.race([
-          this.api.sendSteps(this.projectID, this.manuscriptID, {
-            steps: steps,
-            version,
-            clientID,
-          }),
-          timeoutPromise,
-        ])
+        try {
+          const response = await this.api.sendSteps(
+            this.projectID,
+            this.manuscriptID,
+            {
+              steps: steps,
+              version,
+              clientID,
+            },
+            abortController.signal
+          )
 
-        if (response.error === 'timeout') {
-          this.saveStatus.setValue(navigator.onLine ? 'failed' : 'offline')
-          this.attempt = 0
-        } else if (response.error === 'conflict') {
-          if (this.attempt < MAX_ATTEMPTS) {
-            this.newStepsListener()
-            this.attempt++
-          } else {
+          clearTimeout(timeoutId)
+
+          if (response.error === 'conflict') {
+            if (this.attempt < MAX_ATTEMPTS) {
+              this.newStepsListener()
+              this.attempt++
+            } else {
+              this.saveStatus.setValue('failed')
+              this.attempt = 0
+            }
+          } else if (response.error) {
+            console.error('Failed to send steps', response.error)
             this.saveStatus.setValue('failed')
             this.attempt = 0
+          } else {
+            this.saveStatus.setValue('saved')
+            this.attempt = 0
           }
-        } else if (response.error) {
-          console.error('Failed to send steps', response.error)
-          this.saveStatus.setValue('failed')
-          this.attempt = 0
-        } else {
-          this.saveStatus.setValue('saved')
+        } catch (error) {
+          clearTimeout(timeoutId)
+          // Handle abort or other errors
+          if (error instanceof Error && error.name === 'AbortError') {
+            this.saveStatus.setValue(navigator.onLine ? 'failed' : 'offline')
+          } else {
+            console.error('Failed to send steps', error)
+            this.saveStatus.setValue('failed')
+          }
           this.attempt = 0
         }
       },
@@ -202,6 +217,11 @@ export class StepsExchanger extends CollabProvider {
   }
 
   start() {
+    // Close any existing connection before starting a new one to avoid duplicate listeners
+    if (this.closeConnection) {
+      this.closeConnection()
+    }
+
     if (navigator.onLine) {
       this.closeConnection = this.api.listenToSteps(
         this.projectID,
@@ -210,6 +230,8 @@ export class StepsExchanger extends CollabProvider {
           this.receiveSteps(version, steps, clientIDs)
       )
     } else {
+      // No-op function when offline - connection cannot be established
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       this.closeConnection = () => {}
     }
   }

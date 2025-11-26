@@ -154,23 +154,41 @@ export class Api {
   getDocument = (projectID: string, manuscriptID: string) =>
     this.get<ManuscriptDoc>(`doc/${projectID}/manuscript/${manuscriptID}`)
 
-  sendSteps = (
+  sendSteps = async (
     projectID: string,
     manuscriptID: string,
-    data: SendStepsPayload
-  ) =>
-    this.post<SendStepsResponse>(
-      `doc/${projectID}/manuscript/${manuscriptID}/steps`,
-      {
-        ...data,
-        steps: data.steps.map((s) => s.toJSON()),
+    data: SendStepsPayload,
+    signal?: AbortSignal
+  ) => {
+    try {
+      const result = await this.instance.post<SendStepsResponse>(
+        `doc/${projectID}/manuscript/${manuscriptID}/steps`,
+        {
+          ...data,
+          steps: data.steps.map((s) => s.toJSON()),
+        },
+        { signal }
+      )
+      return result.data
+    } catch (e) {
+      const axiosError = e as AxiosError
+      // If aborted, throw to be caught by caller
+      if (
+        axiosError.name === 'AbortError' ||
+        axiosError.code === 'ERR_CANCELED' ||
+        axiosError.message === 'canceled'
+      ) {
+        const abortError = new Error('The operation was aborted.')
+        abortError.name = 'AbortError'
+        throw abortError
       }
-    ).catch((e: AxiosError) => {
-      const error = e.response?.status === 409 ? 'conflict' : e.message
+      const error =
+        axiosError.response?.status === 409 ? 'conflict' : axiosError.message
       return {
         error: error,
       }
-    })
+    }
+  }
 
   getStepsSince = (projectID: string, manuscriptID: string, version: number) =>
     this.get<StepsSinceResponse>(
