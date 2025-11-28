@@ -115,7 +115,7 @@ export const FileActions: React.FC<{
         type="button"
         className="show-on-hover"
         data-cy="file-actions"
-        aria-label="Actions"
+        aria-label="File Actions"
         aria-pressed={isOpen}
       >
         <DotsIcon />
