@@ -192,7 +192,7 @@ const EditorElement: React.FC = () => {
                 e.preventDefault()
 
                 const resizerButton = document.querySelector(
-                  '[panel-name="inspector"] button'
+                  '[data-panel-name="inspector"] button'
                 ) as HTMLElement
 
                 resizerButton?.focus()

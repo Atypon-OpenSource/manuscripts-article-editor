@@ -32,9 +32,9 @@ interface Props {
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
   isTrackingChangesVisible: boolean
-  linkRef: React.RefObject<HTMLDivElement>
+  linkRef: React.RefObject<HTMLDivElement | null>
   isTabbable: boolean
-  onLinkClick: (e: React.MouseEvent) => void
+  onLinkClick: (e: React.MouseEvent | React.KeyboardEvent) => void
 }
 
 export const SuggestionSnippet: React.FC<Props> = ({
@@ -80,7 +80,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
   return (
     <SnippetText>
       <CardLink
-        ref={linkRef}
+        ref={linkRef as React.RefObject<HTMLDivElement>}
         data-cy="suggestion-card-link"
         onClick={onLinkClick}
         onKeyDown={(e: React.KeyboardEvent) => {
@@ -89,7 +89,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
           }
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault()
-            onLinkClick(e as any)
+            onLinkClick(e)
           }
         }}
         tabIndex={isTabbable ? 0 : -1}

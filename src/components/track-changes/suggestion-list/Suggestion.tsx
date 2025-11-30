@@ -44,7 +44,7 @@ export const Suggestion: React.FC<Props> = ({
     isTrackingChangesVisible: store.isTrackingChangesVisible,
   }))
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.preventDefault()
     if (!isTrackingChangesVisible) {
       return
