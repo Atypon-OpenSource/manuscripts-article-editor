@@ -164,7 +164,7 @@ const TrackChangesToggleWrapper = styled.div`
   padding: 0px 8px;
 
   &:focus-visible {
-    outline: 2px solid #3dadff;
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
     outline-offset: -2px;
   }
 `

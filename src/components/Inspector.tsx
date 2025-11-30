@@ -110,7 +110,7 @@ export const PrimaryInspectorTab = styled(BaseInspectorTab)`
     }
 
     &[data-headlessui-state~='selected'][data-headlessui-state~='focus'] {
-      outline: 2px solid #3dadff;
+      outline: 2px solid ${(props) => props.theme.colors.outline.focus};
       outline-offset: -2px;
     }
 
@@ -134,7 +134,7 @@ export const SecondaryInspectorTab = styled(BaseInspectorTab)`
     }
 
     &[data-headlessui-state~='selected'][data-headlessui-state~='focus'] {
-      outline: 2px solid #3dadff;
+      outline: 2px solid ${(props) => props.theme.colors.outline.focus};
       outline-offset: -2px;
     }
   }
