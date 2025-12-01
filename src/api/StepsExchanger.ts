@@ -201,6 +201,9 @@ export class StepsExchanger extends CollabProvider {
               this.saveStatus.setValue('failed')
               this.attempt = 0
             }
+          } else if (response.error === 'aborted') {
+            this.saveStatus.setValue(navigator.onLine ? 'failed' : 'offline')
+            this.attempt = 0
           } else if (response.error) {
             console.error('Failed to send steps', response.error)
             this.saveStatus.setValue('failed')
@@ -214,13 +217,9 @@ export class StepsExchanger extends CollabProvider {
             clearTimeout(this.timeoutId)
             this.timeoutId = undefined
           }
-          // Handle abort or other errors
-          if (error instanceof Error && error.name === 'AbortError') {
-            this.saveStatus.setValue(navigator.onLine ? 'failed' : 'offline')
-          } else {
-            console.error('Failed to send steps', error)
-            this.saveStatus.setValue('failed')
-          }
+          // Handle other errors (abort is now handled via error response)
+          console.error('Failed to send steps', error)
+          this.saveStatus.setValue('failed')
           this.attempt = 0
         } finally {
           this.abortController = undefined

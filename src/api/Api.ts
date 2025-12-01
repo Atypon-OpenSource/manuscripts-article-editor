@@ -172,15 +172,15 @@ export class Api {
       return result.data
     } catch (e) {
       const axiosError = e as AxiosError
-      // If aborted, throw to be caught by caller
       if (
         axiosError.name === 'AbortError' ||
         axiosError.code === 'ERR_CANCELED' ||
         axiosError.message === 'canceled'
       ) {
-        const abortError = new Error('The operation was aborted.')
-        abortError.name = 'AbortError'
-        throw abortError
+        console.log('Request was aborted')
+        return {
+          error: 'aborted',
+        }
       }
       const error =
         axiosError.response?.status === 409 ? 'conflict' : axiosError.message
