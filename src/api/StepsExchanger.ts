@@ -82,6 +82,8 @@ export class StepsExchanger extends CollabProvider {
   isThrottling: ObservableBoolean
   saveStatus: ObservableString
   attempt = 0
+  private abortController?: AbortController
+  private timeoutId?: ReturnType<typeof setTimeout>
 
   constructor(
     projectID: string,
@@ -128,10 +130,23 @@ export class StepsExchanger extends CollabProvider {
     console.log('Connection recovered. Going back online.')
     this.saveStatus.setValue('idle')
     this.start()
+    // Trigger sync to check for queued steps
+    if (this.newStepsListener) {
+      this.newStepsListener()
+    }
   }
 
   private handleOffline = () => {
     console.log('Connection lost. Going offline.')
+    // Abort any pending request when going offline
+    if (this.abortController) {
+      this.abortController.abort()
+      this.abortController = undefined
+    }
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = undefined
+    }
     this.saveStatus.setValue('offline')
     this.closeConnection()
   }
@@ -145,11 +160,20 @@ export class StepsExchanger extends CollabProvider {
 
     this.flushImmediately = this.debounce(
       async () => {
+        // Abort any pending request before starting a new one
+        if (this.abortController) {
+          this.abortController.abort()
+        }
+        if (this.timeoutId) {
+          clearTimeout(this.timeoutId)
+        }
+
         this.saveStatus.setValue('saving')
 
-        const abortController = new AbortController()
-        const timeoutId = setTimeout(() => {
-          abortController.abort()
+        // Create new AbortController for this request
+        this.abortController = new AbortController()
+        this.timeoutId = setTimeout(() => {
+          this.abortController?.abort()
         }, REQUEST_TIMEOUT_MS)
 
         try {
@@ -161,10 +185,13 @@ export class StepsExchanger extends CollabProvider {
               version,
               clientID,
             },
-            abortController.signal
+            this.abortController.signal
           )
 
-          clearTimeout(timeoutId)
+          if (this.timeoutId) {
+            clearTimeout(this.timeoutId)
+            this.timeoutId = undefined
+          }
 
           if (response.error === 'conflict') {
             if (this.attempt < MAX_ATTEMPTS) {
@@ -183,7 +210,10 @@ export class StepsExchanger extends CollabProvider {
             this.attempt = 0
           }
         } catch (error) {
-          clearTimeout(timeoutId)
+          if (this.timeoutId) {
+            clearTimeout(this.timeoutId)
+            this.timeoutId = undefined
+          }
           // Handle abort or other errors
           if (error instanceof Error && error.name === 'AbortError') {
             this.saveStatus.setValue(navigator.onLine ? 'failed' : 'offline')
@@ -192,6 +222,8 @@ export class StepsExchanger extends CollabProvider {
             this.saveStatus.setValue('failed')
           }
           this.attempt = 0
+        } finally {
+          this.abortController = undefined
         }
       },
       THROTTLING_INTERVAL,
@@ -217,6 +249,16 @@ export class StepsExchanger extends CollabProvider {
   }
 
   start() {
+    // Abort any pending request before restarting
+    if (this.abortController) {
+      this.abortController.abort()
+      this.abortController = undefined
+    }
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = undefined
+    }
+
     // Close any existing connection before starting a new one to avoid duplicate listeners
     if (this.closeConnection) {
       this.closeConnection()
@@ -237,6 +279,15 @@ export class StepsExchanger extends CollabProvider {
   }
 
   stop() {
+    // Abort any pending request
+    if (this.abortController) {
+      this.abortController.abort()
+      this.abortController = undefined
+    }
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = undefined
+    }
     this.closeConnection()
     this.removeNetworkListeners()
   }
