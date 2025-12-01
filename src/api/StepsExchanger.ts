@@ -72,6 +72,7 @@ export class ObservableBoolean {
 }
 
 export class StepsExchanger extends CollabProvider {
+  private static instance: StepsExchanger
   projectID: string
   manuscriptID: string
   api: Api
@@ -92,6 +93,11 @@ export class StepsExchanger extends CollabProvider {
     api: Api,
     updateStoreVersion: (version: number) => void
   ) {
+    if (StepsExchanger.instance) {
+      StepsExchanger.instance.start()
+      return StepsExchanger.instance
+    }
+
     super()
 
     this.projectID = projectID
@@ -114,6 +120,8 @@ export class StepsExchanger extends CollabProvider {
 
     this.addNetworkListeners()
     this.stop = this.stop.bind(this)
+
+    StepsExchanger.instance = this
   }
 
   private addNetworkListeners() {
@@ -218,7 +226,7 @@ export class StepsExchanger extends CollabProvider {
             this.timeoutId = undefined
           }
           // Handle other errors (abort is now handled via error response)
-          console.error('Failed to send steps', error)
+          console.warn('Failed to send steps', error)
           this.saveStatus.setValue('failed')
           this.attempt = 0
         } finally {
@@ -247,7 +255,13 @@ export class StepsExchanger extends CollabProvider {
     }
   }
 
+  stopped = true
+
   start() {
+    if (this.stopped === false) {
+      return
+    }
+
     // Abort any pending request before restarting
     if (this.abortController) {
       this.abortController.abort()
@@ -270,14 +284,18 @@ export class StepsExchanger extends CollabProvider {
         (version, steps, clientIDs) =>
           this.receiveSteps(version, steps, clientIDs)
       )
+      this.stopped = false
     } else {
       // No-op function when offline - connection cannot be established
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       this.closeConnection = () => {}
+      this.stopped = true
     }
   }
 
   stop() {
+    this.stopped = true
+
     // Abort any pending request
     if (this.abortController) {
       this.abortController.abort()
@@ -287,6 +305,7 @@ export class StepsExchanger extends CollabProvider {
       clearTimeout(this.timeoutId)
       this.timeoutId = undefined
     }
+
     this.closeConnection()
     this.removeNetworkListeners()
   }
@@ -296,7 +315,17 @@ export class StepsExchanger extends CollabProvider {
   }
 
   onNewSteps(listener: CollabProvider['newStepsListener']) {
+    this.start()
     this.newStepsListener = listener
+  }
+
+  unsubscribe() {
+    // @TODO change in base class to be a function and not a prop
+    if (StepsExchanger.instance) {
+      StepsExchanger.instance.newStepsListener = () => {
+        console.warn('Listener for incoming steps is not assigned')
+      }
+    }
   }
 
   async stepsSince(version: number) {
