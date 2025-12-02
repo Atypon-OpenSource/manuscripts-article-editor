@@ -59,6 +59,9 @@ export const CommentResolveButton: React.FC<CommentResolveButtonProps> = ({
         className={comment.node.attrs.resolved ? 'resolved' : ''}
         data-tooltip-id={comment.node.attrs.id}
         onClick={onClick}
+        aria-label={
+          comment.node.attrs.resolved ? 'Unresolve Comment' : 'Resolve Comment'
+        }
       >
         <CommentResolveIcon />
       </Button>

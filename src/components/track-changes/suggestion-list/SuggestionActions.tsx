@@ -60,6 +60,7 @@ const SuggestionAction: React.FC<Props> = ({
             onClick={() => handleReject(suggestions)}
             aria-pressed={false}
             data-tooltip-id={rejectTooltip}
+            aria-label="Reject"
           >
             <Reject color="#353535" />
           </Action>
@@ -76,6 +77,7 @@ const SuggestionAction: React.FC<Props> = ({
             aria-pressed={false}
             data-tip={true}
             data-tooltip-id={approveTooltip}
+            aria-label="Approve"
           >
             <Accept color="#353535" />
           </Action>
