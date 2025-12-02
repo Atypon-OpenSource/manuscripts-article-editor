@@ -49,7 +49,7 @@
     "prosemirror-state": "1.4.3",
     "prosemirror-transform": "1.10.4",
     "prosemirror-utils": "1.2.2",
-    "prosemirror-view": "1.40.0",
+    "prosemirror-view": "1.41.0",
     "react": "19.2.0",
     "react-dnd": "16.0.1",
     "react-dnd-html5-backend": "16.0.1",
