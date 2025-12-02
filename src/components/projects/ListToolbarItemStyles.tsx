@@ -40,6 +40,7 @@ const buttonCss = css<{
 
 export const ListButton = styled.button.attrs({
   type: 'button',
+  'data-toolbar-button': true,
 })<{
   'data-active'?: boolean
 }>`
@@ -55,6 +56,7 @@ export const ListButton = styled.button.attrs({
 
 export const ListStyleButton = styled.button.attrs({
   type: 'button',
+  'data-toolbar-button': true,
 })<{
   'data-active'?: boolean
 }>`

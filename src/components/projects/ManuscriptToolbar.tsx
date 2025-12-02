@@ -33,6 +33,7 @@ export const ToolbarItem = styled.div`
 
 const ToolbarButton = styled.button.attrs({
   type: 'button',
+  'data-toolbar-button': true,
 })<{
   'data-active'?: boolean
 }>`
@@ -116,14 +117,14 @@ export const ManuscriptToolbar: React.FC = () => {
     editor: store.editor,
   }))
 
-  // Get all enabled buttons
+  // Get all enabled toolbar buttons
   const getButtons = useCallback(() => {
     if (!containerRef.current) {
       return []
     }
     return Array.from(
       containerRef.current.querySelectorAll<HTMLButtonElement>(
-        'button:not([disabled])'
+        '[data-toolbar-button]:not([disabled])'
       )
     )
   }, [])
