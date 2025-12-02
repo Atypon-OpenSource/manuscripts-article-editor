@@ -182,6 +182,34 @@ const EditorElement: React.FC = () => {
             id="editor"
             key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
             ref={onRender}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (
+                e.key === 'Tab' &&
+                !e.shiftKey &&
+                document.activeElement?.id === 'editor'
+              ) {
+                e.preventDefault()
+
+                const resizerButton = document.querySelector(
+                  '[panel-name="inspector"] button'
+                ) as HTMLElement
+
+                resizerButton?.focus()
+              }
+
+              if (
+                e.key === 'Enter' &&
+                document.activeElement?.id === 'editor'
+              ) {
+                e.preventDefault()
+                // Enter editing mode: focus the contenteditable
+                const contenteditable = document.querySelector(
+                  '.ProseMirror.manuscript-editor'
+                ) as HTMLElement
+                contenteditable?.focus()
+              }
+            }}
           ></div>
         </div>
       </>

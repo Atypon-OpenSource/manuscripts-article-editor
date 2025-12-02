@@ -33,7 +33,8 @@ export const ActionsIcon = styled.button`
   &:focus {
     outline: none;
   }
-  &:hover svg circle {
+  &:hover svg circle,
+  &:focus-visible svg circle {
     fill: #1a9bc7;
   }
 `
@@ -84,6 +85,7 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
             onClick={toggleOpen}
             className="actions-icon"
             aria-label="Comment Actions"
+            tabIndex={0}
           >
             <DotsIcon />
           </ActionsIcon>
@@ -131,6 +133,7 @@ export const OrphanCommentActions: React.FC<{
         data-cy="orphan-comment-delete"
         onClick={onDelete}
         iconColor={'#333333'}
+        tabIndex={0}
       >
         <DeleteIcon />
       </IconButton>

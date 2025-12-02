@@ -199,12 +199,12 @@ const Panel: React.FC<PanelProps> = (props) => {
   )
 
   return side === 'start' ? (
-    <div style={style}>
+    <div style={style} panel-name={props.name}>
       {resizer}
       {!collapsed && children}
     </div>
   ) : (
-    <div style={style}>
+    <div style={style} panel-name={props.name}>
       {!collapsed && children}
       {resizer}
     </div>

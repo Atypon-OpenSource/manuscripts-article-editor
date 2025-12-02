@@ -50,6 +50,7 @@ const ApproveAllButton: React.FC<{
           event.stopPropagation()
           setOpenDialog(true)
         }}
+        tabIndex={0}
       >
         Approve all
       </StyledButton>

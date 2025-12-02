@@ -25,6 +25,7 @@ interface Props {
   onAccept: () => void
   onReject: () => void
   onSelect(): void
+  isTabbable: boolean
 }
 
 export const Suggestion: React.FC<Props> = ({
@@ -33,8 +34,10 @@ export const Suggestion: React.FC<Props> = ({
   onAccept,
   onReject,
   onSelect,
+  isTabbable,
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
+  const linkRef = useRef<HTMLDivElement>(null)
   const [trackModalVisible, setModalVisible] = useState(false)
   const [{ isComparingMode, isTrackingChangesVisible }] = useStore((store) => ({
     isComparingMode: store.isComparingMode,
@@ -52,6 +55,57 @@ export const Suggestion: React.FC<Props> = ({
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Only handle horizontal navigation (Left/Right)
+    // Let vertical navigation (Up/Down) bubble to parent SuggestionList
+    if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      return
+    }
+    if (!wrapperRef.current) {
+      return
+    }
+
+    const actionButtons = Array.from(
+      wrapperRef.current.querySelectorAll<HTMLButtonElement>(
+        '[data-cy="suggestion-actions"] button'
+      )
+    )
+    if (actionButtons.length === 0) {
+      return
+    }
+
+    const currentElement = document.activeElement as HTMLElement
+
+    // If on the card link and arrow right is pressed, move to first action button
+    if (currentElement === linkRef.current && e.key === 'ArrowRight') {
+      e.preventDefault()
+      e.stopPropagation()
+      actionButtons[0]?.focus()
+    }
+    // If on an action button, navigate between them
+    else if (actionButtons.includes(currentElement as HTMLButtonElement)) {
+      const currentIndex = actionButtons.indexOf(
+        currentElement as HTMLButtonElement
+      )
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        e.stopPropagation()
+        if (currentIndex === 0) {
+          linkRef.current?.focus()
+        } else {
+          actionButtons[currentIndex - 1]?.focus()
+        }
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        e.stopPropagation()
+        if (currentIndex < actionButtons.length - 1) {
+          actionButtons[currentIndex + 1]?.focus()
+        }
+      }
+    }
+  }
+
   useEffect(() => {
     if (isSelected && wrapperRef.current) {
       scrollIntoView(wrapperRef.current)
@@ -59,20 +113,23 @@ export const Suggestion: React.FC<Props> = ({
   }, [isSelected])
 
   return (
-    <Wrapper data-cy="suggestion" isFocused={isSelected} ref={wrapperRef}>
-      <FocusHandle
+    <Wrapper
+      data-cy="suggestion"
+      isFocused={isSelected}
+      ref={wrapperRef}
+      onKeyDown={handleKeyDown}
+    >
+      <SuggestionSnippet
+        suggestions={suggestions}
+        isComparingMode={isComparingMode}
+        isFocused={isSelected}
+        handleAccept={onAccept}
+        handleReject={onReject}
         isTrackingChangesVisible={isTrackingChangesVisible}
-        href="#"
-        onClick={handleClick}
-      >
-        <SuggestionSnippet
-          suggestions={suggestions}
-          isComparingMode={isComparingMode}
-          isFocused={isSelected}
-          handleAccept={onAccept}
-          handleReject={onReject}
-        />
-      </FocusHandle>
+        linkRef={linkRef}
+        isTabbable={isTabbable}
+        onLinkClick={handleClick}
+      />
 
       {trackModalVisible && (
         <TrackModal
@@ -89,13 +146,3 @@ export const Suggestion: React.FC<Props> = ({
 const Wrapper = styled.li<{
   isFocused: boolean
 }>``
-
-const FocusHandle = styled.a<{
-  isTrackingChangesVisible: boolean
-}>`
-  color: inherit;
-  text-decoration: none;
-  overflow: hidden;
-  cursor: ${(props) =>
-    props.isTrackingChangesVisible ? 'pointer' : 'default'};
-`

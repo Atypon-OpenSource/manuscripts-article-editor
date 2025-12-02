@@ -50,10 +50,16 @@ export const InspectorTabPanels = styled(TabPanels)`
   overflow-y: auto;
 `
 
-export const InspectorTabPanel = styled(TabPanel)`
+export const InspectorTabPanel = styled(TabPanel).attrs({
+  tabIndex: -1,
+})`
   font-size: ${(props) => props.theme.font.size.normal};
   color: ${(props) => props.theme.colors.text.secondary};
   height: 98%;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const BaseInspectorTab = styled(Tab)`
@@ -103,6 +109,11 @@ export const PrimaryInspectorTab = styled(BaseInspectorTab)`
       }
     }
 
+    &[data-headlessui-state~='selected'][data-headlessui-state~='focus'] {
+      outline: 2px solid #3dadff;
+      outline-offset: -2px;
+    }
+
     /* Ensure icon is always visible */
     svg {
       flex-shrink: 0;
@@ -120,6 +131,11 @@ export const SecondaryInspectorTab = styled(BaseInspectorTab)`
     &[aria-selected='true'] {
       border-color: ${(props) => props.theme.colors.brand.default};
       color: ${(props) => props.theme.colors.brand.default};
+    }
+
+    &[data-headlessui-state~='selected'][data-headlessui-state~='focus'] {
+      outline: 2px solid #3dadff;
+      outline-offset: -2px;
     }
   }
 `

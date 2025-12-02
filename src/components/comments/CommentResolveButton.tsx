@@ -42,6 +42,11 @@ const Button = styled.button`
     background: #f2fbfc;
     border: 1px solid #c9c9c9;
   }
+
+  &:focus-visible {
+    outline: 2px solid #3dadff;
+    outline-offset: 2px;
+  }
 `
 
 export interface CommentResolveButtonProps {
@@ -62,6 +67,7 @@ export const CommentResolveButton: React.FC<CommentResolveButtonProps> = ({
         aria-label={
           comment.node.attrs.resolved ? 'Unresolve Comment' : 'Resolve Comment'
         }
+        tabIndex={0}
       >
         <CommentResolveIcon />
       </Button>

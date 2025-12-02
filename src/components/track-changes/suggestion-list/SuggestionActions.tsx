@@ -126,7 +126,8 @@ export const Action = styled.button`
     opacity: 0.5;
   }
 
-  &:not([disabled]):hover {
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
     &[aria-pressed='true'] {
       path {
         stroke: ${(props) => props.theme.colors.brand.medium};

@@ -21,7 +21,7 @@ import {
   TrackChangesStatus,
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
@@ -30,6 +30,7 @@ import { useStore } from '../store/useStore'
 const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
+  const dropdownListRef = useRef<HTMLDivElement>(null)
   const [storeState] = useStore((s) => ({
     doc: s.doc,
     view: s.view,
@@ -45,26 +46,75 @@ const DocumentOptionsDropdown: React.FC = () => {
     }
   }
 
+  useEffect(() => {
+    if (isOpen && dropdownListRef.current) {
+      const firstItem =
+        dropdownListRef.current.querySelector<HTMLElement>('[role="menuitem"]')
+      firstItem?.focus()
+    }
+  }, [isOpen])
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!dropdownListRef.current) {
+      return
+    }
+
+    const menuItems = Array.from(
+      dropdownListRef.current.querySelectorAll<HTMLElement>('[role="menuitem"]')
+    )
+    if (!menuItems.length) {
+      return
+    }
+
+    const currentIndex = menuItems.findIndex((item) =>
+      item.contains(document.activeElement)
+    )
+    if (currentIndex === -1) {
+      return
+    }
+
+    const length = menuItems.length
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      const nextIndex = (currentIndex + 1) % length
+      menuItems[nextIndex]?.focus()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      const prevIndex = (currentIndex - 1 + length) % length
+      menuItems[prevIndex]?.focus()
+    } else if (e.key === 'Escape') {
+      e.preventDefault()
+      toggleOpen()
+      const button = wrapperRef.current?.querySelector('button') as HTMLElement
+      button?.focus()
+    }
+  }
+
   return (
     <DropdownContainer ref={wrapperRef}>
       <ToggleDropdownButton
         data-cy="document-options-button"
         title="Document Options"
         onClick={toggleOpen}
+        tabIndex={0}
       >
         <DotsIcon />
       </ToggleDropdownButton>
 
       {isOpen && (
         <HistoryDropdownList
+          ref={dropdownListRef}
+          role="menu"
           data-cy="history-dropdown"
           direction="right"
           width={192}
           top={5}
-          onClick={toggleOpen}
+          onKeyDown={handleKeyDown}
         >
           <DropdownItem
             data-cy="version-history-button"
+            tabIndex={0}
+            role="menuitem"
             onClick={() =>
               execCmd(
                 trackCommands.setTrackingStatus(
@@ -72,6 +122,16 @@ const DocumentOptionsDropdown: React.FC = () => {
                 )
               )
             }
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                execCmd(
+                  trackCommands.setTrackingStatus(
+                    TrackChangesStatus.viewSnapshots
+                  )
+                )
+              }
+            }}
           >
             Version history
           </DropdownItem>
@@ -99,6 +159,11 @@ const ToggleDropdownButton = styled.button`
   &:focus {
     outline: none;
   }
+
+  &:focus-visible {
+    outline: 2px solid #3dadff;
+    outline-offset: -2px;
+  }
 `
 
 const DropdownItem = styled.div`
@@ -109,8 +174,14 @@ const DropdownItem = styled.div`
   color: ${(props) => props.theme.colors.text.primary};
   padding: 16px;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: ${(props) => props.theme.colors.background.fifth};
+  }
+
+  &:focus-visible {
+    outline: 2px solid #3dadff;
+    outline-offset: -2px;
   }
 `
 

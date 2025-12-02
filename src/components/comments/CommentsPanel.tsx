@@ -222,6 +222,13 @@ export const CommentsPanel: React.FC = () => {
                   name={'show-resolved'}
                   checked={showResolved}
                   onChange={(e) => setShowResolved(e.target.checked)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault()
+                      setShowResolved(!showResolved)
+                    }
+                  }}
+                  tabIndex={0}
                 />
                 <CheckboxLabelText>See resolved</CheckboxLabelText>
               </CheckboxLabel>
