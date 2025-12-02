@@ -83,6 +83,7 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
             data-cy="comment-dropdown-trigger"
             onClick={toggleOpen}
             className="actions-icon"
+            aria-label="Comment Actions"
           >
             <DotsIcon />
           </ActionsIcon>

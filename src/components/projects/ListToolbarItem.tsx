@@ -47,7 +47,11 @@ const ListStyleSelector: React.FC<ListStyleSelectorProps> = ({
 
   return (
     <Container onClick={() => !disabled && toggleOpen()} ref={wrapperRef}>
-      <ListStyleButton data-tooltip-id={title} disabled={disabled}>
+      <ListStyleButton
+        data-tooltip-id={title}
+        disabled={disabled}
+        aria-label={title}
+      >
         <ArrowDownIcon />
       </ListStyleButton>
       <Tooltip id={title} place="bottom">
@@ -99,6 +103,7 @@ export const ListToolbarItem: React.FC<{
           config.run(state, dispatch, view)
           view && view.focus()
         }}
+        aria-label={config.title}
       >
         {type === 'ordered_list' ? (
           <ToolbarOrderedListIcon />
