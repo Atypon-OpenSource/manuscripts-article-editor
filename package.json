@@ -32,11 +32,7 @@
     "@fontsource/pt-sans": "5.2.5",
     "@fontsource/pt-serif": "5.2.5",
     "@headlessui/react": "2.2.3",
-<<<<<<< HEAD
     "@manuscripts/body-editor": "3.7.15",
-=======
-    "@manuscripts/body-editor": "3.7.13-LEAN-5090.0",
->>>>>>> 3250e04f (Update package.json)
     "@manuscripts/json-schema": "2.2.12",
     "@manuscripts/style-guide": "3.3.10-LEAN-5090.1",
     "@manuscripts/track-changes-plugin": "2.2.1",
