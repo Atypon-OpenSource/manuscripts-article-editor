@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { CollabProvider } from '@manuscripts/body-editor'
 import { schema } from '@manuscripts/transform'
@@ -83,23 +83,52 @@ export class StepsExchanger extends CollabProvider {
   ) {
     this.flushImmediately = this.debounce(
       async () => {
-        const response = await this.api.sendSteps(
-          this.projectID,
-          this.manuscriptID,
-          {
-            steps: steps,
-            version,
-            clientID,
+        const payload = {
+          clientID,
+          steps: steps.map((s) => s.toJSON()),
+          version,
+        }
+        if (this.api.ws && this.api.ws.readyState === WebSocket.OPEN) {
+          this.api.ws.send(
+            JSON.stringify({
+              projectID: this.projectID,
+              manuscriptID: this.manuscriptID,
+              payload,
+              token: this.api.token,
+            })
+          )
+          this.api.ws.onmessage = (event: MessageEvent) => {
+            const data = JSON.parse(event.data)
+            if (data.status === 'error') {
+              if (
+                data.InternalErrorCode === 'VERSION_MISMATCH' &&
+                this.attempt < MAX_ATTEMPTS
+              ) {
+                console.warn('Retrying')
+                this.newStepsListener()
+                this.attempt++
+              } else {
+                console.error('Failed to send steps', data.message)
+              }
+            } else if (data.status === 'success') {
+              this.attempt = 0
+            }
           }
-        )
-        if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
-          console.warn('Retrying')
-          this.newStepsListener()
-          this.attempt++
-        } else if (response.error) {
-          console.error('Failed to send steps', response.error)
         } else {
-          this.attempt = 0
+          const response = await this.api.sendSteps(
+            this.projectID,
+            this.manuscriptID,
+            payload
+          )
+          if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
+            console.warn('Retrying')
+            this.newStepsListener()
+            this.attempt++
+          } else if (response.error) {
+            console.error('Failed to send steps', response.error)
+          } else {
+            this.attempt = 0
+          }
         }
       },
       THROTTLING_INTERVAL,
@@ -118,7 +147,8 @@ export class StepsExchanger extends CollabProvider {
     this.currentVersion = version
     this.updateStoreVersion(version)
     if (steps.length) {
-      this.newStepsListener()
+      const mappedSteps = steps.map((s) => Step.fromJSON(schema, s))
+      this.newStepsListener(mappedSteps, clientIDs)
     }
   }
 

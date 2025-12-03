@@ -38,7 +38,8 @@ import {
 
 export class Api {
   instance: AxiosInstance
-
+  ws: WebSocket
+  token: string
   constructor(getAuthToken: () => Promise<string | undefined>) {
     const config = getConfig()
     this.instance = axios.create({
@@ -74,6 +75,7 @@ export class Api {
   }
 
   post = async <T>(path: string, data: unknown) => {
+    console.log('post', path, data)
     return this.instance
       .post<T>(path, data)
       .then((result) => result.data)
@@ -186,8 +188,6 @@ export class Api {
     const base = config.api.url.replace('http', 'ws')
     const url = `${base}/doc/${projectID}/manuscript/${manuscriptID}/listen`
 
-    let ws: WebSocket
-
     const onOpen = () => {
       console.log('Established WebSocket connection')
     }
@@ -219,14 +219,14 @@ export class Api {
     }
 
     const close = () => {
-      if (!ws) {
+      if (!this.ws) {
         return
       }
-      ws.removeEventListener('open', onOpen)
-      ws.removeEventListener('message', onMessage)
-      ws.removeEventListener('close', onClose)
-      ws.removeEventListener('error', onError)
-      ws.close()
+      this.ws.removeEventListener('open', onOpen)
+      this.ws.removeEventListener('message', onMessage)
+      this.ws.removeEventListener('close', onClose)
+      this.ws.removeEventListener('error', onError)
+      this.ws.close()
     }
 
     const rejoin = () => {
@@ -236,11 +236,11 @@ export class Api {
 
     const join = () => {
       try {
-        ws = new WebSocket(url)
-        ws.addEventListener('open', onOpen)
-        ws.addEventListener('message', onMessage)
-        ws.addEventListener('close', onClose)
-        ws.addEventListener('error', onError)
+        this.ws = new WebSocket(url)
+        this.ws.addEventListener('open', onOpen)
+        this.ws.addEventListener('message', onMessage)
+        this.ws.addEventListener('close', onClose)
+        this.ws.addEventListener('error', onError)
       } catch (e) {
         console.log(e)
         rejoin()
