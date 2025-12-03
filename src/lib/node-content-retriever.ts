@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
-  BibliographyItemAttrs,
   bibliographyPluginKey,
   findNodeByID,
   getFootnoteLabel,
@@ -18,6 +17,7 @@ import {
   objectsPluginKey,
 } from '@manuscripts/body-editor'
 import {
+  BibliographyItemAttrs,
   FootnoteNode,
   ManuscriptEditorState,
   ManuscriptNode,
@@ -51,16 +51,20 @@ export class NodeTextContentRetriever {
     if (node.type === schema.nodes.citation) {
       const text = bib?.renderedCitations.get(id)
       const citation = domPurify.sanitize(
-        text && text !== '[NO_PRINTED_FORM]' ? text : ' ',
+        text === '(n.d.)'
+          ? 'Missing citation data'
+          : text && text !== '[NO_PRINTED_FORM]'
+            ? text
+            : ' ',
         {
           ALLOWED_TAGS: ['i', 'b', 'span', 'sup', 'sub', '#text'],
         }
       )
       return citation ? citation.replace(/<[^>]*>/g, '') : ''
     } else {
-      return `<span> ${node.attrs.title || 'untitled'} </span> ${metadata(
-        node.attrs as BibliographyItemAttrs
-      )}`
+      return `<span> ${
+        node.attrs.title || node.attrs.literal || 'untitled'
+      } </span> ${metadata(node.attrs as BibliographyItemAttrs)}`
     }
   }
 
@@ -80,10 +84,23 @@ export class NodeTextContentRetriever {
    * Retrieves the label of a figure node.
    */
   public getFigureLabel(node: ManuscriptNode): string {
-    const objectsPlugin = objectsPluginKey.get(this.state)
-    const pluginState = objectsPlugin?.getState(this.state)
-    const target = pluginState?.get(node.attrs.id)
-    return target?.label || ''
+    try {
+      const objectsPlugin = objectsPluginKey.get(this.state)
+      if (!objectsPlugin) {
+        return ''
+      }
+
+      const pluginState = objectsPlugin.getState(this.state)
+      if (!pluginState) {
+        return ''
+      }
+
+      const target = pluginState.get(node.attrs.id)
+      return target?.label || ''
+    } catch (error) {
+      console.error('Error getting figure label:', error)
+      return ''
+    }
   }
 
   /**
@@ -95,11 +112,11 @@ export class NodeTextContentRetriever {
   ): string {
     const rid = attrs.rids[0]
     if (!rid) {
-      return ''
+      return '?'
     }
     const footnote = findNodeByID(state.doc, rid)?.node
     if (!footnote) {
-      return ''
+      return '?'
     }
     const label = getFootnoteLabel(state, footnote as FootnoteNode)
     const text = footnote.textContent ?? ''

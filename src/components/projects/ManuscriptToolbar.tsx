@@ -11,16 +11,18 @@
  */
 
 import {
-  LevelSelector,
+  templateAllows,
   toolbar,
   ToolbarButtonConfig,
+  TypeSelector,
 } from '@manuscripts/body-editor'
-import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+import { Tooltip } from '@manuscripts/style-guide'
+import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
-import { getConfig } from '../../config'
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 
@@ -43,6 +45,7 @@ const ToolbarButton = styled.button.attrs({
   display: inline-flex;
   align-items: center;
   transition: 0.2s all;
+  height: 32px;
 
   &:hover {
     background: ${(props) =>
@@ -56,6 +59,7 @@ const ToolbarButton = styled.button.attrs({
 
   &:disabled {
     opacity: 0.2;
+    cursor: not-allowed;
   }
 `
 
@@ -81,6 +85,7 @@ export const ToolbarGroup = styled.div`
 
   & ${ToolbarItem} button {
     margin-right: 0;
+    max-height: 32px;
   }
 
   & ${ToolbarItem}:not(:first-of-type) button {
@@ -100,9 +105,10 @@ export const ToolbarGroup = styled.div`
 
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
-  const config = getConfig()
 
-  const [editor] = useStore((store) => store.editor)
+  const [{ editor }] = useStore((store) => ({
+    editor: store.editor,
+  }))
 
   if (!editor || !editor.view) {
     return null
@@ -116,16 +122,13 @@ export const ManuscriptToolbar: React.FC = () => {
     item: ToolbarButtonConfig,
     state: EditorState
   ) => {
-    if (id === 'table_element' && !config.features.tableEditing) {
-      return false
-    }
     return item.isEnabled(state)
   }
 
   return (
-    <ToolbarContainer data-cy={'toolbar'}>
+    <ToolbarContainer data-cy="toolbar">
       <ToolbarGroup>
-        <LevelSelector state={state} dispatch={view.dispatch} view={view} />
+        <TypeSelector state={state} dispatch={view.dispatch} view={view} />
       </ToolbarGroup>
 
       {Object.entries(toolbar).map(([groupKey, group]) => (
@@ -133,11 +136,13 @@ export const ManuscriptToolbar: React.FC = () => {
           {Object.entries(group)
             .filter(([key]) => {
               switch (key) {
-                case 'footnotes':
-                  return config.features.footnotes
                 case 'comment':
                   return can.handleOwnComments
                 default:
+                  if (groupKey === 'element') {
+                    const nodeType = schema.nodes[key]
+                    return nodeType ? templateAllows(state, nodeType) : true
+                  }
                   return true
               }
             })
@@ -159,9 +164,10 @@ export const ManuscriptToolbar: React.FC = () => {
                     disabled={!isEnabled(key, item, state)}
                     onClick={(e) => {
                       e.preventDefault()
-                      item.run(state, view.dispatch)
+                      item.run(state, view.dispatch, view)
                       view && view.focus()
                     }}
+                    aria-label={item.title}
                   >
                     {item.content}
                   </ToolbarButton>

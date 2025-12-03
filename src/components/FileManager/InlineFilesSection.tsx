@@ -11,20 +11,45 @@
  */
 import {
   ElementFiles,
-  findGraphicalAbstractFigureElement,
+  getMediaTypeInfo,
   NodeFile,
 } from '@manuscripts/body-editor'
-import { FileType, getFileTypeIcon } from '@manuscripts/style-guide'
+import {
+  FileFigureIcon,
+  FileGraphicalAbstractIcon,
+  FileImageIcon,
+  FileVideoIcon,
+  ToggleIcon,
+  Tooltip,
+  TriangleCollapsedIcon,
+  TriangleExpandedIcon,
+} from '@manuscripts/style-guide'
+import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
-import React, { useMemo } from 'react'
-import styled from 'styled-components'
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
+import React, { useMemo, useState } from 'react'
 
+import { trimFilename } from '../../lib/files'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
-import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
-import { FileSectionType, Replace } from './FileManager'
-import { FileName } from './FileName'
+import {
+  FileGroup,
+  FileGroupContainer,
+  FileGroupHeader,
+  FileGroupItemContainer,
+  FileLabel,
+} from './FileGroup'
+import { FileSectionType } from './FileManager'
+import { FileNameText } from './FileName'
+import { FileTypeIcon } from './FileTypeIcon'
+
+type FileMetadata = {
+  element: ElementFiles
+  label: string
+  icon: React.FC<React.SVGAttributes<SVGElement>>
+  files: NodeFile[]
+}
 
 export type InlineFilesSectionProps = {
   elements: ElementFiles[]
@@ -33,16 +58,79 @@ export type InlineFilesSectionProps = {
 export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   elements,
 }) => {
-  const [{ view, fileManagement }] = useStore((s) => ({
+  const [{ view, fileManagement, sectionCategories }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
+    sectionCategories: s.sectionCategories,
   }))
 
-  const ga = useMemo(
-    () =>
-      view ? findGraphicalAbstractFigureElement(view.state.doc) : undefined,
-    [view]
+  const groupedMetadata: FileMetadata[] = useMemo(() => {
+    if (!view) {
+      return []
+    }
+
+    let figureIndex = 1
+    let imageIndex = 1
+    let mediaIndex = 1
+
+    const groups: FileMetadata[] = []
+
+    for (const element of elements) {
+      const $pos = view.state.doc.resolve(element.pos)
+      const section = findParentNodeOfTypeClosestToPos(
+        $pos,
+        schema.nodes.graphical_abstract_section
+      )
+
+      let label: string
+      let icon: React.FC<React.SVGAttributes<SVGElement>>
+
+      if (section) {
+        const category = section.node.attrs.category
+        label = sectionCategories.get(category)?.titles[0] || ''
+        icon = FileGraphicalAbstractIcon
+      } else if (element.node.type === schema.nodes.image_element) {
+        label = `Image ${imageIndex++}`
+        icon = FileImageIcon
+      } else if (element.node.type === schema.nodes.embed) {
+        label = `Media ${mediaIndex++}`
+        icon = FileVideoIcon
+
+        const hasUploadedFile = element.files.some((f) => !!f.file.id)
+        if (!hasUploadedFile) {
+          continue
+        }
+      } else {
+        label = `Figure ${figureIndex++}`
+        icon = FileFigureIcon
+      }
+
+      groups.push({
+        element,
+        label,
+        icon,
+        files: element.files.filter((f) => f.file.id),
+      })
+    }
+
+    return groups
+  }, [elements, view, sectionCategories])
+
+  const [openGroupIndexes, setOpenGroupIndexes] = useState<Set<number>>(
+    new Set(groupedMetadata.map((_, index) => index))
   )
+
+  const toggleGroupOpen = (groupIndex: number) => {
+    setOpenGroupIndexes((prevOpenIndexes) => {
+      const newOpenIndexes = new Set(prevOpenIndexes)
+      if (newOpenIndexes.has(groupIndex)) {
+        newOpenIndexes.delete(groupIndex)
+      } else {
+        newOpenIndexes.add(groupIndex)
+      }
+      return newOpenIndexes
+    })
+  }
 
   if (!view) {
     return null
@@ -56,131 +144,173 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     view.dispatch(tr)
   }
 
-  const handleDetach = async (figure: NodeFile) => {
+  const handleFileClick = (pos?: number) => {
+    if (!pos) {
+      return
+    }
     const tr = view.state.tr
-    tr.setNodeAttribute(figure.pos, 'src', '')
-    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
+    tr.setSelection(NodeSelection.create(view.state.doc, pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
   }
 
-  const handleReplace = async (figure: NodeFile, file: File) => {
+  const handleDetach = (node: ManuscriptNode, pos?: number) => {
+    if (!pos) {
+      return
+    }
+    const tr = view.state.tr
+
+    if (node.type === schema.nodes.embed) {
+      tr.setNodeAttribute(pos, 'href', '')
+    } else {
+      tr.setNodeAttribute(pos, 'src', '')
+    }
+
+    tr.setSelection(NodeSelection.create(tr.doc, pos))
+    tr.scrollIntoView()
+    view.focus()
+    view.dispatch(tr)
+  }
+
+  const handleDelete = (node: ManuscriptNode, pos?: number) => {
+    if (!pos || !view) {
+      return
+    }
+
+    if (
+      node?.type === schema.nodes.figure ||
+      node?.type === schema.nodes.embed
+    ) {
+      const tr = view.state.tr
+      tr.delete(pos, pos + node.nodeSize)
+      view.dispatch(tr)
+    }
+  }
+
+  const handleReplace = async (
+    node: ManuscriptNode,
+    pos?: number,
+    file?: File
+  ) => {
+    if (!pos || !file) {
+      return
+    }
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
-    tr.setNodeAttribute(figure.pos, 'src', uploaded.id)
-    tr.setSelection(NodeSelection.create(tr.doc, figure.pos))
+
+    if (node.type === schema.nodes.embed) {
+      const mediaInfo = getMediaTypeInfo(file)
+      tr.setNodeAttribute(pos, 'href', uploaded.id)
+      tr.setNodeAttribute(pos, 'mimetype', mediaInfo.mimetype)
+      tr.setNodeAttribute(pos, 'mimeSubtype', mediaInfo.mimeSubtype)
+    } else {
+      tr.setNodeAttribute(pos, 'src', uploaded.id)
+    }
+
+    tr.setSelection(NodeSelection.create(tr.doc, pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
-  }
-
-  const getElementFileType = (element: ElementFiles) => {
-    if (element.node.attrs.id === ga?.node.attrs.id) {
-      return FileType.GraphicalAbstract
-    }
-    return FileType.Figure
-  }
-
-  const getElementFileLabel = (index: number) => {
-    if (index === 0 && ga) {
-      return 'Graphical Abstract'
-    }
-    if (!ga) {
-      index++
-    }
-    return `Figure ${index}`
   }
 
   return (
     <>
-      {elements.map((element, index) => (
-        <Element key={index} onClick={() => handleClick(element)}>
-          <ElementLabelContainer>
-            {getFileTypeIcon(getElementFileType(element))}
-            <ElementLabel>{getElementFileLabel(index)}</ElementLabel>
-          </ElementLabelContainer>
-          <ElementFilesContainer data-cy="file-elements-container">
-            {element.files?.map((figure) => (
-              <ElementFile
-                key={figure.file.id}
-                figure={figure}
-                onReplace={async (f) => await handleReplace(figure, f)}
-                onDetach={async () => await handleDetach(figure)}
-                onDownload={() => fileManagement.download(figure.file)}
-              />
-            ))}
-          </ElementFilesContainer>
-        </Element>
-      ))}
+      {groupedMetadata.map((group, groupIndex) => {
+        const isOpen = openGroupIndexes.has(groupIndex)
+        const figureCount = group.files.length
+
+        return (
+          <FileGroupContainer
+            data-cy="file-container"
+            key={groupIndex}
+            onClick={() => handleClick(group.element)}
+          >
+            <FileGroupHeader>
+              <group.icon className="file-icon" />
+              {group.label && <FileLabel>{group.label}:</FileLabel>}
+              {group.files.length > 0 && (
+                <ToggleIcon
+                  isOpen={isOpen}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    toggleGroupOpen(groupIndex)
+                  }}
+                >
+                  {isOpen ? (
+                    <TriangleExpandedIcon />
+                  ) : (
+                    <TriangleCollapsedIcon />
+                  )}
+                </ToggleIcon>
+              )}
+            </FileGroupHeader>
+            {isOpen && group.files.length > 0 && (
+              <FileGroup>
+                {group.files.map((fileAttachment, fileIndex) => (
+                  <FileGroupItemContainer
+                    key={fileIndex}
+                    data-tooltip-id={`${fileAttachment.file?.id}-file-name-tooltip`}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleFileClick(fileAttachment.pos)
+                    }}
+                  >
+                    {fileAttachment.file && (
+                      <FileTypeIcon file={fileAttachment.file} />
+                    )}
+                    <FileNameText data-cy="filename">
+                      {fileAttachment.file?.name
+                        ? trimFilename(fileAttachment.file.name, 25)
+                        : 'Unknown file'}
+                      {fileAttachment.file?.name && (
+                        <Tooltip
+                          id={`${fileAttachment.file?.id}-file-name-tooltip`}
+                          place="bottom"
+                        >
+                          {fileAttachment.file?.name || 'Figure'}
+                        </Tooltip>
+                      )}
+                    </FileNameText>
+                    {fileAttachment.file && (
+                      <FileCreatedDate
+                        file={fileAttachment.file}
+                        className="show-on-hover"
+                      />
+                    )}
+                    <FileActions
+                      sectionType={FileSectionType.Inline}
+                      onReplace={async (f) =>
+                        await handleReplace(
+                          fileAttachment.node,
+                          fileAttachment.pos,
+                          f
+                        )
+                      }
+                      onDetach={() =>
+                        handleDetach(fileAttachment.node, fileAttachment.pos)
+                      }
+                      onDownload={() =>
+                        fileAttachment.file &&
+                        fileManagement.download(fileAttachment.file)
+                      }
+                      onDelete={
+                        figureCount > 1
+                          ? () =>
+                              handleDelete(
+                                fileAttachment.node,
+                                fileAttachment.pos
+                              )
+                          : undefined
+                      }
+                    />
+                  </FileGroupItemContainer>
+                ))}
+              </FileGroup>
+            )}
+          </FileGroupContainer>
+        )
+      })}
     </>
   )
 }
-
-const ElementFile: React.FC<{
-  figure: NodeFile
-  onDownload: () => void
-  onReplace?: Replace
-  onDetach?: () => void
-}> = ({ figure, onDownload, onReplace, onDetach }) => {
-  return (
-    <ModelFileContainer data-cy="file-container">
-      <FileName file={figure.file} />
-      <FileCreatedDate file={figure.file} className="show-on-hover" />
-      <FileActions
-        data-cy="file-actions"
-        sectionType={FileSectionType.Inline}
-        onDownload={figure.file ? onDownload : undefined}
-        onDetach={figure.file ? onDetach : undefined}
-        onReplace={onReplace}
-      />
-    </ModelFileContainer>
-  )
-}
-
-const Element = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-
-  border-bottom: 1px dashed #f0f0f0;
-
-  svg {
-    width: 24px;
-  }
-
-  :last-child {
-    border-bottom: 0;
-  }
-`
-
-const ElementLabelContainer = styled.div`
-  display: flex;
-  padding: 20px 16px;
-  cursor: pointer;
-`
-
-const ElementLabel = styled.div`
-  color: ${(props) => props.theme.colors.text.primary};
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 20px;
-  white-space: nowrap;
-  margin-left: ${(props) => props.theme.grid.unit * 2}px;
-`
-
-const ElementFilesContainer = styled.div`
-  width: 100%;
-  > :last-child {
-    margin-bottom: 25px;
-  }
-`
-
-const ModelFileContainer = styled(FileContainer)`
-  padding: 8px 16px;
-  height: 40px;
-
-  path {
-    fill: #6e6e6e;
-  }
-`

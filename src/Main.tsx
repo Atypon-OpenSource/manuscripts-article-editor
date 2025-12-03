@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import React from 'react'
@@ -22,11 +22,14 @@ const Main: React.FC<EditorAppProps> = ({
   files,
   manuscriptID,
   projectID,
-  authToken,
   permittedActions,
+  getAuthToken,
   observer,
+  pluginInspectorTab,
 }) => (
-  <DndProvider backend={HTML5Backend}>
+  <DndProvider backend={HTML5Backend} context={window}>
+    {/* Using context={window} to to access the same DndProvider context, avoiding conflicts when multiple React roots
+    try to initialize their own HTML5Backend instances.*/}
     <GlobalStyle />
     <EditorApp
       fileManagement={fileManagement}
@@ -34,8 +37,9 @@ const Main: React.FC<EditorAppProps> = ({
       manuscriptID={manuscriptID}
       projectID={projectID}
       permittedActions={permittedActions}
-      authToken={authToken}
+      getAuthToken={getAuthToken}
       observer={observer}
+      pluginInspectorTab={pluginInspectorTab}
     />
   </DndProvider>
 )

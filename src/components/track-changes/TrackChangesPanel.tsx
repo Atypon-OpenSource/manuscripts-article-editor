@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import {
@@ -20,7 +20,6 @@ import React, { useCallback, useState } from 'react'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
 import { useStore } from '../../store'
-import { SnapshotsDropdown } from '../inspector/SnapshotsDropdown'
 import { SortByDropdown } from './SortByDropdown'
 import { SuggestionList } from './suggestion-list/SuggestionList'
 import { setChangeStatus, setSelectedSuggestion } from './utils'
@@ -28,13 +27,13 @@ import { setChangeStatus, setSelectedSuggestion } from './utils'
 export const TrackChangesPanel: React.FC = () => {
   const [sortBy, setSortBy] = useState('in Context')
 
-  const [{ trackState, selectedSuggestionID }, _, getState] = useStore(
-    (store) => ({
+  const [{ trackState, selectedSuggestionID, isComparingMode }, _, getState] =
+    useStore((store) => ({
       // @TODO - check if trackstate actually issues some updates and we listen to them
       trackState: store.trackState,
       selectedSuggestionID: store.selectedSuggestionID,
-    })
-  )
+      isComparingMode: store.isComparingMode,
+    }))
 
   const handleSelect = useCallback((suggestions: RootChange) => {
     setSelectedSuggestion(suggestions, getState)
@@ -64,20 +63,33 @@ export const TrackChangesPanel: React.FC = () => {
     execCmd(trackCommands.setChangeStatuses(CHANGE_STATUS.accepted, ids))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  const title = isComparingMode ? 'Changes' : 'Suggestions'
   return (
     <>
-      <SnapshotsDropdown />
       <SortByDropdown sortBy={sortBy} setSortBy={setSortBy} />
       <SuggestionList
         type="all"
         changes={changeSet?.groupChanges || []}
         selectionID={selectedSuggestionID}
-        title="Suggestions"
+        title={title}
         sortBy={sortBy}
-        onAccept={handleAccept}
-        onReject={handleReject}
-        onAcceptAll={changeSet?.pending.length ? handleAcceptAll : undefined}
+        onAccept={(change) => {
+          if (!isComparingMode) {
+            handleAccept(change)
+          }
+        }}
+        onReject={(change) => {
+          if (!isComparingMode) {
+            handleReject(change)
+          }
+        }}
+        onAcceptAll={
+          isComparingMode
+            ? undefined
+            : changeSet?.pending.length
+              ? handleAcceptAll
+              : undefined
+        }
         onSelect={handleSelect}
       />
     </>

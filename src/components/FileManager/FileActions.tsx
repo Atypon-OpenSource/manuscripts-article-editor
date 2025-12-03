@@ -9,18 +9,20 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { FileAttachment } from '@manuscripts/body-editor'
 import {
+  AttentionOrangeIcon,
   Category,
   Dialog,
   DotsIcon,
   DropdownContainer,
   DropdownList,
   useDropdown,
-  usePermissions,
 } from '@manuscripts/style-guide'
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { FileSectionType, Move, Replace } from './FileManager'
 
 /**
@@ -31,26 +33,48 @@ export const FileActions: React.FC<{
   onDownload?: () => void
   onReplace?: Replace
   onDetach?: () => void
+  onDelete?: () => void
+  onUseAsMain?: () => void
   move?: Move
   className?: string
-}> = ({ sectionType, onDownload, onReplace, onDetach, move, className }) => {
+  file?: FileAttachment
+  accept?: string
+}> = ({
+  sectionType,
+  onDownload,
+  onReplace,
+  onDetach,
+  onDelete,
+  onUseAsMain,
+  move,
+  className,
+  file,
+  accept,
+}) => {
   const can = usePermissions()
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const [isMoveDialogOpen, setMoveDialogOpen] = useState<boolean>(false)
+  const [isUseAsMainDialogOpen, setUseAsMainDialogOpen] =
+    useState<boolean>(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const showDownload = can?.downloadFiles && onDownload
   const showReplace = can?.replaceFile && onReplace
   const showDetach = can?.detachFile && onDetach
+  const showDelete = can?.detachFile && onDelete
   const showMove = can?.moveFile && move
+  const showUseAsMain =
+    can?.moveFile && onUseAsMain && isValidMainDocumentFormat(file)
 
-  const show = showDownload || showReplace || showDetach || showMove
-
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const show =
+    showDownload || showReplace || showDetach || showMove || showUseAsMain
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (onReplace && event && event.target && event.target.files) {
-      const file = event.target.files[0]
-      await onReplace(file)
+    if (onReplace && event?.target?.files?.[0]) {
+      await onReplace(event.target.files[0])
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
@@ -60,6 +84,23 @@ export const FileActions: React.FC<{
     }
   }
 
+  // Fix: Close dropdown when clicking outside or pressing escape
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        toggleOpen()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen, wrapperRef, toggleOpen])
+
   if (!show) {
     return null
   }
@@ -67,11 +108,14 @@ export const FileActions: React.FC<{
   return (
     <DropdownContainer ref={wrapperRef}>
       <ActionsIcon
-        onClick={toggleOpen}
+        onClick={(e) => {
+          e.stopPropagation()
+          toggleOpen()
+        }}
         type="button"
         className="show-on-hover"
         data-cy="file-actions"
-        aria-label="Actions"
+        aria-label="File Actions"
         aria-pressed={isOpen}
       >
         <DotsIcon />
@@ -83,7 +127,7 @@ export const FileActions: React.FC<{
           className={className}
           width={192}
           top={5}
-          onClick={toggleOpen}
+          onClick={(e) => e.stopPropagation()}
         >
           {showDownload && (
             <FileAction onClick={onDownload}>Download</FileAction>
@@ -96,20 +140,26 @@ export const FileActions: React.FC<{
                 type="file"
                 style={{ display: 'none' }}
                 onChange={handleChange}
+                accept={accept}
               />
             </>
           )}
           {showDetach && <FileAction onClick={onDetach}>Detach</FileAction>}
+          {showDelete && <FileAction onClick={onDelete}>Delete</FileAction>}
           {showMove && (
             <FileAction onClick={() => setMoveDialogOpen(true)}>
               Move to {move.sectionType}
+            </FileAction>
+          )}
+          {showUseAsMain && (
+            <FileAction onClick={() => setUseAsMainDialogOpen(true)}>
+              Use as main document
             </FileAction>
           )}
         </FileActionDropdownList>
       )}
       {showMove && (
         <MoveFileConfirmationDialog
-          data-cy="file-move-confirm-dialog"
           isOpen={isMoveDialogOpen}
           close={() => setMoveDialogOpen(false)}
           source={sectionType}
@@ -117,7 +167,60 @@ export const FileActions: React.FC<{
           handleMove={move.handler}
         />
       )}
+      {showUseAsMain && (
+        <UseAsMainConfirmationDialog
+          data-cy="file-use-as-main-confirm-dialog"
+          isOpen={isUseAsMainDialogOpen}
+          close={() => setUseAsMainDialogOpen(false)}
+          handleUseAsMain={onUseAsMain}
+        />
+      )}
     </DropdownContainer>
+  )
+}
+
+const UseAsMainConfirmationDialog: React.FC<{
+  isOpen: boolean
+  close: () => void
+  handleUseAsMain: () => void
+}> = ({ isOpen, close, handleUseAsMain }) => {
+  const header = (
+    <>
+      <StyledIcon />
+      Use as main document
+    </>
+  )
+  const message = (
+    <>
+      This action will replace the current main document file with this one!
+      <br />
+      <br />
+      Do you want to continue?
+    </>
+  )
+
+  const handleConfirm = () => {
+    handleUseAsMain()
+    close()
+  }
+
+  return (
+    <Dialog
+      isOpen={isOpen}
+      category={Category.confirmation}
+      header={header}
+      message={message}
+      actions={{
+        primary: {
+          action: handleConfirm,
+          title: 'Replace',
+        },
+        secondary: {
+          action: () => close(),
+          title: 'Cancel',
+        },
+      }}
+    />
   )
 }
 
@@ -156,6 +259,10 @@ const MoveFileConfirmationDialog: React.FC<{
   )
 }
 
+const StyledIcon = styled(AttentionOrangeIcon)`
+  margin-right: 8px;
+`
+
 export const ActionsIcon = styled.button`
   border: none;
   background: transparent;
@@ -193,3 +300,15 @@ export const FileAction = styled.div`
     background: #f2fbfc;
   }
 `
+
+const isValidMainDocumentFormat = (file?: FileAttachment): boolean => {
+  if (!file) {
+    return false
+  }
+
+  const validExtensions = ['.docx', '.doc', '.pdf', '.xml', '.tex']
+
+  return validExtensions.some((ext) =>
+    file.name.toLowerCase().endsWith(ext.toLowerCase())
+  )
+}

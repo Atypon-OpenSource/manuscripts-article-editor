@@ -69,12 +69,14 @@ const Panel: React.FC<PanelProps> = (props) => {
     hidden: false,
   })
 
-  const hideWhenQuery = useRef<MediaQueryList>()
+  const hideWhenQuery = useRef<MediaQueryList | undefined>(undefined)
   const firstRender = useRef(true)
-  const [{ selectedCommentKey, selectedSuggestionID }] = useStore((store) => ({
-    selectedCommentKey: store.selectedCommentKey,
-    selectedSuggestionID: store.selectedSuggestionID,
-  }))
+  const [{ selectedCommentKey, selectedSuggestionID, inspectorOpenTabs }] =
+    useStore((store) => ({
+      selectedCommentKey: store.selectedCommentKey,
+      selectedSuggestionID: store.selectedSuggestionID,
+      inspectorOpenTabs: store.inspectorOpenTabs,
+    }))
 
   useEffect(() => {
     const { name } = props
@@ -82,7 +84,10 @@ const Panel: React.FC<PanelProps> = (props) => {
       const data = layout.get(name)
       //we should not close the inspector automatically when
       //things are deselected
-      if (data.collapsed && (selectedCommentKey || selectedSuggestionID)) {
+      if (
+        data.collapsed &&
+        (selectedCommentKey || selectedSuggestionID || inspectorOpenTabs)
+      ) {
         updateState(
           layout.set(name, {
             ...data,
@@ -92,7 +97,7 @@ const Panel: React.FC<PanelProps> = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCommentKey, selectedSuggestionID])
+  }, [selectedCommentKey, selectedSuggestionID, inspectorOpenTabs])
 
   useEffect(() => {
     if (props.hideWhen) {

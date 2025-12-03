@@ -10,18 +10,20 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { FileAttachment } from '@manuscripts/body-editor'
+import { bibliographyItemTypes, FileAttachment } from '@manuscripts/body-editor'
 import { BibliographicDate, BibliographicName } from '@manuscripts/json-schema'
-import { bibliographyItemTypes } from '@manuscripts/library'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
   AffiliationNode,
   BibliographyItemNode,
+  CreditRole,
   FootnoteNode,
   isCitationNode,
   isInlineFootnoteNode,
   ManuscriptNode,
 } from '@manuscripts/transform'
+
+const bibliographyItemTypeMap = new Map(bibliographyItemTypes)
 
 /**
  * Filter PN node attributes to show for comparing them with old change
@@ -91,9 +93,7 @@ const createAttrsDisplay = (
         case 'type':
           return (filteredAttrs[key] = {
             label: getLabel(key),
-            value:
-              bibliographyItemTypes.get(value as CSL.ItemType) ||
-              (value as string),
+            value: bibliographyItemTypeMap.get(value) || (value as string),
           })
 
         case 'bibliographicName':
@@ -111,8 +111,10 @@ const createAttrsDisplay = (
                 const rids = value as string[]
                 if (rids.includes(fn.attrs.id)) {
                   const fnText =
-                    fn.text?.substring(0, limit) +
-                    (fn.text && fn.text.length > limit ? '...' : '')
+                    fn.textContent?.substring(0, limit) +
+                    (fn.textContent && fn.textContent.length > limit
+                      ? '...'
+                      : '')
                   return acc ? acc + ', ' + fnText : fnText
                 }
                 return acc
@@ -126,7 +128,7 @@ const createAttrsDisplay = (
               value: references.reduce((acc, ref) => {
                 const rids = value as string[]
                 if (rids.includes(ref.attrs.id)) {
-                  const refText = ref.attrs.title || ref.attrs.doi || ''
+                  const refText = ref.attrs.title || ref.attrs.DOI || ''
                   return acc ? acc + ', \n' + refText : refText
                 }
 
@@ -157,15 +159,21 @@ const createAttrsDisplay = (
               .join(', '),
           })
 
-        case 'role':
+        case 'creditRoles':
           return (filteredAttrs[key] = {
-            label: 'Include in Authors List',
-            value: value === 'author' ? 'Yes' : 'No',
+            label: 'CRediT Role',
+            value: Array.isArray(value)
+              ? (value as CreditRole[]).map((r) => r.vocabTerm).join(', ')
+              : '',
           })
-
         case 'src':
           return (filteredAttrs[key] = {
             label: 'File',
+            value: files.find((f) => f.id === value)?.name || (value as string),
+          })
+        case 'extLink':
+          return (filteredAttrs[key] = {
+            label: 'Linked File',
             value: files.find((f) => f.id === value)?.name || (value as string),
           })
         case 'issued':
@@ -195,6 +203,16 @@ const createAttrsDisplay = (
           filteredAttrs[key] = {
             label: 'Institution Name',
             value: value as string,
+          }
+          return
+
+        case 'priority':
+          // show the value of priority only if it's a number
+          if (typeof value === 'number') {
+            filteredAttrs[key] = {
+              label: 'Author reordered',
+              value: String(value),
+            }
           }
           return
 

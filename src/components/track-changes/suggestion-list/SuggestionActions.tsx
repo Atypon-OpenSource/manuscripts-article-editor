@@ -9,11 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+import { Tooltip } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../../lib/capabilities'
 import { useStore } from '../../../store'
 import { Accept, Reject } from './Icons'
 
@@ -59,6 +60,7 @@ const SuggestionAction: React.FC<Props> = ({
             onClick={() => handleReject(suggestions)}
             aria-pressed={false}
             data-tooltip-id={rejectTooltip}
+            aria-label="Reject"
           >
             <Reject color="#353535" />
           </Action>
@@ -75,6 +77,7 @@ const SuggestionAction: React.FC<Props> = ({
             aria-pressed={false}
             data-tip={true}
             data-tooltip-id={approveTooltip}
+            aria-label="Approve"
           >
             <Accept color="#353535" />
           </Action>

@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
@@ -33,7 +33,7 @@ export const InspectorTabs = styled(TabGroup)`
 export const InspectorTabList = styled(TabList)`
   && {
     background: none;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: ${(props) => props.theme.font.size.normal};
     color: ${(props) => props.theme.colors.text.primary};
     flex-shrink: 0;
@@ -41,8 +41,8 @@ export const InspectorTabList = styled(TabList)`
   }
 `
 
-export const InspectorPanelTabList = styled(InspectorTabList)`
-  margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
+export const PrimaryTabList = styled(InspectorTabList)`
+  background-color: #fafafa !important;
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -50,27 +50,72 @@ export const InspectorTabPanels = styled(TabPanels)`
   overflow-y: auto;
 `
 
-export const PaddedInspectorTabPanels = styled(InspectorTabPanels)`
-  padding-bottom: 64px; // allow space for chat button
-`
-
 export const InspectorTabPanel = styled(TabPanel)`
   font-size: ${(props) => props.theme.font.size.normal};
   color: ${(props) => props.theme.colors.text.secondary};
+  height: 98%;
 `
 
-export const InspectorTab = styled(Tab)`
+const BaseInspectorTab = styled(Tab)`
   && {
+    font-size: ${(props) => props.theme.font.size.normal};
     font-family: inherit;
     background: none;
-    padding: ${(props) => props.theme.grid.unit * 2}px;
     border: none;
     color: inherit;
-    border-bottom: 1px solid transparent;
     cursor: pointer;
     &:focus {
       outline: none;
     }
+  }
+`
+export const PrimaryInspectorTab = styled(BaseInspectorTab)`
+  && {
+    padding: ${(props) => props.theme.grid.unit * 2.5}px
+      ${(props) => props.theme.grid.unit * 4}px
+      ${(props) => props.theme.grid.unit * 2.5}px;
+    border: 1px solid #f2f2f2;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 2px;
+
+    /* Style the wrapper div */
+    div {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      justify-content: center;
+    }
+
+    /* Show text when tab is active */
+    &[aria-selected='true'] {
+      padding-top: ${(props) => props.theme.grid.unit * 2.5 - 2}px;
+      border-top-color: #6e6e6e;
+      border-top-width: 3px;
+      border-bottom-color: transparent;
+      background: ${(props) => props.theme.colors.background.primary};
+      margin-bottom: -1px;
+      span {
+        display: inline;
+        margin-left: 4px;
+      }
+    }
+
+    /* Ensure icon is always visible */
+    svg {
+      flex-shrink: 0;
+    }
+  }
+`
+export const SecondaryInspectorTab = styled(BaseInspectorTab)`
+  && {
+    padding: ${(props) => props.theme.grid.unit * 4}px
+      ${(props) => props.theme.grid.unit * 2}px
+      ${(props) => props.theme.grid.unit * 2}px
+      ${(props) => props.theme.grid.unit * 2}px;
+    border-bottom: 1px solid transparent;
 
     &[aria-selected='true'] {
       border-color: ${(props) => props.theme.colors.brand.default};
@@ -81,4 +126,55 @@ export const InspectorTab = styled(Tab)`
 
 export const InspectorTabPanelHeading = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
+`
+
+export const WarningBadge = styled.div`
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #fe8f1f;
+  color: white;
+  border-radius: 50%;
+  min-width: 14px;
+  height: 14px;
+  font-family: 'Lato', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1;
+  z-index: 10;
+`
+export const ErrorBadge = styled(WarningBadge)`
+  background-color: #f35143;
+`
+
+export const IconWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`
+export const Spacer = styled.span`
+  flex: 1 0 auto;
+`
+export const TabText = styled.span<{
+  targetWidth: number
+  skipTransition: boolean
+}>`
+  margin-left: 0.1em;
+  overflow: hidden;
+  display: block;
+  opacity: ${(props) => (props.targetWidth > 0 ? '1' : '0')};
+  max-width: ${(props) => props.targetWidth}px;
+  transition:
+    max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')} ease,
+    opacity ${(props) => (props.skipTransition ? '0s' : '0.5s')};
+`
+export const TabsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fafafa;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `

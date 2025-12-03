@@ -17,13 +17,18 @@ import {
   UserProfile,
 } from '@manuscripts/json-schema'
 import { ManuscriptTemplate } from '@manuscripts/transform'
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios'
 import { createContext, useContext } from 'react'
 
 import { getConfig } from '../config'
 import { ManuscriptDoc, ManuscriptSnapshot } from '../lib/doc'
 import {
   CreateSnapshotResponse,
+  Language,
   SendStepsPayload,
   SendStepsResponse,
   StepsListener,
@@ -35,13 +40,24 @@ export class Api {
   instance: AxiosInstance
   ws: WebSocket
   token: string
-  constructor(authToken: string) {
+  constructor(getAuthToken: () => Promise<string | undefined>) {
     const config = getConfig()
     this.instance = axios.create({
       baseURL: config.api.url,
-      headers: { ...config.api.headers, Authorization: 'Bearer ' + authToken },
+      headers: { ...config.api.headers },
     })
-    this.token = authToken
+    this.instance.interceptors.request.use((config) =>
+      this.authInterceptor(config, getAuthToken)
+    )
+  }
+
+  authInterceptor = async (
+    config: InternalAxiosRequestConfig,
+    getToken: () => Promise<string | undefined>
+  ) => {
+    const token = await getToken()
+    config.headers.Authorization = 'Bearer ' + token
+    return config
   }
 
   get = async <T>(url: string) => {
@@ -86,7 +102,7 @@ export class Api {
   getUser = () => this.get<UserProfile>('user')
 
   getCSLLocale = (lang: string) =>
-    lang !== 'en-US' ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
+    lang ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
 
   getTemplate = (id?: string) =>
     id ? this.get<ManuscriptTemplate>(`/templates?id=${id}`) : undefined
@@ -100,6 +116,8 @@ export class Api {
     bundle?.csl?._id
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
+
+  getLanguages = () => this.get<Language[]>('/languages')
 
   getUserProfiles = (containerID: string) =>
     this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)

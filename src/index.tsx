@@ -7,33 +7,29 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import './lib/fonts'
 
-import decode from 'jwt-decode'
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense } from 'react'
 
 import { LoadingPage } from './components/Loading'
 import { ManuscriptsEditorConfig, setConfig } from './config'
 import { EditorAppProps } from './EditorApp'
-import tokenHandler from './lib/token'
-import { TokenPayload } from './lib/user'
-import store from './lib/user-id'
+export type { EditorAppProps } from './EditorApp'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
-
+export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 export { ProjectRole } from './lib/roles'
 export type { state } from './store'
 export { getUserRole } from './lib/roles'
-export type {
-  AppState,
-  AppStateRef,
-  EditorAppProps,
-  AppStateObserver,
-} from './EditorApp'
+export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
+export {
+  InspectorPanel,
+  InspectorAction,
+} from './hooks/use-inspector-tabs-context'
 
 const ManuscriptEditor: React.FC<
   EditorAppProps & { config: ManuscriptsEditorConfig }
@@ -43,30 +39,12 @@ const ManuscriptEditor: React.FC<
   manuscriptID,
   projectID,
   permittedActions,
-  authToken,
+  getAuthToken,
   config,
   observer,
+  pluginInspectorTab,
 }) => {
-  useMemo(() => {
-    if (authToken) {
-      tokenHandler.remove()
-      tokenHandler.set(authToken) // @TODO actually relogin whe the token changes
-      const { userID } = decode<TokenPayload>(authToken)
-
-      if (!userID) {
-        throw new Error('Invalid token')
-      }
-
-      store.set(userID)
-    }
-    return () => {
-      tokenHandler.remove()
-      store.remove()
-    }
-  }, [authToken])
-
   setConfig(config)
-
   return (
     <>
       <ThemeProvider>
@@ -76,11 +54,12 @@ const ManuscriptEditor: React.FC<
           <Main
             fileManagement={fileManagement}
             files={files}
-            authToken={authToken || ''}
             manuscriptID={manuscriptID}
             projectID={projectID}
             permittedActions={permittedActions}
+            getAuthToken={getAuthToken}
             observer={observer}
+            pluginInspectorTab={pluginInspectorTab}
           />
         </Suspense>
       </ThemeProvider>

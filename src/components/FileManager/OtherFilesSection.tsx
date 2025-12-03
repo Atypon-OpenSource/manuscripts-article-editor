@@ -9,23 +9,31 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileAttachment, insertSupplement } from '@manuscripts/body-editor'
-import { usePermissions } from '@manuscripts/style-guide'
-import React, { useEffect, useState } from 'react'
+import {
+  FileAttachment,
+  insertAttachment,
+  insertSupplement,
+} from '@manuscripts/body-editor'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
 import { FileSectionType } from './FileManager'
 import { FileName } from './FileName'
-import { FileSectionAlert, FileSectionAlertType } from './FileSectionAlert'
+import {
+  FileSectionAlert,
+  FileSectionAlertType,
+  setUploadProgressAlert,
+} from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
 
 /**
- *  This component represents the other files in the file section.
+ * This component represents the other files in the file section.
  */
 export const OtherFilesSection: React.FC<{
   files: FileAttachment[]
@@ -51,24 +59,50 @@ export const OtherFilesSection: React.FC<{
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
     })
-    await fileManagement.upload(file)
-    setAlert({
-      type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
-      message: '',
-    })
+    try {
+      await fileManagement.upload(
+        file,
+        setUploadProgressAlert(setAlert, FileSectionType.OtherFile)
+      )
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_SUCCESSFUL,
+        message: '',
+      })
+    } catch (error) {
+      const errorMessage = error
+        ? error.cause?.result
+        : error.message || 'Unknown error occurred'
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_ERROR,
+        message: errorMessage,
+      })
+    }
   }
 
   const moveToSupplements = async (file: FileAttachment) => {
-    insertSupplement(file, view.state, view.dispatch)
+    insertSupplement(file, view)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.Supplements,
     })
   }
 
+  const asMainDocument = async (file: FileAttachment) => {
+    insertAttachment(file, view.state, 'document', view.dispatch)
+    setAlert({
+      type: FileSectionAlertType.MOVE_SUCCESSFUL,
+      message: FileSectionType.MainFile,
+    })
+  }
+
   return (
     <div>
-      {can?.uploadFile && <FileUploader onUpload={handleUpload} />}
+      {can?.uploadFile && (
+        <FileUploader
+          onUpload={handleUpload}
+          placeholder="Drag or click to upload a new file"
+        />
+      )}
       <FileSectionAlert alert={alert} />
       {files.map((file) => (
         <OtherFile
@@ -76,6 +110,7 @@ export const OtherFilesSection: React.FC<{
           file={file}
           onDownload={() => fileManagement.download(file)}
           onMoveToSupplements={async () => await moveToSupplements(file)}
+          onUseAsMain={async () => await asMainDocument(file)}
         />
       ))}
     </div>
@@ -86,7 +121,8 @@ const OtherFile: React.FC<{
   file: FileAttachment
   onDownload: () => void
   onMoveToSupplements: () => Promise<void>
-}> = ({ file, onDownload, onMoveToSupplements }) => {
+  onUseAsMain: () => Promise<void>
+}> = ({ file, onDownload, onMoveToSupplements, onUseAsMain }) => {
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {
@@ -97,6 +133,13 @@ const OtherFile: React.FC<{
     }),
   })
 
+  const drag = useCallback(
+    (node: HTMLDivElement | null) => {
+      dragRef(node)
+    },
+    [dragRef]
+  )
+
   useEffect(() => {
     preview(getEmptyImage())
   }, [preview])
@@ -105,7 +148,7 @@ const OtherFile: React.FC<{
     <FileContainer
       key={file.id}
       data-cy="file-container"
-      ref={dragRef}
+      ref={drag}
       className={isDragging ? 'dragging' : ''}
     >
       <FileName file={file} />
@@ -113,10 +156,12 @@ const OtherFile: React.FC<{
       <FileActions
         sectionType={FileSectionType.OtherFile}
         onDownload={onDownload}
+        onUseAsMain={onUseAsMain}
         move={{
           sectionType: FileSectionType.Supplements,
           handler: onMoveToSupplements,
         }}
+        file={file}
       />
     </FileContainer>
   )

@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { ChangeEvent, useRef } from 'react'
+import React, { ChangeEvent, useCallback, useRef } from 'react'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import styled, { css } from 'styled-components'
@@ -20,12 +20,18 @@ type Files = {
 
 export interface FileUploaderProps {
   onUpload: (file: File) => void
+  placeholder: string
+  accept?: string
 }
 
 /**
  * This component will show the drag or upload file area
  */
-export const FileUploader: React.FC<FileUploaderProps> = ({ onUpload }) => {
+export const FileUploader: React.FC<FileUploaderProps> = ({
+  onUpload,
+  placeholder,
+  accept,
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const openFileDialog = () => {
@@ -52,11 +58,18 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onUpload }) => {
     }),
   })
 
+  const drop = useCallback(
+    (node: HTMLDivElement | null) => {
+      dropRef(node)
+    },
+    [dropRef]
+  )
+
   const isActive = canDrop && isOver
 
   return (
     <Container
-      ref={dropRef}
+      ref={drop}
       data-cy="file-uploader"
       active={isActive}
       onClick={openFileDialog}
@@ -66,9 +79,10 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onUpload }) => {
         type="file"
         style={{ display: 'none' }}
         onChange={handleChange}
+        accept={accept}
         value={''}
       />
-      Drag or click to upload a new file
+      {placeholder}
     </Container>
   )
 }

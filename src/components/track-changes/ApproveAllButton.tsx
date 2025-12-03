@@ -60,7 +60,7 @@ const ApproveAllButton: React.FC<{
           category={Category.confirmation}
           header={'Are you sure you want to approve all the suggestions?'}
           message={
-            'By that, all the suggestions will be moved to the Approved Suggestions section.'
+            'By that, all pending suggestions will be applied to the document.'
           }
         />
       )}

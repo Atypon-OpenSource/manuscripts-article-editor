@@ -11,11 +11,11 @@
  */
 
 import { TrackedAttrs } from '@manuscripts/track-changes-plugin'
-import { JSONNode, ManuscriptNode } from '@manuscripts/transform'
+import { JSONProsemirrorNode, ManuscriptNode } from '@manuscripts/transform'
 
 export function checkSuggestionsFor(
-  node: JSONNode,
-  onNodeReal: (node: JSONNode) => void
+  node: JSONProsemirrorNode,
+  onNodeReal: (node: JSONProsemirrorNode) => void
 ) {
   let textString = ''
   if (node.content?.length) {

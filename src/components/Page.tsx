@@ -13,8 +13,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useStore } from '../store'
-
 export const Main = styled.main`
   height: 100%;
   flex: 1;
@@ -47,14 +45,8 @@ const PageContainer = styled.div`
   font-family: ${(props) => props.theme.font.family.sans};
 `
 
-export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [{ tokenData }] = useStore((store) => ({
-    tokenData: store.tokenData,
-  }))
-
-  if (!tokenData) {
-    throw new Error('TokenData not found. User is not loggged in!')
-  }
-
+export const Page: React.FC<{
+  children: React.ReactNode
+}> = ({ children }) => {
   return <PageContainer>{children}</PageContainer>
 }

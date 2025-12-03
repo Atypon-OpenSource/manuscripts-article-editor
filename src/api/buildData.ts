@@ -16,6 +16,19 @@ import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
+const convertNodeNamesToTypes = (nodeNames: string[]) => {
+  return nodeNames
+    .map((nodeName) => {
+      const nodeType = schema.nodes[nodeName]
+      if (!nodeType) {
+        console.warn(`Unknown node type: ${nodeName}`)
+        return null
+      }
+      return nodeType
+    })
+    .filter((nodeType) => nodeType !== null)
+}
+
 const getDocumentData = async (
   projectID: string,
   manuscriptID: string,
@@ -34,10 +47,11 @@ const getDocumentData = async (
 
 const getManuscriptData = async (templateID: string, api: Api) => {
   const data: Partial<state> = {}
-  const [cslLocale, template] = await Promise.all([
+  const [cslLocale, template, languages] = await Promise.all([
     // TODO:: config this!
     api.getCSLLocale('en-US'),
     api.getTemplate(templateID),
+    api.getLanguages(),
   ])
 
   if (!template) {
@@ -52,8 +66,13 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   data.sectionCategories = new Map(
     template.sectionCategories.map((c) => [c.id, c])
   )
+  if (template.hiddenNodeTypes) {
+    data.hiddenNodeTypes = convertNodeNamesToTypes(template.hiddenNodeTypes)
+  }
+
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
+  data.languages = languages || []
 
   return data
 }

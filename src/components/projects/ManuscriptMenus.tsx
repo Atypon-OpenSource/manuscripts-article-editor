@@ -10,19 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { getEditorMenus, useEditor } from '@manuscripts/body-editor'
 import {
   Capabilities,
+  getEditorMenus,
+  useEditor,
+} from '@manuscripts/body-editor'
+import {
   isMenuSeparator,
   Menus,
   MenuSeparator,
   MenuSpec,
   useMenus,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
-import { getConfig } from '../../config'
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 
 const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
@@ -36,38 +38,52 @@ const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
 }
 
 const isMenuEnabled = (spec: MenuSpec) => {
-  const config = getConfig()
-  if (spec.id === 'format-table' || spec.id === 'insert-table-element') {
-    return config.features.tableEditing && spec.isEnabled
-  }
-  if (spec.id === 'insert-pullquote') {
-    return config.features.pullQuotes && spec.isEnabled
-  }
   return spec.isEnabled
 }
 
 const filterSubmenu = (
-  spec: MenuSpec | MenuSeparator,
+  items: (MenuSpec | MenuSeparator)[],
   can: Capabilities
-): MenuSpec | MenuSeparator | undefined => {
-  if (isMenuSeparator(spec)) {
-    return spec
+): (MenuSpec | MenuSeparator)[] => {
+  const filtered: (MenuSpec | MenuSeparator)[] = []
+  let previousWasSeparator = false
+
+  for (const item of items) {
+    if (isMenuSeparator(item)) {
+      // Only add separator if previous item wasn't a separator
+      if (!previousWasSeparator && filtered.length > 0) {
+        filtered.push(item)
+        previousWasSeparator = true
+      }
+    } else {
+      const filteredItem = filterMenu(item, can)
+      if (filteredItem) {
+        filtered.push(filteredItem)
+        previousWasSeparator = false
+      }
+    }
   }
-  return filterMenu(spec, can)
+
+  return filtered
 }
 
 const filterMenu = (
   spec: MenuSpec,
   can: Capabilities
 ): MenuSpec | undefined => {
+  if (spec.isHidden === true) {
+    return undefined
+  }
   if (!isAccessGranted(spec, can)) {
     return undefined
   }
-  const submenu = spec.submenu?.map((m) => filterSubmenu(m, can))
+
+  const submenu = spec.submenu ? filterSubmenu(spec.submenu, can) : undefined
+
   return {
     ...spec,
     isEnabled: isMenuEnabled(spec),
-    submenu: submenu?.filter(Boolean),
+    submenu: submenu,
   } as MenuSpec
 }
 

@@ -17,10 +17,7 @@ export interface ManuscriptsEditorConfig {
     headers: Record<string, unknown>
   }
   features: {
-    footnotes: boolean
-    fileManagement: boolean
-    tableEditing: boolean
-    pullQuotes: boolean
+    lockBody: boolean
   }
 }
 

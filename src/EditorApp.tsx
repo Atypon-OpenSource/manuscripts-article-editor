@@ -7,24 +7,19 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, {
-  MutableRefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Api, ApiContext } from './api/Api'
 import { ApiSource } from './api/ApiSource'
 import { Page } from './components/Page'
+import { PluginInspectorTab } from './components/projects/Inspector'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
-import { getCurrentUserId } from './lib/user'
+import { ManuscriptsStateObserver } from './hooks/external/use-manuscripts-state'
 import {
   BasicSource,
   createStore,
@@ -32,18 +27,6 @@ import {
   GenericStoreProvider,
   state,
 } from './store'
-import { TokenData } from './store/TokenData'
-
-export type AppState = {
-  get: () => state | undefined
-  update: (state: Partial<state>) => void
-}
-export type AppStateRef = MutableRefObject<AppState | undefined>
-
-export type AppStateObserver = {
-  state: AppStateRef
-  onUpdate: (state: state) => void
-}
 
 export interface EditorAppProps {
   fileManagement: FileManagement
@@ -51,12 +34,19 @@ export interface EditorAppProps {
   manuscriptID: string
   projectID: string
   permittedActions: string[]
-  authToken: string
-  observer?: AppStateObserver
+  getAuthToken: () => Promise<string | undefined>
+  observer?: ManuscriptsStateObserver
+  pluginInspectorTab?: PluginInspectorTab
 }
 
 const PlaceholderWrapper = styled.div`
   height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 1000;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -70,20 +60,18 @@ const EditorApp: React.FC<EditorAppProps> = ({
   permittedActions,
   fileManagement,
   files,
-  authToken,
+  getAuthToken,
   observer,
+  pluginInspectorTab,
 }) => {
-  const userID = getCurrentUserId()
-
   const [store, setStore] = useState<GenericStore>()
-
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
-  const api = useMemo(() => new Api(authToken), [authToken])
+  const api = useMemo(() => new Api(getAuthToken), [getAuthToken])
 
   useEffect(() => {
-    // implement remount for the store if component is retriggered
+    // implement remount for the store if component is retriggered.
     if (loadedRef.current) {
       return
     }
@@ -94,8 +82,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       manuscriptID,
       files,
       permittedActions,
-      userID: userID || '',
-      tokenData: new TokenData(),
+      pluginInspectorTab,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])

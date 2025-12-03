@@ -19,23 +19,23 @@ import { FileTypeIcon } from './FileTypeIcon'
 
 export const FileName: React.FC<{
   file: FileAttachment
-}> = ({ file }) => {
-  const maxBaseNameLength = 30 // Adjust this value as needed
-
-  // Get the trimmed filename
+  icon?: React.FC<React.SVGAttributes<SVGElement>>
+  label?: string
+  maxBaseNameLength?: number
+}> = ({ file, label, icon: Icon, maxBaseNameLength = 25 }) => {
   const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
+  const tooltipID = `${file.id}-file-name-tooltip`
   return (
-    <>
-      <FileNameContainer data-tooltip-id={`${file.id}-file-name-tooltip`}>
-        <FileTypeIcon file={file} />
-        <FileNameText data-cy="filename">
-          {trimmedFilename}
-          <Tooltip id={`${file.id}-file-name-tooltip`} place="bottom">
-            {file.name}
-          </Tooltip>
-        </FileNameText>
-      </FileNameContainer>
-    </>
+    <FileNameContainer data-tooltip-id={tooltipID}>
+      {(Icon && <Icon className="file-icon" />) || <FileTypeIcon file={file} />}
+      {label && <FileLabel>{label}:</FileLabel>}
+      <FileNameText data-cy="filename">
+        {trimmedFilename}
+        <Tooltip id={tooltipID} place="bottom">
+          {file.name}
+        </Tooltip>
+      </FileNameText>
+    </FileNameContainer>
   )
 }
 
@@ -51,10 +51,22 @@ export const FileNameText = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
 `
-export const FileNameContainer = styled.div`
-  display: flex;
 
+const FileNameContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
   .react-tooltip {
     max-width: 100% !important;
   }
+`
+
+const FileLabel = styled.div`
+  color: ${(props) => props.theme.colors.text.primary};
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  white-space: nowrap;
+  margin-left: ${(props) => props.theme.grid.unit * 2}px;
+  align-content: center;
 `

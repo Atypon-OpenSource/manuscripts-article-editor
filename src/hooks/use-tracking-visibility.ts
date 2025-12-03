@@ -10,12 +10,18 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { useState } from 'react'
+import { useCallback } from 'react'
+
+import { useStore } from '../store'
 
 export const useTrackingVisibility = (): [boolean, () => void] => {
-  const [trackingVisible, setTrackingVisible] = useState(true)
-  const toggleTrackingVisibility = () => {
-    setTrackingVisible(!trackingVisible)
-  }
-  return [trackingVisible, toggleTrackingVisibility]
+  const [{ isTrackingChangesVisible }, dispatch] = useStore((store) => ({
+    isTrackingChangesVisible: store.isTrackingChangesVisible,
+  }))
+
+  const toggleTrackingChangesVisibility = useCallback(() => {
+    dispatch({ isTrackingChangesVisible: !isTrackingChangesVisible })
+  }, [dispatch, isTrackingChangesVisible])
+
+  return [isTrackingChangesVisible, toggleTrackingChangesVisibility]
 }

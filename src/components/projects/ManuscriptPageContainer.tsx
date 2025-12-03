@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import '@manuscripts/body-editor/styles/Editor.css'
@@ -15,19 +15,23 @@ import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
 
 import {
-  CapabilitiesProvider,
   IconButton,
   SliderOffIcon,
   SliderOnIcon,
-  useCalcPermission,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
+import { useGlobalKeyboardShortcuts } from '../../hooks/use-global-keyboard-shortcuts'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
+import {
+  CapabilitiesProvider,
+  useCalcPermission,
+  usePermissions,
+} from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { Main } from '../Page'
+import { SearchReplace } from '../SearchReplace'
 import UtilitiesEffects from '../UtilitiesEffects'
 import {
   EditorBody,
@@ -43,18 +47,25 @@ import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
 
 const ManuscriptPageContainer: React.FC = () => {
-  const [{ project, user, permittedActions }] = useStore((state) => {
-    return {
-      project: state.project,
-      user: state.user,
-      permittedActions: state.permittedActions,
+  // Enable global keyboard shortcuts
+  useGlobalKeyboardShortcuts()
+
+  const [{ project, user, permittedActions, isViewingMode }] = useStore(
+    (state) => {
+      return {
+        project: state.project,
+        user: state.user,
+        permittedActions: state.permittedActions,
+        isViewingMode: state.isViewingMode,
+      }
     }
-  })
+  )
 
   const can = useCalcPermission({
     profile: user,
     project: project,
     permittedActions,
+    isViewingMode,
   })
 
   return (
@@ -66,9 +77,17 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
+  const [isTrackingChangesVisible, toggleTrackingChangesVisibility] =
+    useTrackingVisibility()
 
-  const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
-  const isTrackingVisible = !can.editWithoutTracking && trackingVisible
+  const [{ isViewingMode, isComparingMode }] = useStore((store) => ({
+    isViewingMode: store.isViewingMode,
+    isComparingMode: store.isComparingMode,
+  }))
+
+  const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
+  const isTrackingVisible =
+    (showTrackChangesToggle && isTrackingChangesVisible) || isComparingMode
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
@@ -82,19 +101,30 @@ const ManuscriptPageView: React.FC = () => {
                   <ManuscriptMenusContainerInner>
                     <ManuscriptMenus />
                   </ManuscriptMenusContainerInner>
-                  {!can.editWithoutTracking && (
+
+                  {showTrackChangesToggle && (
                     <>
                       <Label>Show tracked changes</Label>
                       <IconButton
                         defaultColor={true}
-                        onClick={toggleTrackingVisibility}
+                        onClick={toggleTrackingChangesVisibility}
+                        aria-label={
+                          isTrackingChangesVisible
+                            ? 'Hide tracked changes'
+                            : 'Show tracked changes'
+                        }
                       >
-                        {trackingVisible ? <SliderOnIcon /> : <SliderOffIcon />}
+                        {isTrackingChangesVisible ? (
+                          <SliderOnIcon />
+                        ) : (
+                          <SliderOffIcon />
+                        )}
                       </IconButton>
                     </>
                   )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
+                <SearchReplace />
               </EditorHeader>
               <EditorBody className="editor-body">
                 <TrackChangesStyles>

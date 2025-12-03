@@ -7,45 +7,90 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { usePermissions } from '@manuscripts/style-guide'
+import { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
+import {
+  BookIcon,
+  ChatIcon,
+  DangerIcon,
+  ManuscriptIcon,
+} from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
-import { getConfig } from '../../config'
+import {
+  InspectorPanel,
+  useInspectorTabsParentControl,
+} from '../../hooks/use-inspector-tabs-context'
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
+import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
 import { FileManager } from '../FileManager/FileManager'
 import {
+  ErrorBadge,
+  IconWrapper,
   InspectorContainer,
-  InspectorTab,
-  InspectorTabList,
   InspectorTabPanel,
+  InspectorTabPanels,
   InspectorTabs,
-  PaddedInspectorTabPanels,
+  PrimaryTabList,
+  TabsContainer,
+  WarningBadge,
 } from '../Inspector'
+import { InspectorTab } from '../inspector/InspectorTab'
+import { IssuesPanel } from '../inspector/IssuesPanel'
+import { SnapshotsList } from '../inspector/SnapshotsList'
 import Panel from '../Panel'
 import { ResizingInspectorButton } from '../ResizerButtons'
 import { TrackChangesPanel } from '../track-changes/TrackChangesPanel'
 
+export type PluginInspectorTab = {
+  title: string
+  icon: React.ReactNode
+  content: React.ReactNode
+}
+
 const Inspector: React.FC = () => {
+  useInspectorTabsParentControl()
   const [store] = useStore((store) => ({
     selectedCommentKey: store.selectedCommentKey,
     selectedSuggestionID: store.selectedSuggestionID,
+    inspectorOpenTabs: store.inspectorOpenTabs,
+    isViewingMode: store.isViewingMode,
+    view: store.view,
+    inconsistencies: store.inconsistencies || [],
+    isComparingMode: store.isComparingMode,
   }))
-  const config = getConfig()
+  const inconsistenciesCount = store.inconsistencies?.length
+  let errorCount = 0
+  let warningCount = 0
+
+  store.inconsistencies?.forEach((i) => {
+    if (i.severity === 'error') {
+      errorCount++
+    } else if (i.severity === 'warning') {
+      warningCount++
+    }
+  })
+
+  const [pluginTab] = useStore((store) => store.pluginInspectorTab)
 
   const can = usePermissions()
 
   const comment = store.selectedCommentKey
   const suggestion = store.selectedSuggestionID
+  const inspectorOpenTabs = store.inspectorOpenTabs
   const [tabIndex, setTabIndex] = useState(0)
 
   let index = 0
   const COMMENTS_TAB_INDEX = index++
-  const SUGGESTIONS_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
-  const FILES_TAB_INDEX = config.features.fileManagement ? index++ : -1
+  const HISTORY_TAB_INDEX = !can.editWithoutTracking ? index++ : -1
+  const FILES_TAB_INDEX = index++
+  const ISSUES_TAB_INDEX = index++
+  const PLUGIN_TAB = pluginTab ? index++ : -2
+
   useEffect(() => {
     if (comment) {
       setTabIndex(COMMENTS_TAB_INDEX)
@@ -54,9 +99,45 @@ const Inspector: React.FC = () => {
 
   useEffect(() => {
     if (suggestion) {
-      setTabIndex(SUGGESTIONS_TAB_INDEX)
+      setTabIndex(HISTORY_TAB_INDEX)
     }
-  }, [suggestion, SUGGESTIONS_TAB_INDEX])
+  }, [suggestion, HISTORY_TAB_INDEX])
+
+  useEffect(() => {
+    if (inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Files) {
+      setTabIndex(FILES_TAB_INDEX)
+    } else if (
+      inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Quality
+    ) {
+      setTabIndex(ISSUES_TAB_INDEX)
+    }
+  }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
+
+  // Effect to control warning decorations visibility
+  useEffect(() => {
+    if (store.view) {
+      const tr = store.view.state.tr
+      tr.setMeta(detectInconsistencyPluginKey, tabIndex === ISSUES_TAB_INDEX)
+      store.view.dispatch(tr)
+    }
+  }, [tabIndex, ISSUES_TAB_INDEX, store.view])
+
+  if (store.isComparingMode) {
+    return (
+      <Panel
+        name={'inspector'}
+        minSize={400}
+        direction={'row'}
+        side={'start'}
+        hideWhen={'max-width: 900px'}
+        resizerButton={ResizingInspectorButton}
+      >
+        <InspectorContainer data-cy="inspector">
+          <TrackChangesPanel key="track-changes" />
+        </InspectorContainer>
+      </Panel>
+    )
+  }
 
   return (
     <Panel
@@ -67,38 +148,93 @@ const Inspector: React.FC = () => {
       hideWhen={'max-width: 900px'}
       resizerButton={ResizingInspectorButton}
     >
-      <InspectorContainer data-cy="inspector">
-        <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
-          <InspectorTabList>
-            <InspectorTab data-cy="comments-button">Comments</InspectorTab>
-            {!can.editWithoutTracking && (
-              <InspectorTab data-cy="history-button">History</InspectorTab>
-            )}
-            {config.features.fileManagement && (
-              <InspectorTab data-cy="files-button">Files</InspectorTab>
-            )}
-          </InspectorTabList>
-          <PaddedInspectorTabPanels>
-            <InspectorTabPanel key="Comments" data-cy="comments">
-              {tabIndex === COMMENTS_TAB_INDEX && (
-                <CommentsPanel key="comments" />
-              )}
-            </InspectorTabPanel>
-            {!can.editWithoutTracking && (
-              <InspectorTabPanel key="History" data-cy="history">
-                {tabIndex === SUGGESTIONS_TAB_INDEX && (
-                  <TrackChangesPanel key="track-changes" />
+      {store.isViewingMode ? (
+        <SnapshotsList />
+      ) : (
+        <InspectorContainer data-cy="inspector">
+          <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
+            <TabsContainer>
+              <PrimaryTabList>
+                <InspectorTab
+                  cy="comments-button"
+                  icon={<ChatIcon />}
+                  isVisible={tabIndex === COMMENTS_TAB_INDEX}
+                >
+                  Comments
+                </InspectorTab>
+                {!can.editWithoutTracking && (
+                  <InspectorTab
+                    cy="history-button"
+                    icon={<BookIcon />}
+                    isVisible={tabIndex === HISTORY_TAB_INDEX}
+                  >
+                    Changes
+                  </InspectorTab>
+                )}
+                <InspectorTab
+                  cy="files-button"
+                  icon={<ManuscriptIcon />}
+                  isVisible={tabIndex === FILES_TAB_INDEX}
+                >
+                  Files
+                </InspectorTab>
+                <InspectorTab
+                  cy="issues-button"
+                  icon={
+                    <IconWrapper>
+                      <DangerIcon />
+                      {errorCount > 0 && (
+                        <ErrorBadge>{inconsistenciesCount}</ErrorBadge>
+                      )}
+                      {errorCount === 0 && warningCount > 0 && (
+                        <WarningBadge>{warningCount}</WarningBadge>
+                      )}
+                    </IconWrapper>
+                  }
+                  isVisible={tabIndex === ISSUES_TAB_INDEX}
+                >
+                  Issues
+                </InspectorTab>
+                {pluginTab && (
+                  <InspectorTab
+                    cy="plugin-button"
+                    icon={<IconWrapper>{pluginTab.icon}</IconWrapper>}
+                    isVisible={tabIndex === PLUGIN_TAB}
+                  >
+                    {pluginTab.title}
+                  </InspectorTab>
+                )}
+              </PrimaryTabList>
+              <DocumentOptionsDropdown />
+            </TabsContainer>
+            <InspectorTabPanels>
+              <InspectorTabPanel key="Comments" data-cy="comments">
+                {tabIndex === COMMENTS_TAB_INDEX && (
+                  <CommentsPanel key="comments" />
                 )}
               </InspectorTabPanel>
-            )}
-            {config.features.fileManagement && (
+              {!can.editWithoutTracking && (
+                <InspectorTabPanel key="History" data-cy="history">
+                  {tabIndex === HISTORY_TAB_INDEX && (
+                    <TrackChangesPanel key="track-changes" />
+                  )}
+                </InspectorTabPanel>
+              )}
               <InspectorTabPanel key="Files" data-cy="files">
                 {tabIndex === FILES_TAB_INDEX && <FileManager key="files" />}
               </InspectorTabPanel>
-            )}
-          </PaddedInspectorTabPanels>
-        </InspectorTabs>
-      </InspectorContainer>
+              <InspectorTabPanel key="Issues" data-cy="issues">
+                {tabIndex === ISSUES_TAB_INDEX && <IssuesPanel key="issues" />}
+              </InspectorTabPanel>
+              {pluginTab && (
+                <InspectorTabPanel key="Plugin" data-cy="plugin">
+                  {tabIndex === PLUGIN_TAB && pluginTab.content}
+                </InspectorTabPanel>
+              )}
+            </InspectorTabPanels>
+          </InspectorTabs>
+        </InspectorContainer>
+      )}
     </Panel>
   )
 }

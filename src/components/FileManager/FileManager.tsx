@@ -7,22 +7,24 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { groupFiles } from '@manuscripts/body-editor'
 import { Tooltip } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { useStore } from '../../store'
 import {
-  InspectorTab,
   InspectorTabList,
   InspectorTabPanel,
   InspectorTabPanels,
   InspectorTabs,
+  SecondaryInspectorTab,
 } from '../Inspector'
 import { FileManagerDragLayer } from './FileManagerDragLayer'
 import { InlineFilesSection } from './InlineFilesSection'
+import { LinkedFilesSection } from './LinkedFilesSection'
+import { MainFilesSection } from './MainFilesSection'
 import { OtherFilesSection } from './OtherFilesSection'
 import { SupplementsSection } from './SupplementsSection'
 
@@ -30,6 +32,7 @@ export enum FileSectionType {
   Inline = 'Inline files',
   Supplements = 'Supplements',
   OtherFile = 'Other files',
+  MainFile = 'Main Document',
 }
 
 export type Replace = (file: File) => Promise<void>
@@ -47,38 +50,55 @@ export type Move = {
  *
  * File section component consist of three types of files which is:
  * 1- Inline files.
- * 2- Supplemental files.
+ * 2- Supplemental files. + linked files.
  * 3- Other files.
  */
+
 export const FileManager: React.FC = () => {
-  const [{ doc, files }] = useStore((s) => ({
+  const [{ doc, files, inspectorOpenTabs }, dispatch] = useStore((s) => ({
     doc: s.doc,
     files: s.files,
+    inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
-  const { figures, supplements, others } = groupFiles(doc, files)
+  const { figures, supplements, attachments, linkedFiles, others } =
+    useMemo(() => {
+      return groupFiles(doc, files)
+    }, [doc, files])
 
   return (
     <InspectorTabs
       defaultIndex={0}
+      selectedIndex={inspectorOpenTabs?.secondaryTab || 0}
       data-cy="files-tabs"
-      style={{ overflow: 'visible' }}
+      style={{ overflow: 'visible', overflowX: 'hidden' }}
+      onChange={(index) =>
+        dispatch({ inspectorOpenTabs: { secondaryTab: index } })
+      }
     >
       <FileManagerDragLayer />
       <InspectorTabList>
-        <InspectorTab data-tooltip-id="inline-tooltip">
+        <SecondaryInspectorTab data-tooltip-id="inline-tooltip">
           Inline files
-        </InspectorTab>
+        </SecondaryInspectorTab>
         <Tooltip id="inline-tooltip" place="bottom">
           Files that can be found inline in the manuscript.
         </Tooltip>
-        <InspectorTab data-tooltip-id="supplements-tooltip">
+        <SecondaryInspectorTab data-tooltip-id="main-tooltip">
+          Main Document
+        </SecondaryInspectorTab>
+        <Tooltip id="main-tooltip" place="bottom">
+          The main document of the manuscript.
+        </Tooltip>
+        <SecondaryInspectorTab data-tooltip-id="supplements-tooltip">
           Supplements
-        </InspectorTab>
+        </SecondaryInspectorTab>
         <Tooltip id="supplements-tooltip" place="bottom">
           Files that were marked as supplements.
         </Tooltip>
-        <InspectorTab data-tooltip-id="other-tooltip">Other files</InspectorTab>
+        <SecondaryInspectorTab data-tooltip-id="other-tooltip">
+          Other files
+        </SecondaryInspectorTab>
         <Tooltip id="other-tooltip" place="bottom">
           Files excluded from the final submission.
         </Tooltip>
@@ -89,8 +109,12 @@ export const FileManager: React.FC = () => {
         <InspectorTabPanel data-cy="inline">
           <InlineFilesSection elements={figures} />
         </InspectorTabPanel>
+        <InspectorTabPanel data-cy="main">
+          <MainFilesSection mainDocument={attachments[0]} />
+        </InspectorTabPanel>
         <InspectorTabPanel data-cy="supplements">
           <SupplementsSection supplements={supplements} />
+          <LinkedFilesSection linkedFiles={linkedFiles} />
         </InspectorTabPanel>
         <InspectorTabPanel data-cy="other">
           <OtherFilesSection files={others} />

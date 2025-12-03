@@ -36,6 +36,7 @@ export class ObservableBoolean {
 }
 
 export class StepsExchanger extends CollabProvider {
+  private static instance: StepsExchanger
   projectID: string
   manuscriptID: string
   api: Api
@@ -55,6 +56,11 @@ export class StepsExchanger extends CollabProvider {
     api: Api,
     updateStoreVersion: (version: number) => void
   ) {
+    if (StepsExchanger.instance) {
+      StepsExchanger.instance.start()
+      return StepsExchanger.instance
+    }
+
     super()
     this.projectID = projectID
     this.manuscriptID = manuscriptID
@@ -65,6 +71,8 @@ export class StepsExchanger extends CollabProvider {
     this.start()
     this.updateStoreVersion = updateStoreVersion
     this.stop = this.stop.bind(this)
+
+    StepsExchanger.instance = this
   }
 
   async sendSteps(
@@ -144,16 +152,23 @@ export class StepsExchanger extends CollabProvider {
     }
   }
 
+  stopped = true
+
   start() {
+    if (this.stopped === false) {
+      return
+    }
     this.closeConnection = this.api.listenToSteps(
       this.projectID,
       this.manuscriptID,
       (version, steps, clientIDs) =>
         this.receiveSteps(version, steps, clientIDs)
     )
+    this.stopped = false
   }
 
   stop() {
+    this.stopped = true
     this.closeConnection()
   }
 
@@ -162,7 +177,17 @@ export class StepsExchanger extends CollabProvider {
   }
 
   onNewSteps(listener: CollabProvider['newStepsListener']) {
+    this.start()
     this.newStepsListener = listener
+  }
+
+  unsubscribe() {
+    // @TODO change in base class to be a function and not a prop
+    if (StepsExchanger.instance) {
+      StepsExchanger.instance.newStepsListener = () => {
+        console.warn('Listener for incoming steps is not assigned')
+      }
+    }
   }
 
   async stepsSince(version: number) {

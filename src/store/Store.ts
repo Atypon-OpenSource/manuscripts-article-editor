@@ -7,27 +7,31 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
 import {
   CommentKey,
   FileAttachment,
   FileManagement,
+  Inconsistency,
 } from '@manuscripts/body-editor'
 import { Project, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorView,
   ManuscriptNode,
+  ManuscriptNodeType,
   SectionCategory,
 } from '@manuscripts/transform'
 
+import { Language } from '../api/types'
+import { PluginInspectorTab } from '../components/projects/Inspector'
 import { useCreateEditor } from '../hooks/use-create-editor'
+import { InspectorAction } from '../hooks/use-inspector-tabs-context'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
 import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
-import { TokenData } from './TokenData'
 
 export type action = { action?: string; [key: string]: any }
 
@@ -47,19 +51,18 @@ export type state = {
   doc: ManuscriptNode
   initialDocVersion: number
   trackState?: TrackChangesState
+  isViewingMode?: boolean
+  isComparingMode?: boolean
+  isTrackingChangesVisible: boolean
   view?: ManuscriptEditorView
   titleText: string
 
   fileManagement: FileManagement
   files: FileAttachment[]
-
-  tokenData: TokenData
-
   collaborators: Map<string, UserProfile>
   collaboratorsById: Map<string, UserProfile>
 
   snapshots: SnapshotLabel[]
-  createSnapshot: (name: string) => Promise<void>
   getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
   permittedActions: string[]
@@ -75,13 +78,18 @@ export type state = {
   beforeUnload?: () => void
   userRole: ProjectRole | null
 
-  handleSnapshot: (name: string) => Promise<void>
-
   cslLocale?: string
   cslStyle?: string
+  languages: Language[]
   hasPendingSuggestions?: boolean
+  inconsistencies?: Inconsistency[]
   sectionCategories: Map<string, SectionCategory>
   originalPmDoc?: JSON
+  inspectorOpenTabs?: { primaryTab: number | null; secondaryTab: number | null }
+  doInspectorTab?: (action: InspectorAction) => void
+  hiddenNodeTypes?: ManuscriptNodeType[]
+
+  pluginInspectorTab?: PluginInspectorTab // an inspector tab injected (plugged in) from the parent app
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
@@ -159,7 +167,13 @@ export class GenericStore implements Store {
     this.sources = sources
 
     const state = await buildStateFromSources(sources, this.setState)
-    this.setState({ ...this.state, ...(state as state) })
+    this.setState({
+      ...this.state,
+      ...(state as state),
+      isViewingMode: false,
+      isComparingMode: false,
+      isTrackingChangesVisible: true,
+    })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {
       // provide a way for the data sources to cancel the action optionally

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "baseUrl": ".",
-    "lib": ["es2017", "dom", "dom.iterable", "esnext.array"],
+    "lib": ["es2021", "dom", "dom.iterable", "esnext.array"],
     "sourceMap": true,
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -18,7 +18,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
   },
-  "include": ["src", "stories", "types", "webpack.*.ts"],
+  "include": ["src", "types"]
 }

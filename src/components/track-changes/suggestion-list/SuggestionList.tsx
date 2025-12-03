@@ -7,12 +7,13 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { RootChange, RootChanges } from '@manuscripts/track-changes-plugin'
 import React from 'react'
 import styled from 'styled-components'
 
+import { useStore } from '../../../store'
 import { InspectorSection } from '../../InspectorSection'
 import { Suggestion } from './Suggestion'
 
@@ -22,8 +23,8 @@ export interface SuggestionListProps {
   title: string
   type: string
   sortBy: string
-  onAccept(change: RootChange): void
-  onReject(change: RootChange): void
+  onAccept(change: RootChange): void | undefined
+  onReject(change: RootChange): void | undefined
   onAcceptAll?(): void
   onSelect?(change: RootChange): void
 }
@@ -39,6 +40,10 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   onAcceptAll,
   onSelect,
 }) => {
+  const [{ isComparingMode }] = useStore((store) => ({
+    isComparingMode: store.isComparingMode,
+  }))
+
   const changesByDate = (a: RootChange, b: RootChange) =>
     b[0].dataTracked.updatedAt - a[0].dataTracked.updatedAt
 
@@ -52,7 +57,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   return (
     <InspectorSection
       title={title.concat(changes.length ? ` (${changes.length})` : '')}
-      approveAll={onAcceptAll}
+      approveAll={!isComparingMode ? onAcceptAll : undefined}
       fixed={true}
     >
       <List data-cy="suggestions-list" data-cy-type={type}>
@@ -61,8 +66,8 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
             key={c[0].id}
             suggestions={c}
             isSelected={selectionID === c[0].id}
-            onAccept={() => onAccept(c)}
-            onReject={() => onReject(c)}
+            onAccept={() => !isComparingMode && onAccept(c)}
+            onReject={() => !isComparingMode && onReject(c)}
             onSelect={() => onSelect && onSelect(c)}
           />
         ))}
@@ -76,4 +81,5 @@ const List = styled.ul`
   font-size: inherit;
   padding: 0;
   margin: 0;
+  height: 75vh;
 `

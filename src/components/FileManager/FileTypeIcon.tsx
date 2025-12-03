@@ -10,12 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment } from '@manuscripts/body-editor'
-import {
-  FileCorruptedIcon,
-  FileMainDocumentIcon,
-  FileUnknownIcon,
-  getFileIcon,
-} from '@manuscripts/style-guide'
+import { FileUnknownIcon, getFileIcon } from '@manuscripts/style-guide'
 import React from 'react'
 
 /**
@@ -25,14 +20,6 @@ import React from 'react'
 export const FileTypeIcon: React.FC<{
   file: FileAttachment
 }> = ({ file }) => {
-  if (file.type.id === 'missing') {
-    return <FileCorruptedIcon className="file-icon" />
-  }
-  if (file.type.id === 'main-manuscript') {
-    return <FileMainDocumentIcon className="file-icon" />
-  }
-
   const icon = getFileIcon(file.name)
-
   return icon || <FileUnknownIcon className="file-icon" />
 }

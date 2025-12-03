@@ -21,37 +21,30 @@ export const buildUtilities = (
   updateState: (state: Partial<state>) => void,
   api: Api
 ): Partial<state> => {
-  const createSnapshot = async (name: string) => {
-    const state = getState()
-    const snapshots = state.snapshots
-    if (!snapshots) {
-      throw new Error('Missing snapshots')
-    }
-    const response = await api.createSnapshot(projectID, manuscriptID, name)
-    const { snapshot, ...label } = response.snapshot
-    updateState({
-      snapshots: [...snapshots, label],
-    })
-  }
-
   const refreshProject = async () => {
     const state = getState()
-    const userID = state.userID
+    const userID = state.user?.userID
     if (!userID) {
       return
     }
-    const project = await api.getProject(projectID)
-    if (!project) {
+
+    const [project, document] = await Promise.all([
+      api.getProject(projectID),
+      api.getDocument(projectID, manuscriptID),
+    ])
+
+    if (!project || !document) {
       return
     }
+
     updateState({
       project,
       userRole: getUserRole(project, userID),
+      snapshots: document.snapshots,
     })
   }
 
   return {
-    createSnapshot,
     refreshProject,
     getSnapshot: api.getSnapshot,
   }

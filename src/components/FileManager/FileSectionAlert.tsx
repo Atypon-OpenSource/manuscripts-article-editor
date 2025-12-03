@@ -18,14 +18,31 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { FileContainer } from './FileContainer'
+import { FileSectionType } from './FileManager'
 import { FileNameText } from './FileName'
 
 export enum FileSectionAlertType {
   NONE,
   UPLOAD_IN_PROGRESS,
   UPLOAD_SUCCESSFUL,
+  UPLOAD_ERROR,
   MOVE_SUCCESSFUL,
+  REPLACE_SUCCESSFUL,
 }
+
+export const setUploadProgressAlert =
+  (
+    setAlert: (t: { type: FileSectionAlertType; message: string }) => void,
+    type: FileSectionType
+  ) =>
+  (percentage: number) => {
+    if (percentage < 99) {
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
+        message: type + ` ${percentage}%`,
+      })
+    }
+  }
 
 export const FileSectionAlert: React.FC<{
   alert: { type: FileSectionAlertType; message: string }
@@ -38,8 +55,14 @@ export const FileSectionAlert: React.FC<{
       {alert.type === FileSectionAlertType.UPLOAD_SUCCESSFUL && (
         <FileUploadSuccessful />
       )}
+      {alert.type === FileSectionAlertType.UPLOAD_ERROR && (
+        <FileUploadErrorAlert message={alert.message} />
+      )}
       {alert.type === FileSectionAlertType.MOVE_SUCCESSFUL && (
         <FileMoveSuccessful name={alert.message} />
+      )}
+      {alert.type === FileSectionAlertType.REPLACE_SUCCESSFUL && (
+        <FileReplaceSuccessful name={alert.message} />
       )}
     </>
   )
@@ -75,6 +98,24 @@ const FileUploadSuccessful: React.FC = () => {
   )
 }
 
+const FileUploadErrorAlert: React.FC<{
+  message: string
+}> = ({ message }) => {
+  return (
+    <AlertMessageContainer>
+      <AlertMessage
+        type={AlertMessageType.error}
+        hideCloseButton={true}
+        dismissButton={{
+          text: 'OK',
+        }}
+      >
+        Upload failed: {message}
+      </AlertMessage>
+    </AlertMessageContainer>
+  )
+}
+
 const FileMoveSuccessful: React.FC<{
   name: string
 }> = ({ name }) => {
@@ -88,6 +129,24 @@ const FileMoveSuccessful: React.FC<{
         }}
       >
         File moved to {name}
+      </AlertMessage>
+    </AlertMessageContainer>
+  )
+}
+
+const FileReplaceSuccessful: React.FC<{
+  name: string
+}> = ({ name }) => {
+  return (
+    <AlertMessageContainer>
+      <AlertMessage
+        type={AlertMessageType.success}
+        hideCloseButton={true}
+        dismissButton={{
+          text: 'OK',
+        }}
+      >
+        File replaced with {name} successfully
       </AlertMessage>
     </AlertMessageContainer>
   )
@@ -142,11 +201,15 @@ const Bar = styled.div`
   width: 100%;
 
   &.bar1 {
-    animation: growBar1 2.5s infinite, moveBar1 2.5s infinite;
+    animation:
+      growBar1 2.5s infinite,
+      moveBar1 2.5s infinite;
   }
 
   &.bar2 {
-    animation: growBar2 2.5s infinite, moveBar2 2.5s infinite;
+    animation:
+      growBar2 2.5s infinite,
+      moveBar2 2.5s infinite;
   }
 
   @keyframes growBar1 {

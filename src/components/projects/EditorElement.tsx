@@ -7,19 +7,21 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2021 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import {
   FileAttachment,
   findParentElement,
   getMatchingChild,
-  insertFigure,
+  getMediaTypeInfo,
   useEditor,
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
 import {
+  EmbedNode,
   FigureNode,
   generateNodeID,
+  ImageElementNode,
   ManuscriptEditorView,
   ManuscriptResolvedPos,
   schema,
@@ -27,25 +29,27 @@ import {
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 import { NodeSelection, Transaction } from 'prosemirror-state'
 import { findParentNodeClosestToPos, flatten } from 'prosemirror-utils'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 
 import { useConnectEditor } from '../../hooks/use-connect-editor'
 import { useWatchTitle } from '../../hooks/use-watch-title'
 import { setNodeAttrs } from '../../lib/node-attrs'
+import { insertMediaOrFigure } from '../../lib/utils'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
-  const [{ editor }] = useStore((store) => ({
+  const [{ editor, isViewingMode }] = useStore((store) => ({
     editor: store.editor,
+    isViewingMode: store.isViewingMode,
   }))
 
   const { onRender, view, dispatch } = useConnectEditor()
   useWatchTitle()
 
-  const [, drop] = useDrop({
+  const [, dropRef] = useDrop({
     accept: 'file',
     drop: async (item, monitor) => {
       const offset = monitor.getSourceClientOffset()
@@ -53,32 +57,68 @@ const EditorElement: React.FC = () => {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable
         const file = item.file as FileAttachment
-
         if (!file || !docPos || !docPos.pos) {
           return false
         }
 
         const resolvedPos = view.state.doc.resolve(docPos.pos)
+        const mediaInfo = getMediaTypeInfo(file.name)
         const attrs: Record<string, unknown> = {
           src: file.id,
         }
 
-        const targetNode =
-          view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
+        let targetNode = view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
+        let mediaNodeWithPos
+        if (
+          targetNode.type === schema.nodes.figcaption ||
+          targetNode.type === schema.nodes.caption ||
+          targetNode.type === schema.nodes.caption_title
+        ) {
+          mediaNodeWithPos = findParentNodeClosestToPos(
+            resolvedPos,
+            (node) => node.type === schema.nodes.embed
+          )
+          if (mediaNodeWithPos) {
+            targetNode = mediaNodeWithPos.node
+          }
+        }
+
         switch (targetNode.type) {
+          case schema.nodes.image_element: {
+            const attrs: Record<string, unknown> = {
+              extLink: file.id,
+            }
+            const imageElement = targetNode as ImageElementNode
+            setNodeAttrs(view.state, dispatch, imageElement.attrs.id, attrs)
+            break
+          }
           case schema.nodes.figure: {
             const figure = targetNode as FigureNode
-            if (isEmptyFigureNode(figure)) {
-              setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
-            } else {
-              addNewFigure(view, dispatch, attrs, resolvedPos.pos + 1)
-            }
+            setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
+            break
+          }
+          case schema.nodes.embed: {
+            const media = targetNode as EmbedNode
+            setNodeAttrs(view.state, dispatch, media.attrs.id, {
+              href: file.id,
+              mimetype: mediaInfo.mimetype,
+              mimeSubtype: mediaInfo.mimeSubtype,
+            })
             break
           }
           case schema.nodes.figcaption:
           case schema.nodes.caption:
           case schema.nodes.caption_title: {
-            addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
+            if (mediaNodeWithPos) {
+              const media = mediaNodeWithPos.node as EmbedNode
+              setNodeAttrs(view.state, dispatch, media.attrs.id, {
+                href: file.id,
+                mimetype: mediaInfo.mimetype,
+                mimeSubtype: mediaInfo.mimeSubtype,
+              })
+            } else {
+              addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
+            }
             break
           }
           case schema.nodes.figure_element: {
@@ -96,7 +136,8 @@ const EditorElement: React.FC = () => {
             view.focus()
             dispatch(tr)
             // after dispatch is called - the view.state changes and becomes the new state of the editor so exactly the view.state has to be used to make changes on the actual state
-            insertFigure(file, view.state, dispatch)
+
+            insertMediaOrFigure(file, view, dispatch)
           }
         }
         return true
@@ -104,6 +145,13 @@ const EditorElement: React.FC = () => {
       return false
     },
   })
+
+  const drop = useCallback(
+    (node: HTMLDivElement | null) => {
+      dropRef(node)
+    },
+    [dropRef]
+  )
 
   return (
     <>
@@ -120,11 +168,23 @@ const EditorElement: React.FC = () => {
           }}
         />
       )}
-      <SpriteMap color="#353535" />
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */}
-      <div id="editorDropzone" ref={drop}>
-        <div id="editor" ref={onRender}></div>
-      </div>
+      <>
+        <SpriteMap color="#353535" />
+        {
+          /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions  */
+          // Changing the `key` forces React to recreate the DOM node,
+          // which triggers a fresh ProseMirror EditorView instance.
+          // This is necessary because EditorView does not pick up props changes
+          // (like `editable`, `nodeViews`, or `getCapabilities`) once initialized.
+        }
+        <div id="editorDropzone" ref={drop}>
+          <div
+            id="editor"
+            key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
+            ref={onRender}
+          ></div>
+        </div>
+      </>
     </>
   )
 }
@@ -176,7 +236,8 @@ const addFigureAtFigCaptionPosition = (
     )
     view.focus()
     dispatch(transaction)
-    insertFigure(file, view.state, dispatch)
+
+    insertMediaOrFigure(file, view, dispatch)
   }
 }
 
