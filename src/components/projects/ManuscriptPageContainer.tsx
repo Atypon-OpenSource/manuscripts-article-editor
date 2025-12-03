@@ -113,6 +113,11 @@ const ManuscriptPageView: React.FC = () => {
                       <IconButton
                         defaultColor={true}
                         onClick={toggleTrackingChangesVisibility}
+                        aria-label={
+                          isTrackingChangesVisible
+                            ? 'Hide tracked changes'
+                            : 'Show tracked changes'
+                        }
                       >
                         {isTrackingChangesVisible ? (
                           <SliderOnIcon />

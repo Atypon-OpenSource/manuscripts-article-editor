@@ -167,6 +167,7 @@ export const ManuscriptToolbar: React.FC = () => {
                       item.run(state, view.dispatch, view)
                       view && view.focus()
                     }}
+                    aria-label={item.title}
                   >
                     {item.content}
                   </ToolbarButton>
