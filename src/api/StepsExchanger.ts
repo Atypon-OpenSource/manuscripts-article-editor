@@ -38,16 +38,6 @@ export class ObservableString {
         clearTimeout(this.savingTimeout)
         this.savingTimeout = undefined
       }
-
-      if (value === 'saving') {
-        this.savingTimeout = setTimeout(() => {
-          if (this.value === 'saving') {
-            this.value = 'idle'
-            this.sub?.('idle')
-          }
-          this.savingTimeout = undefined
-        }, 3000)
-      }
     }
   }
 

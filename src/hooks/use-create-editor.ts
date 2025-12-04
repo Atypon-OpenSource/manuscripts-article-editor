@@ -111,7 +111,6 @@ export const useCreateEditor = () => {
 
         if (status === 'saved' || status === 'failed') {
           savedTimeout = setTimeout(() => {
-            // Only clear if status hasn't changed in the meantime
             dispatch({ savingProcess: undefined })
           }, SAVE_INDICATOR_DISPLAY_TIME_MS)
         }
