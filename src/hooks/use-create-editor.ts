@@ -15,13 +15,15 @@ import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useApi } from '../api/Api'
-import { StepsExchanger } from '../api/StepsExchanger'
+import { StepsExchanger, SaveStatus } from '../api/StepsExchanger'
 import { getConfig } from '../config'
 import { getCapabilities as getActionCapabilities } from '../lib/capabilities'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { useCompareDocuments } from './use-compare-documents'
 import { useInspectorTabsContext } from './use-inspector-tabs-context'
+
+const SAVE_INDICATOR_DISPLAY_TIME_MS = 3000
 
 export const useCreateEditor = () => {
   const [
@@ -62,6 +64,9 @@ export const useCreateEditor = () => {
 
   useEffect(() => {
     dispatch({ isComparingMode })
+    if (isComparingMode) {
+      dispatch({ savingProcess: undefined })
+    }
   }, [isComparingMode, dispatch])
 
   const updateVersion = (v: number) => dispatch({ initialDocVersion: v })
@@ -89,10 +94,38 @@ export const useCreateEditor = () => {
           preventUnload: value,
         })
       })
+
+      let savedTimeout: ReturnType<typeof setTimeout> | null = null
+
+      stepsExchanger.saveStatus.onChange((status: SaveStatus) => {
+        if (status === 'idle') {
+          dispatch({ savingProcess: undefined })
+        } else {
+          dispatch({ savingProcess: status })
+        }
+
+        if (savedTimeout) {
+          clearTimeout(savedTimeout)
+          savedTimeout = null
+        }
+
+        if (status === 'saved' || status === 'failed') {
+          savedTimeout = setTimeout(() => {
+            dispatch({ savingProcess: undefined })
+          }, SAVE_INDICATOR_DISPLAY_TIME_MS)
+        }
+      })
+
       dispatch({
         beforeUnload: () => stepsExchanger.flush(),
       })
-      return () => stepsExchanger.stop()
+
+      return () => {
+        if (savedTimeout) {
+          clearTimeout(savedTimeout)
+        }
+        stepsExchanger.stop()
+      }
     }
   }, [dispatch, stepsExchanger])
 
