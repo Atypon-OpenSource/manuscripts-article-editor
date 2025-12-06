@@ -11,7 +11,7 @@
  */
 
 import { SecondaryButton, useDropdown } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
 
 import {
@@ -27,14 +27,55 @@ interface Props {
 }
 export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
+  const optionRefs = useRef<HTMLButtonElement[]>([])
+
+  const options = ['Date', 'in Context']
+
+  useEffect(() => {
+    if (isOpen) {
+      optionRefs.current[0]?.focus()
+    }
+  }, [isOpen])
+
+  const handleDropdownKeyDown = (e: React.KeyboardEvent) => {
+    const buttons = optionRefs.current
+
+    const currentIndex = Array.from(buttons).indexOf(
+      document.activeElement as HTMLButtonElement
+    )
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        buttons[(currentIndex + 1) % buttons.length]?.focus()
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        buttons[(currentIndex - 1 + buttons.length) % buttons.length]?.focus()
+        break
+      case 'Escape':
+        e.preventDefault()
+        toggleOpen()
+        toggleButtonRef.current?.focus()
+        break
+    }
+  }
 
   return (
     <>
       <Container ref={wrapperRef}>
         <DropdownButtonContainer
+          ref={toggleButtonRef}
           isOpen={isOpen}
           onClick={toggleOpen}
+          onKeyDown={(e) => {
+            if (e.key === 'ArrowDown') {
+              toggleOpen()
+            }
+          }}
           className={'dropdown-toggle'}
+          tabIndex={0}
         >
           <Label>
             Sorted by:
@@ -43,27 +84,26 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
           </Label>
         </DropdownButtonContainer>
         {isOpen && (
-          <DropdownList direction={'right'} minWidth={100}>
-            <Option
-              onClick={(e) => {
-                setSortBy('Date')
-                toggleOpen()
-              }}
-              key={'Date'}
-              value={'Date'}
-            >
-              Date
-            </Option>
-            <Option
-              onClick={(e) => {
-                setSortBy('in Context')
-                toggleOpen()
-              }}
-              key={'in Context'}
-              value={'in Context'}
-            >
-              in Context
-            </Option>
+          <DropdownList
+            direction={'right'}
+            minWidth={100}
+            onKeyDown={handleDropdownKeyDown}
+          >
+            {options.map((opt, index) => (
+              <Option
+                key={opt}
+                value={opt}
+                ref={(el) => {
+                  if (el) optionRefs.current[index] = el
+                }}
+                onClick={() => {
+                  setSortBy(opt)
+                  toggleOpen()
+                }}
+              >
+                {opt}
+              </Option>
+            ))}
           </DropdownList>
         )}
       </Container>
@@ -95,6 +135,11 @@ const Container = styled(DropdownContainer)`
   .dropdown-toggle {
     border: none;
     background: transparent !important;
+
+    &:focus-visible {
+      outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+      outline-offset: 2px;
+    }
   }
 `
 
@@ -103,10 +148,16 @@ const Option = styled(SecondaryButton)`
   text-align: left;
   display: block;
   border: none;
-  &:not([disabled]):hover {
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
     background: ${(props) => props.theme.colors.background.fifth} !important;
     color: ${(props) =>
       props.theme.colors.button.secondary.color.default} !important;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
   }
 `
 const DropdownList = styled(Dropdown)`
