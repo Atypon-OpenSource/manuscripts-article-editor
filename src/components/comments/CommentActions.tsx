@@ -133,7 +133,9 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
               role="menu"
             >
               <CommentAction
-                ref={(el) => (itemRefs.current[0] = el)}
+                ref={(el) => {
+                  itemRefs.current[0] = el
+                }}
                 data-cy="comment-edit"
                 onClick={onEdit}
                 tabIndex={-1}
@@ -142,7 +144,9 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
                 Edit
               </CommentAction>
               <CommentAction
-                ref={(el) => (itemRefs.current[1] = el)}
+                ref={(el) => {
+                  itemRefs.current[1] = el
+                }}
                 className="delete-button"
                 data-cy="comment-delete"
                 onClick={onDelete}

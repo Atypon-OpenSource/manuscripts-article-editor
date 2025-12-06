@@ -93,7 +93,9 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
               <Option
                 key={opt}
                 value={opt}
-                ref={(el) => (optionRefs.current[index] = el!)}
+                ref={(el) => {
+                  if (el) optionRefs.current[index] = el
+                }}
                 onClick={() => {
                   setSortBy(opt)
                   toggleOpen()
