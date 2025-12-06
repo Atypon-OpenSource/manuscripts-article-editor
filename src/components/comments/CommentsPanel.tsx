@@ -28,7 +28,7 @@ import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
 import { findChildrenByType } from 'prosemirror-utils'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { buildThreads, getOrphanComments, Thread } from '../../lib/comments'
@@ -77,6 +77,8 @@ export const CommentsPanel: React.FC = () => {
 
   const [showResolved, setShowResolved] = useState(true)
   const [openTab, toggleTab] = useState<'active' | 'orphan'>('active')
+  const threadCardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const orphanCardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const toggleCommentsTab = () =>
     toggleTab(openTab === 'active' ? 'orphan' : 'active')
@@ -198,6 +200,36 @@ export const CommentsPanel: React.FC = () => {
     return thread && selectedCommentKey === thread.comment.key
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!['ArrowDown', 'ArrowUp'].includes(e.key)) {
+      return
+    }
+
+    const cardRefs = openTab === 'active' ? threadCardRefs : orphanCardRefs
+    const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[]
+    if (cards.length === 0) {
+      return
+    }
+
+    const currentIndex = cards.findIndex(
+      (card) =>
+        card === document.activeElement || card.contains(document.activeElement)
+    )
+    if (currentIndex === -1) {
+      return
+    }
+
+    e.preventDefault()
+
+    if (e.key === 'ArrowDown') {
+      const nextIndex = (currentIndex + 1) % cards.length
+      cards[nextIndex]?.focus()
+    } else if (e.key === 'ArrowUp') {
+      const prevIndex = (currentIndex - 1 + cards.length) % cards.length
+      cards[prevIndex]?.focus()
+    }
+  }
+
   if (!view) {
     return null
   }
@@ -214,7 +246,7 @@ export const CommentsPanel: React.FC = () => {
         onToggle={toggleCommentsTab}
       />
       {openTab === 'active' && (
-        <CommentsList data-cy="active-comments">
+        <CommentsList data-cy="active-comments" onKeyDown={handleKeyDown}>
           {!!threads.length && (
             <Header>
               <CheckboxLabel>
@@ -248,6 +280,10 @@ export const CommentsPanel: React.FC = () => {
                 onSave={handleSave}
                 onDelete={handleDelete}
                 insertCommentReply={insertCommentReply}
+                isTabbable={i === 0}
+                cardRef={(el) => {
+                  threadCardRefs.current[i] = el
+                }}
               />
             ))}
         </CommentsList>
@@ -258,7 +294,7 @@ export const CommentsPanel: React.FC = () => {
         onToggle={toggleCommentsTab}
       />
       {openTab === 'orphan' && (
-        <CommentsList data-cy="orphan-comments">
+        <CommentsList data-cy="orphan-comments" onKeyDown={handleKeyDown}>
           {orphanThreads
             .filter((c) => showResolved || !c.comment.node.attrs.resolved)
             .map((c, i, a) => (
@@ -274,6 +310,10 @@ export const CommentsPanel: React.FC = () => {
                 onSave={handleSave}
                 onDelete={handleDelete}
                 insertCommentReply={insertCommentReply}
+                isTabbable={i === 0}
+                cardRef={(el) => {
+                  orphanCardRefs.current[i] = el
+                }}
               />
             ))}
         </CommentsList>

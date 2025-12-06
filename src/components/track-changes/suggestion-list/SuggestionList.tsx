@@ -40,7 +40,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   onAcceptAll,
   onSelect,
 }) => {
-  const listRef = React.useRef<HTMLUListElement>(null)
+  const cardLinkRefs = React.useRef<(HTMLDivElement | null)[]>([])
   const [{ isComparingMode }] = useStore((store) => ({
     isComparingMode: store.isComparingMode,
   }))
@@ -56,24 +56,18 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
     .sort(sortBy === 'Date' ? changesByDate : changesByContext)
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!listRef.current || !['ArrowDown', 'ArrowUp'].includes(e.key)) {
+    if (!['ArrowDown', 'ArrowUp'].includes(e.key)) {
       return
     }
 
-    const suggestions = Array.from(
-      listRef.current.querySelectorAll('[data-cy="suggestion"]')
+    const cardLinks = cardLinkRefs.current.filter(Boolean) as HTMLDivElement[]
+    if (cardLinks.length === 0) {
+      return
+    }
+
+    const currentIndex = cardLinks.findIndex(
+      (link) => link === document.activeElement || link.contains(document.activeElement)
     )
-    if (suggestions.length === 0) {
-      return
-    }
-
-    const activeElement = document.activeElement as HTMLElement
-    const currentSuggestion = activeElement.closest('[data-cy="suggestion"]')
-    if (!currentSuggestion) {
-      return
-    }
-
-    const currentIndex = suggestions.indexOf(currentSuggestion)
     if (currentIndex === -1) {
       return
     }
@@ -81,18 +75,11 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
     e.preventDefault()
 
     if (e.key === 'ArrowDown') {
-      const nextIndex = (currentIndex + 1) % suggestions.length
-      const nextSuggestion = suggestions[
-        nextIndex
-      ]?.querySelector<HTMLDivElement>('[data-cy="suggestion-card-link"]')
-      nextSuggestion?.focus()
+      const nextIndex = (currentIndex + 1) % cardLinks.length
+      cardLinks[nextIndex]?.focus()
     } else if (e.key === 'ArrowUp') {
-      const prevIndex =
-        (currentIndex - 1 + suggestions.length) % suggestions.length
-      const prevSuggestion = suggestions[
-        prevIndex
-      ]?.querySelector<HTMLDivElement>('[data-cy="suggestion-card-link"]')
-      prevSuggestion?.focus()
+      const prevIndex = (currentIndex - 1 + cardLinks.length) % cardLinks.length
+      cardLinks[prevIndex]?.focus()
     }
   }
 
@@ -103,7 +90,6 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
       fixed={true}
     >
       <List
-        ref={listRef}
         data-cy="suggestions-list"
         data-cy-type={type}
         onKeyDown={handleKeyDown}
@@ -117,6 +103,9 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
             onReject={() => !isComparingMode && onReject(c)}
             onSelect={() => onSelect && onSelect(c)}
             isTabbable={index === 0}
+            cardLinkRef={(el) => {
+              cardLinkRefs.current[index] = el
+            }}
           />
         ))}
       </List>

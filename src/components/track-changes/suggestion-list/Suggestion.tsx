@@ -26,6 +26,7 @@ interface Props {
   onReject: () => void
   onSelect(): void
   isTabbable: boolean
+  cardLinkRef?: (el: HTMLDivElement | null) => void
 }
 
 export const Suggestion: React.FC<Props> = ({
@@ -35,9 +36,21 @@ export const Suggestion: React.FC<Props> = ({
   onReject,
   onSelect,
   isTabbable,
+  cardLinkRef,
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
-  const linkRef = useRef<HTMLDivElement>(null)
+  const linkRef = useRef<HTMLDivElement | null>(null)
+  const actionButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  const setLinkRef = (el: HTMLDivElement | null) => {
+    linkRef.current = el
+    cardLinkRef?.(el)
+  }
+
+  const setActionButtonRef = (el: HTMLButtonElement | null, index: number) => {
+    actionButtonRefs.current[index] = el
+  }
+
   const [trackModalVisible, setModalVisible] = useState(false)
   const [{ isComparingMode, isTrackingChangesVisible }] = useStore((store) => ({
     isComparingMode: store.isComparingMode,
@@ -61,15 +74,10 @@ export const Suggestion: React.FC<Props> = ({
     if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) {
       return
     }
-    if (!wrapperRef.current) {
-      return
-    }
 
-    const actionButtons = Array.from(
-      wrapperRef.current.querySelectorAll<HTMLButtonElement>(
-        '[data-cy="suggestion-actions"] button'
-      )
-    )
+    const actionButtons = actionButtonRefs.current.filter(
+      Boolean
+    ) as HTMLButtonElement[]
     if (actionButtons.length === 0) {
       return
     }
@@ -126,9 +134,10 @@ export const Suggestion: React.FC<Props> = ({
         handleAccept={onAccept}
         handleReject={onReject}
         isTrackingChangesVisible={isTrackingChangesVisible}
-        linkRef={linkRef}
+        linkRef={setLinkRef}
         isTabbable={isTabbable}
         onLinkClick={handleClick}
+        actionButtonRefs={setActionButtonRef}
       />
 
       {trackModalVisible && (

@@ -30,7 +30,8 @@ import { useStore } from '../store/useStore'
 const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
-  const dropdownListRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
+  const itemRefs = useRef<(HTMLElement | null)[]>([])
   const [storeState] = useStore((s) => ({
     doc: s.doc,
     view: s.view,
@@ -47,21 +48,13 @@ const DocumentOptionsDropdown: React.FC = () => {
   }
 
   useEffect(() => {
-    if (isOpen && dropdownListRef.current) {
-      const firstItem =
-        dropdownListRef.current.querySelector<HTMLElement>('[role="menuitem"]')
-      firstItem?.focus()
+    if (isOpen) {
+      itemRefs.current[0]?.focus()
     }
   }, [isOpen])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!dropdownListRef.current) {
-      return
-    }
-
-    const menuItems = Array.from(
-      dropdownListRef.current.querySelectorAll<HTMLElement>('[role="menuitem"]')
-    )
+    const menuItems = itemRefs.current.filter(Boolean) as HTMLElement[]
     if (!menuItems.length) {
       return
     }
@@ -85,14 +78,14 @@ const DocumentOptionsDropdown: React.FC = () => {
     } else if (e.key === 'Escape') {
       e.preventDefault()
       toggleOpen()
-      const button = wrapperRef.current?.querySelector('button') as HTMLElement
-      button?.focus()
+      toggleButtonRef.current?.focus()
     }
   }
 
   return (
     <DropdownContainer ref={wrapperRef}>
       <ToggleDropdownButton
+        ref={toggleButtonRef}
         data-cy="document-options-button"
         title="Document Options"
         onClick={toggleOpen}
@@ -103,7 +96,6 @@ const DocumentOptionsDropdown: React.FC = () => {
 
       {isOpen && (
         <HistoryDropdownList
-          ref={dropdownListRef}
           role="menu"
           data-cy="history-dropdown"
           direction="right"
@@ -112,6 +104,9 @@ const DocumentOptionsDropdown: React.FC = () => {
           onKeyDown={handleKeyDown}
         >
           <DropdownItem
+            ref={(el) => {
+              itemRefs.current[0] = el
+            }}
             data-cy="version-history-button"
             tabIndex={0}
             role="menuitem"
@@ -142,6 +137,9 @@ const DocumentOptionsDropdown: React.FC = () => {
             onLanguageSelect={handleLanguageChange}
             onCloseParent={toggleOpen}
             languages={storeState.languages}
+            menuItemRef={(el) => {
+              itemRefs.current[1] = el
+            }}
           />
         </HistoryDropdownList>
       )}

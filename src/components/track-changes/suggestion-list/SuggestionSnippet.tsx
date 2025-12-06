@@ -32,9 +32,10 @@ interface Props {
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
   isTrackingChangesVisible: boolean
-  linkRef: React.RefObject<HTMLDivElement | null>
+  linkRef: (el: HTMLDivElement | null) => void
   isTabbable: boolean
   onLinkClick: (e: React.MouseEvent | React.KeyboardEvent) => void
+  actionButtonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
 export const SuggestionSnippet: React.FC<Props> = ({
@@ -47,6 +48,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
   linkRef,
   isTabbable,
   onLinkClick,
+  actionButtonRefs,
 }) => {
   const [{ view, collaboratorsById, files, isTrackingChangesVisible }] =
     useStore((store) => ({
@@ -80,7 +82,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
   return (
     <SnippetText>
       <CardLink
-        ref={linkRef as React.RefObject<HTMLDivElement>}
+        ref={linkRef}
         data-cy="suggestion-card-link"
         onClick={onLinkClick}
         onKeyDown={(e: React.KeyboardEvent) => {
@@ -118,6 +120,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
                   suggestions={suggestions}
                   handleAccept={handleAccept}
                   handleReject={handleReject}
+                  buttonRefs={actionButtonRefs}
                 />
               </CardActions>
             )}

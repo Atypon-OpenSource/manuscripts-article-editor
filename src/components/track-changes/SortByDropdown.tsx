@@ -27,20 +27,19 @@ interface Props {
 }
 export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
+  const optionRefs = useRef<HTMLButtonElement[]>([])
+
+  const options = ['Date', 'in Context']
 
   useEffect(() => {
-    if (isOpen && dropdownRef.current) {
-      dropdownRef.current.querySelector<HTMLButtonElement>('button')?.focus()
+    if (isOpen) {
+      optionRefs.current[0]?.focus()
     }
   }, [isOpen])
 
   const handleDropdownKeyDown = (e: React.KeyboardEvent) => {
-    const buttons =
-      dropdownRef.current?.querySelectorAll<HTMLButtonElement>('button')
-    if (!buttons?.length) {
-      return
-    }
+    const buttons = optionRefs.current
 
     const currentIndex = Array.from(buttons).indexOf(
       document.activeElement as HTMLButtonElement
@@ -58,10 +57,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
       case 'Escape':
         e.preventDefault()
         toggleOpen()
-        const button = wrapperRef.current?.querySelector(
-          'button'
-        ) as HTMLElement
-        button?.focus()
+        toggleButtonRef.current?.focus()
         break
     }
   }
@@ -70,6 +66,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
     <>
       <Container ref={wrapperRef}>
         <DropdownButtonContainer
+          ref={toggleButtonRef}
           isOpen={isOpen}
           onClick={toggleOpen}
           onKeyDown={(e) => {
@@ -88,31 +85,23 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
         </DropdownButtonContainer>
         {isOpen && (
           <DropdownList
-            ref={dropdownRef}
             direction={'right'}
             minWidth={100}
             onKeyDown={handleDropdownKeyDown}
           >
-            <Option
-              onClick={(e) => {
-                setSortBy('Date')
-                toggleOpen()
-              }}
-              key={'Date'}
-              value={'Date'}
-            >
-              Date
-            </Option>
-            <Option
-              onClick={(e) => {
-                setSortBy('in Context')
-                toggleOpen()
-              }}
-              key={'in Context'}
-              value={'in Context'}
-            >
-              in Context
-            </Option>
+            {options.map((opt, index) => (
+              <Option
+                key={opt}
+                value={opt}
+                ref={(el) => (optionRefs.current[index] = el!)}
+                onClick={() => {
+                  setSortBy(opt)
+                  toggleOpen()
+                }}
+              >
+                {opt}
+              </Option>
+            ))}
           </DropdownList>
         )}
       </Container>

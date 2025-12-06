@@ -22,12 +22,14 @@ interface Props {
   suggestions: RootChange
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
+  buttonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
 const SuggestionAction: React.FC<Props> = ({
   suggestions,
   handleAccept,
   handleReject,
+  buttonRefs,
 }) => {
   const [{ user }] = useStore((store) => ({
     user: store.user,
@@ -51,11 +53,15 @@ const SuggestionAction: React.FC<Props> = ({
   const rejectTooltip = 'back-tooltip' + '-' + suggestion.id
   const approveTooltip = 'approve-tooltip' + '-' + suggestion.id
 
+  // Track button index for refs
+  let buttonIndex = 0
+
   return (
     <Actions data-cy="suggestion-actions">
       {canRejectOwnSuggestion && (
         <Container>
           <Action
+            ref={(el) => buttonRefs?.(el, buttonIndex++)}
             type="button"
             onClick={() => handleReject(suggestions)}
             aria-pressed={false}
@@ -72,6 +78,7 @@ const SuggestionAction: React.FC<Props> = ({
       {can.handleSuggestion && (
         <Container>
           <Action
+            ref={(el) => buttonRefs?.(el, buttonIndex++)}
             type="button"
             onClick={() => handleAccept(suggestions)}
             aria-pressed={false}
