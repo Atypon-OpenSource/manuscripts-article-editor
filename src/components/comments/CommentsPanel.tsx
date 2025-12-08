@@ -246,7 +246,7 @@ export const CommentsPanel: React.FC = () => {
         </CommentsList>
       )}
       <ToggleHeader
-        title={`Orphaned Comments (${orphanThreads.length})`}
+        title={`Orphaned comments (${orphanThreads.length})`}
         isOpen={openTab === 'orphan'}
         onToggle={toggleCommentsTab}
       />

@@ -32,7 +32,7 @@ type LinkedFilesSectionProps = {
 export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
   linkedFiles,
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true) // it is open by default
   const toggleVisibility = () => setIsOpen((prev) => !prev)
 
   const [{ view, fileManagement }] = useStore((s) => ({
@@ -90,7 +90,7 @@ export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
   return (
     <div data-cy="linked-files-section">
       <ToggleHeader
-        title="Linked Files"
+        title="Linked files"
         isOpen={isOpen}
         onToggle={toggleVisibility}
       />
