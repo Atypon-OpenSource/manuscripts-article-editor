@@ -236,6 +236,13 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     e.stopPropagation()
                     toggleGroupOpen(groupIndex)
                   }}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.stopPropagation()
+                      toggleGroupOpen(groupIndex)
+                    }
+                  }}
                 >
                   {isOpen ? (
                     <TriangleExpandedIcon />
@@ -254,6 +261,16 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     onClick={(e) => {
                       e.stopPropagation()
                       handleFileClick(fileAttachment.pos)
+                    }}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (
+                        e.key === 'Enter' &&
+                        e.currentTarget === document.activeElement
+                      ) {
+                        e.stopPropagation()
+                        handleFileClick(fileAttachment.pos)
+                      }
                     }}
                   >
                     {fileAttachment.file && (
