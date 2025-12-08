@@ -179,7 +179,9 @@ export const FileActions: React.FC<{
           {showDownload && (
             <FileAction
               onClick={onDownload}
-              ref={(el) => (itemRefs.current[refIndex++] = el)}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
             >
               Download
             </FileAction>
@@ -188,7 +190,9 @@ export const FileActions: React.FC<{
             <>
               <FileAction
                 onClick={openFileDialog}
-                ref={(el) => (itemRefs.current[refIndex++] = el)}
+                ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
               >
                 Replace
               </FileAction>
@@ -205,7 +209,9 @@ export const FileActions: React.FC<{
           {showDetach && (
             <FileAction
               onClick={onDetach}
-              ref={(el) => (itemRefs.current[refIndex++] = el)}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
             >
               Detach
             </FileAction>
@@ -214,7 +220,9 @@ export const FileActions: React.FC<{
           {showDelete && (
             <FileAction
               onClick={onDelete}
-              ref={(el) => (itemRefs.current[refIndex++] = el)}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
             >
               Delete
             </FileAction>
@@ -223,7 +231,9 @@ export const FileActions: React.FC<{
           {showMove && (
             <FileAction
               onClick={() => setMoveDialogOpen(true)}
-              ref={(el) => (itemRefs.current[refIndex++] = el)}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
             >
               Move to {move.sectionType}
             </FileAction>
@@ -231,7 +241,9 @@ export const FileActions: React.FC<{
           {showUseAsMain && (
             <FileAction
               onClick={() => setUseAsMainDialogOpen(true)}
-              ref={(el) => (itemRefs.current[refIndex++] = el)}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
             >
               Use as main document
             </FileAction>
