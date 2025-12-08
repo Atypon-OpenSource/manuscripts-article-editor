@@ -123,8 +123,8 @@ export const ManuscriptToolbar: React.FC = () => {
       return []
     }
     return Array.from(
-      containerRef.current.querySelectorAll<HTMLButtonElement>(
-        '[data-toolbar-button]:not([disabled])'
+      containerRef.current.querySelectorAll<HTMLElement>(
+        '[data-toolbar-button]:not([disabled]):not([aria-disabled="true"])'
       )
     )
   }, [])
@@ -163,7 +163,7 @@ export const ManuscriptToolbar: React.FC = () => {
 
     const target = event.target as HTMLElement
     // Only handle if a button is currently focused
-    if (target.tagName !== 'BUTTON') {
+    if (!target.hasAttribute('data-toolbar-button')) {
       return
     }
 

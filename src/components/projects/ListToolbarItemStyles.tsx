@@ -52,6 +52,11 @@ export const ListButton = styled.button.attrs({
   border-right: 0;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
+  }
 `
 
 export const ListStyleButton = styled.button.attrs({
@@ -73,5 +78,10 @@ export const ListStyleButton = styled.button.attrs({
 
   &:hover path {
     stroke: #6e6e6e;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
   }
 `
