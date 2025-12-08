@@ -47,7 +47,7 @@ export type SupplementsSectionProps = {
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true) // it is open by default
   const toggleVisibility = () => setIsOpen((prev) => !prev)
 
   const [{ view, fileManagement }] = useStore((s) => ({
