@@ -32,7 +32,7 @@ export enum FileSectionType {
   Inline = 'Inline files',
   Supplements = 'Supplements',
   OtherFile = 'Other files',
-  MainFile = 'Main Document',
+  MainFile = 'Main document',
 }
 
 export type Replace = (file: File) => Promise<void>
@@ -85,7 +85,7 @@ export const FileManager: React.FC = () => {
           Files that can be found inline in the manuscript.
         </Tooltip>
         <SecondaryInspectorTab data-tooltip-id="main-tooltip">
-          Main Document
+          Main document
         </SecondaryInspectorTab>
         <Tooltip id="main-tooltip" place="bottom">
           The main document of the manuscript.

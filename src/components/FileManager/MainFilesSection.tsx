@@ -191,7 +191,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       <Dialog
         isOpen={isConfirmDialogOpen}
         category={Category.confirmation}
-        header="Replace Main Document"
+        header="Replace main document"
         message={
           <>
             This action will replace the current main document file with this
