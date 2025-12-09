@@ -9,13 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-
 import '@manuscripts/body-editor/styles/Editor.css'
 import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
-
 import {
   IconButton,
+  SaveStatus,
   SliderOffIcon,
   SliderOnIcon,
 } from '@manuscripts/style-guide'
@@ -80,10 +79,13 @@ const ManuscriptPageView: React.FC = () => {
   const [isTrackingChangesVisible, toggleTrackingChangesVisibility] =
     useTrackingVisibility()
 
-  const [{ isViewingMode, isComparingMode }] = useStore((store) => ({
-    isViewingMode: store.isViewingMode,
-    isComparingMode: store.isComparingMode,
-  }))
+  const [{ isViewingMode, isComparingMode, savingProcess }] = useStore(
+    (store) => ({
+      isViewingMode: store.isViewingMode,
+      isComparingMode: store.isComparingMode,
+      savingProcess: store.savingProcess,
+    })
+  )
 
   const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
   const isTrackingVisible =
@@ -99,7 +101,10 @@ const ManuscriptPageView: React.FC = () => {
               <EditorHeader data-cy="editor-header">
                 <ManuscriptMenusContainer>
                   <ManuscriptMenusContainerInner>
-                    <ManuscriptMenus />
+                    <MenusWrapper>
+                      <ManuscriptMenus />
+                      {savingProcess && <SaveStatus status={savingProcess} />}
+                    </MenusWrapper>
                   </ManuscriptMenusContainerInner>
 
                   {showTrackChangesToggle && (
@@ -197,6 +202,12 @@ export const ManuscriptMenusContainerInner = styled.div`
     ${(props) => props.theme.grid.unit}px
     ${(props) => props.theme.grid.unit * 15}px;
   box-sizing: border-box;
+`
+
+const MenusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const PageWrapper = styled.div`
