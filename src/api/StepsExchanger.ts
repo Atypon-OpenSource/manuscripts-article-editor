@@ -83,7 +83,7 @@ export class StepsExchanger extends CollabProvider {
     api: Api,
     updateStoreVersion: (version: number) => void
   ) {
-    if (StepsExchanger.instance) {
+    if (StepsExchanger.instance?.manuscriptID == manuscriptID) {
       StepsExchanger.instance.start()
       return StepsExchanger.instance
     }
