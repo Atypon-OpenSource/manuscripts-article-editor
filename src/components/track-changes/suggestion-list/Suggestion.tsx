@@ -17,7 +17,7 @@ import styled from 'styled-components'
 import { scrollIntoView } from '../../../lib/utils'
 import { useStore } from '../../../store'
 import TrackModal from '../TrackModal'
-import { SuggestionSnippet } from './SuggestionSnippet'
+import { Card, CardActions, SuggestionSnippet } from './SuggestionSnippet'
 
 interface Props {
   suggestions: RootChange
@@ -127,18 +127,31 @@ export const Suggestion: React.FC<Props> = ({
       ref={wrapperRef}
       onKeyDown={handleKeyDown}
     >
-      <SuggestionSnippet
-        suggestions={suggestions}
-        isComparingMode={isComparingMode}
-        isFocused={isSelected}
-        handleAccept={onAccept}
-        handleReject={onReject}
+      <FocusHandle
+        ref={setLinkRef}
+        tabIndex={isTabbable ? 0 : -1}
         isTrackingChangesVisible={isTrackingChangesVisible}
-        linkRef={setLinkRef}
-        isTabbable={isTabbable}
-        onLinkClick={handleClick}
-        actionButtonRefs={setActionButtonRef}
-      />
+        onClick={handleClick}
+        onKeyDown={(e: React.KeyboardEvent) => {
+          if (e.target !== e.currentTarget) {
+            return
+          }
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            handleClick(e)
+          }
+        }}
+      >
+        <SuggestionSnippet
+          suggestions={suggestions}
+          isComparingMode={isComparingMode}
+          isFocused={isSelected}
+          handleAccept={onAccept}
+          handleReject={onReject}
+          isTrackingChangesVisible={isTrackingChangesVisible}
+          actionButtonRefs={setActionButtonRef}
+        />
+      </FocusHandle>
 
       {trackModalVisible && (
         <TrackModal
@@ -155,3 +168,29 @@ export const Suggestion: React.FC<Props> = ({
 const Wrapper = styled.li<{
   isFocused: boolean
 }>``
+
+const FocusHandle = styled.div<{
+  isTrackingChangesVisible: boolean
+}>`
+  color: inherit;
+  overflow: hidden;
+  cursor: ${(props) =>
+    props.isTrackingChangesVisible ? 'pointer' : 'default'};
+
+  &:focus {
+    outline: none;
+  }
+
+  ${(props) =>
+    props.isTrackingChangesVisible
+      ? `&:focus ${Card},
+      &:focus-within ${Card} {
+      background: ${props.theme.colors.background.tracked.hover};
+
+      ${CardActions} {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }`
+      : ''}
+`

@@ -32,9 +32,6 @@ interface Props {
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
   isTrackingChangesVisible: boolean
-  linkRef: (el: HTMLDivElement | null) => void
-  isTabbable: boolean
-  onLinkClick: (e: React.MouseEvent | React.KeyboardEvent) => void
   actionButtonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
@@ -45,9 +42,6 @@ export const SuggestionSnippet: React.FC<Props> = ({
   handleAccept,
   handleReject,
   isTrackingChangesVisible: isTrackingChangesVisibleProp,
-  linkRef,
-  isTabbable,
-  onLinkClick,
   actionButtonRefs,
 }) => {
   const [{ view, collaboratorsById, files, isTrackingChangesVisible }] =
@@ -81,100 +75,53 @@ export const SuggestionSnippet: React.FC<Props> = ({
 
   return (
     <SnippetText>
-      <CardLink
-        ref={linkRef}
-        data-cy="suggestion-card-link"
-        onClick={onLinkClick}
-        onKeyDown={(e: React.KeyboardEvent) => {
-          if (e.target !== e.currentTarget) {
-            return
-          }
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            onLinkClick(e)
-          }
-        }}
-        tabIndex={isTabbable ? 0 : -1}
-        isTrackingChangesVisible={isTrackingChangesVisibleProp}
-        role="button"
+      <Card
+        isFocused={isFocused}
+        isTrackingChangesVisible={isTrackingChangesVisible}
+        data-cy="suggestion-card"
       >
-        <Card
-          isFocused={isFocused}
-          isTrackingChangesVisible={isTrackingChangesVisible}
-          data-cy="suggestion-card"
-        >
-          <CardHeader data-cy="card-header">
-            <CardMetadata data-cy="card-metadata">
-              <AuthorContainer>
-                <AvatarIcon width={16} height={16} />
-                <AuthorName>{authorName}</AuthorName>{' '}
-              </AuthorContainer>
-              <MetadataDate
-                date={dataTracked?.createdAt}
-                isTrackingChangesVisible={isTrackingChangesVisible}
+        <CardHeader data-cy="card-header">
+          <CardMetadata data-cy="card-metadata">
+            <AuthorContainer>
+              <AvatarIcon width={16} height={16} />
+              <AuthorName>{authorName}</AuthorName>{' '}
+            </AuthorContainer>
+            <MetadataDate
+              date={dataTracked?.createdAt}
+              isTrackingChangesVisible={isTrackingChangesVisible}
+            />
+          </CardMetadata>
+          {!isComparingMode && (
+            <CardActions data-cy="card-actions">
+              <SuggestionActions
+                suggestions={suggestions}
+                handleAccept={handleAccept}
+                handleReject={handleReject}
+                buttonRefs={actionButtonRefs}
               />
-            </CardMetadata>
-            {!isComparingMode && (
-              <CardActions data-cy="card-actions">
-                <SuggestionActions
-                  suggestions={suggestions}
-                  handleAccept={handleAccept}
-                  handleReject={handleReject}
-                  buttonRefs={actionButtonRefs}
-                />
-              </CardActions>
-            )}
-          </CardHeader>
-          <CardBody data-cy="card-body">
-            {snippet?.operation && (
-              <Operation
-                color={
-                  isTrackingChangesVisible ? dataTracked.operation : 'muted'
-                }
-              >
-                {snippet?.operation}:
-              </Operation>
-            )}
-            {snippet?.nodeName && <NodeName>{snippet?.nodeName}</NodeName>}
-            <SnippetContent content={snippet?.content || ''} />
-          </CardBody>
-        </Card>
-      </CardLink>
+            </CardActions>
+          )}
+        </CardHeader>
+        <CardBody data-cy="card-body">
+          {snippet?.operation && (
+            <Operation
+              color={isTrackingChangesVisible ? dataTracked.operation : 'muted'}
+            >
+              {snippet?.operation}:
+            </Operation>
+          )}
+          {snippet?.nodeName && <NodeName>{snippet?.nodeName}</NodeName>}
+          <SnippetContent content={snippet?.content || ''} />
+        </CardBody>
+      </Card>
     </SnippetText>
   )
 }
 
-const CardActions = styled.div`
+export const CardActions = styled.div`
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-`
-
-const CardLink = styled.div<{
-  isTrackingChangesVisible: boolean
-}>`
-  color: inherit;
-  overflow: hidden;
-  cursor: ${(props) =>
-    props.isTrackingChangesVisible ? 'pointer' : 'default'};
-  display: block;
-
-  &:focus {
-    outline: none;
-  }
-
-  ${(props) =>
-    props.isTrackingChangesVisible
-      ? `&:focus > div,
-      &:focus-within > div {
-      background: ${props.theme.colors.background.tracked.hover};
-      
-      & ${CardActions} {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    }`
-      : ''}
 `
 
 const isActive = (props: {
