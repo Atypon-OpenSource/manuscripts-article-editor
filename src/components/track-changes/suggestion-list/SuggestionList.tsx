@@ -40,7 +40,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   onAcceptAll,
   onSelect,
 }) => {
-  const cardLinkRefs = React.useRef<(HTMLDivElement | null)[]>([])
+  const cardLinkRefs = React.useRef<(HTMLAnchorElement | null)[]>([])
   const [{ isComparingMode }] = useStore((store) => ({
     isComparingMode: store.isComparingMode,
   }))
@@ -60,7 +60,9 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
       return
     }
 
-    const cardLinks = cardLinkRefs.current.filter(Boolean) as HTMLDivElement[]
+    const cardLinks = cardLinkRefs.current.filter(
+      Boolean
+    ) as HTMLAnchorElement[]
     if (cardLinks.length === 0) {
       return
     }

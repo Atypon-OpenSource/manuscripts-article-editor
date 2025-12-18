@@ -26,7 +26,7 @@ interface Props {
   onReject: () => void
   onSelect(): void
   isTabbable: boolean
-  cardLinkRef?: (el: HTMLDivElement | null) => void
+  cardLinkRef?: (el: HTMLAnchorElement | null) => void
 }
 
 export const Suggestion: React.FC<Props> = ({
@@ -39,10 +39,10 @@ export const Suggestion: React.FC<Props> = ({
   cardLinkRef,
 }) => {
   const wrapperRef = useRef<HTMLLIElement>(null)
-  const linkRef = useRef<HTMLDivElement | null>(null)
+  const linkRef = useRef<HTMLAnchorElement | null>(null)
   const actionButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
 
-  const setLinkRef = (el: HTMLDivElement | null) => {
+  const setLinkRef = (el: HTMLAnchorElement | null) => {
     linkRef.current = el
     cardLinkRef?.(el)
   }
@@ -169,7 +169,7 @@ const Wrapper = styled.li<{
   isFocused: boolean
 }>``
 
-const FocusHandle = styled.div<{
+const FocusHandle = styled.a<{
   isTrackingChangesVisible: boolean
 }>`
   color: inherit;
