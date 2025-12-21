@@ -155,6 +155,18 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
               handleMainDocumentClick(mainDocument.pos)
             }
           }}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (
+              e.key === 'Enter' &&
+              e.currentTarget === document.activeElement
+            ) {
+              e.stopPropagation()
+              if (isPDF(mainDocument.file)) {
+                handleMainDocumentClick(mainDocument.pos)
+              }
+            }
+          }}
         >
           <FileName
             file={mainDocument.file}
