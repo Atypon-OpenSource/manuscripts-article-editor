@@ -21,12 +21,14 @@ interface Props {
   suggestions: RootChange
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
+  buttonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
 const SuggestionAction: React.FC<Props> = ({
   suggestions,
   handleAccept,
   handleReject,
+  buttonRefs,
 }) => {
   const [{ user }] = useStore((store) => ({
     user: store.user,
@@ -47,10 +49,13 @@ const SuggestionAction: React.FC<Props> = ({
     return false
   }, [suggestion, can, user?._id])
 
+    // Track button index for refs
+    let buttonIndex = 0
   return (
     <Actions data-cy="suggestion-actions">
       {canRejectOwnSuggestion && (
           <Action
+              ref={(el) => buttonRefs?.(el, buttonIndex++)}
               type="button"
               onClick={() => handleReject(suggestions)}
               aria-pressed={false}
@@ -62,6 +67,7 @@ const SuggestionAction: React.FC<Props> = ({
       )}
       {can.handleSuggestion && (
           <Action
+              ref={(el) => buttonRefs?.(el, buttonIndex++)}
               type="button"
               onClick={() => handleAccept(suggestions)}
               aria-pressed={false}
@@ -103,7 +109,8 @@ export const Action = styled.button`
     opacity: 0.5;
   }
 
-  &:not([disabled]):hover {
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
     &[aria-pressed='true'] {
       path {
         stroke: ${(props) => props.theme.colors.brand.medium};

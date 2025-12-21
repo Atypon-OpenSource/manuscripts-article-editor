@@ -42,6 +42,11 @@ const Button = styled.button`
     background: #f2fbfc;
     border: 1px solid #c9c9c9;
   }
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: 2px;
+  }
 `
 
 export interface CommentResolveButtonProps {
@@ -60,6 +65,7 @@ export const CommentResolveButton: React.FC<CommentResolveButtonProps> = ({
             onClick={onClick}
             aria-label={label}
             data-tooltip-content={label}
+            tabIndex={0}
         >
             <CommentResolveIcon />
         </Button>
