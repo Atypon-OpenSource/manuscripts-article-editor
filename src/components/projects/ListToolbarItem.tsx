@@ -15,7 +15,6 @@ import {
   DropdownList,
   ToolbarOrderedListIcon,
   ToolbarUnorderedListIcon,
-  Tooltip,
   useDropdown,
 } from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
@@ -48,15 +47,12 @@ const ListStyleSelector: React.FC<ListStyleSelectorProps> = ({
   return (
     <Container onClick={() => !disabled && toggleOpen()} ref={wrapperRef}>
       <ListStyleButton
-        data-tooltip-id={title}
+        data-tooltip-content={title}
         disabled={disabled}
         aria-label={title}
       >
         <ArrowDownIcon />
       </ListStyleButton>
-      <Tooltip id={title} place="bottom">
-        {title}
-      </Tooltip>
       {isOpen && (
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
           <ListStyles styles={styles} onClick={onClick} />
@@ -95,7 +91,7 @@ export const ListToolbarItem: React.FC<{
   return (
     <ToolbarItem>
       <ListButton
-        data-tooltip-id={config.title}
+        data-tooltip-content={config.title}
         data-active={config.isActive && config.isActive(state)}
         disabled={!isEnabled}
         onMouseDown={(event) => {
@@ -111,9 +107,6 @@ export const ListToolbarItem: React.FC<{
           <ToolbarUnorderedListIcon />
         )}
       </ListButton>
-      <Tooltip id={config.title} place="bottom">
-        {config.title}
-      </Tooltip>
       <ListStyleSelector
         title={config.title + ' styles'}
         disabled={!isEnabled}
