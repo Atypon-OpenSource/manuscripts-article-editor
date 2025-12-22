@@ -35,12 +35,20 @@ export const FileContainer = styled.div`
     visibility: hidden;
   }
 
-  &:hover .show-on-hover {
+  &:hover .show-on-hover,
+  &:focus-visible .show-on-hover,
+  &:focus-within .show-on-hover {
     visibility: visible;
   }
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
     background: #f2fbfc;
+  }
+
+  &:focus {
+    outline: none;
   }
 `

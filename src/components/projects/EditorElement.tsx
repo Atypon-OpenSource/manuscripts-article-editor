@@ -153,6 +153,28 @@ const EditorElement: React.FC = () => {
     [dropRef]
   )
 
+  const handleEditorKeyDown = (
+    e: React.KeyboardEvent,
+    view: ManuscriptEditorView | undefined
+  ) => {
+    if (document.activeElement?.id !== 'editor') {
+      return
+    }
+
+    if (e.key === 'Tab' && !e.shiftKey) {
+      e.preventDefault()
+      const resizerButton = document.querySelector(
+        '[data-panel-name="inspector"] button'
+      ) as HTMLElement
+      resizerButton?.focus()
+    }
+
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      view?.focus()
+    }
+  }
+
   return (
     <>
       {error && (
@@ -182,6 +204,10 @@ const EditorElement: React.FC = () => {
             id="editor"
             key={`editor-mode-${isViewingMode ? 'view' : 'edit'}`}
             ref={onRender}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              handleEditorKeyDown(e, view)
+            }}
           ></div>
         </div>
       </>

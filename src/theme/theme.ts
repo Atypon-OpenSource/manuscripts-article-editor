@@ -155,6 +155,9 @@ export const theme: DefaultTheme = {
       success: colors.killarneyGreen,
       warning: colors.zestOrange,
     },
+    outline: {
+      focus: colors.focusBlue,
+    },
   },
   font: {
     family: {

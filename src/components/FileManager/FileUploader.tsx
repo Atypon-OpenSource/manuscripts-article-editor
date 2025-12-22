@@ -73,6 +73,13 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       data-cy="file-uploader"
       active={isActive}
       onClick={openFileDialog}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          openFileDialog()
+        }
+      }}
     >
       <input
         ref={fileInputRef}
@@ -107,6 +114,12 @@ const Container = styled.div<{ active: boolean }>`
   color: ${(props) => props.theme.colors.text.onLight};
   cursor: pointer;
   margin: 16px 16px 8px;
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: 2px;
+  }
+
   ${(props) =>
     props.active
       ? css`
