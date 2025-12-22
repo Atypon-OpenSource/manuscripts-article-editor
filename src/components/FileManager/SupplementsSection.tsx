@@ -243,6 +243,12 @@ const SupplementFile: React.FC<{
       ref={drag}
       className={isDragging ? 'dragging' : ''}
       onClick={onClick}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && e.currentTarget === document.activeElement) {
+          onClick()
+        }
+      }}
     >
       <FileName file={supplement.file} />
       <FileCreatedDate file={supplement.file} className="show-on-hover" />

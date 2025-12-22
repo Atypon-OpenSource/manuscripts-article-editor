@@ -108,16 +108,31 @@ const ManuscriptPageView: React.FC = () => {
                   </ManuscriptMenusContainerInner>
 
                   {showTrackChangesToggle && (
-                    <>
+                    <TrackChangesToggleWrapper
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          toggleTrackingChangesVisibility()
+                        }
+                      }}
+                      tabIndex={0}
+                      role="button"
+                      aria-label="show tracked changes"
+                      aria-pressed={isTrackingChangesVisible}
+                    >
                       <Label>Show tracked changes</Label>
                       <IconButton
                         defaultColor={true}
-                        onClick={toggleTrackingChangesVisibility}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleTrackingChangesVisibility()
+                        }}
                         aria-label={
                           isTrackingChangesVisible
                             ? 'Hide tracked changes'
                             : 'Show tracked changes'
                         }
+                        tabIndex={-1}
                       >
                         {isTrackingChangesVisible ? (
                           <SliderOnIcon />
@@ -125,7 +140,7 @@ const ManuscriptPageView: React.FC = () => {
                           <SliderOffIcon />
                         )}
                       </IconButton>
-                    </>
+                    </TrackChangesToggleWrapper>
                   )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
@@ -145,6 +160,19 @@ const ManuscriptPageView: React.FC = () => {
     </Wrapper>
   )
 }
+
+const TrackChangesToggleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0px 8px;
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
+  }
+`
 
 const Label = styled.div`
   padding-right: 8px;

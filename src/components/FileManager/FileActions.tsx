@@ -57,6 +57,8 @@ export const FileActions: React.FC<{
   const [isUseAsMainDialogOpen, setUseAsMainDialogOpen] =
     useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   const showDownload = can?.downloadFiles && onDownload
   const showReplace = can?.replaceFile && onReplace
@@ -101,13 +103,57 @@ export const FileActions: React.FC<{
     }
   }, [isOpen, wrapperRef, toggleOpen])
 
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => itemRefs.current[0]?.focus(), 0)
+    }
+  }, [isOpen])
+
   if (!show) {
     return null
   }
 
+  const closeDropdown = () => {
+    toggleOpen()
+    triggerRef.current?.focus()
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const items = itemRefs.current.filter(Boolean)
+    if (items.length === 0) {
+      return
+    }
+
+    const index = items.indexOf(document.activeElement as HTMLButtonElement)
+    if (index < 0) {
+      return
+    }
+
+    switch (e.key) {
+      case 'Escape':
+        e.preventDefault()
+        closeDropdown()
+        break
+
+      case 'ArrowDown':
+        e.preventDefault()
+        items[(index + 1) % items.length]?.focus()
+        break
+
+      case 'ArrowUp':
+        e.preventDefault()
+        items[(index - 1 + items.length) % items.length]?.focus()
+        break
+    }
+  }
+
+  // Index counter for refs
+  let refIndex = 0
+
   return (
     <DropdownContainer ref={wrapperRef}>
       <ActionsIcon
+        ref={triggerRef}
         onClick={(e) => {
           e.stopPropagation()
           toggleOpen()
@@ -128,13 +174,29 @@ export const FileActions: React.FC<{
           width={192}
           top={5}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={handleKeyDown}
         >
           {showDownload && (
-            <FileAction onClick={onDownload}>Download</FileAction>
+            <FileAction
+              onClick={onDownload}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
+            >
+              Download
+            </FileAction>
           )}
           {showReplace && (
             <>
-              <FileAction onClick={openFileDialog}>Replace</FileAction>
+              <FileAction
+                onClick={openFileDialog}
+                ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
+              >
+                Replace
+              </FileAction>
+
               <input
                 ref={fileInputRef}
                 type="file"
@@ -144,15 +206,45 @@ export const FileActions: React.FC<{
               />
             </>
           )}
-          {showDetach && <FileAction onClick={onDetach}>Detach</FileAction>}
-          {showDelete && <FileAction onClick={onDelete}>Delete</FileAction>}
+          {showDetach && (
+            <FileAction
+              onClick={onDetach}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
+            >
+              Detach
+            </FileAction>
+          )}
+
+          {showDelete && (
+            <FileAction
+              onClick={onDelete}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
+            >
+              Delete
+            </FileAction>
+          )}
+
           {showMove && (
-            <FileAction onClick={() => setMoveDialogOpen(true)}>
+            <FileAction
+              onClick={() => setMoveDialogOpen(true)}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
+            >
               Move to {move.sectionType}
             </FileAction>
           )}
           {showUseAsMain && (
-            <FileAction onClick={() => setUseAsMainDialogOpen(true)}>
+            <FileAction
+              onClick={() => setUseAsMainDialogOpen(true)}
+              ref={(el) => {
+                itemRefs.current[refIndex++] = el
+              }}
+            >
               Use as main document
             </FileAction>
           )}
@@ -271,7 +363,8 @@ export const ActionsIcon = styled.button`
   &:focus {
     outline: none;
   }
-  &:hover svg circle {
+  &:hover svg circle,
+  &:focus-visible svg circle {
     fill: #1a9bc7;
   }
 `
@@ -288,16 +381,23 @@ export const FileActionDropdownList = styled(DropdownList)`
   overflow: hidden;
 `
 
-export const FileAction = styled.div`
+export const FileAction = styled.button`
   font-family: ${(props) => props.theme.font.family.Lato};
   cursor: pointer;
   font-size: 16px;
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
   padding: 16px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-visible {
     background: #f2fbfc;
+    outline: none;
   }
 `
 
