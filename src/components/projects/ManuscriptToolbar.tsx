@@ -16,7 +16,6 @@ import {
   ToolbarButtonConfig,
   TypeSelector,
 } from '@manuscripts/body-editor'
-import { Tooltip } from '@manuscripts/style-guide'
 import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import React, { useCallback, useLayoutEffect, useRef } from 'react'
@@ -227,7 +226,7 @@ export const ManuscriptToolbar: React.FC = () => {
               ) : (
                 <ToolbarItem key={key}>
                   <ToolbarButton
-                    data-tooltip-id={item.title}
+                    data-tooltip-content={item.title}
                     data-active={item.isActive && item.isActive(state)}
                     disabled={!isEnabled(key, item, state)}
                     onClick={(e) => {
@@ -239,9 +238,6 @@ export const ManuscriptToolbar: React.FC = () => {
                   >
                     {item.content}
                   </ToolbarButton>
-                  <Tooltip id={item.title} place="bottom">
-                    {item.title}
-                  </Tooltip>
                 </ToolbarItem>
               )
             )}
