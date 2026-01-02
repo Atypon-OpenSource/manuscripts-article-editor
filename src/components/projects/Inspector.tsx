@@ -16,7 +16,6 @@ import {
   ChatIcon,
   DangerIcon,
   ManuscriptIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
@@ -24,6 +23,7 @@ import {
   InspectorPanel,
   useInspectorTabsParentControl,
 } from '../../hooks/use-inspector-tabs-context'
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { CommentsPanel } from '../comments/CommentsPanel'
 import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
@@ -33,10 +33,10 @@ import {
   IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
+  InspectorTabPanels,
   InspectorTabs,
-  PaddedInspectorTabPanels,
   PrimaryTabList,
-  Spacer,
+  TabsContainer,
   WarningBadge,
 } from '../Inspector'
 import { InspectorTab } from '../inspector/InspectorTab'
@@ -153,60 +153,61 @@ const Inspector: React.FC = () => {
       ) : (
         <InspectorContainer data-cy="inspector">
           <InspectorTabs selectedIndex={tabIndex} onChange={setTabIndex}>
-            <PrimaryTabList>
-              <InspectorTab
-                cy="comments-button"
-                icon={<ChatIcon />}
-                isVisible={tabIndex === COMMENTS_TAB_INDEX}
-              >
-                Comments
-              </InspectorTab>
-              {!can.editWithoutTracking && (
+            <TabsContainer>
+              <PrimaryTabList>
                 <InspectorTab
-                  cy="history-button"
-                  icon={<BookIcon />}
-                  isVisible={tabIndex === HISTORY_TAB_INDEX}
+                  cy="comments-button"
+                  icon={<ChatIcon />}
+                  isVisible={tabIndex === COMMENTS_TAB_INDEX}
                 >
-                  Changes
+                  Comments
                 </InspectorTab>
-              )}
-              <InspectorTab
-                cy="files-button"
-                icon={<ManuscriptIcon />}
-                isVisible={tabIndex === FILES_TAB_INDEX}
-              >
-                Files
-              </InspectorTab>
-              <InspectorTab
-                cy="issues-button"
-                icon={
-                  <IconWrapper>
-                    <DangerIcon />
-                    {errorCount > 0 && (
-                      <ErrorBadge>{inconsistenciesCount}</ErrorBadge>
-                    )}
-                    {errorCount === 0 && warningCount > 0 && (
-                      <WarningBadge>{warningCount}</WarningBadge>
-                    )}
-                  </IconWrapper>
-                }
-                isVisible={tabIndex === ISSUES_TAB_INDEX}
-              >
-                Issues
-              </InspectorTab>
-              {pluginTab && (
+                {!can.editWithoutTracking && (
+                  <InspectorTab
+                    cy="history-button"
+                    icon={<BookIcon />}
+                    isVisible={tabIndex === HISTORY_TAB_INDEX}
+                  >
+                    Changes
+                  </InspectorTab>
+                )}
                 <InspectorTab
-                  cy="plugin-button"
-                  icon={<IconWrapper>{pluginTab.icon}</IconWrapper>}
-                  isVisible={tabIndex === PLUGIN_TAB}
+                  cy="files-button"
+                  icon={<ManuscriptIcon />}
+                  isVisible={tabIndex === FILES_TAB_INDEX}
                 >
-                  {pluginTab.title}
+                  Files
                 </InspectorTab>
-              )}
-              <Spacer />
+                <InspectorTab
+                  cy="issues-button"
+                  icon={
+                    <IconWrapper>
+                      <DangerIcon />
+                      {errorCount > 0 && (
+                        <ErrorBadge>{inconsistenciesCount}</ErrorBadge>
+                      )}
+                      {errorCount === 0 && warningCount > 0 && (
+                        <WarningBadge>{warningCount}</WarningBadge>
+                      )}
+                    </IconWrapper>
+                  }
+                  isVisible={tabIndex === ISSUES_TAB_INDEX}
+                >
+                  Issues
+                </InspectorTab>
+                {pluginTab && (
+                  <InspectorTab
+                    cy="plugin-button"
+                    icon={<IconWrapper>{pluginTab.icon}</IconWrapper>}
+                    isVisible={tabIndex === PLUGIN_TAB}
+                  >
+                    {pluginTab.title}
+                  </InspectorTab>
+                )}
+              </PrimaryTabList>
               <DocumentOptionsDropdown />
-            </PrimaryTabList>
-            <PaddedInspectorTabPanels>
+            </TabsContainer>
+            <InspectorTabPanels>
               <InspectorTabPanel key="Comments" data-cy="comments">
                 {tabIndex === COMMENTS_TAB_INDEX && (
                   <CommentsPanel key="comments" />
@@ -230,7 +231,7 @@ const Inspector: React.FC = () => {
                   {tabIndex === PLUGIN_TAB && pluginTab.content}
                 </InspectorTabPanel>
               )}
-            </PaddedInspectorTabPanels>
+            </InspectorTabPanels>
           </InspectorTabs>
         </InspectorContainer>
       )}

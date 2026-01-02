@@ -10,10 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { CommentAttrs } from '@manuscripts/body-editor'
-import { TextButton, usePermissions } from '@manuscripts/style-guide'
+import { TextButton } from '@manuscripts/style-guide'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
+import { usePreservedComments } from '../../hooks/use-preserved-comments'
+import { usePermissions } from '../../lib/capabilities'
 import { commentsByTime, Thread } from '../../lib/comments'
 import { CommentCard } from './CommentCard'
 import { ReplyBox } from './ReplyBox'
@@ -39,6 +41,15 @@ const Container = styled.div<{ isSelected?: boolean }>`
       visibility: visible;
     }
   }
+
+  &:focus {
+    outline: none;
+    background-color: #fff;
+
+    .actions-icon {
+      visibility: visible;
+    }
+  }
 `
 const SeparatorLine = styled.div`
   margin-bottom: 8px;
@@ -56,6 +67,9 @@ export interface CommentThreadProps {
   onSave: (comment: CommentAttrs) => void
   onDelete: (id: string) => void
   insertCommentReply: (target: string, contents: string) => void
+  isOrphanComment?: boolean
+  isTabbable: boolean
+  cardRef?: (el: HTMLDivElement | null) => void
 }
 
 export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
@@ -67,23 +81,47 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       onSave,
       onDelete,
       insertCommentReply,
+      isOrphanComment,
+      isTabbable,
+      cardRef,
     } = props
 
     const can = usePermissions()
 
     const { comment, isNew, replies } = thread
+    const { get: getPreserved } = usePreservedComments()
 
     const cardsRef = useRef<HTMLDivElement>(null)
-    const [showMore, setShowMore] = useState(false)
-    const [editingCommentId, setEditingCommentId] = useState<string | null>(
-      isNew ? comment.node.attrs.id : null
-    )
+    const containerRef = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => {
-      if (!isSelected) {
-        setEditingCommentId(null)
+      const el = containerRef.current
+      cardRef?.(el)
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ref.current = el
       }
-    }, [isSelected])
+    }, [cardRef, ref])
+
+    const [showMore, setShowMore] = useState(false)
+
+    // Initialize editingCommentId: set to comment ID if it's new OR has UNSAVED preserved content
+    const [editingCommentId, setEditingCommentId] = useState<string | null>(
+      () => {
+        const commentId = comment.node.attrs.id
+        if (isNew) {
+          return commentId
+        }
+        // Check if there's preserved content that's different from saved content (unsaved changes)
+        const preservedContent = getPreserved(commentId)
+        const savedContent = comment.node.attrs.contents
+        if (preservedContent && preservedContent !== savedContent) {
+          return commentId
+        }
+        return null
+      }
+    )
 
     useEffect(() => {
       if (cardsRef.current) {
@@ -98,12 +136,24 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       }
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      const currentElement = document.activeElement as HTMLElement
+
+      if (e.key === 'Enter' && currentElement === containerRef.current) {
+        e.preventDefault()
+        onSelect()
+        setTimeout(() => containerRef.current?.focus(), 0)
+      }
+    }
+
     return (
       <Container
         data-cy="comment"
         isSelected={isSelected}
-        ref={ref}
+        ref={containerRef}
         onClick={handleSelect}
+        onKeyDown={handleKeyDown}
+        tabIndex={isTabbable ? 0 : -1}
       >
         <CardsWrapper
           ref={cardsRef}
@@ -116,6 +166,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             numOfReplies={replies.length}
             isNew={isNew}
             isEndOfThread={!replies.length}
+            isOrphanComment={isOrphanComment || false}
             editingCommentId={editingCommentId}
             setEditingCommentId={setEditingCommentId}
             onDelete={onDelete}
@@ -133,6 +184,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
                     numOfReplies={0}
                     isNew={false}
                     isEndOfThread={index === replies.length - 1}
+                    isOrphanComment={isOrphanComment || false}
                     editingCommentId={editingCommentId}
                     setEditingCommentId={setEditingCommentId}
                     onDelete={onDelete}
@@ -152,12 +204,15 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
             </ButtonContainer>
           </>
         )}
-        {can.createComment && isSelected && editingCommentId === null && (
-          <ReplyBox
-            insertCommentReply={insertCommentReply}
-            commentID={comment.node.attrs.id}
-          />
-        )}
+        {can.createComment &&
+          isSelected &&
+          editingCommentId === null &&
+          !isOrphanComment && (
+            <ReplyBox
+              insertCommentReply={insertCommentReply}
+              commentID={comment.node.attrs.id}
+            />
+          )}
       </Container>
     )
   }

@@ -204,6 +204,16 @@ const createAttrsDisplay = (
           }
           return
 
+        case 'priority':
+          // show the value of priority only if it's a number
+          if (typeof value === 'number') {
+            filteredAttrs[key] = {
+              label: 'Author reordered',
+              value: String(value),
+            }
+          }
+          return
+
         default:
           return (filteredAttrs[key] = {
             label: getLabel(key),

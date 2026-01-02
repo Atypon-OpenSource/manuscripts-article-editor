@@ -23,13 +23,23 @@ import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
 import { findChildrenByType } from 'prosemirror-utils'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { buildThreads, Thread } from '../../lib/comments'
+import { buildThreads, getOrphanComments, Thread } from '../../lib/comments'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+
+const CommentsList = styled.div`
+  overflow-y: auto;
+`
 
 const Header = styled.div`
   display: flex;
@@ -39,6 +49,7 @@ const Header = styled.div`
 
 const CheckboxLabelText = styled.div`
   color: ${(props) => props.theme.colors.text.primary} !important;
+  margin: 0 !important;
 `
 
 const scrollIntoView = (element: HTMLElement) => {
@@ -60,15 +71,32 @@ export const CommentsPanel: React.FC = () => {
   )
 
   const [showResolved, setShowResolved] = useState(true)
+  const [openTab, toggleTab] = useState<'active' | 'orphan'>('active')
+  const threadCardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const orphanCardRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const toggleCommentsTab = () =>
+    toggleTab(openTab === 'active' ? 'orphan' : 'active')
 
   const comments = useMemo(
     () =>
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,
     [view?.state, doc] // eslint-disable-line react-hooks/exhaustive-deps
   )
+
+  const orphanComments = useMemo(
+    () => view?.state && getOrphanComments(view.state),
+    [view?.state] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   const threads = useMemo(
     () => (comments ? buildThreads([...comments.values()], newCommentID) : []),
     [comments, newCommentID]
+  )
+
+  const orphanThreads = useMemo(
+    () => (orphanComments ? buildThreads([...orphanComments.values()]) : []),
+    [orphanComments]
   )
 
   const selectedRef = useCallback((e: HTMLElement | null) => {
@@ -151,12 +179,20 @@ export const CommentsPanel: React.FC = () => {
   }
 
   const handleDelete = (id: string) => {
-    const comment = comments?.get(id)
+    const comment = comments?.get(id) || orphanComments?.get(id)
     if (!comment || !view) {
       return
     }
     const tr = view.state.tr
     tr.delete(comment.pos, comment.pos + comment.node.nodeSize)
+    if (orphanComments?.get(id)) {
+      const thread = orphanThreads.find(
+        ({ comment }) => comment.node.attrs.id === id
+      )
+      thread?.replies.map((reply) =>
+        tr.delete(reply.pos, reply.pos + reply.node.nodeSize)
+      )
+    }
     deleteHighlightMarkers(id, tr)
     view.dispatch(skipTracking(tr))
   }
@@ -165,40 +201,124 @@ export const CommentsPanel: React.FC = () => {
     return thread && selectedCommentKey === thread.comment.key
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!['ArrowDown', 'ArrowUp'].includes(e.key)) {
+      return
+    }
+
+    const cardRefs = openTab === 'active' ? threadCardRefs : orphanCardRefs
+    const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[]
+    if (cards.length === 0) {
+      return
+    }
+
+    const currentIndex = cards.findIndex(
+      (card) =>
+        card === document.activeElement || card.contains(document.activeElement)
+    )
+    if (currentIndex === -1) {
+      return
+    }
+
+    e.preventDefault()
+
+    if (e.key === 'ArrowDown') {
+      const nextIndex = (currentIndex + 1) % cards.length
+      cards[nextIndex]?.focus()
+    } else if (e.key === 'ArrowUp') {
+      const prevIndex = (currentIndex - 1 + cards.length) % cards.length
+      cards[prevIndex]?.focus()
+    }
+  }
+
   if (!view) {
     return null
   }
 
-  if (!threads.length) {
+  if (!threads.length && !orphanThreads.length) {
     return <CommentsPlaceholder />
   }
 
   return (
-    <>
-      <Header>
-        <CheckboxLabel>
-          <CheckboxField
-            name={'show-resolved'}
-            checked={showResolved}
-            onChange={(e) => setShowResolved(e.target.checked)}
-          />
-          <CheckboxLabelText>See resolved</CheckboxLabelText>
-        </CheckboxLabel>
-      </Header>
-      {threads
-        .filter((c) => showResolved || !c.comment.node.attrs.resolved)
-        .map((c, i, a) => (
-          <CommentThread
-            key={c.comment.node.attrs.id}
-            ref={isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null}
-            thread={c}
-            isSelected={isSelected(c)}
-            onSelect={() => setSelectedComment(c.comment)}
-            onSave={handleSave}
-            onDelete={handleDelete}
-            insertCommentReply={insertCommentReply}
-          />
-        ))}
-    </>
+    <Container>
+      <ToggleHeader
+        title={`Active comments (${threads.length})`}
+        isOpen={openTab === 'active'}
+        onToggle={toggleCommentsTab}
+      />
+      {openTab === 'active' && (
+        <CommentsList data-cy="active-comments" onKeyDown={handleKeyDown}>
+          {!!threads.length && (
+            <Header>
+              <CheckboxLabel>
+                <CheckboxField
+                  name={'show-resolved'}
+                  checked={showResolved}
+                  onChange={(e) => setShowResolved(e.target.checked)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault()
+                      setShowResolved(!showResolved)
+                    }
+                  }}
+                  tabIndex={0}
+                />
+                <CheckboxLabelText>See resolved</CheckboxLabelText>
+              </CheckboxLabel>
+            </Header>
+          )}
+          {threads
+            .filter((c) => showResolved || !c.comment.node.attrs.resolved)
+            .map((c, i, a) => (
+              <CommentThread
+                key={c.comment.node.attrs.id}
+                ref={
+                  isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null
+                }
+                thread={c}
+                isSelected={isSelected(c)}
+                onSelect={() => setSelectedComment(c.comment)}
+                onSave={handleSave}
+                onDelete={handleDelete}
+                insertCommentReply={insertCommentReply}
+                isTabbable={i === 0}
+                cardRef={(el) => {
+                  threadCardRefs.current[i] = el
+                }}
+              />
+            ))}
+        </CommentsList>
+      )}
+      <ToggleHeader
+        title={`Orphaned comments (${orphanThreads.length})`}
+        isOpen={openTab === 'orphan'}
+        onToggle={toggleCommentsTab}
+      />
+      {openTab === 'orphan' && (
+        <CommentsList data-cy="orphan-comments" onKeyDown={handleKeyDown}>
+          {orphanThreads
+            .filter((c) => showResolved || !c.comment.node.attrs.resolved)
+            .map((c, i, a) => (
+              <CommentThread
+                key={c.comment.node.attrs.id}
+                ref={
+                  isSelected(c) && !isSelected(a[i - 1]) ? selectedRef : null
+                }
+                thread={c}
+                isSelected={false}
+                isOrphanComment={true}
+                onSelect={() => ''}
+                onSave={handleSave}
+                onDelete={handleDelete}
+                insertCommentReply={insertCommentReply}
+                isTabbable={i === 0}
+                cardRef={(el) => {
+                  orphanCardRefs.current[i] = el
+                }}
+              />
+            ))}
+        </CommentsList>
+      )}
+    </Container>
   )
 }

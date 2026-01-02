@@ -9,19 +9,51 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-
 import { useCallback } from 'react'
 
 import { useStore } from '../store'
 
-export const useTrackingVisibility = (): [boolean, () => void] => {
-  const [{ isTrackingChangesVisible }, dispatch] = useStore((store) => ({
-    isTrackingChangesVisible: store.isTrackingChangesVisible,
-  }))
+export const usePreservedComments = () => {
+  const [, dispatch, getState] = useStore((s) => s as any) as any
 
-  const toggleTrackingChangesVisibility = useCallback(() => {
-    dispatch({ isTrackingChangesVisible: !isTrackingChangesVisible })
-  }, [dispatch, isTrackingChangesVisible])
+  const get = useCallback(
+    (id: string): string | undefined => {
+      const map = getState()?.preservedCommentContent as Map<string, string>
+      return map?.get(id)
+    },
+    [getState]
+  )
 
-  return [isTrackingChangesVisible, toggleTrackingChangesVisibility]
+  const set = useCallback(
+    (id: string, val: string) => {
+      const currMap =
+        (getState()?.preservedCommentContent as Map<string, string>) ||
+        new Map()
+      const existing = currMap.get(id)
+      if (existing === val) {
+        return
+      }
+      const next = new Map(currMap)
+      next.set(id, val)
+      dispatch({ preservedCommentContent: next })
+    },
+    [dispatch, getState]
+  )
+
+  const remove = useCallback(
+    (id: string) => {
+      const currMap =
+        (getState()?.preservedCommentContent as Map<string, string>) ||
+        new Map()
+      if (!currMap.has(id)) {
+        return
+      }
+      const next = new Map(currMap)
+      next.delete(id)
+      dispatch({ preservedCommentContent: next })
+    },
+    [dispatch, getState]
+  )
+
+  return { get, set, remove }
 }

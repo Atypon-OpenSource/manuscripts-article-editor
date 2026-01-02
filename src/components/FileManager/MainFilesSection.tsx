@@ -14,13 +14,13 @@ import {
   Category,
   Dialog,
   FileMainDocumentIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
@@ -155,6 +155,18 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
               handleMainDocumentClick(mainDocument.pos)
             }
           }}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (
+              e.key === 'Enter' &&
+              e.currentTarget === document.activeElement
+            ) {
+              e.stopPropagation()
+              if (isPDF(mainDocument.file)) {
+                handleMainDocumentClick(mainDocument.pos)
+              }
+            }
+          }}
         >
           <FileName
             file={mainDocument.file}
@@ -191,7 +203,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       <Dialog
         isOpen={isConfirmDialogOpen}
         category={Category.confirmation}
-        header="Replace Main Document"
+        header="Replace main document"
         message={
           <>
             This action will replace the current main document file with this

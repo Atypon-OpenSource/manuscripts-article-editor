@@ -7,26 +7,29 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { EditorView } from 'prosemirror-view'
+import { FlatCompat } from '@eslint/eslintrc'
+import js from '@eslint/js'
+import config from '@manuscripts/eslint-config'
+import cpalLicense from '@manuscripts/eslint-config/config/cpal-license.js'
+import { defineConfig } from 'eslint/config'
+import header from 'eslint-plugin-header'
 
-import { delay } from '../lib/delay'
-import { useStore } from '../store'
+header.rules.header.meta.schema = false
 
-export const useHandleSnapshot = (view?: EditorView) => {
-  const [{ createSnapshot, beforeUnload }] = useStore((store) => ({
-    createSnapshot: store.createSnapshot,
-    beforeUnload: store.beforeUnload,
-  }))
+const compat = new FlatCompat({
+  recommendedConfig: js.configs.recommended,
+})
 
-  return async (name: string) => {
-    if (!view) {
-      return
-    }
-    // if there is a pending throttle or potentially other pending action, we need to make sure it's done before we proceed wrapping the current step
-    beforeUnload && beforeUnload()
-    await delay(1000) // to avoid potentially saving before the changes are applied)
-    await createSnapshot(name)
-  }
-}
+export default defineConfig([
+  ...compat.config(config),
+  ...compat.extends('plugin:diff/diff'),
+  {
+    rules: {
+      'header/header': [2, 'block', cpalLicense('manuscripts-frontend')],
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+])

@@ -9,24 +9,25 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-
 import '@manuscripts/body-editor/styles/Editor.css'
 import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
-
 import {
-  CapabilitiesProvider,
   IconButton,
+  SaveStatus,
   SliderOffIcon,
   SliderOnIcon,
-  useCalcPermission,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
 import { useGlobalKeyboardShortcuts } from '../../hooks/use-global-keyboard-shortcuts'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
+import {
+  CapabilitiesProvider,
+  useCalcPermission,
+  usePermissions,
+} from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { Main } from '../Page'
 import { SearchReplace } from '../SearchReplace'
@@ -75,16 +76,20 @@ const ManuscriptPageContainer: React.FC = () => {
 
 const ManuscriptPageView: React.FC = () => {
   const can = usePermissions()
-  const [trackingVisible, toggleTrackingVisibility] = useTrackingVisibility()
+  const [isTrackingChangesVisible, toggleTrackingChangesVisibility] =
+    useTrackingVisibility()
 
-  const [{ isViewingMode, isComparingMode }] = useStore((store) => ({
-    isViewingMode: store.isViewingMode,
-    isComparingMode: store.isComparingMode,
-  }))
+  const [{ isViewingMode, isComparingMode, savingProcess }] = useStore(
+    (store) => ({
+      isViewingMode: store.isViewingMode,
+      isComparingMode: store.isComparingMode,
+      savingProcess: store.savingProcess,
+    })
+  )
 
   const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
   const isTrackingVisible =
-    (showTrackChangesToggle && trackingVisible) || isComparingMode
+    (showTrackChangesToggle && isTrackingChangesVisible) || isComparingMode
 
   return (
     <Wrapper className={`${isTrackingVisible && 'tracking-visible'}`}>
@@ -96,19 +101,46 @@ const ManuscriptPageView: React.FC = () => {
               <EditorHeader data-cy="editor-header">
                 <ManuscriptMenusContainer>
                   <ManuscriptMenusContainerInner>
-                    <ManuscriptMenus />
+                    <MenusWrapper>
+                      <ManuscriptMenus />
+                      {savingProcess && <SaveStatus status={savingProcess} />}
+                    </MenusWrapper>
                   </ManuscriptMenusContainerInner>
 
                   {showTrackChangesToggle && (
-                    <>
+                    <TrackChangesToggleWrapper
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          toggleTrackingChangesVisibility()
+                        }
+                      }}
+                      tabIndex={0}
+                      role="button"
+                      aria-label="show tracked changes"
+                      aria-pressed={isTrackingChangesVisible}
+                    >
                       <Label>Show tracked changes</Label>
                       <IconButton
                         defaultColor={true}
-                        onClick={toggleTrackingVisibility}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleTrackingChangesVisibility()
+                        }}
+                        aria-label={
+                          isTrackingChangesVisible
+                            ? 'Hide tracked changes'
+                            : 'Show tracked changes'
+                        }
+                        tabIndex={-1}
                       >
-                        {trackingVisible ? <SliderOnIcon /> : <SliderOffIcon />}
+                        {isTrackingChangesVisible ? (
+                          <SliderOnIcon />
+                        ) : (
+                          <SliderOffIcon />
+                        )}
                       </IconButton>
-                    </>
+                    </TrackChangesToggleWrapper>
                   )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
@@ -128,6 +160,19 @@ const ManuscriptPageView: React.FC = () => {
     </Wrapper>
   )
 }
+
+const TrackChangesToggleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0px 8px;
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
+  }
+`
 
 const Label = styled.div`
   padding-right: 8px;
@@ -157,6 +202,12 @@ export const ManuscriptMenusContainerInner = styled.div`
     ${(props) => props.theme.grid.unit}px
     ${(props) => props.theme.grid.unit * 15}px;
   box-sizing: border-box;
+`
+
+const MenusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const PageWrapper = styled.div`

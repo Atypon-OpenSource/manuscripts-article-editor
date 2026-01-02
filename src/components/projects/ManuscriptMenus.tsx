@@ -10,18 +10,21 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { getEditorMenus, useEditor } from '@manuscripts/body-editor'
 import {
   Capabilities,
+  getEditorMenus,
+  useEditor,
+} from '@manuscripts/body-editor'
+import {
   isMenuSeparator,
   Menus,
   MenuSeparator,
   MenuSpec,
   useMenus,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 
 const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
@@ -104,7 +107,14 @@ export const ManuscriptMenus: React.FC = () => {
     return getFilteredMenus(editor, can)
   }, [can, editor])
 
-  const { menus, ref, handleClick } = useMenus(specs)
+  const { menus, ref, handleClick, closeAll } = useMenus(specs)
 
-  return <Menus menus={menus} innerRef={ref} handleClick={handleClick} />
+  return (
+    <Menus
+      menus={menus}
+      innerRef={ref}
+      handleClick={handleClick}
+      closeAll={closeAll}
+    />
+  )
 }

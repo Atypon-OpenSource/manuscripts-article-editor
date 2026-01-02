@@ -16,12 +16,13 @@ import {
   ToolbarButtonConfig,
   TypeSelector,
 } from '@manuscripts/body-editor'
-import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+import { Tooltip } from '@manuscripts/style-guide'
 import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
-import React from 'react'
+import React, { useCallback, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { ListToolbarItem } from './ListToolbarItem'
 
@@ -32,6 +33,7 @@ export const ToolbarItem = styled.div`
 
 const ToolbarButton = styled.button.attrs({
   type: 'button',
+  'data-toolbar-button': true,
 })<{
   'data-active'?: boolean
 }>`
@@ -59,6 +61,11 @@ const ToolbarButton = styled.button.attrs({
   &:disabled {
     opacity: 0.2;
     cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
   }
 `
 
@@ -104,10 +111,35 @@ export const ToolbarGroup = styled.div`
 
 export const ManuscriptToolbar: React.FC = () => {
   const can = usePermissions()
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const [{ editor }] = useStore((store) => ({
     editor: store.editor,
   }))
+
+  // Get all enabled toolbar buttons
+  const getButtons = useCallback(() => {
+    if (!containerRef.current) {
+      return []
+    }
+    return Array.from(
+      containerRef.current.querySelectorAll<HTMLElement>(
+        '[data-toolbar-button]:not([disabled]):not([aria-disabled="true"])'
+      )
+    )
+  }, [])
+
+  // Roving tabindex: only first button is tabbable, rest are -1
+  useLayoutEffect(() => {
+    const buttons = getButtons()
+    if (buttons.length === 0) {
+      return
+    }
+
+    buttons.forEach((button, index) => {
+      button.tabIndex = index === 0 ? 0 : -1
+    })
+  }, [getButtons, editor])
 
   if (!editor || !editor.view) {
     return null
@@ -124,8 +156,45 @@ export const ManuscriptToolbar: React.FC = () => {
     return item.isEnabled(state)
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      return
+    }
+
+    const target = event.target as HTMLElement
+    // Only handle if a button is currently focused
+    if (!target.hasAttribute('data-toolbar-button')) {
+      return
+    }
+
+    const buttons = getButtons()
+    if (buttons.length === 0) {
+      return
+    }
+
+    const currentIndex = buttons.indexOf(target as HTMLButtonElement)
+    if (currentIndex === -1) {
+      return
+    }
+
+    event.preventDefault()
+
+    let nextIndex: number
+    if (event.key === 'ArrowRight') {
+      nextIndex = (currentIndex + 1) % buttons.length
+    } else {
+      nextIndex = (currentIndex - 1 + buttons.length) % buttons.length
+    }
+
+    buttons[nextIndex]?.focus()
+  }
+
   return (
-    <ToolbarContainer data-cy="toolbar">
+    <ToolbarContainer
+      data-cy="toolbar"
+      ref={containerRef}
+      onKeyDown={handleKeyDown}
+    >
       <ToolbarGroup>
         <TypeSelector state={state} dispatch={view.dispatch} view={view} />
       </ToolbarGroup>
@@ -163,9 +232,10 @@ export const ManuscriptToolbar: React.FC = () => {
                     disabled={!isEnabled(key, item, state)}
                     onClick={(e) => {
                       e.preventDefault()
-                      item.run(state, view.dispatch)
+                      item.run(state, view.dispatch, view)
                       view && view.focus()
                     }}
+                    aria-label={item.title}
                   >
                     {item.content}
                   </ToolbarButton>

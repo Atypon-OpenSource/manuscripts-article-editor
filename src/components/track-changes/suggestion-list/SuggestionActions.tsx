@@ -9,11 +9,12 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { Tooltip, usePermissions } from '@manuscripts/style-guide'
+import { Tooltip } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../../lib/capabilities'
 import { useStore } from '../../../store'
 import { Accept, Reject } from './Icons'
 
@@ -21,12 +22,14 @@ interface Props {
   suggestions: RootChange
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
+  buttonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
 const SuggestionAction: React.FC<Props> = ({
   suggestions,
   handleAccept,
   handleReject,
+  buttonRefs,
 }) => {
   const [{ user }] = useStore((store) => ({
     user: store.user,
@@ -50,15 +53,20 @@ const SuggestionAction: React.FC<Props> = ({
   const rejectTooltip = 'back-tooltip' + '-' + suggestion.id
   const approveTooltip = 'approve-tooltip' + '-' + suggestion.id
 
+  // Track button index for refs
+  let buttonIndex = 0
+
   return (
     <Actions data-cy="suggestion-actions">
       {canRejectOwnSuggestion && (
         <Container>
           <Action
+            ref={(el) => buttonRefs?.(el, buttonIndex++)}
             type="button"
             onClick={() => handleReject(suggestions)}
             aria-pressed={false}
             data-tooltip-id={rejectTooltip}
+            aria-label="Reject"
           >
             <Reject color="#353535" />
           </Action>
@@ -70,11 +78,13 @@ const SuggestionAction: React.FC<Props> = ({
       {can.handleSuggestion && (
         <Container>
           <Action
+            ref={(el) => buttonRefs?.(el, buttonIndex++)}
             type="button"
             onClick={() => handleAccept(suggestions)}
             aria-pressed={false}
             data-tip={true}
             data-tooltip-id={approveTooltip}
+            aria-label="Approve"
           >
             <Accept color="#353535" />
           </Action>
@@ -123,7 +133,8 @@ export const Action = styled.button`
     opacity: 0.5;
   }
 
-  &:not([disabled]):hover {
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
     &[aria-pressed='true'] {
       path {
         stroke: ${(props) => props.theme.colors.brand.medium};

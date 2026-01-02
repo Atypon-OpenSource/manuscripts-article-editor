@@ -74,8 +74,10 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
       />
       {isTextBoxFocused && (
         <Actions data-cy="reply-actions">
-          <TertiaryButton onClick={handleCancel}>Cancel</TertiaryButton>
-          <PrimaryButton onClick={reply} disabled={disableSaveButton}>
+          <TertiaryButton onClick={handleCancel} tabIndex={0}>
+            Cancel
+          </TertiaryButton>
+          <PrimaryButton onClick={reply} disabled={disableSaveButton} tabIndex={0}>
             Reply
           </PrimaryButton>
         </Actions>

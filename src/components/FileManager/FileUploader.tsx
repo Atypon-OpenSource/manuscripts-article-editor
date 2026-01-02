@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { ChangeEvent, useRef } from 'react'
+import React, { ChangeEvent, useCallback, useRef } from 'react'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import styled, { css } from 'styled-components'
@@ -58,14 +58,28 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     }),
   })
 
+  const drop = useCallback(
+    (node: HTMLDivElement | null) => {
+      dropRef(node)
+    },
+    [dropRef]
+  )
+
   const isActive = canDrop && isOver
 
   return (
     <Container
-      ref={dropRef}
+      ref={drop}
       data-cy="file-uploader"
       active={isActive}
       onClick={openFileDialog}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          openFileDialog()
+        }
+      }}
     >
       <input
         ref={fileInputRef}
@@ -100,6 +114,12 @@ const Container = styled.div<{ active: boolean }>`
   color: ${(props) => props.theme.colors.text.onLight};
   cursor: pointer;
   margin: 16px 16px 8px;
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: 2px;
+  }
+
   ${(props) =>
     props.active
       ? css`

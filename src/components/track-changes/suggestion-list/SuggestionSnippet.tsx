@@ -31,6 +31,8 @@ interface Props {
   isFocused: boolean
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
+  isTrackingChangesVisible: boolean
+  actionButtonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
 export const SuggestionSnippet: React.FC<Props> = ({
@@ -39,13 +41,17 @@ export const SuggestionSnippet: React.FC<Props> = ({
   isFocused,
   handleAccept,
   handleReject,
+  isTrackingChangesVisible: isTrackingChangesVisibleProp,
+  actionButtonRefs,
 }) => {
-  const [{ view, collaboratorsById, files }] = useStore((store) => ({
-    view: store.view,
-    doc: store.doc,
-    collaboratorsById: store.collaboratorsById,
-    files: store.files,
-  }))
+  const [{ view, collaboratorsById, files, isTrackingChangesVisible }] =
+    useStore((store) => ({
+      view: store.view,
+      doc: store.doc,
+      collaboratorsById: store.collaboratorsById,
+      files: store.files,
+      isTrackingChangesVisible: store.isTrackingChangesVisible,
+    }))
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
@@ -69,28 +75,38 @@ export const SuggestionSnippet: React.FC<Props> = ({
 
   return (
     <SnippetText>
-      <Card isFocused={isFocused} data-cy="suggestion-card">
+      <Card
+        isFocused={isFocused}
+        isTrackingChangesVisible={isTrackingChangesVisible}
+        data-cy="suggestion-card"
+      >
         <CardHeader data-cy="card-header">
           <CardMetadata data-cy="card-metadata">
             <AuthorContainer>
               <AvatarIcon width={16} height={16} />
               <AuthorName>{authorName}</AuthorName>{' '}
             </AuthorContainer>
-            <MetadataDate date={dataTracked?.createdAt} />
+            <MetadataDate
+              date={dataTracked?.createdAt}
+              isTrackingChangesVisible={isTrackingChangesVisible}
+            />
           </CardMetadata>
           {!isComparingMode && (
-            <CardActions>
+            <CardActions data-cy="card-actions">
               <SuggestionActions
                 suggestions={suggestions}
                 handleAccept={handleAccept}
                 handleReject={handleReject}
+                buttonRefs={actionButtonRefs}
               />
             </CardActions>
           )}
         </CardHeader>
         <CardBody data-cy="card-body">
           {snippet?.operation && (
-            <Operation color={dataTracked.operation}>
+            <Operation
+              color={isTrackingChangesVisible ? dataTracked.operation : 'muted'}
+            >
               {snippet?.operation}:
             </Operation>
           )}
@@ -102,13 +118,25 @@ export const SuggestionSnippet: React.FC<Props> = ({
   )
 }
 
-const CardActions = styled.div`
-  visibility: hidden;
+export const CardActions = styled.div`
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 `
+
+const isActive = (props: {
+  isFocused: boolean
+  isTrackingChangesVisible: boolean
+}) => props.isFocused && props.isTrackingChangesVisible
 
 export const Card = styled.div<{
   isFocused: boolean
+  isTrackingChangesVisible: boolean
 }>`
+  font-family: ${(props) => props.theme.font.family.sans};
+  font-size: ${(props) => props.theme.font.size.small};
+  line-height: ${(props) => props.theme.font.lineHeight.normal};
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -117,37 +145,46 @@ export const Card = styled.div<{
   padding: 8px;
   margin-bottom: 6px;
   border: ${(props) =>
-    props.isFocused
+    isActive(props)
       ? `1px solid ${props.theme.colors.border.tracked.active}`
-      : `1px solid ${props.theme.colors.border.tracked.default}`};
+      : props.isTrackingChangesVisible
+        ? `1px solid ${props.theme.colors.border.tracked.default}`
+        : `1px solid #dfdfdf`};
   box-shadow: ${(props) =>
-    props.isFocused
+    isActive(props)
       ? `-4px 0 0 0  ${props.theme.colors.border.tracked.active}`
       : `none`};
   border-radius: 4px;
 
   /* FocusHandle should cover entire card: */
   position: relative;
-  color: ${(props) => props.theme.colors.text.primary};
+  color: ${(props) =>
+    props.isTrackingChangesVisible
+      ? props.theme.colors.text.primary
+      : '#868686'};
   background: ${(props) =>
-    props.isFocused
+    isActive(props)
       ? props.theme.colors.background.tracked.active + ' !important'
       : props.theme.colors.background.tracked.default};
 
   ${(props) =>
-    props.isFocused
+    isActive(props)
       ? `${CardActions} {
-        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
       }`
       : ''}
+  ${(props) =>
+    props.isTrackingChangesVisible
+      ? `&:hover {
+      background: ${props.theme.colors.background.tracked.hover};
 
-  &:hover {
-    background: ${(props) => props.theme.colors.background.tracked.hover};
-
-    ${CardActions} {
-      visibility: visible;
-    }
-  }
+      ${CardActions} {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }`
+      : ''}
 `
 export const CardHeader = styled.div`
   display: flex;
@@ -179,30 +216,29 @@ export const AuthorContainer = styled.div`
   gap: 8px;
 `
 export const AuthorName = styled.span`
-  font-family: Lato, sans-serif;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.font.size.normal};
   font-weight: 700;
   line-height: 24px;
 `
-const MetadataDate = styled(RelativeDate)`
-  color: ${(props) => props.theme.colors.text.secondary};
+const MetadataDate = styled(RelativeDate)<{
+  isTrackingChangesVisible: boolean
+}>`
+  color: ${(props) =>
+    props.isTrackingChangesVisible
+      ? props.theme.colors.text.secondary
+      : '#868686'};
 `
 
 const SnippetText = styled.div`
-  font-size: ${(props) => props.theme.font.size.small};
   line-height: ${(props) => props.theme.font.lineHeight.normal};
   width: 100%;
   white-space: nowrap;
-  color: ${(props) => props.theme.colors.text.primary};
   display: block;
 `
 
 const Operation = styled.span<{ color: string }>`
-  font-family: Lato, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
+  font-weight: ${(props) => props.theme.font.weight.bold};
   text-transform: capitalize;
-  line-height: 16px;
   margin-right: 3.2px;
   color: ${(props) => {
     switch (props.color) {
@@ -216,6 +252,8 @@ const Operation = styled.span<{ color: string }>`
       case 'move':
       case 'set_attrs':
         return '#0284B0'
+      case 'muted':
+        return '#868686'
       default:
         return '#353535'
     }
@@ -224,9 +262,6 @@ const Operation = styled.span<{ color: string }>`
 
 const NodeName = styled.span`
   text-transform: capitalize;
-  color: #353535;
-  font-family: Lato, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 16px;
+  font-weight: ${(props) => props.theme.font.weight.bold};
+  // line-height: 16px;
 `

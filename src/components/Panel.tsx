@@ -69,7 +69,7 @@ const Panel: React.FC<PanelProps> = (props) => {
     hidden: false,
   })
 
-  const hideWhenQuery = useRef<MediaQueryList>()
+  const hideWhenQuery = useRef<MediaQueryList | undefined>(undefined)
   const firstRender = useRef(true)
   const [{ selectedCommentKey, selectedSuggestionID, inspectorOpenTabs }] =
     useStore((store) => ({
@@ -199,12 +199,12 @@ const Panel: React.FC<PanelProps> = (props) => {
   )
 
   return side === 'start' ? (
-    <div style={style}>
+    <div style={style} data-panel-name={props.name}>
       {resizer}
       {!collapsed && children}
     </div>
   ) : (
-    <div style={style}>
+    <div style={style} data-panel-name={props.name}>
       {!collapsed && children}
       {resizer}
     </div>

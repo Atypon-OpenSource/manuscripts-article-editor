@@ -14,11 +14,11 @@ import {
   AvatarIcon,
   RelativeDate,
   SystemUserAvatarIcon,
-  usePermissions,
 } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { usePermissions } from '../../lib/capabilities'
 import { buildAuthorName, getAuthorID } from '../../lib/comments'
 import { useStore } from '../../store'
 import {
@@ -27,7 +27,7 @@ import {
   CardHeader,
   CardMetadata,
 } from '../track-changes/suggestion-list/SuggestionSnippet'
-import { CommentActions } from './CommentActions'
+import { CommentActions, OrphanCommentActions } from './CommentActions'
 import { CommentBody } from './CommentBody'
 import { DeleteCommentConfirmation } from './DeleteCommentConfirmation'
 
@@ -69,6 +69,7 @@ interface CommentCardProps {
   numOfReplies: number
   isNew: boolean
   isEndOfThread: boolean
+  isOrphanComment: boolean | false
   editingCommentId: string | null
   setEditingCommentId: (id: string | null) => void
   onSave: (comment: CommentAttrs) => void
@@ -81,6 +82,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   numOfReplies,
   isNew,
   isEndOfThread,
+  isOrphanComment,
   editingCommentId,
   setEditingCommentId,
   onSave,
@@ -115,17 +117,22 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   const handleEdit = () => {
     setEditingCommentId(commentID)
   }
+
   const handleSave = (contents: string) => {
-    onSave({
-      ...comment.node.attrs,
-      contents,
-    })
+    if (contents.trim() && contents !== comment.node.attrs.contents) {
+      onSave({
+        ...comment.node.attrs,
+        contents,
+      })
+    }
     setEditingCommentId(null)
   }
 
   const handleCancel = () => {
     setEditingCommentId(null)
-    if (isNew) {
+
+    // Delete comment if it's new OR if it has no saved content (empty)
+    if (isNew || comment.node.attrs.contents.trim() === '') {
       onDelete(commentID)
     }
   }
@@ -172,14 +179,22 @@ export const CommentCard: React.FC<CommentCardProps> = ({
           {timestamp && <Timestamp date={timestamp * 1000} />}
           {numOfReplies !== 0 && <RepliesCount>{numOfReplies}</RepliesCount>}
         </CardMetadata>
-        <CommentActions
-          comment={comment}
-          isResolveEnabled={isResolveEnabled && !isReply}
-          isActionsEnabled={isActionsEnabled && isEndOfThread}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-          toggleResolve={handleToggleResolve}
-        />
+        {!isOrphanComment ? (
+          <CommentActions
+            comment={comment}
+            isResolveEnabled={isResolveEnabled && !isReply}
+            isActionsEnabled={isActionsEnabled && isEndOfThread}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            toggleResolve={handleToggleResolve}
+          />
+        ) : (
+          <OrphanCommentActions
+            isReply={isReply}
+            isOwn={isOwn}
+            onDelete={handleDelete}
+          />
+        )}
       </CardHeader>
       {comment.node.attrs.originalText && (
         <CommentTarget>{comment.node.attrs.originalText}</CommentTarget>

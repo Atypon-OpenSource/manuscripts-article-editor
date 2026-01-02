@@ -21,11 +21,17 @@ import { ResizerButton, ResizerButtonInnerProps } from './Panel'
 
 export const ResizingOutlinerButton: React.FC<ResizerButtonInnerProps> = (
   props
-) => (
-  <ResizerButton {...props}>
+) => {
+  const { isCollapsed } = props
+  return (
+    <ResizerButton
+      {...props}
+      aria-label={`${isCollapsed ? 'Open' : 'Close'} Sidebar`}
+    >
     <HandleOutlineIcon />
   </ResizerButton>
-)
+  )
+}
 
 const collapsedStyling = css`
   right: ${(props) => props.theme.grid.unit * 5}px;
@@ -35,11 +41,17 @@ const collapsedStyling = css`
 
 const UnstyledResizingInspectorButton: React.FC<ResizerButtonInnerProps> = (
   props
-) => (
-  <ResizerButton {...props}>
-    <HandleInspectorIcon />
-  </ResizerButton>
-)
+) => {
+  const { isCollapsed } = props
+  return (
+    <ResizerButton
+      {...props}
+      aria-label={`${isCollapsed ? 'Open' : 'Close'} Inspector`}
+    >
+      <HandleInspectorIcon />
+    </ResizerButton>
+  )
+}
 
 export const ResizingInspectorButton = styled(UnstyledResizingInspectorButton)<{
   isCollapsed: boolean

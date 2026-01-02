@@ -26,6 +26,7 @@ import {
   UserProfile,
 } from '@manuscripts/transform'
 
+import { Language } from '../api/types'
 import { PluginInspectorTab } from '../components/projects/Inspector'
 import { useCreateEditor } from '../hooks/use-create-editor'
 import { InspectorAction } from '../hooks/use-inspector-tabs-context'
@@ -53,6 +54,7 @@ export type state = {
   trackState?: TrackChangesState
   isViewingMode?: boolean
   isComparingMode?: boolean
+  isTrackingChangesVisible: boolean
   view?: ManuscriptEditorView
   titleText: string
 
@@ -62,7 +64,6 @@ export type state = {
   collaboratorsById: Map<string, UserProfile>
 
   snapshots: SnapshotLabel[]
-  createSnapshot: (name: string) => Promise<void>
   getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
   permittedActions: string[]
@@ -78,10 +79,9 @@ export type state = {
   beforeUnload?: () => void
   userRole: ProjectRole | null
 
-  handleSnapshot: (name: string) => Promise<void>
-
   cslLocale?: string
   cslStyle?: string
+  languages: Language[]
   hasPendingSuggestions?: boolean
   inconsistencies?: Inconsistency[]
   sectionCategories: Map<string, SectionCategory>
@@ -173,6 +173,7 @@ export class GenericStore implements Store {
       ...(state as state),
       isViewingMode: false,
       isComparingMode: false,
+      isTrackingChangesVisible: true,
     })
     // listening to changes before state applied
     this.beforeAction = (action, payload, store, setState) => {

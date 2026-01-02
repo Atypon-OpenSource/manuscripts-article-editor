@@ -12,12 +12,14 @@
 
 import { Comment } from '@manuscripts/body-editor'
 import {
+  DeleteIcon,
   DotsIcon,
   DropdownContainer,
   DropdownList,
+  IconButton,
   useDropdown,
 } from '@manuscripts/style-guide'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import { CommentResolveButton } from './CommentResolveButton'
@@ -31,7 +33,8 @@ export const ActionsIcon = styled.button`
   &:focus {
     outline: none;
   }
-  &:hover svg circle {
+  &:hover svg circle,
+  &:focus-visible svg circle {
     fill: #1a9bc7;
   }
 `
@@ -43,6 +46,8 @@ export const CommentAction = styled.div`
   line-height: 24px;
   color: ${(props) => props.theme.colors.text.primary};
   padding: 6px 0 6px 8px;
+  outline: none;
+  
   &:hover,
   &:focus {
     background: #f2fbfc;
@@ -72,6 +77,38 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
   toggleResolve,
 }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => itemRefs.current[0]?.focus(), 0)
+    }
+  }, [isOpen])
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const items = itemRefs.current.filter(Boolean) as HTMLDivElement[]
+    if (items.length === 0) return
+
+    const currentIndex = items.indexOf(document.activeElement as HTMLDivElement)
+    if (currentIndex === -1) return
+    e.preventDefault()
+    e.stopPropagation()
+    switch (e.key) {
+      case 'ArrowDown':
+        items[(currentIndex + 1) % items.length]?.focus()
+        break
+      case 'ArrowUp':
+        items[(currentIndex - 1 + items.length) % items.length]?.focus()
+        break
+      case 'Escape':
+        toggleOpen()
+        wrapperRef.current?.querySelector('button')?.focus()
+        break
+      case 'Enter':
+        (document.activeElement as HTMLElement)?.click()
+        break
+    }
+  }
 
   return (
     <Container>
@@ -81,6 +118,8 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
             data-cy="comment-dropdown-trigger"
             onClick={toggleOpen}
             className="actions-icon"
+            aria-label="Comment Actions"
+            tabIndex={0}
           >
             <DotsIcon />
           </ActionsIcon>
@@ -90,14 +129,29 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
               direction={'right'}
               width={82}
               onClick={toggleOpen}
+              onKeyDown={handleKeyDown}
+              role="menu"
             >
-              <CommentAction data-cy="comment-edit" onClick={onEdit}>
+              <CommentAction
+                ref={(el) => {
+                  itemRefs.current[0] = el
+                }}
+                data-cy="comment-edit"
+                onClick={onEdit}
+                tabIndex={-1}
+                role="menuitem"
+              >
                 Edit
               </CommentAction>
               <CommentAction
+                ref={(el) => {
+                  itemRefs.current[1] = el
+                }}
                 className="delete-button"
                 data-cy="comment-delete"
                 onClick={onDelete}
+                tabIndex={-1}
+                role="menuitem"
               >
                 Delete
               </CommentAction>
@@ -108,6 +162,30 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
       {isResolveEnabled && (
         <CommentResolveButton comment={comment} onClick={toggleResolve} />
       )}
+    </Container>
+  )
+}
+
+export const OrphanCommentActions: React.FC<{
+  onDelete: () => void
+  isReply: boolean
+  isOwn: boolean
+}> = ({ onDelete, isReply, isOwn }) => {
+  if (!isOwn || isReply) {
+    return null
+  }
+
+  return (
+    <Container>
+      <IconButton
+        className="delete-button"
+        data-cy="orphan-comment-delete"
+        onClick={onDelete}
+        iconColor={'#333333'}
+        tabIndex={0}
+      >
+        <DeleteIcon />
+      </IconButton>
     </Container>
   )
 }
