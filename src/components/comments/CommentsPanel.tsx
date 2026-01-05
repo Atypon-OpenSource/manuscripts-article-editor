@@ -132,13 +132,8 @@ export const CommentsPanel: React.FC = () => {
       id: generateNodeID(schema.nodes.comment),
       contents,
       target,
-      contributions: [
-        {
-          _id: `MPContribution:${generateNodeID()}`,
-          profileID: user._id,
-          timestamp: Date.now(),
-        },
-      ],
+      userID: user._id,
+      timestamp: Date.now(),
       resolved: false,
     }
 
