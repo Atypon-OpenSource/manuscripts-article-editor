@@ -16,7 +16,8 @@ import {
   IconButton,
   SaveStatus,
   SliderOffIcon,
-  SliderOnIcon, Tooltip,
+  SliderOnIcon,
+  Tooltip,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'

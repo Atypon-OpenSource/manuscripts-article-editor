@@ -49,34 +49,34 @@ const SuggestionAction: React.FC<Props> = ({
     return false
   }, [suggestion, can, user?._id])
 
-    // Track button index for refs
-    let buttonIndex = 0
+  // Track button index for refs
+  let buttonIndex = 0
   return (
     <Actions data-cy="suggestion-actions">
       {canRejectOwnSuggestion && (
-          <Action
-              ref={(el) => buttonRefs?.(el, buttonIndex++)}
-              type="button"
-              onClick={() => handleReject(suggestions)}
-              aria-pressed={false}
-              data-tooltip-content="Reject"
-              aria-label="Reject"
-          >
-            <Reject color="#353535" />
-          </Action>
+        <Action
+          ref={(el) => buttonRefs?.(el, buttonIndex++)}
+          type="button"
+          onClick={() => handleReject(suggestions)}
+          aria-pressed={false}
+          data-tooltip-content="Reject"
+          aria-label="Reject"
+        >
+          <Reject color="#353535" />
+        </Action>
       )}
       {can.handleSuggestion && (
-          <Action
-              ref={(el) => buttonRefs?.(el, buttonIndex++)}
-              type="button"
-              onClick={() => handleAccept(suggestions)}
-              aria-pressed={false}
-              data-tip={true}
-              data-tooltip-content="Approve"
-              aria-label="Approve"
-          >
-            <Accept color="#353535" />
-          </Action>
+        <Action
+          ref={(el) => buttonRefs?.(el, buttonIndex++)}
+          type="button"
+          onClick={() => handleAccept(suggestions)}
+          aria-pressed={false}
+          data-tip={true}
+          data-tooltip-content="Approve"
+          aria-label="Approve"
+        >
+          <Accept color="#353535" />
+        </Action>
       )}
     </Actions>
   )

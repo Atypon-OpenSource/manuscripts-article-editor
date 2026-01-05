@@ -58,16 +58,18 @@ export const CommentResolveButton: React.FC<CommentResolveButtonProps> = ({
   comment,
   onClick,
 }) => {
-    const label = comment.node.attrs.resolved ? 'Unresolve Comment' : 'Resolve Comment';
-    return (
-        <Button
-            className={comment.node.attrs.resolved ? 'resolved' : ''}
-            onClick={onClick}
-            aria-label={label}
-            data-tooltip-content={label}
-            tabIndex={0}
-        >
-            <CommentResolveIcon />
-        </Button>
+  const label = comment.node.attrs.resolved
+    ? 'Unresolve Comment'
+    : 'Resolve Comment'
+  return (
+    <Button
+      className={comment.node.attrs.resolved ? 'resolved' : ''}
+      onClick={onClick}
+      aria-label={label}
+      data-tooltip-content={label}
+      tabIndex={0}
+    >
+      <CommentResolveIcon />
+    </Button>
   )
 }

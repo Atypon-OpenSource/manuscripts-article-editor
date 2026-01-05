@@ -96,7 +96,7 @@ const ListStyleSelector: React.FC<ListStyleSelectorProps> = ({
       onKeyDown={handleKeyDown}
     >
       <ListStyleButton
-          ref={buttonRef}
+        ref={buttonRef}
         data-tooltip-content={title}
         disabled={disabled}
         aria-label={title}
