@@ -70,6 +70,7 @@
     "@eslint/js": "9.39.1",
     "@manuscripts/eslint-config": "0.5.1",
     "@types/diff-match-patch": "^1.0.36",
+    "@types/csl": "npm:csl-json@v0.1.0",
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.16",
     "@types/node": "20.17.46",
