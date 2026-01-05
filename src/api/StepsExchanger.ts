@@ -16,22 +16,48 @@ import { Step } from 'prosemirror-transform'
 import { Api } from './Api'
 import { saveWithDebounce } from './savingUtilities'
 
-const MAX_ATTEMPTS = 20
+const MAX_ATTEMPTS = 10
 const THROTTLING_INTERVAL = 1200
+const REQUEST_TIMEOUT_MS = 10000
 
-export type Subscription = (value: boolean) => void
+export type Subscription<T> = (value: T) => void
+export type SaveStatus = 'saving' | 'saved' | 'offline' | 'failed' | 'idle'
+
+export class ObservableString {
+  value: SaveStatus = 'idle'
+
+  private sub: Subscription<SaveStatus> | undefined = undefined
+  private savingTimeout: ReturnType<typeof setTimeout> | undefined = undefined
+
+  setValue(value: SaveStatus) {
+    if (this.value !== value) {
+      this.value = value
+      this.sub?.(value)
+
+      if (this.savingTimeout) {
+        clearTimeout(this.savingTimeout)
+        this.savingTimeout = undefined
+      }
+    }
+  }
+
+  onChange(sub: Subscription<SaveStatus>) {
+    this.sub = sub
+  }
+}
 
 export class ObservableBoolean {
   value = false
-  private subs: Subscription[] = []
+
+  private sub: Subscription<boolean> | undefined = undefined
 
   setValue(value: boolean) {
     this.value = value
-    this.subs.forEach((s) => s(value))
+    this.sub?.(value)
   }
 
-  onChange(sub: Subscription) {
-    this.subs.push(sub)
+  onChange(sub: Subscription<boolean>) {
+    this.sub = sub
   }
 }
 
@@ -40,14 +66,15 @@ export class StepsExchanger extends CollabProvider {
   projectID: string
   manuscriptID: string
   api: Api
-
   debounce: ReturnType<typeof saveWithDebounce>
   flushImmediately?: () => void
   updateStoreVersion: (version: number) => void
   closeConnection: () => void
-
   isThrottling: ObservableBoolean
+  saveStatus: ObservableString
   attempt = 0
+  private abortController?: AbortController
+  private timeoutId?: ReturnType<typeof setTimeout>
 
   constructor(
     projectID: string,
@@ -56,23 +83,70 @@ export class StepsExchanger extends CollabProvider {
     api: Api,
     updateStoreVersion: (version: number) => void
   ) {
-    if (StepsExchanger.instance) {
+    if (StepsExchanger.instance?.manuscriptID == manuscriptID) {
       StepsExchanger.instance.start()
       return StepsExchanger.instance
     }
 
     super()
+
     this.projectID = projectID
     this.manuscriptID = manuscriptID
     this.currentVersion = currentVersion
     this.isThrottling = new ObservableBoolean()
+    this.saveStatus = new ObservableString()
     this.debounce = saveWithDebounce()
     this.api = api
-    this.start()
     this.updateStoreVersion = updateStoreVersion
+    // Initialize closeConnection as no-op to ensure it's always defined
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this.closeConnection = () => {}
+
+    if (!navigator.onLine) {
+      this.saveStatus.setValue('offline')
+    } else {
+      this.start()
+    }
+
+    this.addNetworkListeners()
     this.stop = this.stop.bind(this)
 
     StepsExchanger.instance = this
+  }
+
+  private addNetworkListeners() {
+    window.addEventListener('online', this.handleOnline)
+    window.addEventListener('offline', this.handleOffline)
+  }
+
+  private removeNetworkListeners() {
+    window.removeEventListener('online', this.handleOnline)
+    window.removeEventListener('offline', this.handleOffline)
+  }
+
+  private handleOnline = () => {
+    console.log('Connection recovered. Going back online.')
+    this.saveStatus.setValue('idle')
+    this.start()
+    // Trigger sync to check for queued steps
+    if (this.newStepsListener) {
+      this.newStepsListener()
+    }
+  }
+
+  private handleOffline = () => {
+    console.log('Connection lost. Going offline.')
+    // Abort any pending request when going offline
+    if (this.abortController) {
+      this.abortController.abort()
+      this.abortController = undefined
+    }
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = undefined
+    }
+    this.saveStatus.setValue('offline')
+    this.closeConnection()
   }
 
   async sendSteps(
@@ -81,54 +155,72 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
+
     this.flushImmediately = this.debounce(
       async () => {
-        const payload = {
-          clientID,
-          steps: steps.map((s) => s.toJSON()),
-          version,
+        // Abort any pending request before starting a new one
+        if (this.abortController) {
+          this.abortController.abort()
         }
-        if (this.api.ws && this.api.ws.readyState === WebSocket.OPEN) {
-          this.api.ws.send(
-            JSON.stringify({
-              projectID: this.projectID,
-              manuscriptID: this.manuscriptID,
-              payload,
-              token: this.api.token,
-            })
-          )
-          this.api.ws.onmessage = (event: MessageEvent) => {
-            const data = JSON.parse(event.data)
-            if (data.status === 'error') {
-              if (
-                data.InternalErrorCode === 'VERSION_MISMATCH' &&
-                this.attempt < MAX_ATTEMPTS
-              ) {
-                console.warn('Retrying')
-                this.newStepsListener()
-                this.attempt++
-              } else {
-                console.error('Failed to send steps', data.message)
-              }
-            } else if (data.status === 'success') {
-              this.attempt = 0
-            }
-          }
-        } else {
+        if (this.timeoutId) {
+          clearTimeout(this.timeoutId)
+        }
+
+        this.saveStatus.setValue('saving')
+
+        // Create new AbortController for this request
+        this.abortController = new AbortController()
+        this.timeoutId = setTimeout(() => {
+          this.abortController?.abort()
+        }, REQUEST_TIMEOUT_MS)
+
+        try {
           const response = await this.api.sendSteps(
             this.projectID,
             this.manuscriptID,
-            payload
+            {
+              steps: steps,
+              version,
+              clientID,
+            },
+            this.abortController.signal
           )
-          if (response.error === 'conflict' && this.attempt < MAX_ATTEMPTS) {
-            console.warn('Retrying')
-            this.newStepsListener()
-            this.attempt++
+
+          if (this.timeoutId) {
+            clearTimeout(this.timeoutId)
+            this.timeoutId = undefined
+          }
+
+          if (response.error === 'conflict') {
+            if (this.attempt < MAX_ATTEMPTS) {
+              this.newStepsListener()
+              this.attempt++
+            } else {
+              this.saveStatus.setValue('failed')
+              this.attempt = 0
+            }
+          } else if (response.error === 'aborted') {
+            this.saveStatus.setValue(navigator.onLine ? 'failed' : 'offline')
+            this.attempt = 0
           } else if (response.error) {
             console.error('Failed to send steps', response.error)
+            this.saveStatus.setValue('failed')
+            this.attempt = 0
           } else {
+            this.saveStatus.setValue('saved')
             this.attempt = 0
           }
+        } catch (error) {
+          if (this.timeoutId) {
+            clearTimeout(this.timeoutId)
+            this.timeoutId = undefined
+          }
+          // Handle other errors (abort is now handled via error response)
+          console.warn('Failed to send steps', error)
+          this.saveStatus.setValue('failed')
+          this.attempt = 0
+        } finally {
+          this.abortController = undefined
         }
       },
       THROTTLING_INTERVAL,
@@ -146,6 +238,7 @@ export class StepsExchanger extends CollabProvider {
   async receiveSteps(version: number, steps: unknown[], clientIDs: number[]) {
     this.currentVersion = version
     this.updateStoreVersion(version)
+
     if (steps.length) {
       const mappedSteps = steps.map((s) => Step.fromJSON(schema, s))
       this.newStepsListener(mappedSteps, clientIDs)
@@ -158,18 +251,53 @@ export class StepsExchanger extends CollabProvider {
     if (this.stopped === false) {
       return
     }
-    this.closeConnection = this.api.listenToSteps(
-      this.projectID,
-      this.manuscriptID,
-      (version, steps, clientIDs) =>
-        this.receiveSteps(version, steps, clientIDs)
-    )
-    this.stopped = false
+
+    // Abort any pending request before restarting
+    if (this.abortController) {
+      this.abortController.abort()
+      this.abortController = undefined
+    }
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = undefined
+    }
+
+    // Close any existing connection before starting a new one to avoid duplicate listeners
+    if (this.closeConnection) {
+      this.closeConnection()
+    }
+
+    if (navigator.onLine) {
+      this.closeConnection = this.api.listenToSteps(
+        this.projectID,
+        this.manuscriptID,
+        (version, steps, clientIDs) =>
+          this.receiveSteps(version, steps, clientIDs)
+      )
+      this.stopped = false
+    } else {
+      // No-op function when offline - connection cannot be established
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      this.closeConnection = () => {}
+      this.stopped = true
+    }
   }
 
   stop() {
     this.stopped = true
+
+    // Abort any pending request
+    if (this.abortController) {
+      this.abortController.abort()
+      this.abortController = undefined
+    }
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = undefined
+    }
+
     this.closeConnection()
+    this.removeNetworkListeners()
   }
 
   flush() {
@@ -191,11 +319,16 @@ export class StepsExchanger extends CollabProvider {
   }
 
   async stepsSince(version: number) {
+    if (this.saveStatus.value === 'offline') {
+      return
+    }
+
     const response = await this.api.getStepsSince(
       this.projectID,
       this.manuscriptID,
       version
     )
+
     if (response) {
       return {
         steps: response.steps.map((s) => Step.fromJSON(schema, s)),

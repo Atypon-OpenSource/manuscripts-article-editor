@@ -108,8 +108,12 @@ export const DeleteCommentConfirmation: React.FC<
         <Message>Delete this comment?</Message>
       </MessageContainer>
       <Buttons>
-        <CancelButton onClick={onCancel}>Cancel</CancelButton>
-        <DeleteButton onClick={onConfirm}>Delete</DeleteButton>
+        <CancelButton onClick={onCancel} tabIndex={0}>
+          Cancel
+        </CancelButton>
+        <DeleteButton onClick={onConfirm} tabIndex={0}>
+          Delete
+        </DeleteButton>
       </Buttons>
     </DeleteConfirmation>
   )

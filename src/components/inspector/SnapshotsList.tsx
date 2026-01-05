@@ -94,7 +94,7 @@ export const SnapshotsList: React.FC = () => {
           <>Version history </>
           <SecondaryText>Snapshots created on task completion </SecondaryText>
         </Header>
-        <CloseButton onClick={handleClose}>
+        <CloseButton onClick={handleClose} tabIndex={0}>
           <CloseIcon /> Close
         </CloseButton>
       </HeaderContainer>
@@ -131,7 +131,7 @@ export const SnapshotsList: React.FC = () => {
         })}
       </SnapshotListContainer>
       <ButtonContainer>
-        <PrimaryButton onClick={() => setShowCompareModal(true)}>
+        <PrimaryButton onClick={() => setShowCompareModal(true)} tabIndex={0}>
           Compare Snapshots
         </PrimaryButton>
       </ButtonContainer>

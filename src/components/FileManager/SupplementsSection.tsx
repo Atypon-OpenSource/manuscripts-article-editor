@@ -47,7 +47,7 @@ export type SupplementsSectionProps = {
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true) // it is open by default
   const toggleVisibility = () => setIsOpen((prev) => !prev)
 
   const [{ view, fileManagement }] = useStore((s) => ({
@@ -243,6 +243,12 @@ const SupplementFile: React.FC<{
       ref={drag}
       className={isDragging ? 'dragging' : ''}
       onClick={onClick}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && e.currentTarget === document.activeElement) {
+          onClick()
+        }
+      }}
     >
       <FileName file={supplement.file} />
       <FileCreatedDate file={supplement.file} className="show-on-hover" />
