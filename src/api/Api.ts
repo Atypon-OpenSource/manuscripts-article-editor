@@ -123,6 +123,10 @@ export class Api {
     if (!response) {
       throw new Error('Project not found.')
     }
+    //old API versions return an array
+    if (Array.isArray(response)) {
+      return response[0]
+    }
     return response
   }
 
