@@ -15,7 +15,6 @@ import styled from 'styled-components'
 
 import { Api, ApiContext } from './api/Api'
 import { ApiSource } from './api/ApiSource'
-import { Page } from './components/Page'
 import { PluginInspectorTab } from './components/projects/Inspector'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
@@ -113,9 +112,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   return store ? (
     <ApiContext.Provider value={api}>
       <GenericStoreProvider store={store}>
-        <Page>
-          <ManuscriptPageContainer />
-        </Page>
+        <ManuscriptPageContainer />
       </GenericStoreProvider>
     </ApiContext.Provider>
   ) : (
