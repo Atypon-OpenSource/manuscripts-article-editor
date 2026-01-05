@@ -126,9 +126,6 @@ export class Api {
     return response
   }
 
-  createProject = (projectId: string, title: string) =>
-    this.post<Project>(`project/${projectId}`, { title })
-
   getSnapshot = (snapshotID: string) =>
     this.get<ManuscriptSnapshot>(`snapshot/${snapshotID}`)
 

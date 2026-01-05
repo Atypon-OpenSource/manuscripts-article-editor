@@ -14,7 +14,6 @@ import { bibliographyItemTypes, FileAttachment } from '@manuscripts/body-editor'
 import { NodeAttrChange } from '@manuscripts/track-changes-plugin'
 import {
   AffiliationNode,
-  BibliographicName,
   BibliographyItemNode,
   CreditRole,
   FootnoteNode,
@@ -58,9 +57,8 @@ export const filterAttrsChange = (
   }
 }
 
-function displayBibliographicName(value: unknown) {
-  const name = value as BibliographicName
-  return name && name.given && name.family ? `${name.given} ${name.family}` : ''
+function displayPerson(person: CSL.Person) {
+  return person && person.given && person.family ? `${person.given} ${person.family}` : ''
 }
 
 const getLabel = (key: string) =>
@@ -96,12 +94,6 @@ const createAttrsDisplay = (
             value: bibliographyItemTypeMap.get(value) || (value as string),
           })
 
-        case 'bibliographicName':
-          filteredAttrs[key] = {
-            label: 'Given Name / Family name',
-            value: displayBibliographicName(value),
-          }
-          return
         case 'rids':
           if (isInlineFootnoteNode(modelOfChange)) {
             const limit = 50
@@ -138,7 +130,7 @@ const createAttrsDisplay = (
           }
 
           return
-        case 'affiliations':
+        case 'affiliationIDs':
           return (filteredAttrs[key] = {
             label: getLabel(key),
             value: (value as string[])
@@ -154,8 +146,8 @@ const createAttrsDisplay = (
         case 'author':
           return (filteredAttrs[key] = {
             label: getLabel(key),
-            value: (value as BibliographicName[])
-              ?.map(displayBibliographicName)
+            value: (value as CSL.Person[])
+              ?.map(displayPerson)
               .join(', '),
           })
 

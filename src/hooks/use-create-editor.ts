@@ -21,6 +21,7 @@ import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { useCompareDocuments } from './use-compare-documents'
 import { useInspectorTabsContext } from './use-inspector-tabs-context'
+import {Project, UserProfile} from "@manuscripts/transform";
 
 const SAVE_INDICATOR_DISPLAY_TIME_MS = 3000
 

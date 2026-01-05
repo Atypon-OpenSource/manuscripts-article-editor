@@ -57,16 +57,16 @@ const getManuscriptData = async (templateID: string, api: Api) => {
     return data
   }
 
-  const bundle = await api.getBundle(template)
-  if (!bundle) {
-    return data
-  }
-
   data.sectionCategories = new Map(
     template.sectionCategories.map((c) => [c.id, c])
   )
   if (template.hiddenNodeTypes) {
     data.hiddenNodeTypes = convertNodeNamesToTypes(template.hiddenNodeTypes)
+  }
+
+  const bundle = await api.getBundle(template)
+  if (!bundle) {
+    return data
   }
 
   data.cslStyle = await api.getCSLStyle(bundle)

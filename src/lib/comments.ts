@@ -20,14 +20,6 @@ export type Thread = {
   replies: Comment[]
 }
 
-export const getAuthorID = (comment: Comment) => {
-  const contributions = comment.node.attrs.contributions
-  if (!contributions?.length) {
-    return undefined
-  }
-  return contributions[0].profileID
-}
-
 export const buildThreads = (
   comments: Comment[],
   newCommentID?: string
@@ -81,13 +73,13 @@ export const buildAuthorName = (user: UserProfile | undefined) => {
   if (!user) {
     return ''
   }
-  return [user.bibliographicName.given, user.bibliographicName.family]
+  return [user.given, user.family]
     .filter(Boolean)
     .join(' ')
 }
 
 export const commentsByTime = (a: Comment, b: Comment) => {
-  const aTimestamp = a.node.attrs.contributions?.[0].timestamp || 0
-  const bTimestamp = b.node.attrs.contributions?.[0].timestamp || 0
+  const aTimestamp = a.node.attrs.timestamp || 0
+  const bTimestamp = b.node.attrs.timestamp || 0
   return aTimestamp - bTimestamp
 }
