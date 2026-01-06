@@ -7,7 +7,7 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { CollabProvider } from '@manuscripts/body-editor'
 import { schema } from '@manuscripts/transform'
@@ -240,8 +240,8 @@ export class StepsExchanger extends CollabProvider {
     this.updateStoreVersion(version)
 
     if (steps.length) {
-      //TODO send steps to listener
-      this.newStepsListener()
+      const mappedSteps = steps.map((s) => Step.fromJSON(schema, s))
+      this.newStepsListener(mappedSteps, clientIDs)
     }
   }
 
