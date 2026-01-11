@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ManuscriptOutline } from '@manuscripts/body-editor'
+import { FileAttachment, ManuscriptOutline } from '@manuscripts/body-editor'
 import React from 'react'
 
 import { usePermissions } from '../../lib/capabilities'
@@ -21,6 +21,7 @@ const ManuscriptSidebar: React.FC = () => {
   const can = usePermissions()
   const [view] = useStore((store) => store.view)
   const [editor] = useStore((store) => store.editor)
+  const [files] = useStore((store) => store.files)
 
   if (!editor) {
     return null
@@ -40,6 +41,7 @@ const ManuscriptSidebar: React.FC = () => {
         doc={editor.state?.doc || null}
         view={view}
         can={can}
+        getFiles={() => files as FileAttachment[]}
       />
     </PageSidebar>
   )
