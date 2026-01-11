@@ -31,6 +31,8 @@ interface Props {
   isFocused: boolean
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
+  isTrackingChangesVisible: boolean
+  actionButtonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
 export const SuggestionSnippet: React.FC<Props> = ({
@@ -39,6 +41,8 @@ export const SuggestionSnippet: React.FC<Props> = ({
   isFocused,
   handleAccept,
   handleReject,
+  isTrackingChangesVisible: isTrackingChangesVisibleProp,
+  actionButtonRefs,
 }) => {
   const [{ view, collaboratorsById, files, isTrackingChangesVisible }] =
     useStore((store) => ({
@@ -93,6 +97,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
                 suggestions={suggestions}
                 handleAccept={handleAccept}
                 handleReject={handleReject}
+                buttonRefs={actionButtonRefs}
               />
             </CardActions>
           )}
@@ -113,8 +118,10 @@ export const SuggestionSnippet: React.FC<Props> = ({
   )
 }
 
-const CardActions = styled.div`
-  visibility: hidden;
+export const CardActions = styled.div`
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 `
 
 const isActive = (props: {
@@ -163,7 +170,8 @@ export const Card = styled.div<{
   ${(props) =>
     isActive(props)
       ? `${CardActions} {
-        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
       }`
       : ''}
   ${(props) =>
@@ -172,7 +180,8 @@ export const Card = styled.div<{
       background: ${props.theme.colors.background.tracked.hover};
 
       ${CardActions} {
-        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
       }
     }`
       : ''}

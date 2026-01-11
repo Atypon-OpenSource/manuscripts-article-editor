@@ -179,6 +179,7 @@ export const SearchReplace: React.FC = () => {
             }}
             total={matches.length}
             setNewSearchValue={setNewSearchValue}
+            isActive={isActive}
           />
           <IconButton onClick={() => setAdvanced(true)}>
             <DotsIcon />

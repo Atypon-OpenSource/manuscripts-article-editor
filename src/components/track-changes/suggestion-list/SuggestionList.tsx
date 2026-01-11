@@ -40,6 +40,7 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
   onAcceptAll,
   onSelect,
 }) => {
+  const cardLinkRefs = React.useRef<(HTMLAnchorElement | null)[]>([])
   const [{ isComparingMode }] = useStore((store) => ({
     isComparingMode: store.isComparingMode,
   }))
@@ -54,14 +55,48 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
     .slice()
     .sort(sortBy === 'Date' ? changesByDate : changesByContext)
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!['ArrowDown', 'ArrowUp'].includes(e.key)) {
+      return
+    }
+
+    const cardLinks = cardLinkRefs.current.filter(
+      Boolean
+    ) as HTMLAnchorElement[]
+    if (cardLinks.length === 0) {
+      return
+    }
+
+    const currentIndex = cardLinks.findIndex(
+      (link) => link === document.activeElement || link.contains(document.activeElement)
+    )
+    if (currentIndex === -1) {
+      return
+    }
+
+    e.preventDefault()
+
+    if (e.key === 'ArrowDown') {
+      const nextIndex = (currentIndex + 1) % cardLinks.length
+      cardLinks[nextIndex]?.focus()
+    } else if (e.key === 'ArrowUp') {
+      const prevIndex = (currentIndex - 1 + cardLinks.length) % cardLinks.length
+      cardLinks[prevIndex]?.focus()
+    }
+  }
+
   return (
     <InspectorSection
       title={title.concat(changes.length ? ` (${changes.length})` : '')}
       approveAll={!isComparingMode ? onAcceptAll : undefined}
       fixed={true}
     >
-      <List data-cy="suggestions-list" data-cy-type={type}>
-        {sortedChanges.map((c: RootChange) => (
+      <List
+        data-cy="suggestions-list"
+        data-cy-type={type}
+        onKeyDown={handleKeyDown}
+      >
+        {sortedChanges.map((c: RootChange, index: number) => (
           <Suggestion
             key={c[0].id}
             suggestions={c}
@@ -69,6 +104,10 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
             onAccept={() => !isComparingMode && onAccept(c)}
             onReject={() => !isComparingMode && onReject(c)}
             onSelect={() => onSelect && onSelect(c)}
+            isTabbable={index === 0}
+            cardLinkRef={(el) => {
+              cardLinkRefs.current[index] = el
+            }}
           />
         ))}
       </List>

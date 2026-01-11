@@ -190,8 +190,14 @@ export const CommentBody: React.FC<CommentBodyProps> = ({
             }}
           ></CommentEditor>
           <EditorActions data-cy="comment-actions">
-            <TertiaryButton onClick={handleCancel}>Cancel</TertiaryButton>
-            <PrimaryButton onClick={handleSave} disabled={disableSaveButton}>
+            <TertiaryButton onClick={handleCancel} tabIndex={0}>
+              Cancel
+            </TertiaryButton>
+            <PrimaryButton
+              onClick={handleSave}
+              disabled={disableSaveButton}
+              tabIndex={0}
+            >
               Save
             </PrimaryButton>
           </EditorActions>

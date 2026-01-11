@@ -150,6 +150,7 @@ const OtherFile: React.FC<{
       data-cy="file-container"
       ref={drag}
       className={isDragging ? 'dragging' : ''}
+      tabIndex={0}
     >
       <FileName file={file} />
       <FileCreatedDate file={file} className="show-on-hover" />
