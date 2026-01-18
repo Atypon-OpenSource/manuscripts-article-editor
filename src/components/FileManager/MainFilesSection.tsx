@@ -113,6 +113,35 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     setConfirmDialogOpen(true)
   }
 
+  const replaceFile = async () => {
+    setConfirmDialogOpen(false)
+    if (fileToUpload) {
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
+        message: fileToUpload.name,
+      })
+      try {
+        const uploaded = await fileManagement.upload(
+          fileToUpload,
+          setUploadProgressAlert(setAlert, FileSectionType.MainFile)
+        )
+        insertAttachment(uploaded, view.state, 'document', view.dispatch)
+        setAlert({
+          type: FileSectionAlertType.REPLACE_SUCCESSFUL,
+          message: fileToUpload.name,
+        })
+      } catch (error) {
+        const errorMessage = error
+          ? error.cause?.result
+          : error.message || 'Unknown error occurred'
+        setAlert({
+          type: FileSectionAlertType.UPLOAD_ERROR,
+          message: errorMessage,
+        })
+      }
+    }
+  }
+
   const handleMainDocumentClick = (pos?: number) => {
     if (!pos) {
       return
@@ -215,25 +244,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
         }
         actions={{
           primary: {
-            action: async () => {
-              if (fileToUpload) {
-                const uploaded = await fileManagement.upload(
-                  fileToUpload,
-                  setUploadProgressAlert(setAlert, FileSectionType.MainFile)
-                )
-                insertAttachment(
-                  uploaded,
-                  view.state,
-                  'document',
-                  view.dispatch
-                )
-              }
-              setConfirmDialogOpen(false)
-              setAlert({
-                type: FileSectionAlertType.REPLACE_SUCCESSFUL,
-                message: FileSectionType.MainFile,
-              })
-            },
+            action: replaceFile,
             title: 'Replace',
           },
           secondary: {
