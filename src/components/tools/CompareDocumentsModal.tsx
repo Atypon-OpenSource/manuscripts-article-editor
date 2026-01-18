@@ -17,6 +17,7 @@ import {
   PrimaryButton,
   SecondaryButton,
   StyledModal,
+  Label,
 } from '@manuscripts/style-guide'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -75,9 +76,7 @@ export const CompareDocumentsModal: React.FC<CompareDocumentsModalProps> = ({
             <>
               <DocumentSelectContainer>
                 <SelectContainer>
-                  <InputLabel htmlFor="original-document">
-                    Original Version
-                  </InputLabel>
+                  <Label htmlFor="original-document">Original Version</Label>
                   <Select
                     id="original-document"
                     value={originalDocId}
@@ -97,9 +96,9 @@ export const CompareDocumentsModal: React.FC<CompareDocumentsModalProps> = ({
                 </SelectContainer>
 
                 <SelectContainer>
-                  <InputLabel htmlFor="comparison-document">
+                  <Label htmlFor="comparison-document">
                     Version to Compare
-                  </InputLabel>
+                  </Label>
                   <Select
                     id="comparison-document"
                     value={comparisonDocId}
@@ -153,12 +152,6 @@ const SelectContainer = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
 `
 
-const InputLabel = styled.label`
-  font-size: ${(props) => props.theme.font.size.normal};
-  font-weight: ${(props) => props.theme.font.weight.medium};
-  color: ${(props) => props.theme.colors.text.primary};
-  margin-bottom: ${(props) => props.theme.grid.unit}px;
-`
 
 const Select = styled.select`
   width: 100%;
