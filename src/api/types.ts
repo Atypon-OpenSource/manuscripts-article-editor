@@ -46,6 +46,8 @@ export type StepsListener = (
   clientIDs: number[]
 ) => void
 
+export type StepsErrorListener = (error: 'conflict' | 'failed') => void
+
 export interface Language {
   code: string
   name: string
