@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment } from '@manuscripts/body-editor'
-import { Tooltip } from '@manuscripts/style-guide'
 import { format } from 'date-fns'
 import React from 'react'
 import styled from 'styled-components'
@@ -25,13 +24,10 @@ export const FileCreatedDate: React.FC<{
 
   return (
     <FileDateContainer
-      data-tooltip-id={`${file.id}-created-date-tooltip`}
       className={className}
+      data-tooltip-content="File Uploaded"
     >
       <FileDate>{format(new Date(file.createdDate), 'M/d/yy, HH:mm')}</FileDate>
-      <Tooltip id={`${file.id}-created-date-tooltip`} place="bottom">
-        File Uploaded
-      </Tooltip>
     </FileDateContainer>
   )
 }

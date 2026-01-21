@@ -9,8 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import { Tooltip } from '@manuscripts/style-guide'
-import React, { useId } from 'react'
+import React from 'react'
 
 import { PrimaryInspectorTab } from '../Inspector'
 import { TabLabel } from './TabLabel'
@@ -19,18 +18,16 @@ export const InspectorTab: React.FC<{
   isVisible: boolean
   cy: string
   icon: React.ReactNode
-  children: React.ReactNode
+  children: string
 }> = ({ isVisible, children, cy, icon }) => {
-  const id = useId()
   return (
-    <PrimaryInspectorTab data-cy={cy} data-tooltip-id={id}>
+    <PrimaryInspectorTab
+      data-cy={cy}
+      data-tooltip-content={children}
+      data-tooltip-hidden={isVisible}
+    >
       {icon}
       <TabLabel isVisible={isVisible}>{children}</TabLabel>
-      {!isVisible && (
-        <Tooltip id={id} place="top">
-          {children}
-        </Tooltip>
-      )}
     </PrimaryInspectorTab>
   )
 }
