@@ -17,6 +17,7 @@ import {
   SaveStatus,
   SliderOffIcon,
   SliderOnIcon,
+  Tooltip,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
@@ -29,7 +30,6 @@ import {
   usePermissions,
 } from '../../lib/capabilities'
 import { useStore } from '../../store'
-import { Main } from '../Page'
 import { SearchReplace } from '../SearchReplace'
 import UtilitiesEffects from '../UtilitiesEffects'
 import {
@@ -44,6 +44,31 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+
+const Main = styled.main`
+  height: 100%;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+  background-color: ${(props) => props.theme.colors.background.primary};
+  background-image: linear-gradient(
+    180deg,
+    rgba(250, 250, 250, 1) 0%,
+    rgba(250, 250, 250, 1) 38px,
+    rgba(255, 255, 255, 1) 38px,
+    rgba(255, 255, 255, 1) 100%
+  );
+`
+
+const PageContainer = styled.div`
+  display: flex;
+  overflow: hidden;
+  flex-grow: 1;
+  box-sizing: border-box;
+  width: 100%;
+  color: ${(props) => props.theme.colors.text.primary};
+  font-family: ${(props) => props.theme.font.family.sans};
+`
 
 const ManuscriptPageContainer: React.FC = () => {
   // Enable global keyboard shortcuts
@@ -69,7 +94,9 @@ const ManuscriptPageContainer: React.FC = () => {
 
   return (
     <CapabilitiesProvider can={can}>
-      <ManuscriptPageView />
+      <PageContainer>
+        <ManuscriptPageView />
+      </PageContainer>
     </CapabilitiesProvider>
   )
 }
@@ -156,6 +183,11 @@ const ManuscriptPageView: React.FC = () => {
         </Main>
         <Inspector data-cy="inspector" />
         <UtilitiesEffects />
+        <Tooltip
+          anchorSelect="[data-tooltip-content]:not([data-tooltip-id])"
+          place="bottom"
+          style={{ zIndex: 5000 }}
+        />
       </PageWrapper>
     </Wrapper>
   )
