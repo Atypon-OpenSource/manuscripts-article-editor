@@ -62,7 +62,9 @@ const Inspector: React.FC = () => {
     view: store.view,
     inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
+    titleText: store.titleText,
   }))
+  console.log('titleText: ', store.titleText)
   const inconsistenciesCount = store.inconsistencies?.length
   let errorCount = 0
   let warningCount = 0
@@ -228,6 +230,8 @@ const Inspector: React.FC = () => {
               </InspectorTabPanel>
               {pluginTab && (
                 <InspectorTabPanel key="Plugin" data-cy="plugin">
+                  <>HOVNO</>
+                  <>{store.titleText}</>
                   {tabIndex === PLUGIN_TAB && pluginTab.content}
                 </InspectorTabPanel>
               )}
