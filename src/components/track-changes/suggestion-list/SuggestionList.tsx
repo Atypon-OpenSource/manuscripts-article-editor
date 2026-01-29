@@ -68,7 +68,8 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
     }
 
     const currentIndex = cardLinks.findIndex(
-      (link) => link === document.activeElement || link.contains(document.activeElement)
+      (link) =>
+        link === document.activeElement || link.contains(document.activeElement)
     )
     if (currentIndex === -1) {
       return

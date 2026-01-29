@@ -27,9 +27,7 @@ export const FileName: React.FC<{
     <FileNameContainer data-tooltip-content={file.name}>
       {(Icon && <Icon className="file-icon" />) || <FileTypeIcon file={file} />}
       {label && <FileLabel>{label}:</FileLabel>}
-      <FileNameText data-cy="filename">
-        {trimmedFilename}
-      </FileNameText>
+      <FileNameText data-cy="filename">{trimmedFilename}</FileNameText>
     </FileNameContainer>
   )
 }
