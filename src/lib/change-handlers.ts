@@ -40,6 +40,7 @@ import { findChildrenByType } from 'prosemirror-utils'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
+import { getTransAbstractDisplayName } from './trans-abstract'
 
 interface SnippetData {
   operation: string
@@ -279,6 +280,25 @@ export const handleNodeChange = (
     case schema.nodes.section: {
       const nodeName =
         node.attrs.category === 'subsection' ? 'Subsection' : 'Section'
+      return {
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFirstChildContent(node),
+      }
+    }
+    // case schema.nodes.graphical_abstract_section: {
+    //   const nodeName =
+    //     node.attrs.category === 'abstract-key-image'
+    //       ? 'Key Image'
+    //       : 'Graphical Abstract'
+    //   return {
+    //     operation,
+    //     nodeName,
+    //     content: nodeContentRetriever.getFirstChildContent(node),
+    //   }
+    // }
+    case schema.nodes.trans_abstract: {
+      const nodeName = getTransAbstractDisplayName(node)
       return {
         operation,
         nodeName,
