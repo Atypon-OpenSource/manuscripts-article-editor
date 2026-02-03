@@ -286,17 +286,7 @@ export const handleNodeChange = (
         content: nodeContentRetriever.getFirstChildContent(node),
       }
     }
-    // case schema.nodes.graphical_abstract_section: {
-    //   const nodeName =
-    //     node.attrs.category === 'abstract-key-image'
-    //       ? 'Key Image'
-    //       : 'Graphical Abstract'
-    //   return {
-    //     operation,
-    //     nodeName,
-    //     content: nodeContentRetriever.getFirstChildContent(node),
-    //   }
-    // }
+
     case schema.nodes.trans_abstract: {
       const nodeName = getTransAbstractDisplayName(node)
       return {
