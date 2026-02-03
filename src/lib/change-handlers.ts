@@ -40,7 +40,10 @@ import { findChildrenByType } from 'prosemirror-utils'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
 import { getParentNode } from './utils'
-import { getTransAbstractDisplayName } from './trans-abstract'
+import {
+  getTransAbstractDisplayName,
+  getTransGraphicalAbstractDisplayName,
+} from './trans-abstract'
 
 interface SnippetData {
   operation: string
@@ -289,6 +292,14 @@ export const handleNodeChange = (
 
     case schema.nodes.trans_abstract: {
       const nodeName = getTransAbstractDisplayName(node)
+      return {
+        operation,
+        nodeName,
+        content: nodeContentRetriever.getFirstChildContent(node),
+      }
+    }
+    case schema.nodes.trans_graphical_abstract: {
+      const nodeName = getTransGraphicalAbstractDisplayName(node)
       return {
         operation,
         nodeName,

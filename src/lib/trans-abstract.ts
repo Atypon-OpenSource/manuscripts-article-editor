@@ -11,19 +11,26 @@
  */
 import { ManuscriptNode } from '@manuscripts/transform'
 
-export const TRANSLATED_ABSTRACT_CATEGORY_LABELS: Record<string, string> = {
-  abstract: 'Trans Abstract',
-  'abstract-short': 'Trans Short Abstract',
-  'abstract-teaser': 'Trans Teaser Abstract',
-  'abstract-toc': 'Trans TOC Abstract',
+export const TRANS_ABSTRACT_DISPLAY_NAME = 'Trans Abstract'
+
+export const TRANSLATED_GRAPHICAL_ABSTRACT_CATEGORY_LABELS: Record<
+  string,
+  string
+> = {
   'abstract-graphical': 'Trans Graphical Abstract',
   'abstract-key-image': 'Trans Key Image',
 }
 
-export const getTransAbstractDisplayName = (node: ManuscriptNode): string => {
+export const getTransAbstractDisplayName = (_node: ManuscriptNode): string => {
+  return TRANS_ABSTRACT_DISPLAY_NAME
+}
+
+export const getTransGraphicalAbstractDisplayName = (
+  node: ManuscriptNode
+): string => {
   const category = node.attrs.category as string | undefined
   return (
-    (category && TRANSLATED_ABSTRACT_CATEGORY_LABELS[category]) ||
-    'Trans Abstract'
+    (category && TRANSLATED_GRAPHICAL_ABSTRACT_CATEGORY_LABELS[category]) ||
+    'Trans Graphical Abstract'
   )
 }
