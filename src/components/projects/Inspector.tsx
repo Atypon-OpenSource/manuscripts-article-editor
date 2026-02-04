@@ -62,6 +62,7 @@ const Inspector: React.FC = () => {
     view: store.view,
     inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
+    titleText: store.titleText,
   }))
   const inconsistenciesCount = store.inconsistencies?.length
   let errorCount = 0
