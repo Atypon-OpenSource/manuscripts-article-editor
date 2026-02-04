@@ -285,6 +285,7 @@ export const handleNodeChange = (
         content: nodeContentRetriever.getFirstChildContent(node),
       }
     }
+
     case schema.nodes.list:
       return {
         operation,

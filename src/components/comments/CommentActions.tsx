@@ -47,7 +47,7 @@ export const CommentAction = styled.div`
   color: ${(props) => props.theme.colors.text.primary};
   padding: 6px 0 6px 8px;
   outline: none;
-  
+
   &:hover,
   &:focus {
     background: #f2fbfc;
@@ -105,7 +105,7 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
         wrapperRef.current?.querySelector('button')?.focus()
         break
       case 'Enter':
-        (document.activeElement as HTMLElement)?.click()
+        ;(document.activeElement as HTMLElement)?.click()
         break
     }
   }
