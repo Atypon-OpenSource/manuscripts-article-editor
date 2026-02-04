@@ -12,6 +12,7 @@
 import { ManuscriptNode } from '@manuscripts/transform'
 
 import { useStore } from '../store'
+import { useEffect } from 'react'
 
 export interface InspectorOpenTabs {
   primaryTab: InspectorPrimaryTab | null
@@ -23,6 +24,7 @@ export enum InspectorPrimaryTab {
   History = 1,
   Files = 2,
   Quality = 3,
+  Metadata = 4,
 }
 
 export enum InspectorTabFiles {
@@ -45,18 +47,23 @@ export enum InspectorAction {
   OpenQualityReport = 'open-quality-report',
   OpenSuggestions = 'open-suggestion',
   OpenComments = 'open-comments',
+  OpenMetadata = 'open-metadata',
 }
 
 export const useInspectorTabsParentControl = () => {
   const [_, dispatch] = useStore((state) => state.inspectorOpenTabs)
 
-  function doInspectorTab(action: InspectorAction) {
-    const preppedTabs = prepareTabs(action)
-    if (preppedTabs.primaryTab != null) {
-      dispatch({ inspectorOpenTabs: preppedTabs })
+  useEffect(() => {
+    function doInspectorTab(action: InspectorAction) {
+      const preppedTabs = prepareTabs(action)
+      if (preppedTabs.primaryTab != null) {
+        dispatch({ inspectorOpenTabs: preppedTabs })
+      }
     }
-  }
-  dispatch({ doInspectorTab })
+
+    dispatch({ doInspectorTab })
+    
+  }, [dispatch])
 }
 
 export const useInspectorTabsContext = () => {
@@ -121,8 +128,12 @@ function prepareTabs(action?: InspectorAction) {
       inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Comments
       inspectorOpenTabs.secondaryTab = null
       break
+    case 'open-metadata':
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Metadata
+      inspectorOpenTabs.secondaryTab = null
+      break
     default:
       break
-  }
+  } 
   return inspectorOpenTabs
 }

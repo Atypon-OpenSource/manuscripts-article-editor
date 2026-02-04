@@ -144,33 +144,33 @@ export const InspectorTabPanelHeading = styled.div`
   margin-bottom: ${(props) => props.theme.grid.unit * 4}px;
 `
 
-export const WarningBadge = styled.div`
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background-color: #fe8f1f;
-  color: white;
-  border-radius: 50%;
-  min-width: 14px;
-  height: 14px;
-  font-family: 'Lato', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  font-size: 9px;
-  font-weight: 400;
-  line-height: 1;
-  z-index: 10;
-`
-export const ErrorBadge = styled(WarningBadge)`
-  background-color: #f35143;
-`
+// export const WarningBadge = styled.div`
+//   position: absolute;
+//   top: -6px;
+//   right: -6px;
+//   background-color: #fe8f1f;
+//   color: white;
+//   border-radius: 50%;
+//   min-width: 14px;
+//   height: 14px;
+//   font-family: 'Lato', sans-serif;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-around;
+//   font-size: 9px;
+//   font-weight: 400;
+//   line-height: 1;
+//   z-index: 10;
+// `
+// export const ErrorBadge = styled(WarningBadge)`
+//   background-color: #f35143;
+// `
 
-export const IconWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-`
+// export const IconWrapper = styled.div`
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+// `
 export const Spacer = styled.span`
   flex: 1 0 auto;
 `
