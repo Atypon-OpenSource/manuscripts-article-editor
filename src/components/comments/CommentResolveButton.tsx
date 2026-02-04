@@ -11,7 +11,7 @@
  */
 
 import { Comment } from '@manuscripts/body-editor'
-import { CommentResolveIcon, Tooltip } from '@manuscripts/style-guide'
+import { CommentResolveIcon } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -42,6 +42,11 @@ const Button = styled.button`
     background: #f2fbfc;
     border: 1px solid #c9c9c9;
   }
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: 2px;
+  }
 `
 
 export interface CommentResolveButtonProps {
@@ -53,18 +58,18 @@ export const CommentResolveButton: React.FC<CommentResolveButtonProps> = ({
   comment,
   onClick,
 }) => {
+  const label = comment.node.attrs.resolved
+    ? 'Unresolve Comment'
+    : 'Resolve Comment'
   return (
-    <>
-      <Button
-        className={comment.node.attrs.resolved ? 'resolved' : ''}
-        data-tooltip-id={comment.node.attrs.id}
-        onClick={onClick}
-      >
-        <CommentResolveIcon />
-      </Button>
-      <Tooltip id={comment.node.attrs.id} place="bottom">
-        {(comment.node.attrs.resolved && 'Unresolve') || 'Resolve'}
-      </Tooltip>
-    </>
+    <Button
+      className={comment.node.attrs.resolved ? 'resolved' : ''}
+      onClick={onClick}
+      aria-label={label}
+      data-tooltip-content={label}
+      tabIndex={0}
+    >
+      <CommentResolveIcon />
+    </Button>
   )
 }

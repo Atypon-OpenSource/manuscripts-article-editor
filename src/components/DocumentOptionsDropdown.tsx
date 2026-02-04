@@ -21,7 +21,7 @@ import {
   TrackChangesStatus,
   trackCommands,
 } from '@manuscripts/track-changes-plugin'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../hooks/use-exec-cmd'
@@ -30,6 +30,8 @@ import { useStore } from '../store/useStore'
 const DocumentOptionsDropdown: React.FC = () => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const execCmd = useExecCmd()
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
+  const itemRefs = useRef<(HTMLElement | null)[]>([])
   const [storeState] = useStore((s) => ({
     doc: s.doc,
     view: s.view,
@@ -45,26 +47,69 @@ const DocumentOptionsDropdown: React.FC = () => {
     }
   }
 
+  useEffect(() => {
+    if (isOpen) {
+      itemRefs.current[0]?.focus()
+    }
+  }, [isOpen])
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const menuItems = itemRefs.current.filter(Boolean) as HTMLElement[]
+    if (!menuItems.length) {
+      return
+    }
+
+    const currentIndex = menuItems.findIndex((item) =>
+      item.contains(document.activeElement)
+    )
+    if (currentIndex === -1) {
+      return
+    }
+
+    const length = menuItems.length
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      const nextIndex = (currentIndex + 1) % length
+      menuItems[nextIndex]?.focus()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      const prevIndex = (currentIndex - 1 + length) % length
+      menuItems[prevIndex]?.focus()
+    } else if (e.key === 'Escape') {
+      e.preventDefault()
+      toggleOpen()
+      toggleButtonRef.current?.focus()
+    }
+  }
+
   return (
     <DropdownContainer ref={wrapperRef}>
       <ToggleDropdownButton
+        ref={toggleButtonRef}
         data-cy="document-options-button"
         title="Document Options"
         onClick={toggleOpen}
+        tabIndex={0}
       >
         <DotsIcon />
       </ToggleDropdownButton>
 
       {isOpen && (
         <HistoryDropdownList
+          role="menu"
           data-cy="history-dropdown"
           direction="right"
           width={192}
           top={5}
-          onClick={toggleOpen}
+          onKeyDown={handleKeyDown}
         >
           <DropdownItem
+            ref={(el) => {
+              itemRefs.current[0] = el
+            }}
             data-cy="version-history-button"
+            tabIndex={0}
+            role="menuitem"
             onClick={() =>
               execCmd(
                 trackCommands.setTrackingStatus(
@@ -72,6 +117,16 @@ const DocumentOptionsDropdown: React.FC = () => {
                 )
               )
             }
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                execCmd(
+                  trackCommands.setTrackingStatus(
+                    TrackChangesStatus.viewSnapshots
+                  )
+                )
+              }
+            }}
           >
             Version history
           </DropdownItem>
@@ -82,6 +137,9 @@ const DocumentOptionsDropdown: React.FC = () => {
             onLanguageSelect={handleLanguageChange}
             onCloseParent={toggleOpen}
             languages={storeState.languages}
+            menuItemRef={(el) => {
+              itemRefs.current[1] = el
+            }}
           />
         </HistoryDropdownList>
       )}
@@ -99,6 +157,11 @@ const ToggleDropdownButton = styled.button`
   &:focus {
     outline: none;
   }
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
+  }
 `
 
 const DropdownItem = styled.div`
@@ -109,8 +172,14 @@ const DropdownItem = styled.div`
   color: ${(props) => props.theme.colors.text.primary};
   padding: 16px;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: ${(props) => props.theme.colors.background.fifth};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
   }
 `
 
@@ -118,4 +187,5 @@ const HistoryDropdownList = styled(DropdownList)`
   top: 0;
   right: 50%;
   border-radius: 8px;
+  margin-right: 8px;
 `

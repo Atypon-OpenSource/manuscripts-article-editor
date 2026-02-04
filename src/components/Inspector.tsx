@@ -43,7 +43,6 @@ export const InspectorTabList = styled(TabList)`
 
 export const PrimaryTabList = styled(InspectorTabList)`
   background-color: #fafafa !important;
-  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `
 
 export const InspectorTabPanels = styled(TabPanels)`
@@ -51,10 +50,16 @@ export const InspectorTabPanels = styled(TabPanels)`
   overflow-y: auto;
 `
 
-export const InspectorTabPanel = styled(TabPanel)`
+export const InspectorTabPanel = styled(TabPanel).attrs({
+  tabIndex: -1,
+})`
   font-size: ${(props) => props.theme.font.size.normal};
   color: ${(props) => props.theme.colors.text.secondary};
   height: 98%;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const BaseInspectorTab = styled(Tab)`
@@ -104,6 +109,11 @@ export const PrimaryInspectorTab = styled(BaseInspectorTab)`
       }
     }
 
+    &[data-headlessui-state~='selected'][data-headlessui-state~='focus'] {
+      outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+      outline-offset: -2px;
+    }
+
     /* Ensure icon is always visible */
     svg {
       flex-shrink: 0;
@@ -121,6 +131,11 @@ export const SecondaryInspectorTab = styled(BaseInspectorTab)`
     &[aria-selected='true'] {
       border-color: ${(props) => props.theme.colors.brand.default};
       color: ${(props) => props.theme.colors.brand.default};
+    }
+
+    &[data-headlessui-state~='selected'][data-headlessui-state~='focus'] {
+      outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+      outline-offset: -2px;
     }
   }
 `
@@ -168,7 +183,14 @@ export const TabText = styled.span<{
   display: block;
   opacity: ${(props) => (props.targetWidth > 0 ? '1' : '0')};
   max-width: ${(props) => props.targetWidth}px;
-  transition: max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')}
-      ease,
+  transition:
+    max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')} ease,
     opacity ${(props) => (props.skipTransition ? '0s' : '0.5s')};
+`
+export const TabsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fafafa;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.tertiary};
 `

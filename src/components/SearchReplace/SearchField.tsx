@@ -20,12 +20,13 @@ export const SearchField: React.FC<{
   current: number
   total: number
   onInputFocus: () => void
-}> = ({ setNewSearchValue, value, current, total, onInputFocus }) => {
+  isActive?: boolean
+}> = ({ setNewSearchValue, value, current, total, onInputFocus, isActive }) => {
   const input = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    input.current?.focus()
-  }, [])
+    isActive && input.current?.focus()
+  }, [isActive])
 
   return (
     <FieldWrapper>

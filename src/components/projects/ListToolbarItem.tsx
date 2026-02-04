@@ -15,12 +15,11 @@ import {
   DropdownList,
   ToolbarOrderedListIcon,
   ToolbarUnorderedListIcon,
-  Tooltip,
   useDropdown,
 } from '@manuscripts/style-guide'
 import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { ListButton, ListStyleButton } from './ListToolbarItemStyles'
@@ -44,18 +43,69 @@ const ListStyleSelector: React.FC<ListStyleSelectorProps> = ({
   onClick,
 }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
+  const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const styleRefs = React.useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    if (isOpen) {
+      styleRefs.current[0]?.focus()
+    }
+  }, [isOpen])
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isOpen) {
+      return
+    }
+
+    const items = styleRefs.current.filter(Boolean) as HTMLDivElement[]
+    if (items.length === 0) {
+      return
+    }
+
+    const currentIndex = items.indexOf(document.activeElement as HTMLDivElement)
+    if (currentIndex === -1) {
+      return
+    }
+
+    e.preventDefault()
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'ArrowRight':
+        items[(currentIndex + 1) % items.length]?.focus()
+        break
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        items[(currentIndex - 1 + items.length) % items.length]?.focus()
+        break
+      case 'Escape':
+        toggleOpen()
+        buttonRef.current?.focus()
+        break
+      case 'Enter': {
+        const el = document.activeElement as HTMLElement
+        el?.click()
+        break
+      }
+    }
+  }
 
   return (
-    <Container onClick={() => !disabled && toggleOpen()} ref={wrapperRef}>
-      <ListStyleButton data-tooltip-id={title} disabled={disabled}>
+    <Container
+      onClick={() => !disabled && toggleOpen()}
+      ref={wrapperRef}
+      onKeyDown={handleKeyDown}
+    >
+      <ListStyleButton
+        ref={buttonRef}
+        data-tooltip-content={title}
+        disabled={disabled}
+        aria-label={title}
+      >
         <ArrowDownIcon />
       </ListStyleButton>
-      <Tooltip id={title} place="bottom">
-        {title}
-      </Tooltip>
       {isOpen && (
         <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
-          <ListStyles styles={styles} onClick={onClick} />
+          <ListStyles styles={styles} onClick={onClick} styleRefs={styleRefs} />
         </DropdownList>
       )}
     </Container>
@@ -88,17 +138,27 @@ export const ListToolbarItem: React.FC<{
 
   const styles = Object.keys(config.options)
 
+  const run = () => {
+    config.run(state, dispatch, view)
+    view?.focus()
+  }
   return (
     <ToolbarItem>
       <ListButton
-        data-tooltip-id={config.title}
+        data-tooltip-content={config.title}
         data-active={config.isActive && config.isActive(state)}
         disabled={!isEnabled}
         onMouseDown={(event) => {
           event.preventDefault()
-          config.run(state, dispatch, view)
-          view && view.focus()
+          run()
         }}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault()
+            run()
+          }
+        }}
+        aria-label={config.title}
       >
         {type === 'ordered_list' ? (
           <ToolbarOrderedListIcon />
@@ -106,9 +166,6 @@ export const ListToolbarItem: React.FC<{
           <ToolbarUnorderedListIcon />
         )}
       </ListButton>
-      <Tooltip id={config.title} place="bottom">
-        {config.title}
-      </Tooltip>
       <ListStyleSelector
         title={config.title + ' styles'}
         disabled={!isEnabled}

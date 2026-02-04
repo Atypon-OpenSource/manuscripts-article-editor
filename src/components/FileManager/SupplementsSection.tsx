@@ -19,7 +19,7 @@ import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeClosestToPos } from 'prosemirror-utils'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
@@ -47,7 +47,7 @@ export type SupplementsSectionProps = {
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true) // it is open by default
   const toggleVisibility = () => setIsOpen((prev) => !prev)
 
   const [{ view, fileManagement }] = useStore((s) => ({
@@ -225,6 +225,13 @@ const SupplementFile: React.FC<{
     }),
   })
 
+  const drag = useCallback(
+    (node: HTMLDivElement | null) => {
+      dragRef(node)
+    },
+    [dragRef]
+  )
+
   useEffect(() => {
     preview(getEmptyImage())
   }, [preview])
@@ -233,9 +240,15 @@ const SupplementFile: React.FC<{
     <FileContainer
       data-cy="file-container"
       key={supplement.file.id}
-      ref={dragRef}
+      ref={drag}
       className={isDragging ? 'dragging' : ''}
       onClick={onClick}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && e.currentTarget === document.activeElement) {
+          onClick()
+        }
+      }}
     >
       <FileName file={supplement.file} />
       <FileCreatedDate file={supplement.file} className="show-on-hover" />

@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { groupFiles } from '@manuscripts/body-editor'
-import { Tooltip } from '@manuscripts/style-guide'
 import React, { useMemo } from 'react'
 
 import { useStore } from '../../store'
@@ -32,7 +31,7 @@ export enum FileSectionType {
   Inline = 'Inline files',
   Supplements = 'Supplements',
   OtherFile = 'Other files',
-  MainFile = 'Main Document',
+  MainFile = 'Main document',
 }
 
 export type Replace = (file: File) => Promise<void>
@@ -78,30 +77,18 @@ export const FileManager: React.FC = () => {
     >
       <FileManagerDragLayer />
       <InspectorTabList>
-        <SecondaryInspectorTab data-tooltip-id="inline-tooltip">
+        <SecondaryInspectorTab data-tooltip-content="Files that can be found inline in the manuscript.">
           Inline files
         </SecondaryInspectorTab>
-        <Tooltip id="inline-tooltip" place="bottom">
-          Files that can be found inline in the manuscript.
-        </Tooltip>
-        <SecondaryInspectorTab data-tooltip-id="main-tooltip">
-          Main Document
+        <SecondaryInspectorTab data-tooltip-content="The main document of the manuscript.">
+          Main document
         </SecondaryInspectorTab>
-        <Tooltip id="main-tooltip" place="bottom">
-          The main document of the manuscript.
-        </Tooltip>
-        <SecondaryInspectorTab data-tooltip-id="supplements-tooltip">
+        <SecondaryInspectorTab data-tooltip-content="Files that were marked as supplements.">
           Supplements
         </SecondaryInspectorTab>
-        <Tooltip id="supplements-tooltip" place="bottom">
-          Files that were marked as supplements.
-        </Tooltip>
-        <SecondaryInspectorTab data-tooltip-id="other-tooltip">
+        <SecondaryInspectorTab data-tooltip-content="Files excluded from the final submission.">
           Other files
         </SecondaryInspectorTab>
-        <Tooltip id="other-tooltip" place="bottom">
-          Files excluded from the final submission.
-        </Tooltip>
       </InspectorTabList>
       <InspectorTabPanels
         style={{ overflowY: 'visible', position: 'relative' }}

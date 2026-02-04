@@ -14,7 +14,7 @@ import {
   insertAttachment,
   insertSupplement,
 } from '@manuscripts/body-editor'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
@@ -133,6 +133,13 @@ const OtherFile: React.FC<{
     }),
   })
 
+  const drag = useCallback(
+    (node: HTMLDivElement | null) => {
+      dragRef(node)
+    },
+    [dragRef]
+  )
+
   useEffect(() => {
     preview(getEmptyImage())
   }, [preview])
@@ -141,8 +148,9 @@ const OtherFile: React.FC<{
     <FileContainer
       key={file.id}
       data-cy="file-container"
-      ref={dragRef}
+      ref={drag}
       className={isDragging ? 'dragging' : ''}
+      tabIndex={0}
     >
       <FileName file={file} />
       <FileCreatedDate file={file} className="show-on-hover" />

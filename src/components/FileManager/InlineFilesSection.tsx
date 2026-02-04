@@ -20,7 +20,6 @@ import {
   FileImageIcon,
   FileVideoIcon,
   ToggleIcon,
-  Tooltip,
   TriangleCollapsedIcon,
   TriangleExpandedIcon,
 } from '@manuscripts/style-guide'
@@ -236,6 +235,13 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     e.stopPropagation()
                     toggleGroupOpen(groupIndex)
                   }}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.stopPropagation()
+                      toggleGroupOpen(groupIndex)
+                    }
+                  }}
                 >
                   {isOpen ? (
                     <TriangleExpandedIcon />
@@ -250,10 +256,20 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                 {group.files.map((fileAttachment, fileIndex) => (
                   <FileGroupItemContainer
                     key={fileIndex}
-                    data-tooltip-id={`${fileAttachment.file?.id}-file-name-tooltip`}
+                    data-tooltip-content={fileAttachment.file?.name || 'Figure'}
                     onClick={(e) => {
                       e.stopPropagation()
                       handleFileClick(fileAttachment.pos)
+                    }}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (
+                        e.key === 'Enter' &&
+                        e.currentTarget === document.activeElement
+                      ) {
+                        e.stopPropagation()
+                        handleFileClick(fileAttachment.pos)
+                      }
                     }}
                   >
                     {fileAttachment.file && (
@@ -263,14 +279,6 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                       {fileAttachment.file?.name
                         ? trimFilename(fileAttachment.file.name, 25)
                         : 'Unknown file'}
-                      {fileAttachment.file?.name && (
-                        <Tooltip
-                          id={`${fileAttachment.file?.id}-file-name-tooltip`}
-                          place="bottom"
-                        >
-                          {fileAttachment.file?.name || 'Figure'}
-                        </Tooltip>
-                      )}
                     </FileNameText>
                     {fileAttachment.file && (
                       <FileCreatedDate

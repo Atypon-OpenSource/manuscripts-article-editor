@@ -9,15 +9,15 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-
 import '@manuscripts/body-editor/styles/Editor.css'
 import '@manuscripts/body-editor/styles/AdvancedEditor.css'
 import '@manuscripts/body-editor/styles/popper.css'
-
 import {
   IconButton,
+  SaveStatus,
   SliderOffIcon,
   SliderOnIcon,
+  Tooltip,
 } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
@@ -30,7 +30,6 @@ import {
   usePermissions,
 } from '../../lib/capabilities'
 import { useStore } from '../../store'
-import { Main } from '../Page'
 import { SearchReplace } from '../SearchReplace'
 import UtilitiesEffects from '../UtilitiesEffects'
 import {
@@ -45,6 +44,31 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+
+const Main = styled.main`
+  height: 100%;
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+  background-color: ${(props) => props.theme.colors.background.primary};
+  background-image: linear-gradient(
+    180deg,
+    rgba(250, 250, 250, 1) 0%,
+    rgba(250, 250, 250, 1) 38px,
+    rgba(255, 255, 255, 1) 38px,
+    rgba(255, 255, 255, 1) 100%
+  );
+`
+
+const PageContainer = styled.div`
+  display: flex;
+  overflow: hidden;
+  flex-grow: 1;
+  box-sizing: border-box;
+  width: 100%;
+  color: ${(props) => props.theme.colors.text.primary};
+  font-family: ${(props) => props.theme.font.family.sans};
+`
 
 const ManuscriptPageContainer: React.FC = () => {
   // Enable global keyboard shortcuts
@@ -70,7 +94,9 @@ const ManuscriptPageContainer: React.FC = () => {
 
   return (
     <CapabilitiesProvider can={can}>
-      <ManuscriptPageView />
+      <PageContainer>
+        <ManuscriptPageView />
+      </PageContainer>
     </CapabilitiesProvider>
   )
 }
@@ -80,10 +106,13 @@ const ManuscriptPageView: React.FC = () => {
   const [isTrackingChangesVisible, toggleTrackingChangesVisibility] =
     useTrackingVisibility()
 
-  const [{ isViewingMode, isComparingMode }] = useStore((store) => ({
-    isViewingMode: store.isViewingMode,
-    isComparingMode: store.isComparingMode,
-  }))
+  const [{ isViewingMode, isComparingMode, savingProcess }] = useStore(
+    (store) => ({
+      isViewingMode: store.isViewingMode,
+      isComparingMode: store.isComparingMode,
+      savingProcess: store.savingProcess,
+    })
+  )
 
   const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
   const isTrackingVisible =
@@ -99,15 +128,38 @@ const ManuscriptPageView: React.FC = () => {
               <EditorHeader data-cy="editor-header">
                 <ManuscriptMenusContainer>
                   <ManuscriptMenusContainerInner>
-                    <ManuscriptMenus />
+                    <MenusWrapper>
+                      <ManuscriptMenus />
+                      {savingProcess && <SaveStatus status={savingProcess} />}
+                    </MenusWrapper>
                   </ManuscriptMenusContainerInner>
 
                   {showTrackChangesToggle && (
-                    <>
+                    <TrackChangesToggleWrapper
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          toggleTrackingChangesVisibility()
+                        }
+                      }}
+                      tabIndex={0}
+                      role="button"
+                      aria-label="show tracked changes"
+                      aria-pressed={isTrackingChangesVisible}
+                    >
                       <Label>Show tracked changes</Label>
                       <IconButton
                         defaultColor={true}
-                        onClick={toggleTrackingChangesVisibility}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleTrackingChangesVisibility()
+                        }}
+                        aria-label={
+                          isTrackingChangesVisible
+                            ? 'Hide tracked changes'
+                            : 'Show tracked changes'
+                        }
+                        tabIndex={-1}
                       >
                         {isTrackingChangesVisible ? (
                           <SliderOnIcon />
@@ -115,7 +167,7 @@ const ManuscriptPageView: React.FC = () => {
                           <SliderOffIcon />
                         )}
                       </IconButton>
-                    </>
+                    </TrackChangesToggleWrapper>
                   )}
                 </ManuscriptMenusContainer>
                 {can.seeEditorToolbar && <ManuscriptToolbar />}
@@ -131,10 +183,28 @@ const ManuscriptPageView: React.FC = () => {
         </Main>
         <Inspector data-cy="inspector" />
         <UtilitiesEffects />
+        <Tooltip
+          anchorSelect="[data-tooltip-content]:not([data-tooltip-id])"
+          place="bottom"
+          style={{ zIndex: 5000 }}
+        />
       </PageWrapper>
     </Wrapper>
   )
 }
+
+const TrackChangesToggleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0px 8px;
+
+  &:focus-visible {
+    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
+    outline-offset: -2px;
+  }
+`
 
 const Label = styled.div`
   padding-right: 8px;
@@ -164,6 +234,12 @@ export const ManuscriptMenusContainerInner = styled.div`
     ${(props) => props.theme.grid.unit}px
     ${(props) => props.theme.grid.unit * 15}px;
   box-sizing: border-box;
+`
+
+const MenusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${(props) => props.theme.grid.unit * 2}px;
 `
 
 const PageWrapper = styled.div`

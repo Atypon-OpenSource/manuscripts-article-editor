@@ -9,7 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
  */
-import { Tooltip } from '@manuscripts/style-guide'
 import { CHANGE_STATUS, RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
@@ -22,12 +21,14 @@ interface Props {
   suggestions: RootChange
   handleAccept: (c: RootChange) => void
   handleReject: (c: RootChange) => void
+  buttonRefs?: (el: HTMLButtonElement | null, index: number) => void
 }
 
 const SuggestionAction: React.FC<Props> = ({
   suggestions,
   handleAccept,
   handleReject,
+  buttonRefs,
 }) => {
   const [{ user }] = useStore((store) => ({
     user: store.user,
@@ -48,56 +49,40 @@ const SuggestionAction: React.FC<Props> = ({
     return false
   }, [suggestion, can, user?._id])
 
-  const rejectTooltip = 'back-tooltip' + '-' + suggestion.id
-  const approveTooltip = 'approve-tooltip' + '-' + suggestion.id
-
+  // Track button index for refs
+  let buttonIndex = 0
   return (
     <Actions data-cy="suggestion-actions">
       {canRejectOwnSuggestion && (
-        <Container>
-          <Action
-            type="button"
-            onClick={() => handleReject(suggestions)}
-            aria-pressed={false}
-            data-tooltip-id={rejectTooltip}
-          >
-            <Reject color="#353535" />
-          </Action>
-          <Tooltip id={rejectTooltip} place="bottom">
-            Reject
-          </Tooltip>
-        </Container>
+        <Action
+          ref={(el) => buttonRefs?.(el, buttonIndex++)}
+          type="button"
+          onClick={() => handleReject(suggestions)}
+          aria-pressed={false}
+          data-tooltip-content="Reject"
+          aria-label="Reject"
+        >
+          <Reject color="#353535" />
+        </Action>
       )}
       {can.handleSuggestion && (
-        <Container>
-          <Action
-            type="button"
-            onClick={() => handleAccept(suggestions)}
-            aria-pressed={false}
-            data-tip={true}
-            data-tooltip-id={approveTooltip}
-          >
-            <Accept color="#353535" />
-          </Action>
-          <Tooltip id={approveTooltip} place="bottom">
-            Approve
-          </Tooltip>
-        </Container>
+        <Action
+          ref={(el) => buttonRefs?.(el, buttonIndex++)}
+          type="button"
+          onClick={() => handleAccept(suggestions)}
+          aria-pressed={false}
+          data-tip={true}
+          data-tooltip-content="Approve"
+          aria-label="Approve"
+        >
+          <Accept color="#353535" />
+        </Action>
       )}
     </Actions>
   )
 }
 
 export default SuggestionAction
-
-const Container = styled.div`
-  .tooltip {
-    border-radius: ${(props) => props.theme.grid.unit * 1.5}px;
-    padding: ${(props) => props.theme.grid.unit * 2}px;
-    max-width: ${(props) => props.theme.grid.unit * 15}px;
-    font-size: ${(props) => props.theme.font.size.small};
-  }
-`
 
 const Actions = styled.div`
   display: flex;
@@ -124,7 +109,8 @@ export const Action = styled.button`
     opacity: 0.5;
   }
 
-  &:not([disabled]):hover {
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
     &[aria-pressed='true'] {
       path {
         stroke: ${(props) => props.theme.colors.brand.medium};

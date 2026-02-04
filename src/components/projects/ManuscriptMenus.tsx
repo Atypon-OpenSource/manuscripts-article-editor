@@ -107,7 +107,14 @@ export const ManuscriptMenus: React.FC = () => {
     return getFilteredMenus(editor, can)
   }, [can, editor])
 
-  const { menus, ref, handleClick } = useMenus(specs)
+  const { menus, ref, handleClick, closeAll } = useMenus(specs)
 
-  return <Menus menus={menus} innerRef={ref} handleClick={handleClick} />
+  return (
+    <Menus
+      menus={menus}
+      innerRef={ref}
+      handleClick={handleClick}
+      closeAll={closeAll}
+    />
+  )
 }
