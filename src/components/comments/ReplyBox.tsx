@@ -77,7 +77,11 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
           <TertiaryButton onClick={handleCancel} tabIndex={0}>
             Cancel
           </TertiaryButton>
-          <PrimaryButton onClick={reply} disabled={disableSaveButton} tabIndex={0}>
+          <PrimaryButton
+            onClick={reply}
+            disabled={disableSaveButton}
+            tabIndex={0}
+          >
             Reply
           </PrimaryButton>
         </Actions>
