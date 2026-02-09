@@ -9,8 +9,6 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { ManuscriptNode } from '@manuscripts/transform'
-
 import { useStore } from '../store'
 
 export interface InspectorOpenTabs {
@@ -62,12 +60,7 @@ export const useInspectorTabsParentControl = () => {
 export const useInspectorTabsContext = () => {
   const [_, dispatch] = useStore((state) => state.inspectorOpenTabs)
 
-  function setTabs(
-    pos: number,
-    node: ManuscriptNode,
-    nodePos: number,
-    event: MouseEvent
-  ) {
+  function setTabs(event: Event) {
     const target = event.target as HTMLElement
 
     if (
