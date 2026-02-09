@@ -28,8 +28,8 @@ export const ResizingOutlinerButton: React.FC<ResizerButtonInnerProps> = (
       {...props}
       aria-label={`${isCollapsed ? 'Open' : 'Close'} Sidebar`}
     >
-    <HandleOutlineIcon />
-  </ResizerButton>
+      <HandleOutlineIcon />
+    </ResizerButton>
   )
 }
 
