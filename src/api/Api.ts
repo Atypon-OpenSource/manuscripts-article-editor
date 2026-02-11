@@ -31,6 +31,7 @@ import {
   Language,
   SendStepsPayload,
   SendStepsResponse,
+  StepsErrorListener,
   StepsListener,
   StepsSinceResponse,
   TransformVersionResponse,
@@ -38,8 +39,10 @@ import {
 
 export class Api {
   instance: AxiosInstance
+  private getAuthToken: () => Promise<string | undefined>
 
   constructor(getAuthToken: () => Promise<string | undefined>) {
+    this.getAuthToken = getAuthToken
     const config = getConfig()
     this.instance = axios.create({
       baseURL: config.api.url,
@@ -198,20 +201,48 @@ export class Api {
   listenToSteps = (
     projectID: string,
     manuscriptID: string,
-    listener: StepsListener
+    listener: StepsListener,
+    errorListener?: StepsErrorListener
   ) => {
     const config = getConfig()
     const base = config.api.url.replace('http', 'ws')
     const url = `${base}/doc/${projectID}/manuscript/${manuscriptID}/listen`
 
     let ws: WebSocket
+    let isConnected = false
+    let pendingStepsResolve:
+      | ((data: StepsSinceResponse | undefined) => void)
+      | null = null
 
     const onOpen = () => {
       console.log('Established WebSocket connection')
+      isConnected = true
     }
 
     const onMessage = (event: MessageEvent) => {
       const data = JSON.parse(event.data)
+
+      if (data.type === 'stepsResponse') {
+        if (pendingStepsResolve) {
+          if (data.error) {
+            pendingStepsResolve(undefined)
+          } else {
+            pendingStepsResolve({
+              steps: data.steps,
+              clientIDs: data.clientIDs,
+              version: data.version,
+            })
+          }
+          pendingStepsResolve = null
+        }
+        return
+      }
+
+      if (data.type === 'error' && data.error) {
+        errorListener?.(data.error)
+        return
+      }
+
       if (
         typeof data.version !== 'undefined' &&
         data.steps &&
@@ -228,11 +259,13 @@ export class Api {
         event.code,
         event.reason
       )
+      isConnected = false
       rejoin()
     }
 
     const onError = (event: Event) => {
       console.error('WebSocket error, reconnecting:', event)
+      isConnected = false
       rejoin()
     }
 
@@ -245,11 +278,65 @@ export class Api {
       ws.removeEventListener('close', onClose)
       ws.removeEventListener('error', onError)
       ws.close()
+      isConnected = false
     }
 
     const rejoin = () => {
       close()
       setTimeout(join, 1500)
+    }
+
+    const send = async (data: SendStepsPayload): Promise<boolean> => {
+      if (ws && isConnected && ws.readyState === WebSocket.OPEN) {
+        const token = await this.getAuthToken()
+        const serialized = {
+          type: 'steps',
+          steps: data.steps.map((s) => s.toJSON()),
+          version: data.version,
+          clientID: data.clientID,
+          token,
+        }
+        ws.send(JSON.stringify(serialized))
+        return true
+      }
+      return false
+    }
+
+    const canSend = () => isConnected && ws?.readyState === WebSocket.OPEN
+
+    const requestStepsSince = async (
+      version: number
+    ): Promise<StepsSinceResponse | undefined> => {
+      if (!ws || !isConnected || ws.readyState !== WebSocket.OPEN) {
+        return undefined
+      }
+
+      return new Promise((resolve) => {
+        pendingStepsResolve = resolve
+
+        const timeout = setTimeout(() => {
+          if (pendingStepsResolve === resolve) {
+            pendingStepsResolve = null
+            resolve(undefined)
+          }
+        }, 10000)
+
+        this.getAuthToken()
+          .then((token) => {
+            return ws.send(
+              JSON.stringify({
+                type: 'getSteps',
+                version,
+                token,
+              })
+            )
+          })
+          .catch(() => {
+            clearTimeout(timeout)
+            pendingStepsResolve = null
+            resolve(undefined)
+          })
+      })
     }
 
     const join = () => {
@@ -266,7 +353,7 @@ export class Api {
     }
     window.addEventListener('beforeunload', close)
     join()
-    return close
+    return { close, send, canSend, requestStepsSince } as const
   }
 }
 
