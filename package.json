@@ -33,7 +33,6 @@
     "@fontsource/pt-serif": "5.2.5",
     "@headlessui/react": "2.2.3",
     "@manuscripts/body-editor": "3.8.10",
-    "@manuscripts/json-schema": "2.2.12",
     "@manuscripts/style-guide": "3.4.1",
     "@manuscripts/track-changes-plugin": "2.2.3",
     "@manuscripts/transform": "4.3.18",
