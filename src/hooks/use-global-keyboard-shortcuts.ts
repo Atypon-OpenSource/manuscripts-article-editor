@@ -22,7 +22,8 @@ const parseKey = (keyString: string, event: KeyboardEvent): boolean => {
   return (
     event.key.toLowerCase() === key &&
     parts.includes('Mod') === (event.ctrlKey || event.metaKey) &&
-    parts.includes('Shift') === event.shiftKey
+    parts.includes('Shift') === event.shiftKey &&
+    parts.includes('Alt') === event.altKey
   )
 }
 
@@ -55,7 +56,8 @@ export const useGlobalKeyboardShortcuts = () => {
       }
     }
 
-    document.addEventListener('keydown', handleGlobalKeydown)
-    return () => document.removeEventListener('keydown', handleGlobalKeydown)
+    document.addEventListener('keydown', handleGlobalKeydown, true)
+    return () =>
+      document.removeEventListener('keydown', handleGlobalKeydown, true)
   }, [editor])
 }
