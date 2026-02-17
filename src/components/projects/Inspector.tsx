@@ -50,6 +50,7 @@ export type PluginInspectorTab = {
   title: string
   icon: React.ReactNode
   content: React.ReactNode
+  errors?: boolean
 }
 
 const Inspector: React.FC = () => {
@@ -140,6 +141,8 @@ const Inspector: React.FC = () => {
     )
   }
 
+  console.log('pluginTab :::', pluginTab)
+
   return (
     <Panel
       name={'inspector'}
@@ -199,7 +202,13 @@ const Inspector: React.FC = () => {
                 {pluginTab && (
                   <InspectorTab
                     cy="plugin-button"
-                    icon={<IconWrapper>{pluginTab.icon}</IconWrapper>}
+                    icon={
+                      <IconWrapper>
+                        {pluginTab.icon}
+                        {pluginTab.errors && (
+                          <ErrorBadge>!</ErrorBadge>
+                        )}
+                      </IconWrapper>}
                     isVisible={tabIndex === PLUGIN_TAB}
                   >
                     {pluginTab.title}
