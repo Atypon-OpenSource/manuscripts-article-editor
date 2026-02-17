@@ -191,8 +191,8 @@ export const FileActions: React.FC<{
               <FileAction
                 onClick={openFileDialog}
                 ref={(el) => {
-                itemRefs.current[refIndex++] = el
-              }}
+                  itemRefs.current[refIndex++] = el
+                }}
               >
                 Replace
               </FileAction>
