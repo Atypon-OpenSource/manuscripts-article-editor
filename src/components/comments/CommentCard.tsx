@@ -19,7 +19,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { usePermissions } from '../../lib/capabilities'
-import { buildAuthorName, getAuthorID } from '../../lib/comments'
+import { buildAuthorName } from '../../lib/comments'
 import { useStore } from '../../store'
 import {
   AuthorContainer,
@@ -94,12 +94,12 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     collaboratorsById: state.collaboratorsById,
   }))
 
-  const authorID = getAuthorID(comment)
+  const authorID = comment.node.attrs.userID
   const authorName = authorID
     ? buildAuthorName(collaboratorsById.get(authorID))
     : ''
 
-  const timestamp = comment.node.attrs.contributions?.[0].timestamp
+  const timestamp = comment.node.attrs.timestamp
 
   const isOwn = authorID === user._id
 

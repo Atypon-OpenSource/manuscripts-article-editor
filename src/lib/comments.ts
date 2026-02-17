@@ -10,8 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { Comment, commentsKey, isReply } from '@manuscripts/body-editor'
-import { UserProfile } from '@manuscripts/json-schema'
-import { schema } from '@manuscripts/transform'
+import { schema, UserProfile } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import { findChildrenByType, flatten } from 'prosemirror-utils'
 
@@ -19,14 +18,6 @@ export type Thread = {
   comment: Comment
   isNew: boolean
   replies: Comment[]
-}
-
-export const getAuthorID = (comment: Comment) => {
-  const contributions = comment.node.attrs.contributions
-  if (!contributions?.length) {
-    return undefined
-  }
-  return contributions[0].profileID
 }
 
 export const buildThreads = (
@@ -82,13 +73,13 @@ export const buildAuthorName = (user: UserProfile | undefined) => {
   if (!user) {
     return ''
   }
-  return [user.bibliographicName.given, user.bibliographicName.family]
+  return [user.given, user.family]
     .filter(Boolean)
     .join(' ')
 }
 
 export const commentsByTime = (a: Comment, b: Comment) => {
-  const aTimestamp = a.node.attrs.contributions?.[0].timestamp || 0
-  const bTimestamp = b.node.attrs.contributions?.[0].timestamp || 0
+  const aTimestamp = a.node.attrs.timestamp || 0
+  const bTimestamp = b.node.attrs.timestamp || 0
   return aTimestamp - bTimestamp
 }

@@ -18,12 +18,7 @@ import {
   isNodeComment,
   setCommentSelection,
 } from '@manuscripts/body-editor'
-import { buildContribution } from '@manuscripts/json-schema'
-import {
-  CheckboxField,
-  CheckboxLabel,
-  ToggleHeader,
-} from '@manuscripts/style-guide'
+import { CheckboxField, CheckboxLabel, ToggleHeader } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
@@ -137,7 +132,8 @@ export const CommentsPanel: React.FC = () => {
       id: generateNodeID(schema.nodes.comment),
       contents,
       target,
-      contributions: [buildContribution(user._id)],
+      userID: user._id,
+      timestamp: Date.now(),
       resolved: false,
     }
 
