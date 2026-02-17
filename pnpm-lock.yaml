@@ -21,14 +21,14 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.8.15
-        version: 3.8.15(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.8.16-LEAN-5301.0
+        version: 3.8.16-LEAN-5301.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/json-schema':
         specifier: 2.2.12
         version: 2.2.12
       '@manuscripts/style-guide':
-        specifier: 3.4.2
-        version: 3.4.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.4.3-LEAN-5301.0
+        version: 3.4.3-LEAN-5301.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
         specifier: 2.2.6
         version: 2.2.6
@@ -1033,11 +1033,23 @@ packages:
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
 
+  '@floating-ui/core@1.7.4':
+    resolution: {integrity: sha512-C3HlIdsBxszvm5McXlB8PeOEWfBhcGBTZGkGlWc2U0KFY5IwG5OQEuQ8rq52DZmcHDlPLd+YFBK+cZcytwIFWg==}
+
   '@floating-ui/dom@1.7.4':
     resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
 
+  '@floating-ui/dom@1.7.5':
+    resolution: {integrity: sha512-N0bD2kIPInNHUHehXhMke1rBGs1dwqvC9O9KYMyyjK7iXt7GAhnro7UlcuYcGdS/yYOlq0MAVgrow8IbWJwyqg==}
+
   '@floating-ui/react-dom@2.1.6':
     resolution: {integrity: sha512-4JX6rEatQEvlmgU80wZyq9RT96HZJa88q8hp0pBd+LrczeDI4o6uA2M+uvxngVHo4Ihr8uibXxH6+70zhAFrVw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  '@floating-ui/react-dom@2.1.7':
+    resolution: {integrity: sha512-0tLRojf/1Go2JgEVm+3Frg9A3IW8bJgKgdO0BN5RkF//ufuz2joZM63Npau2ff3J6lUVYgDSNzNkR+aH3IVfjg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -1047,6 +1059,12 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
+
+  '@floating-ui/react@0.27.18':
+    resolution: {integrity: sha512-xJWJxvmy3a05j643gQt+pRbht5XnTlGpsEsAPnMi5F5YTOEEJymA90uZKBD8OvIv5XvZ1qi4GcccSlqT3Bq44Q==}
+    peerDependencies:
+      react: '>=17.0.0'
+      react-dom: '>=17.0.0'
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
@@ -1225,8 +1243,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.8.15':
-    resolution: {integrity: sha512-Ok4S1kESr15wnVdVQlYMHi/3/0mQf1z/1vOD9OSX16gaTcXM8CHXxviF0y9nzYk0+NFRrvq0u0sZZVbjz6BMog==}
+  '@manuscripts/body-editor@3.8.16-LEAN-5301.0':
+    resolution: {integrity: sha512-//CYyG89LRHSNPOLMZcZVIvd0ui+ltoSz2Nk0hFbcieTrxonbLCkwRaLi5OG7Jb0TdAQ/yI586Y0xZaPNjQomw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.8.16-LEAN-5301.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1249,8 +1267,8 @@ packages:
   '@manuscripts/json-schema@2.2.12':
     resolution: {integrity: sha512-MCz11Dhc1kric1oU9cnYHboPgEwwccWfuuU1XhAEilDIFe8KszAeQk5i4GBGlGLddp/Gvkr6N1gtzLl36mTE7A==}
 
-  '@manuscripts/style-guide@3.4.2':
-    resolution: {integrity: sha512-DZszxbK0Tbfh9+Y9ADdNms2ypWa4Xelq+UT6q1Zjpy5YKBDQ5VcSASowunULBWG+GDA5gjPmxcIyrqXDzSh5NA==}
+  '@manuscripts/style-guide@3.4.3-LEAN-5301.0':
+    resolution: {integrity: sha512-dFJDM6M9tvLBUGtNQGUBcobf45DOhK/MWxzfZfmCxWHm+VBvjIbIBNq3wRozdscbpS1ZMZMbET/WSWQthwwMmw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.4.3-LEAN-5301.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.2.6':
@@ -2131,6 +2149,9 @@ packages:
   date-fns@2.30.0:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
+
+  date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
 
   date-fns@4.1.0:
     resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
@@ -3883,6 +3904,12 @@ packages:
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  react-datepicker@7.6.0:
+    resolution: {integrity: sha512-9cQH6Z/qa4LrGhzdc3XoHbhrxNcMi9MKjZmYgF/1MNNaJwvdSjv3Xd+jjvrEEbKEf71ZgCA3n7fQbdwd70qCRw==}
+    peerDependencies:
+      react: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
+      react-dom: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
   react-dnd-html5-backend@16.0.1:
     resolution: {integrity: sha512-Wu3dw5aDJmOGw8WjH1I1/yTH+vlXEL4vmjk5p+MHxP8HuHJS1lAGeIdG/hze1AvNeXWo/JgULV87LyQOr+r5jw==}
@@ -5883,9 +5910,18 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.10
 
+  '@floating-ui/core@1.7.4':
+    dependencies:
+      '@floating-ui/utils': 0.2.10
+
   '@floating-ui/dom@1.7.4':
     dependencies:
       '@floating-ui/core': 1.7.3
+      '@floating-ui/utils': 0.2.10
+
+  '@floating-ui/dom@1.7.5':
+    dependencies:
+      '@floating-ui/core': 1.7.4
       '@floating-ui/utils': 0.2.10
 
   '@floating-ui/react-dom@2.1.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
@@ -5894,9 +5930,23 @@ snapshots:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
+  '@floating-ui/react-dom@2.1.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      '@floating-ui/dom': 1.7.5
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+
   '@floating-ui/react@0.26.28(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@floating-ui/react-dom': 2.1.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@floating-ui/utils': 0.2.10
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      tabbable: 6.3.0
+
+  '@floating-ui/react@0.27.18(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      '@floating-ui/react-dom': 2.1.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@floating-ui/utils': 0.2.10
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
@@ -6187,7 +6237,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.8.15(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.8.16-LEAN-5301.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6198,7 +6248,7 @@ snapshots:
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
-      '@manuscripts/style-guide': 3.4.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+      '@manuscripts/style-guide': 3.4.3-LEAN-5301.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin': 2.2.6
       '@manuscripts/transform': 4.3.18(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
@@ -6270,7 +6320,7 @@ snapshots:
       deepmerge: 4.3.1
       uuid: 9.0.1
 
-  '@manuscripts/style-guide@3.4.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/style-guide@3.4.3-LEAN-5301.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/json-schema': 2.2.12
@@ -6284,6 +6334,7 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.41.0
       react: 19.2.0
+      react-datepicker: 7.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)(react@19.2.0)
       react-dnd-html5-backend: 16.0.1
       react-dom: 19.2.0(react@19.2.0)
@@ -7363,6 +7414,8 @@ snapshots:
   date-fns@2.30.0:
     dependencies:
       '@babel/runtime': 7.28.4
+
+  date-fns@3.6.0: {}
 
   date-fns@4.1.0: {}
 
@@ -9671,6 +9724,14 @@ snapshots:
   pure-rand@7.0.1: {}
 
   queue-microtask@1.2.3: {}
+
+  react-datepicker@7.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      '@floating-ui/react': 0.27.18(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      clsx: 2.1.1
+      date-fns: 3.6.0
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
   react-dnd-html5-backend@16.0.1:
     dependencies:
