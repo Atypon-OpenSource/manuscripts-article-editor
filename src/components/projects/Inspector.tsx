@@ -78,7 +78,6 @@ const Inspector: React.FC = () => {
   })
 
   const [pluginTab] = useStore((store) => store.pluginInspectorTab)
-
   const can = usePermissions()
 
   const comment = store.selectedCommentKey
@@ -140,9 +139,11 @@ const Inspector: React.FC = () => {
       </Panel>
     )
   }
-
-  console.log('pluginTab :::', pluginTab)
-
+  // console.log('pluginTab >>>', pluginTab)
+  useEffect(() => {
+    console.log('======================')
+    console.log('pluginTab >>>', pluginTab)
+  }, [pluginTab])
   return (
     <Panel
       name={'inspector'}

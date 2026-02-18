@@ -12,6 +12,7 @@
 import { ManuscriptNode } from '@manuscripts/transform'
 
 import { useStore } from '../store'
+import { useEffect } from 'react'
 
 export interface InspectorOpenTabs {
   primaryTab: InspectorPrimaryTab | null
@@ -50,13 +51,17 @@ export enum InspectorAction {
 export const useInspectorTabsParentControl = () => {
   const [_, dispatch] = useStore((state) => state.inspectorOpenTabs)
 
-  function doInspectorTab(action: InspectorAction) {
-    const preppedTabs = prepareTabs(action)
-    if (preppedTabs.primaryTab != null) {
-      dispatch({ inspectorOpenTabs: preppedTabs })
+  useEffect(() => {
+    function doInspectorTab(action: InspectorAction) {
+      const preppedTabs = prepareTabs(action)
+      if (preppedTabs.primaryTab != null) {
+        dispatch({ inspectorOpenTabs: preppedTabs })
+      }
     }
-  }
-  dispatch({ doInspectorTab })
+
+    dispatch({ doInspectorTab })
+    
+  }, [dispatch])
 }
 
 export const useInspectorTabsContext = () => {
