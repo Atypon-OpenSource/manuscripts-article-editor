@@ -23,7 +23,9 @@ import { useCreateEditor } from './use-create-editor'
 import { useDebugUtils } from './use-debug-utils'
 
 export const useConnectEditor = () => {
-  const [_, storeDispatch] = useStore((store) => store.manuscriptID)
+  const [{ isOnHoldSubmission }, storeDispatch] = useStore((store) => ({
+    isOnHoldSubmission: store.isOnHoldSubmission,
+  }))
 
   const editor = useCreateEditor()
 
@@ -78,7 +80,8 @@ export const useConnectEditor = () => {
   const doWithThrottle = useDoWithThrottle()
   useEffect(() => {
     const trackState = trackChangesPluginKey.getState(state)
-    const isViewingMode = trackState?.status === 'view-snapshots'
+    const isViewingSnapshots = trackState?.status === 'view-snapshots'
+    const isViewingMode = isViewingSnapshots || isOnHoldSubmission
     doWithThrottle(() => {
       // @TODO - test throttling
       storeDispatch({
