@@ -26,6 +26,7 @@ const Main: React.FC<EditorAppProps> = ({
   getAuthToken,
   observer,
   pluginInspectorTab,
+  isReadOnly,
 }) => (
   <DndProvider backend={HTML5Backend} context={window}>
     {/* Using context={window} to to access the same DndProvider context, avoiding conflicts when multiple React roots
@@ -40,6 +41,7 @@ const Main: React.FC<EditorAppProps> = ({
       getAuthToken={getAuthToken}
       observer={observer}
       pluginInspectorTab={pluginInspectorTab}
+      isReadOnly={isReadOnly}
     />
   </DndProvider>
 )
