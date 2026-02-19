@@ -36,7 +36,7 @@ export interface EditorAppProps {
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
-  isOnHoldSubmission?: boolean
+  isReadOnly?: boolean
 }
 
 const PlaceholderWrapper = styled.div`
@@ -63,7 +63,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   getAuthToken,
   observer,
   pluginInspectorTab,
-  isOnHoldSubmission,
+  isReadOnly,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const loadedRef = useRef<boolean>(false)
@@ -84,7 +84,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       files,
       permittedActions,
       pluginInspectorTab,
-      isOnHoldSubmission,
+      isReadOnly,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
