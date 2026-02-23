@@ -40,7 +40,6 @@ export const theme: DefaultTheme = {
       success: colors.peppermintGreen,
       warning: colors.butteryYellow,
       selected: colors.aliceBlue,
-      muted: colors.greyMuted,
       tracked: {
         active: '#e6f7fc',
         default: colors.white,
@@ -55,7 +54,6 @@ export const theme: DefaultTheme = {
       primary: colors.manuscriptsLight, // 2
       secondary: colors.mercuryGrey, // 2
       tertiary: colors.seashellGrey, // 1
-      muted: colors.greyMuted,
       field: {
         active: colors.manuscriptsLight,
         default: colors.mercuryGrey,
