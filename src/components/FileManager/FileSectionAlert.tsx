@@ -9,11 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  AlertMessage,
-  AlertMessageType,
-  FileUnknownIcon,
-} from '@manuscripts/style-guide'
+import { AlertMessage, FileUnknownIcon } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -86,14 +82,10 @@ const FileUploadSuccessful: React.FC = () => {
   return (
     <AlertMessageContainer>
       <AlertMessage
-        type={AlertMessageType.success}
-        hideCloseButton={true}
-        dismissButton={{
-          text: 'OK',
-        }}
-      >
-        File uploaded successfully
-      </AlertMessage>
+        variant="success"
+        message="File uploaded successfully"
+        closeConfig={{ variant: 'text', label: 'OK' }}
+      />
     </AlertMessageContainer>
   )
 }
@@ -104,14 +96,10 @@ const FileUploadErrorAlert: React.FC<{
   return (
     <AlertMessageContainer>
       <AlertMessage
-        type={AlertMessageType.error}
-        hideCloseButton={true}
-        dismissButton={{
-          text: 'OK',
-        }}
-      >
-        Upload failed: {message}
-      </AlertMessage>
+        variant="error"
+        message={`Upload failed: ${message}`}
+        closeConfig={{ variant: 'text', label: 'OK' }}
+      />
     </AlertMessageContainer>
   )
 }
@@ -122,14 +110,10 @@ const FileMoveSuccessful: React.FC<{
   return (
     <AlertMessageContainer>
       <AlertMessage
-        type={AlertMessageType.success}
-        hideCloseButton={true}
-        dismissButton={{
-          text: 'OK',
-        }}
-      >
-        File moved to {name}
-      </AlertMessage>
+        variant="success"
+        message={`File moved to ${name}`}
+        closeConfig={{ variant: 'text', label: 'OK' }}
+      />
     </AlertMessageContainer>
   )
 }
@@ -140,14 +124,10 @@ const FileReplaceSuccessful: React.FC<{
   return (
     <AlertMessageContainer>
       <AlertMessage
-        type={AlertMessageType.success}
-        hideCloseButton={true}
-        dismissButton={{
-          text: 'OK',
-        }}
-      >
-        File replaced with {name} successfully
-      </AlertMessage>
+        variant="success"
+        message={`File replaced with ${name} successfully`}
+        closeConfig={{ variant: 'text', label: 'OK' }}
+      />
     </AlertMessageContainer>
   )
 }
