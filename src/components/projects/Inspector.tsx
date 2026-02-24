@@ -122,7 +122,7 @@ const Inspector: React.FC = () => {
       case InspectorPanel.Primary.Quality:
         setTabIndex(ISSUES_TAB_INDEX)
         break
-      case InspectorPanel.Primary.Metadata:
+      case InspectorPanel.Primary.Plugin:
         if (PLUGIN_TAB >= 0) {
           setTabIndex(PLUGIN_TAB)
         }

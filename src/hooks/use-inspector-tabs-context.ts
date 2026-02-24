@@ -24,7 +24,7 @@ export enum InspectorPrimaryTab {
   History = 1,
   Files = 2,
   Quality = 3,
-  Metadata = 4,
+  Plugin = 4,
 }
 
 export enum InspectorTabFiles {
@@ -129,7 +129,7 @@ function prepareTabs(action?: InspectorAction) {
       inspectorOpenTabs.secondaryTab = null
       break
     case 'open-plugin':
-      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Metadata
+      inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Plugin
       inspectorOpenTabs.secondaryTab = null
       break
     default:
