@@ -47,7 +47,7 @@ export enum InspectorAction {
   OpenQualityReport = 'open-quality-report',
   OpenSuggestions = 'open-suggestion',
   OpenComments = 'open-comments',
-  OpenMetadata = 'open-metadata',
+  OpenPlugin = 'open-plugin',
 }
 
 export const useInspectorTabsParentControl = () => {
@@ -128,7 +128,7 @@ function prepareTabs(action?: InspectorAction) {
       inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Comments
       inspectorOpenTabs.secondaryTab = null
       break
-    case 'open-metadata':
+    case 'open-plugin':
       inspectorOpenTabs.primaryTab = InspectorPanel.Primary.Metadata
       inspectorOpenTabs.secondaryTab = null
       break
