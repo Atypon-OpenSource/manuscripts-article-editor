@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment } from '@manuscripts/body-editor'
-import { Tooltip } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -24,17 +23,11 @@ export const FileName: React.FC<{
   maxBaseNameLength?: number
 }> = ({ file, label, icon: Icon, maxBaseNameLength = 25 }) => {
   const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
-  const tooltipID = `${file.id}-file-name-tooltip`
   return (
-    <FileNameContainer data-tooltip-id={tooltipID}>
+    <FileNameContainer data-tooltip-content={file.name}>
       {(Icon && <Icon className="file-icon" />) || <FileTypeIcon file={file} />}
       {label && <FileLabel>{label}:</FileLabel>}
-      <FileNameText data-cy="filename">
-        {trimmedFilename}
-        <Tooltip id={tooltipID} place="bottom">
-          {file.name}
-        </Tooltip>
-      </FileNameText>
+      <FileNameText data-cy="filename">{trimmedFilename}</FileNameText>
     </FileNameContainer>
   )
 }

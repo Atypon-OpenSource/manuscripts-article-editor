@@ -83,7 +83,6 @@ export const useManuscriptsState = <T>(
   }, [observer, selector])
   return [value]
 }
-
 const newObserver = (
   stateRef: ManuscriptsStateRef
 ): ManuscriptsStateObserver => {

@@ -155,7 +155,6 @@ export class StepsExchanger extends CollabProvider {
     clientID: string,
     flush = false
   ) {
-
     this.flushImmediately = this.debounce(
       async () => {
         // Abort any pending request before starting a new one
