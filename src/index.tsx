@@ -43,6 +43,7 @@ const ManuscriptEditor: React.FC<
   config,
   observer,
   pluginInspectorTab,
+  isReadOnly,
 }) => {
   setConfig(config)
   return (
@@ -60,6 +61,7 @@ const ManuscriptEditor: React.FC<
             getAuthToken={getAuthToken}
             observer={observer}
             pluginInspectorTab={pluginInspectorTab}
+            isReadOnly={isReadOnly}
           />
         </Suspense>
       </ThemeProvider>
