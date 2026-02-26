@@ -51,8 +51,8 @@ export const compareTableElement = (
     if (originalChild) {
       if (comparisonChild.type.name === 'table') {
         newContent.push(compareTable(originalChild, comparisonChild))
-      } else if (comparisonChild.type.name === 'figcaption') {
-        newContent.push(compareFigCaption(originalChild, comparisonChild))
+      } else if (comparisonChild.type.name === 'caption_title') {
+        newContent.push(compareCaptionTitle(originalChild, comparisonChild))
       } else {
         const origWithAttrs = originalChild as NodeWithAttrs
         const compWithAttrs = comparisonChild as NodeWithAttrs
@@ -93,10 +93,7 @@ export const compareTableElement = (
   return schema.nodes.table_element.create(comparisonNode.attrs, newContent)
 }
 
-/**
- * Compare figcaption nodes and their content.
- */
-export const compareFigCaption = (
+export const compareCaptionTitle = (
   originalNode: ManuscriptNode,
   comparisonNode: ManuscriptNode
 ): ManuscriptNode => {
@@ -112,30 +109,19 @@ export const compareFigCaption = (
     })
 
     if (originalChild) {
-      if (comparisonChild.type.name === 'caption_title') {
-        const hasOnlyText =
-          containsOnlyTextNodes(originalChild) &&
-          containsOnlyTextNodes(comparisonChild)
-        if (hasOnlyText) {
-          const result = compareParagraphLike(originalChild, comparisonChild)
-          newContent.push(result)
-        } else {
-          newContent.push(
-            schema.nodes.caption_title.create(
-              comparisonChild.attrs,
-              comparisonChild.content
-            )
-          )
-        }
-      } else if (comparisonChild.type.name === 'caption') {
+      const hasOnlyText =
+        containsOnlyTextNodes(originalChild) &&
+        containsOnlyTextNodes(comparisonChild)
+      if (hasOnlyText) {
+        const result = compareParagraphLike(originalChild, comparisonChild)
+        newContent.push(result)
+      } else {
         newContent.push(
-          schema.nodes.caption.create(
+          schema.nodes.caption_title.create(
             comparisonChild.attrs,
             comparisonChild.content
           )
         )
-      } else {
-        newContent.push(comparisonChild)
       }
     } else {
       newContent.push(markNodeAsInserted(comparisonChild))
@@ -155,7 +141,7 @@ export const compareFigCaption = (
       newContent.push(markNodeAsDeleted(originalChild))
     }
   })
-  return schema.nodes.figcaption.create(comparisonNode.attrs, newContent)
+  return schema.nodes.caption_title.create(comparisonNode.attrs, newContent)
 }
 
 const containsOnlyTextNodes = (node: ManuscriptNode): boolean => {
