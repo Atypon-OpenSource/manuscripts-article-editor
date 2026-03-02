@@ -31,6 +31,7 @@ import {
   setUploadProgressAlert,
 } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
+import { ASCII_FILENAME_ERROR_MESSAGE, isAsciiOnly } from './SupplementsSection'
 
 /**
  * This component represents the other files in the file section.
@@ -80,6 +81,14 @@ export const OtherFilesSection: React.FC<{
   }
 
   const moveToSupplements = async (file: FileAttachment) => {
+    if (!isAsciiOnly(file.name)) {
+      setAlert({
+        type: FileSectionAlertType.MOVE_ERROR,
+        message: ASCII_FILENAME_ERROR_MESSAGE,
+      })
+      return
+    }
+
     insertSupplement(file, view)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,

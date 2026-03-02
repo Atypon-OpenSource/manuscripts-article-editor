@@ -28,6 +28,7 @@ export enum FileSectionAlertType {
   UPLOAD_ERROR,
   MOVE_SUCCESSFUL,
   REPLACE_SUCCESSFUL,
+  MOVE_ERROR,
 }
 
 export const setUploadProgressAlert =
@@ -63,6 +64,9 @@ export const FileSectionAlert: React.FC<{
       )}
       {alert.type === FileSectionAlertType.REPLACE_SUCCESSFUL && (
         <FileReplaceSuccessful name={alert.message} />
+      )}
+      {alert.type === FileSectionAlertType.MOVE_ERROR && (
+        <FileMoveErrorAlert message={alert.message} />
       )}
     </>
   )
@@ -111,6 +115,24 @@ const FileUploadErrorAlert: React.FC<{
         }}
       >
         Upload failed: {message}
+      </AlertMessage>
+    </AlertMessageContainer>
+  )
+}
+
+const FileMoveErrorAlert: React.FC<{
+  message: string
+}> = ({ message }) => {
+  return (
+    <AlertMessageContainer>
+      <AlertMessage
+        type={AlertMessageType.error}
+        hideCloseButton={true}
+        dismissButton={{
+          text: 'OK',
+        }}
+      >
+        Move failed: {message}
       </AlertMessage>
     </AlertMessageContainer>
   )
