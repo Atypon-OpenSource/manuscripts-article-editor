@@ -31,7 +31,7 @@ import {
   setUploadProgressAlert,
 } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
-import { ASCII_FILENAME_ERROR_MESSAGE, isAsciiOnly } from './SupplementsSection'
+import { isAsciiOnly, ASCII_FILENAME_ERROR_MESSAGE } from '../../lib/files'
 
 /**
  * This component represents the other files in the file section.

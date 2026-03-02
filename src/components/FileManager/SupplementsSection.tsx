@@ -24,6 +24,7 @@ import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
 import { usePermissions } from '../../lib/capabilities'
+import { isAsciiOnly, ASCII_FILENAME_ERROR_MESSAGE } from '../../lib/files'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
@@ -40,13 +41,6 @@ import { FileUploader } from './FileUploader'
 export type SupplementsSectionProps = {
   supplements: NodeFile[]
 }
-
-export const isAsciiOnly = (str: string): boolean => {
-  return !/[\u0080-\uFFFF]/.test(str)
-}
-
-export const ASCII_FILENAME_ERROR_MESSAGE =
-  'Please use only ASCII characters in the file name.'
 
 /**
  * This component represents the other files in the file section.
