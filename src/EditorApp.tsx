@@ -37,6 +37,7 @@ export interface EditorAppProps {
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
   isReadOnly?: boolean
+  onError?: (error: Error) => void
 }
 
 const PlaceholderWrapper = styled.div`
@@ -54,6 +55,14 @@ const PlaceholderWrapper = styled.div`
   align-items: center;
 `
 
+const ErrorMessage = styled.p`
+  font-size: 16px;
+  color: #c00;
+  text-align: center;
+  max-width: 480px;
+  line-height: 1.5;
+`
+
 const EditorApp: React.FC<EditorAppProps> = ({
   manuscriptID,
   projectID,
@@ -64,8 +73,10 @@ const EditorApp: React.FC<EditorAppProps> = ({
   observer,
   pluginInspectorTab,
   isReadOnly,
+  onError,
 }) => {
   const [store, setStore] = useState<GenericStore>()
+  const [loadError, setLoadError] = useState<string>()
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
@@ -93,6 +104,12 @@ const EditorApp: React.FC<EditorAppProps> = ({
       })
       .catch((e) => {
         console.error(e)
+        const error =
+          e instanceof Error
+            ? e
+            : new Error(e?.message || 'Failed to load the document')
+        setLoadError(error.message)
+        onError?.(error)
       })
     return () => {
       store?.unmount()
@@ -111,6 +128,14 @@ const EditorApp: React.FC<EditorAppProps> = ({
       update: (state) => store?.setState(state as state),
     }
   }, [observer, store])
+
+  if (loadError) {
+    return (
+      <PlaceholderWrapper>
+        <ErrorMessage>{loadError}</ErrorMessage>
+      </PlaceholderWrapper>
+    )
+  }
 
   return store ? (
     <ApiContext.Provider value={api}>
