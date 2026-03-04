@@ -34,9 +34,12 @@ export class ApiSource implements StoreDataSourceStrategy {
   build: builderFn = async (state, next, setState) => {
     const projectID = state.projectID
     const manuscriptID = state.manuscriptID
+    console.log('[ApiSource] build called with:', { projectID, manuscriptID })
     if (manuscriptID && projectID) {
       await this.checkTransformVersion()
+      console.log('[ApiSource] Calling buildData...')
       this.data = await buildData(projectID, manuscriptID, this.api)
+      console.log('[ApiSource] buildData completed successfully')
       this.utilities = buildUtilities(
         projectID,
         manuscriptID,
@@ -44,6 +47,8 @@ export class ApiSource implements StoreDataSourceStrategy {
         setState,
         this.api
       )
+    } else {
+      console.warn('[ApiSource] Missing projectID or manuscriptID:', { projectID, manuscriptID })
     }
     next({ ...state, ...this.data, ...this.utilities })
   }

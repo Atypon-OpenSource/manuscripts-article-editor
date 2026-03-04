@@ -90,12 +90,16 @@ const EditorApp: React.FC<EditorAppProps> = ({
       isReadOnly,
     })
     const apiSource = new ApiSource(api)
+    console.log('[EditorApp] Creating store with projectID:', projectID, 'manuscriptID:', manuscriptID)
     createStore([props, apiSource])
       .then((s) => {
+        console.log('[EditorApp] Store created successfully')
         setStore(s)
       })
       .catch((e) => {
-        console.error(e)
+        console.error('[EditorApp] Store creation failed:', e)
+        console.error('[EditorApp] Error message:', e?.message)
+        console.error('[EditorApp] Error stack:', e?.stack)
         setLoadError(e instanceof Error ? e : new Error(String(e)))
       })
     return () => {
