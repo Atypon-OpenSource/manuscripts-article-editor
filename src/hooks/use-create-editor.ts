@@ -148,7 +148,6 @@ export const useCreateEditor = () => {
       class: 'manuscript-editor',
       lang: 'en-GB',
       spellcheck: 'true',
-      tabindex: '2',
     },
     doc: comparedDoc || doc, // Use compared document if in comparison mode
     userID: user._id,
