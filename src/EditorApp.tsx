@@ -98,16 +98,21 @@ const EditorApp: React.FC<EditorAppProps> = ({
       isReadOnly,
     })
     const apiSource = new ApiSource(api)
+    console.debug('[DEBUG EditorApp] Calling createStore...')
     createStore([props, apiSource])
       .then((s) => {
+        console.debug('[DEBUG EditorApp] createStore resolved successfully')
         setStore(s)
       })
       .catch((e) => {
+        console.debug('[DEBUG EditorApp] createStore REJECTED with:', e)
         console.error(e)
         const error =
           e instanceof Error
             ? e
             : new Error(e?.message || 'Failed to load the document')
+        console.debug('[DEBUG EditorApp] Setting loadError to:', error.message)
+        console.debug('[DEBUG EditorApp] onError callback is:', onError ? 'defined' : 'undefined')
         setLoadError(error.message)
         onError?.(error)
       })

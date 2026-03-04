@@ -16,7 +16,7 @@ export type builderFn = (
   boundState: Partial<state>,
   next: (resultState: Partial<state>) => void,
   setState: stateSetter
-) => void
+) => void | Promise<void>
 
 export function buildStateFromSources(
   builders: StoreDataSourceStrategy[],
@@ -30,14 +30,33 @@ export function buildStateFromSources(
         futureState = { ...futureState, ...resultState }
       }
       if (builders[++i]) {
-        builders[i].build(futureState, next, setState)
+        console.debug(`[DEBUG buildStateFromSources] Calling builder ${i}...`)
+        try {
+          const result = builders[i].build(futureState, next, setState)
+          // Handle async builders that return a rejected promise
+          Promise.resolve(result).catch((e) => {
+            console.debug('[DEBUG buildStateFromSources] Async builder', i, 'rejected with:', e)
+            reject(e)
+          })
+        } catch (e) {
+          console.debug('[DEBUG buildStateFromSources] Sync builder', i, 'threw:', e)
+          reject(e)
+        }
       } else {
+        console.debug('[DEBUG buildStateFromSources] All builders completed successfully')
         resolve(futureState)
       }
     }
+    console.debug(`[DEBUG buildStateFromSources] Calling builder ${i} (initial)...`)
     try {
-      builders[i].build(futureState, next, setState)
+      const result = builders[i].build(futureState, next, setState)
+      // Handle async builders that return a rejected promise
+      Promise.resolve(result).catch((e) => {
+        console.debug('[DEBUG buildStateFromSources] Async builder', i, '(initial) rejected with:', e)
+        reject(e)
+      })
     } catch (e) {
+      console.debug('[DEBUG buildStateFromSources] Sync builder', i, '(initial) threw:', e)
       reject(e)
     }
   })

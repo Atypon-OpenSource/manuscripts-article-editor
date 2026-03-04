@@ -68,7 +68,7 @@ export class Api {
       })
       return result.data
     } catch (e) {
-      console.log(e)
+      console.debug('[DEBUG Api.get] Request failed for URL:', url, 'Error:', e)
       return undefined
     }
   }

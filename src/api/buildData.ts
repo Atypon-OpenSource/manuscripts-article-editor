@@ -35,6 +35,7 @@ const getDocumentData = async (
   api: Api
 ) => {
   const response = await api.getDocument(projectID, manuscriptID)
+  console.debug('[DEBUG getDocumentData] Response for', manuscriptID, ':', response ? 'found' : 'NOT FOUND (undefined)')
   if (!response) {
     throw new Error('Document not found')
   }
