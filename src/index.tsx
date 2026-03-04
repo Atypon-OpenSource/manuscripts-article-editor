@@ -45,6 +45,7 @@ const ManuscriptEditor: React.FC<
   pluginInspectorTab,
   isReadOnly,
   onError,
+  onErrorNavigate,
 }) => {
   setConfig(config)
   return (
@@ -64,6 +65,7 @@ const ManuscriptEditor: React.FC<
             pluginInspectorTab={pluginInspectorTab}
             isReadOnly={isReadOnly}
             onError={onError}
+            onErrorNavigate={onErrorNavigate}
           />
         </Suspense>
       </ThemeProvider>

@@ -38,6 +38,7 @@ export interface EditorAppProps {
   pluginInspectorTab?: PluginInspectorTab
   isReadOnly?: boolean
   onError?: (error: Error) => void
+  onErrorNavigate?: () => void
 }
 
 const PlaceholderWrapper = styled.div`
@@ -61,6 +62,22 @@ const ErrorMessage = styled.p`
   text-align: center;
   max-width: 480px;
   line-height: 1.5;
+  margin-top: 16px;
+`
+
+const ErrorActionButton = styled.button`
+  margin-top: 16px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #0d79d0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0b6ab8;
+  }
 `
 
 const EditorApp: React.FC<EditorAppProps> = ({
@@ -74,6 +91,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   pluginInspectorTab,
   isReadOnly,
   onError,
+  onErrorNavigate,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const [loadError, setLoadError] = useState<string>()
@@ -137,7 +155,13 @@ const EditorApp: React.FC<EditorAppProps> = ({
   if (loadError) {
     return (
       <PlaceholderWrapper>
+        <ManuscriptPlaceholder />
         <ErrorMessage>{loadError}</ErrorMessage>
+        {onErrorNavigate && (
+          <ErrorActionButton onClick={onErrorNavigate}>
+            Go to Dashboard
+          </ErrorActionButton>
+        )}
       </PlaceholderWrapper>
     )
   }
