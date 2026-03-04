@@ -27,7 +27,6 @@ export function buildStateFromSources(
     let i = 0
 
     const runBuilder = (builder: StoreDataSourceStrategy) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = builder.build(futureState, next, setState)
       if (result && typeof result.catch === 'function') {
         result.catch(reject)
