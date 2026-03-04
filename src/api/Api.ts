@@ -68,7 +68,7 @@ export class Api {
       })
       return result.data
     } catch (e) {
-      console.error('[Api] GET request failed for URL:', url, 'Error:', e)
+      console.log(e)
       return undefined
     }
   }

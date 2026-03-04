@@ -34,11 +34,8 @@ const getDocumentData = async (
   manuscriptID: string,
   api: Api
 ) => {
-  console.log('[buildData] getDocumentData called with:', { projectID, manuscriptID })
   const response = await api.getDocument(projectID, manuscriptID)
-  console.log('[buildData] getDocument response:', response)
   if (!response) {
-    console.error('[buildData] Document not found for:', { projectID, manuscriptID })
     throw new Error('Document not found')
   }
   return {
@@ -101,21 +98,17 @@ export const buildData = async (
   manuscriptID: string,
   api: Api
 ) => {
-  console.log('[buildData] Starting buildData with:', { projectID, manuscriptID })
   const user = await api.getUser()
-  console.log('[buildData] getUser result:', user ? 'user found' : 'no user')
   if (!user) {
     return {}
   }
 
   const doc = await getDocumentData(projectID, manuscriptID, api)
-  console.log('[buildData] Document data loaded successfully')
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const project = await api.getProject(projectID)
   const role = project ? getUserRole(project, user.userID) : null
   const users = await getUserData(projectID, user, api)
 
-  console.log('[buildData] All data loaded successfully')
   return {
     user,
     userRole: role,

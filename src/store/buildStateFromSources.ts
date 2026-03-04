@@ -25,26 +25,28 @@ export function buildStateFromSources(
   return new Promise((resolve, reject) => {
     let futureState = {}
     let i = 0
+
+    const runBuilder = (builder: StoreDataSourceStrategy) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result: any = builder.build(futureState, next, setState)
+      if (result && typeof result.catch === 'function') {
+        result.catch(reject)
+      }
+    }
+
     const next = (resultState: Partial<state>) => {
       if (resultState) {
         futureState = { ...futureState, ...resultState }
       }
       if (builders[++i]) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const result: any = builders[i].build(futureState, next, setState)
-        if (result && typeof result.catch === 'function') {
-          result.catch(reject)
-        }
+        runBuilder(builders[i])
       } else {
         resolve(futureState)
       }
     }
+
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result: any = builders[i].build(futureState, next, setState)
-      if (result && typeof result.catch === 'function') {
-        result.catch(reject)
-      }
+      runBuilder(builders[i])
     } catch (e) {
       reject(e)
     }

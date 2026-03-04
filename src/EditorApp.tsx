@@ -37,7 +37,7 @@ export interface EditorAppProps {
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
   isReadOnly?: boolean
-  onError?: (error: Error) => void
+  onError?: () => void
 }
 
 const PlaceholderWrapper = styled.div`
@@ -68,7 +68,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   onError,
 }) => {
   const [store, setStore] = useState<GenericStore>()
-  const [loadError, setLoadError] = useState<Error>()
+  const [loadError, setLoadError] = useState(false)
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
@@ -90,17 +90,13 @@ const EditorApp: React.FC<EditorAppProps> = ({
       isReadOnly,
     })
     const apiSource = new ApiSource(api)
-    console.log('[EditorApp] Creating store with projectID:', projectID, 'manuscriptID:', manuscriptID)
     createStore([props, apiSource])
       .then((s) => {
-        console.log('[EditorApp] Store created successfully')
         setStore(s)
       })
       .catch((e) => {
-        console.error('[EditorApp] Store creation failed:', e)
-        console.error('[EditorApp] Error message:', e?.message)
-        console.error('[EditorApp] Error stack:', e?.stack)
-        setLoadError(e instanceof Error ? e : new Error(String(e)))
+        console.error(e)
+        setLoadError(true)
       })
     return () => {
       store?.unmount()
@@ -122,23 +118,17 @@ const EditorApp: React.FC<EditorAppProps> = ({
 
   if (loadError) {
     return (
-      <PlaceholderWrapper>
-        <ManuscriptPlaceholder />
-        <ErrorOverlay>
-          <ErrorDialog>
-            <ErrorIcon>⚠</ErrorIcon>
-            <ErrorTitle>Document not found</ErrorTitle>
-            <ErrorMessage>
-              The document you are trying to open could not be found.
-            </ErrorMessage>
-            {onError && (
-              <ErrorButton onClick={() => onError(loadError)}>
-                Go back to submissions
-              </ErrorButton>
-            )}
-          </ErrorDialog>
-        </ErrorOverlay>
-      </PlaceholderWrapper>
+      <ErrorOverlay>
+        <ErrorDialog>
+          <ErrorTitle>Document not found</ErrorTitle>
+          <ErrorMessage>
+            The document you are trying to open could not be found.
+          </ErrorMessage>
+          {onError && (
+            <ErrorButton onClick={onError}>Go back to submissions</ErrorButton>
+          )}
+        </ErrorDialog>
+      </ErrorOverlay>
     )
   }
 
@@ -157,10 +147,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
 
 const ErrorOverlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1001;
   display: flex;
@@ -176,12 +163,6 @@ const ErrorDialog = styled.div`
   max-width: 400px;
   width: 90%;
   text-align: center;
-`
-
-const ErrorIcon = styled.div`
-  font-size: 48px;
-  margin-bottom: 16px;
-  color: #f35143;
 `
 
 const ErrorTitle = styled.h2`
@@ -207,7 +188,6 @@ const ErrorButton = styled.button`
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
 
   &:hover {
     background-color: #1586ad;
