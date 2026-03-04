@@ -30,13 +30,21 @@ export function buildStateFromSources(
         futureState = { ...futureState, ...resultState }
       }
       if (builders[++i]) {
-        builders[i].build(futureState, next, setState)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const result: any = builders[i].build(futureState, next, setState)
+        if (result && typeof result.catch === 'function') {
+          result.catch(reject)
+        }
       } else {
         resolve(futureState)
       }
     }
     try {
-      builders[i].build(futureState, next, setState)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result: any = builders[i].build(futureState, next, setState)
+      if (result && typeof result.catch === 'function') {
+        result.catch(reject)
+      }
     } catch (e) {
       reject(e)
     }
