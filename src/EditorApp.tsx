@@ -37,6 +37,7 @@ export interface EditorAppProps {
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
   isReadOnly?: boolean
+  onError?: (error: Error) => void
 }
 
 const PlaceholderWrapper = styled.div`
@@ -64,8 +65,10 @@ const EditorApp: React.FC<EditorAppProps> = ({
   observer,
   pluginInspectorTab,
   isReadOnly,
+  onError,
 }) => {
   const [store, setStore] = useState<GenericStore>()
+  const [loadError, setLoadError] = useState<Error>()
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
@@ -93,6 +96,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       })
       .catch((e) => {
         console.error(e)
+        setLoadError(e instanceof Error ? e : new Error(String(e)))
       })
     return () => {
       store?.unmount()
@@ -112,6 +116,28 @@ const EditorApp: React.FC<EditorAppProps> = ({
     }
   }, [observer, store])
 
+  if (loadError) {
+    return (
+      <PlaceholderWrapper>
+        <ManuscriptPlaceholder />
+        <ErrorOverlay>
+          <ErrorDialog>
+            <ErrorIcon>⚠</ErrorIcon>
+            <ErrorTitle>Document not found</ErrorTitle>
+            <ErrorMessage>
+              The document you are trying to open could not be found.
+            </ErrorMessage>
+            {onError && (
+              <ErrorButton onClick={() => onError(loadError)}>
+                Go back to submissions
+              </ErrorButton>
+            )}
+          </ErrorDialog>
+        </ErrorOverlay>
+      </PlaceholderWrapper>
+    )
+  }
+
   return store ? (
     <ApiContext.Provider value={api}>
       <GenericStoreProvider store={store}>
@@ -124,5 +150,64 @@ const EditorApp: React.FC<EditorAppProps> = ({
     </PlaceholderWrapper>
   )
 }
+
+const ErrorOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const ErrorDialog = styled.div`
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+`
+
+const ErrorIcon = styled.div`
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #f35143;
+`
+
+const ErrorTitle = styled.h2`
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #353535;
+`
+
+const ErrorMessage = styled.p`
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: #6e6e6e;
+  line-height: 1.5;
+`
+
+const ErrorButton = styled.button`
+  background-color: #1a9bc7;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #1586ad;
+  }
+`
 
 export default EditorApp
