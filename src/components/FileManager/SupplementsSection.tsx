@@ -24,6 +24,7 @@ import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
 import { usePermissions } from '../../lib/capabilities'
+import { isAsciiOnly, ASCII_FILENAME_ERROR_MESSAGE } from '../../lib/files'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
@@ -75,6 +76,14 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   }
 
   const upload = async (file: File) => {
+    if (!isAsciiOnly(file.name)) {
+      setAlert({
+        type: FileSectionAlertType.UPLOAD_ERROR,
+        message: ASCII_FILENAME_ERROR_MESSAGE,
+      })
+      return undefined
+    }
+
     setAlert({
       type: FileSectionAlertType.UPLOAD_IN_PROGRESS,
       message: file.name,
@@ -103,11 +112,17 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
 
   const handleUpload = async (file: File) => {
     const uploaded = await upload(file)
+    if (!uploaded) {
+      return
+    }
     insertSupplement(uploaded, view)
   }
 
   const handleReplace = async (supplement: NodeFile, file: File) => {
     const uploaded = await upload(file)
+    if (!uploaded) {
+      return
+    }
     const tr = view.state.tr
     tr.setNodeAttribute(supplement.pos, 'href', uploaded.id)
     view.dispatch(tr)
