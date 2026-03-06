@@ -1,7 +1,7 @@
 /*!
- * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+ * The contents of this file are subject to the Common Public Attribution License Version 1.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://mpapp-public.gitlab.io/manuscripts-frontend/LICENSE. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
  *
- * Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
  *
  * The Original Code is manuscripts-frontend.
  *
@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Api, ApiContext } from './api/Api'
@@ -37,7 +37,6 @@ export interface EditorAppProps {
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
   isReadOnly?: boolean
-  onError?: () => void
 }
 
 const PlaceholderWrapper = styled.div`
@@ -65,10 +64,14 @@ const EditorApp: React.FC<EditorAppProps> = ({
   observer,
   pluginInspectorTab,
   isReadOnly,
-  onError,
 }) => {
   const [store, setStore] = useState<GenericStore>()
-  const [loadError, setLoadError] = useState(false)
+  const [, setError] = useState()
+  const throwToErrorBoundary = useCallback((error: unknown) => {
+    setError(() => {
+      throw error
+    })
+  }, [])
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
@@ -95,8 +98,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
         setStore(s)
       })
       .catch((e) => {
-        console.error(e)
-        setLoadError(true)
+        throwToErrorBoundary(e)
       })
     return () => {
       store?.unmount()
@@ -116,22 +118,6 @@ const EditorApp: React.FC<EditorAppProps> = ({
     }
   }, [observer, store])
 
-  if (loadError) {
-    return (
-      <ErrorOverlay>
-        <ErrorDialog>
-          <ErrorTitle>Document not found</ErrorTitle>
-          <ErrorMessage>
-            The document you are trying to open could not be found.
-          </ErrorMessage>
-          {onError && (
-            <ErrorButton onClick={onError}>Go back to submissions</ErrorButton>
-          )}
-        </ErrorDialog>
-      </ErrorOverlay>
-    )
-  }
-
   return store ? (
     <ApiContext.Provider value={api}>
       <GenericStoreProvider store={store}>
@@ -144,54 +130,5 @@ const EditorApp: React.FC<EditorAppProps> = ({
     </PlaceholderWrapper>
   )
 }
-
-const ErrorOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1001;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const ErrorDialog = styled.div`
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  padding: 32px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-`
-
-const ErrorTitle = styled.h2`
-  margin: 0 0 8px;
-  font-size: 20px;
-  font-weight: 600;
-  color: #353535;
-`
-
-const ErrorMessage = styled.p`
-  margin: 0 0 24px;
-  font-size: 14px;
-  color: #6e6e6e;
-  line-height: 1.5;
-`
-
-const ErrorButton = styled.button`
-  background-color: #1a9bc7;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #1586ad;
-  }
-`
 
 export default EditorApp
