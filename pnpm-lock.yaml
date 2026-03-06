@@ -30,8 +30,8 @@ importers:
         specifier: 3.4.7
         version: 3.4.7(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
-        specifier: 2.2.10
-        version: 2.2.10
+        specifier: 2.2.10-LEAN-5424.0
+        version: 2.2.10-LEAN-5424.0
       '@manuscripts/transform':
         specifier: 4.3.22
         version: 4.3.22(prosemirror-state@1.4.3)
@@ -6252,7 +6252,7 @@ snapshots:
       '@iarna/word-count': 1.1.2
       '@manuscripts/json-schema': 2.2.12
       '@manuscripts/style-guide': 3.4.7(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
-      '@manuscripts/track-changes-plugin': 2.2.10-LEAN-5424.0
+      '@manuscripts/track-changes-plugin': 2.2.10
       '@manuscripts/transform': 4.3.22(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
