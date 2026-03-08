@@ -35,7 +35,7 @@ const getDocumentData = async (
 ) => {
   const response = await api.getDocument(projectID, manuscriptID)
   if (!response) {
-    throw new Error('Document not found')
+    return null
   }
   return {
     doc: schema.nodeFromJSON(response.doc),
@@ -103,6 +103,10 @@ export const buildData = async (
   }
 
   const doc = await getDocumentData(projectID, manuscriptID, api)
+  if (!doc) {
+    return { user }
+  }
+
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const project = await api.getProject(projectID)
   const role = project ? getUserRole(project, user.userID) : null
