@@ -21,7 +21,7 @@ export const FileName: React.FC<{
   icon?: React.FC<React.SVGAttributes<SVGElement>>
   label?: string
   maxBaseNameLength?: number
-}> = ({ file, label, icon: Icon, maxBaseNameLength = 25 }) => {
+}> = ({ file, label, icon: Icon, maxBaseNameLength = 20 }) => {
   const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
   return (
     <FileNameContainer data-tooltip-content={file.name}>
