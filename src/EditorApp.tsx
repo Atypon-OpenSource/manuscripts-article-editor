@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Api, ApiContext } from './api/Api'
@@ -66,12 +66,6 @@ const EditorApp: React.FC<EditorAppProps> = ({
   isReadOnly,
 }) => {
   const [store, setStore] = useState<GenericStore>()
-  const [, setError] = useState()
-  const throwToErrorBoundary = useCallback((error: unknown) => {
-    setError(() => {
-      throw error
-    })
-  }, [])
   const loadedRef = useRef<boolean>(false)
   const observerSubscribed = useRef<boolean>(false)
 
@@ -98,7 +92,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
         setStore(s)
       })
       .catch((e) => {
-        throwToErrorBoundary(e)
+        console.error(e)
       })
     return () => {
       store?.unmount()
