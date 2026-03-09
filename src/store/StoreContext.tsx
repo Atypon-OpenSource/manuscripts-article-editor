@@ -27,14 +27,17 @@ interface Props {
 }
 
 export const GenericStoreProvider: React.FC<Props> = ({ children, store }) => {
-  if (store) {
-    return (
-      <GenericStoreContext.Provider value={store}>
-        {store.state?.doc ? children : <p>Project was not found</p>}
-      </GenericStoreContext.Provider>
-    )
+  if (!store) {
+    return null
   }
-  return null
+  if (!store.state?.doc) {
+    throw new Error('Document not found')
+  }
+  return (
+    <GenericStoreContext.Provider value={store}>
+      {children}
+    </GenericStoreContext.Provider>
+  )
 }
 
 export const useGenericStore = () => useContext(GenericStoreContext)
