@@ -277,7 +277,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     )}
                     <FileNameText data-cy="filename">
                       {fileAttachment.file?.name
-                        ? trimFilename(fileAttachment.file.name, 25)
+                        ? trimFilename(fileAttachment.file.name, 20)
                         : 'Unknown file'}
                     </FileNameText>
                     {fileAttachment.file && (
