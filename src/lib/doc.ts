@@ -12,7 +12,7 @@
 import { CHANGE_OPERATION } from '@manuscripts/track-changes-plugin'
 import { ManuscriptEditorState, ManuscriptNode } from '@manuscripts/transform'
 
-export type PMDoc = any
+export type PMDoc = ManuscriptNode
 
 export type ManuscriptSnapshot = {
   id: string
@@ -24,8 +24,6 @@ export type ManuscriptSnapshot = {
 export type ManuscriptDoc = {
   doc: PMDoc
   version: number
-  createdAt: string
-  updatedAt: string
   snapshots: SnapshotLabel[]
 }
 
