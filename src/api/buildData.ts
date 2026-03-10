@@ -9,8 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { UserProfile } from '@manuscripts/json-schema'
-import { schema } from '@manuscripts/transform'
+import { schema, UserProfile } from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
@@ -36,7 +35,7 @@ const getDocumentData = async (
 ) => {
   const response = await api.getDocument(projectID, manuscriptID)
   if (!response) {
-    return null
+    throw new Error('Document not found')
   }
   return {
     doc: schema.nodeFromJSON(response.doc),
@@ -58,16 +57,16 @@ const getManuscriptData = async (templateID: string, api: Api) => {
     return data
   }
 
-  const bundle = await api.getBundle(template)
-  if (!bundle) {
-    return data
-  }
-
   data.sectionCategories = new Map(
     template.sectionCategories.map((c) => [c.id, c])
   )
   if (template.hiddenNodeTypes) {
     data.hiddenNodeTypes = convertNodeNamesToTypes(template.hiddenNodeTypes)
+  }
+
+  const bundle = await api.getBundle(template)
+  if (!bundle) {
+    return data
   }
 
   data.cslStyle = await api.getCSLStyle(bundle)
@@ -104,10 +103,6 @@ export const buildData = async (
   }
 
   const doc = await getDocumentData(projectID, manuscriptID, api)
-  if (!doc) {
-    return { user }
-  }
-
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const project = await api.getProject(projectID)
   const role = project ? getUserRole(project, user.userID) : null
