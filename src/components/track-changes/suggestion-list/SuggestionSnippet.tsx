@@ -56,12 +56,11 @@ export const SuggestionSnippet: React.FC<Props> = ({
   const { dataTracked } = suggestion
 
   const author = collaboratorsById.get(dataTracked?.authorID)
-  const name = author?.bibliographicName
   const authorName =
-    name && (name.given || name.family)
-      ? name.family
-        ? `${name.given ? name.given[0] + '.' : ''} ${name.family}`
-        : name.given
+    author && (author.given || author.family)
+      ? author.family
+        ? `${author.given ? author.given[0] + '.' : ''} ${author.family}`
+        : author.given
       : ''
 
   const snippet: SnippetData | null = useMemo(() => {
