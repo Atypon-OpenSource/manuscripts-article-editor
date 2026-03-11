@@ -206,11 +206,8 @@ export const ManuscriptToolbar: React.FC = () => {
                 case 'comment':
                   return can.handleOwnComments
                 default:
-                  if (groupKey === 'element') {
-                    const nodeType = schema.nodes[key]
-                    return nodeType ? templateAllows(state, nodeType) : true
-                  }
-                  return true
+                  const nodeType = schema.nodes[key]
+                  return nodeType ? templateAllows(state, nodeType) : true
               }
             })
             .map(([key, item]) =>
