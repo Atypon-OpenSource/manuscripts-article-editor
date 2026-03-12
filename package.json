@@ -35,7 +35,7 @@
     "@manuscripts/body-editor": "3.10.10",
     "@manuscripts/style-guide": "3.5.2",
     "@manuscripts/track-changes-plugin": "2.3.5",
-    "@manuscripts/transform": "4.3.27-LEAN-5066.0",
+    "@manuscripts/transform": "4.3.27-LEAN-5066.1",
     "@popperjs/core": "2.11.8",
     "axios": "1.11.0",
     "date-fns": "4.1.0",

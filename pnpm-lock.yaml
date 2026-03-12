@@ -30,8 +30,8 @@ importers:
         specifier: 2.3.5
         version: 2.3.5
       '@manuscripts/transform':
-        specifier: 4.3.27-LEAN-5066.0
-        version: 4.3.27-LEAN-5066.0(prosemirror-state@1.4.3)
+        specifier: 4.3.27-LEAN-5066.1
+        version: 4.3.27-LEAN-5066.1(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1275,8 +1275,8 @@ packages:
     resolution: {integrity: sha512-HfvVGALHqQdg3Fe+bm+gYWU3BdRzR4x8/gvo4+Z/lEJDzP1qNNUYqfUtfkyPaIx/vBdUtXu4XujmZXaxmAbhpw==}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/transform@4.3.27-LEAN-5066.0':
-    resolution: {integrity: sha512-s9fVMlUgKokgmSgLSEAnKKDerP4pSHTeuWqUBjzqw2U2eeWeo9pKlJyhqIWQm2dMXTnAD/Y08smIgTI5Poa/4g==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.3.27-LEAN-5066.0.tgz}
+  '@manuscripts/transform@4.3.27-LEAN-5066.1':
+    resolution: {integrity: sha512-DniwgN9ofkspPbqZlEfJJLNk6VeD5IMeDPQeOzzs2pAUHy0fOc2HnP9M6bj7fsIAgJQymcjy7JohIP6popLF7Q==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.3.27-LEAN-5066.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -6348,7 +6348,7 @@ snapshots:
     transitivePeerDependencies:
       - prosemirror-state
 
-  '@manuscripts/transform@4.3.27-LEAN-5066.0(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.3.27-LEAN-5066.1(prosemirror-state@1.4.3)':
     dependencies:
       citeproc: 2.4.63
       jszip: 3.10.1
