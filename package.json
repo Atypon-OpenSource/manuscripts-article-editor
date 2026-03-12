@@ -34,7 +34,7 @@
     "@headlessui/react": "2.2.3",
     "@manuscripts/body-editor": "3.10.11-LEAN-5066.3",
     "@manuscripts/style-guide": "3.5.2",
-    "@manuscripts/track-changes-plugin": "2.3.6-LEAN-5066.0",
+    "@manuscripts/track-changes-plugin": "2.3.6-LEAN-5066.2",
     "@manuscripts/transform": "4.3.27-LEAN-5066.2",
     "@popperjs/core": "2.11.8",
     "axios": "1.11.0",
