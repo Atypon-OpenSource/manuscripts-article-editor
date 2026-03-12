@@ -21,11 +21,11 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.10.10
-        version: 3.10.10(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.10.11-LEAN-5195.0
+        version: 3.10.11-LEAN-5195.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/style-guide':
-        specifier: 3.5.2
-        version: 3.5.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.5.3-LEAN-5195.0
+        version: 3.5.3-LEAN-5195.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
         specifier: 2.3.5
         version: 2.3.5
@@ -1243,8 +1243,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.10.10':
-    resolution: {integrity: sha512-jwwuBw9aCDwCYSeF+nqgnsjMaOzG8d622eTQXmAj+rAH/NyrqqK7WvuEVixLVtchuMrcIp8Byoyr68Xf33KbRA==}
+  '@manuscripts/body-editor@3.10.11-LEAN-5195.0':
+    resolution: {integrity: sha512-dB4GQ2FiYMt/ZpQZy58X1HLEBj9/kSBO5C4DKtJbjEMdGzc77ThN22ez+yg0xBEQjtzxZOWKaQ+xQ3zpyKPScQ==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.10.11-LEAN-5195.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1264,8 +1264,8 @@ packages:
       eslint-plugin-simple-import-sort: '>= 8'
       typescript: '*'
 
-  '@manuscripts/style-guide@3.5.2':
-    resolution: {integrity: sha512-Kozxa7Vy6q2MXP/Ylpz+wJ4XkTZPaim8oKPFgUEfI2eYIp+Pd2npHaGa/xrUy181T4E6fOaPjP8Dp/aw839wwA==}
+  '@manuscripts/style-guide@3.5.3-LEAN-5195.0':
+    resolution: {integrity: sha512-xsuS/aiJyjLs/p12WuY9/yROZYJxNUlMjKA39cA4g7BC5KudAIN8/YBlt2Mu8qSN4I1s5ZOeuX772njcVGwnWA==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.5.3-LEAN-5195.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.3.5':
@@ -6221,7 +6221,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.10.10(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.10.11-LEAN-5195.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6231,7 +6231,7 @@ snapshots:
       '@citation-js/plugin-pubmed': 0.3.0(@citation-js/core@0.7.18)
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
-      '@manuscripts/style-guide': 3.5.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+      '@manuscripts/style-guide': 3.5.3-LEAN-5195.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin': 2.3.5
       '@manuscripts/transform': 4.3.26(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
@@ -6296,7 +6296,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/style-guide@3.5.2(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/style-guide@3.5.3-LEAN-5195.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       date-fns: 2.30.0
