@@ -16,6 +16,9 @@ import {
   ChatIcon,
   DangerIcon,
   ManuscriptIcon,
+  ErrorBadge,
+  IconWrapper,
+  WarningBadge,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
@@ -29,15 +32,12 @@ import { CommentsPanel } from '../comments/CommentsPanel'
 import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
 import { FileManager } from '../FileManager/FileManager'
 import {
-  ErrorBadge,
-  IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
   InspectorTabPanels,
   InspectorTabs,
   PrimaryTabList,
   TabsContainer,
-  WarningBadge,
 } from '../Inspector'
 import { InspectorTab } from '../inspector/InspectorTab'
 import { IssuesPanel } from '../inspector/IssuesPanel'
@@ -62,6 +62,7 @@ const Inspector: React.FC = () => {
     view: store.view,
     inconsistencies: store.inconsistencies || [],
     isComparingMode: store.isComparingMode,
+    titleText: store.titleText,
   }))
   const inconsistenciesCount = store.inconsistencies?.length
   let errorCount = 0
@@ -76,7 +77,6 @@ const Inspector: React.FC = () => {
   })
 
   const [pluginTab] = useStore((store) => store.pluginInspectorTab)
-
   const can = usePermissions()
 
   const comment = store.selectedCommentKey
@@ -104,14 +104,31 @@ const Inspector: React.FC = () => {
   }, [suggestion, HISTORY_TAB_INDEX])
 
   useEffect(() => {
-    if (inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Files) {
-      setTabIndex(FILES_TAB_INDEX)
-    } else if (
-      inspectorOpenTabs?.primaryTab === InspectorPanel.Primary.Quality
-    ) {
-      setTabIndex(ISSUES_TAB_INDEX)
+    if (inspectorOpenTabs?.primaryTab == null) {
+      return
     }
-  }, [inspectorOpenTabs, FILES_TAB_INDEX, ISSUES_TAB_INDEX])
+    switch (inspectorOpenTabs.primaryTab) {
+      case InspectorPanel.Primary.Comments:
+        setTabIndex(COMMENTS_TAB_INDEX)
+        break
+      case InspectorPanel.Primary.History:
+        if (HISTORY_TAB_INDEX >= 0) {
+          setTabIndex(HISTORY_TAB_INDEX)
+        }
+        break
+      case InspectorPanel.Primary.Files:
+        setTabIndex(FILES_TAB_INDEX)
+        break
+      case InspectorPanel.Primary.Quality:
+        setTabIndex(ISSUES_TAB_INDEX)
+        break
+      case InspectorPanel.Primary.Plugin:
+        if (PLUGIN_TAB >= 0) {
+          setTabIndex(PLUGIN_TAB)
+        }
+        break
+    }
+  }, [inspectorOpenTabs, COMMENTS_TAB_INDEX, HISTORY_TAB_INDEX, FILES_TAB_INDEX, ISSUES_TAB_INDEX, PLUGIN_TAB])
 
   // Effect to control warning decorations visibility
   useEffect(() => {
@@ -198,7 +215,10 @@ const Inspector: React.FC = () => {
                 {pluginTab && (
                   <InspectorTab
                     cy="plugin-button"
-                    icon={<IconWrapper>{pluginTab.icon}</IconWrapper>}
+                    icon={
+                      <IconWrapper>
+                        {pluginTab.icon}
+                      </IconWrapper>}
                     isVisible={tabIndex === PLUGIN_TAB}
                   >
                     {pluginTab.title}
