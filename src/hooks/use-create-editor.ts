@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { useEditor } from '@manuscripts/body-editor'
-import { Project, UserProfile } from '@manuscripts/json-schema'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -22,6 +21,7 @@ import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { useCompareDocuments } from './use-compare-documents'
 import { useInspectorTabsContext } from './use-inspector-tabs-context'
+import {Project, UserProfile} from "@manuscripts/transform";
 
 const SAVE_INDICATOR_DISPLAY_TIME_MS = 3000
 
@@ -148,7 +148,6 @@ export const useCreateEditor = () => {
       class: 'manuscript-editor',
       lang: 'en-GB',
       spellcheck: 'true',
-      tabindex: '2',
     },
     doc: comparedDoc || doc, // Use compared document if in comparison mode
     userID: user._id,
