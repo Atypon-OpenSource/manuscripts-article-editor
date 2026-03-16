@@ -192,7 +192,12 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
       />
       {isOpen && (
         <>
-          <FileSectionAlert alert={alert} />
+          <FileSectionAlert
+            alert={alert}
+            onDismiss={() =>
+              setAlert({ type: FileSectionAlertType.NONE, message: '' })
+            }
+          />
           {supplements.map((supplement) => (
             <SupplementFile
               key={supplement.node.attrs.id}

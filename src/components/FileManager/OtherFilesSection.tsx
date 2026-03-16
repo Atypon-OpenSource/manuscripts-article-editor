@@ -112,7 +112,12 @@ export const OtherFilesSection: React.FC<{
           placeholder="Drag or click to upload a new file"
         />
       )}
-      <FileSectionAlert alert={alert} />
+      <FileSectionAlert
+        alert={alert}
+        onDismiss={() =>
+          setAlert({ type: FileSectionAlertType.NONE, message: '' })
+        }
+      />
       {files.map((file) => (
         <OtherFile
           key={file.id}
