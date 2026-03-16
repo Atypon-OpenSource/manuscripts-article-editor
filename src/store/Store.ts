@@ -16,13 +16,14 @@ import {
   FileManagement,
   Inconsistency,
 } from '@manuscripts/body-editor'
-import { Project, UserProfile } from '@manuscripts/json-schema'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
   ManuscriptEditorView,
   ManuscriptNode,
   ManuscriptNodeType,
+  Project,
   SectionCategory,
+  UserProfile,
 } from '@manuscripts/transform'
 
 import { Language } from '../api/types'
