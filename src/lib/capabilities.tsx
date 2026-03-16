@@ -10,8 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { Actions, Capabilities } from '@manuscripts/body-editor'
-import { Project, UserProfile } from '@manuscripts/json-schema'
 import React from 'react'
+import {Project, UserProfile} from "@manuscripts/transform";
 
 export interface ProviderProps {
   project?: Project
