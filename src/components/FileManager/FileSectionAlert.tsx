@@ -28,6 +28,7 @@ export enum FileSectionAlertType {
   UPLOAD_ERROR,
   MOVE_SUCCESSFUL,
   REPLACE_SUCCESSFUL,
+  MOVE_ERROR,
 }
 
 export const setUploadProgressAlert =
@@ -46,7 +47,8 @@ export const setUploadProgressAlert =
 
 export const FileSectionAlert: React.FC<{
   alert: { type: FileSectionAlertType; message: string }
-}> = ({ alert }) => {
+  onDismiss?: () => void
+}> = ({ alert, onDismiss }) => {
   return (
     <>
       {alert.type === FileSectionAlertType.UPLOAD_IN_PROGRESS && (
@@ -56,13 +58,16 @@ export const FileSectionAlert: React.FC<{
         <FileUploadSuccessful />
       )}
       {alert.type === FileSectionAlertType.UPLOAD_ERROR && (
-        <FileUploadErrorAlert message={alert.message} />
+        <FileUploadErrorAlert message={alert.message} onDismiss={onDismiss} />
       )}
       {alert.type === FileSectionAlertType.MOVE_SUCCESSFUL && (
         <FileMoveSuccessful name={alert.message} />
       )}
       {alert.type === FileSectionAlertType.REPLACE_SUCCESSFUL && (
         <FileReplaceSuccessful name={alert.message} />
+      )}
+      {alert.type === FileSectionAlertType.MOVE_ERROR && (
+        <FileMoveErrorAlert message={alert.message} onDismiss={onDismiss} />
       )}
     </>
   )
@@ -100,17 +105,33 @@ const FileUploadSuccessful: React.FC = () => {
 
 const FileUploadErrorAlert: React.FC<{
   message: string
-}> = ({ message }) => {
+  onDismiss?: () => void
+}> = ({ message, onDismiss }) => {
   return (
     <AlertMessageContainer>
       <AlertMessage
         type={AlertMessageType.error}
         hideCloseButton={true}
-        dismissButton={{
-          text: 'OK',
-        }}
+        dismissButton={{ text: 'OK', action: onDismiss }}
       >
         Upload failed: {message}
+      </AlertMessage>
+    </AlertMessageContainer>
+  )
+}
+
+const FileMoveErrorAlert: React.FC<{
+  message: string
+  onDismiss?: () => void
+}> = ({ message, onDismiss }) => {
+  return (
+    <AlertMessageContainer>
+      <AlertMessage
+        type={AlertMessageType.error}
+        hideCloseButton={true}
+        dismissButton={{ text: 'OK', action: onDismiss }}
+      >
+        Move failed: {message}
       </AlertMessage>
     </AlertMessageContainer>
   )
