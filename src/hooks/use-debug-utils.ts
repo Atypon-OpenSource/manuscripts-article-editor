@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { TextSelection } from 'prosemirror-state'
+import { TextSelection, Selection } from 'prosemirror-state'
 import { Node as PmNode } from 'prosemirror-model'
 import { CHANGE_STATUS, trackCommands } from '@manuscripts/track-changes-plugin'
 import { useCallback, useEffect } from 'react'
@@ -45,6 +45,13 @@ export const useDebugUtils = () => {
         // @ts-ignore
         const view = window.prosemirrorView as EditorView
         const sel = TextSelection.create(view.state.doc, pos)
+        view.dispatch(view.state.tr.setSelection(sel))
+        view.focus()
+      },
+      setCursorNear(pos: number, bias: number = -1) {
+        // @ts-ignore
+        const view = window.prosemirrorView as EditorView
+        const sel = Selection.near(view.state.doc.resolve(pos), bias)
         view.dispatch(view.state.tr.setSelection(sel))
         view.focus()
       },
