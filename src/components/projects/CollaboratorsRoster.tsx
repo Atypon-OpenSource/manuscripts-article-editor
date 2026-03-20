@@ -51,6 +51,10 @@ const UserIcon = styled.button`
   width: 24px;
   border-radius: 12px;
   position: relative;
+  text-transform: uppercase;
+  line-height: 1;
+  background: #c9c9c9;
+  border: 2px solid #fff;
 `
 
 const UsersList = styled.ul`
