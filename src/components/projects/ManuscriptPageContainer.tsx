@@ -44,6 +44,7 @@ import { ManuscriptMenus } from './ManuscriptMenus'
 import ManuscriptSidebar from './ManuscriptSidebar'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
 import { TrackChangesStyles } from './TrackChangesStyles'
+import { CollaboratorsRoster } from './CollaboratorsRoster'
 
 const Main = styled.main`
   height: 100%;
@@ -133,7 +134,7 @@ const ManuscriptPageView: React.FC = () => {
                       {savingProcess && <SaveStatus status={savingProcess} />}
                     </MenusWrapper>
                   </ManuscriptMenusContainerInner>
-
+                  <CollaboratorsRoster />
                   {showTrackChangesToggle && (
                     <TrackChangesToggleWrapper
                       onKeyDown={(e) => {
