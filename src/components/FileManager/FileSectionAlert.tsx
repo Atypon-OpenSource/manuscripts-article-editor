@@ -133,6 +133,23 @@ const FileMoveErrorAlert: React.FC<{
   )
 }
 
+const FileMoveErrorAlert: React.FC<{
+  message: string
+  onDismiss?: () => void
+}> = ({ message, onDismiss }) => {
+  return (
+    <AlertMessageContainer>
+      <AlertMessage
+        type={AlertMessageType.error}
+        hideCloseButton={true}
+        dismissButton={{ text: 'OK', action: onDismiss }}
+      >
+        Move failed: {message}
+      </AlertMessage>
+    </AlertMessageContainer>
+  )
+}
+
 const FileMoveSuccessful: React.FC<{
   name: string
 }> = ({ name }) => {
