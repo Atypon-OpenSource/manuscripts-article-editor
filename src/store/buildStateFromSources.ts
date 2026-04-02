@@ -16,7 +16,7 @@ export type builderFn = (
   boundState: Partial<state>,
   next: (resultState: Partial<state>) => void,
   setState: stateSetter
-) => void
+) => void | Promise<void>
 
 export function buildStateFromSources(
   builders: StoreDataSourceStrategy[],
@@ -25,18 +25,27 @@ export function buildStateFromSources(
   return new Promise((resolve, reject) => {
     let futureState = {}
     let i = 0
+
+    const runBuilder = (builder: StoreDataSourceStrategy) => {
+      const result = builder.build(futureState, next, setState)
+      if (result) {
+        result.catch(reject)
+      }
+    }
+
     const next = (resultState: Partial<state>) => {
       if (resultState) {
         futureState = { ...futureState, ...resultState }
       }
       if (builders[++i]) {
-        builders[i].build(futureState, next, setState)
+        runBuilder(builders[i])
       } else {
         resolve(futureState)
       }
     }
+
     try {
-      builders[i].build(futureState, next, setState)
+      runBuilder(builders[i])
     } catch (e) {
       reject(e)
     }
