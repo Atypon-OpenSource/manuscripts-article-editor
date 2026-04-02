@@ -30,3 +30,10 @@ export const trimFilename = (filename: string, maxLength: number) => {
 
   return filename
 }
+
+export const isAsciiOnly = (str: string): boolean => {
+  return !/[\u0080-\uFFFF]/.test(str)
+}
+
+export const ASCII_FILENAME_ERROR_MESSAGE =
+  'Please use only ASCII characters in the file name.'
