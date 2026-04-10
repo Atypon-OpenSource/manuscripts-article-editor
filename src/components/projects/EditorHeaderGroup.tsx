@@ -45,7 +45,7 @@ export const EditorHeaderGroup: React.FC = () => {
     const handleResize = () => {
       if (container.current) {
         const { offsetWidth } = container.current
-        setCompact(offsetWidth < 588)
+        setCompact(offsetWidth < 650)
       }
     }
     if (container.current) {
@@ -53,9 +53,7 @@ export const EditorHeaderGroup: React.FC = () => {
       const observer = new ResizeObserver((entries) => {
         handleResize()
       })
-
       observer.observe(element)
-
       return () => {
         observer.disconnect()
       }
