@@ -38,7 +38,6 @@
     "@manuscripts/transform": "4.3.29",
     "@popperjs/core": "2.11.8",
     "axios": "1.11.0",
-    "body-editr": "link:../../../Library/pnpm/global/5/node_modules/@manuscripts/body-editr",
     "date-fns": "4.1.0",
     "diff-match-patch": "^1.0.5",
     "dompurify": "3.2.5",
