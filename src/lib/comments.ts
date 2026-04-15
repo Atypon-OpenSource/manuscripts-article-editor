@@ -75,6 +75,7 @@ export const buildAuthorName = (user: UserProfile | undefined, project: Project,
   if (!user) {
     return ''
   }
+  // const hostUser = hostUsers.find()
   const role = getUserRole(project, user.userID) || 'User'
   return [GetName(user, role, full), GetSurname(user, collaboratorsById, full)]
     .filter(Boolean)
