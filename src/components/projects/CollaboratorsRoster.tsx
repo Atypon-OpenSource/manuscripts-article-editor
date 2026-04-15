@@ -147,7 +147,8 @@ export function GetName(user: UserProfile, project: Project, full = false) {
   const name = user.bibliographicName?.given as string
 
   if (!name) {
-    return getUserRole(project, user.userID)
+    const role = getUserRole(project, user.userID)
+    return full ? role : (role as string)[0] 
   }
   return full ? name : name[0]
 }
@@ -158,11 +159,8 @@ export function GetSurname(
 ) {
   // @ts-ignore
   const familyName = user.bibliographicName?.family as string
-  return familyName
-    ? full
-      ? familyName
-      : familyName[0]
-    : [...collaboratorsById.keys()].indexOf(user._id) // index throughout the project is normally stable
+  return familyName ? (full ? familyName : familyName[0]) : [...collaboratorsById.keys()].indexOf(user._id)  // index throughout the project is normally stable
+
 }
 
 const UsersList = styled.div`
