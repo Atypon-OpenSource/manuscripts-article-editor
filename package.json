@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "4.13.20",
+  "version": "4.13.21",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -32,8 +32,8 @@
     "@fontsource/pt-sans": "5.2.5",
     "@fontsource/pt-serif": "5.2.5",
     "@headlessui/react": "2.2.3",
-    "@manuscripts/body-editor": "3.12.22",
-    "@manuscripts/style-guide": "3.5.7",
+    "@manuscripts/body-editor": "3.12.24",
+    "@manuscripts/style-guide": "3.5.8",
     "@manuscripts/track-changes-plugin": "2.3.10",
     "@manuscripts/transform": "4.3.35",
     "@popperjs/core": "2.11.8",
