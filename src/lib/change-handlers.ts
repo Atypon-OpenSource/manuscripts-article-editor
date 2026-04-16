@@ -204,13 +204,13 @@ export const handleNodeChange = (
         content: nodeContentRetriever.getFootnoteContent(state, node),
       }
     }
-    case schema.nodes.figcaption: {
+    case schema.nodes.caption_title: {
       return {
         operation,
         nodeName:
           parentNode?.type === schema.nodes.box_element
             ? 'label'
-            : 'figcaption',
+            : 'caption title',
 
         content: nodeContentRetriever.getFootnoteContent(state, node),
       }
