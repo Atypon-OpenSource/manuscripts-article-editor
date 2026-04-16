@@ -142,26 +142,7 @@ export const CollaboratorsRoster: React.FC = () => {
   manuscripts api anyway and there is no point in introducing it into the codebase
   since it's already naturally and conveniently absent.
 */
-export function GetName(user: UserProfile, project: Project, full = false) {
-  // @ts-ignore
-  const name = user.bibliographicName?.given as string
 
-  if (!name) {
-    const role = getUserRole(project, user.userID)
-    return full ? role : (role as string)[0] 
-  }
-  return full ? name : name[0]
-}
-export function GetSurname(
-  user: UserProfile,
-  collaboratorsById: Map<string, UserProfile>,
-  full = false
-) {
-  // @ts-ignore
-  const familyName = user.bibliographicName?.family as string
-  return familyName ? (full ? familyName : familyName[0]) : [...collaboratorsById.keys()].indexOf(user._id)  // index throughout the project is normally stable
-
-}
 
 const UsersList = styled.div`
   &.inactive {

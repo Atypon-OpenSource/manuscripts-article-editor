@@ -10,11 +10,9 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { Comment, commentsKey, isReply } from '@manuscripts/body-editor'
-import { Project, schema, UserProfile } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import { findChildrenByType, flatten } from 'prosemirror-utils'
-import { HostUser } from 'src/store'
-import { getUserRole } from './roles'
 
 export type Thread = {
   comment: Comment
@@ -71,35 +69,6 @@ export const getOrphanComments = (state: EditorState) => {
   )
 }
 
-export const buildAuthorName = (user: UserProfile | undefined, project: Project, hostUsers: HostUser[], collaboratorsById: Map<string, UserProfile>, full = false) => {
-  if (!user) {
-    return ''
-  }
-  // const hostUser = hostUsers.find()
-  const role = getUserRole(project, user.userID) || 'User'
-  return [GetName(user, role, full), GetSurname(user, collaboratorsById, full)]
-    .filter(Boolean)
-    .join(' ')
-}
-
-export function GetName(user: UserProfile, role: string, full = false) {
-  // @ts-ignore
-  const name = user.bibliographicName?.given as string
-  if (!name) {
-    return full ? role : (role as string)[0] 
-  }
-  return full ? name : name[0]
-}
-export function GetSurname(
-  user: UserProfile,
-  collaboratorsById: Map<string, UserProfile>,
-  full = false
-) {
-  // @ts-ignore
-  const familyName = user.bibliographicName?.family as string
-  return familyName ? (full ? familyName : familyName[0]) : [...collaboratorsById.keys()].indexOf(user._id)  // index throughout the project is normally stable
-
-}
 
 export const commentsByTime = (a: Comment, b: Comment) => {
   const aTimestamp = a.node.attrs.timestamp || 0
