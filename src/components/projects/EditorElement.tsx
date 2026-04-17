@@ -11,7 +11,7 @@
  */
 import {
   FileAttachment,
-  findParentElement,
+  findInsertionPosition,
   getMatchingChild,
   getMediaTypeInfo,
   useEditor,
@@ -70,7 +70,6 @@ const EditorElement: React.FC = () => {
         let targetNode = view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
         let mediaNodeWithPos
         if (
-          targetNode.type === schema.nodes.figcaption ||
           targetNode.type === schema.nodes.caption ||
           targetNode.type === schema.nodes.caption_title
         ) {
@@ -106,7 +105,6 @@ const EditorElement: React.FC = () => {
             })
             break
           }
-          case schema.nodes.figcaption:
           case schema.nodes.caption:
           case schema.nodes.caption_title: {
             if (mediaNodeWithPos) {
@@ -117,7 +115,7 @@ const EditorElement: React.FC = () => {
                 mimeSubtype: mediaInfo.mimeSubtype,
               })
             } else {
-              addFigureAtFigCaptionPosition(editor, resolvedPos, attrs, file)
+              addFigureAtCaptionPosition(editor, resolvedPos, attrs, file)
             }
             break
           }
@@ -219,7 +217,7 @@ const EditorElement: React.FC = () => {
  *   Will add figure at the end of figureElement if there is no figure is empty,
  *   if we have one of the figure empty form image will assign the new image for it
  */
-const addFigureAtFigCaptionPosition = (
+const addFigureAtCaptionPosition = (
   editor: ReturnType<typeof useEditor>,
   resolvePos: ManuscriptResolvedPos,
   attrs: Record<string, unknown>,
@@ -281,17 +279,6 @@ const addFigureAtFigureElementPosition = (
   if (!view) {
     return
   }
-
-  let figcaptionPos = 0,
-    figureElementPos = 0
-  node.descendants((node, nodePos) => {
-    if (node.type === schema.nodes.figcaption) {
-      figcaptionPos = nodePos
-      figureElementPos =
-        findParentElement(NodeSelection.create(view.state.doc, pos))?.start || 0
-    }
-  })
-
   const figure = getMatchingChild(
     node,
     (node) => node.type === node.type.schema.nodes.figure
@@ -299,7 +286,8 @@ const addFigureAtFigureElementPosition = (
   if (isEmptyFigureNode(figure)) {
     setNodeAttrs(view.state, dispatch, figure.attrs.id, attrs)
   } else {
-    addNewFigure(view, dispatch, attrs, figcaptionPos + figureElementPos)
+    const pos = findInsertionPosition(schema.nodes.figure, node)
+    addNewFigure(view, dispatch, attrs, pos)
   }
 }
 
