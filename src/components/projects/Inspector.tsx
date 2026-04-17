@@ -104,9 +104,10 @@ const Inspector: React.FC = () => {
   }, [suggestion, HISTORY_TAB_INDEX])
 
   useEffect(() => {
-    if (inspectorOpenTabs?.primaryTab == null) {
+    if (!inspectorOpenTabs || inspectorOpenTabs.primaryTab == null) {
       return
     }
+
     switch (inspectorOpenTabs.primaryTab) {
       case InspectorPanel.Primary.Comments:
         setTabIndex(COMMENTS_TAB_INDEX)
@@ -128,7 +129,14 @@ const Inspector: React.FC = () => {
         }
         break
     }
-  }, [inspectorOpenTabs, COMMENTS_TAB_INDEX, HISTORY_TAB_INDEX, FILES_TAB_INDEX, ISSUES_TAB_INDEX, PLUGIN_TAB])
+  }, [
+    inspectorOpenTabs,
+    COMMENTS_TAB_INDEX,
+    HISTORY_TAB_INDEX,
+    FILES_TAB_INDEX,
+    ISSUES_TAB_INDEX,
+    PLUGIN_TAB,
+  ])
 
   // Effect to control warning decorations visibility
   useEffect(() => {
@@ -215,10 +223,7 @@ const Inspector: React.FC = () => {
                 {pluginTab && (
                   <InspectorTab
                     cy="plugin-button"
-                    icon={
-                      <IconWrapper>
-                        {pluginTab.icon}
-                      </IconWrapper>}
+                    icon={<IconWrapper>{pluginTab.icon}</IconWrapper>}
                     isVisible={tabIndex === PLUGIN_TAB}
                   >
                     {pluginTab.title}

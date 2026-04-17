@@ -60,7 +60,6 @@ export const useInspectorTabsParentControl = () => {
     }
 
     dispatch({ doInspectorTab })
-    
   }, [dispatch])
 }
 
@@ -127,6 +126,6 @@ function prepareTabs(action?: InspectorAction) {
       break
     default:
       break
-  } 
+  }
   return inspectorOpenTabs
 }

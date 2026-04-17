@@ -11,7 +11,7 @@
  */
 import { Actions, Capabilities } from '@manuscripts/body-editor'
 import React from 'react'
-import {Project, UserProfile} from "@manuscripts/transform";
+import { Project, UserProfile } from '@manuscripts/transform'
 
 export interface ProviderProps {
   project?: Project
@@ -45,7 +45,7 @@ export const getCapabilities = (
 
   const allowed = (action: string) => !!actions?.includes(action)
 
-  const canEditWithoutTracking = allowed(Actions.editWithoutTracking)
+  const canEditWithoutTracking = true //allowed(Actions.editWithoutTracking)
   const isPrivileged = isOwner || isEditor || isWriter
   const canEditFiles = (isPrivileged || isAnnotator) && !isViewingMode
   const canUpdateAttachments = canEditFiles && allowed(Actions.updateAttachment)

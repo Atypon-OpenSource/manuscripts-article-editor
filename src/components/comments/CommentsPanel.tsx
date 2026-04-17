@@ -18,7 +18,11 @@ import {
   isNodeComment,
   setCommentSelection,
 } from '@manuscripts/body-editor'
-import { CheckboxField, CheckboxLabel, ToggleHeader } from '@manuscripts/style-guide'
+import {
+  CheckboxField,
+  CheckboxLabel,
+  ToggleHeader,
+} from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
 import { NodeSelection, TextSelection, Transaction } from 'prosemirror-state'
