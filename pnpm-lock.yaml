@@ -21,11 +21,11 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.12.29
-        version: 3.12.29(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.12.30-LEAN-5544.1
+        version: 3.12.30-LEAN-5544.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/style-guide':
-        specifier: 3.5.10-LEAN-5544.0
-        version: 3.5.10-LEAN-5544.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.5.9
+        version: 3.5.9(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
         specifier: 2.3.10
         version: 2.3.10
@@ -1243,8 +1243,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.12.29':
-    resolution: {integrity: sha512-pi4O+WedrV/UpqXUT0NYGv39xFudSqO29AbWNXI/iEKCY3JLg/0MSfqhDdGIKAer3NLgnBHU9FkRXO3MH/tIlw==}
+  '@manuscripts/body-editor@3.12.30-LEAN-5544.1':
+    resolution: {integrity: sha512-/j6yIxP9hd0rTT5TAV+34mR5ertFj6Tlx40ywfY3BugS+5IRp6cT5OxmS8mAL+X3TUjwp7LkAV7cpIhjSVgBEg==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.12.30-LEAN-5544.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -1266,6 +1266,10 @@ packages:
 
   '@manuscripts/style-guide@3.5.10-LEAN-5544.0':
     resolution: {integrity: sha512-KHHlT1XwG3kd9HURPNLEXJnwyC973D+ewfqo2n4Gmqfiaxjb4UvrkZVcaVTtbMxgcetHGAk3UWy5cnGzt5k2Kg==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.5.10-LEAN-5544.0.tgz}
+    engines: {node: '>=20.16.0'}
+
+  '@manuscripts/style-guide@3.5.9':
+    resolution: {integrity: sha512-LXKCY4yTSdsOMBmAcalEmJ1aTXVbDr6ByrawWkM1IC1j5SRULB5G34PLKeqzRP69c5gKOUGxsx/jNkEZ4C8cBQ==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.3.10':
@@ -6209,7 +6213,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.12.29(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.12.30-LEAN-5544.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6285,6 +6289,35 @@ snapshots:
       - supports-color
 
   '@manuscripts/style-guide@3.5.10-LEAN-5544.0(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+    dependencies:
+      '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      date-fns: 2.30.0
+      formik: 2.4.6(@types/react@19.2.3)(react@19.2.0)
+      lodash: 4.17.21
+      prosemirror-commands: 1.7.1
+      prosemirror-history: 1.4.1
+      prosemirror-keymap: 1.2.3
+      prosemirror-model: 1.25.0
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.41.0
+      react: 19.2.0
+      react-datepicker: 7.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)(react@19.2.0)
+      react-dnd-html5-backend: 16.0.1
+      react-dom: 19.2.0(react@19.2.0)
+      react-is: 19.2.0
+      react-router-dom: 5.3.4(react@19.2.0)
+      react-select: 5.10.1(@types/react@19.2.3)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-tooltip: 5.28.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      styled-components: 5.3.11(@babel/core@7.23.7)(react-dom@19.2.0(react@19.2.0))(react-is@19.2.0)(react@19.2.0)
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/hoist-non-react-statics'
+      - '@types/node'
+      - '@types/react'
+      - supports-color
+
+  '@manuscripts/style-guide@3.5.9(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       date-fns: 2.30.0
