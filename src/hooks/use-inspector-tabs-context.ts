@@ -51,15 +51,18 @@ export enum InspectorAction {
 export const useInspectorTabsParentControl = () => {
   const [_, dispatch] = useStore((state) => state.inspectorOpenTabs)
 
-  const doInspectorTab = useCallback((action: InspectorAction) => { 
-    const preppedTabs = prepareTabs(action) 
-    if (preppedTabs.primaryTab != null) { 
-      dispatch({ inspectorOpenTabs: preppedTabs }) 
-    }
-  }, [dispatch]) 
-  
-  useEffect(() => { 
-    dispatch({ doInspectorTab }) 
+  const doInspectorTab = useCallback(
+    (action: InspectorAction) => {
+      const preppedTabs = prepareTabs(action)
+      if (preppedTabs.primaryTab != null) {
+        dispatch({ inspectorOpenTabs: preppedTabs })
+      }
+    },
+    [dispatch]
+  )
+
+  useEffect(() => {
+    dispatch({ doInspectorTab })
   }, [dispatch, doInspectorTab])
 }
 

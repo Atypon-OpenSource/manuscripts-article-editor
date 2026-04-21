@@ -158,6 +158,11 @@ const createAttrsDisplay = (
               ? (value as CreditRole[]).map((r) => r.vocabTerm).join(', ')
               : '',
           })
+        case 'degrees':
+          return (filteredAttrs[key] = {
+            label: 'Degrees',
+            value: Array.isArray(value) ? (value as string[]).join(', ') : '',
+          })
         case 'src':
           return (filteredAttrs[key] = {
             label: 'File',
