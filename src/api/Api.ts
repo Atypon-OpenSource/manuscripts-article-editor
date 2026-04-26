@@ -115,6 +115,19 @@ export class Api {
 
   getLanguages = () => this.get<Language[]>('/languages')
 
+  getOEmbedHtml = async (
+    mediaUrl: string,
+    maxWidth: number,
+    maxHeight: number
+  ) => {
+    const params = new URLSearchParams({
+      url: mediaUrl,
+      maxwidth: String(maxWidth),
+      maxheight: String(maxHeight),
+    })
+    return this.get<{ html: string | null }>(`oembed/html?${params.toString()}`)
+  }
+
   getUserProfiles = (containerID: string) =>
     this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
 
