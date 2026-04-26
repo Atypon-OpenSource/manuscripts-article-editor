@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.12.33-LEAN-5544.1
-        version: 3.12.33-LEAN-5544.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.12.33
+        version: 3.12.33(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/style-guide':
         specifier: 3.5.12-LEAN-5544.1
         version: 3.5.12-LEAN-5544.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
@@ -1243,8 +1243,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.12.33-LEAN-5544.1':
-    resolution: {integrity: sha512-/rV+63qYqVWiYmkqzxZcW3jo/+nZi4dNlYVaD7CiBAcwcxFApmpUd4N2S2mNjc00wtdo18hYoVSpWO2NKsWCrg==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.12.33-LEAN-5544.1.tgz}
+  '@manuscripts/body-editor@3.12.33':
+    resolution: {integrity: sha512-50FfPU7NGscvww5mEkbLUfQsjuxdpKeHK4KrwS2BUuB0Qng0sl/2KxvOB5xfwneTbzpb+QIi9bNSZX0ItNi5oA==}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -3645,9 +3645,6 @@ packages:
   object.values@1.2.1:
     resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
     engines: {node: '>= 0.4'}
-
-  oembed-providers@1.0.20250430:
-    resolution: {integrity: sha512-uffgYYEiBAK8yvrhkd1og2s2CnywX26bicnQgsSq14Ox5Y7wZ8HQrOKdNg4QBoVojTaEnIRjGzn8Xpb/ynoI+g==}
 
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
@@ -6209,7 +6206,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.12.33-LEAN-5544.1(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.12.33(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -6232,7 +6229,6 @@ snapshots:
       history: 5.3.0
       lodash: 4.17.21
       mathjax: 3.2.2
-      oembed-providers: 1.0.20250430
       prosemirror-collab: 1.3.1
       prosemirror-commands: 1.7.1
       prosemirror-dropcursor: 1.8.2
@@ -9414,8 +9410,6 @@ snapshots:
       call-bound: 1.0.4
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
-
-  oembed-providers@1.0.20250430: {}
 
   once@1.4.0:
     dependencies:
