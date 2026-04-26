@@ -9,19 +9,19 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { useEditor } from '@manuscripts/body-editor'
+import { type FetchOEmbedHtml, useEditor } from '@manuscripts/body-editor'
+import { Project, UserProfile } from '@manuscripts/transform'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useApi } from '../api/Api'
-import { StepsExchanger, SaveStatus } from '../api/StepsExchanger'
+import { SaveStatus, StepsExchanger } from '../api/StepsExchanger'
 import { getConfig } from '../config'
 import { getCapabilities as getActionCapabilities } from '../lib/capabilities'
 import { useStore } from '../store'
 import { theme } from '../theme/theme'
 import { useCompareDocuments } from './use-compare-documents'
 import { useInspectorTabsContext } from './use-inspector-tabs-context'
-import {Project, UserProfile} from "@manuscripts/transform";
 
 const SAVE_INDICATOR_DISPLAY_TIME_MS = 3000
 
@@ -143,6 +143,14 @@ export const useCreateEditor = () => {
   const config = getConfig()
   const onEditorClick = useInspectorTabsContext()
 
+  const fetchOEmbedHtml = useMemo<FetchOEmbedHtml>(
+    () => async (url, maxWidth, maxHeight) => {
+      const data = await api.getOEmbedHtml(url, maxWidth, maxHeight)
+      return data?.html ?? undefined
+    },
+    [api]
+  )
+
   const props = {
     attributes: {
       class: 'manuscript-editor',
@@ -179,6 +187,7 @@ export const useCreateEditor = () => {
     lockBody: config.features.lockBody,
     hiddenNodeTypes: hiddenNodeTypes,
     isViewingMode,
+    fetchOEmbedHtml,
   }
   const editor = useEditor(props)
   return editor
