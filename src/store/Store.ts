@@ -45,7 +45,6 @@ export type HostUser = {
   lastName?: string
 }
 
-
 // @NOTE: some of the state properties may be consumed by parent app and may appear unused
 export type state = {
   manuscriptID: string

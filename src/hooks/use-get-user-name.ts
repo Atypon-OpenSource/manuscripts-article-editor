@@ -10,11 +10,23 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
 import { Project, UserProfile } from '@manuscripts/transform'
-import { HostUser } from 'src/store'
+import { HostUser, useStore } from '../store'
 import { getUserRole } from '../lib/roles'
 
 export const useGetUserName = () => {
-    
+  const[{project, hostUsers, collaboratorsById}] = useStore(s => ({
+    project: s.project,
+    hostUsers: s.hostUsers,
+    collaboratorsById: s.collaboratorsById
+  }))
+  
+  return (userID: string, full = false) => {
+    const user = collaboratorsById.get(userID)
+    if (!user || !userID) {
+      return ''
+    }
+    return buildAuthorName(user, project, hostUsers, collaboratorsById, full)
+  }
 }
 
 const buildAuthorName = (user: UserProfile | undefined, project: Project, hostUsers: HostUser[], collaboratorsById: Map<string, UserProfile>, full = false) => {

@@ -29,6 +29,7 @@ import {
 import { CommentActions, OrphanCommentActions } from './CommentActions'
 import { CommentBody } from './CommentBody'
 import { DeleteCommentConfirmation } from './DeleteCommentConfirmation'
+import { useGetUserName } from '../../hooks/use-get-user-name'
 
 const CommentTarget = styled.div`
   font-size: 14px;
@@ -88,18 +89,14 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   onDelete,
 }) => {
   const can = usePermissions()
-  const [{ user, collaboratorsById }] = useStore((state) => ({
-    user: state.user,
-    collaboratorsById: state.collaboratorsById,
+  const getName = useGetUserName();
+  const [{ user }] = useStore((state) => ({
+    user: state.user
   }))
 
   const authorID = comment.node.attrs.userID
-  const authorName = authorID
-    ? buildAuthorName(collaboratorsById.get(authorID))
-    : ''
-
+  const authorName = getName(authorID)
   const timestamp = comment.node.attrs.timestamp
-
   const isOwn = authorID === user._id
 
   const isResolveEnabled = isOwn
