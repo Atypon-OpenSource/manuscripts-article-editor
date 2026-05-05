@@ -28,14 +28,14 @@ importers:
         specifier: link:../../../Library/pnpm/global/5/node_modules/@manuscripts/body-editor
         version: link:../../../Library/pnpm/global/5/node_modules/@manuscripts/body-editor
       '@manuscripts/style-guide':
-        specifier: 3.5.7
-        version: 3.5.7(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.5.12
+        version: 3.5.12(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
         specifier: link:../../../Library/pnpm/global/5/node_modules/@manuscripts/track-changes-plugin
         version: link:../../../Library/pnpm/global/5/node_modules/@manuscripts/track-changes-plugin
       '@manuscripts/transform':
-        specifier: 4.3.33
-        version: 4.3.33(prosemirror-state@1.4.3)
+        specifier: 4.3.38
+        version: 4.3.38(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1213,12 +1213,12 @@ packages:
       eslint-plugin-simple-import-sort: '>= 8'
       typescript: '*'
 
-  '@manuscripts/style-guide@3.5.7':
-    resolution: {integrity: sha512-59dTwYcTj6A658gr/VHZlbE52Ltmln6GqZ3rmkt9rDhBxVq8pOuYuHQZdXQ1QwKfhD+8f1iYzDDIkXJjYkjZYg==}
+  '@manuscripts/style-guide@3.5.12':
+    resolution: {integrity: sha512-RqbeF76JvU59vatPGxuo05o0O4eIJmhDovTB0jB4ON9S148cNWN3gLjW/ojXf5yoNvCrojLGjeN/Tw4ThIdveA==}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/transform@4.3.33':
-    resolution: {integrity: sha512-G1qjWoRQf75MmjhowWayakbkB5JTXdSyd6ubJmRZOFG4j3AElZhW9MmI7R4xQm7Hyp1pr/l80MTnfzDEZFQJ5w==}
+  '@manuscripts/transform@4.3.38':
+    resolution: {integrity: sha512-crENaPna8sIQGf0+3Oxnx6g15kmamc7qlUojwQRqRLHD1xXSpgBja1uhlVgjLQPICTMAYwFTI1pWHZjqhJyQTw==}
     engines: {node: '>=20.16.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -6031,7 +6031,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/style-guide@3.5.7(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/style-guide@3.5.12(@babel/core@7.23.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       date-fns: 2.30.0
@@ -6060,7 +6060,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@manuscripts/transform@4.3.33(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.3.38(prosemirror-state@1.4.3)':
     dependencies:
       citeproc: 2.4.63
       jszip: 3.10.1
