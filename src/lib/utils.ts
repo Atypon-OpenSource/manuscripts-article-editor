@@ -15,10 +15,8 @@ import {
   insertEmbed,
   insertFigure,
 } from '@manuscripts/body-editor'
-import { ManuscriptEditorView, Project, UserProfile } from '@manuscripts/transform'
+import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import { HostUser } from 'src/store'
-import { getUserRole } from './roles'
 
 export const getParentNode = (state: EditorState, pos: number) => {
   const resolvedPos = state.doc.resolve(pos)

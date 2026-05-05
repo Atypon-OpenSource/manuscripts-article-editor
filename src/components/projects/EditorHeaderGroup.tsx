@@ -22,7 +22,6 @@ import { SearchReplace } from '../SearchReplace'
 import { EditorHeader } from './EditorContainer'
 import { ManuscriptMenus } from './ManuscriptMenus'
 import { ManuscriptToolbar } from './ManuscriptToolbar'
-import { CollaboratorsRoster } from './CollaboratorsRoster'
 import { useTrackingVisibility } from '../../hooks/use-tracking-visibility'
 import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
@@ -75,7 +74,6 @@ export const EditorHeaderGroup: React.FC = () => {
             {savingProcess && <SaveStatus status={savingProcess} />}
           </MenusWrapper>
         </ManuscriptMenusContainerInner>
-        <CollaboratorsRoster />
         {showTrackChangesToggle && (
           <TrackChangesToggleWrapper
             onKeyDown={(e) => {
