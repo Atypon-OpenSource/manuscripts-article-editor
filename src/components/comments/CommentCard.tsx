@@ -19,7 +19,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { usePermissions } from '../../lib/capabilities'
-import { buildAuthorName } from '../../lib/comments'
 import { useStore } from '../../store'
 import {
   AuthorContainer,
