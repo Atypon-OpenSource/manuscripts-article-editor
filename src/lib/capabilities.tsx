@@ -9,14 +9,14 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { Actions, Capabilities } from '@manuscripts/body-editor'
+import {
+  Actions,
+  Capabilities,
+  ManuscriptActions,
+} from '@manuscripts/body-editor'
 import React from 'react'
-import {Project, UserProfile} from "@manuscripts/transform";
 
 export interface ProviderProps {
-  project?: Project
-  profile?: UserProfile
-  role?: string
   permittedActions?: string[]
   children?: React.ReactNode
   isViewingMode?: boolean
@@ -26,42 +26,27 @@ export interface ProviderProps {
 // checks which is helpful because there maybe numerous checks in on component
 
 export const getCapabilities = (
-  project?: Project,
-  profile?: UserProfile,
-  role?: ProviderProps['role'],
   actions?: string[],
   isViewingMode?: boolean
 ): Capabilities => {
-  const userID = profile?.userID
-
-  const isMemberOf = (group?: string[]) =>
-    group?.includes(userID ?? '') ?? false
-
-  const isOwner = isMemberOf(project?.owners)
-  const isEditor = isMemberOf(project?.editors)
-  const isWriter = isMemberOf(project?.writers)
-  const isAnnotator = isMemberOf(project?.annotators)
-  const isViewer = isMemberOf(project?.viewers) || isViewingMode
-
   const allowed = (action: string) => !!actions?.includes(action)
 
   const canEditWithoutTracking = allowed(Actions.editWithoutTracking)
-  const isPrivileged = isOwner || isEditor || isWriter
-  const canEditFiles = (isPrivileged || isAnnotator) && !isViewingMode
+  const canEditFiles = allowed(ManuscriptActions.canEditFiles) && !isViewingMode
   const canUpdateAttachments = canEditFiles && allowed(Actions.updateAttachment)
 
   return {
     /* track changes */
-    handleSuggestion: isPrivileged,
+    handleSuggestion: allowed(ManuscriptActions.handleSuggestion),
     editWithoutTracking: canEditWithoutTracking,
-    rejectOwnSuggestion: !isViewer,
+    rejectOwnSuggestion: allowed(ManuscriptActions.rejectOwnSuggestion),
 
     /* comments */
-    handleOwnComments: !isViewer,
-    handleOthersComments: isOwner,
-    resolveOwnComment: !isViewer,
-    resolveOthersComment: isOwner || isEditor,
-    createComment: !isViewer,
+    handleOwnComments: allowed(ManuscriptActions.handleOwnComments),
+    handleOthersComments: allowed(ManuscriptActions.handleOthersComments),
+    resolveOwnComment: allowed(ManuscriptActions.resolveOwnComment),
+    resolveOthersComment: allowed(ManuscriptActions.resolveOthersComment),
+    createComment: allowed(ManuscriptActions.createComment),
 
     /* file handling */
     downloadFiles: true,
@@ -73,12 +58,12 @@ export const getCapabilities = (
     setMainManuscript: allowed(Actions.setMainManuscript),
 
     /* editor */
-    editArticle: !isViewer,
-    formatArticle: !isViewer,
-    editMetadata: !isViewer,
-    editCitationsAndRefs: !isViewer,
-    seeEditorToolbar: !isViewer,
-    seeReferencesButtons: !isViewer,
+    editArticle: allowed(ManuscriptActions.editArticle),
+    formatArticle: allowed(ManuscriptActions.formatArticle),
+    editMetadata: allowed(ManuscriptActions.editMetadata),
+    editCitationsAndRefs: allowed(ManuscriptActions.editCitationsAndRefs),
+    seeEditorToolbar: allowed(ManuscriptActions.seeEditorToolbar),
+    seeReferencesButtons: allowed(ManuscriptActions.seeReferencesButtons),
   }
 }
 
@@ -90,19 +75,10 @@ export const usePermissions = () => {
 }
 
 export const useCalcPermission = ({
-  project,
-  profile,
-  role,
   permittedActions,
   isViewingMode,
 }: ProviderProps) => {
-  return getCapabilities(
-    project,
-    profile,
-    role,
-    permittedActions,
-    isViewingMode
-  )
+  return getCapabilities(permittedActions, isViewingMode)
 }
 export const CapabilitiesProvider: React.FC<{
   can: Capabilities

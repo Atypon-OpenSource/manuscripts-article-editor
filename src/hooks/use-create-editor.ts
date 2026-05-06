@@ -131,13 +131,7 @@ export const useCreateEditor = () => {
 
   const getCapabilities = useMemo(
     () => (project: Project, user: UserProfile, permittedActions: string[]) =>
-      getActionCapabilities(
-        project,
-        user,
-        undefined,
-        permittedActions,
-        isViewingMode
-      ),
+      getActionCapabilities(permittedActions, isViewingMode),
     [isViewingMode]
   )
   const config = getConfig()

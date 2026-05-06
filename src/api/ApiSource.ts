@@ -45,6 +45,10 @@ export class ApiSource implements StoreDataSourceStrategy {
         this.api
       )
     }
+    this.data.permittedActions = [
+      ...(state.permittedActions || []),
+      ...(this.data.permittedActions || []),
+    ]
     next({ ...state, ...this.data, ...this.utilities })
   }
   afterAction = (state: state) => {

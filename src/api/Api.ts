@@ -143,6 +143,9 @@ export class Api {
     return response
   }
 
+  getProjectPermittedActions = (containerID: string) =>
+    this.get<string[]>(`/project/${containerID}/permitted-actions`)
+
   getSnapshot = (snapshotID: string) =>
     this.get<ManuscriptSnapshot>(`snapshot/${snapshotID}`)
 
