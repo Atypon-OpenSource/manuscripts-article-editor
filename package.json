@@ -104,6 +104,9 @@
     "react-dnd-test-backend": "16.0.1",
     "typescript": "5.9.2"
   },
+  "peerDependencies": {
+    "prosemirror-view": "1.41.0"
+  },
   "engines": {
     "node": ">=20.16.0"
   }
