@@ -21,6 +21,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { usePermissions } from '../../lib/capabilities'
+import { getUploadErrorMessage } from '../../lib/files'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
@@ -91,9 +92,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       })
       return uploaded
     } catch (error) {
-      const errorMessage = error
-        ? error.cause?.result
-        : error.message || 'Unknown error occurred'
+      const errorMessage = getUploadErrorMessage(error)
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,
@@ -131,9 +130,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
           message: fileToUpload.name,
         })
       } catch (error) {
-        const errorMessage = error
-          ? error.cause?.result
-          : error.message || 'Unknown error occurred'
+        const errorMessage = getUploadErrorMessage(error)
         setAlert({
           type: FileSectionAlertType.UPLOAD_ERROR,
           message: errorMessage,

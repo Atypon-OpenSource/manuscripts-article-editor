@@ -31,9 +31,26 @@ export const trimFilename = (filename: string, maxLength: number) => {
   return filename
 }
 
-export const isAsciiOnly = (str: string): boolean => {
-  return !/[\u0080-\uFFFF]/.test(str)
+export const INVALID_FILENAME_ERROR_CODE = 'INVALID_FILENAME'
+export const INVALID_FILENAME_ERROR_MESSAGE =
+  'Please use only ASCII characters in the file name.'
+
+export interface GraphQLUploadError {
+  message?: string
+  graphQLErrors?: Array<{
+    extensions?: {
+      code?: {
+        name?: string
+      }
+    }
+  }>
 }
 
-export const ASCII_FILENAME_ERROR_MESSAGE =
-  'Please use only ASCII characters in the file name.'
+export const getUploadErrorMessage = (error: unknown): string => {
+  const err = error as GraphQLUploadError
+  const errorCode = err?.graphQLErrors?.[0]?.extensions?.code?.name
+  return errorCode === INVALID_FILENAME_ERROR_CODE
+    ? INVALID_FILENAME_ERROR_MESSAGE
+    : err?.message || 'Unknown error occurred'
+}
+
