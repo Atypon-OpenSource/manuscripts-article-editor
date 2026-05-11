@@ -15,18 +15,17 @@ import {
   NodeFile,
 } from '@manuscripts/body-editor'
 import {
+  ArrowDownCircleIcon,
   FileFigureIcon,
   FileGraphicalAbstractIcon,
   FileImageIcon,
   FileVideoIcon,
-  ToggleIcon,
-  TriangleCollapsedIcon,
-  TriangleExpandedIcon,
 } from '@manuscripts/style-guide'
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo, useState } from 'react'
+import styled from 'styled-components'
 
 import { trimFilename } from '../../lib/files'
 import { useStore } from '../../store'
@@ -229,7 +228,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
               <group.icon className="file-icon" />
               {group.label && <FileLabel>{group.label}:</FileLabel>}
               {group.files.length > 0 && (
-                <ToggleIcon
+                <ArrowIcon
                   isOpen={isOpen}
                   onClick={(e) => {
                     e.stopPropagation()
@@ -242,13 +241,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                       toggleGroupOpen(groupIndex)
                     }
                   }}
-                >
-                  {isOpen ? (
-                    <TriangleExpandedIcon />
-                  ) : (
-                    <TriangleCollapsedIcon />
-                  )}
-                </ToggleIcon>
+                />
               )}
             </FileGroupHeader>
             {isOpen && group.files.length > 0 && (
@@ -322,3 +315,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     </>
   )
 }
+
+const ArrowIcon = styled(ArrowDownCircleIcon)<{ isOpen: boolean }>`
+  cursor: pointer;
+  transition: transform 0.25s ease;
+  transform: rotate(${(props) => (props.isOpen ? '180deg' : '0deg')});
+`
