@@ -16,9 +16,6 @@ import {
   ChatIcon,
   DangerIcon,
   ManuscriptIcon,
-  ErrorBadge,
-  IconWrapper,
-  WarningBadge,
 } from '@manuscripts/style-guide'
 import React, { useEffect, useState } from 'react'
 
@@ -32,12 +29,15 @@ import { CommentsPanel } from '../comments/CommentsPanel'
 import DocumentOptionsDropdown from '../DocumentOptionsDropdown'
 import { FileManager } from '../FileManager/FileManager'
 import {
+  ErrorBadge,
+  IconWrapper,
   InspectorContainer,
   InspectorTabPanel,
   InspectorTabPanels,
   InspectorTabs,
   PrimaryTabList,
   TabsContainer,
+  WarningBadge,
 } from '../Inspector'
 import { InspectorTab } from '../inspector/InspectorTab'
 import { IssuesPanel } from '../inspector/IssuesPanel'
