@@ -21,7 +21,7 @@ import {
 import {
   CheckboxField,
   CheckboxLabel,
-  ToggleHeader,
+  ExpandableSection,
 } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { generateNodeID, schema } from '@manuscripts/transform'
@@ -75,12 +75,9 @@ export const CommentsPanel: React.FC = () => {
   )
 
   const [showResolved, setShowResolved] = useState(true)
-  const [openTab, toggleTab] = useState<'active' | 'orphan'>('active')
   const threadCardRefs = useRef<(HTMLDivElement | null)[]>([])
   const orphanCardRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const toggleCommentsTab = () =>
-    toggleTab(openTab === 'active' ? 'orphan' : 'active')
 
   const comments = useMemo(
     () =>
@@ -200,13 +197,15 @@ export const CommentsPanel: React.FC = () => {
     return thread && selectedCommentKey === thread.comment.key
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent,
+    refs: React.RefObject<(HTMLDivElement | null)[]>
+  ) => {
     if (!['ArrowDown', 'ArrowUp'].includes(e.key)) {
       return
     }
 
-    const cardRefs = openTab === 'active' ? threadCardRefs : orphanCardRefs
-    const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[]
+    const cards = refs.current.filter(Boolean) as HTMLDivElement[]
     if (cards.length === 0) {
       return
     }
@@ -240,13 +239,11 @@ export const CommentsPanel: React.FC = () => {
 
   return (
     <Container>
-      <ToggleHeader
-        title={`Active comments (${threads.length})`}
-        isOpen={openTab === 'active'}
-        onToggle={toggleCommentsTab}
-      />
-      {openTab === 'active' && (
-        <CommentsList data-cy="active-comments" onKeyDown={handleKeyDown}>
+      <ExpandableSection title={`Active comments (${threads.length})`}>
+        <CommentsList
+          data-cy="active-comments"
+          onKeyDown={(e) => handleKeyDown(e, threadCardRefs)}
+        >
           {!!threads.length && (
             <Header>
               <CheckboxLabel>
@@ -287,14 +284,15 @@ export const CommentsPanel: React.FC = () => {
               />
             ))}
         </CommentsList>
-      )}
-      <ToggleHeader
+      </ExpandableSection>
+      <ExpandableSection
         title={`Orphaned comments (${orphanThreads.length})`}
-        isOpen={openTab === 'orphan'}
-        onToggle={toggleCommentsTab}
-      />
-      {openTab === 'orphan' && (
-        <CommentsList data-cy="orphan-comments" onKeyDown={handleKeyDown}>
+        defaultOpen={false}
+      >
+        <CommentsList
+          data-cy="orphan-comments"
+          onKeyDown={(e) => handleKeyDown(e, orphanCardRefs)}
+        >
           {orphanThreads
             .filter((c) => showResolved || !c.comment.node.attrs.resolved)
             .map((c, i, a) => (
@@ -317,7 +315,7 @@ export const CommentsPanel: React.FC = () => {
               />
             ))}
         </CommentsList>
-      )}
+      </ExpandableSection>
     </Container>
   )
 }
