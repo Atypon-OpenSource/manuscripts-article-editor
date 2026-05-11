@@ -18,6 +18,8 @@ import {
 } from '@manuscripts/style-guide'
 import styled from 'styled-components'
 
+const SMALL = 650;
+
 import { SearchReplace } from '../SearchReplace'
 import { EditorHeader } from './EditorContainer'
 import { ManuscriptMenus } from './ManuscriptMenus'
@@ -44,7 +46,7 @@ export const EditorHeaderGroup: React.FC = () => {
     const handleResize = () => {
       if (container.current) {
         const { offsetWidth } = container.current
-        setCompact(offsetWidth < 650)
+        setCompact(offsetWidth < SMALL)
       }
     }
     if (container.current) {
@@ -84,11 +86,11 @@ export const EditorHeaderGroup: React.FC = () => {
             }}
             tabIndex={0}
             role="button"
-            aria-label="show tracked changes"
+            aria-label={label}
             aria-pressed={isTrackingChangesVisible}
             data-tooltip-content={compact ? label : ''}
           >
-            {!compact && <Label>Show tracked changes</Label>}
+            {!compact && <Label>{label}</Label>}
             <IconButton
               defaultColor={true}
               onClick={(e) => {
