@@ -39,10 +39,11 @@ export type action = { action?: string; [key: string]: any }
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
 export type HostUser = {
-  id: string,
-  displayName: string,
+  id: string
+  displayName: string
   firstName?: string
   lastName?: string
+  connectId: string
 }
 
 // @NOTE: some of the state properties may be consumed by parent app and may appear unused

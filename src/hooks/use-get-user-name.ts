@@ -14,12 +14,12 @@ import { HostUser, useStore } from '../store'
 import { getUserRole } from '../lib/roles'
 
 export const useGetUserName = () => {
-  const[{project, hostUsers, collaboratorsById}] = useStore(s => ({
+  const [{ project, hostUsers, collaboratorsById }] = useStore((s) => ({
     project: s.project,
     hostUsers: s.hostUsers,
-    collaboratorsById: s.collaboratorsById
+    collaboratorsById: s.collaboratorsById,
   }))
-  
+
   return (userID: string, full = false) => {
     const user = collaboratorsById.get(userID)
     if (!user || !userID) {
@@ -29,13 +29,22 @@ export const useGetUserName = () => {
   }
 }
 
-const buildAuthorName = (user: UserProfile | undefined, project: Project, hostUsers: HostUser[], collaboratorsById: Map<string, UserProfile>, full = false) => {
+const buildAuthorName = (
+  user: UserProfile | undefined,
+  project: Project,
+  hostUsers: HostUser[],
+  collaboratorsById: Map<string, UserProfile>,
+  full = false
+) => {
   if (!user) {
     return ''
   }
-  const hostUser = hostUsers.find(u => u.connectID === user.connectID)
+  const hostUser = hostUsers.find((u) => u.connectId === user.connectID)
   const role = getUserRole(project, user.userID) || 'User'
-  return [GetName(hostUser, role, full), GetSurname(user, hostUser, collaboratorsById, full)]
+  return [
+    GetName(hostUser, role, full),
+    GetSurname(user, hostUser, collaboratorsById, full),
+  ]
     .filter(Boolean)
     .join(' ')
 }
@@ -43,7 +52,7 @@ const buildAuthorName = (user: UserProfile | undefined, project: Project, hostUs
 function GetName(user: HostUser | undefined, role: string, full = false) {
   const name = user?.firstName
   if (!name) {
-    return full ? role : (role as string)[0] 
+    return full ? role : (role as string)[0]
   }
   return full ? name : name[0]
 }
@@ -54,6 +63,9 @@ function GetSurname(
   full = false
 ) {
   const familyName = hostUser?.lastName
-  return familyName ? (full ? familyName : familyName[0]) : [...collaboratorsById.keys()].indexOf(user._id)  // index throughout the project is normally stable
-
+  return familyName
+    ? full
+      ? familyName
+      : familyName[0]
+    : [...collaboratorsById.keys()].indexOf(user._id) // index throughout the project is normally stable
 }
