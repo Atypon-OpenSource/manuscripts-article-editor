@@ -73,9 +73,7 @@ export const buildAuthorName = (user: UserProfile | undefined) => {
   if (!user) {
     return ''
   }
-  return [user.given, user.family]
-    .filter(Boolean)
-    .join(' ')
+  return [user.given, user.family].filter(Boolean).join(' ')
 }
 
 export const commentsByTime = (a: Comment, b: Comment) => {
