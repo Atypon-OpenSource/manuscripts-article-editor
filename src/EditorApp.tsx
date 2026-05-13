@@ -37,6 +37,7 @@ export interface EditorAppProps {
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
   isReadOnly?: boolean
+  getUploadError?: (error: unknown) => string
 }
 
 const PlaceholderWrapper = styled.div`
@@ -64,6 +65,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   observer,
   pluginInspectorTab,
   isReadOnly,
+  getUploadError,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const [, setError] = useState()
@@ -91,6 +93,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       permittedActions,
       pluginInspectorTab,
       isReadOnly,
+      getUploadError,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])

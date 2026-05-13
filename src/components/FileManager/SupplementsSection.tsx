@@ -24,7 +24,6 @@ import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
 import { usePermissions } from '../../lib/capabilities'
-import { getUploadErrorMessage } from '../../lib/files'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
@@ -51,9 +50,10 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   const [isOpen, setIsOpen] = useState(true) // it is open by default
   const toggleVisibility = () => setIsOpen((prev) => !prev)
 
-  const [{ view, fileManagement }] = useStore((s) => ({
+  const [{ view, fileManagement, getUploadError }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
+    getUploadError: s.getUploadError,
   }))
 
   const can = usePermissions()
@@ -91,7 +91,9 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
       })
       return uploaded
     } catch (error) {
-      const errorMessage = getUploadErrorMessage(error)
+      const errorMessage = getUploadError
+        ? getUploadError(error)
+        : (error as Error)?.message || 'Unknown error occurred'
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,
