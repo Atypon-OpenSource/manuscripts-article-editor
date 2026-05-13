@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
-import React, { useRef, useLayoutEffect, useState } from 'react'
+import React from 'react'
 import {
   IconButton,
   SaveStatus,
@@ -18,7 +18,7 @@ import {
 } from '@manuscripts/style-guide'
 import styled from 'styled-components'
 
-const SMALL = 650;
+const SMALL = 1160;
 
 import { SearchReplace } from '../SearchReplace'
 import { EditorHeader } from './EditorContainer'
@@ -39,28 +39,6 @@ export const EditorHeaderGroup: React.FC = () => {
     savingProcess: store.savingProcess,
   }))
 
-  const container = useRef<HTMLDivElement>(null)
-  const [compact, setCompact] = useState(false)
-
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      if (container.current) {
-        const { offsetWidth } = container.current
-        setCompact(offsetWidth < SMALL)
-      }
-    }
-    if (container.current) {
-      const element = container.current
-      const observer = new ResizeObserver((entries) => {
-        handleResize()
-      })
-      observer.observe(element)
-      return () => {
-        observer.disconnect()
-      }
-    }
-  }, [])
-
   const showTrackChangesToggle = !can.editWithoutTracking && !isViewingMode
 
   const label = isTrackingChangesVisible
@@ -68,7 +46,7 @@ export const EditorHeaderGroup: React.FC = () => {
     : 'Show tracked changes'
 
   return (
-    <EditorHeader ref={container} data-cy="editor-header">
+    <EditorHeader data-cy="editor-header">
       <ManuscriptMenusContainer>
         <ManuscriptMenusContainerInner>
           <MenusWrapper>
@@ -88,9 +66,9 @@ export const EditorHeaderGroup: React.FC = () => {
             role="button"
             aria-label={label}
             aria-pressed={isTrackingChangesVisible}
-            data-tooltip-content={compact ? label : ''}
+            data-tooltip-content={label}
           >
-            {!compact && <Label>{label}</Label>}
+            <Label>{label}</Label>
             <IconButton
               defaultColor={true}
               onClick={(e) => {
@@ -127,6 +105,9 @@ const TrackChangesToggleWrapper = styled.div`
 const Label = styled.div`
   padding-right: 8px;
   white-space: nowrap;
+  @media (min-width: ${SMALL}px) {
+    display: none !important;
+  }
 `
 
 export const ManuscriptMenusContainer = styled.div`
