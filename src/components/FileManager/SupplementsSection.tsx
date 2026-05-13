@@ -14,7 +14,7 @@ import {
   insertSupplement,
   NodeFile,
 } from '@manuscripts/body-editor'
-import { ToggleHeader } from '@manuscripts/style-guide'
+import { ExpandableSection } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
@@ -47,9 +47,6 @@ export type SupplementsSectionProps = {
 export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   supplements,
 }) => {
-  const [isOpen, setIsOpen] = useState(true) // it is open by default
-  const toggleVisibility = () => setIsOpen((prev) => !prev)
-
   const [{ view, fileManagement, getUploadError }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
@@ -177,32 +174,25 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
           placeholder="Drag or click to upload a new file"
         />
       )}
-      <ToggleHeader
-        title="Supplement files"
-        isOpen={isOpen}
-        onToggle={toggleVisibility}
-      />
-      {isOpen && (
-        <>
-          <FileSectionAlert
-            alert={alert}
-            onDismiss={() =>
-              setAlert({ type: FileSectionAlertType.NONE, message: '' })
-            }
+      <ExpandableSection title="Supplement files">
+        <FileSectionAlert
+          alert={alert}
+          onDismiss={() =>
+            setAlert({ type: FileSectionAlertType.NONE, message: '' })
+          }
+        />
+        {supplements.map((supplement) => (
+          <SupplementFile
+            key={supplement.node.attrs.id}
+            supplement={supplement}
+            onDownload={() => fileManagement.download(supplement.file)}
+            onReplace={async (f) => await handleReplace(supplement, f)}
+            onDetach={() => handleMoveToOtherFiles(supplement)}
+            onUseAsMain={() => handleUseAsMain(supplement)}
+            onClick={() => handleClick(supplement)}
           />
-          {supplements.map((supplement) => (
-            <SupplementFile
-              key={supplement.node.attrs.id}
-              supplement={supplement}
-              onDownload={() => fileManagement.download(supplement.file)}
-              onReplace={async (f) => await handleReplace(supplement, f)}
-              onDetach={() => handleMoveToOtherFiles(supplement)}
-              onUseAsMain={() => handleUseAsMain(supplement)}
-              onClick={() => handleClick(supplement)}
-            />
-          ))}
-        </>
-      )}
+        ))}
+      </ExpandableSection>
     </div>
   )
 }
