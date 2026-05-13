@@ -11,7 +11,7 @@
  */
 import { Actions, Capabilities } from '@manuscripts/body-editor'
 import React from 'react'
-import {Project, UserProfile} from "@manuscripts/transform";
+import { Project, UserProfile } from '@manuscripts/transform'
 
 export interface ProviderProps {
   project?: Project
