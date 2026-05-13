@@ -105,7 +105,7 @@ const TrackChangesToggleWrapper = styled.div`
 const Label = styled.div`
   padding-right: 8px;
   white-space: nowrap;
-  @media (min-width: ${SMALL}px) {
+  @media (max-width: ${SMALL}px) {
     display: none !important;
   }
 `
