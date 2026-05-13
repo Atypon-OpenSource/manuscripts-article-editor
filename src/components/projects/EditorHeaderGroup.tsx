@@ -16,7 +16,7 @@ import {
   SliderOffIcon,
   SliderOnIcon,
 } from '@manuscripts/style-guide'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 const SMALL = 1160;
 
@@ -47,6 +47,7 @@ export const EditorHeaderGroup: React.FC = () => {
 
   return (
     <EditorHeader data-cy="editor-header">
+      <ToolTipGlobalCss />
       <ManuscriptMenusContainer>
         <ManuscriptMenusContainerInner>
           <MenusWrapper>
@@ -67,6 +68,7 @@ export const EditorHeaderGroup: React.FC = () => {
             aria-label={label}
             aria-pressed={isTrackingChangesVisible}
             data-tooltip-content={label}
+            data-tooltip-class-name={"track-changes-toggle-tooltip"}
           >
             <Label>{label}</Label>
             <IconButton
@@ -84,10 +86,18 @@ export const EditorHeaderGroup: React.FC = () => {
         )}
       </ManuscriptMenusContainer>
       {can.seeEditorToolbar && <ManuscriptToolbar />}
-      <SearchReplace />
+      <SearchReplace />      
     </EditorHeader>
   )
 }
+
+const ToolTipGlobalCss = createGlobalStyle`
+  @media (min-width: ${SMALL + 1}px) {
+    .track-changes-toggle-tooltip {
+      display: none !important;
+    }
+  }
+`;
 
 const TrackChangesToggleWrapper = styled.div`
   display: flex;
