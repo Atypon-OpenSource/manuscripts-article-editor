@@ -38,10 +38,9 @@ import { FileUploader } from './FileUploader'
 export const OtherFilesSection: React.FC<{
   files: FileAttachment[]
 }> = ({ files }) => {
-  const [{ view, fileManagement, getUploadError }] = useStore((s) => ({
+  const [{ view, fileManagement }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
-    getUploadError: s.getUploadError,
   }))
 
   const can = usePermissions()
@@ -70,9 +69,7 @@ export const OtherFilesSection: React.FC<{
         message: '',
       })
     } catch (error) {
-      const errorMessage = getUploadError
-        ? getUploadError(error)
-        : (error as Error)?.message || 'Unknown error occurred'
+      const errorMessage = (error as Error).message
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,

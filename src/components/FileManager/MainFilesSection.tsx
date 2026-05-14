@@ -47,10 +47,9 @@ const MainDocumentTitle = styled.div`
 export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
   mainDocument,
 }) => {
-  const [{ fileManagement, view, getUploadError }] = useStore((s) => ({
+  const [{ fileManagement, view }] = useStore((s) => ({
     fileManagement: s.fileManagement,
     view: s.view,
-    getUploadError: s.getUploadError,
   }))
 
   const can = usePermissions()
@@ -92,9 +91,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       })
       return uploaded
     } catch (error) {
-      const errorMessage = getUploadError
-        ? getUploadError(error)
-        : (error as Error)?.message || 'Unknown error occurred'
+      const errorMessage = (error as Error).message
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,
@@ -132,9 +129,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
           message: fileToUpload.name,
         })
       } catch (error) {
-        const errorMessage = getUploadError
-          ? getUploadError(error)
-          : (error as Error)?.message || 'Unknown error occurred'
+        const errorMessage = (error as Error).message
         setAlert({
           type: FileSectionAlertType.UPLOAD_ERROR,
           message: errorMessage,

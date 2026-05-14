@@ -92,8 +92,6 @@ export type state = {
   hiddenNodeTypes?: ManuscriptNodeType[]
 
   pluginInspectorTab?: PluginInspectorTab // an inspector tab injected (plugged in) from the parent app
-
-  getUploadError?: (error: unknown) => string
 }
 export type reducer = (payload: any, store: state, action?: string) => state
 export type dispatch = (action: action) => void
