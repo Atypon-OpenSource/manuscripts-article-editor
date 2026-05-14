@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { NodeFile } from '@manuscripts/body-editor'
-import { ToggleHeader } from '@manuscripts/style-guide'
+import { ExpandableSection } from '@manuscripts/style-guide'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 
@@ -32,9 +32,6 @@ type LinkedFilesSectionProps = {
 export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
   linkedFiles,
 }) => {
-  const [isOpen, setIsOpen] = useState(true) // it is open by default
-  const toggleVisibility = () => setIsOpen((prev) => !prev)
-
   const [{ view, fileManagement }] = useStore((s) => ({
     view: s.view,
     fileManagement: s.fileManagement,
@@ -89,25 +86,18 @@ export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
 
   return (
     <div data-cy="linked-files-section">
-      <ToggleHeader
-        title="Linked files"
-        isOpen={isOpen}
-        onToggle={toggleVisibility}
-      />
-      {isOpen && (
-        <>
-          <FileSectionAlert alert={alert} />
-          {linkedFiles.map((file) => (
-            <LinkedFile
-              key={file.node.attrs.id}
-              linkedFile={file}
-              onDownload={() => fileManagement.download(file.file)}
-              onReplace={(f) => handleReplace(file, f)}
-              onDetach={() => handleMoveToOtherFiles(file)}
-            />
-          ))}
-        </>
-      )}
+      <ExpandableSection title="Linked files">
+        <FileSectionAlert alert={alert} />
+        {linkedFiles.map((file) => (
+          <LinkedFile
+            key={file.node.attrs.id}
+            linkedFile={file}
+            onDownload={() => fileManagement.download(file.file)}
+            onReplace={(f) => handleReplace(file, f)}
+            onDetach={() => handleMoveToOtherFiles(file)}
+          />
+        ))}
+      </ExpandableSection>
     </div>
   )
 }

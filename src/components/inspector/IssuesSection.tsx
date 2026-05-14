@@ -11,9 +11,9 @@
  */
 
 import { Inconsistency } from '@manuscripts/body-editor'
-import { ToggleHeader } from '@manuscripts/style-guide'
+import { ExpandableSection } from '@manuscripts/style-guide'
 import { NodeSelection } from 'prosemirror-state'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { scrollIntoView } from '../../lib/utils'
@@ -32,8 +32,6 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
   selectedInconsistencyKey,
   setSelectedInconsistencyKey,
 }) => {
-  const [isOpen, setIsOpen] = useState(items.length > 0)
-  const toggleOpen = () => setIsOpen((prev) => !prev)
   const [view] = useStore((store) => store.view)
 
   const handleInconsistencyClick = (
@@ -53,34 +51,34 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
   }
   return (
     <section className={`${title.toLowerCase()}-section`}>
-      <ToggleHeader
+      <ExpandableSection
         title={`${title} (${items.length})`}
-        isOpen={isOpen}
-        onToggle={toggleOpen}
-      />
-      {isOpen && items.length > 0 && (
-        <InconsistenciesList>
-          {items.map((inconsistency, index) => {
-            const key = `${title}-${index}`
-            return (
-              <InconsistencyItem
-                key={key}
-                isFocused={selectedInconsistencyKey === key}
-                severity={inconsistency.severity}
-                onClick={() => handleInconsistencyClick(key, inconsistency)}
-                data-cy="inconsistency"
-              >
-                <InconsistencyTitle>
-                  {inconsistency.nodeDescription}:
-                </InconsistencyTitle>
-                <InconsistencyMessage>
-                  {inconsistency.message}
-                </InconsistencyMessage>
-              </InconsistencyItem>
-            )
-          })}
-        </InconsistenciesList>
-      )}
+        defaultOpen={items.length > 0}
+      >
+        {items.length > 0 && (
+          <InconsistenciesList>
+            {items.map((inconsistency, index) => {
+              const key = `${title}-${index}`
+              return (
+                <InconsistencyItem
+                  key={key}
+                  isFocused={selectedInconsistencyKey === key}
+                  severity={inconsistency.severity}
+                  onClick={() => handleInconsistencyClick(key, inconsistency)}
+                  data-cy="inconsistency"
+                >
+                  <InconsistencyTitle>
+                    {inconsistency.nodeDescription}:
+                  </InconsistencyTitle>
+                  <InconsistencyMessage>
+                    {inconsistency.message}
+                  </InconsistencyMessage>
+                </InconsistencyItem>
+              )
+            })}
+          </InconsistenciesList>
+        )}
+      </ExpandableSection>
     </section>
   )
 }
