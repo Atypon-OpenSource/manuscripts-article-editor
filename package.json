@@ -67,7 +67,7 @@
     "@babel/preset-env": "7.23.8",
     "@babel/preset-react": "7.27.1",
     "@babel/preset-typescript": "7.23.3",
-    "@manuscripts/eslint-config": "0.5.1",
+    "@manuscripts/eslint-config": "1.0.0",
     "@types/diff-match-patch": "^1.0.36",
     "@types/csl": "npm:csl-json@v0.1.0",
     "@types/jest": "30.0.0",
