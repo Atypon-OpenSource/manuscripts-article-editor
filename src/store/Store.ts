@@ -38,6 +38,14 @@ export type action = { action?: string; [key: string]: any }
 
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
+export type HostUser = {
+  id: string
+  displayName: string
+  firstName?: string
+  lastName?: string
+  connectId: string
+}
+
 // @NOTE: some of the state properties may be consumed by parent app and may appear unused
 export type state = {
   manuscriptID: string
@@ -47,7 +55,7 @@ export type state = {
   project: Project
   refreshProject: () => Promise<void>
   user: UserProfile // probably should be optional
-
+  hostUsers: HostUser[]
   editor: PMEditor
   doc: ManuscriptNode
   initialDocVersion: number
