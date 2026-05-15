@@ -95,7 +95,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       permittedActions,
       pluginInspectorTab,
       isReadOnly,
-      hostUsers: users
+      hostUsers: users || []
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
