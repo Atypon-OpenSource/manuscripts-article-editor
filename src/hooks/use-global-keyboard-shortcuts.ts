@@ -46,7 +46,7 @@ export const useGlobalKeyboardShortcuts = () => {
     }
 
     const { view } = editor
-    const keymap = new Map([
+    const keymap = new Map<string, () => boolean | Promise<void>>([
       ['Mod-f', () => activateSearch(view.state, view.dispatch)],
       ['Shift-Mod-h', () => activateSearchReplace(view.state, view.dispatch)],
       ['Shift-Mod-/', () => openKeyboardShortcuts(view)],
