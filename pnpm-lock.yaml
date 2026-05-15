@@ -21,17 +21,17 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.12.46-LEAN-5573.0
-        version: 3.12.46-LEAN-5573.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.12.46-LEAN-5573.1
+        version: 3.12.46-LEAN-5573.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/style-guide':
-        specifier: 3.5.21
-        version: 3.5.21(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.5.22-LEAN-5573.1
+        version: 3.5.22-LEAN-5573.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
         specifier: 2.3.11-LEAN-5573.4
         version: 2.3.11-LEAN-5573.4
       '@manuscripts/transform':
-        specifier: 4.3.43-LEAN-5573.1
-        version: 4.3.43-LEAN-5573.1(prosemirror-state@1.4.3)
+        specifier: 4.3.43-LEAN-5573.2
+        version: 4.3.43-LEAN-5573.2(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -165,9 +165,6 @@ importers:
       eslint-plugin-import:
         specifier: 2.32.0
         version: 2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1)
-      eslint-plugin-jest:
-        specifier: 29.1.0
-        version: 29.1.0(@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1)(jest@30.0.5(@types/node@20.17.46)(babel-plugin-macros@3.1.0))(typescript@5.9.2)
       eslint-plugin-jsx-a11y:
         specifier: 6.10.2
         version: 6.10.2(eslint@9.39.1)
@@ -196,8 +193,8 @@ importers:
         specifier: 8.0.3
         version: 8.0.3
       jsdom:
-        specifier: ^26.0.0
-        version: 26.1.0
+        specifier: 26.0.0
+        version: 26.0.0
       npm-run-all:
         specifier: 4.1.5
         version: 4.1.5
@@ -212,7 +209,7 @@ importers:
         version: 5.9.2
       vitest:
         specifier: 4.1.6
-        version: 4.1.6(@types/node@20.17.46)(@vitest/coverage-v8@4.1.6)(jsdom@26.1.0)(vite@7.3.2(@types/node@20.17.46)(yaml@2.8.1))
+        version: 4.1.6(@types/node@20.17.46)(@vitest/coverage-v8@4.1.6)(jsdom@26.0.0)(vite@7.3.2(@types/node@20.17.46)(yaml@2.8.1))
 
 packages:
 
@@ -925,8 +922,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.12.46-LEAN-5573.0':
-    resolution: {integrity: sha512-EPz9xpLgJxBocSidrAANX11TM2PNGGq5ejrqJIlQp7eshfziYVUztv2wq+V00fEJY1IF/HiVQsqxB15mmhGBug==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.12.46-LEAN-5573.0.tgz}
+  '@manuscripts/body-editor@3.12.46-LEAN-5573.1':
+    resolution: {integrity: sha512-UykLMpailk7hjA1y/QfUXpPz4Pscs9dLKH7pid4XnSe/vDHt0VGRa/6v1E6hw+wA//nLyAyrqLiNs6AzwlbH/g==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.12.46-LEAN-5573.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -946,15 +943,15 @@ packages:
       eslint-plugin-simple-import-sort: '>= 8'
       typescript: '*'
 
-  '@manuscripts/style-guide@3.5.21':
-    resolution: {integrity: sha512-kpcEluYqxToevH0fBf4eJ843dY7BOkA9ioGtF3vAc/IiFwo37Hqu9GWaj01deIhWUD1WcUe1f9aNNrRs135A/w==}
+  '@manuscripts/style-guide@3.5.22-LEAN-5573.1':
+    resolution: {integrity: sha512-84Xmic7GCrqjy/FnT5KTQ85GbYg/NmKJ/7mwroDp9SQjuOBK1Kfef8CsQiJe/hiUvNecpQ12RdqOViKGY2oldQ==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.5.22-LEAN-5573.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/track-changes-plugin@2.3.11-LEAN-5573.4':
     resolution: {integrity: sha512-cS+chiuEImGhwRgppIFyywMjbDzQ6/vPSleYN96YhgCgJuouOmxgzFuNVmlM24cWJIX0Alry/sXYk8POL8IVBw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/track-changes-plugin/-/@manuscripts/track-changes-plugin-2.3.11-LEAN-5573.4.tgz}
 
-  '@manuscripts/transform@4.3.43-LEAN-5573.1':
-    resolution: {integrity: sha512-Tc/YsrMScuoE/UkLX1pMa7GixuOVEbXGxCixcAYfzdowSdSkrth4oSPjzJHmr5O5HqWwTwLXvKVaIRYOI5c/sg==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.3.43-LEAN-5573.1.tgz}
+  '@manuscripts/transform@4.3.43-LEAN-5573.2':
+    resolution: {integrity: sha512-hP/VAdl7a3S4OHaGwfeYCSsn3/cmyt8UH9ODt05uB2yXwR1JX9OPApt3IgodHE8WFbXbiW0ccTwk7N/3FMKI7w==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.3.43-LEAN-5573.2.tgz}
     engines: {node: '>=20.16.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -3081,8 +3078,8 @@ packages:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
-  jsdom@26.1.0:
-    resolution: {integrity: sha512-Cvc9WUhxSMEo4McES3P7oK3QaXldCfNWp7pl2NNeiIFlCoLr3kfq9kb1fxftiwk1FLV7CvpvDfonxtzUDeSOPg==}
+  jsdom@26.0.0:
+    resolution: {integrity: sha512-BZYDGVAIriBWTpIxYzrXjv3E/4u8+/pSG5bQdIYCbNCGOvsPkDQfTVLAIXAf9ETdCpduCVTkDe2NNZ8NIwUVzw==}
     engines: {node: '>=18'}
     peerDependencies:
       canvas: ^3.0.0
@@ -5520,7 +5517,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.12.46-LEAN-5573.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.12.46-LEAN-5573.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5530,9 +5527,9 @@ snapshots:
       '@citation-js/plugin-pubmed': 0.3.0(@citation-js/core@0.7.18)
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
-      '@manuscripts/style-guide': 3.5.21(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+      '@manuscripts/style-guide': 3.5.22-LEAN-5573.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin': 2.3.11-LEAN-5573.4
-      '@manuscripts/transform': 4.3.43-LEAN-5573.1(prosemirror-state@1.4.3)
+      '@manuscripts/transform': 4.3.43-LEAN-5573.2(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -5594,7 +5591,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/style-guide@3.5.21(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/style-guide@3.5.22-LEAN-5573.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       date-fns: 2.30.0
@@ -5635,7 +5632,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@4.3.43-LEAN-5573.1(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.3.43-LEAN-5573.2(prosemirror-state@1.4.3)':
     dependencies:
       citeproc: 2.4.63
       jszip: 3.10.1
@@ -5895,8 +5892,8 @@ snapshots:
 
   '@types/babel__core@7.20.5':
     dependencies:
-      '@babel/parser': 7.28.5
-      '@babel/types': 7.28.5
+      '@babel/parser': 7.29.3
+      '@babel/types': 7.29.0
       '@types/babel__generator': 7.27.0
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.28.0
@@ -5904,18 +5901,18 @@ snapshots:
 
   '@types/babel__generator@7.27.0':
     dependencies:
-      '@babel/types': 7.28.5
+      '@babel/types': 7.29.0
     optional: true
 
   '@types/babel__template@7.4.4':
     dependencies:
-      '@babel/parser': 7.28.5
-      '@babel/types': 7.28.5
+      '@babel/parser': 7.29.3
+      '@babel/types': 7.29.0
     optional: true
 
   '@types/babel__traverse@7.28.0':
     dependencies:
-      '@babel/types': 7.28.5
+      '@babel/types': 7.29.0
     optional: true
 
   '@types/chai@5.2.3':
@@ -6286,7 +6283,7 @@ snapshots:
       obug: 2.1.1
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.6(@types/node@20.17.46)(@vitest/coverage-v8@4.1.6)(jsdom@26.1.0)(vite@7.3.2(@types/node@20.17.46)(yaml@2.8.1))
+      vitest: 4.1.6(@types/node@20.17.46)(@vitest/coverage-v8@4.1.6)(jsdom@26.0.0)(vite@7.3.2(@types/node@20.17.46)(yaml@2.8.1))
 
   '@vitest/expect@4.1.6':
     dependencies:
@@ -6510,7 +6507,7 @@ snapshots:
   babel-plugin-jest-hoist@30.0.1:
     dependencies:
       '@babel/template': 7.27.2
-      '@babel/types': 7.28.5
+      '@babel/types': 7.29.0
       '@types/babel__core': 7.20.5
     optional: true
 
@@ -7870,7 +7867,7 @@ snapshots:
   istanbul-lib-instrument@6.0.3:
     dependencies:
       '@babel/core': 7.28.5
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.29.3
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
       semver: 7.7.3
@@ -8173,7 +8170,7 @@ snapshots:
       '@babel/generator': 7.28.5
       '@babel/plugin-syntax-jsx': 7.27.1(@babel/core@7.28.5)
       '@babel/plugin-syntax-typescript': 7.27.1(@babel/core@7.28.5)
-      '@babel/types': 7.28.5
+      '@babel/types': 7.29.0
       '@jest/expect-utils': 30.0.5
       '@jest/get-type': 30.0.1
       '@jest/snapshot-utils': 30.0.5
@@ -8263,11 +8260,12 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  jsdom@26.1.0:
+  jsdom@26.0.0:
     dependencies:
       cssstyle: 4.6.0
       data-urls: 5.0.0
       decimal.js: 10.6.0
+      form-data: 4.0.5
       html-encoding-sniffer: 4.0.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
@@ -10076,7 +10074,7 @@ snapshots:
       fsevents: 2.3.3
       yaml: 2.8.1
 
-  vitest@4.1.6(@types/node@20.17.46)(@vitest/coverage-v8@4.1.6)(jsdom@26.1.0)(vite@7.3.2(@types/node@20.17.46)(yaml@2.8.1)):
+  vitest@4.1.6(@types/node@20.17.46)(@vitest/coverage-v8@4.1.6)(jsdom@26.0.0)(vite@7.3.2(@types/node@20.17.46)(yaml@2.8.1)):
     dependencies:
       '@vitest/expect': 4.1.6
       '@vitest/mocker': 4.1.6(vite@7.3.2(@types/node@20.17.46)(yaml@2.8.1))
@@ -10101,7 +10099,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.17.46
       '@vitest/coverage-v8': 4.1.6(vitest@4.1.6)
-      jsdom: 26.1.0
+      jsdom: 26.0.0
     transitivePeerDependencies:
       - msw
 
