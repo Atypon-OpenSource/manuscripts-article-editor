@@ -20,7 +20,7 @@ export const useGetUserName = () => {
     collaboratorsById: s.collaboratorsById,
   }))
 
-  return (userID: string, full = false) => {
+  return (userID: string, full = true) => {
     const user = collaboratorsById.get(userID)
     if (!user || !userID) {
       return ''
