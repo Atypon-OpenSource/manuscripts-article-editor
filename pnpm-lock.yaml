@@ -21,17 +21,17 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.12.46
-        version: 3.12.46(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.12.47-LEAN-5581.1
+        version: 3.12.47-LEAN-5581.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/style-guide':
-        specifier: 3.5.22
-        version: 3.5.22(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.5.23-LEAN-5581.1
+        version: 3.5.23-LEAN-5581.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
-        specifier: 2.3.11
-        version: 2.3.11
+        specifier: 2.3.12-LEAN-5581.3
+        version: 2.3.12-LEAN-5581.3
       '@manuscripts/transform':
-        specifier: 4.3.43
-        version: 4.3.43(prosemirror-state@1.4.3)
+        specifier: 4.3.44-LEAN-5581.1
+        version: 4.3.44-LEAN-5581.1(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -198,9 +198,6 @@ importers:
       npm-run-all:
         specifier: 4.1.5
         version: 4.1.5
-      prettier:
-        specifier: 3.6.2
-        version: 3.6.2
       react-dnd-test-backend:
         specifier: 16.0.1
         version: 16.0.1
@@ -922,8 +919,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.12.46':
-    resolution: {integrity: sha512-NKRRYT88gLg95HkvbIdSJESqm1rk12SxO5YwzO/GIWwnBuoDHn1AHM/1wL3sR9Avh9gr787zHSDyAkaxLBm+Sw==}
+  '@manuscripts/body-editor@3.12.47-LEAN-5581.1':
+    resolution: {integrity: sha512-ZMy3UMBcs2EyzE4gG4J94zMtmdEJKWhFjwzpQncmERz1Gm0cIntNd+VIlPH7QSegq0wk0+d8vZGmzM5UmRBt7w==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.12.47-LEAN-5581.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -943,15 +940,15 @@ packages:
       eslint-plugin-simple-import-sort: '>= 8'
       typescript: '*'
 
-  '@manuscripts/style-guide@3.5.22':
-    resolution: {integrity: sha512-hA/YKJBb6eOL+rNxSy8KZtMPEUWZoFnzRhvm+CBiigB5LL3kshuyrHV4AiC79PPh7JabyH5eomkLejPIIorjHg==}
+  '@manuscripts/style-guide@3.5.23-LEAN-5581.1':
+    resolution: {integrity: sha512-WWA37MAVrpckLLsQ+4ARYFYINZXMGopjLG25dJSBgc/3gDaSgEkk14J6jWKRaoJCZTAXwn5pMnI4T81EwuCiEg==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.5.23-LEAN-5581.1.tgz}
     engines: {node: '>=20.16.0'}
 
-  '@manuscripts/track-changes-plugin@2.3.11':
-    resolution: {integrity: sha512-HvE+nsVx30wCjDAtxnDiSaDkFT4ANL3ekKjLOL/W09fKXft+jKuX/KKOLgw7eZdqOEURx0mStK5fGfbMGPGWQg==}
+  '@manuscripts/track-changes-plugin@2.3.12-LEAN-5581.3':
+    resolution: {integrity: sha512-hh6tOQmL4yEszSchF7BVcO9cehpEFKmW9WtoB9a0YV33WkYka6pOyEUWfy562gyU5glUxNm9o+5cTc/5eEcqyg==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/track-changes-plugin/-/@manuscripts/track-changes-plugin-2.3.12-LEAN-5581.3.tgz}
 
-  '@manuscripts/transform@4.3.43':
-    resolution: {integrity: sha512-9K30gC1YK2VpyJFT+QYWcczH8hEqCm2XeKHS89eHN0EeOpnXn1lpLWs6c+V35H4b4dpDHo3IPcD+A8oVl9g1+A==}
+  '@manuscripts/transform@4.3.44-LEAN-5581.1':
+    resolution: {integrity: sha512-v09fcg0K3vgWfof/FvS8Bp585UzMJ63J2xv/sWftCNUT7cwa3LYDMQeVpP+/aoZSYTn+M36K8PBf6zBkAubWHw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.3.44-LEAN-5581.1.tgz}
     engines: {node: '>=20.16.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -5517,7 +5514,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.12.46(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.12.47-LEAN-5581.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5527,9 +5524,9 @@ snapshots:
       '@citation-js/plugin-pubmed': 0.3.0(@citation-js/core@0.7.18)
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.18)
       '@iarna/word-count': 1.1.2
-      '@manuscripts/style-guide': 3.5.22(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
-      '@manuscripts/track-changes-plugin': 2.3.11
-      '@manuscripts/transform': 4.3.43(prosemirror-state@1.4.3)
+      '@manuscripts/style-guide': 3.5.23-LEAN-5581.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+      '@manuscripts/track-changes-plugin': 2.3.12-LEAN-5581.3
+      '@manuscripts/transform': 4.3.44-LEAN-5581.1(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -5591,7 +5588,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/style-guide@3.5.22(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/style-guide@3.5.23-LEAN-5581.1(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       date-fns: 2.30.0
@@ -5620,7 +5617,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@manuscripts/track-changes-plugin@2.3.11':
+  '@manuscripts/track-changes-plugin@2.3.12-LEAN-5581.3':
     dependencies:
       debug: 4.4.1
       prosemirror-commands: 1.7.1
@@ -5632,7 +5629,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@4.3.43(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.3.44-LEAN-5581.1(prosemirror-state@1.4.3)':
     dependencies:
       citeproc: 2.4.63
       jszip: 3.10.1
