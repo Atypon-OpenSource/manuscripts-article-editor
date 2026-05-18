@@ -89,7 +89,7 @@ export const OtherFilesSection: React.FC<{
       return
     }
 
-    insertSupplement(file, view)
+    insertSupplement(file, view, false)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.Supplements,
