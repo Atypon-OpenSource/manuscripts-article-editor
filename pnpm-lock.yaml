@@ -21,11 +21,11 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.12.47
-        version: 3.12.47(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.12.48-LEAN-5598.0
+        version: 3.12.48-LEAN-5598.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/style-guide':
-        specifier: 3.5.23-LEAN-5598.0
-        version: 3.5.23-LEAN-5598.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.5.22
+        version: 3.5.22(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/track-changes-plugin':
         specifier: 2.3.11
         version: 2.3.11
@@ -922,8 +922,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.12.47':
-    resolution: {integrity: sha512-za1GBd2EGAESBF/YXhrV8waApcqh7SdtSicDSCPFRPgzr/LDUrY6mnj9CiBNZWe0DjUQCTB8pgTL/+vDf/eD5g==}
+  '@manuscripts/body-editor@3.12.48-LEAN-5598.0':
+    resolution: {integrity: sha512-Ni08I7xg1yu0Le2/wqRTfyp6oVN64/2Pebb4ycj+zc4pEoYyem8wWLWSpauWGiNLFkX5iMoA+N1sasCqB0kYWw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.12.48-LEAN-5598.0.tgz}
     engines: {node: '>=20.16.0'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -942,6 +942,10 @@ packages:
       eslint-plugin-react-hooks: '>= 4'
       eslint-plugin-simple-import-sort: '>= 8'
       typescript: '*'
+
+  '@manuscripts/style-guide@3.5.22':
+    resolution: {integrity: sha512-hA/YKJBb6eOL+rNxSy8KZtMPEUWZoFnzRhvm+CBiigB5LL3kshuyrHV4AiC79PPh7JabyH5eomkLejPIIorjHg==}
+    engines: {node: '>=20.16.0'}
 
   '@manuscripts/style-guide@3.5.23-LEAN-5598.0':
     resolution: {integrity: sha512-V7/HmcwvBwXwBWYbeHEpN9hnLyi1Qpm90IdsWpYxMp5rHibZVDlzNCchSAd/uFBNdOzzTS92zkF3lxRNOeXrjw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.5.23-LEAN-5598.0.tgz}
@@ -5517,7 +5521,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.12.47(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.12.48-LEAN-5598.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
@@ -5589,6 +5593,35 @@ snapshots:
       prettier: 2.8.8
       typescript: 5.9.2
     transitivePeerDependencies:
+      - supports-color
+
+  '@manuscripts/style-guide@3.5.22(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+    dependencies:
+      '@headlessui/react': 2.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      date-fns: 2.30.0
+      formik: 2.4.6(@types/react@19.2.3)(react@19.2.0)
+      lodash: 4.17.21
+      prosemirror-commands: 1.7.1
+      prosemirror-history: 1.4.1
+      prosemirror-keymap: 1.2.3
+      prosemirror-model: 1.25.0
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.41.0
+      react: 19.2.0
+      react-datepicker: 7.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)(react@19.2.0)
+      react-dnd-html5-backend: 16.0.1
+      react-dom: 19.2.0(react@19.2.0)
+      react-is: 19.2.0
+      react-router-dom: 5.3.4(react@19.2.0)
+      react-select: 5.10.1(@types/react@19.2.3)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-tooltip: 5.28.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      styled-components: 5.3.11(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react-is@19.2.0)(react@19.2.0)
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/hoist-non-react-statics'
+      - '@types/node'
+      - '@types/react'
       - supports-color
 
   '@manuscripts/style-guide@3.5.23-LEAN-5598.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
