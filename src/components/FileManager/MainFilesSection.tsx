@@ -143,11 +143,11 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
   }
 
   const handleMainDocumentClick = (pos?: number) => {
-    if (!pos) {
+    if (!pos || pos > view.state.doc.nodeSize) {
       return
     }
     const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, tr.mapping.map(pos)))
+    tr.setSelection(NodeSelection.create(view.state.doc, pos))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
