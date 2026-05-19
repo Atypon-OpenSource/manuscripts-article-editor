@@ -147,7 +147,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       return
     }
     const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, pos))
+    tr.setSelection(NodeSelection.create(view.state.doc, tr.mapping.map(pos)))
     tr.scrollIntoView()
     view.focus()
     view.dispatch(tr)
