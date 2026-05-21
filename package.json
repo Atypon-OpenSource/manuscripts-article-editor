@@ -65,12 +65,11 @@
     "uuid": "14.0.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "4.1.6",
     "@eslint/eslintrc": "3.3.5",
     "@eslint/js": "9.39.1",
     "@manuscripts/eslint-config": "0.5.1",
     "@types/csl": "npm:csl-json@v0.1.0",
-    "jsdom": "26.0.0",
+    "@types/diff-match-patch": "^1.0.36",
     "@types/lodash": "4.17.24",
     "@types/node": "20.17.46",
     "@types/react": "19.2.14",
@@ -79,7 +78,7 @@
     "@types/use-sync-external-store": "1.5.0",
     "@typescript-eslint/eslint-plugin": "8.59.3",
     "@typescript-eslint/parser": "8.59.3",
-    "vitest": "4.1.6",
+    "@vitest/coverage-v8": "4.1.6",
     "eslint": "9.39.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-diff": "2.1.7",
@@ -94,10 +93,12 @@
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "husky": "9.1.7",
+    "jsdom": "26.0.0",
     "npm-run-all2": "^8.0.4",
     "prettier": "3.8.3",
     "react-dnd-test-backend": "16.0.1",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "vitest": "4.1.6"
   },
   "engines": {
     "node": ">=22"
