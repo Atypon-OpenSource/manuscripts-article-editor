@@ -31,7 +31,6 @@ import {
   setUploadProgressAlert,
 } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
-import { isAsciiOnly, ASCII_FILENAME_ERROR_MESSAGE } from '../../lib/files'
 
 /**
  * This component represents the other files in the file section.
@@ -70,9 +69,7 @@ export const OtherFilesSection: React.FC<{
         message: '',
       })
     } catch (error) {
-      const errorMessage = error
-        ? error.cause?.result
-        : error.message || 'Unknown error occurred'
+      const errorMessage = (error as Error).message
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,
@@ -81,13 +78,6 @@ export const OtherFilesSection: React.FC<{
   }
 
   const moveToSupplements = async (file: FileAttachment) => {
-    if (!isAsciiOnly(file.name)) {
-      setAlert({
-        type: FileSectionAlertType.MOVE_ERROR,
-        message: ASCII_FILENAME_ERROR_MESSAGE,
-      })
-      return
-    }
 
     insertSupplement(file, view)
     setAlert({
