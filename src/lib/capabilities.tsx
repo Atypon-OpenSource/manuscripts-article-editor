@@ -12,12 +12,13 @@
 import {
   Actions,
   Capabilities,
-  ManuscriptActions,
 } from '@manuscripts/body-editor'
 import React from 'react'
+import { ManuscriptActions } from '@manuscripts/transform'
 
 export interface ProviderProps {
-  permittedActions?: string[]
+  WMsPermittedActions?: string[]
+  manuscriptPermittedActions?: ManuscriptActions[]
   children?: React.ReactNode
   isViewingMode?: boolean
 }
@@ -26,27 +27,32 @@ export interface ProviderProps {
 // checks which is helpful because there maybe numerous checks in on component
 
 export const getCapabilities = (
-  actions?: string[],
+  WMsActions?: string[],
+  manuscriptActions?: ManuscriptActions[],
   isViewingMode?: boolean
 ): Capabilities => {
-  const allowed = (action: string) => !!actions?.includes(action)
+  const WMsAllowed = (action: Actions) => !!WMsActions?.includes(action)
+  const ManAllowed = (action: ManuscriptActions) =>
+    !!manuscriptActions?.includes(action)
 
-  const canEditWithoutTracking = allowed(Actions.editWithoutTracking)
-  const canEditFiles = allowed(ManuscriptActions.canEditFiles) && !isViewingMode
-  const canUpdateAttachments = canEditFiles && allowed(Actions.updateAttachment)
+  const canEditWithoutTracking = WMsAllowed(Actions.editWithoutTracking)
+  const canEditFiles =
+    ManAllowed(ManuscriptActions.canEditFiles) && !isViewingMode
+  const canUpdateAttachments =
+    canEditFiles && WMsAllowed(Actions.updateAttachment)
 
   return {
     /* track changes */
-    handleSuggestion: allowed(ManuscriptActions.handleSuggestion),
+    handleSuggestion: ManAllowed(ManuscriptActions.handleSuggestion),
     editWithoutTracking: canEditWithoutTracking,
-    rejectOwnSuggestion: allowed(ManuscriptActions.rejectOwnSuggestion),
+    rejectOwnSuggestion: ManAllowed(ManuscriptActions.rejectOwnSuggestion),
 
     /* comments */
-    handleOwnComments: allowed(ManuscriptActions.handleOwnComments),
-    handleOthersComments: allowed(ManuscriptActions.handleOthersComments),
-    resolveOwnComment: allowed(ManuscriptActions.resolveOwnComment),
-    resolveOthersComment: allowed(ManuscriptActions.resolveOthersComment),
-    createComment: allowed(ManuscriptActions.createComment),
+    handleOwnComments: ManAllowed(ManuscriptActions.handleOwnComments),
+    handleOthersComments: ManAllowed(ManuscriptActions.handleOthersComments),
+    resolveOwnComment: ManAllowed(ManuscriptActions.resolveOwnComment),
+    resolveOthersComment: ManAllowed(ManuscriptActions.resolveOthersComment),
+    createComment: ManAllowed(ManuscriptActions.createComment),
 
     /* file handling */
     downloadFiles: true,
@@ -55,15 +61,15 @@ export const getCapabilities = (
     replaceFile: canUpdateAttachments,
     uploadFile: canUpdateAttachments,
     detachFile: canEditFiles,
-    setMainManuscript: allowed(Actions.setMainManuscript),
+    setMainManuscript: WMsAllowed(Actions.setMainManuscript),
 
     /* editor */
-    editArticle: allowed(ManuscriptActions.editArticle),
-    formatArticle: allowed(ManuscriptActions.formatArticle),
-    editMetadata: allowed(ManuscriptActions.editMetadata),
-    editCitationsAndRefs: allowed(ManuscriptActions.editCitationsAndRefs),
-    seeEditorToolbar: allowed(ManuscriptActions.seeEditorToolbar),
-    seeReferencesButtons: allowed(ManuscriptActions.seeReferencesButtons),
+    editArticle: ManAllowed(ManuscriptActions.editArticle),
+    formatArticle: ManAllowed(ManuscriptActions.formatArticle),
+    editMetadata: ManAllowed(ManuscriptActions.editMetadata),
+    editCitationsAndRefs: ManAllowed(ManuscriptActions.editCitationsAndRefs),
+    seeEditorToolbar: ManAllowed(ManuscriptActions.seeEditorToolbar),
+    seeReferencesButtons: ManAllowed(ManuscriptActions.seeReferencesButtons),
   }
 }
 
@@ -75,10 +81,15 @@ export const usePermissions = () => {
 }
 
 export const useCalcPermission = ({
-  permittedActions,
+  WMsPermittedActions,
+  manuscriptPermittedActions,
   isViewingMode,
 }: ProviderProps) => {
-  return getCapabilities(permittedActions, isViewingMode)
+  return getCapabilities(
+    WMsPermittedActions,
+    manuscriptPermittedActions,
+    isViewingMode
+  )
 }
 export const CapabilitiesProvider: React.FC<{
   can: Capabilities

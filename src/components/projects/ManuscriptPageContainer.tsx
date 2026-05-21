@@ -74,16 +74,22 @@ const ManuscriptPageContainer: React.FC = () => {
   // Enable global keyboard shortcuts
   useGlobalKeyboardShortcuts()
 
-  const [{ permittedActions, isViewingMode }] = useStore((state) => {
+  const [{ WMsPermittedActions, manuscriptPermittedActions, isViewingMode }] =
+    useStore((state) => {
       return {
         project: state.project,
         user: state.user,
-        permittedActions: state.permittedActions,
+        WMsPermittedActions: state.WMsPermittedActions,
+        manuscriptPermittedActions: state.manuscriptPermittedActions,
         isViewingMode: state.isViewingMode,
       }
     }
   )
-  const can = useCalcPermission({ permittedActions, isViewingMode })
+  const can = useCalcPermission({
+    WMsPermittedActions,
+    manuscriptPermittedActions,
+    isViewingMode,
+  })
 
   return (
     <CapabilitiesProvider can={can}>

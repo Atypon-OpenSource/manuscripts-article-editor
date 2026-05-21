@@ -105,7 +105,8 @@ export const buildData = async (
   const doc = await getDocumentData(projectID, manuscriptID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
   const project = await api.getProject(projectID)
-  const permittedActions = await api.getProjectPermittedActions(projectID)
+  const manuscriptPermittedActions =
+    await api.getProjectPermittedActions(projectID)
   const role = project ? getUserRole(project, user.userID) : null
   const users = await getUserData(projectID, user, api)
 
@@ -116,6 +117,6 @@ export const buildData = async (
     ...state,
     ...doc,
     project,
-    permittedActions,
+    manuscriptPermittedActions,
   }
 }

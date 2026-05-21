@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { type FetchOEmbedHtml, useEditor } from '@manuscripts/body-editor'
-import { Project, UserProfile } from '@manuscripts/transform'
+import { ManuscriptActions, Project, UserProfile } from '@manuscripts/transform'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -130,8 +130,18 @@ export const useCreateEditor = () => {
   }, [dispatch, stepsExchanger])
 
   const getCapabilities = useMemo(
-    () => (project: Project, user: UserProfile, permittedActions: string[]) =>
-      getActionCapabilities(permittedActions, isViewingMode),
+    () =>
+      (
+        project: Project,
+        user: UserProfile,
+        WMsPermittedActions: string[],
+        manuscriptPermittedActions: ManuscriptActions[]
+      ) =>
+        getActionCapabilities(
+          WMsPermittedActions,
+          manuscriptPermittedActions,
+          isViewingMode
+        ),
     [isViewingMode]
   )
   const config = getConfig()
@@ -166,7 +176,12 @@ export const useCreateEditor = () => {
     getCurrentUser: () => user,
     getCapabilities: () => {
       const state = getState()
-      return getCapabilities(state.project, state.user, state.permittedActions)
+      return getCapabilities(
+        state.project,
+        state.user,
+        state.WMsPermittedActions,
+        state.manuscriptPermittedActions
+      )
     },
     getFiles: () => {
       return getState().files
