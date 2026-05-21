@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "4.13.47",
+  "version": "4.13.48-LEAN-5705.0",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
@@ -13,7 +13,8 @@
   "module": "dist/es",
   "types": "dist/types",
   "sideEffects": [
-    "**/*.css"
+    "**/*.css",
+    "**/lib/fonts.*"
   ],
   "scripts": {
     "dev": "npm-run-all --parallel 'build:* --watch'",
