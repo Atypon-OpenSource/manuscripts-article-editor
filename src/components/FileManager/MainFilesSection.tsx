@@ -91,9 +91,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       })
       return uploaded
     } catch (error) {
-      const errorMessage = error
-        ? error.cause?.result
-        : error.message || 'Unknown error occurred'
+      const errorMessage = (error as Error).message
       setAlert({
         type: FileSectionAlertType.UPLOAD_ERROR,
         message: errorMessage,
@@ -131,9 +129,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
           message: fileToUpload.name,
         })
       } catch (error) {
-        const errorMessage = error
-          ? error.cause?.result
-          : error.message || 'Unknown error occurred'
+        const errorMessage = (error as Error).message
         setAlert({
           type: FileSectionAlertType.UPLOAD_ERROR,
           message: errorMessage,

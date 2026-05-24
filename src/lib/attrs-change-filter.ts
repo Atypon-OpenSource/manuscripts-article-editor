@@ -58,7 +58,9 @@ export const filterAttrsChange = (
 }
 
 function displayPerson(person: CSL.Person) {
-  return person && person.given && person.family ? `${person.given} ${person.family}` : ''
+  return person && person.given && person.family
+    ? `${person.given} ${person.family}`
+    : ''
 }
 
 const getLabel = (key: string) =>
@@ -146,9 +148,7 @@ const createAttrsDisplay = (
         case 'author':
           return (filteredAttrs[key] = {
             label: getLabel(key),
-            value: (value as CSL.Person[])
-              ?.map(displayPerson)
-              .join(', '),
+            value: (value as CSL.Person[])?.map(displayPerson).join(', '),
           })
 
         case 'creditRoles':
