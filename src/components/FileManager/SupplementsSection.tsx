@@ -171,7 +171,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
           placeholder="Drag or click to upload a new file"
         />
       )}
-      <ExpandableSection title="Supplement files">
+      <ExpandableSection title="Files">
         <FileSectionAlert
           alert={alert}
           onDismiss={() =>

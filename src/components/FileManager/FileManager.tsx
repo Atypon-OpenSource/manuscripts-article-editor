@@ -26,6 +26,7 @@ import { LinkedFilesSection } from './LinkedFilesSection'
 import { MainFilesSection } from './MainFilesSection'
 import { OtherFilesSection } from './OtherFilesSection'
 import { SupplementsSection } from './SupplementsSection'
+import { WeblinksSection } from './WeblinksSection'
 
 export enum FileSectionType {
   Inline = 'Inline files',
@@ -60,7 +61,7 @@ export const FileManager: React.FC = () => {
     inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
-  const { figures, supplements, attachments, linkedFiles, others } =
+  const { figures, supplements, weblinks, attachments, linkedFiles, others } =
     useMemo(() => {
       return groupFiles(doc, files)
     }, [doc, files])
@@ -102,6 +103,7 @@ export const FileManager: React.FC = () => {
         <InspectorTabPanel data-cy="supplements">
           <SupplementsSection supplements={supplements} />
           <LinkedFilesSection linkedFiles={linkedFiles} />
+          <WeblinksSection weblinks={weblinks} />
         </InspectorTabPanel>
         <InspectorTabPanel data-cy="other">
           <OtherFilesSection files={others} />
