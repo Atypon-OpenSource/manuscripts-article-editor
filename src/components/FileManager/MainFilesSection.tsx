@@ -171,6 +171,16 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
 
   return (
     <div>
+      {can?.uploadFile && (
+        <FileUploader
+          onUpload={handleUpload}
+          placeholder="Drag or click to replace with a new file"
+          accept=".docx, .doc, .pdf, .xml, .tex"
+        />
+      )}
+
+      <FileSectionAlert alert={alert} />
+
       {mainDocument ? (
         <FileContainer
           data-cy="file-container"
@@ -216,14 +226,6 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
           <MainDocumentTitle>Upload main document</MainDocumentTitle>
         )
       )}
-      {can?.uploadFile && (
-        <FileUploader
-          onUpload={handleUpload}
-          placeholder="Drag or click to replace with a new file"
-          accept=".docx, .doc, .pdf, .xml, .tex"
-        />
-      )}
-      <FileSectionAlert alert={alert} />
 
       <Dialog
         isOpen={isConfirmDialogOpen}
