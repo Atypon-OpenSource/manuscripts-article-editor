@@ -174,7 +174,11 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
       {can?.uploadFile && (
         <FileUploader
           onUpload={handleUpload}
-          placeholder="Drag or click to replace with a new file"
+          placeholder={
+            mainDocument
+              ? 'Drag or click to replace with a new file'
+              : 'Drag or click to upload a new file'
+          }
           accept=".docx, .doc, .pdf, .xml, .tex"
         />
       )}
