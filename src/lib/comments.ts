@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import { Comment, commentsKey, isReply } from '@manuscripts/body-editor'
-import { schema, UserProfile } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
 import { findChildrenByType, flatten } from 'prosemirror-utils'
 
@@ -69,12 +69,6 @@ export const getOrphanComments = (state: EditorState) => {
   )
 }
 
-export const buildAuthorName = (user: UserProfile | undefined) => {
-  if (!user) {
-    return ''
-  }
-  return [user.given, user.family].filter(Boolean).join(' ')
-}
 
 export const commentsByTime = (a: Comment, b: Comment) => {
   const aTimestamp = a.node.attrs.timestamp || 0
