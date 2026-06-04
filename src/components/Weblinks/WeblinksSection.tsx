@@ -11,22 +11,19 @@
  */
 import {
   deleteSupplementAtPos,
-  findCrossReferencesToId,
   findNodeByID,
+  getSupplementCaptionTitle,
   insertSupplementWeblink,
   NodeWeblink,
   updateSupplementWeblink,
 } from '@manuscripts/body-editor'
+import { FileAttachment } from '@manuscripts/body-editor'
 import {
-  AttentionOrangeIcon,
   Category,
   Dialog,
-  DotsIcon,
-  DropdownContainer,
   ExpandableSection,
-  LinkIcon,
+  WebLinkIcon,
   SecondaryButton,
-  useDropdown,
 } from '@manuscripts/style-guide'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
@@ -34,8 +31,9 @@ import styled from 'styled-components'
 
 import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
-import { FileAction, FileActionDropdownList } from './FileActions'
-import { FileContainer } from './FileContainer'
+import { FileContainer } from '../FileManager/FileContainer'
+import { FileName } from '../FileManager/FileName'
+import { WeblinkActions } from './WeblinkActions'
 import { WeblinkFormValues, WeblinkModal } from './WeblinkModal'
 
 export type WeblinksSectionProps = {
@@ -43,32 +41,13 @@ export type WeblinksSectionProps = {
 }
 
 const AddButton = styled(SecondaryButton)`
-  width: calc(100% - 32px);
   margin: 8px 16px;
 `
 
-const WeblinkLabel = styled.span`
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-left: 8px;
-`
-
-const WeblinkIcon = styled.span`
-  display: flex;
-  align-items: center;
-  min-width: 20px;
-`
-
-const ActionsButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-`
+const toWeblinkFile = (weblink: NodeWeblink): FileAttachment => ({
+  id: weblink.url,
+  name: weblink.url,
+})
 
 export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
   weblinks,
@@ -95,7 +74,7 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
   }
 
   const handleAdd = (values: WeblinkFormValues) => {
-    insertSupplementWeblink(values.url, values.title, view)
+    insertSupplementWeblink(values.url, '', view)
     setIsAddOpen(false)
   }
 
@@ -108,7 +87,9 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
     if (!match) {
       return
     }
-    updateSupplementWeblink(match.pos, values.url, values.title, view)
+    const existingTitle =
+      (editingWeblink?.node.attrs as { title?: string }).title ?? ''
+    updateSupplementWeblink(match.pos, values.url, existingTitle, view)
     setEditingWeblink(null)
   }
 
@@ -128,14 +109,17 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
     setDeleteTarget(null)
   }
 
-  const crossRefCount = deleteTarget
-    ? findCrossReferencesToId(view.state.doc, deleteTarget.node.attrs.id).length
-    : 0
-
   return (
     <div data-cy="weblinks-section">
-      
-      <ExpandableSection title="Weblinks">
+      <ExpandableSection title="Weblinks" data-cy="weblinks-section-expandable">
+      {can?.editArticle && (
+          <AddButton
+            data-cy="add-weblink-button"
+            onClick={() => setIsAddOpen(true)}
+          >
+            + Add link
+          </AddButton>
+        )}
         {weblinks.map((weblink) => (
           <WeblinkEntry
             key={weblink.node.attrs.id}
@@ -146,20 +130,12 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
             canEdit={Boolean(can?.editArticle)}
           />
         ))}
-        {can?.editArticle && (
-        <AddButton
-          data-cy="add-weblink-button"
-          onClick={() => setIsAddOpen(true)}
-        >
-          Add weblink
-        </AddButton>
-      )}
       </ExpandableSection>
 
       <WeblinkModal
         isOpen={isAddOpen}
         header="Add weblink"
-        initialValues={{ url: '', title: '' }}
+        initialUrl=""
         onClose={() => setIsAddOpen(false)}
         onSave={handleAdd}
       />
@@ -168,10 +144,7 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
         key={editingWeblink?.node.attrs.id ?? 'edit'}
         isOpen={editingWeblink !== null}
         header="Edit weblink"
-        initialValues={{
-          url: editingWeblink?.url ?? '',
-          title: editingWeblink?.title ?? '',
-        }}
+        initialUrl={editingWeblink?.url ?? ''}
         onClose={() => setEditingWeblink(null)}
         onSave={handleEdit}
       />
@@ -179,27 +152,9 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
       <Dialog
         isOpen={deleteTarget !== null}
         category={Category.confirmation}
-        header={
-          crossRefCount > 0 ? (
-            <>
-              <AttentionOrangeIcon />
-              Delete weblink
-            </>
-          ) : (
-            'Delete weblink'
-          )
-        }
+        header='Delete weblink'     
         message={
           <>
-            {crossRefCount > 0 && (
-              <>
-                This supplement is referenced by {crossRefCount} cross-reference
-                {crossRefCount === 1 ? '' : 's'} in the manuscript. Deleting it
-                may break those references.
-                <br />
-                <br />
-              </>
-            )}
             Are you sure you want to delete &ldquo;{deleteTarget?.url}&rdquo;?
           </>
         }
@@ -218,23 +173,26 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
   )
 }
 
-const WeblinkEntry: React.FC<{
+type WeblinkEntryProps = {
   weblink: NodeWeblink
   onClick: () => void
   onEdit: () => void
   onDelete: () => void
   canEdit: boolean
-}> = ({ weblink, onClick, onEdit, onDelete, canEdit }) => {
-  const { isOpen, toggleOpen, wrapperRef } = useDropdown()
+}
 
-  const closeDropdown = () => {
-    if (isOpen) {
-      toggleOpen()
-    }
-  }
+const WeblinkEntry = ({
+  weblink,
+  onClick,
+  onEdit,
+  onDelete,
+  canEdit,
+}: WeblinkEntryProps) => {
+  const file = toWeblinkFile(weblink)
+  const captionTitle = getSupplementCaptionTitle(weblink.node)
 
   return (
-    <FileContainer
+    <WeblinkContainer
       data-cy="weblink-container"
       onClick={onClick}
       tabIndex={0}
@@ -244,54 +202,38 @@ const WeblinkEntry: React.FC<{
         }
       }}
     >
-      <WeblinkIcon>
-        <LinkIcon />
-      </WeblinkIcon>
-      <WeblinkLabel>{weblink.url}</WeblinkLabel>
-      {canEdit && (
-        <DropdownContainer ref={wrapperRef}>
-          <ActionsButton
-            data-cy="weblink-actions"
-            onClick={(e) => {
-              e.stopPropagation()
-              toggleOpen()
-            }}
-            aria-label="Weblink actions"
-          >
-            <DotsIcon />
-          </ActionsButton>
-          {isOpen && (
-            <FileActionDropdownList
-              data-cy="weblink-actions-dropdown"
-              direction="right"
-              width={120}
-              top={5}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <FileAction
-                data-cy="weblink-edit"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  closeDropdown()
-                  onEdit()
-                }}
-              >
-                Edit
-              </FileAction>
-              <FileAction
-                data-cy="weblink-delete"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  closeDropdown()
-                  onDelete()
-                }}
-              >
-                Delete
-              </FileAction>
-            </FileActionDropdownList>
-          )}
-        </DropdownContainer>
-      )}
-    </FileContainer>
+      <WeblinkInfo>
+        <FileName file={file} icon={WebLinkIcon} maxBaseNameLength={28} />
+        {captionTitle ? (
+          <WeblinkCaptionTitle data-cy="weblink-caption-title">
+            {captionTitle}
+          </WeblinkCaptionTitle>
+        ) : null}
+      </WeblinkInfo>
+      {canEdit && <WeblinkActions onEdit={onEdit} onDelete={onDelete} />}
+    </WeblinkContainer>
   )
 }
+
+const WeblinkContainer = styled(FileContainer)`
+  padding: 8px 16px;
+  height: auto;
+`
+
+const WeblinkInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+`
+
+const WeblinkCaptionTitle = styled.div`
+  font-family: ${(props) => props.theme.font.family.Lato};
+  font-size: ${(props) => props.theme.font.size.small};
+  line-height: ${(props) => props.theme.font.lineHeight.normal};
+  color: ${(props) => props.theme.colors.text.greyMuted};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`

@@ -23,13 +23,12 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 export type WeblinkFormValues = {
   url: string
-  title: string
 }
 
 type WeblinkModalProps = {
   isOpen: boolean
   header: string
-  initialValues: WeblinkFormValues
+  initialUrl: string
   onClose: () => void
   onSave: (values: WeblinkFormValues) => void
 }
@@ -37,43 +36,40 @@ type WeblinkModalProps = {
 export const WeblinkModal: React.FC<WeblinkModalProps> = ({
   isOpen,
   header,
-  initialValues,
+  initialUrl,
   onClose,
   onSave,
 }) => {
-  const [url, setUrl] = useState(initialValues.url)
-  const [weblinkTitle, setWeblinkTitle] = useState(initialValues.title)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [url, setUrl] = useState(initialUrl)
+  const [urlError, setUrlError] = useState('')
 
   useEffect(() => {
     if (isOpen) {
-      setUrl(initialValues.url)
-      setWeblinkTitle(initialValues.title)
-      setErrors({})
+      setUrl(initialUrl)
+      setUrlError('')
     }
-  }, [isOpen, initialValues.url, initialValues.title])
+  }, [isOpen, initialUrl])
 
-  const validate = useCallback((currentUrl: string, currentTitle: string) => {
-    const newErrors: Record<string, string> = {}
-    if (!currentUrl.trim()) {
-      newErrors.url = 'URL is required'
-    } else if (!isValidWeblinkUrl(currentUrl.trim())) {
-      newErrors.url = 'Please enter a valid URL'
+  const validateUrl = useCallback((currentUrl: string) => {
+    const trimmed = currentUrl.trim()
+    if (!trimmed) {
+      setUrlError('URL is required')
+      return false
     }
-    if (!currentTitle.trim()) {
-      newErrors.title = 'Label is required'
+    if (!isValidWeblinkUrl(trimmed)) {
+      setUrlError('Please enter a valid URL')
+      return false
     }
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    setUrlError('')
+    return true
   }, [])
 
   const handleSave = () => {
     const trimmedUrl = url.trim()
-    const trimmedTitle = weblinkTitle.trim()
-    if (!validate(trimmedUrl, trimmedTitle)) {
+    if (!validateUrl(trimmedUrl)) {
       return
     }
-    onSave({ url: trimmedUrl, title: trimmedTitle })
+    onSave({ url: trimmedUrl })
   }
 
   return (
@@ -88,22 +84,12 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
             <TextField
               id="weblink-url"
               value={url}
+              placeholder="https://"
               onChange={(e) => setUrl(e.target.value)}
-              onBlur={() => validate(url, weblinkTitle)}
+              onBlur={() => validateUrl(url)}
               data-cy="weblink-url-input"
             />
-            {errors.url && <InputErrorText>{errors.url}</InputErrorText>}
-          </FormRow>
-          <FormRow>
-            <Label htmlFor="weblink-title">Label</Label>
-            <TextField
-              id="weblink-title"
-              value={weblinkTitle}
-              onChange={(e) => setWeblinkTitle(e.target.value)}
-              onBlur={() => validate(url, weblinkTitle)}
-              data-cy="weblink-label-input"
-            />
-            {errors.title && <InputErrorText>{errors.title}</InputErrorText>}
+            {urlError && <InputErrorText>{urlError}</InputErrorText>}
           </FormRow>
         </FormContainer>
       }
