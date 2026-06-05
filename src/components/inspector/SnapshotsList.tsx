@@ -17,7 +17,7 @@ import {
 } from '@manuscripts/track-changes-plugin'
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 import { EditorState } from 'prosemirror-state'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import useExecCmd from '../../hooks/use-exec-cmd'
@@ -38,10 +38,7 @@ export const SnapshotsList: React.FC = () => {
   const [doc, setDoc] = useState<ManuscriptNode>()
   const [showCompareModal, setShowCompareModal] = useState(false)
 
-  const sortedSnapshots = useMemo(
-    () => snapshots.sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
-    [snapshots]
-  )
+
   if (!view) {
     return null
   }
@@ -110,7 +107,7 @@ export const SnapshotsList: React.FC = () => {
         >
           <SnapshotName>{'Current version'}</SnapshotName>
         </SnapshotListItem>
-        {sortedSnapshots.map((snapshot) => {
+        {snapshots.map((snapshot) => {
           return (
             <SnapshotListItem
               onClick={(e) => {
@@ -137,7 +134,7 @@ export const SnapshotsList: React.FC = () => {
       </ButtonContainer>
       {showCompareModal && (
         <CompareDocumentsModal
-          snapshots={sortedSnapshots}
+          snapshots={snapshots}
           loading={false}
           error={null}
           onCancel={() => setShowCompareModal(false)}
