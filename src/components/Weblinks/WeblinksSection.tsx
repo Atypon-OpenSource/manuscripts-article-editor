@@ -7,8 +7,9 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
+
 import {
   deleteSupplementAtPos,
   findNodeByID,
@@ -34,7 +35,7 @@ import { useStore } from '../../store'
 import { FileContainer } from '../FileManager/FileContainer'
 import { FileName } from '../FileManager/FileName'
 import { WeblinkActions } from './WeblinkActions'
-import { WeblinkFormValues, WeblinkModal } from './WeblinkModal'
+import { WeblinkFormValues, WeblinkModal, WeblinkModalMode } from './WeblinkModal'
 
 export type WeblinksSectionProps = {
   weblinks: NodeWeblink[]
@@ -134,7 +135,7 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
 
       <WeblinkModal
         isOpen={isAddOpen}
-        header="Add weblink"
+        header={WeblinkModalMode.Add}
         initialUrl=""
         onClose={() => setIsAddOpen(false)}
         onSave={handleAdd}
@@ -143,7 +144,7 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
       <WeblinkModal
         key={editingWeblink?.node.attrs.id ?? 'edit'}
         isOpen={editingWeblink !== null}
-        header="Edit weblink"
+        header={WeblinkModalMode.Edit}
         initialUrl={editingWeblink?.url ?? ''}
         onClose={() => setEditingWeblink(null)}
         onSave={handleEdit}

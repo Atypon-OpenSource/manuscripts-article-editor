@@ -7,8 +7,9 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
+
 import { isValidWeblinkUrl } from '@manuscripts/body-editor'
 import {
   Category,
@@ -25,6 +26,10 @@ export type WeblinkFormValues = {
   url: string
 }
 
+export enum WeblinkModalMode {
+  Add = 'add',
+  Edit = 'edit',
+}
 type WeblinkModalProps = {
   isOpen: boolean
   header: string
@@ -96,7 +101,7 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
       actions={{
         primary: {
           action: handleSave,
-          title: 'Save',
+          title: header === WeblinkModalMode.Add ? 'Add link' : 'Update link',
         },
         secondary: {
           action: onClose,

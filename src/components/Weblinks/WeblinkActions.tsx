@@ -7,8 +7,9 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
+
 import { DotsIcon, DropdownContainer, useDropdown } from '@manuscripts/style-guide'
 import React, { useEffect, useRef } from 'react'
 
