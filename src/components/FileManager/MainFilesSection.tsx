@@ -139,7 +139,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
   }
 
   const handleMainDocumentClick = (pos?: number) => {
-    if (!pos) {
+    if (!pos || pos > view.state.doc.nodeSize) {
       return
     }
     const tr = view.state.tr
