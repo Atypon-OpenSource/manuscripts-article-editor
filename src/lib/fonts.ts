@@ -10,9 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import '@fontsource/lato'
-import '@fontsource/pt-sans'
-import '@fontsource/pt-serif'
+import '@fontsource/lato/index.css'
+import '@fontsource/pt-sans/index.css'
+import '@fontsource/pt-serif/index.css'
 import '@fontsource/lato/300.css'
-import '@fontsource/lato/400.css'
 import '@fontsource/lato/700.css'
