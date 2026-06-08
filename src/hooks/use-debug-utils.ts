@@ -11,7 +11,7 @@
  */
 import { TextSelection, Selection } from 'prosemirror-state'
 import { Node as PmNode } from 'prosemirror-model'
-import { CHANGE_STATUS, trackCommands } from '@manuscripts/track-changes-plugin'
+import { CHANGE_STATUS, trackCommands, clear } from '@manuscripts/track-changes-plugin'
 import { useCallback, useEffect } from 'react'
 
 import { useStore } from '../store'
@@ -41,6 +41,7 @@ export const useDebugUtils = () => {
 
     // @ts-ignore
     window.prosemirrorViewHelpers = {
+      iterateChidren: (node: PmNode) => clear(node),
       setCursor(pos: number) {
         // @ts-ignore
         const view = window.prosemirrorView as EditorView
