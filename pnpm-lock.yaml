@@ -22,10 +22,10 @@ importers:
         version: 2.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@manuscripts/body-editor':
         specifier: 3.12.63-LEAN-5586.2
-        version: 3.12.63-LEAN-5586.2(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)
+        version: 3.12.63-LEAN-5586.2(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)
       '@manuscripts/style-guide':
         specifier: 3.5.31-LEAN-5586.0
-        version: 3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react-is@18.3.1)
+        version: 3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@18.3.1)
       '@manuscripts/track-changes-plugin':
         specifier: 2.3.16-LEAN-5586.0
         version: 2.3.16-LEAN-5586.0
@@ -49,7 +49,7 @@ importers:
         version: 3.4.3
       html-react-parser:
         specifier: 5.2.5
-        version: 5.2.5(@types/react@19.2.14)(react@19.2.6)
+        version: 5.2.5(@types/react@19.2.7)(react@19.2.6)
       jwt-decode:
         specifier: 4.0.0
         version: 4.0.0
@@ -76,7 +76,7 @@ importers:
         version: 19.2.6
       react-dnd:
         specifier: 16.0.1
-        version: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react@19.2.6)
+        version: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.6)
       react-dnd-html5-backend:
         specifier: 16.0.1
         version: 16.0.1
@@ -94,7 +94,7 @@ importers:
         version: 6.30.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react-select:
         specifier: 5.10.2
-        version: 5.10.2(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       styled-components:
         specifier: 5.3.11
         version: 5.3.11(@babel/core@7.28.5)(react-dom@19.2.6(react@19.2.6))(react-is@18.3.1)(react@19.2.6)
@@ -127,11 +127,11 @@ importers:
         specifier: 20.17.46
         version: 20.17.46
       '@types/react':
-        specifier: 19.2.14
-        version: 19.2.14
+        specifier: 19.2.7
+        version: 19.2.7
       '@types/react-dom':
         specifier: 19.2.3
-        version: 19.2.3(@types/react@19.2.14)
+        version: 19.2.3(@types/react@19.2.7)
       '@types/styled-components':
         specifier: 5.1.36
         version: 5.1.36
@@ -1341,8 +1341,8 @@ packages:
     peerDependencies:
       '@types/react': '*'
 
-  '@types/react@19.2.14':
-    resolution: {integrity: sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==}
+  '@types/react@19.2.7':
+    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -4961,7 +4961,7 @@ snapshots:
 
   '@emotion/memoize@0.9.0': {}
 
-  '@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.0)':
+  '@emotion/react@11.14.0(@types/react@19.2.7)(react@19.2.0)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@emotion/babel-plugin': 11.13.5
@@ -4973,11 +4973,11 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 19.2.0
     optionalDependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
     transitivePeerDependencies:
       - supports-color
 
-  '@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.6)':
+  '@emotion/react@11.14.0(@types/react@19.2.7)(react@19.2.6)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@emotion/babel-plugin': 11.13.5
@@ -4989,7 +4989,7 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 19.2.6
     optionalDependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
     transitivePeerDependencies:
       - supports-color
 
@@ -5478,7 +5478,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.12.63-LEAN-5586.2(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)':
+  '@manuscripts/body-editor@3.12.63-LEAN-5586.2(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)':
     dependencies:
       '@citation-js/core': 0.7.21
       '@citation-js/plugin-bibtex': 0.7.21(@citation-js/core@0.7.21)
@@ -5488,14 +5488,14 @@ snapshots:
       '@citation-js/plugin-pubmed': 0.3.0(@citation-js/core@0.7.21)
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.21)
       '@iarna/word-count': 1.1.2
-      '@manuscripts/style-guide': 3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react-is@19.2.6)
+      '@manuscripts/style-guide': 3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@19.2.6)
       '@manuscripts/track-changes-plugin': 2.3.16-LEAN-5586.0
       '@manuscripts/transform': 4.3.52-LEAN-5586.0(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
       dompurify: 3.4.3
-      formik: 2.4.9(@types/react@19.2.14)(react@19.2.6)
+      formik: 2.4.9(@types/react@19.2.7)(react@19.2.6)
       fuzzysort: 3.1.0
       history: 5.3.0
       lodash: 4.18.1
@@ -5515,12 +5515,12 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.25.0)(prosemirror-state@1.4.3)
       prosemirror-view: 1.41.0
       react: 19.2.6
-      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react@19.2.6)
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.6)
       react-dnd-html5-backend: 16.0.1
       react-dom: 19.2.6(react@19.2.6)
       react-is: 19.2.6
       react-router-dom: 7.15.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      react-select: 5.10.2(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react-select: 5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       styled-components: 5.3.11(@babel/core@7.28.5)(react-dom@19.2.6(react@19.2.6))(react-is@19.2.6)(react@19.2.6)
     transitivePeerDependencies:
       - '@babel/core'
@@ -5551,10 +5551,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/style-guide@3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react-is@18.3.1)':
+  '@manuscripts/style-guide@3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@18.3.1)':
     dependencies:
       '@headlessui/react': 2.2.10(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
-      formik: 2.4.9(@types/react@19.2.14)(react@19.2.0)
+      formik: 2.4.9(@types/react@19.2.7)(react@19.2.0)
       prosemirror-commands: 1.7.1
       prosemirror-history: 1.4.1
       prosemirror-keymap: 1.2.3
@@ -5562,11 +5562,11 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.41.0
       react: 19.2.0
-      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react@19.2.0)
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.0)
       react-dnd-html5-backend: 16.0.1
       react-dom: 19.2.6(react@19.2.0)
       react-router-dom: 5.3.4(react@19.2.0)
-      react-select: 5.10.2(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
+      react-select: 5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
       react-tooltip: 6.0.2(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
       styled-components: 5.3.11(@babel/core@7.28.5)(react-dom@19.2.6(react@19.2.6))(react-is@18.3.1)(react@19.2.0)
     transitivePeerDependencies:
@@ -5577,10 +5577,10 @@ snapshots:
       - react-is
       - supports-color
 
-  '@manuscripts/style-guide@3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react-is@19.2.6)':
+  '@manuscripts/style-guide@3.5.31-LEAN-5586.0(@babel/core@7.28.5)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@19.2.6)':
     dependencies:
       '@headlessui/react': 2.2.10(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
-      formik: 2.4.9(@types/react@19.2.14)(react@19.2.0)
+      formik: 2.4.9(@types/react@19.2.7)(react@19.2.0)
       prosemirror-commands: 1.7.1
       prosemirror-history: 1.4.1
       prosemirror-keymap: 1.2.3
@@ -5588,11 +5588,11 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.41.0
       react: 19.2.0
-      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react@19.2.0)
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.0)
       react-dnd-html5-backend: 16.0.1
       react-dom: 19.2.6(react@19.2.0)
       react-router-dom: 5.3.4(react@19.2.0)
-      react-select: 5.10.2(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
+      react-select: 5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
       react-tooltip: 6.0.2(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
       styled-components: 5.3.11(@babel/core@7.28.5)(react-dom@19.2.6(react@19.2.6))(react-is@19.2.6)(react@19.2.0)
     transitivePeerDependencies:
@@ -5978,9 +5978,9 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14)':
+  '@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7)':
     dependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
       hoist-non-react-statics: 3.3.2
 
   '@types/is-empty@1.2.3': {}
@@ -6020,15 +6020,15 @@ snapshots:
 
   '@types/parse-json@4.0.2': {}
 
-  '@types/react-dom@19.2.3(@types/react@19.2.14)':
+  '@types/react-dom@19.2.3(@types/react@19.2.7)':
     dependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
 
-  '@types/react-transition-group@4.4.12(@types/react@19.2.14)':
+  '@types/react-transition-group@4.4.12(@types/react@19.2.7)':
     dependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
 
-  '@types/react@19.2.14':
+  '@types/react@19.2.7':
     dependencies:
       csstype: 3.2.3
 
@@ -6037,8 +6037,8 @@ snapshots:
 
   '@types/styled-components@5.1.36':
     dependencies:
-      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.14)
-      '@types/react': 19.2.14
+      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.7)
+      '@types/react': 19.2.7
       csstype: 3.2.3
 
   '@types/supports-color@8.1.3': {}
@@ -7419,9 +7419,9 @@ snapshots:
       hasown: 2.0.2
       mime-types: 2.1.35
 
-  formik@2.4.9(@types/react@19.2.14)(react@19.2.0):
+  formik@2.4.9(@types/react@19.2.7)(react@19.2.0):
     dependencies:
-      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.14)
+      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.7)
       deepmerge: 2.2.1
       hoist-non-react-statics: 3.3.2
       lodash: 4.18.1
@@ -7433,9 +7433,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  formik@2.4.9(@types/react@19.2.14)(react@19.2.6):
+  formik@2.4.9(@types/react@19.2.7)(react@19.2.6):
     dependencies:
-      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.14)
+      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.7)
       deepmerge: 2.2.1
       hoist-non-react-statics: 3.3.2
       lodash: 4.18.1
@@ -7617,7 +7617,7 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  html-react-parser@5.2.5(@types/react@19.2.14)(react@19.2.6):
+  html-react-parser@5.2.5(@types/react@19.2.7)(react@19.2.6):
     dependencies:
       domhandler: 5.0.3
       html-dom-parser: 5.1.1
@@ -7625,7 +7625,7 @@ snapshots:
       react-property: 2.0.2
       style-to-js: 1.1.16
     optionalDependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
 
   htmlparser2@10.0.0:
     dependencies:
@@ -9092,7 +9092,7 @@ snapshots:
     dependencies:
       dnd-core: 16.0.1
 
-  react-dnd@16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react@19.2.0):
+  react-dnd@16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.0):
     dependencies:
       '@react-dnd/invariant': 4.0.2
       '@react-dnd/shallowequal': 4.0.2
@@ -9101,11 +9101,11 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 19.2.0
     optionalDependencies:
-      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.14)
+      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.7)
       '@types/node': 20.17.46
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
 
-  react-dnd@16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14))(@types/node@20.17.46)(@types/react@19.2.14)(react@19.2.6):
+  react-dnd@16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.6):
     dependencies:
       '@react-dnd/invariant': 4.0.2
       '@react-dnd/shallowequal': 4.0.2
@@ -9114,9 +9114,9 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 19.2.6
     optionalDependencies:
-      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.14)
+      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.7)
       '@types/node': 20.17.46
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
 
   react-dom@19.2.6(react@19.2.0):
     dependencies:
@@ -9198,36 +9198,36 @@ snapshots:
     optionalDependencies:
       react-dom: 19.2.6(react@19.2.6)
 
-  react-select@5.10.2(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.0):
+  react-select@5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.0):
     dependencies:
       '@babel/runtime': 7.28.4
       '@emotion/cache': 11.14.0
-      '@emotion/react': 11.14.0(@types/react@19.2.14)(react@19.2.0)
+      '@emotion/react': 11.14.0(@types/react@19.2.7)(react@19.2.0)
       '@floating-ui/dom': 1.7.5
-      '@types/react-transition-group': 4.4.12(@types/react@19.2.14)
+      '@types/react-transition-group': 4.4.12(@types/react@19.2.7)
       memoize-one: 6.0.0
       prop-types: 15.8.1
       react: 19.2.0
       react-dom: 19.2.6(react@19.2.6)
       react-transition-group: 4.4.5(react-dom@19.2.6(react@19.2.6))(react@19.2.0)
-      use-isomorphic-layout-effect: 1.2.1(@types/react@19.2.14)(react@19.2.0)
+      use-isomorphic-layout-effect: 1.2.1(@types/react@19.2.7)(react@19.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - supports-color
 
-  react-select@5.10.2(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  react-select@5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       '@babel/runtime': 7.28.4
       '@emotion/cache': 11.14.0
-      '@emotion/react': 11.14.0(@types/react@19.2.14)(react@19.2.6)
+      '@emotion/react': 11.14.0(@types/react@19.2.7)(react@19.2.6)
       '@floating-ui/dom': 1.7.5
-      '@types/react-transition-group': 4.4.12(@types/react@19.2.14)
+      '@types/react-transition-group': 4.4.12(@types/react@19.2.7)
       memoize-one: 6.0.0
       prop-types: 15.8.1
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
       react-transition-group: 4.4.5(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      use-isomorphic-layout-effect: 1.2.1(@types/react@19.2.14)(react@19.2.6)
+      use-isomorphic-layout-effect: 1.2.1(@types/react@19.2.7)(react@19.2.6)
     transitivePeerDependencies:
       - '@types/react'
       - supports-color
@@ -10008,17 +10008,17 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  use-isomorphic-layout-effect@1.2.1(@types/react@19.2.14)(react@19.2.0):
+  use-isomorphic-layout-effect@1.2.1(@types/react@19.2.7)(react@19.2.0):
     dependencies:
       react: 19.2.0
     optionalDependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
 
-  use-isomorphic-layout-effect@1.2.1(@types/react@19.2.14)(react@19.2.6):
+  use-isomorphic-layout-effect@1.2.1(@types/react@19.2.7)(react@19.2.6):
     dependencies:
       react: 19.2.6
     optionalDependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.7
 
   use-sync-external-store@1.6.0(react@19.2.0):
     dependencies:
