@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { activateSearch, activateSearchReplace } from '@manuscripts/body-editor'
+import {
+  activateSearch,
+  activateSearchReplace,
+  openKeyboardShortcuts,
+} from '@manuscripts/body-editor'
 import { useEffect } from 'react'
 
 import { useStore } from '../store'
@@ -18,9 +22,10 @@ import { useStore } from '../store'
 const parseKey = (keyString: string, event: KeyboardEvent): boolean => {
   const parts = keyString.split('-')
   const key = parts.pop()?.toLowerCase()
+  const eventKey = event.key.toLowerCase()
 
   return (
-    event.key.toLowerCase() === key &&
+    (eventKey === key || (key === '/' && eventKey === '?')) &&
     parts.includes('Mod') === (event.ctrlKey || event.metaKey) &&
     parts.includes('Shift') === event.shiftKey &&
     parts.includes('Alt') === event.altKey
@@ -41,9 +46,10 @@ export const useGlobalKeyboardShortcuts = () => {
     }
 
     const { view } = editor
-    const keymap = new Map([
+    const keymap = new Map<string, () => boolean | Promise<void>>([
       ['Mod-f', () => activateSearch(view.state, view.dispatch)],
       ['Shift-Mod-h', () => activateSearchReplace(view.state, view.dispatch)],
+      ['Shift-Mod-/', () => openKeyboardShortcuts(view)],
     ])
 
     const handleGlobalKeydown = (event: KeyboardEvent) => {
