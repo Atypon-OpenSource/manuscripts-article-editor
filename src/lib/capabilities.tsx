@@ -9,15 +9,16 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { Actions, Capabilities } from '@manuscripts/body-editor'
+import {
+  Actions,
+  Capabilities,
+} from '@manuscripts/body-editor'
 import React from 'react'
-import { Project, UserProfile } from '@manuscripts/transform'
+import { ManuscriptActions } from '@manuscripts/transform'
 
 export interface ProviderProps {
-  project?: Project
-  profile?: UserProfile
-  role?: string
-  permittedActions?: string[]
+  WMsPermittedActions?: string[]
+  manuscriptPermittedActions?: ManuscriptActions[]
   children?: React.ReactNode
   isViewingMode?: boolean
 }
@@ -26,42 +27,32 @@ export interface ProviderProps {
 // checks which is helpful because there maybe numerous checks in on component
 
 export const getCapabilities = (
-  project?: Project,
-  profile?: UserProfile,
-  role?: ProviderProps['role'],
-  actions?: string[],
+  WMsActions?: string[],
+  manuscriptActions?: ManuscriptActions[],
   isViewingMode?: boolean
 ): Capabilities => {
-  const userID = profile?.userID
+  const WMsAllowed = (action: Actions) => !!WMsActions?.includes(action)
+  const ManAllowed = (action: ManuscriptActions) =>
+    !!manuscriptActions?.includes(action)
 
-  const isMemberOf = (group?: string[]) =>
-    group?.includes(userID ?? '') ?? false
-
-  const isOwner = isMemberOf(project?.owners)
-  const isEditor = isMemberOf(project?.editors)
-  const isWriter = isMemberOf(project?.writers)
-  const isAnnotator = isMemberOf(project?.annotators)
-  const isViewer = isMemberOf(project?.viewers) || isViewingMode
-
-  const allowed = (action: string) => !!actions?.includes(action)
-
-  const canEditWithoutTracking = allowed(Actions.editWithoutTracking)
-  const isPrivileged = isOwner || isEditor || isWriter
-  const canEditFiles = (isPrivileged || isAnnotator) && !isViewingMode
-  const canUpdateAttachments = canEditFiles && allowed(Actions.updateAttachment)
+  const canEditWithoutTracking = WMsAllowed(Actions.editWithoutTracking)
+  const canEditFiles =
+    ManAllowed(ManuscriptActions.canEditFiles) && !isViewingMode
+  const canUpdateAttachments =
+    canEditFiles && WMsAllowed(Actions.updateAttachment)
 
   return {
     /* track changes */
-    handleSuggestion: isPrivileged,
+    handleSuggestion: ManAllowed(ManuscriptActions.handleSuggestion),
     editWithoutTracking: canEditWithoutTracking,
-    rejectOwnSuggestion: !isViewer,
+    rejectOwnSuggestion: ManAllowed(ManuscriptActions.rejectOwnSuggestion),
 
     /* comments */
-    handleOwnComments: !isViewer,
-    handleOthersComments: isOwner,
-    resolveOwnComment: !isViewer,
-    resolveOthersComment: isOwner || isEditor,
-    createComment: !isViewer,
+    handleOwnComments: ManAllowed(ManuscriptActions.handleOwnComments),
+    handleOthersComments: ManAllowed(ManuscriptActions.handleOthersComments),
+    resolveOwnComment: ManAllowed(ManuscriptActions.resolveOwnComment),
+    resolveOthersComment: ManAllowed(ManuscriptActions.resolveOthersComment),
+    createComment: ManAllowed(ManuscriptActions.createComment),
 
     /* file handling */
     downloadFiles: true,
@@ -70,15 +61,15 @@ export const getCapabilities = (
     replaceFile: canUpdateAttachments,
     uploadFile: canUpdateAttachments,
     detachFile: canEditFiles,
-    setMainManuscript: allowed(Actions.setMainManuscript),
+    setMainManuscript: WMsAllowed(Actions.setMainManuscript),
 
     /* editor */
-    editArticle: !isViewer,
-    formatArticle: !isViewer,
-    editMetadata: !isViewer,
-    editCitationsAndRefs: !isViewer,
-    seeEditorToolbar: !isViewer,
-    seeReferencesButtons: !isViewer,
+    editArticle: ManAllowed(ManuscriptActions.editArticle),
+    formatArticle: ManAllowed(ManuscriptActions.formatArticle),
+    editMetadata: ManAllowed(ManuscriptActions.editMetadata),
+    editCitationsAndRefs: ManAllowed(ManuscriptActions.editCitationsAndRefs),
+    seeEditorToolbar: ManAllowed(ManuscriptActions.seeEditorToolbar),
+    seeReferencesButtons: ManAllowed(ManuscriptActions.seeReferencesButtons),
   }
 }
 
@@ -90,17 +81,13 @@ export const usePermissions = () => {
 }
 
 export const useCalcPermission = ({
-  project,
-  profile,
-  role,
-  permittedActions,
+  WMsPermittedActions,
+  manuscriptPermittedActions,
   isViewingMode,
 }: ProviderProps) => {
   return getCapabilities(
-    project,
-    profile,
-    role,
-    permittedActions,
+    WMsPermittedActions,
+    manuscriptPermittedActions,
     isViewingMode
   )
 }
