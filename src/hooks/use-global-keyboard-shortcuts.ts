@@ -20,7 +20,7 @@ const parseKey = (keyString: string, event: KeyboardEvent): boolean => {
   const key = parts.pop()?.toLowerCase()
 
   return (
-    event.key.toLowerCase() === key &&
+    event.key?.toLowerCase() === key &&
     parts.includes('Mod') === (event.ctrlKey || event.metaKey) &&
     parts.includes('Shift') === event.shiftKey &&
     parts.includes('Alt') === event.altKey

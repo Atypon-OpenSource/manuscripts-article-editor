@@ -16,12 +16,19 @@ import styled from 'styled-components'
 import { trimFilename } from '../../lib/files'
 import { FileTypeIcon } from './FileTypeIcon'
 
-export const FileName: React.FC<{
+type FileNameProps = {
   file: FileAttachment
   icon?: React.FC<React.SVGAttributes<SVGElement>>
   label?: string
   maxBaseNameLength?: number
-}> = ({ file, label, icon: Icon, maxBaseNameLength = 20 }) => {
+}
+
+export const FileName = ({
+  file,
+  label,
+  icon: Icon,
+  maxBaseNameLength = 20,
+}: FileNameProps) => {
   const trimmedFilename = trimFilename(file.name, maxBaseNameLength)
   return (
     <FileNameContainer data-tooltip-content={file.name}>
