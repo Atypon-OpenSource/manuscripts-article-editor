@@ -38,6 +38,7 @@ import { setNodeAttrs } from '../../lib/node-attrs'
 import { insertMediaOrFigure } from '../../lib/utils'
 import { useStore } from '../../store'
 import { SpriteMap } from '../track-changes/suggestion-list/Icons'
+import { usePermissions } from '../../lib/capabilities'
 
 const EditorElement: React.FC = () => {
   const [error, setError] = useState('')
@@ -45,13 +46,17 @@ const EditorElement: React.FC = () => {
     editor: store.editor,
     isViewingMode: store.isViewingMode,
   }))
-
+  const can = usePermissions()
   const { onRender, view, dispatch } = useConnectEditor()
   useWatchTitle()
 
   const [, dropRef] = useDrop({
     accept: 'file',
     drop: async (item, monitor) => {
+      if (!(can.replaceFile && can.editArticle)) {
+        return false
+      }
+
       const offset = monitor.getSourceClientOffset()
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })

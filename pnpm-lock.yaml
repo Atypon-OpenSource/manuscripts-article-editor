@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@manuscripts/body-editor':
-        specifier: 3.12.65
-        version: 3.12.65(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
+        specifier: 3.12.66-LEAN-5726.0
+        version: 3.12.66-LEAN-5726.0(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
       '@manuscripts/style-guide':
         specifier: 3.5.31
         version: 3.5.31(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)
@@ -574,8 +574,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.12.65':
-    resolution: {integrity: sha512-aESVKa2qJfjRKdzw8cH8uKHUAytpLCurx6hZ1v4XgnTdOyVKBdRw/Kq709KHrBR7br+ow1hVtL7V40u6YcUTLg==}
+  '@manuscripts/body-editor@3.12.66-LEAN-5726.0':
+    resolution: {integrity: sha512-UaOhBv8v45YHJPMpY+SSsdj6kAinJkH4UmqsGEFFJ3lXfcnzfc+Fb44t3xCvm1rMV9MVtIs5UZHpOxjCH0IMrQ==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.12.66-LEAN-5726.0.tgz}
     engines: {node: '>=22'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -4210,7 +4210,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.12.65(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
+  '@manuscripts/body-editor@3.12.66-LEAN-5726.0(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.3))(@types/node@20.17.46)(@types/react@19.2.3)':
     dependencies:
       '@citation-js/core': 0.7.18
       '@citation-js/plugin-bibtex': 0.7.18(@citation-js/core@0.7.18)
