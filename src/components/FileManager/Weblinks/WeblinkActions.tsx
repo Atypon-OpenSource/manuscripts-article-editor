@@ -17,7 +17,7 @@ import {
   ActionsIcon,
   FileAction,
   FileActionDropdownList,
-} from '../FileManager/FileActions'
+} from '../FileActions'
 
 export const WeblinkActions: React.FC<{
   onEdit: () => void

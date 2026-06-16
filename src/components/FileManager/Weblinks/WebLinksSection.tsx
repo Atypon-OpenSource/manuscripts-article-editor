@@ -13,44 +13,32 @@
 import {
   deleteSupplementAtPos,
   findNodeByID,
-  getSupplementCaptionTitle,
   insertSupplementWeblink,
   NodeWeblink,
   updateSupplementWeblink,
 } from '@manuscripts/body-editor'
-import { FileAttachment } from '@manuscripts/body-editor'
+
 import {
   Category,
   Dialog,
   ExpandableSection,
-  WebLinkIcon,
   SecondaryButton,
 } from '@manuscripts/style-guide'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { usePermissions } from '../../lib/capabilities'
-import { useStore } from '../../store'
-import { FileContainer } from '../FileManager/FileContainer'
-import { FileName } from '../FileManager/FileName'
-import { WeblinkActions } from './WeblinkActions'
-import { WeblinkFormValues, WeblinkModal, WeblinkModalMode } from './WeblinkModal'
+import { usePermissions } from '../../../lib/capabilities'
+import { useStore } from '../../../store'
 
-export type WeblinksSectionProps = {
+import { WeblinkFormValues, WeblinkModal, WeblinkModalMode } from './WeblinkModal'
+import { WeblinkEntry } from './WeblinkEntry'
+
+export type WebLinksSectionProps = {
   weblinks: NodeWeblink[]
 }
 
-const AddButton = styled(SecondaryButton)`
-  margin: 8px 16px;
-`
-
-const toWeblinkFile = (weblink: NodeWeblink): FileAttachment => ({
-  id: weblink.url,
-  name: weblink.url,
-})
-
-export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
+export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
   weblinks,
 }) => {
   const [{ view }] = useStore((s) => ({
@@ -58,13 +46,18 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
   }))
   const can = usePermissions()
 
-  const [isAddOpen, setIsAddOpen] = useState(false)
-  const [editingWeblink, setEditingWeblink] = useState<NodeWeblink | null>(null)
+  const [modalState, setModalState] = useState<{
+    mode: WeblinkModalMode
+    weblink: NodeWeblink | null
+  } | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<NodeWeblink | null>(null)
 
   if (!view) {
     return null
   }
+
+  const editingWeblink =
+    modalState?.mode === WeblinkModalMode.Edit ? modalState.weblink : null
 
   const handleClick = (weblink: NodeWeblink) => {
     const tr = view.state.tr
@@ -76,7 +69,7 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
 
   const handleAdd = (values: WeblinkFormValues) => {
     insertSupplementWeblink(values.url, '', view)
-    setIsAddOpen(false)
+    setModalState(null)
   }
 
   const handleEdit = (values: WeblinkFormValues) => {
@@ -91,7 +84,7 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
     const existingTitle =
       (editingWeblink?.node.attrs as { title?: string }).title ?? ''
     updateSupplementWeblink(match.pos, values.url, existingTitle, view)
-    setEditingWeblink(null)
+    setModalState(null)
   }
 
   const handleDeleteConfirm = () => {
@@ -113,10 +106,10 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
   return (
     <div data-cy="weblinks-section">
       <ExpandableSection title="Weblinks" data-cy="weblinks-section-expandable">
-      {can?.editArticle && (
+        {can?.editArticle && (
           <AddButton
             data-cy="add-weblink-button"
-            onClick={() => setIsAddOpen(true)}
+            onClick={() => setModalState({ mode: WeblinkModalMode.Add, weblink: null })}
           >
             + Add link
           </AddButton>
@@ -126,7 +119,7 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
             key={weblink.node.attrs.id}
             weblink={weblink}
             onClick={() => handleClick(weblink)}
-            onEdit={() => setEditingWeblink(weblink)}
+            onEdit={() => setModalState({ mode: WeblinkModalMode.Edit, weblink })}
             onDelete={() => setDeleteTarget(weblink)}
             canEdit={Boolean(can?.editArticle)}
           />
@@ -134,29 +127,23 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
       </ExpandableSection>
 
       <WeblinkModal
-        isOpen={isAddOpen}
-        header={WeblinkModalMode.Add}
-        initialUrl=""
-        onClose={() => setIsAddOpen(false)}
-        onSave={handleAdd}
-      />
-
-      <WeblinkModal
-        key={editingWeblink?.node.attrs.id ?? 'edit'}
-        isOpen={editingWeblink !== null}
-        header={WeblinkModalMode.Edit}
-        initialUrl={editingWeblink?.url ?? ''}
-        onClose={() => setEditingWeblink(null)}
-        onSave={handleEdit}
+        key={modalState?.weblink?.node.attrs.id ?? modalState?.mode ?? 'closed'}
+        isOpen={modalState !== null}
+        mode={modalState?.mode ?? WeblinkModalMode.Add}
+        initialUrl={modalState?.weblink?.node.attrs.href}
+        onClose={() => setModalState(null)}
+        onSave={
+          modalState?.mode === WeblinkModalMode.Edit ? handleEdit : handleAdd
+        }
       />
 
       <Dialog
         isOpen={deleteTarget !== null}
         category={Category.confirmation}
-        header='Delete weblink'     
+        header="Delete weblink"
         message={
           <>
-            Are you sure you want to delete &ldquo;{deleteTarget?.url}&rdquo;?
+            Are you sure you want to delete &ldquo;{deleteTarget?.node.attrs.href}&rdquo;?
           </>
         }
         actions={{
@@ -174,67 +161,8 @@ export const WeblinksSection: React.FC<WeblinksSectionProps> = ({
   )
 }
 
-type WeblinkEntryProps = {
-  weblink: NodeWeblink
-  onClick: () => void
-  onEdit: () => void
-  onDelete: () => void
-  canEdit: boolean
-}
-
-const WeblinkEntry = ({
-  weblink,
-  onClick,
-  onEdit,
-  onDelete,
-  canEdit,
-}: WeblinkEntryProps) => {
-  const file = toWeblinkFile(weblink)
-  const captionTitle = getSupplementCaptionTitle(weblink.node)
-
-  return (
-    <WeblinkContainer
-      data-cy="weblink-container"
-      onClick={onClick}
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' && e.currentTarget === document.activeElement) {
-          onClick()
-        }
-      }}
-    >
-      <WeblinkInfo>
-        <FileName file={file} icon={WebLinkIcon} maxBaseNameLength={28} />
-        {captionTitle ? (
-          <WeblinkCaptionTitle data-cy="weblink-caption-title">
-            {captionTitle}
-          </WeblinkCaptionTitle>
-        ) : null}
-      </WeblinkInfo>
-      {canEdit && <WeblinkActions onEdit={onEdit} onDelete={onDelete} />}
-    </WeblinkContainer>
-  )
-}
-
-const WeblinkContainer = styled(FileContainer)`
-  padding: 8px 16px;
-  height: auto;
+const AddButton = styled(SecondaryButton)`
+  margin: 8px 16px;
 `
 
-const WeblinkInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 0;
-  gap: 2px;
-`
 
-const WeblinkCaptionTitle = styled.div`
-  font-family: ${(props) => props.theme.font.family.Lato};
-  font-size: ${(props) => props.theme.font.size.small};
-  line-height: ${(props) => props.theme.font.lineHeight.normal};
-  color: ${(props) => props.theme.colors.text.greyMuted};
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`

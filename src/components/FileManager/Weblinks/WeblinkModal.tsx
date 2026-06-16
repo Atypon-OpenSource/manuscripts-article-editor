@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { isValidWeblinkUrl } from '@manuscripts/body-editor'
+import { allowedHref } from '@manuscripts/body-editor'
 import {
   Category,
   Dialog,
@@ -32,16 +32,16 @@ export enum WeblinkModalMode {
 }
 type WeblinkModalProps = {
   isOpen: boolean
-  header: string
-  initialUrl: string
+  mode: WeblinkModalMode
+  initialUrl?: string
   onClose: () => void
   onSave: (values: WeblinkFormValues) => void
 }
 
 export const WeblinkModal: React.FC<WeblinkModalProps> = ({
   isOpen,
-  header,
-  initialUrl,
+  mode,
+  initialUrl = '',
   onClose,
   onSave,
 }) => {
@@ -61,7 +61,7 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
       setUrlError('URL is required')
       return false
     }
-    if (!isValidWeblinkUrl(trimmed)) {
+    if (!allowedHref(trimmed)) {
       setUrlError('Please enter a valid URL')
       return false
     }
@@ -81,7 +81,7 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
     <Dialog
       isOpen={isOpen}
       category={Category.confirmation}
-      header={header}
+      header={mode === WeblinkModalMode.Add ? 'Add weblink' : 'Edit weblink'}
       message={
         <FormContainer>
           <FormRow>
@@ -101,7 +101,7 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
       actions={{
         primary: {
           action: handleSave,
-          title: header === WeblinkModalMode.Add ? 'Add link' : 'Update link',
+          title: mode === WeblinkModalMode.Add ? 'Add link' : 'Update link',
         },
         secondary: {
           action: onClose,
