@@ -172,8 +172,8 @@ const CloseIcon = styled.div`
 
   box-shadow: none;
   text-indent: -99999px;
-  ::before,
-  ::after {
+  &::before,
+  &::after {
     background-color: ${(props) => props.theme.colors.text.secondary};
     border-radius: 2px;
     content: ' ';
@@ -185,7 +185,7 @@ const CloseIcon = styled.div`
     top: calc(50% - 7px);
     left: calc(50% - 1px);
   }
-  ::after {
+  &::after {
     transform: rotate(45deg);
   }
 `

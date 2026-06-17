@@ -20,9 +20,9 @@ export const DropdownContainer = styled.div`
 `
 
 export const Dropdown = styled.div<{
-  direction?: 'left' | 'right'
-  minWidth?: number
-  top?: number
+  $direction?: 'left' | 'right'
+  $minWidth?: number
+  $top?: number
 }>`
   border: 1px solid ${(props) => props.theme.colors.border.secondary};
   border-radius: ${(props) => props.theme.grid.radius.small};
@@ -35,15 +35,15 @@ export const Dropdown = styled.div<{
   font-weight: ${(props) => props.theme.font.weight.normal};
   max-height: 80vh;
   max-width: 300px;
-  ${(props) => props.minWidth && 'min-width: ' + props.minWidth + 'px;'}
-  ${(props) => (props.direction === 'right' ? ' right: 0' : 'left : 0')};
-  top: ${(props) => (props.top ? props.top : props.theme.grid.unit * 10)}px;
+  ${(props) => props.$minWidth && 'min-width: ' + props.$minWidth + 'px;'}
+  ${(props) => (props.$direction === 'right' ? ' right: 0' : 'left : 0')};
+  top: ${(props) => (props.$top ? props.$top : props.theme.grid.unit * 10)}px;
   position: absolute;
   z-index: 10;
 `
 
 interface DropdownProps {
-  isOpen: boolean
+  $isOpen: boolean
 }
 
 export const DropdownToggle = styled(ArrowUpIcon)`
@@ -55,11 +55,7 @@ export const DropdownToggle = styled(ArrowUpIcon)`
   }
 `
 
-export const DropdownButtonContainer = styled(SecondaryButton).attrs(
-  (props: DropdownProps) => ({
-    selected: props.isOpen,
-  })
-)<DropdownProps>`
+export const DropdownButtonContainer = styled(SecondaryButton)<DropdownProps>`
   .inheritColors path {
     fill: currentColor;
     stroke: currentColor;

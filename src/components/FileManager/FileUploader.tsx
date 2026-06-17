@@ -71,7 +71,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     <Container
       ref={drop}
       data-cy="file-uploader"
-      active={isActive}
+      $active={isActive}
       onClick={openFileDialog}
       tabIndex={0}
       onKeyDown={(e) => {
@@ -99,7 +99,7 @@ const activeBoxStyle = css`
   border: 1px dashed #bce7f6;
 `
 
-const Container = styled.div<{ active: boolean }>`
+const Container = styled.div<{ $active: boolean }>`
   background: ${(props) => props.theme.colors.background.secondary};
   border: 1px dashed #e2e2e2;
   box-sizing: border-box;
@@ -121,7 +121,7 @@ const Container = styled.div<{ active: boolean }>`
   }
 
   ${(props) =>
-    props.active
+    props.$active
       ? css`
           ${activeBoxStyle}
         `
