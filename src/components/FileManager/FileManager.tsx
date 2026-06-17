@@ -26,7 +26,7 @@ import { LinkedFilesSection } from './LinkedFilesSection'
 import { MainFilesSection } from './MainFilesSection'
 import { OtherFilesSection } from './OtherFilesSection'
 import { SupplementsSection } from './SupplementsSection'
-import { WebLinksSection } from './Weblinks/WeblinksSection'
+import { WebLinksSection } from './Weblinks/WebLinksSection'
 
 export enum FileSectionType {
   Inline = 'Inline files',
