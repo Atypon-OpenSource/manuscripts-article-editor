@@ -9,7 +9,11 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
+import {
+  Actions,
+  FileAttachment,
+  FileManagement,
+} from '@manuscripts/body-editor'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -88,7 +92,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       projectID,
       manuscriptID,
       files,
-      permittedActions,
+      WMsPermittedActions: permittedActions as Actions[],
       pluginInspectorTab,
       isReadOnly,
     })
