@@ -76,8 +76,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     for (const element of elements) {
       const $pos = view.state.doc.resolve(element.pos)
       const section = findParentNodeOfTypeClosestToPos(
-        $pos,
-        schema.nodes.graphical_abstract_section
+        $pos, schema.nodes.graphical_abstract_section
+      ) || findParentNodeOfTypeClosestToPos(
+        $pos, schema.nodes.trans_graphical_abstract
       )
 
       let label: string
