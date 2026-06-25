@@ -98,9 +98,9 @@ const DocumentOptionsDropdown: React.FC = () => {
         <HistoryDropdownList
           role="menu"
           data-cy="history-dropdown"
-          direction="right"
-          width={192}
-          top={5}
+          $direction="right"
+          $width={192}
+          $top={5}
           onKeyDown={handleKeyDown}
         >
           <DropdownItem
