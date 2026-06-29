@@ -101,9 +101,9 @@ export const WeblinkActions: React.FC<{
       {isOpen && (
         <FileActionDropdownList
           data-cy="file-actions-dropdown"
-          direction="right"
-          width={120}
-          top={5}
+          $direction="right"
+          $width={120}
+          $top={5}
           onClick={(e) => e.stopPropagation()}
           onKeyDown={handleKeyDown}
         >
