@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@manuscripts/body-editor':
-        specifier: 3.13.7-LEAN-5686.1
-        version: 3.13.7-LEAN-5686.1(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)
+        specifier: 3.13.7-LEAN-5686.2
+        version: 3.13.7-LEAN-5686.2(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)
       '@manuscripts/style-guide':
         specifier: 3.6.3
         version: 3.6.3(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@18.3.1)
@@ -30,8 +30,8 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
       '@manuscripts/transform':
-        specifier: 4.3.54-LEAN-5686.0
-        version: 4.3.54-LEAN-5686.0(prosemirror-state@1.4.3)
+        specifier: 4.4.4-LEAN-5686.0
+        version: 4.4.4-LEAN-5686.0(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -604,8 +604,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.13.7-LEAN-5686.1':
-    resolution: {integrity: sha512-ZtpN23HJ4+IFXdRgXYIUoDaaYLUJyHQXOXvZi68J6eaXTWxaBvoHUB3PuOuV9WS0AZaD0eK2txuLxEeTLGS7wQ==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.13.7-LEAN-5686.1.tgz}
+  '@manuscripts/body-editor@3.13.7-LEAN-5686.2':
+    resolution: {integrity: sha512-79u4ZR7nDWYb3fjKAGHG+EBM5fWEV68XGObT4Vk89JaecjJQMAo+d8W5/bn1IrKRvBwqP5Lkk66TXJjbR9r0pw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.13.7-LEAN-5686.2.tgz}
     engines: {node: '>=22'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -633,8 +633,8 @@ packages:
     resolution: {integrity: sha512-I+KDqXvKRtmRWcqxtjEVLK7GR55pSzwFCoIouZ4wE2d72MXg0l3yUYXL/73FdUE2xwIzVneW65Q3RjHlvL8Ekg==}
     engines: {node: '>=22'}
 
-  '@manuscripts/transform@4.3.54-LEAN-5686.0':
-    resolution: {integrity: sha512-KKydWV6UV/ARGl4YVKjQzM7ufZa8OOscUUH23rl3zyYt5xlCxkfjJIZnm4IEJj7bmejRarGpbsvTMhlAk78FmA==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.3.54-LEAN-5686.0.tgz}
+  '@manuscripts/transform@4.4.4-LEAN-5686.0':
+    resolution: {integrity: sha512-v5Fe3mvnlxaGZ2xY3kR7Lnu3peLuEMR8AZk5/jJ4W/6+Ofx+EN69LrCnnbLPwrSS3MYq/IwcmjOQ1d7GqCiFFA==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.4.4-LEAN-5686.0.tgz}
     engines: {node: '>=22'}
 
   '@napi-rs/wasm-runtime@1.1.5':
@@ -2402,9 +2402,6 @@ packages:
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-
   lodash@4.18.1:
     resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
@@ -3127,8 +3124,8 @@ packages:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
-  semver@7.7.2:
-    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+  semver@7.7.4:
+    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -3501,11 +3498,6 @@ packages:
     resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
     hasBin: true
 
-  uuid@9.0.1:
-    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-    hasBin: true
-
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
@@ -3618,10 +3610,6 @@ packages:
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
 
-  w3c-xmlserializer@4.0.0:
-    resolution: {integrity: sha512-d+BFHzbiCx6zGfz0HyQ6Rg69w9k19nviJspaj4yNscGjrHu94sVP+aRm75yEbCh+r2/yR+7q6hux9LVtbuTGBw==}
-    engines: {node: '>=14'}
-
   w3c-xmlserializer@5.0.0:
     resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
     engines: {node: '>=18'}
@@ -3696,10 +3684,6 @@ packages:
 
   wrap-ansi@8.1.0:
     resolution: {integrity: sha512-si7QWI6zUMq56bESFvagtmzMdGOtoxfR+Sez11Mobfc7tm+VkUckk9bW2UeffTGVUbOksxmSw0AA2gs8g71NCQ==}
-    engines: {node: '>=12'}
-
-  xml-name-validator@4.0.0:
-    resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
     engines: {node: '>=12'}
 
   xml-name-validator@5.0.0:
@@ -4194,7 +4178,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.13.7-LEAN-5686.1(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)':
+  '@manuscripts/body-editor@3.13.7-LEAN-5686.2(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)':
     dependencies:
       '@citation-js/core': 0.7.21
       '@citation-js/plugin-bibtex': 0.7.21(@citation-js/core@0.7.21)
@@ -4206,7 +4190,7 @@ snapshots:
       '@iarna/word-count': 1.1.2
       '@manuscripts/style-guide': 3.6.3(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@19.2.6)
       '@manuscripts/track-changes-plugin': 2.4.0
-      '@manuscripts/transform': 4.3.54-LEAN-5686.0(prosemirror-state@1.4.3)
+      '@manuscripts/transform': 4.4.4-LEAN-5686.0(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -4331,17 +4315,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@4.3.54-LEAN-5686.0(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.4.4-LEAN-5686.0(prosemirror-state@1.4.3)':
     dependencies:
       citeproc: 2.4.63
       jszip: 3.10.1
-      lodash: 4.17.21
+      lodash: 4.18.1
       prosemirror-model: 1.25.0
       prosemirror-tables: 1.7.1
       prosemirror-utils: 1.2.2(prosemirror-model@1.25.0)(prosemirror-state@1.4.3)
-      semver: 7.7.2
-      uuid: 9.0.1
-      w3c-xmlserializer: 4.0.0
+      semver: 7.7.4
+      uuid: 14.0.0
+      w3c-xmlserializer: 5.0.0
     transitivePeerDependencies:
       - prosemirror-state
 
@@ -6315,8 +6299,6 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
-  lodash@4.17.21: {}
-
   lodash@4.18.1: {}
 
   longest-streak@3.1.0: {}
@@ -7315,7 +7297,7 @@ snapshots:
 
   semver@6.3.1: {}
 
-  semver@7.7.2: {}
+  semver@7.7.4: {}
 
   semver@7.8.4: {}
 
@@ -7784,8 +7766,6 @@ snapshots:
 
   uuid@14.0.0: {}
 
-  uuid@9.0.1: {}
-
   validate-npm-package-license@3.0.4:
     dependencies:
       spdx-correct: 3.2.0
@@ -7868,10 +7848,6 @@ snapshots:
       - msw
 
   w3c-keyname@2.2.8: {}
-
-  w3c-xmlserializer@4.0.0:
-    dependencies:
-      xml-name-validator: 4.0.0
 
   w3c-xmlserializer@5.0.0:
     dependencies:
@@ -7973,8 +7949,6 @@ snapshots:
       ansi-styles: 6.2.3
       string-width: 5.1.2
       strip-ansi: 7.2.0
-
-  xml-name-validator@4.0.0: {}
 
   xml-name-validator@5.0.0: {}
 
