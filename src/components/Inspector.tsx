@@ -148,17 +148,17 @@ export const Spacer = styled.span`
   flex: 1 0 auto;
 `
 export const TabText = styled.span<{
-  targetWidth: number
-  skipTransition: boolean
+  $targetWidth: number
+  $skipTransition: boolean
 }>`
   margin-left: 0.1em;
   overflow: hidden;
   display: block;
-  opacity: ${(props) => (props.targetWidth > 0 ? '1' : '0')};
-  max-width: ${(props) => props.targetWidth}px;
+  opacity: ${(props) => (props.$targetWidth > 0 ? '1' : '0')};
+  max-width: ${(props) => props.$targetWidth}px;
   transition:
-    max-width ${(props) => (props.skipTransition ? '0s' : '0.25s')} ease,
-    opacity ${(props) => (props.skipTransition ? '0s' : '0.5s')};
+    max-width ${(props) => (props.$skipTransition ? '0s' : '0.25s')} ease,
+    opacity ${(props) => (props.$skipTransition ? '0s' : '0.5s')};
 `
 export const TabsContainer = styled.div`
   display: flex;

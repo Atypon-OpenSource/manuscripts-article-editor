@@ -104,7 +104,7 @@ const ListStyleSelector: React.FC<ListStyleSelectorProps> = ({
         <ArrowDownIcon />
       </ListStyleButton>
       {isOpen && (
-        <DropdownList direction={'right'} top={6} onClick={toggleOpen}>
+        <DropdownList $direction={'right'} $top={6} onClick={toggleOpen}>
           <ListStyles styles={styles} onClick={onClick} styleRefs={styleRefs} />
         </DropdownList>
       )}

@@ -229,7 +229,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
               {group.label && <FileLabel>{group.label}:</FileLabel>}
               {group.files.length > 0 && (
                 <ArrowIcon
-                  isOpen={isOpen}
+                  $isOpen={isOpen}
                   onClick={(e) => {
                     e.stopPropagation()
                     toggleGroupOpen(groupIndex)
@@ -316,8 +316,8 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   )
 }
 
-const ArrowIcon = styled(ArrowDownCircleIcon)<{ isOpen: boolean }>`
+const ArrowIcon = styled(ArrowDownCircleIcon)<{ $isOpen: boolean }>`
   cursor: pointer;
   transition: transform 0.25s ease;
-  transform: rotate(${(props) => (props.isOpen ? '180deg' : '0deg')});
+  transform: rotate(${(props) => (props.$isOpen ? '180deg' : '0deg')});
 `

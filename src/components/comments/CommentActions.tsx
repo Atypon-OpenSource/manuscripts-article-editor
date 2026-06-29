@@ -126,8 +126,8 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
           {isOpen && (
             <DropdownList
               data-cy="comment-dropdown"
-              direction={'right'}
-              width={82}
+              $direction={'right'}
+              $width={82}
               onClick={toggleOpen}
               onKeyDown={handleKeyDown}
               role="menu"
@@ -181,7 +181,7 @@ export const OrphanCommentActions: React.FC<{
         className="delete-button"
         data-cy="orphan-comment-delete"
         onClick={onDelete}
-        iconColor={'#333333'}
+        $iconColor={'#333333'}
         tabIndex={0}
       >
         <DeleteIcon />
