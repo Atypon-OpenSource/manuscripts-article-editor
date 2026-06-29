@@ -46,13 +46,13 @@ const Message = styled.div`
   margin: 0 8px;
 `
 
-const DeleteConfirmation = styled.div<{ isReply?: boolean }>`
+const DeleteConfirmation = styled.div<{ $isReply?: boolean }>`
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
   box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.3);
   position: absolute;
   top: -9px;
-  left: ${(props) => (props.isReply ? '-24px' : '-8px')};
+  left: ${(props) => (props.$isReply ? '-24px' : '-8px')};
   right: -8px;
   bottom: -9px;
   opacity: 0.95;
@@ -100,7 +100,7 @@ export const DeleteCommentConfirmation: React.FC<
   return (
     <DeleteConfirmation
       data-cy="confirmation-popup"
-      isReply={isReply}
+      $isReply={isReply}
       ref={deleteConfirmationRef}
     >
       <MessageContainer>

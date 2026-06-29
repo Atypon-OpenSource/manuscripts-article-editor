@@ -21,7 +21,7 @@ const SearchContainer = styled.div`
   position: relative;
 `
 
-const SearchIconContainer = styled.span<{ active?: boolean }>`
+const SearchIconContainer = styled.span<{ $active?: boolean }>`
   display: flex;
   left: ${(props) => props.theme.grid.unit * 4}px;
   position: absolute;
@@ -29,7 +29,7 @@ const SearchIconContainer = styled.span<{ active?: boolean }>`
 
   path {
     fill: ${(props) =>
-      props.active
+      props.$active
         ? props.theme.colors.brand.medium
         : props.theme.colors.text.primary};
   }
@@ -93,7 +93,7 @@ class Search extends React.Component<SearchInterface, State> {
         onFocus={this.handleSearchFocus}
         onBlur={this.handleSearchBlur}
       >
-        <SearchIconContainer active={isSearchHovered || isSearchFocused}>
+        <SearchIconContainer $active={isSearchHovered || isSearchFocused}>
           <SearchIcon />
         </SearchIconContainer>
 

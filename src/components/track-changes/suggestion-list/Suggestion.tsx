@@ -123,14 +123,14 @@ export const Suggestion: React.FC<Props> = ({
   return (
     <Wrapper
       data-cy="suggestion"
-      isFocused={isSelected}
+      $isFocused={isSelected}
       ref={wrapperRef}
       onKeyDown={handleKeyDown}
     >
       <FocusHandle
         ref={setLinkRef}
         tabIndex={isTabbable ? 0 : -1}
-        isTrackingChangesVisible={isTrackingChangesVisible}
+        $isTrackingChangesVisible={isTrackingChangesVisible}
         onClick={handleClick}
         onKeyDown={(e: React.KeyboardEvent) => {
           if (e.target !== e.currentTarget) {
@@ -166,23 +166,23 @@ export const Suggestion: React.FC<Props> = ({
 }
 
 const Wrapper = styled.li<{
-  isFocused: boolean
+  $isFocused: boolean
 }>``
 
 const FocusHandle = styled.a<{
-  isTrackingChangesVisible: boolean
+  $isTrackingChangesVisible: boolean
 }>`
   color: inherit;
   overflow: hidden;
   cursor: ${(props) =>
-    props.isTrackingChangesVisible ? 'pointer' : 'default'};
+    props.$isTrackingChangesVisible ? 'pointer' : 'default'};
 
   &:focus {
     outline: none;
   }
 
   ${(props) =>
-    props.isTrackingChangesVisible
+    props.$isTrackingChangesVisible
       ? `&:focus ${Card},
       &:focus-within ${Card} {
       background: ${props.theme.colors.background.tracked.hover};
