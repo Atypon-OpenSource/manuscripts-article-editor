@@ -21,9 +21,8 @@ import {
   FileImageIcon,
   FileVideoIcon,
 } from '@manuscripts/style-guide'
-import { ManuscriptNode, schema } from '@manuscripts/transform'
+import { findParentNodeClosestToPos, ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
-import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 
@@ -75,9 +74,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
 
     for (const element of elements) {
       const $pos = view.state.doc.resolve(element.pos)
-      const section = findParentNodeOfTypeClosestToPos(
-        $pos,
-        schema.nodes.graphical_abstract_section
+      const section = findParentNodeClosestToPos(
+        $pos, 
+        node => node.type === schema.nodes.graphical_abstract_section ||
+        node.type === schema.nodes.trans_graphical_abstract
       )
 
       let label: string
