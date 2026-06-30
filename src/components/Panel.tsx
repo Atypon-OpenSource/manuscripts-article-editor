@@ -23,8 +23,8 @@ import layout, { Pane } from '../lib/layout'
 import { useStore } from '../store'
 
 export interface ResizerButtonInnerProps {
-  isCollapsed: boolean
-  isVisible: boolean
+  $isCollapsed: boolean
+  $isVisible: boolean
 }
 export const ResizerButton = styled(RoundIconButton)<ResizerButtonInnerProps>`
   position: absolute;

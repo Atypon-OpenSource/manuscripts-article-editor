@@ -71,9 +71,9 @@ const TrackChangesOff = styled.div`
   }
 `
 
-const Actions = styled.div<{ selector: string }>`
-  .pending:hover .track-changes--control:is(${(props) => props.selector}),
-  .track-changes--control:is(${(props) => props.selector}):hover {
+const Actions = styled.div<{ $selector: string }>`
+  .pending:hover .track-changes--control:is(${(props) => props.$selector}),
+  .track-changes--control:is(${(props) => props.$selector}):hover {
     display: inline-flex;
   }
 `
@@ -111,7 +111,7 @@ export const TrackChangesStyles: React.FC<{ children: React.ReactNode }> = ({
   if (can.handleSuggestion) {
     return (
       <TrackChangesOn>
-        <Actions selector={suggestedChangesSelector}>{children}</Actions>
+        <Actions $selector={suggestedChangesSelector}>{children}</Actions>
       </TrackChangesOn>
     )
   }
@@ -119,7 +119,7 @@ export const TrackChangesStyles: React.FC<{ children: React.ReactNode }> = ({
   if (can.rejectOwnSuggestion) {
     return (
       <TrackChangesRejectOnly>
-        <Actions selector={mySuggestedChangesSelector}>{children}</Actions>
+        <Actions $selector={mySuggestedChangesSelector}>{children}</Actions>
       </TrackChangesRejectOnly>
     )
   }
