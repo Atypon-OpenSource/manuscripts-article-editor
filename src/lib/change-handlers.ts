@@ -260,6 +260,23 @@ export const handleNodeChange = (
         content: nodeContentRetriever.getFigureLabel(node),
       }
 
+    case schema.nodes.headshot_grid: {
+      return {
+        operation,
+        nodeName,
+        content: '',
+      }
+    }
+    case schema.nodes.headshot_element: {
+      const content = findChildrenByType(node, schema.nodes.caption_title)[0]
+        .node.textContent
+      return {
+        operation,
+        nodeName,
+        content,
+      }
+    }
+
     case schema.nodes.figure: {
       const nodeName = nodeNames.get(parentNode?.type) || parentNode?.type.name
       return {
