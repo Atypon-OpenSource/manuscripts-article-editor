@@ -30,7 +30,7 @@ export const ToolbarItem = styled.div`
   position: relative;
 `
 
-const ToolbarButton = styled.button.attrs({
+const ToolbarButton = styled.button.attrs<{ 'data-toolbar-button': boolean }>({
   type: 'button',
   'data-toolbar-button': true,
 })<{
