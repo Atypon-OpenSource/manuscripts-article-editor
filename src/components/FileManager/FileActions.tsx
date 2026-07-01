@@ -169,10 +169,10 @@ export const FileActions: React.FC<{
       {isOpen && (
         <FileActionDropdownList
           data-cy="file-actions-dropdown"
-          direction="right"
+          $direction="right"
           className={className}
-          width={192}
-          top={5}
+          $width={192}
+          $top={5}
           onClick={(e) => e.stopPropagation()}
           onKeyDown={handleKeyDown}
         >

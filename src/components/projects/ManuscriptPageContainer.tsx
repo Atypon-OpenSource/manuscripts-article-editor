@@ -148,7 +148,7 @@ const ManuscriptPageView: React.FC = () => {
                     >
                       <Label>Show tracked changes</Label>
                       <IconButton
-                        defaultColor={true}
+                        $defaultColor={true}
                         onClick={(e) => {
                           e.stopPropagation()
                           toggleTrackingChangesVisibility()

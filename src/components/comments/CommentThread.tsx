@@ -20,18 +20,18 @@ import { commentsByTime, Thread } from '../../lib/comments'
 import { CommentCard } from './CommentCard'
 import { ReplyBox } from './ReplyBox'
 
-const Container = styled.div<{ isSelected?: boolean }>`
+const Container = styled.div<{ $isSelected?: boolean }>`
   padding: 8px;
-  background-color: ${(props) => (props.isSelected ? '#fff' : '#fafafa')};
+  background-color: ${(props) => (props.$isSelected ? '#fff' : '#fafafa')};
   border: 1px solid #c9c9c9;
-  ${(props) => props.isSelected && 'border-left-width: 4px'};
+  ${(props) => props.$isSelected && 'border-left-width: 4px'};
   border-radius: 4px;
   margin-bottom: 16px;
   margin-left: 12px;
   margin-right: 12px;
   cursor: pointer;
   .actions-icon {
-    visibility: ${(props) => (props.isSelected ? 'visible' : 'hidden')};
+    visibility: ${(props) => (props.$isSelected ? 'visible' : 'hidden')};
   }
 
   &:hover {
@@ -149,7 +149,7 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
     return (
       <Container
         data-cy="comment"
-        isSelected={isSelected}
+        $isSelected={isSelected}
         ref={containerRef}
         onClick={handleSelect}
         onKeyDown={handleKeyDown}
@@ -157,8 +157,8 @@ export const CommentThread = forwardRef<HTMLDivElement, CommentThreadProps>(
       >
         <CardsWrapper
           ref={cardsRef}
-          isSelected={isSelected}
-          showMore={showMore}
+          $isSelected={isSelected}
+          $showMore={showMore}
         >
           <CommentCard
             comment={comment}
@@ -232,14 +232,14 @@ const ShowMore = styled(TextButton)`
 `
 
 const CardsWrapper = styled.div<{
-  isSelected: boolean
-  showMore: boolean
+  $isSelected: boolean
+  $showMore: boolean
 }>`
-  max-height: ${({ isSelected }) => (isSelected ? 'none' : '280px')};
+  max-height: ${({ $isSelected }) => ($isSelected ? 'none' : '280px')};
   position: relative;
-  ${({ showMore, isSelected }) =>
-    showMore &&
-    !isSelected &&
+  ${({ $showMore, $isSelected }) =>
+    $showMore &&
+    !$isSelected &&
     `
     overflow: hidden;
     &:after {

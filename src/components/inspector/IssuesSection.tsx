@@ -62,8 +62,8 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
               return (
                 <InconsistencyItem
                   key={key}
-                  isFocused={selectedInconsistencyKey === key}
-                  severity={inconsistency.severity}
+                  $isFocused={selectedInconsistencyKey === key}
+                  $severity={inconsistency.severity}
                   onClick={() => handleInconsistencyClick(key, inconsistency)}
                   data-cy="inconsistency"
                 >
@@ -89,8 +89,8 @@ const InconsistenciesList = styled.div`
 `
 
 const InconsistencyItem = styled.div<{
-  isFocused: boolean
-  severity: 'error' | 'warning'
+  $isFocused: boolean
+  $severity: 'error' | 'warning'
 }>`
   padding: 12px 8px;
   margin-bottom: ${(props) => props.theme.grid.unit * 2}px;
@@ -100,26 +100,26 @@ const InconsistencyItem = styled.div<{
   font-family: 'Lato', sans-serif;
 
   border: ${(props) =>
-    props.isFocused
+    props.$isFocused
       ? `1px solid ${
-          props.severity === 'error'
+          props.$severity === 'error'
             ? props.theme.colors.button.error.border.default
             : '#FE8F1F'
         }`
       : `1px solid #C9C9C9`};
 
   box-shadow: ${(props) =>
-    props.isFocused
+    props.$isFocused
       ? `-4px 0 0 0 ${
-          props.severity === 'error'
+          props.$severity === 'error'
             ? props.theme.colors.button.error.border.default
             : '#FE8F1F'
         }`
       : 'none'};
 
   background-color: ${(props) =>
-    props.isFocused
-      ? props.severity === 'error'
+    props.$isFocused
+      ? props.$severity === 'error'
         ? `${props.theme.colors.background.error} !important`
         : '#fffcdb !important'
       : '#fff'};

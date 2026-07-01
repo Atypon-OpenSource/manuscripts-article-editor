@@ -65,11 +65,11 @@ export const SidebarHeader: React.FunctionComponent<SidebarHeaderInterface> = ({
     {action && (
       <StyledSidebarActionContainer>
         {isCancel ? (
-          <TertiaryButton mini={true} onClick={action}>
+          <TertiaryButton $mini={true} onClick={action}>
             {cancelText || 'Cancel'}
           </TertiaryButton>
         ) : (
-          <PrimaryButton mini={true} onClick={action}>
+          <PrimaryButton $mini={true} onClick={action}>
             {confirmText || 'Done'}
           </PrimaryButton>
         )}

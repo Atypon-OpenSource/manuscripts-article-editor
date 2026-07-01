@@ -51,8 +51,8 @@ export const Field = styled.div`
 `
 
 export const ExpanderButton = styled(IconButton).attrs(() => ({
-  size: 20,
-  defaultColor: true,
+  $size: 20,
+  $defaultColor: true,
 }))`
   border: none;
   border-radius: 50%;
