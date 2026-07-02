@@ -16,7 +16,6 @@ import styled from 'styled-components'
 import { FileContainer } from './FileContainer'
 import { FileCreatedDate } from './FileCreatedDate'
 import { FileName } from './FileName'
-import { usePermissions } from '../../lib/capabilities'
 
 const Container = styled.div`
   position: fixed;
@@ -60,9 +59,8 @@ export const FileManagerDragLayer: React.FC = () => {
       isDragging: monitor.isDragging(),
     })
   )
-  const can = usePermissions()
 
-  if (!isDragging || !(can.replaceFile && can.editArticle)) {
+  if (!isDragging) {
     return null
   }
 

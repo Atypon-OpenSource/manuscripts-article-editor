@@ -209,11 +209,14 @@ const SupplementFile: React.FC<{
   onUseAsMain,
   onClick,
 }) => {
+  const can = usePermissions()
+
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {
       file: supplement.file,
     },
+    canDrag: !(can.replaceFile && can.editArticle),
     end: (_, monitor) => {
       if (monitor.didDrop()) {
         onDetach()
