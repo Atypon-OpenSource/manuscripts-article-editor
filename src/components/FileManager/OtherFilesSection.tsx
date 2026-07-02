@@ -134,7 +134,7 @@ const OtherFile: React.FC<{
     item: {
       file,
     },
-    canDrag: !(can.replaceFile && can.editArticle),
+    canDrag: (can.replaceFile && can.editArticle),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

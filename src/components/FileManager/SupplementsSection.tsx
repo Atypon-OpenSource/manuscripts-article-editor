@@ -216,7 +216,7 @@ const SupplementFile: React.FC<{
     item: {
       file: supplement.file,
     },
-    canDrag: !(can.replaceFile && can.editArticle),
+    canDrag: (can.replaceFile && can.editArticle),
     end: (_, monitor) => {
       if (monitor.didDrop()) {
         onDetach()

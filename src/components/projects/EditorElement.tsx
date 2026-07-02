@@ -52,11 +52,8 @@ const EditorElement: React.FC = () => {
 
   const [, dropRef] = useDrop({
     accept: 'file',
+    canDrop: () => (can.replaceFile && can.editArticle),
     drop: async (item, monitor) => {
-      if (!(can.replaceFile && can.editArticle)) {
-        return false
-      }
-
       const offset = monitor.getSourceClientOffset()
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
