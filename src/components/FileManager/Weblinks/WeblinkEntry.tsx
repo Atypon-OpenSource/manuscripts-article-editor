@@ -68,7 +68,7 @@ export const WeblinkEntry = ({
           <WeblinkCaptionTitle data-cy="weblink-caption-title">
             {captionTitle}
           </WeblinkCaptionTitle>
-        ) //: null
+        ) 
         }
       </WeblinkInfo>
       {canEdit && <WeblinkActions onEdit={onEdit} onDelete={onDelete} />}

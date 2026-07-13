@@ -139,11 +139,11 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
 
       <Dialog
         isOpen={deleteTarget !== null}
-        category={Category.confirmation}
+        category={Category.warning}
         header="Delete weblink"
         message={
           <>
-            Are you sure you want to delete &ldquo;{deleteTarget?.node.attrs.href}&rdquo;?
+            Are you sure you want to delete the Weblink?
           </>
         }
         actions={{

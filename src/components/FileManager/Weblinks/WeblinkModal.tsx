@@ -14,7 +14,6 @@ import { allowedHref } from '@manuscripts/body-editor'
 import {
   Category,
   Dialog,
-  FormContainer,
   FormRow,
   InputErrorText,
   Label,
@@ -83,20 +82,18 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
       category={Category.confirmation}
       header={mode === WeblinkModalMode.Add ? 'Add weblink' : 'Edit weblink'}
       message={
-        <FormContainer>
-          <FormRow>
+          <FormRow style={{ paddingTop: '16px' }}>
             <Label htmlFor="weblink-url">URL</Label>
             <TextField
               id="weblink-url"
               value={url}
-              placeholder="https://"
+              placeholder="https://www.website.com"
               onChange={(e) => setUrl(e.target.value)}
               onBlur={() => validateUrl(url)}
               data-cy="weblink-url-input"
             />
             {urlError && <InputErrorText>{urlError}</InputErrorText>}
           </FormRow>
-        </FormContainer>
       }
       actions={{
         primary: {
@@ -112,3 +109,4 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
     />
   )
 }
+
