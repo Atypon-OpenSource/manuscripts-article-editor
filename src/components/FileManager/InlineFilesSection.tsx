@@ -18,6 +18,7 @@ import {
   ArrowDownCircleIcon,
   FileFigureIcon,
   FileGraphicalAbstractIcon,
+  FileHeadshotGridIcon,
   FileImageIcon,
   FileVideoIcon,
 } from '@manuscripts/style-guide'
@@ -87,6 +88,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
         const category = section.node.attrs.category
         label = sectionCategories.get(category)?.titles[0] || ''
         icon = FileGraphicalAbstractIcon
+      } else if (element.node.type === schema.nodes.headshot_grid) {
+        label = `Headshot Panel`
+        icon = FileHeadshotGridIcon
       } else if (element.node.type === schema.nodes.image_element) {
         label = `Image ${imageIndex++}`
         icon = FileImageIcon
@@ -217,6 +221,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       {groupedMetadata.map((group, groupIndex) => {
         const isOpen = openGroupIndexes.has(groupIndex)
         const figureCount = group.files.length
+        const withFigureDelete =
+          figureCount > 1 &&
+          group.element.node.type !== schema.nodes.headshot_grid
 
         return (
           <FileGroupContainer
@@ -296,7 +303,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                         fileManagement.download(fileAttachment.file)
                       }
                       onDelete={
-                        figureCount > 1
+                        withFigureDelete
                           ? () =>
                               handleDelete(
                                 fileAttachment.node,
