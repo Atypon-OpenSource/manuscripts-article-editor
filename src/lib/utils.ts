@@ -17,7 +17,7 @@ import {
 } from '@manuscripts/body-editor'
 import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 export const getParentNode = (state: EditorState, pos: number) => {
   const resolvedPos = state.doc.resolve(pos)
 
@@ -30,6 +30,23 @@ export const getParentNode = (state: EditorState, pos: number) => {
           return grandParent
         } else {
           return parent
+        }
+      }
+      if (
+        parent.type === state.schema.nodes.caption_title ||
+        parent.type === state.schema.nodes.text_block
+      ) {
+        const grandParent = resolvedPos.node(depth - 1)
+        if (grandParent.type == state.schema.nodes.headshot_element) {
+          return grandParent
+        } else if (grandParent.type === state.schema.nodes.caption) {
+          const headshotElement = findParentNodeOfTypeClosestToPos(
+            resolvedPos,
+            state.schema.nodes.headshot_element
+          )
+          if (headshotElement) {
+            return headshotElement.node
+          }
         }
       }
       return parent

@@ -28,7 +28,11 @@ import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 
 const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
-  if (spec.id === 'insert' || spec.id === 'edit') {
+  if (
+    spec.id === 'insert' ||
+    spec.id === 'edit' ||
+    spec.id === 'insert-metadata'
+  ) {
     return can.editArticle
   }
   if (spec.id === 'format') {
