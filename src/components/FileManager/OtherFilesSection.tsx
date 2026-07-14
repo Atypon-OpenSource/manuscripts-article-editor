@@ -127,11 +127,14 @@ const OtherFile: React.FC<{
   onMoveToSupplements: () => Promise<void>
   onUseAsMain: () => Promise<void>
 }> = ({ file, onDownload, onMoveToSupplements, onUseAsMain }) => {
+  const can = usePermissions()
+
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'file',
     item: {
       file,
     },
+    canDrag: (can.replaceFile && can.editArticle),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
