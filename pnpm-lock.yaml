@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@manuscripts/body-editor':
-        specifier: 3.13.13
-        version: 3.13.13(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)
+        specifier: 3.13.14-LEAN-5777.0
+        version: 3.13.14-LEAN-5777.0(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)
       '@manuscripts/style-guide':
         specifier: 3.6.4
         version: 3.6.4(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@18.3.1)
@@ -30,8 +30,8 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
       '@manuscripts/transform':
-        specifier: 4.4.6-LEAN-5777.5
-        version: 4.4.6-LEAN-5777.5(prosemirror-state@1.4.3)
+        specifier: 4.4.6-LEAN-5777.6
+        version: 4.4.6-LEAN-5777.6(prosemirror-state@1.4.3)
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -604,8 +604,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.13.13':
-    resolution: {integrity: sha512-rAMjPxcDfUAaA84CqA/hNHCkyzmkRM7AZqKGam5rOgIUe35RxQZeoJHeg8MOo0+aKgQoFKe/tfUtIwvUthYqJA==}
+  '@manuscripts/body-editor@3.13.14-LEAN-5777.0':
+    resolution: {integrity: sha512-jpVhhNutpmUXP+HS/NIDUjiqE5iCFfMD3GAbkBqLSGQc45mSj4Ddo1mkAP/yDeRT2w8f7JVH6wrtNH9uozKRGw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.13.14-LEAN-5777.0.tgz}
     engines: {node: '>=22'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -633,8 +633,8 @@ packages:
     resolution: {integrity: sha512-I+KDqXvKRtmRWcqxtjEVLK7GR55pSzwFCoIouZ4wE2d72MXg0l3yUYXL/73FdUE2xwIzVneW65Q3RjHlvL8Ekg==}
     engines: {node: '>=22'}
 
-  '@manuscripts/transform@4.4.6-LEAN-5777.5':
-    resolution: {integrity: sha512-NnvL3COHzrL4shr9ujmwGOtqdV4jP9midhSAR+Uig8z30WW7eFR/5lwJHEbeYZaK/ZUJLWIJYQF4HTqH6AOsMQ==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.4.6-LEAN-5777.5.tgz}
+  '@manuscripts/transform@4.4.6-LEAN-5777.6':
+    resolution: {integrity: sha512-D/YTFPXP4mt0epU7dnJgghYDDGd+8i7DYu0T2rcXfhG+x2yL04GxuTBzRtgmufs/ynW0W9HfXtmsLsFc9Nl4Pg==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/transform/-/@manuscripts/transform-4.4.6-LEAN-5777.6.tgz}
     engines: {node: '>=22'}
 
   '@napi-rs/wasm-runtime@1.1.5':
@@ -4178,7 +4178,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.13.13(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)':
+  '@manuscripts/body-editor@3.13.14-LEAN-5777.0(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)':
     dependencies:
       '@citation-js/core': 0.7.21
       '@citation-js/plugin-bibtex': 0.7.21(@citation-js/core@0.7.21)
@@ -4190,7 +4190,7 @@ snapshots:
       '@iarna/word-count': 1.1.2
       '@manuscripts/style-guide': 3.6.4(@babel/core@7.29.7)(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react-is@19.2.6)
       '@manuscripts/track-changes-plugin': 2.4.0
-      '@manuscripts/transform': 4.4.6-LEAN-5777.5(prosemirror-state@1.4.3)
+      '@manuscripts/transform': 4.4.6-LEAN-5777.6(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
       citeproc: 2.4.63
       codemirror: 5.65.19
@@ -4315,7 +4315,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/transform@4.4.6-LEAN-5777.5(prosemirror-state@1.4.3)':
+  '@manuscripts/transform@4.4.6-LEAN-5777.6(prosemirror-state@1.4.3)':
     dependencies:
       citeproc: 2.4.63
       jszip: 3.10.1
