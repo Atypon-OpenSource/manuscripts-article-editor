@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@manuscripts/body-editor':
-        specifier: 3.13.14
-        version: 3.13.14(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
+        specifier: 3.13.15-LEAN-5764.0
+        version: 3.13.15-LEAN-5764.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
       '@manuscripts/style-guide':
         specifier: 3.6.5
         version: 3.6.5(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
@@ -581,8 +581,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.13.14':
-    resolution: {integrity: sha512-kPgewohw8Aavm1n3U+Pk6d7zPS09YWWcyNk7QSP8BTqjuhu/FAsmbFEoWjvub0QevIK3kLbHJ43ztVxsa8NSIQ==}
+  '@manuscripts/body-editor@3.13.15-LEAN-5764.0':
+    resolution: {integrity: sha512-37FgBPhhjvQdsdWTs9rg6nvscqXBpyaF3EsFGJVweZWFC1JABc07oFH2oKNQu6ikHvWe9nxCukPGEdcjaAiovQ==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.13.15-LEAN-5764.0.tgz}
     engines: {node: '>=22'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -4131,7 +4131,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.13.14(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
+  '@manuscripts/body-editor@3.13.15-LEAN-5764.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
     dependencies:
       '@citation-js/core': 0.7.21
       '@citation-js/plugin-bibtex': 0.7.21(@citation-js/core@0.7.21)
