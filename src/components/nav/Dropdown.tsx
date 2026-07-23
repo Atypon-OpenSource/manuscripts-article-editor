@@ -11,7 +11,7 @@
  */
 
 import { ArrowUpIcon, SecondaryButton } from '@manuscripts/style-guide'
-import styled, { StyledComponent } from 'styled-components'
+import { styled } from 'styled-components'
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -46,9 +46,7 @@ interface DropdownProps {
   $isOpen: boolean
 }
 
-export const DropdownToggle: StyledComponent<typeof ArrowUpIcon, any> = styled(
-  ArrowUpIcon
-)`
+export const DropdownToggle = styled(ArrowUpIcon)`
   margin-left: 6px;
   transform: rotate(180deg);
 
