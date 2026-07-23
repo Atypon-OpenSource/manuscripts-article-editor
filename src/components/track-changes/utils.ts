@@ -20,6 +20,7 @@ import {
 import { Command, NodeSelection, TextSelection } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 
+import { dispatchEditorTransaction } from '../../lib/editor-view'
 import { state } from '../../store'
 
 export const setSelectedSuggestion = (
@@ -51,9 +52,10 @@ export const setSelectedSuggestion = (
     tr.setSelection(NodeSelection.create(state.doc, suggestions[0].from))
   }
 
-  view?.focus()
   try {
-    view?.dispatch(tr.scrollIntoView())
+    if (view) {
+      dispatchEditorTransaction(view, tr)
+    }
   } catch (e) {
     console.warn(
       "Unable to select a node and scroll to it. Check if it's visible. Error: " +
