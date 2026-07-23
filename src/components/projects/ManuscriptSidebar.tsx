@@ -11,10 +11,12 @@
  */
 
 import { FileAttachment, ManuscriptOutline } from '@manuscripts/body-editor'
-import React from 'react'
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
 import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
+import { AIWritingAssistant } from '../ai'
 import PageSidebar from '../PageSidebar'
 
 const ManuscriptSidebar: React.FC = () => {
@@ -22,6 +24,7 @@ const ManuscriptSidebar: React.FC = () => {
   const [view] = useStore((store) => store.view)
   const [editor] = useStore((store) => store.editor)
   const [files] = useStore((store) => store.files)
+  const [showAIAssistant, setShowAIAssistant] = useState(false)
 
   if (!editor) {
     return null
@@ -37,14 +40,81 @@ const ManuscriptSidebar: React.FC = () => {
       sidebarTitle={''}
       sidebarFooter={''}
     >
-      <ManuscriptOutline
-        doc={editor.state?.doc || null}
-        view={view}
-        can={can}
-        getFiles={() => files as FileAttachment[]}
-      />
+      <SidebarContainer>
+        <TabBar>
+          <Tab
+            $active={!showAIAssistant}
+            onClick={() => setShowAIAssistant(false)}
+          >
+            Outline
+          </Tab>
+          <Tab
+            $active={showAIAssistant}
+            onClick={() => setShowAIAssistant(true)}
+          >
+            🤖 AI Assistant
+          </Tab>
+        </TabBar>
+        
+        <ContentArea>
+          {!showAIAssistant && (
+            <ManuscriptOutline
+              doc={editor.state?.doc || null}
+              view={view}
+              can={can}
+              getFiles={() => files as FileAttachment[]}
+            />
+          )}
+          {showAIAssistant && <AIWritingAssistant />}
+        </ContentArea>
+      </SidebarContainer>
     </PageSidebar>
   )
 }
+
+const SidebarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+`
+
+const TabBar = styled.div`
+  display: flex;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border.secondary};
+  background: ${(props) => props.theme.colors.background.primary};
+`
+
+const Tab = styled.button<{ $active: boolean }>`
+  flex: 1;
+  padding: 12px 16px;
+  background: ${(props) =>
+    props.$active
+      ? props.theme.colors.background.primary
+      : props.theme.colors.background.secondary};
+  border: none;
+  border-bottom: ${(props) =>
+    props.$active
+      ? `2px solid ${props.theme.colors.button.primary.background.default}`
+      : '2px solid transparent'};
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: ${(props) => (props.$active ? '600' : '400')};
+  color: ${(props) =>
+    props.$active
+      ? props.theme.colors.text.primary
+      : props.theme.colors.text.secondary};
+  transition: all 0.2s;
+
+  &:hover {
+    background: ${(props) => props.theme.colors.background.tertiary};
+  }
+`
+
+const ContentArea = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+`
 
 export default ManuscriptSidebar
