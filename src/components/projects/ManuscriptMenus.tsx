@@ -31,7 +31,8 @@ const isAccessGranted = (spec: MenuSpec, can: Capabilities) => {
   if (
     spec.id === 'insert' ||
     spec.id === 'edit' ||
-    spec.id === 'insert-metadata'
+    spec.id === 'insert-metadata' ||
+    spec.id === 'references'
   ) {
     return can.editArticle
   }
