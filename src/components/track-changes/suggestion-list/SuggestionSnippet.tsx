@@ -70,8 +70,8 @@ export const SuggestionSnippet: React.FC<Props> = ({
   return (
     <SnippetText>
       <Card
-        isFocused={isFocused}
-        isTrackingChangesVisible={isTrackingChangesVisible}
+        $isFocused={isFocused}
+        $isTrackingChangesVisible={isTrackingChangesVisible}
         data-cy="suggestion-card"
       >
         <CardHeader data-cy="card-header">
@@ -82,7 +82,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
             </AuthorContainer>
             <MetadataDate
               date={dataTracked?.createdAt}
-              isTrackingChangesVisible={isTrackingChangesVisible}
+              $isTrackingChangesVisible={isTrackingChangesVisible}
             />
           </CardMetadata>
           {!isComparingMode && (
@@ -99,7 +99,7 @@ export const SuggestionSnippet: React.FC<Props> = ({
         <CardBody data-cy="card-body">
           {snippet?.operation && (
             <Operation
-              color={isTrackingChangesVisible ? dataTracked.operation : 'muted'}
+              $color={isTrackingChangesVisible ? dataTracked.operation : 'muted'}
             >
               {snippet?.operation}:
             </Operation>
@@ -119,13 +119,13 @@ export const CardActions = styled.div`
 `
 
 const isActive = (props: {
-  isFocused: boolean
-  isTrackingChangesVisible: boolean
-}) => props.isFocused && props.isTrackingChangesVisible
+  $isFocused: boolean
+  $isTrackingChangesVisible: boolean
+}) => props.$isFocused && props.$isTrackingChangesVisible
 
 export const Card = styled.div<{
-  isFocused: boolean
-  isTrackingChangesVisible: boolean
+  $isFocused: boolean
+  $isTrackingChangesVisible: boolean
 }>`
   font-family: ${(props) => props.theme.font.family.sans};
   font-size: ${(props) => props.theme.font.size.small};
@@ -141,7 +141,7 @@ export const Card = styled.div<{
   border: ${(props) =>
     isActive(props)
       ? `1px solid ${props.theme.colors.border.tracked.active}`
-      : props.isTrackingChangesVisible
+      : props.$isTrackingChangesVisible
         ? `1px solid ${props.theme.colors.border.tracked.default}`
         : `1px solid #dfdfdf`};
   box-shadow: ${(props) =>
@@ -153,7 +153,7 @@ export const Card = styled.div<{
   /* FocusHandle should cover entire card: */
   position: relative;
   color: ${(props) =>
-    props.isTrackingChangesVisible
+    props.$isTrackingChangesVisible
       ? props.theme.colors.text.primary
       : '#868686'};
   background: ${(props) =>
@@ -169,7 +169,7 @@ export const Card = styled.div<{
       }`
       : ''}
   ${(props) =>
-    props.isTrackingChangesVisible
+    props.$isTrackingChangesVisible
       ? `&:hover {
       background: ${props.theme.colors.background.tracked.hover};
 
@@ -215,10 +215,10 @@ export const AuthorName = styled.span`
   line-height: 24px;
 `
 const MetadataDate = styled(RelativeDate)<{
-  isTrackingChangesVisible: boolean
+  $isTrackingChangesVisible: boolean
 }>`
   color: ${(props) =>
-    props.isTrackingChangesVisible
+    props.$isTrackingChangesVisible
       ? props.theme.colors.text.secondary
       : '#868686'};
 `
@@ -230,12 +230,12 @@ const SnippetText = styled.div`
   display: block;
 `
 
-const Operation = styled.span<{ color: string }>`
+const Operation = styled.span<{ $color: string }>`
   font-weight: ${(props) => props.theme.font.weight.bold};
   text-transform: capitalize;
   margin-right: 3.2px;
   color: ${(props) => {
-    switch (props.color) {
+    switch (props.$color) {
       case 'insert':
       case 'wrap_with_node':
         return '#01872E'

@@ -18,7 +18,7 @@ import {
 } from '@manuscripts/style-guide'
 import styled, { createGlobalStyle } from 'styled-components'
 
-const SMALL = 1160;
+const SMALL = 1160
 
 import { SearchReplace } from '../SearchReplace'
 import { EditorHeader } from './EditorContainer'
@@ -55,6 +55,7 @@ export const EditorHeaderGroup: React.FC = () => {
             {savingProcess && <SaveStatus status={savingProcess} />}
           </MenusWrapper>
         </ManuscriptMenusContainerInner>
+
         {showTrackChangesToggle && (
           <TrackChangesToggleWrapper
             onKeyDown={(e) => {
@@ -68,16 +69,20 @@ export const EditorHeaderGroup: React.FC = () => {
             aria-label={label}
             aria-pressed={isTrackingChangesVisible}
             data-tooltip-content={label}
-            data-tooltip-class-name={"track-changes-toggle-tooltip"}
+            data-tooltip-class-name={'track-changes-toggle-tooltip'}
           >
-            <Label>{label}</Label>
+            <Label>Show tracked changes</Label>
             <IconButton
-              defaultColor={true}
+              $defaultColor={true}
               onClick={(e) => {
                 e.stopPropagation()
                 toggleTrackingChangesVisibility()
               }}
-              aria-label={label}
+              aria-label={
+                isTrackingChangesVisible
+                  ? 'Hide tracked changes'
+                  : 'Show tracked changes'
+              }
               tabIndex={-1}
             >
               {isTrackingChangesVisible ? <SliderOnIcon /> : <SliderOffIcon />}
@@ -86,7 +91,7 @@ export const EditorHeaderGroup: React.FC = () => {
         )}
       </ManuscriptMenusContainer>
       {can.seeEditorToolbar && <ManuscriptToolbar />}
-      <SearchReplace />      
+      <SearchReplace />
     </EditorHeader>
   )
 }
@@ -97,7 +102,7 @@ const ToolTipGlobalCss = createGlobalStyle`
       display: none !important;
     }
   }
-`;
+`
 
 const TrackChangesToggleWrapper = styled.div`
   display: flex;

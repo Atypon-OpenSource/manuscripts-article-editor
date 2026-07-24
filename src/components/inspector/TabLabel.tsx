@@ -32,7 +32,7 @@ export const TabLabel: React.FC<{
 
   const didMount = useDidMount()
   return (
-    <TabText ref={ref} targetWidth={width} skipTransition={skip}>
+    <TabText ref={ref} $targetWidth={width} $skipTransition={skip}>
       {children}
     </TabText>
   )

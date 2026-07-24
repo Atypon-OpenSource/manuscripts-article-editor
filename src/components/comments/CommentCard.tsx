@@ -48,7 +48,7 @@ const Timestamp = styled(RelativeDate)`
   white-space: nowrap;
   padding-right: 8px;
 `
-const RepliesCount = styled.div.attrs({
+const RepliesCount = styled.div.attrs<{ 'data-cy': string }>({
   'data-cy': 'reply-count',
 })`
   border-radius: 50%;

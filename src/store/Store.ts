@@ -11,6 +11,7 @@
  */
 
 import {
+  Actions,
   CommentKey,
   FileAttachment,
   FileManagement,
@@ -18,6 +19,7 @@ import {
 } from '@manuscripts/body-editor'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
+  ManuscriptActions,
   ManuscriptEditorView,
   ManuscriptNode,
   ManuscriptNodeType,
@@ -75,7 +77,8 @@ export type state = {
   snapshots: SnapshotLabel[]
   getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
-  permittedActions: string[]
+  WMsPermittedActions: Actions[]
+  manuscriptPermittedActions: ManuscriptActions[]
 
   selectedCommentKey?: CommentKey
   newCommentID?: string

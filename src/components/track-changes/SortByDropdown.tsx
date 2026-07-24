@@ -67,7 +67,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
       <Container ref={wrapperRef}>
         <DropdownButtonContainer
           ref={toggleButtonRef}
-          isOpen={isOpen}
+          $isOpen={isOpen}
           onClick={toggleOpen}
           onKeyDown={(e) => {
             if (e.key === 'ArrowDown') {
@@ -85,8 +85,8 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
         </DropdownButtonContainer>
         {isOpen && (
           <DropdownList
-            direction={'right'}
-            minWidth={100}
+            $direction={'right'}
+            $minWidth={100}
             onKeyDown={handleDropdownKeyDown}
           >
             {options.map((opt, index) => (

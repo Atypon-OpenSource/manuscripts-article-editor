@@ -13,16 +13,16 @@
 import styled from 'styled-components'
 
 interface SidebarPersonContainerProps {
-  selected?: boolean
+  $selected?: boolean
 }
 
 export const SidebarPersonContainer = styled.div<SidebarPersonContainerProps>`
   align-items: center;
   background-color: ${(props) =>
-    props.selected ? props.theme.colors.background.fifth : 'unset'};
+    props.$selected ? props.theme.colors.background.fifth : 'unset'};
   border: 1px solid
     ${(props) =>
-      props.selected ? props.theme.colors.border.primary : 'transparent'};
+      props.$selected ? props.theme.colors.border.primary : 'transparent'};
   border-left: 0;
   border-right: 0;
   cursor: pointer;

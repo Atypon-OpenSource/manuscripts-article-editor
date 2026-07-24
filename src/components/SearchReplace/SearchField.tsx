@@ -53,7 +53,7 @@ export const SearchField: React.FC<{
   )
 }
 
-const FieldWrapper = styled(TextField.withComponent('div'))`
+const FieldWrapper = styled(TextField).attrs({ as: 'div' })`
   position: relative;
   display: flex;
   padding: 0;

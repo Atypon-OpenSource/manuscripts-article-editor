@@ -22,11 +22,11 @@ import { ResizerButton, ResizerButtonInnerProps } from './Panel'
 export const ResizingOutlinerButton: React.FC<ResizerButtonInnerProps> = (
   props
 ) => {
-  const { isCollapsed } = props
+  const { $isCollapsed } = props
   return (
     <ResizerButton
       {...props}
-      aria-label={`${isCollapsed ? 'Open' : 'Close'} Sidebar`}
+      aria-label={`${$isCollapsed ? 'Open' : 'Close'} Sidebar`}
     >
       <HandleOutlineIcon />
     </ResizerButton>
@@ -42,19 +42,17 @@ const collapsedStyling = css`
 const UnstyledResizingInspectorButton: React.FC<ResizerButtonInnerProps> = (
   props
 ) => {
-  const { isCollapsed } = props
+  const { $isCollapsed } = props
   return (
     <ResizerButton
       {...props}
-      aria-label={`${isCollapsed ? 'Open' : 'Close'} Inspector`}
+      aria-label={`${$isCollapsed ? 'Open' : 'Close'} Inspector`}
     >
       <HandleInspectorIcon />
     </ResizerButton>
   )
 }
 
-export const ResizingInspectorButton = styled(UnstyledResizingInspectorButton)<{
-  isCollapsed: boolean
-}>`
-  ${(props) => (props.isCollapsed ? collapsedStyling : 'right: 0;')}
+export const ResizingInspectorButton = styled(UnstyledResizingInspectorButton)`
+  ${(props) => (props.$isCollapsed ? collapsedStyling : 'right: 0;')}
 `

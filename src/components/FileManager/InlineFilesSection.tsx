@@ -18,12 +18,12 @@ import {
   ArrowDownCircleIcon,
   FileFigureIcon,
   FileGraphicalAbstractIcon,
+  FileHeadshotGridIcon,
   FileImageIcon,
   FileVideoIcon,
 } from '@manuscripts/style-guide'
-import { ManuscriptNode, schema } from '@manuscripts/transform'
+import { findParentNodeClosestToPos, ManuscriptNode, schema } from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
-import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils'
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 
@@ -75,9 +75,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
 
     for (const element of elements) {
       const $pos = view.state.doc.resolve(element.pos)
-      const section = findParentNodeOfTypeClosestToPos(
-        $pos,
-        schema.nodes.graphical_abstract_section
+      const section = findParentNodeClosestToPos(
+        $pos, 
+        node => node.type === schema.nodes.graphical_abstract_section ||
+        node.type === schema.nodes.trans_graphical_abstract
       )
 
       let label: string
@@ -87,6 +88,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
         const category = section.node.attrs.category
         label = sectionCategories.get(category)?.titles[0] || ''
         icon = FileGraphicalAbstractIcon
+      } else if (element.node.type === schema.nodes.headshot_grid) {
+        label = `Headshot Panel`
+        icon = FileHeadshotGridIcon
       } else if (element.node.type === schema.nodes.image_element) {
         label = `Image ${imageIndex++}`
         icon = FileImageIcon
@@ -217,6 +221,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       {groupedMetadata.map((group, groupIndex) => {
         const isOpen = openGroupIndexes.has(groupIndex)
         const figureCount = group.files.length
+        const withFigureDelete =
+          figureCount > 1 &&
+          group.element.node.type !== schema.nodes.headshot_grid
 
         return (
           <FileGroupContainer
@@ -229,7 +236,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
               {group.label && <FileLabel>{group.label}:</FileLabel>}
               {group.files.length > 0 && (
                 <ArrowIcon
-                  isOpen={isOpen}
+                  $isOpen={isOpen}
                   onClick={(e) => {
                     e.stopPropagation()
                     toggleGroupOpen(groupIndex)
@@ -296,7 +303,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                         fileManagement.download(fileAttachment.file)
                       }
                       onDelete={
-                        figureCount > 1
+                        withFigureDelete
                           ? () =>
                               handleDelete(
                                 fileAttachment.node,
@@ -316,8 +323,8 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   )
 }
 
-const ArrowIcon = styled(ArrowDownCircleIcon)<{ isOpen: boolean }>`
+const ArrowIcon = styled(ArrowDownCircleIcon)<{ $isOpen: boolean }>`
   cursor: pointer;
   transition: transform 0.25s ease;
-  transform: rotate(${(props) => (props.isOpen ? '180deg' : '0deg')});
+  transform: rotate(${(props) => (props.$isOpen ? '180deg' : '0deg')});
 `
