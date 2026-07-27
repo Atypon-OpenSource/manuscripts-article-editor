@@ -118,7 +118,7 @@ importers:
         specifier: npm:csl-json@v0.1.0
         version: csl-json@0.1.0
       '@types/diff-match-patch':
-        specifier: ^1.0.36
+        specifier: 1.0.36
         version: 1.0.36
       '@types/lodash':
         specifier: 4.17.24
@@ -190,7 +190,7 @@ importers:
         specifier: 29.1.1
         version: 29.1.1
       npm-run-all2:
-        specifier: ^8.0.4
+        specifier: 8.0.4
         version: 8.0.4
       prettier:
         specifier: 3.8.3
