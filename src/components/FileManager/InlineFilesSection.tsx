@@ -256,7 +256,6 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                 {group.files.map((fileAttachment, fileIndex) => (
                   <FileGroupItemContainer
                     key={fileIndex}
-                    data-tooltip-content={fileAttachment.file?.name || 'Figure'}
                     onClick={(e) => {
                       e.stopPropagation()
                       handleFileClick(fileAttachment.pos)
@@ -275,7 +274,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     {fileAttachment.file && (
                       <FileTypeIcon file={fileAttachment.file} />
                     )}
-                    <FileNameText data-cy="filename">
+                    <FileNameText 
+                      data-cy="filename"
+                      data-tooltip-content={fileAttachment.file?.name || 'Figure'}
+                    >
                       {fileAttachment.file?.name
                         ? trimFilename(fileAttachment.file.name, 20)
                         : 'Unknown file'}
