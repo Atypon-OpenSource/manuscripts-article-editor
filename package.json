@@ -37,7 +37,7 @@
     "@fontsource/pt-serif": "5.2.5",
     "@headlessui/react": "2.2.3",
     "@manuscripts/body-editor": "3.13.9-LEAN-5726.0",
-    "@manuscripts/style-guide": "3.6.3",
+    "@manuscripts/style-guide": "3.6.6-LEAN-5626.0",
     "@manuscripts/track-changes-plugin": "2.4.0",
     "@manuscripts/transform": "4.4.5",
     "@popperjs/core": "2.11.8",
