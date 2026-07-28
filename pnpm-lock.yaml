@@ -21,11 +21,11 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@manuscripts/body-editor':
-        specifier: 3.13.18
-        version: 3.13.18(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
+        specifier: 3.13.19-LEAN-5626.0
+        version: 3.13.19-LEAN-5626.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
       '@manuscripts/style-guide':
-        specifier: 3.6.6-LEAN-5626.0
-        version: 3.6.6-LEAN-5626.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
+        specifier: 3.6.5
+        version: 3.6.5(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
       '@manuscripts/track-changes-plugin':
         specifier: 2.4.0
         version: 2.4.0
@@ -581,8 +581,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.13.18':
-    resolution: {integrity: sha512-pgQ6nt1WSgmm1bs+I484ttEi0CIoiDfrzabttdctXYYacxvyw5EeRTbw8PhQDeQYSgZ6EQAOXA8+gidCRCkdyA==}
+  '@manuscripts/body-editor@3.13.19-LEAN-5626.0':
+    resolution: {integrity: sha512-vHzvh4BGT6Ddn81IK+8YS5TNN3bGFqeJfjmFL2KLhameq3QyHgCQstsgtCRVhxhtgn4s6tzwB7uwnNEDmgpYvA==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.13.19-LEAN-5626.0.tgz}
     engines: {node: '>=22'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -601,6 +601,10 @@ packages:
       eslint-plugin-react-hooks: '>= 4'
       eslint-plugin-simple-import-sort: '>= 8'
       typescript: '*'
+
+  '@manuscripts/style-guide@3.6.5':
+    resolution: {integrity: sha512-RMSZCXq6hqCwJD1CCQa7hElnDbW714r1SNa6MY41+JqzWCQq8KKb13Ipe5LQSBdwVrqV6H05oCmC+uehc1CQHA==}
+    engines: {node: '>=22'}
 
   '@manuscripts/style-guide@3.6.6-LEAN-5626.0':
     resolution: {integrity: sha512-rPRRwhS3/R61kYbS6GxVWpbxz101lmS+U4blTBjRE6SLyWgYnnagh8y/5AW82SIDxmrlqkRDmxLtFMLLa3m1kA==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.6.6-LEAN-5626.0.tgz}
@@ -4131,7 +4135,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.13.18(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
+  '@manuscripts/body-editor@3.13.19-LEAN-5626.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
     dependencies:
       '@citation-js/core': 0.7.21
       '@citation-js/plugin-bibtex': 0.7.21(@citation-js/core@0.7.21)
@@ -4203,6 +4207,32 @@ snapshots:
       prettier: 2.8.8
       typescript: 5.9.2
     transitivePeerDependencies:
+      - supports-color
+
+  '@manuscripts/style-guide@3.6.5(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
+    dependencies:
+      '@headlessui/react': 2.2.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      formik: 2.4.9(@types/react@19.2.7)(react@19.2.6)
+      prosemirror-commands: 1.7.1
+      prosemirror-history: 1.4.1
+      prosemirror-keymap: 1.2.3
+      prosemirror-model: 1.25.0
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.41.0
+      react: 19.2.6
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.6)
+      react-dnd-html5-backend: 16.0.1
+      react-dom: 19.2.6(react@19.2.6)
+      react-router-dom: 5.3.4(react@19.2.6)
+      react-select: 5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react-tooltip: 6.0.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      styled-components: 6.4.2(css-to-react-native@3.2.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+    transitivePeerDependencies:
+      - '@types/hoist-non-react-statics'
+      - '@types/node'
+      - '@types/react'
+      - css-to-react-native
+      - react-native
       - supports-color
 
   '@manuscripts/style-guide@3.6.6-LEAN-5626.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
