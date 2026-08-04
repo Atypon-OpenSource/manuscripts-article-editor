@@ -15,6 +15,7 @@ import { Step } from 'prosemirror-transform'
 
 import { Api } from './Api'
 import { saveWithDebounce } from './savingUtilities'
+import { SendStepsPayload } from './types'
 
 const MAX_ATTEMPTS = 10
 const THROTTLING_INTERVAL = 1200
@@ -69,6 +70,19 @@ export class StepsExchanger extends CollabProvider {
   debounce: ReturnType<typeof saveWithDebounce>
   flushImmediately?: () => void
   updateStoreVersion: (version: number) => void
+  private wsConnection?: {
+    close: () => void
+    send: (data: SendStepsPayload) => Promise<boolean>
+    canSend: () => boolean
+    requestStepsSince: (version: number) => Promise<
+      | {
+          steps: unknown[]
+          clientIDs: number[]
+          version: number
+        }
+      | undefined
+    >
+  }
   closeConnection: () => void
   isThrottling: ObservableBoolean
   saveStatus: ObservableString
@@ -157,15 +171,29 @@ export class StepsExchanger extends CollabProvider {
   ) {
     this.flushImmediately = this.debounce(
       async () => {
-        // Abort any pending request before starting a new one
+        this.saveStatus.setValue('saving')
+
+        const canSendWs = this.wsConnection?.canSend()
+        if (canSendWs) {
+          const sent = await this.wsConnection!.send({
+            steps,
+            version,
+            clientID,
+          })
+          if (sent) {
+            this.saveStatus.setValue('saved')
+            this.attempt = 0
+            return
+          }
+        }
+
+        // Fallback to HTTP POST - abort any pending request before starting a new one
         if (this.abortController) {
           this.abortController.abort()
         }
         if (this.timeoutId) {
           clearTimeout(this.timeoutId)
         }
-
-        this.saveStatus.setValue('saving')
 
         // Create new AbortController for this request
         this.abortController = new AbortController()
@@ -239,8 +267,22 @@ export class StepsExchanger extends CollabProvider {
     this.updateStoreVersion(version)
 
     if (steps.length) {
-      //TODO send steps to listener
-      this.newStepsListener()
+      this.newStepsListener(steps, clientIDs)
+    }
+  }
+
+  private handleWebSocketError(error: 'conflict' | 'failed') {
+    if (error === 'conflict') {
+      if (this.attempt < MAX_ATTEMPTS) {
+        this.newStepsListener()
+        this.attempt++
+      } else {
+        this.saveStatus.setValue('failed')
+        this.attempt = 0
+      }
+    } else {
+      this.saveStatus.setValue('failed')
+      this.attempt = 0
     }
   }
 
@@ -267,17 +309,20 @@ export class StepsExchanger extends CollabProvider {
     }
 
     if (navigator.onLine) {
-      this.closeConnection = this.api.listenToSteps(
+      this.wsConnection = this.api.listenToSteps(
         this.projectID,
         this.manuscriptID,
         (version, steps, clientIDs) =>
-          this.receiveSteps(version, steps, clientIDs)
+          this.receiveSteps(version, steps, clientIDs),
+        (error) => this.handleWebSocketError(error)
       )
+      this.closeConnection = this.wsConnection.close
       this.stopped = false
     } else {
       // No-op function when offline - connection cannot be established
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       this.closeConnection = () => {}
+      this.wsConnection = undefined
       this.stopped = true
     }
   }
@@ -322,6 +367,18 @@ export class StepsExchanger extends CollabProvider {
       return
     }
 
+    if (this.wsConnection?.canSend()) {
+      const response = await this.wsConnection.requestStepsSince(version)
+      if (response) {
+        return {
+          steps: response.steps.map((s) => Step.fromJSON(schema, s)),
+          clientIDs: response.clientIDs,
+          version: response.version,
+        }
+      }
+    }
+
+    // Fallback to HTTP
     const response = await this.api.getStepsSince(
       this.projectID,
       this.manuscriptID,
