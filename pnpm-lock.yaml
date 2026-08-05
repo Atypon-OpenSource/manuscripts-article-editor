@@ -21,11 +21,11 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@manuscripts/body-editor':
-        specifier: 3.13.19-LEAN-5808.1
-        version: 3.13.19-LEAN-5808.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
+        specifier: 3.14.0
+        version: 3.14.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
       '@manuscripts/style-guide':
-        specifier: 3.6.5
-        version: 3.6.5(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
+        specifier: 3.7.0
+        version: 3.7.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
       '@manuscripts/track-changes-plugin':
         specifier: 2.4.0
         version: 2.4.0
@@ -581,8 +581,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.13.19-LEAN-5808.1':
-    resolution: {integrity: sha512-g7pChEPCJ1sSJxjsoTq63w+14pMMCFZpTFbP0qeo7xAD9jF8tbC+YB1OoPmk+l6U5UOxACkz0j6TcCXPAzGjLQ==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.13.19-LEAN-5808.1.tgz}
+  '@manuscripts/body-editor@3.14.0':
+    resolution: {integrity: sha512-DDoFZQ/sxvcE6lfAossEEVYXBFY7UOCxQVywSXCqJ1G1XUtUF+atrNaQq9K52wTs3IO7jTdmYCG0ywtKRdLnrQ==}
     engines: {node: '>=22'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -602,8 +602,8 @@ packages:
       eslint-plugin-simple-import-sort: '>= 8'
       typescript: '*'
 
-  '@manuscripts/style-guide@3.6.5':
-    resolution: {integrity: sha512-RMSZCXq6hqCwJD1CCQa7hElnDbW714r1SNa6MY41+JqzWCQq8KKb13Ipe5LQSBdwVrqV6H05oCmC+uehc1CQHA==}
+  '@manuscripts/style-guide@3.7.0':
+    resolution: {integrity: sha512-r/R4vdG0ECrR1bmxBzbOU8NIiYSeuGKw7fOS89syT70jv7NS0t20pdt0jBTsN+4Dzab0GW0nlYSwCeWBXJjAWw==}
     engines: {node: '>=22'}
 
   '@manuscripts/track-changes-plugin@2.4.0':
@@ -4131,7 +4131,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.13.19-LEAN-5808.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
+  '@manuscripts/body-editor@3.14.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
     dependencies:
       '@citation-js/core': 0.7.21
       '@citation-js/plugin-bibtex': 0.7.21(@citation-js/core@0.7.21)
@@ -4141,7 +4141,7 @@ snapshots:
       '@citation-js/plugin-pubmed': 0.3.0(@citation-js/core@0.7.21)
       '@citation-js/plugin-ris': 0.7.18(@citation-js/core@0.7.21)
       '@iarna/word-count': 1.1.2
-      '@manuscripts/style-guide': 3.6.5(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
+      '@manuscripts/style-guide': 3.7.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
       '@manuscripts/track-changes-plugin': 2.4.0
       '@manuscripts/transform': 4.4.6(prosemirror-state@1.4.3)
       '@popperjs/core': 2.11.8
@@ -4205,7 +4205,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@manuscripts/style-guide@3.6.5(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
+  '@manuscripts/style-guide@3.7.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
     dependencies:
       '@headlessui/react': 2.2.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       formik: 2.4.9(@types/react@19.2.7)(react@19.2.6)
