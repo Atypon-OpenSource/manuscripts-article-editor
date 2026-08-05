@@ -11,7 +11,7 @@
  */
 
 import { ManuscriptNode, schema } from '@manuscripts/transform'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { NodeType } from 'prosemirror-model'
 
 import { ManuscriptSnapshot } from '../doc'
