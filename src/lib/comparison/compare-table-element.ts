@@ -11,7 +11,7 @@
  */
 import { ManuscriptNode, schema } from '@manuscripts/transform'
 import diff_match_patch from 'diff-match-patch'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { v4 as uuidv4 } from 'uuid'
 
 import { compareParagraphLike } from './compare-paragraph-like'
