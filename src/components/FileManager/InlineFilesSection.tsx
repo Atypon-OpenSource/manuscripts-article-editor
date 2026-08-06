@@ -23,10 +23,10 @@ import {
   FileVideoIcon,
 } from '@manuscripts/style-guide'
 import { findParentNodeClosestToPos, ManuscriptNode, schema } from '@manuscripts/transform'
-import { NodeSelection } from 'prosemirror-state'
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 
+import { selectNodeInView } from '../../lib/editor-view'
 import { trimFilename } from '../../lib/files'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
@@ -139,22 +139,14 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   }
 
   const handleClick = (element: ElementFiles) => {
-    const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, element.pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, element.pos)
   }
 
   const handleFileClick = (pos?: number) => {
     if (!pos) {
       return
     }
-    const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, pos)
   }
 
   const handleDetach = (node: ManuscriptNode, pos?: number) => {
@@ -169,10 +161,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       tr.setNodeAttribute(pos, 'src', '')
     }
 
-    tr.setSelection(NodeSelection.create(tr.doc, pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, pos, undefined, tr)
   }
 
   const handleDelete = (node: ManuscriptNode, pos?: number) => {
@@ -210,10 +199,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
       tr.setNodeAttribute(pos, 'src', uploaded.id)
     }
 
-    tr.setSelection(NodeSelection.create(tr.doc, pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, pos, undefined, tr)
   }
 
   return (

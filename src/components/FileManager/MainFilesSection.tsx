@@ -16,10 +16,10 @@ import {
   FileMainDocumentIcon,
 } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
-import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { selectNodeInView } from '../../lib/editor-view'
 import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
@@ -142,11 +142,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
     if (!pos || pos > view.state.doc.nodeSize) {
       return
     }
-    const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, pos)
   }
 
   const handleMove = (mainFile: NodeFile) => {
@@ -180,6 +176,7 @@ export const MainFilesSection: React.FC<{ mainDocument: NodeFile }> = ({
               : 'Drag or click to upload a new file'
           }
           accept=".docx, .doc, .pdf, .xml, .tex"
+          allowExternalIngestion={true}
         />
       )}
 

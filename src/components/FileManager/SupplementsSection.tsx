@@ -17,13 +17,11 @@ import {
 import { ExpandableSection } from '@manuscripts/style-guide'
 import { skipTracking } from '@manuscripts/track-changes-plugin'
 import { schema } from '@manuscripts/transform'
-import { NodeSelection } from 'prosemirror-state'
 import { findParentNodeClosestToPos } from 'prosemirror-utils'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDrag } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
+import React, { useState } from 'react'
 
 import { usePermissions } from '../../lib/capabilities'
+import { selectNodeInView } from '../../lib/editor-view'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
@@ -36,6 +34,7 @@ import {
   setUploadProgressAlert,
 } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
+import { useFileDrag } from './useFileDrag'
 
 export type SupplementsSectionProps = {
   supplements: NodeFile[]
@@ -64,11 +63,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
   }
 
   const handleClick = (element: NodeFile) => {
-    const tr = view.state.tr
-    tr.setSelection(NodeSelection.create(view.state.doc, element.pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, element.pos)
   }
 
   const upload = async (file: File) => {
@@ -169,6 +164,7 @@ export const SupplementsSection: React.FC<SupplementsSectionProps> = ({
         <FileUploader
           onUpload={handleUpload}
           placeholder="Drag or click to upload a new file"
+          allowExternalIngestion={true}
         />
       )}
       <ExpandableSection title="Supplementary files">
@@ -211,32 +207,13 @@ const SupplementFile: React.FC<{
 }) => {
   const can = usePermissions()
 
-  const [{ isDragging }, dragRef, preview] = useDrag({
-    type: 'file',
+  const { isDragging, drag } = useFileDrag({
     item: {
       file: supplement.file,
     },
-    canDrag: (can.replaceFile && can.editArticle),
-    end: (_, monitor) => {
-      if (monitor.didDrop()) {
-        onDetach()
-      }
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    canDrag: can.replaceFile && can.editArticle,
+    onDrop: onDetach,
   })
-
-  const drag = useCallback(
-    (node: HTMLDivElement | null) => {
-      dragRef(node)
-    },
-    [dragRef]
-  )
-
-  useEffect(() => {
-    preview(getEmptyImage())
-  }, [preview])
 
   return (
     <FileContainer
