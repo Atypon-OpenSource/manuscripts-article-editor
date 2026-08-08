@@ -14,6 +14,7 @@ import { RootChange } from '@manuscripts/track-changes-plugin'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
+import { useGetUserName } from '../../../hooks/use-get-user-name'
 import { buildSnippet } from '../../../lib/change-handlers'
 import { useStore } from '../../../store'
 import SnippetContent from './SnippetContent'
@@ -44,24 +45,18 @@ export const SuggestionSnippet: React.FC<Props> = ({
   isTrackingChangesVisible: isTrackingChangesVisibleProp,
   actionButtonRefs,
 }) => {
-  const [{ view, collaboratorsById, files, isTrackingChangesVisible }] =
+  const [{ view, files, isTrackingChangesVisible }] =
     useStore((store) => ({
       view: store.view,
       doc: store.doc,
-      collaboratorsById: store.collaboratorsById,
       files: store.files,
       isTrackingChangesVisible: store.isTrackingChangesVisible,
     }))
+  const getName = useGetUserName()
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
 
-  const author = collaboratorsById.get(dataTracked?.authorID)
-  const authorName =
-    author && (author.given || author.family)
-      ? author.family
-        ? `${author.given ? author.given[0] + '.' : ''} ${author.family}`
-        : author.given
-      : ''
+  const authorName = getName(dataTracked?.authorID)
 
   const snippet: SnippetData | null = useMemo(() => {
     let newSnippet: SnippetData | null = null

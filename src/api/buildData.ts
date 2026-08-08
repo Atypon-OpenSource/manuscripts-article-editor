@@ -9,7 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { schema, UserProfile } from '@manuscripts/transform'
+import {
+  schema,
+  UserProfile,
+} from '@manuscripts/transform'
 
 import { getUserRole } from '../lib/roles'
 import { state } from '../store'
@@ -37,6 +40,7 @@ const getDocumentData = async (
   if (!response) {
     throw new Error('Document not found')
   }
+
   return {
     doc: schema.nodeFromJSON(response.doc),
     initialDocVersion: response.version,

@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const useSyncedData = <T>(
