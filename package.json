@@ -59,7 +59,7 @@
     "react-dom": "19.2.6",
     "react-is": "18.3.1",
     "react-popper": "2.3.0",
-    "react-router-dom": "6.30.0",
+    "react-router-dom": "7.15.0",
     "react-select": "5.10.2",
     "styled-components": "6.4.2",
     "use-sync-external-store": "1.6.0",
