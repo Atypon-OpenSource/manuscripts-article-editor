@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/article-editor",
-  "version": "4.17.3-LEAN-5935-router-v7.1",
+  "version": "4.17.3-LEAN-5935-router-v7.2",
   "license": "CPAL-1.0",
   "description": "React components for editing and viewing manuscripts",
   "repository": "github:Atypon-OpenSource/manuscripts-article-editor",
