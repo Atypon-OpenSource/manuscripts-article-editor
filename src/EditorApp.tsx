@@ -28,8 +28,10 @@ import {
   createStore,
   GenericStore,
   GenericStoreProvider,
+  HostUser,
   state,
 } from './store'
+
 
 export interface EditorAppProps {
   fileManagement: FileManagement
@@ -37,6 +39,7 @@ export interface EditorAppProps {
   manuscriptID: string
   projectID: string
   permittedActions: string[]
+  users?: HostUser[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
@@ -68,6 +71,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   observer,
   pluginInspectorTab,
   isReadOnly,
+  users
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const [, setError] = useState()
@@ -95,6 +99,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       WMsPermittedActions: permittedActions as Actions[],
       pluginInspectorTab,
       isReadOnly,
+      hostUsers: users || []
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
