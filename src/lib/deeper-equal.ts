@@ -12,10 +12,13 @@
 
 const deeperEqual = (next: any, prev: any) => {
   // checking only one level deeper is enough to provide render relevenat equality
-  if (!next) {
-    return false
+  if (next === prev) {
+    // the same value, including undefined, null, false, 0 and ''
+    return true
   }
-  if (typeof prev == 'undefined' && typeof next !== 'undefined') {
+  if (!next || !prev) {
+    // only one of them is nullish (or falsy), so they differ, and the
+    // comparisons below would dereference the missing one
     return false
   }
   switch (next.constructor.name) {
