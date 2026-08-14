@@ -18,7 +18,7 @@ import {
   ManuscriptNode,
   schema,
 } from '@manuscripts/transform'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import React, {
   forwardRef,
   MutableRefObject,
