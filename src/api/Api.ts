@@ -209,8 +209,9 @@ export class Api {
     listener: StepsListener
   ) => {
     const config = getConfig()
-    const base = config.api.url.replace('http', 'ws')
-    const url = `${base}/doc/${projectID}/manuscript/${manuscriptID}/listen`
+    const base = new URL(config.api.url, window.location.origin)
+    base.protocol = base.protocol === 'https:' ? 'wss:' : 'ws:'
+    const url = `${base.href}/doc/${projectID}/manuscript/${manuscriptID}/listen`
 
     let ws: WebSocket
 
