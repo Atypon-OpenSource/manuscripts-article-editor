@@ -10,8 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { PrimaryButton, TertiaryButton } from '@manuscripts/style-guide'
-import React from 'react'
 import styled, { css } from 'styled-components'
 
 const commonStyles = css`
@@ -22,16 +20,9 @@ const commonStyles = css`
   padding: 0 ${(props) => props.theme.grid.unit * 3}px;
 `
 
-const StyledSidebarHeader = styled.div`
+export const SidebarTitle = styled.div`
   ${commonStyles};
   margin-bottom: ${(props) => props.theme.grid.unit * 6}px;
-`
-
-const StyledSidebarActionContainer = styled.div`
-  margin-right: -16px;
-`
-
-export const SidebarTitle = styled.div`
   font-size: ${(props) => props.theme.font.size.xlarge};
   font-weight: ${(props) => props.theme.font.weight.semibold};
   color: ${(props) => props.theme.colors.text.primary};
@@ -44,36 +35,3 @@ export const SidebarFooter = styled.div`
   ${commonStyles};
   margin-top: ${(props) => props.theme.grid.unit * 4}px;
 `
-
-interface SidebarHeaderInterface {
-  action?: () => void
-  cancelText?: string
-  confirmText?: string
-  isCancel?: boolean
-  title: string | React.ReactNode
-}
-
-export const SidebarHeader: React.FunctionComponent<SidebarHeaderInterface> = ({
-  action,
-  isCancel,
-  cancelText,
-  confirmText,
-  title,
-}) => (
-  <StyledSidebarHeader>
-    <SidebarTitle>{title}</SidebarTitle>
-    {action && (
-      <StyledSidebarActionContainer>
-        {isCancel ? (
-          <TertiaryButton $mini={true} onClick={action}>
-            {cancelText || 'Cancel'}
-          </TertiaryButton>
-        ) : (
-          <PrimaryButton $mini={true} onClick={action}>
-            {confirmText || 'Done'}
-          </PrimaryButton>
-        )}
-      </StyledSidebarActionContainer>
-    )}
-  </StyledSidebarHeader>
-)
