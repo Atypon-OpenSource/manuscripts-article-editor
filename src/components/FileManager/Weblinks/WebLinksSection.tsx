@@ -22,8 +22,8 @@ import {
   Category,
   Dialog,
   ExpandableSection,
-  SecondaryButton,
 } from '@manuscripts/style-guide'
+import { Button } from '@manuscripts/style-guide/mui'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -107,12 +107,14 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
     <div data-cy="weblinks-section">
       <ExpandableSection title="Weblinks" data-cy="weblinks-section-expandable">
         {can?.editArticle && (
-          <AddButton
+          <Button
+            variant="secondary"
             data-cy="add-weblink-button"
             onClick={() => setModalState({ mode: WeblinkModalMode.Add, weblink: null })}
+            style={{ margin: '8px 16px' }}
           >
             + Add link
-          </AddButton>
+          </Button>
         )}
         {weblinks.map((weblink) => (
           <WeblinkEntry
@@ -160,9 +162,5 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
     </div>
   )
 }
-
-const AddButton = styled(SecondaryButton)`
-  margin: 8px 16px;
-`
 
 

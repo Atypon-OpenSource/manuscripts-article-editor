@@ -34,8 +34,6 @@ const ManuscriptSidebar: React.FC = () => {
       minSize={260}
       name={'sidebar'}
       side={'end'}
-      sidebarTitle={''}
-      sidebarFooter={''}
     >
       <ManuscriptOutline
         doc={editor.state?.doc || null}

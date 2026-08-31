@@ -10,7 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ArrowUpIcon, SecondaryButton } from '@manuscripts/style-guide'
+import { ArrowUpIcon } from '@manuscripts/style-guide'
 import { styled } from 'styled-components'
 
 export const DropdownContainer = styled.div`
@@ -42,10 +42,6 @@ export const Dropdown = styled.div<{
   z-index: 10;
 `
 
-interface DropdownProps {
-  $isOpen: boolean
-}
-
 export const DropdownToggle = styled(ArrowUpIcon)`
   margin-left: 6px;
   transform: rotate(180deg);
@@ -53,11 +49,4 @@ export const DropdownToggle = styled(ArrowUpIcon)`
   &.open {
     transform: rotate(0deg);
   }
-`
-
-export const DropdownButtonContainer = styled(SecondaryButton)<DropdownProps>`
-  .inheritColors path {
-    fill: currentColor;
-    stroke: currentColor;
-  }
-`
+`;

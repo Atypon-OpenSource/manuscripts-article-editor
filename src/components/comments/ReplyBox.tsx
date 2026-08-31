@@ -10,11 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  ButtonGroup,
-  PrimaryButton,
-  TertiaryButton,
-} from '@manuscripts/style-guide'
+import { ButtonGroup } from '@manuscripts/style-guide'
+import { Button } from '@manuscripts/style-guide/mui'
 import React, { ChangeEvent, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -74,16 +71,16 @@ export const ReplyBox: React.FC<ReplyBoxProps> = ({
       />
       {isTextBoxFocused && (
         <Actions data-cy="reply-actions">
-          <TertiaryButton onClick={handleCancel} tabIndex={0}>
+          <Button variant="tertiary" onClick={handleCancel} tabIndex={0}>
             Cancel
-          </TertiaryButton>
-          <PrimaryButton
+          </Button>
+          <Button
             onClick={reply}
             disabled={disableSaveButton}
             tabIndex={0}
           >
             Reply
-          </PrimaryButton>
+          </Button>
         </Actions>
       )}
     </>
@@ -123,11 +120,5 @@ const TextBox = styled.textarea`
 const Actions = styled(ButtonGroup)`
   & button:not(:last-of-type) {
     margin-right: 4px;
-  }
-  & ${TertiaryButton} {
-    &:hover {
-      background-color: inherit !important;
-      border-color: transparent !important;
-    }
   }
 `

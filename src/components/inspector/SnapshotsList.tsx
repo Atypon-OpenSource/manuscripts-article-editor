@@ -10,7 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { PrimaryButton, SecondaryButton } from '@manuscripts/style-guide'
+import { SecondaryButton } from '@manuscripts/style-guide'
+import { Button } from '@manuscripts/style-guide/mui'
 import {
   TrackChangesStatus,
   trackCommands,
@@ -91,9 +92,9 @@ export const SnapshotsList: React.FC = () => {
           <>Version history </>
           <SecondaryText>Snapshots created on task completion </SecondaryText>
         </Header>
-        <CloseButton onClick={handleClose} tabIndex={0}>
+        <Button variant="secondary" onClick={handleClose} tabIndex={0}>
           <CloseIcon /> Close
-        </CloseButton>
+        </Button>
       </HeaderContainer>
       <SnapshotListContainer>
         <SnapshotListItem
@@ -128,9 +129,9 @@ export const SnapshotsList: React.FC = () => {
         })}
       </SnapshotListContainer>
       <ButtonContainer>
-        <PrimaryButton onClick={() => setShowCompareModal(true)} tabIndex={0}>
+        <Button onClick={() => setShowCompareModal(true)} tabIndex={0}>
           Compare Snapshots
-        </PrimaryButton>
+        </Button>
       </ButtonContainer>
       {showCompareModal && (
         <CompareDocumentsModal
@@ -159,10 +160,6 @@ const Header = styled.div`
   align-items: flex-start;
 `
 
-const CloseButton = styled(SecondaryButton)`
-  padding: 4px ${(props) => props.theme.grid.unit * 3}px;
-  font-size: 14px;
-`
 const CloseIcon = styled.div`
   display: inline-flex;
   height: 12px;

@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { MuiThemeProvider, muiTheme } from '@manuscripts/style-guide/mui'
 import React from 'react'
 import { ThemeProvider as StyledThemeProvider } from 'styled-components'
 
@@ -18,5 +19,7 @@ import { theme } from './theme'
 export const ThemeProvider: React.FunctionComponent<{
   children: React.ReactNode
 }> = (props) => (
-  <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>
+  <MuiThemeProvider theme={muiTheme}>
+    <StyledThemeProvider theme={theme}>{props.children}</StyledThemeProvider>
+  </MuiThemeProvider>
 )
