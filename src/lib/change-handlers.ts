@@ -35,7 +35,7 @@ import {
   nodeNames,
   schema,
 } from '@manuscripts/transform'
-import { escape } from 'lodash'
+import escape from 'lodash/escape'
 import { findChildrenByType } from 'prosemirror-utils'
 
 import { NodeTextContentRetriever } from './node-content-retriever'

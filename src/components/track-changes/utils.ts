@@ -30,6 +30,8 @@ export const setSelectedSuggestion = (
   const state = editor.state
   const view = editor.view
   const tr = state.tr
+  /* @TODO consider moving this logic into tc plugin */
+  /** do we actually need a specia case for structure changes? will it not be covered by the node selection? */
   if (suggestions[0].dataTracked.operation === CHANGE_OPERATION.structure) {
     tr.setSelection(
       new NodesSelection(
