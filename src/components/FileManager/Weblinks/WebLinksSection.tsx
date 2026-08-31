@@ -26,7 +26,6 @@ import {
 import { Button } from '@manuscripts/style-guide/mui'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
-import styled from 'styled-components'
 
 import { usePermissions } from '../../../lib/capabilities'
 import { useStore } from '../../../store'
