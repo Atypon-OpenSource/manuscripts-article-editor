@@ -10,13 +10,13 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { SecondaryButton, useDropdown } from '@manuscripts/style-guide'
+import { useDropdown } from '@manuscripts/style-guide'
+import { Button } from '@manuscripts/style-guide/mui'
 import React, { useEffect, useRef } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import {
   Dropdown,
-  DropdownButtonContainer,
   DropdownContainer,
   DropdownToggle,
 } from '../nav/Dropdown'
@@ -25,6 +25,7 @@ interface Props {
   sortBy: string
   setSortBy: (sortBy: string) => void
 }
+// TODO: To be refactored with the new dropdown component
 export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
   const { isOpen, toggleOpen, wrapperRef } = useDropdown()
   const toggleButtonRef = useRef<HTMLButtonElement>(null)
@@ -65,9 +66,9 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
   return (
     <>
       <Container ref={wrapperRef}>
-        <DropdownButtonContainer
+        <Button
           ref={toggleButtonRef}
-          $isOpen={isOpen}
+          variant="tertiary"
           onClick={toggleOpen}
           onKeyDown={(e) => {
             if (e.key === 'ArrowDown') {
@@ -82,7 +83,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
             <Bold>{sortBy}</Bold>
             <DropdownToggle className={isOpen ? 'open' : ''} />
           </Label>
-        </DropdownButtonContainer>
+        </Button>
         {isOpen && (
           <DropdownList
             $direction={'right'}
@@ -90,8 +91,9 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
             onKeyDown={handleDropdownKeyDown}
           >
             {options.map((opt, index) => (
-              <Option
+              <Button
                 key={opt}
+                variant="tertiary"
                 value={opt}
                 ref={(el) => {
                   if (el) optionRefs.current[index] = el
@@ -102,7 +104,7 @@ export const SortByDropdown: React.FC<Props> = ({ sortBy, setSortBy }) => {
                 }}
               >
                 {opt}
-              </Option>
+              </Button>
             ))}
           </DropdownList>
         )}
@@ -133,7 +135,6 @@ const Container = styled(DropdownContainer)`
   padding-left: ${(props) => props.theme.grid.unit * 4}px;
   width: fit-content;
   .dropdown-toggle {
-    border: none;
     background: transparent !important;
 
     &:focus-visible {
@@ -143,29 +144,6 @@ const Container = styled(DropdownContainer)`
   }
 `
 
-const Option = styled(SecondaryButton)`
-  ${(props) => props.disabled && disabledBtnStyle}
-  text-align: left;
-  display: block;
-  border: none;
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
-    background: ${(props) => props.theme.colors.background.fifth} !important;
-    color: ${(props) =>
-      props.theme.colors.button.secondary.color.default} !important;
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${(props) => props.theme.colors.outline.focus};
-    outline-offset: -2px;
-  }
-`
 const DropdownList = styled(Dropdown)`
   padding: ${(props) => props.theme.grid.unit * 2}px 0;
-`
-const disabledBtnStyle = css`
-  cursor: default !important;
-  background-color: unset !important;
-  color: ${(props) => props.theme.colors.text.secondary} !important;
-  border: none !important;
 `

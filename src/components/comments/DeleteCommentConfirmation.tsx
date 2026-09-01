@@ -10,12 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  AttentionOrangeIcon,
-  ButtonGroup,
-  PrimaryButton,
-  SecondaryButton,
-} from '@manuscripts/style-guide'
+import { AttentionOrangeIcon, ButtonGroup } from '@manuscripts/style-guide'
+import { Button } from '@manuscripts/style-guide/mui'
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
@@ -29,15 +25,6 @@ const MessageContainer = styled.div`
   }
 `
 
-const CancelButton = styled(SecondaryButton)`
-  padding: 4px ${(props) => props.theme.grid.unit * 3}px;
-  font-size: 14px;
-`
-const DeleteButton = styled(PrimaryButton)`
-  padding: 4px ${(props) => props.theme.grid.unit * 3}px;
-  margin-right: 16px;
-  font-size: 14px;
-`
 const Message = styled.div`
   font-weight: 700;
   color: #000;
@@ -108,12 +95,12 @@ export const DeleteCommentConfirmation: React.FC<
         <Message>Delete this comment?</Message>
       </MessageContainer>
       <Buttons>
-        <CancelButton onClick={onCancel} tabIndex={0}>
+        <Button variant="secondary" size="small" onClick={onCancel} tabIndex={0}>
           Cancel
-        </CancelButton>
-        <DeleteButton onClick={onConfirm} tabIndex={0}>
+        </Button>
+        <Button size="small" onClick={onConfirm} tabIndex={0} sx={{ mr: 2 }}>
           Delete
-        </DeleteButton>
+        </Button>
       </Buttons>
     </DeleteConfirmation>
   )
