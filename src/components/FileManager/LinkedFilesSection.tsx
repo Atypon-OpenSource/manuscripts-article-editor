@@ -11,9 +11,9 @@
  */
 import { NodeFile } from '@manuscripts/body-editor'
 import { ExpandableSection } from '@manuscripts/style-guide'
-import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
 
+import { selectNodeInView } from '../../lib/editor-view'
 import { useStore } from '../../store'
 import { FileActions } from './FileActions'
 import { FileContainer } from './FileContainer'
@@ -64,20 +64,14 @@ export const LinkedFilesSection: React.FC<LinkedFilesSectionProps> = ({
     const pos = linkedFile.pos
     const tr = view.state.tr
     tr.setNodeAttribute(pos, 'extLink', uploaded.id)
-    tr.setSelection(NodeSelection.create(tr.doc, pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, pos, undefined, tr)
   }
 
   const handleMoveToOtherFiles = (linkedFile: NodeFile) => {
     const tr = view.state.tr
     const pos = linkedFile.pos
     tr.setNodeAttribute(pos, 'extLink', '')
-    tr.setSelection(NodeSelection.create(tr.doc, pos))
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    selectNodeInView(view, pos, undefined, tr)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
       message: FileSectionType.OtherFile,

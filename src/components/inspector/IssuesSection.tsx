@@ -16,6 +16,7 @@ import { NodeSelection } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
+import { dispatchEditorTransaction } from '../../lib/editor-view'
 import { scrollIntoView } from '../../lib/utils'
 import { useStore } from '../../store'
 
@@ -42,7 +43,10 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
     if (view) {
       const tr = view.state.tr
       tr.setSelection(NodeSelection.create(tr.doc, inconsistency.pos))
-      view.dispatch(tr)
+      dispatchEditorTransaction(view, tr, {
+        focus: false,
+        scrollIntoView: false,
+      })
       const domNode = view.nodeDOM(inconsistency.pos)
       if (domNode && domNode instanceof HTMLElement) {
         scrollIntoView(domNode)

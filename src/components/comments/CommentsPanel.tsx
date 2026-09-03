@@ -31,6 +31,8 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { buildThreads, getOrphanComments, Thread } from '../../lib/comments'
+import { dispatchEditorTransaction } from '../../lib/editor-view'
+import { scrollIntoView } from '../../lib/utils'
 import { useStore } from '../../store'
 import { CommentsPlaceholder } from './CommentsPlaceholder'
 import { CommentThread } from './CommentThread'
@@ -55,13 +57,6 @@ const CheckboxLabelText = styled.div`
   color: ${(props) => props.theme.colors.text.primary} !important;
   margin: 0 !important;
 `
-
-const scrollIntoView = (element: HTMLElement) => {
-  const rect = element.getBoundingClientRect()
-  if (rect.bottom > window.innerHeight || rect.top < 150) {
-    element.scrollIntoView()
-  }
-}
 
 export const CommentsPanel: React.FC = () => {
   const [{ view, newCommentID, selectedCommentKey, user, doc }] = useStore(
@@ -120,9 +115,7 @@ export const CommentsPanel: React.FC = () => {
       const to = from + range.size
       tr.setSelection(TextSelection.create(view.state.doc, from, to))
     }
-    tr.scrollIntoView()
-    view.focus()
-    view.dispatch(tr)
+    dispatchEditorTransaction(view, tr)
   }
 
   const insertCommentReply = (target: string, contents: string) => {

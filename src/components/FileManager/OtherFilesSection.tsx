@@ -14,9 +14,7 @@ import {
   insertAttachment,
   insertSupplement,
 } from '@manuscripts/body-editor'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDrag } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
+import React, { useState } from 'react'
 
 import { usePermissions } from '../../lib/capabilities'
 import { useStore } from '../../store'
@@ -31,6 +29,7 @@ import {
   setUploadProgressAlert,
 } from './FileSectionAlert'
 import { FileUploader } from './FileUploader'
+import { useFileDrag } from './useFileDrag'
 
 /**
  * This component represents the other files in the file section.
@@ -100,6 +99,7 @@ export const OtherFilesSection: React.FC<{
         <FileUploader
           onUpload={handleUpload}
           placeholder="Drag or click to upload a new file"
+          allowExternalIngestion={true}
         />
       )}
       <FileSectionAlert
@@ -129,27 +129,12 @@ const OtherFile: React.FC<{
 }> = ({ file, onDownload, onMoveToSupplements, onUseAsMain }) => {
   const can = usePermissions()
 
-  const [{ isDragging }, dragRef, preview] = useDrag({
-    type: 'file',
+  const { isDragging, drag } = useFileDrag({
     item: {
       file,
     },
-    canDrag: (can.replaceFile && can.editArticle),
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    canDrag: can.replaceFile && can.editArticle,
   })
-
-  const drag = useCallback(
-    (node: HTMLDivElement | null) => {
-      dragRef(node)
-    },
-    [dragRef]
-  )
-
-  useEffect(() => {
-    preview(getEmptyImage())
-  }, [preview])
 
   return (
     <FileContainer
