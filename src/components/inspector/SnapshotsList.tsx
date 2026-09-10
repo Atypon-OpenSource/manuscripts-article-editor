@@ -39,7 +39,6 @@ export const SnapshotsList: React.FC = () => {
   const [doc, setDoc] = useState<ManuscriptNode>()
   const [showCompareModal, setShowCompareModal] = useState(false)
 
-
   if (!view) {
     return null
   }

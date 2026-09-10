@@ -15,11 +15,7 @@ import {
   searchReplacePluginKey,
   SearchReplacePluginState,
 } from '@manuscripts/body-editor'
-import {
-  ArrowUpIcon,
-  CloseButton,
-  DotsIcon,
-} from '@manuscripts/style-guide'
+import { ArrowUpIcon, CloseButton, DotsIcon } from '@manuscripts/style-guide'
 import { IconButton } from '@manuscripts/style-guide/mui'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'

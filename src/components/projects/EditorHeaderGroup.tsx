@@ -10,7 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
 import React from 'react'
-import { SaveStatus, SliderOffIcon, SliderOnIcon } from '@manuscripts/style-guide'
+import {
+  SaveStatus,
+  SliderOffIcon,
+  SliderOnIcon,
+} from '@manuscripts/style-guide'
 import { IconButton } from '@manuscripts/style-guide/mui'
 import styled, { createGlobalStyle } from 'styled-components'
 

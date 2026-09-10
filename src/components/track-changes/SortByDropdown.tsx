@@ -15,11 +15,7 @@ import { Button } from '@manuscripts/style-guide/mui'
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-import {
-  Dropdown,
-  DropdownContainer,
-  DropdownToggle,
-} from '../nav/Dropdown'
+import { Dropdown, DropdownContainer, DropdownToggle } from '../nav/Dropdown'
 
 interface Props {
   sortBy: string

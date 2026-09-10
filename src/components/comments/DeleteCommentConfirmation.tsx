@@ -95,7 +95,12 @@ export const DeleteCommentConfirmation: React.FC<
         <Message>Delete this comment?</Message>
       </MessageContainer>
       <Buttons>
-        <Button variant="secondary" size="small" onClick={onCancel} tabIndex={0}>
+        <Button
+          variant="secondary"
+          size="small"
+          onClick={onCancel}
+          tabIndex={0}
+        >
           Cancel
         </Button>
         <Button size="small" onClick={onConfirm} tabIndex={0} sx={{ mr: 2 }}>

@@ -78,7 +78,6 @@ export const OtherFilesSection: React.FC<{
   }
 
   const moveToSupplements = async (file: FileAttachment) => {
-
     insertSupplement(file, view, false)
     setAlert({
       type: FileSectionAlertType.MOVE_SUCCESSFUL,
@@ -134,7 +133,7 @@ const OtherFile: React.FC<{
     item: {
       file,
     },
-    canDrag: (can.replaceFile && can.editArticle),
+    canDrag: can.replaceFile && can.editArticle,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

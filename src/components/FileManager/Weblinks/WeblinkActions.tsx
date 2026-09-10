@@ -10,14 +10,14 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2026 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { DotsIcon, DropdownContainer, useDropdown } from '@manuscripts/style-guide'
+import {
+  DotsIcon,
+  DropdownContainer,
+  useDropdown,
+} from '@manuscripts/style-guide'
 import React, { useEffect, useRef } from 'react'
 
-import {
-  ActionsIcon,
-  FileAction,
-  FileActionDropdownList,
-} from '../FileActions'
+import { ActionsIcon, FileAction, FileActionDropdownList } from '../FileActions'
 
 export const WeblinkActions: React.FC<{
   onEdit: () => void

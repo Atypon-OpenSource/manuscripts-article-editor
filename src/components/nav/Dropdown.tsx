@@ -49,4 +49,4 @@ export const DropdownToggle = styled(ArrowUpIcon)`
   &.open {
     transform: rotate(0deg);
   }
-`;
+`
