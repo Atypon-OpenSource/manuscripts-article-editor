@@ -10,7 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { ArrowDownCircleIcon, IconButton } from '@manuscripts/style-guide'
+import { ArrowDownCircleIcon } from '@manuscripts/style-guide'
+import { IconButton } from '@manuscripts/style-guide/mui'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -51,18 +52,9 @@ export const Field = styled.div`
 `
 
 export const ExpanderButton = styled(IconButton).attrs(() => ({
-  $size: 20,
-  $defaultColor: true,
+  size: 'small',
 }))`
-  border: none;
   border-radius: 50%;
-
-  &:focus,
-  &:hover {
-    &:not([disabled]) {
-      background: ${(props) => props.theme.colors.background.fifth};
-    }
-  }
 
   svg circle {
     stroke: ${(props) => props.theme.colors.border.secondary};

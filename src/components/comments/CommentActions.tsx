@@ -16,9 +16,9 @@ import {
   DotsIcon,
   DropdownContainer,
   DropdownList,
-  IconButton,
   useDropdown,
 } from '@manuscripts/style-guide'
+import { IconButton } from '@manuscripts/style-guide/mui'
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
@@ -181,10 +181,9 @@ export const OrphanCommentActions: React.FC<{
         className="delete-button"
         data-cy="orphan-comment-delete"
         onClick={onDelete}
-        $iconColor={'#333333'}
         tabIndex={0}
       >
-        <DeleteIcon />
+        <DeleteIcon fill="#333333" />
       </IconButton>
     </Container>
   )

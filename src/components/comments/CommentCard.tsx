@@ -89,9 +89,9 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   onDelete,
 }) => {
   const can = usePermissions()
-  const getName = useGetUserName();
+  const getName = useGetUserName()
   const [{ user }] = useStore((state) => ({
-    user: state.user
+    user: state.user,
   }))
 
   const authorID = comment.node.attrs.userID

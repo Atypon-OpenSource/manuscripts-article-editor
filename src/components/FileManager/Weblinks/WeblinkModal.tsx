@@ -82,18 +82,18 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
       category={Category.confirmation}
       header={mode === WeblinkModalMode.Add ? 'Add weblink' : 'Edit weblink'}
       message={
-          <FormRow style={{ paddingTop: '16px' }}>
-            <Label htmlFor="weblink-url">URL</Label>
-            <TextField
-              id="weblink-url"
-              value={url}
-              placeholder="https://www.website.com"
-              onChange={(e) => setUrl(e.target.value)}
-              onBlur={() => validateUrl(url)}
-              data-cy="weblink-url-input"
-            />
-            {urlError && <InputErrorText>{urlError}</InputErrorText>}
-          </FormRow>
+        <FormRow style={{ paddingTop: '16px' }}>
+          <Label htmlFor="weblink-url">URL</Label>
+          <TextField
+            id="weblink-url"
+            value={url}
+            placeholder="https://www.website.com"
+            onChange={(e) => setUrl(e.target.value)}
+            onBlur={() => validateUrl(url)}
+            data-cy="weblink-url-input"
+          />
+          {urlError && <InputErrorText>{urlError}</InputErrorText>}
+        </FormRow>
       }
       actions={{
         primary: {
@@ -109,4 +109,3 @@ export const WeblinkModal: React.FC<WeblinkModalProps> = ({
     />
   )
 }
-

@@ -44,7 +44,7 @@ const ManuscriptEditor: React.FC<
   observer,
   pluginInspectorTab,
   isReadOnly,
-  users
+  users,
 }) => {
   setConfig(config)
   return (

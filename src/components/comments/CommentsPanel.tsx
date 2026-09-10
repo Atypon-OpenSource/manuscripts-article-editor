@@ -78,7 +78,6 @@ export const CommentsPanel: React.FC = () => {
   const threadCardRefs = useRef<(HTMLDivElement | null)[]>([])
   const orphanCardRefs = useRef<(HTMLDivElement | null)[]>([])
 
-
   const comments = useMemo(
     () =>
       view?.state ? commentsKey.getState(view.state)?.comments : undefined,

@@ -69,7 +69,6 @@ export const getOrphanComments = (state: EditorState) => {
   )
 }
 
-
 export const commentsByTime = (a: Comment, b: Comment) => {
   const aTimestamp = a.node.attrs.timestamp || 0
   const bTimestamp = b.node.attrs.timestamp || 0

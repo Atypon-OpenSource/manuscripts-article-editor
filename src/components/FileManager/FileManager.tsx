@@ -61,12 +61,10 @@ export const FileManager: React.FC = () => {
     inspectorOpenTabs: s.inspectorOpenTabs,
   }))
 
-  const { figures, supplements, weblinks, attachments, linkedFiles, others } = useMemo(
-    () => {
+  const { figures, supplements, weblinks, attachments, linkedFiles, others } =
+    useMemo(() => {
       return groupFiles(doc, files)
-    },
-    [doc, files]
-  )
+    }, [doc, files])
 
   return (
     <InspectorTabs
