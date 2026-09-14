@@ -32,7 +32,6 @@ import {
   state,
 } from './store'
 
-
 export interface EditorAppProps {
   fileManagement: FileManagement
   files: FileAttachment[]
@@ -71,7 +70,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   observer,
   pluginInspectorTab,
   isReadOnly,
-  users
+  users,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const [, setError] = useState()
@@ -99,7 +98,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       WMsPermittedActions: permittedActions as Actions[],
       pluginInspectorTab,
       isReadOnly,
-      hostUsers: users || []
+      hostUsers: users || [],
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])

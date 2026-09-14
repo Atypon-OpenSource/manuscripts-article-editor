@@ -11,19 +11,13 @@
  */
 
 import React, { useMemo } from 'react'
-import {
-  FileAttachment,
-  NodeWeblink
-} from '@manuscripts/body-editor'
-import {
-  WebLinkIcon
-} from '@manuscripts/style-guide'
+import { FileAttachment, NodeWeblink } from '@manuscripts/body-editor'
+import { WebLinkIcon } from '@manuscripts/style-guide'
 
 import { FileName } from '../FileName'
 import { WeblinkActions } from './WeblinkActions'
 import styled from 'styled-components'
 import { FileContainer } from '../FileContainer'
-
 
 type WeblinkEntryProps = {
   weblink: NodeWeblink
@@ -68,8 +62,7 @@ export const WeblinkEntry = ({
           <WeblinkCaptionTitle data-cy="weblink-caption-title">
             {captionTitle}
           </WeblinkCaptionTitle>
-        ) 
-        }
+        )}
       </WeblinkInfo>
       {canEdit && <WeblinkActions onEdit={onEdit} onDelete={onDelete} />}
     </WeblinkContainer>
