@@ -21,8 +21,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@manuscripts/body-editor':
-        specifier: 3.18.3-LEAN-5982.1
-        version: 3.18.3-LEAN-5982.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
+        specifier: 3.18.3-LEAN-5982.2
+        version: 3.18.3-LEAN-5982.2(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
       '@manuscripts/style-guide':
         specifier: 3.7.4-LEAN-5982.0
         version: 3.7.4-LEAN-5982.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)
@@ -591,8 +591,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@manuscripts/body-editor@3.18.3-LEAN-5982.1':
-    resolution: {integrity: sha512-NOZyS4tdeY7DERL9rIVrw4uq1z2Cg5HcDV80/6Xlu59ePUKNEn0glDmgRcA6hplkZ2L21G5Hm8Y6LSXVbTVI6A==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.18.3-LEAN-5982.1.tgz}
+  '@manuscripts/body-editor@3.18.3-LEAN-5982.2':
+    resolution: {integrity: sha512-J2kpIFWym/AYxaIgVBJStb3BbVo741RcjYVpfaFVI4joHC569T8d1/CjSxe6I5JFQfL1YLV5AbTmPBp8HyAHeA==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/body-editor/-/@manuscripts/body-editor-3.18.3-LEAN-5982.2.tgz}
     engines: {node: '>=22'}
 
   '@manuscripts/eslint-config@0.5.1':
@@ -4247,7 +4247,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@manuscripts/body-editor@3.18.3-LEAN-5982.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
+  '@manuscripts/body-editor@3.18.3-LEAN-5982.2(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
     dependencies:
       '@citation-js/core': 0.7.21
       '@citation-js/plugin-bibtex': 0.7.21(@citation-js/core@0.7.21)
