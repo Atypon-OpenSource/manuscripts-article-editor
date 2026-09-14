@@ -14,7 +14,7 @@ import React from 'react'
 
 import Panel from './Panel'
 import { ResizingOutlinerButton } from './ResizerButtons'
-import { Sidebar, SidebarContent, SidebarFooter } from './Sidebar'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarTitle } from './Sidebar'
 
 interface Props {
   children: React.ReactNode
@@ -24,7 +24,7 @@ interface Props {
   name: string
   side: 'end' | 'start'
   sidebarFooter?: string | React.ReactNode
-  sidebarTitle: string | React.ReactNode
+  sidebarTitle?: string | React.ReactNode
 }
 
 const PageSidebar: React.FunctionComponent<Props> = ({
@@ -46,9 +46,9 @@ const PageSidebar: React.FunctionComponent<Props> = ({
     resizerButton={ResizingOutlinerButton}
   >
     <Sidebar data-cy="sidebar">
-      {sidebarTitle}
+      {sidebarTitle ? <SidebarTitle>{sidebarTitle}</SidebarTitle> : null}
       <SidebarContent>{children}</SidebarContent>
-      {sidebarFooter && <SidebarFooter>{sidebarFooter}</SidebarFooter>}
+      {sidebarFooter ? <SidebarFooter>{sidebarFooter}</SidebarFooter> : null}
     </Sidebar>
   </Panel>
 )

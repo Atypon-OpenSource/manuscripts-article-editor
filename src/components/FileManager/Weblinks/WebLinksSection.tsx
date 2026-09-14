@@ -18,20 +18,19 @@ import {
   updateSupplementWeblink,
 } from '@manuscripts/body-editor'
 
-import {
-  Category,
-  Dialog,
-  ExpandableSection,
-  SecondaryButton,
-} from '@manuscripts/style-guide'
+import { Category, Dialog, ExpandableSection } from '@manuscripts/style-guide'
+import { Button } from '@manuscripts/style-guide/mui'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
-import styled from 'styled-components'
 
 import { usePermissions } from '../../../lib/capabilities'
 import { useStore } from '../../../store'
 
-import { WeblinkFormValues, WeblinkModal, WeblinkModalMode } from './WeblinkModal'
+import {
+  WeblinkFormValues,
+  WeblinkModal,
+  WeblinkModalMode,
+} from './WeblinkModal'
 import { WeblinkEntry } from './WeblinkEntry'
 
 export type WebLinksSectionProps = {
@@ -107,19 +106,25 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
     <div data-cy="weblinks-section">
       <ExpandableSection title="Weblinks" data-cy="weblinks-section-expandable">
         {can?.editArticle && (
-          <AddButton
+          <Button
+            variant="secondary"
             data-cy="add-weblink-button"
-            onClick={() => setModalState({ mode: WeblinkModalMode.Add, weblink: null })}
+            onClick={() =>
+              setModalState({ mode: WeblinkModalMode.Add, weblink: null })
+            }
+            style={{ margin: '8px 16px' }}
           >
             + Add link
-          </AddButton>
+          </Button>
         )}
         {weblinks.map((weblink) => (
           <WeblinkEntry
             key={weblink.node.attrs.id}
             weblink={weblink}
             onClick={() => handleClick(weblink)}
-            onEdit={() => setModalState({ mode: WeblinkModalMode.Edit, weblink })}
+            onEdit={() =>
+              setModalState({ mode: WeblinkModalMode.Edit, weblink })
+            }
             onDelete={() => setDeleteTarget(weblink)}
             canEdit={Boolean(can?.editArticle)}
           />
@@ -141,11 +146,7 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
         isOpen={deleteTarget !== null}
         category={Category.warning}
         header="Delete weblink"
-        message={
-          <>
-            Are you sure you want to delete the Weblink?
-          </>
-        }
+        message={<>Are you sure you want to delete the Weblink?</>}
         actions={{
           primary: {
             action: handleDeleteConfirm,
@@ -160,9 +161,3 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
     </div>
   )
 }
-
-const AddButton = styled(SecondaryButton)`
-  margin: 8px 16px;
-`
-
-
