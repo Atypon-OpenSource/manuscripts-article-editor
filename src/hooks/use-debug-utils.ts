@@ -11,7 +11,11 @@
  */
 import { TextSelection, Selection } from 'prosemirror-state'
 import { Node as PmNode } from 'prosemirror-model'
-import { CHANGE_STATUS, trackCommands, clear } from '@manuscripts/track-changes-plugin'
+import {
+  CHANGE_STATUS,
+  trackCommands,
+  clear,
+} from '@manuscripts/track-changes-plugin'
 import { useCallback, useEffect } from 'react'
 
 import { useStore } from '../store'
