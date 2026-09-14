@@ -30,4 +30,3 @@ export const trimFilename = (filename: string, maxLength: number) => {
 
   return filename
 }
-
