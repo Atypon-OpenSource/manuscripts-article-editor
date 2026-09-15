@@ -22,7 +22,11 @@ import {
   FileImageIcon,
   FileVideoIcon,
 } from '@manuscripts/style-guide'
-import { findParentNodeClosestToPos, ManuscriptNode, schema } from '@manuscripts/transform'
+import {
+  findParentNodeClosestToPos,
+  ManuscriptNode,
+  schema,
+} from '@manuscripts/transform'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
@@ -76,9 +80,10 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     for (const element of elements) {
       const $pos = view.state.doc.resolve(element.pos)
       const section = findParentNodeClosestToPos(
-        $pos, 
-        node => node.type === schema.nodes.graphical_abstract_section ||
-        node.type === schema.nodes.trans_graphical_abstract
+        $pos,
+        (node) =>
+          node.type === schema.nodes.graphical_abstract_section ||
+          node.type === schema.nodes.trans_graphical_abstract
       )
 
       let label: string
@@ -274,9 +279,11 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     {fileAttachment.file && (
                       <FileTypeIcon file={fileAttachment.file} />
                     )}
-                    <FileNameText 
+                    <FileNameText
                       data-cy="filename"
-                      data-tooltip-content={fileAttachment.file?.name || 'Figure'}
+                      data-tooltip-content={
+                        fileAttachment.file?.name || 'Figure'
+                      }
                     >
                       {fileAttachment.file?.name
                         ? trimFilename(fileAttachment.file.name, 20)

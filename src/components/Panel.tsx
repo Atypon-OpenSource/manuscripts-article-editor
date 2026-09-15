@@ -14,8 +14,8 @@ import {
   Resizer,
   ResizerDirection,
   ResizerSide,
-  RoundIconButton,
 } from '@manuscripts/style-guide'
+import { InspectorToggleButton } from '@manuscripts/style-guide/mui'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -26,11 +26,14 @@ export interface ResizerButtonInnerProps {
   $isCollapsed: boolean
   $isVisible: boolean
 }
-export const ResizerButton = styled(RoundIconButton)<ResizerButtonInnerProps>`
-  position: absolute;
-  top: 50%;
-  margin: -${(props) => props.theme.grid.unit * 5}px;
-  line-height: 1;
+
+// TODO: revist when Inspector refactored
+export const ResizerButton = styled(InspectorToggleButton)`
+  && {
+    position: absolute;
+    top: 50%;
+    margin: -${(props) => props.theme.grid.unit * 5}px;
+  }
 `
 
 interface PanelProps {
