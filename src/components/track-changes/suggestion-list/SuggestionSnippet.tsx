@@ -45,13 +45,12 @@ export const SuggestionSnippet: React.FC<Props> = ({
   isTrackingChangesVisible: isTrackingChangesVisibleProp,
   actionButtonRefs,
 }) => {
-  const [{ view, files, isTrackingChangesVisible }] =
-    useStore((store) => ({
-      view: store.view,
-      doc: store.doc,
-      files: store.files,
-      isTrackingChangesVisible: store.isTrackingChangesVisible,
-    }))
+  const [{ view, files, isTrackingChangesVisible }] = useStore((store) => ({
+    view: store.view,
+    doc: store.doc,
+    files: store.files,
+    isTrackingChangesVisible: store.isTrackingChangesVisible,
+  }))
   const getName = useGetUserName()
   const suggestion = suggestions[0]
   const { dataTracked } = suggestion
@@ -99,7 +98,9 @@ export const SuggestionSnippet: React.FC<Props> = ({
         <CardBody data-cy="card-body">
           {snippet?.operation && (
             <Operation
-              $color={isTrackingChangesVisible ? dataTracked.operation : 'muted'}
+              $color={
+                isTrackingChangesVisible ? dataTracked.operation : 'muted'
+              }
             >
               {snippet?.operation}:
             </Operation>
