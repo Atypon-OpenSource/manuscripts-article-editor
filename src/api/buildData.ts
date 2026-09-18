@@ -9,11 +9,29 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { schema, UserProfile } from '@manuscripts/transform'
+import {
+  ManuscriptActions,
+  schema,
+  UserProfile,
+} from '@manuscripts/transform'
 
-import { getUserRole } from '../lib/roles'
+import { ProjectRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
+
+const STATIC_MANUSCRIPT_PERMITTED_ACTIONS: ManuscriptActions[] = [
+  ManuscriptActions.rejectOwnSuggestion,
+  ManuscriptActions.handleOwnComments,
+  ManuscriptActions.resolveOwnComment,
+  ManuscriptActions.createComment,
+  ManuscriptActions.canEditFiles,
+  ManuscriptActions.editArticle,
+  ManuscriptActions.formatArticle,
+  ManuscriptActions.editMetadata,
+  ManuscriptActions.editCitationsAndRefs,
+  ManuscriptActions.seeEditorToolbar,
+  ManuscriptActions.seeReferencesButtons,
+]
 
 const convertNodeNamesToTypes = (nodeNames: string[]) => {
   return nodeNames
@@ -28,12 +46,8 @@ const convertNodeNamesToTypes = (nodeNames: string[]) => {
     .filter((nodeType) => nodeType !== null)
 }
 
-const getDocumentData = async (
-  projectID: string,
-  manuscriptID: string,
-  api: Api
-) => {
-  const response = await api.getDocument(projectID, manuscriptID)
+const getDocumentData = async (docID: string, api: Api) => {
+  const response = await api.getDocument(docID)
   if (!response) {
     throw new Error('Document not found')
   }
@@ -77,10 +91,10 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   return data
 }
 
-const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
+const getUserData = async (docID: string, user: UserProfile, api: Api) => {
   const profilesById = new Map()
   profilesById.set(user._id, user)
-  const profiles = await api.getUserProfiles(projectID)
+  const profiles = await api.getUserProfiles(docID)
   if (profiles) {
     for (const profile of profiles) {
       if (profile) {
@@ -93,31 +107,22 @@ const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
   }
 }
 
-export const buildData = async (
-  projectID: string,
-  manuscriptID: string,
-  api: Api
-) => {
+export const buildData = async (docID: string, api: Api) => {
   const user = await api.getUser()
   if (!user) {
     return {}
   }
 
-  const doc = await getDocumentData(projectID, manuscriptID, api)
+  const doc = await getDocumentData(docID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
-  const project = await api.getProject(projectID)
-  const manuscriptPermittedActions =
-    await api.getProjectPermittedActions(projectID)
-  const role = project ? getUserRole(project, user.userID) : null
-  const users = await getUserData(projectID, user, api)
+  const users = await getUserData(docID, user, api)
 
   return {
     user,
-    userRole: role,
+    userRole: ProjectRole.owner,
     ...users,
     ...state,
     ...doc,
-    project,
-    manuscriptPermittedActions,
+    manuscriptPermittedActions: STATIC_MANUSCRIPT_PERMITTED_ACTIONS,
   }
 }
