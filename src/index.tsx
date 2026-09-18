@@ -36,8 +36,7 @@ const ManuscriptEditor: React.FC<
 > = ({
   fileManagement,
   files,
-  manuscriptID,
-  projectID,
+  docID,
   permittedActions,
   getAuthToken,
   config,
@@ -56,8 +55,7 @@ const ManuscriptEditor: React.FC<
           <Main
             fileManagement={fileManagement}
             files={files}
-            manuscriptID={manuscriptID}
-            projectID={projectID}
+            docID={docID}
             permittedActions={permittedActions}
             getAuthToken={getAuthToken}
             observer={observer}
@@ -79,6 +77,6 @@ export const ManuscriptEditorApp = React.memo(
   (prev, next) => {
     // Due to complexity of this component rerendering it idly would be a major inconvenience and a performance problem
     // To update that component from above we introduced the parentObserver that allowes to manipulate the state in a controlled manner
-    return prev.manuscriptID == next.manuscriptID // if props are equal, do not rerender
+    return prev.docID == next.docID // if props are equal, do not rerender
   }
 )

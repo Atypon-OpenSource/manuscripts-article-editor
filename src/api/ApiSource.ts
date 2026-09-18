@@ -32,18 +32,11 @@ export class ApiSource implements StoreDataSourceStrategy {
   }
 
   build: builderFn = async (state, next, setState) => {
-    const projectID = state.projectID
-    const manuscriptID = state.manuscriptID
-    if (manuscriptID && projectID) {
+    const docID = state.docID
+    if (docID) {
       await this.checkTransformVersion()
-      this.data = await buildData(projectID, manuscriptID, this.api)
-      this.utilities = buildUtilities(
-        projectID,
-        manuscriptID,
-        () => this.data,
-        setState,
-        this.api
-      )
+      this.data = await buildData(docID, this.api)
+      this.utilities = buildUtilities(docID, () => this.data, setState, this.api)
     }
     next({ ...state, ...this.data, ...this.utilities })
   }

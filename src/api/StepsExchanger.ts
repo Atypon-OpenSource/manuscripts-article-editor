@@ -63,8 +63,7 @@ export class ObservableBoolean {
 
 export class StepsExchanger extends CollabProvider {
   private static instance: StepsExchanger
-  projectID: string
-  manuscriptID: string
+  docID: string
   api: Api
   debounce: ReturnType<typeof saveWithDebounce>
   flushImmediately?: () => void
@@ -77,21 +76,19 @@ export class StepsExchanger extends CollabProvider {
   private timeoutId?: ReturnType<typeof setTimeout>
 
   constructor(
-    projectID: string,
-    manuscriptID: string,
+    docID: string,
     currentVersion: number,
     api: Api,
     updateStoreVersion: (version: number) => void
   ) {
-    if (StepsExchanger.instance?.manuscriptID == manuscriptID) {
+    if (StepsExchanger.instance?.docID == docID) {
       StepsExchanger.instance.start()
       return StepsExchanger.instance
     }
 
     super()
 
-    this.projectID = projectID
-    this.manuscriptID = manuscriptID
+    this.docID = docID
     this.currentVersion = currentVersion
     this.isThrottling = new ObservableBoolean()
     this.saveStatus = new ObservableString()
@@ -175,8 +172,7 @@ export class StepsExchanger extends CollabProvider {
 
         try {
           const response = await this.api.sendSteps(
-            this.projectID,
-            this.manuscriptID,
+            this.docID,
             {
               steps: steps,
               version,
@@ -268,8 +264,7 @@ export class StepsExchanger extends CollabProvider {
 
     if (navigator.onLine) {
       this.closeConnection = this.api.listenToSteps(
-        this.projectID,
-        this.manuscriptID,
+        this.docID,
         (version, steps, clientIDs) =>
           this.receiveSteps(version, steps, clientIDs)
       )
@@ -322,11 +317,7 @@ export class StepsExchanger extends CollabProvider {
       return
     }
 
-    const response = await this.api.getStepsSince(
-      this.projectID,
-      this.manuscriptID,
-      version
-    )
+    const response = await this.api.getStepsSince(this.docID, version)
 
     if (response) {
       return {

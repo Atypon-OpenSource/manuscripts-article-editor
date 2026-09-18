@@ -30,8 +30,7 @@ export const useCreateEditor = () => {
     {
       doc,
       initialDocVersion,
-      projectID,
-      manuscriptID,
+      docID,
       user,
       fileManagement,
       style,
@@ -46,8 +45,7 @@ export const useCreateEditor = () => {
   ] = useStore((store) => ({
     doc: store.doc,
     initialDocVersion: store.initialDocVersion,
-    projectID: store.projectID,
-    manuscriptID: store.manuscriptID,
+    docID: store.docID,
     user: store.user,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
@@ -75,13 +73,7 @@ export const useCreateEditor = () => {
     () => {
       return isComparingMode
         ? undefined
-        : new StepsExchanger(
-            projectID,
-            manuscriptID,
-            initialDocVersion,
-            api,
-            updateVersion
-          )
+        : new StepsExchanger(docID, initialDocVersion, api, updateVersion)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isComparingMode]
@@ -171,7 +163,6 @@ export const useCreateEditor = () => {
       locale,
     },
     theme,
-    projectID: projectID,
     onEditorClick,
     getCurrentUser: () => user,
     getCapabilities: () => {
