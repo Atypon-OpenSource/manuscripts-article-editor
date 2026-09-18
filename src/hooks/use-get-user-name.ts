@@ -9,63 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
  */
-import { Project, UserProfile } from '@manuscripts/transform'
-import { HostUser, useStore } from '../store'
-import { getUserRole } from '../lib/roles'
-
 export const useGetUserName = () => {
-  const [{ project, hostUsers, collaboratorsById }] = useStore((s) => ({
-    project: s.project,
-    hostUsers: s.hostUsers,
-    collaboratorsById: s.collaboratorsById,
-  }))
-
   return (userID: string, full = true) => {
-    const user = collaboratorsById.get(userID)
-    if (!user || !userID) {
-      return ''
-    }
-    return buildAuthorName(user, project, hostUsers, collaboratorsById, full)
+    return 'User'
   }
-}
-
-const buildAuthorName = (
-  user: UserProfile | undefined,
-  project: Project,
-  hostUsers: HostUser[],
-  collaboratorsById: Map<string, UserProfile>,
-  full = false
-) => {
-  if (!user) {
-    return ''
-  }
-  const hostUser = hostUsers.find((u) => u.connectId === user.connectID)
-  const role = getUserRole(project, user.userID) || 'User'
-  return [
-    GetName(hostUser, role, full),
-    GetSurname(user, hostUser, collaboratorsById, full),
-  ]
-    .filter(Boolean)
-    .join(' ')
-}
-
-function GetName(user: HostUser | undefined, role: string, full = false) {
-  const name = user?.firstName
-  if (!name) {
-    return full ? role : (role as string)[0]
-  }
-  return full ? name : name[0]
-}
-function GetSurname(
-  user: UserProfile,
-  hostUser: HostUser | undefined,
-  collaboratorsById: Map<string, UserProfile>,
-  full = false
-) {
-  const familyName = hostUser?.lastName
-  return familyName
-    ? full
-      ? familyName
-      : familyName[0]
-    : [...collaboratorsById.keys()].indexOf(user._id) // index throughout the project is normally stable
 }

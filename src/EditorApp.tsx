@@ -35,8 +35,7 @@ import {
 export interface EditorAppProps {
   fileManagement: FileManagement
   files: FileAttachment[]
-  manuscriptID: string
-  projectID: string
+  docID: string
   permittedActions: string[]
   users?: HostUser[]
   getAuthToken: () => Promise<string | undefined>
@@ -61,8 +60,7 @@ const PlaceholderWrapper = styled.div`
 `
 
 const EditorApp: React.FC<EditorAppProps> = ({
-  manuscriptID,
-  projectID,
+  docID,
   permittedActions,
   fileManagement,
   files,
@@ -92,8 +90,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
     loadedRef.current = true
     const props = new BasicSource({
       fileManagement,
-      projectID,
-      manuscriptID,
+      docID,
       files,
       WMsPermittedActions: permittedActions as Actions[],
       pluginInspectorTab,
@@ -112,7 +109,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       store?.unmount()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [manuscriptID, projectID])
+  }, [docID])
 
   useEffect(() => {
     if (!observer || observerSubscribed.current || !store) {

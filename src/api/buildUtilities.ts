@@ -15,8 +15,7 @@ import { state } from '../store'
 import { Api } from './Api'
 
 export const buildUtilities = (
-  projectID: string,
-  manuscriptID: string,
+  docID: string,
   getState: () => Partial<state>,
   updateState: (state: Partial<state>) => void,
   api: Api
@@ -29,8 +28,8 @@ export const buildUtilities = (
     }
 
     const [project, document] = await Promise.all([
-      api.getProject(projectID),
-      api.getDocument(projectID, manuscriptID),
+      api.getProject(docID),
+      api.getDocument(docID),
     ])
 
     if (!project || !document) {

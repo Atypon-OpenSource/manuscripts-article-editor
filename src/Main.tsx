@@ -20,8 +20,7 @@ import { GlobalStyle } from './theme/theme'
 const Main: React.FC<EditorAppProps> = ({
   fileManagement,
   files,
-  manuscriptID,
-  projectID,
+  docID,
   permittedActions,
   getAuthToken,
   observer,
@@ -36,8 +35,7 @@ const Main: React.FC<EditorAppProps> = ({
     <EditorApp
       fileManagement={fileManagement}
       files={files}
-      manuscriptID={manuscriptID}
-      projectID={projectID}
+      docID={docID}
       permittedActions={permittedActions}
       getAuthToken={getAuthToken}
       observer={observer}

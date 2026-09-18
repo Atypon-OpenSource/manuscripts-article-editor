@@ -50,8 +50,7 @@ export type HostUser = {
 
 // @NOTE: some of the state properties may be consumed by parent app and may appear unused
 export type state = {
-  manuscriptID: string
-  projectID: string
+  docID: string
   userID?: string
 
   project: Project
