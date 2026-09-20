@@ -18,7 +18,7 @@ import {
   updateSupplementWeblink,
 } from '@manuscripts/body-editor'
 
-import { Category, Dialog, ExpandableSection } from '@manuscripts/style-guide'
+import { ExpandableSection } from '@manuscripts/style-guide'
 import { Button } from '@manuscripts/style-guide/mui'
 import { NodeSelection } from 'prosemirror-state'
 import React, { useState } from 'react'
@@ -49,7 +49,6 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
     mode: WeblinkModalMode
     weblink: NodeWeblink | null
   } | null>(null)
-  const [deleteTarget, setDeleteTarget] = useState<NodeWeblink | null>(null)
 
   if (!view) {
     return null
@@ -86,12 +85,9 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
     setModalState(null)
   }
 
-  const handleDeleteConfirm = () => {
-    if (!deleteTarget) {
-      return
-    }
-    const from = deleteTarget.pos
-    const to = from + deleteTarget.node.nodeSize
+  const handleDelete = (webLink: NodeWeblink) => {
+    const from = webLink.pos
+    const to = from + webLink.node.nodeSize
     const { from: deleteFrom, to: deleteTo } = deleteSupplementAtPos(
       view.state.doc,
       from,
@@ -99,7 +95,6 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
     )
     const tr = view.state.tr.delete(deleteFrom, deleteTo)
     view.dispatch(tr)
-    setDeleteTarget(null)
   }
 
   return (
@@ -125,7 +120,7 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
             onEdit={() =>
               setModalState({ mode: WeblinkModalMode.Edit, weblink })
             }
-            onDelete={() => setDeleteTarget(weblink)}
+            onDelete={() => handleDelete(weblink)}
             canEdit={Boolean(can?.editArticle)}
           />
         ))}
@@ -140,23 +135,6 @@ export const WebLinksSection: React.FC<WebLinksSectionProps> = ({
         onSave={
           modalState?.mode === WeblinkModalMode.Edit ? handleEdit : handleAdd
         }
-      />
-
-      <Dialog
-        isOpen={deleteTarget !== null}
-        category={Category.warning}
-        header="Delete weblink"
-        message={<>Are you sure you want to delete the Weblink?</>}
-        actions={{
-          primary: {
-            action: handleDeleteConfirm,
-            title: 'Delete',
-          },
-          secondary: {
-            action: () => setDeleteTarget(null),
-            title: 'Cancel',
-          },
-        }}
       />
     </div>
   )
