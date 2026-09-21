@@ -616,6 +616,10 @@ packages:
     resolution: {integrity: sha512-EfOYzOX4CU9rHPKa/ZmB5XkD1QOk7l8x1BmxR7F6RG8bJ1kaGM1RgCUeK6tVr33wu3xt/wY6bFNpEhF9dO+QFw==}
     engines: {node: '>=22'}
 
+  '@manuscripts/style-guide@3.7.4-LEAN-5982.0':
+    resolution: {integrity: sha512-EDdQRQA0baKlkPSTjHphMh2tGun2V5bvh5t6201HvVGr2B0EC99siRciTZEZfee943H4kdVwLESeNHwE6RVrpw==, tarball: https://us-central1-npm.pkg.dev/atypon-artifact/npm-virtual/@manuscripts/style-guide/-/@manuscripts/style-guide-3.7.4-LEAN-5982.0.tgz}
+    engines: {node: '>=22'}
+
   '@manuscripts/track-changes-plugin@2.4.0':
     resolution: {integrity: sha512-I+KDqXvKRtmRWcqxtjEVLK7GR55pSzwFCoIouZ4wE2d72MXg0l3yUYXL/73FdUE2xwIzVneW65Q3RjHlvL8Ekg==}
     engines: {node: '>=22'}
@@ -4323,6 +4327,36 @@ snapshots:
       - supports-color
 
   '@manuscripts/style-guide@3.7.4(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
+    dependencies:
+      '@emotion/react': 11.14.0(@types/react@19.2.7)(react@19.2.6)
+      '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.2.7)(react@19.2.6))(@types/react@19.2.7)(react@19.2.6)
+      '@headlessui/react': 2.2.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@mui/material': 6.4.5(@emotion/react@11.14.0(@types/react@19.2.7)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.7)(react@19.2.6))(@types/react@19.2.7)(react@19.2.6))(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      formik: 2.4.9(@types/react@19.2.7)(react@19.2.6)
+      prosemirror-commands: 1.7.1
+      prosemirror-history: 1.4.1
+      prosemirror-keymap: 1.2.3
+      prosemirror-model: 1.25.0
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.41.0
+      react: 19.2.6
+      react-dnd: 16.0.1(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(react@19.2.6)
+      react-dnd-html5-backend: 16.0.1
+      react-dom: 19.2.6(react@19.2.6)
+      react-router-dom: 5.3.4(react@19.2.6)
+      react-select: 5.10.2(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react-tooltip: 6.0.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      styled-components: 6.4.2(css-to-react-native@3.2.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+    transitivePeerDependencies:
+      - '@mui/material-pigment-css'
+      - '@types/hoist-non-react-statics'
+      - '@types/node'
+      - '@types/react'
+      - css-to-react-native
+      - react-native
+      - supports-color
+
+  '@manuscripts/style-guide@3.7.4-LEAN-5982.0(@types/hoist-non-react-statics@3.3.7(@types/react@19.2.7))(@types/node@20.17.46)(@types/react@19.2.7)(css-to-react-native@3.2.0)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.2.7)(react@19.2.6)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.2.7)(react@19.2.6))(@types/react@19.2.7)(react@19.2.6)
