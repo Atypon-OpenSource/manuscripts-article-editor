@@ -36,7 +36,7 @@ const ManuscriptEditor: React.FC<
   files,
   docID,
   permittedActions,
-  currentUser,
+  userID,
   getAuthToken,
   config,
   observer,
@@ -56,7 +56,7 @@ const ManuscriptEditor: React.FC<
             files={files}
             docID={docID}
             permittedActions={permittedActions}
-            currentUser={currentUser}
+            userID={userID}
             getAuthToken={getAuthToken}
             observer={observer}
             pluginInspectorTab={pluginInspectorTab}

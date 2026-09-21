@@ -89,15 +89,15 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   onDelete,
 }) => {
   const can = usePermissions()
-  const [{ user, users }] = useStore((state) => ({
-    user: state.user,
+  const [{ userID, users }] = useStore((state) => ({
+    userID: state.userID,
     users: state.users,
   }))
 
   const authorID = comment.node.attrs.userID
   const authorName = getUserName(users, authorID)
   const timestamp = comment.node.attrs.timestamp
-  const isOwn = authorID === user.id
+  const isOwn = authorID === userID
 
   const isResolveEnabled = isOwn
     ? can.resolveOwnComment

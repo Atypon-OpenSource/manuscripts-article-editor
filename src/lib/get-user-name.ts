@@ -9,7 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { User } from '../store'
+import { User } from '@manuscripts/transform'
 
 export const getUserName = (users: User[], userID?: string, full = true) => {
   const user = users.find((u) => u.id === userID)

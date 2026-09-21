@@ -30,8 +30,8 @@ const SuggestionAction: React.FC<Props> = ({
   handleReject,
   buttonRefs,
 }) => {
-  const [{ user }] = useStore((store) => ({
-    user: store.user,
+  const [{ userID }] = useStore((store) => ({
+    userID: store.userID,
   }))
 
   const can = usePermissions()
@@ -42,12 +42,12 @@ const SuggestionAction: React.FC<Props> = ({
       can.handleSuggestion ||
       (can.rejectOwnSuggestion &&
         suggestion.dataTracked.status === CHANGE_STATUS.pending &&
-        suggestion.dataTracked.authorID === user?.id)
+        suggestion.dataTracked.authorID === userID)
     ) {
       return true
     }
     return false
-  }, [suggestion, can, user?.id])
+  }, [suggestion, can, userID])
 
   // Track button index for refs
   let buttonIndex = 0

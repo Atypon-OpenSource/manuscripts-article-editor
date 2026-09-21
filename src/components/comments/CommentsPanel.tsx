@@ -64,13 +64,13 @@ const scrollIntoView = (element: HTMLElement) => {
 }
 
 export const CommentsPanel: React.FC = () => {
-  const [{ view, newCommentID, selectedCommentKey, user, doc }] = useStore(
+  const [{ view, newCommentID, selectedCommentKey, userID, doc }] = useStore(
     (state) => ({
       view: state.view,
       doc: state.doc,
       newCommentID: state.newCommentID,
       selectedCommentKey: state.selectedCommentKey,
-      user: state.user,
+      userID: state.userID,
     })
   )
 
@@ -132,7 +132,7 @@ export const CommentsPanel: React.FC = () => {
       id: generateNodeID(schema.nodes.comment),
       contents,
       target,
-      userID: user.id,
+      userID,
       timestamp: Date.now(),
       resolved: false,
     }

@@ -22,7 +22,7 @@ const Main: React.FC<EditorAppProps> = ({
   files,
   docID,
   permittedActions,
-  currentUser,
+  userID,
   getAuthToken,
   observer,
   pluginInspectorTab,
@@ -38,7 +38,7 @@ const Main: React.FC<EditorAppProps> = ({
       files={files}
       docID={docID}
       permittedActions={permittedActions}
-      currentUser={currentUser}
+      userID={userID}
       getAuthToken={getAuthToken}
       observer={observer}
       pluginInspectorTab={pluginInspectorTab}
