@@ -10,6 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
+import { User } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -25,7 +26,6 @@ import {
   GenericStore,
   GenericStoreProvider,
   state,
-  User,
 } from './store'
 
 export interface EditorAppProps {
@@ -33,7 +33,7 @@ export interface EditorAppProps {
   files: FileAttachment[]
   docID: string
   permittedActions: string[]
-  currentUser: User
+  userID: string
   users?: User[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
@@ -59,7 +59,7 @@ const PlaceholderWrapper = styled.div`
 const EditorApp: React.FC<EditorAppProps> = ({
   docID,
   permittedActions,
-  currentUser,
+  userID,
   fileManagement,
   files,
   getAuthToken,
@@ -93,7 +93,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       permittedActions,
       pluginInspectorTab,
       isReadOnly,
-      user: currentUser,
+      userID,
       users: users || [],
     })
     const apiSource = new ApiSource(api)

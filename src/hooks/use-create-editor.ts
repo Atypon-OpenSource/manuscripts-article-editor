@@ -30,7 +30,7 @@ export const useCreateEditor = () => {
       doc,
       initialDocVersion,
       docID,
-      user,
+      userID,
       fileManagement,
       style,
       locale,
@@ -45,7 +45,7 @@ export const useCreateEditor = () => {
     doc: store.doc,
     initialDocVersion: store.initialDocVersion,
     docID: store.docID,
-    user: store.user,
+    userID: store.userID,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
@@ -143,7 +143,7 @@ export const useCreateEditor = () => {
       spellcheck: 'true',
     },
     doc: comparedDoc || doc, // Use compared document if in comparison mode
-    userID: user.id,
+    userID,
     debug: config.environment === 'development',
     // @TODO - move primaryLanguageCode to be an attribute on ManuscriptNode
     locale: 'en-GB',
