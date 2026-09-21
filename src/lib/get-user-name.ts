@@ -7,10 +7,20 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2023 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-export const useGetUserName = () => {
-  return (userID: string, full = true) => {
-    return 'User'
+import { User } from '../store'
+
+export const getUserName = (users: User[], userID?: string, full = true) => {
+  const user = users.find((u) => u.id === userID)
+  if (!user) {
+    return ''
   }
+  if (!full) {
+    return (user.firstName || user.displayName)[0]
+  }
+  return (
+    [user.firstName, user.lastName].filter(Boolean).join(' ') ||
+    user.displayName
+  )
 }

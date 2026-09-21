@@ -42,12 +42,12 @@ const SuggestionAction: React.FC<Props> = ({
       can.handleSuggestion ||
       (can.rejectOwnSuggestion &&
         suggestion.dataTracked.status === CHANGE_STATUS.pending &&
-        suggestion.dataTracked.authorID === user?._id)
+        suggestion.dataTracked.authorID === user?.id)
     ) {
       return true
     }
     return false
-  }, [suggestion, can, user?._id])
+  }, [suggestion, can, user?.id])
 
   // Track button index for refs
   let buttonIndex = 0

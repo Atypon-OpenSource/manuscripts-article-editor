@@ -9,12 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Bundle,
-  ManuscriptTemplate,
-  Project,
-  UserProfile,
-} from '@manuscripts/transform'
+import { Bundle, ManuscriptTemplate } from '@manuscripts/transform'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -99,14 +94,6 @@ export class Api {
       (d) => d?.transformVersion || ''
     )
 
-  // manuscripts-cf-worker has no /user endpoint — the current user's
-  // profile is static for now rather than fetched.
-  getUser = async (): Promise<UserProfile> => ({
-    _id: 'static-user-profile-id',
-    userID: 'static-user-id',
-    connectID: 'static-connect-id',
-  })
-
   getCSLLocale = (lang: string) =>
     lang ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
 
@@ -136,21 +123,6 @@ export class Api {
       maxheight: String(maxHeight),
     })
     return this.get<{ html: string | null }>(`oembed/html?${params.toString()}`)
-  }
-
-  getUserProfiles = (docID: string) =>
-    this.get<UserProfile[]>(`/project/${docID}/userProfiles`)
-
-  getProject = async (docID: string) => {
-    const response = await this.get<Project>(`project/${docID}`)
-    if (!response) {
-      throw new Error('Project not found.')
-    }
-    //old API versions return an array
-    if (Array.isArray(response)) {
-      return response[0]
-    }
-    return response
   }
 
   getSnapshot = (snapshotID: string) =>

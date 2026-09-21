@@ -99,7 +99,7 @@ export const TrackChangesStyles: React.FC<{ children: React.ReactNode }> = ({
   const mySuggestedChangesSelector = trackChangesCssSelector(
     changeSet?.pending
       ? changeSet?.pending
-          .filter((change) => change.dataTracked.authorID == user?._id)
+          .filter((change) => change.dataTracked.authorID == user?.id)
           .map((change) => change.id)
       : []
   )

@@ -9,11 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Actions,
-  FileAttachment,
-  FileManagement,
-} from '@manuscripts/body-editor'
+import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -28,8 +24,8 @@ import {
   createStore,
   GenericStore,
   GenericStoreProvider,
-  HostUser,
   state,
+  User,
 } from './store'
 
 export interface EditorAppProps {
@@ -37,7 +33,8 @@ export interface EditorAppProps {
   files: FileAttachment[]
   docID: string
   permittedActions: string[]
-  users?: HostUser[]
+  currentUser: User
+  users?: User[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
@@ -62,6 +59,7 @@ const PlaceholderWrapper = styled.div`
 const EditorApp: React.FC<EditorAppProps> = ({
   docID,
   permittedActions,
+  currentUser,
   fileManagement,
   files,
   getAuthToken,
@@ -92,10 +90,11 @@ const EditorApp: React.FC<EditorAppProps> = ({
       fileManagement,
       docID,
       files,
-      WMsPermittedActions: permittedActions as Actions[],
+      permittedActions,
       pluginInspectorTab,
       isReadOnly,
-      hostUsers: users || [],
+      user: currentUser,
+      users: users || [],
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
