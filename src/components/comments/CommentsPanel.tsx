@@ -132,7 +132,7 @@ export const CommentsPanel: React.FC = () => {
       id: generateNodeID(schema.nodes.comment),
       contents,
       target,
-      userID: user._id,
+      userID: user.id,
       timestamp: Date.now(),
       resolved: false,
     }

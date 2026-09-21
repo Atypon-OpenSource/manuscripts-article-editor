@@ -9,29 +9,10 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  ManuscriptActions,
-  schema,
-  UserProfile,
-} from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 
-import { ProjectRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
-
-const STATIC_MANUSCRIPT_PERMITTED_ACTIONS: ManuscriptActions[] = [
-  ManuscriptActions.rejectOwnSuggestion,
-  ManuscriptActions.handleOwnComments,
-  ManuscriptActions.resolveOwnComment,
-  ManuscriptActions.createComment,
-  ManuscriptActions.canEditFiles,
-  ManuscriptActions.editArticle,
-  ManuscriptActions.formatArticle,
-  ManuscriptActions.editMetadata,
-  ManuscriptActions.editCitationsAndRefs,
-  ManuscriptActions.seeEditorToolbar,
-  ManuscriptActions.seeReferencesButtons,
-]
 
 const convertNodeNamesToTypes = (nodeNames: string[]) => {
   return nodeNames
@@ -91,38 +72,12 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   return data
 }
 
-const getUserData = async (docID: string, user: UserProfile, api: Api) => {
-  const profilesById = new Map()
-  profilesById.set(user._id, user)
-  const profiles = await api.getUserProfiles(docID)
-  if (profiles) {
-    for (const profile of profiles) {
-      if (profile) {
-        profilesById.set(profile._id, profile)
-      }
-    }
-  }
-  return {
-    collaboratorsById: profilesById,
-  }
-}
-
 export const buildData = async (docID: string, api: Api) => {
-  const user = await api.getUser()
-  if (!user) {
-    return {}
-  }
-
   const doc = await getDocumentData(docID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
-  const users = await getUserData(docID, user, api)
 
   return {
-    user,
-    userRole: ProjectRole.owner,
-    ...users,
     ...state,
     ...doc,
-    manuscriptPermittedActions: STATIC_MANUSCRIPT_PERMITTED_ACTIONS,
   }
 }

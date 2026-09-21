@@ -19,6 +19,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { usePermissions } from '../../lib/capabilities'
+import { getUserName } from '../../lib/get-user-name'
 import { useStore } from '../../store'
 import {
   AuthorContainer,
@@ -29,7 +30,6 @@ import {
 import { CommentActions, OrphanCommentActions } from './CommentActions'
 import { CommentBody } from './CommentBody'
 import { DeleteCommentConfirmation } from './DeleteCommentConfirmation'
-import { useGetUserName } from '../../hooks/use-get-user-name'
 
 const CommentTarget = styled.div`
   font-size: 14px;
@@ -89,15 +89,15 @@ export const CommentCard: React.FC<CommentCardProps> = ({
   onDelete,
 }) => {
   const can = usePermissions()
-  const getName = useGetUserName()
-  const [{ user }] = useStore((state) => ({
+  const [{ user, users }] = useStore((state) => ({
     user: state.user,
+    users: state.users,
   }))
 
   const authorID = comment.node.attrs.userID
-  const authorName = getName(authorID)
+  const authorName = getUserName(users, authorID)
   const timestamp = comment.node.attrs.timestamp
-  const isOwn = authorID === user._id
+  const isOwn = authorID === user.id
 
   const isResolveEnabled = isOwn
     ? can.resolveOwnComment
