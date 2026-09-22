@@ -15,7 +15,9 @@ import React from 'react'
 // Used to be two separate enums (@manuscripts/body-editor's Actions and
 // @manuscripts/transform's ManuscriptActions) — permittedActions is now a
 // single flat list with no such distinction, so the actions it can contain
-// live here instead of in either package.
+// live here instead of in either package. Values must stay lowercase kebab-case:
+// leanworkflow-api's Action.forName() lowercases everything, and these must match
+// ManuscriptEditorAction's constants in leanworkflow-manuscripts-integration.
 export enum Actions {
   updateAttachment = 'update-attachment',
   updateDueDate = 'update-due-date',
