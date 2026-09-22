@@ -39,7 +39,7 @@ import escape from 'lodash/escape'
 import { findChildrenByType } from 'prosemirror-utils'
 
 import { NodeTextContentRetriever } from './node-content-retriever'
-import { getParentNode } from './utils'
+import { getParentNode, hasParentOfType } from './utils'
 
 interface SnippetData {
   operation: string
@@ -130,6 +130,15 @@ export const handleTextChange = (
   if (parentNode) {
     if (isAltTitleNode(parentNode)) {
       nodeName = getTitleDisplayName(parentNode)
+    } else if (
+      hasParentOfType(schema.nodes.headshot_element, state, suggestion.from)
+    ) {
+      const isCaptionTitleParent = hasParentOfType(
+        schema.nodes.caption_title,
+        state,
+        suggestion.from
+      )
+      nodeName = isCaptionTitleParent ? 'Headshot Name' : 'Headshot Summary'
     } else {
       const parentNodeName =
         nodeNames.get(parentNode.type) || parentNode.type?.name
