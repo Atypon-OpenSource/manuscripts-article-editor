@@ -17,10 +17,8 @@ import {
 } from '@manuscripts/body-editor'
 import { ManuscriptEditorView } from '@manuscripts/transform'
 import { EditorState, Transaction } from 'prosemirror-state'
-import {
-  findParentNodeClosestToPos,
-} from 'prosemirror-utils'
-import {NodeType} from "prosemirror-model";
+import { findParentNodeClosestToPos } from 'prosemirror-utils'
+import { NodeType } from 'prosemirror-model'
 export const getParentNode = (state: EditorState, pos: number) => {
   const resolvedPos = state.doc.resolve(pos)
 
