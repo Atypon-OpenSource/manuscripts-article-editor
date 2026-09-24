@@ -10,42 +10,11 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
-import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
-export const buildUtilities = (
-  projectID: string,
-  manuscriptID: string,
-  getState: () => Partial<state>,
-  updateState: (state: Partial<state>) => void,
-  api: Api
-): Partial<state> => {
-  const refreshProject = async () => {
-    const state = getState()
-    const userID = state.user?.userID
-    if (!userID) {
-      return
-    }
-
-    const [project, document] = await Promise.all([
-      api.getProject(projectID),
-      api.getDocument(projectID, manuscriptID),
-    ])
-
-    if (!project || !document) {
-      return
-    }
-
-    updateState({
-      project,
-      userRole: getUserRole(project, userID),
-      snapshots: document.snapshots,
-    })
-  }
-
+export const buildUtilities = (api: Api): Partial<state> => {
   return {
-    refreshProject,
     getSnapshot: api.getSnapshot,
   }
 }
