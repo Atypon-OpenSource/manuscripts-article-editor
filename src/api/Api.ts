@@ -9,13 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Bundle,
-  ManuscriptTemplate,
-  ManuscriptActions,
-  Project,
-  UserProfile,
-} from '@manuscripts/transform'
+import { Bundle, ManuscriptTemplate } from '@manuscripts/transform'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -37,9 +31,11 @@ import {
 
 export class Api {
   instance: AxiosInstance
+  private getAuthToken: () => Promise<string | undefined>
 
   constructor(getAuthToken: () => Promise<string | undefined>) {
     const config = getConfig()
+    this.getAuthToken = getAuthToken
     this.instance = axios.create({
       baseURL: config.api.url,
       headers: { ...config.api.headers },
@@ -48,6 +44,8 @@ export class Api {
       this.authInterceptor(config, getAuthToken)
     )
   }
+
+  private docPath = (docID: string) => `/v3/doc/${docID}`
 
   authInterceptor = async (
     config: InternalAxiosRequestConfig,
@@ -96,8 +94,6 @@ export class Api {
       (d) => d?.transformVersion || ''
     )
 
-  getUser = () => this.get<UserProfile>('user')
-
   getCSLLocale = (lang: string) =>
     lang ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
 
@@ -129,48 +125,31 @@ export class Api {
     return this.get<{ html: string | null }>(`oembed/html?${params.toString()}`)
   }
 
-  getUserProfiles = (containerID: string) =>
-    this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
-
-  getProject = async (projectID: string) => {
-    const response = await this.get<Project>(`project/${projectID}`)
-    if (!response) {
-      throw new Error('Project not found.')
-    }
-    //old API versions return an array
-    if (Array.isArray(response)) {
-      return response[0]
-    }
-    return response
-  }
-
-  getProjectPermittedActions = (containerID: string) =>
-    this.get<ManuscriptActions[]>(`/project/${containerID}/permitted-actions`)
-
   getSnapshot = (snapshotID: string) =>
     this.get<ManuscriptSnapshot>(`snapshot/${snapshotID}`)
 
-  createSnapshot = (projectID: string, manuscriptID: string, name: string) =>
-    this.post<CreateSnapshotResponse>(
-      `snapshot/${projectID}/manuscript/${manuscriptID}`,
-      {
-        docID: manuscriptID,
-        name,
-      }
-    )
+  createSnapshot = (docID: string, name: string) =>
+    this.post<CreateSnapshotResponse>(`snapshot/${docID}`, {
+      docID,
+      name,
+    })
 
-  getDocument = (projectID: string, manuscriptID: string) =>
-    this.get<ManuscriptDoc>(`doc/${projectID}/manuscript/${manuscriptID}`)
+  getDocument = async (docID: string) => {
+    const doc = await this.get<ManuscriptDoc>(this.docPath(docID))
+    // manuscripts-cf-worker doesn't support snapshots yet, so its response
+    // has no "snapshots" field at all — default it rather than leave it
+    // undefined, since ManuscriptDoc declares it as always present.
+    return doc ? { ...doc, snapshots: doc.snapshots ?? [] } : doc
+  }
 
   sendSteps = async (
-    projectID: string,
-    manuscriptID: string,
+    docID: string,
     data: SendStepsPayload,
     signal?: AbortSignal
   ) => {
     try {
       const result = await this.instance.post<SendStepsResponse>(
-        `doc/${projectID}/manuscript/${manuscriptID}/steps`,
+        `${this.docPath(docID)}/steps`,
         {
           ...data,
           steps: data.steps.map((s) => s.toJSON()),
@@ -198,20 +177,16 @@ export class Api {
     }
   }
 
-  getStepsSince = (projectID: string, manuscriptID: string, version: number) =>
+  getStepsSince = (docID: string, version: number) =>
     this.get<StepsSinceResponse>(
-      `doc/${projectID}/manuscript/${manuscriptID}/version/${version}`
+      `${this.docPath(docID)}/steps?since=${version}`
     )
 
-  listenToSteps = (
-    projectID: string,
-    manuscriptID: string,
-    listener: StepsListener
-  ) => {
+  listenToSteps = (docID: string, listener: StepsListener) => {
     const config = getConfig()
     const base = new URL(config.api.url, window.location.origin)
     base.protocol = base.protocol === 'https:' ? 'wss:' : 'ws:'
-    const url = `${base.href}/doc/${projectID}/manuscript/${manuscriptID}/listen`
+    const path = `${this.docPath(docID)}/steps`
 
     let ws: WebSocket
 
@@ -261,8 +236,14 @@ export class Api {
       setTimeout(join, 1500)
     }
 
-    const join = () => {
+    // A WebSocket upgrade can't carry the Authorization header the axios
+    // interceptor attaches to normal requests, so the token travels as a
+    // query param instead — fetched fresh on every (re)join, since a token
+    // can expire between connections.
+    const join = async () => {
       try {
+        const token = await this.getAuthToken()
+        const url = `${base.href}${path}?token=${encodeURIComponent(token ?? '')}`
         ws = new WebSocket(url)
         ws.addEventListener('open', onOpen)
         ws.addEventListener('message', onMessage)

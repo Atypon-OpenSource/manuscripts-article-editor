@@ -10,7 +10,6 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import { type FetchOEmbedHtml, useEditor } from '@manuscripts/body-editor'
-import { ManuscriptActions, Project, UserProfile } from '@manuscripts/transform'
 import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -30,9 +29,8 @@ export const useCreateEditor = () => {
     {
       doc,
       initialDocVersion,
-      projectID,
-      manuscriptID,
-      user,
+      docID,
+      userID,
       fileManagement,
       style,
       locale,
@@ -46,9 +44,8 @@ export const useCreateEditor = () => {
   ] = useStore((store) => ({
     doc: store.doc,
     initialDocVersion: store.initialDocVersion,
-    projectID: store.projectID,
-    manuscriptID: store.manuscriptID,
-    user: store.user,
+    docID: store.docID,
+    userID: store.userID,
     fileManagement: store.fileManagement,
     style: store.cslStyle,
     locale: store.cslLocale,
@@ -75,13 +72,7 @@ export const useCreateEditor = () => {
     () => {
       return isComparingMode
         ? undefined
-        : new StepsExchanger(
-            projectID,
-            manuscriptID,
-            initialDocVersion,
-            api,
-            updateVersion
-          )
+        : new StepsExchanger(docID, initialDocVersion, api, updateVersion)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isComparingMode]
@@ -130,18 +121,8 @@ export const useCreateEditor = () => {
   }, [dispatch, stepsExchanger])
 
   const getCapabilities = useMemo(
-    () =>
-      (
-        project: Project,
-        user: UserProfile,
-        WMsPermittedActions: string[],
-        manuscriptPermittedActions: ManuscriptActions[]
-      ) =>
-        getActionCapabilities(
-          WMsPermittedActions,
-          manuscriptPermittedActions,
-          isViewingMode
-        ),
+    () => (permittedActions: string[]) =>
+      getActionCapabilities(permittedActions, isViewingMode),
     [isViewingMode]
   )
   const config = getConfig()
@@ -162,7 +143,7 @@ export const useCreateEditor = () => {
       spellcheck: 'true',
     },
     doc: comparedDoc || doc, // Use compared document if in comparison mode
-    userID: user._id,
+    userID,
     debug: config.environment === 'development',
     // @TODO - move primaryLanguageCode to be an attribute on ManuscriptNode
     locale: 'en-GB',
@@ -171,17 +152,10 @@ export const useCreateEditor = () => {
       locale,
     },
     theme,
-    projectID: projectID,
     onEditorClick,
-    getCurrentUser: () => user,
     getCapabilities: () => {
       const state = getState()
-      return getCapabilities(
-        state.project,
-        state.user,
-        state.WMsPermittedActions,
-        state.manuscriptPermittedActions
-      )
+      return getCapabilities(state.permittedActions)
     },
     getFiles: () => {
       return getState().files

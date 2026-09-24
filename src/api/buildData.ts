@@ -9,9 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { schema, UserProfile } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 
-import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
@@ -28,12 +27,8 @@ const convertNodeNamesToTypes = (nodeNames: string[]) => {
     .filter((nodeType) => nodeType !== null)
 }
 
-const getDocumentData = async (
-  projectID: string,
-  manuscriptID: string,
-  api: Api
-) => {
-  const response = await api.getDocument(projectID, manuscriptID)
+const getDocumentData = async (docID: string, api: Api) => {
+  const response = await api.getDocument(docID)
   if (!response) {
     throw new Error('Document not found')
   }
@@ -77,47 +72,12 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   return data
 }
 
-const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
-  const profilesById = new Map()
-  profilesById.set(user._id, user)
-  const profiles = await api.getUserProfiles(projectID)
-  if (profiles) {
-    for (const profile of profiles) {
-      if (profile) {
-        profilesById.set(profile._id, profile)
-      }
-    }
-  }
-  return {
-    collaboratorsById: profilesById,
-  }
-}
-
-export const buildData = async (
-  projectID: string,
-  manuscriptID: string,
-  api: Api
-) => {
-  const user = await api.getUser()
-  if (!user) {
-    return {}
-  }
-
-  const doc = await getDocumentData(projectID, manuscriptID, api)
+export const buildData = async (docID: string, api: Api) => {
+  const doc = await getDocumentData(docID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
-  const project = await api.getProject(projectID)
-  const manuscriptPermittedActions =
-    await api.getProjectPermittedActions(projectID)
-  const role = project ? getUserRole(project, user.userID) : null
-  const users = await getUserData(projectID, user, api)
 
   return {
-    user,
-    userRole: role,
-    ...users,
     ...state,
     ...doc,
-    project,
-    manuscriptPermittedActions,
   }
 }

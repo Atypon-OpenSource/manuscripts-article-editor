@@ -11,7 +11,6 @@
  */
 
 import {
-  Actions,
   CommentKey,
   FileAttachment,
   FileManagement,
@@ -19,13 +18,11 @@ import {
 } from '@manuscripts/body-editor'
 import { TrackChangesState } from '@manuscripts/track-changes-plugin'
 import {
-  ManuscriptActions,
   ManuscriptEditorView,
   ManuscriptNode,
   ManuscriptNodeType,
-  Project,
   SectionCategory,
-  UserProfile,
+  User,
 } from '@manuscripts/transform'
 
 import { Language } from '../api/types'
@@ -33,31 +30,18 @@ import { PluginInspectorTab } from '../components/projects/Inspector'
 import { useCreateEditor } from '../hooks/use-create-editor'
 import { InspectorAction } from '../hooks/use-inspector-tabs-context'
 import { ManuscriptSnapshot, SnapshotLabel } from '../lib/doc'
-import { ProjectRole } from '../lib/roles'
 import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 
 export type action = { action?: string; [key: string]: any }
 
 export type PMEditor = ReturnType<typeof useCreateEditor>
 
-export type HostUser = {
-  id: string
-  displayName: string
-  firstName?: string
-  lastName?: string
-  connectId: string
-}
-
 // @NOTE: some of the state properties may be consumed by parent app and may appear unused
 export type state = {
-  manuscriptID: string
-  projectID: string
-  userID?: string
+  docID: string
+  userID: string
 
-  project: Project
-  refreshProject: () => Promise<void>
-  user: UserProfile // probably should be optional
-  hostUsers: HostUser[]
+  users: User[]
   editor: PMEditor
   doc: ManuscriptNode
   initialDocVersion: number
@@ -71,14 +55,11 @@ export type state = {
 
   fileManagement: FileManagement
   files: FileAttachment[]
-  collaborators: Map<string, UserProfile>
-  collaboratorsById: Map<string, UserProfile>
 
   snapshots: SnapshotLabel[]
   getSnapshot: (id: string) => Promise<ManuscriptSnapshot | undefined>
 
-  WMsPermittedActions: Actions[]
-  manuscriptPermittedActions: ManuscriptActions[]
+  permittedActions: string[]
 
   selectedCommentKey?: CommentKey
   newCommentID?: string
@@ -89,7 +70,6 @@ export type state = {
   savingProcess?: 'saved' | 'saving' | 'offline' | 'failed'
   preventUnload?: boolean
   beforeUnload?: () => void
-  userRole: ProjectRole | null
 
   cslLocale?: string
   cslStyle?: string
