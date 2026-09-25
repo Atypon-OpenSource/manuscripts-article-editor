@@ -22,6 +22,7 @@ import {
   ManuscriptNode,
   ManuscriptNodeType,
   SectionCategory,
+  User,
 } from '@manuscripts/transform'
 
 import { Language } from '../api/types'
@@ -34,13 +35,6 @@ import { buildStateFromSources, StoreDataSourceStrategy } from '.'
 export type action = { action?: string; [key: string]: any }
 
 export type PMEditor = ReturnType<typeof useCreateEditor>
-
-export type User = {
-  id: string
-  displayName: string
-  firstName?: string
-  lastName?: string
-}
 
 // @NOTE: some of the state properties may be consumed by parent app and may appear unused
 export type state = {

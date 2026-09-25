@@ -21,7 +21,7 @@ export type { EditorAppProps } from './EditorApp'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
-export type { state, User } from './store'
+export type { state } from './store'
 export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
 export {
