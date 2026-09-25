@@ -22,7 +22,6 @@ import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
 export type { state } from './store'
-export type { Language } from './api/types'
 export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
 export {
@@ -45,7 +44,7 @@ const ManuscriptEditor: React.FC<
   pluginInspectorTab,
   isReadOnly,
   users,
-  languages,
+  languageCodes,
 }) => {
   setConfig(config)
   return (
@@ -66,7 +65,7 @@ const ManuscriptEditor: React.FC<
             pluginInspectorTab={pluginInspectorTab}
             isReadOnly={isReadOnly}
             users={users}
-            languages={languages}
+            languageCodes={languageCodes}
           />
         </Suspense>
       </ThemeProvider>
