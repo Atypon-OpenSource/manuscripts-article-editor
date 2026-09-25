@@ -21,7 +21,6 @@ import { getConfig } from '../config'
 import { ManuscriptDoc, ManuscriptSnapshot } from '../lib/doc'
 import {
   CreateSnapshotResponse,
-  Language,
   SendStepsPayload,
   SendStepsResponse,
   StepsListener,
@@ -105,8 +104,6 @@ export class Api {
     bundle?.csl?._id
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
-
-  getLanguages = () => this.get<Language[]>('/languages')
 
   getOEmbedHtml = async (
     mediaUrl: string,

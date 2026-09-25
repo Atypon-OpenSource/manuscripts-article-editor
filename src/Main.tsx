@@ -29,6 +29,7 @@ const Main: React.FC<EditorAppProps> = ({
   pluginInspectorTab,
   isReadOnly,
   users,
+  languages,
 }) => (
   <DndProvider backend={HTML5Backend} context={window}>
     {/* Using context={window} to to access the same DndProvider context, avoiding conflicts when multiple React roots
@@ -46,6 +47,7 @@ const Main: React.FC<EditorAppProps> = ({
       pluginInspectorTab={pluginInspectorTab}
       isReadOnly={isReadOnly}
       users={users}
+      languages={languages}
     />
   </DndProvider>
 )

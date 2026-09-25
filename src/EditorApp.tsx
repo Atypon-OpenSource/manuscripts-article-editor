@@ -16,6 +16,7 @@ import styled from 'styled-components'
 
 import { Api, ApiContext } from './api/Api'
 import { ApiSource } from './api/ApiSource'
+import { Language } from './api/types'
 import { PluginInspectorTab } from './components/projects/Inspector'
 import ManuscriptPageContainer from './components/projects/ManuscriptPageContainer'
 import { ManuscriptPlaceholder } from './components/projects/ManuscriptPlaceholder'
@@ -36,6 +37,7 @@ export interface EditorAppProps {
   permittedActions: string[]
   userID: string
   users?: User[]
+  languages: Language[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
@@ -69,6 +71,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   pluginInspectorTab,
   isReadOnly,
   users,
+  languages,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const [, setError] = useState()
@@ -98,6 +101,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       isReadOnly,
       userID,
       users: users || [],
+      languages,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])

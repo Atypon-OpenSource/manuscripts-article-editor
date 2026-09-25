@@ -46,11 +46,10 @@ const getDocumentData = async (
 
 const getManuscriptData = async (templateID: string, api: Api) => {
   const data: Partial<state> = {}
-  const [cslLocale, template, languages] = await Promise.all([
+  const [cslLocale, template] = await Promise.all([
     // TODO:: config this!
     api.getCSLLocale('en-US'),
     api.getTemplate(templateID),
-    api.getLanguages(),
   ])
 
   if (!template) {
@@ -71,7 +70,6 @@ const getManuscriptData = async (templateID: string, api: Api) => {
 
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
-  data.languages = languages || []
 
   return data
 }
