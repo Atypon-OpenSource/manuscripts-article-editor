@@ -9,9 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import { schema, UserProfile } from '@manuscripts/transform'
+import { schema } from '@manuscripts/transform'
 
-import { getUserRole } from '../lib/roles'
 import { state } from '../store'
 import { Api } from './Api'
 
@@ -47,11 +46,10 @@ const getDocumentData = async (
 
 const getManuscriptData = async (templateID: string, api: Api) => {
   const data: Partial<state> = {}
-  const [cslLocale, template, languages] = await Promise.all([
+  const [cslLocale, template] = await Promise.all([
     // TODO:: config this!
     api.getCSLLocale('en-US'),
     api.getTemplate(templateID),
-    api.getLanguages(),
   ])
 
   if (!template) {
@@ -72,25 +70,8 @@ const getManuscriptData = async (templateID: string, api: Api) => {
 
   data.cslStyle = await api.getCSLStyle(bundle)
   data.cslLocale = cslLocale
-  data.languages = languages || []
 
   return data
-}
-
-const getUserData = async (projectID: string, user: UserProfile, api: Api) => {
-  const profilesById = new Map()
-  profilesById.set(user._id, user)
-  const profiles = await api.getUserProfiles(projectID)
-  if (profiles) {
-    for (const profile of profiles) {
-      if (profile) {
-        profilesById.set(profile._id, profile)
-      }
-    }
-  }
-  return {
-    collaboratorsById: profilesById,
-  }
 }
 
 export const buildData = async (
@@ -98,26 +79,11 @@ export const buildData = async (
   manuscriptID: string,
   api: Api
 ) => {
-  const user = await api.getUser()
-  if (!user) {
-    return {}
-  }
-
   const doc = await getDocumentData(projectID, manuscriptID, api)
   const state = await getManuscriptData(doc.doc.attrs.prototype, api)
-  const project = await api.getProject(projectID)
-  const manuscriptPermittedActions =
-    await api.getProjectPermittedActions(projectID)
-  const role = project ? getUserRole(project, user.userID) : null
-  const users = await getUserData(projectID, user, api)
 
   return {
-    user,
-    userRole: role,
-    ...users,
     ...state,
     ...doc,
-    project,
-    manuscriptPermittedActions,
   }
 }

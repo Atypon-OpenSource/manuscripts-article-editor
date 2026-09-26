@@ -9,11 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Actions,
-  FileAttachment,
-  FileManagement,
-} from '@manuscripts/body-editor'
+import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
+import { User } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -28,7 +25,6 @@ import {
   createStore,
   GenericStore,
   GenericStoreProvider,
-  HostUser,
   state,
 } from './store'
 
@@ -38,7 +34,9 @@ export interface EditorAppProps {
   manuscriptID: string
   projectID: string
   permittedActions: string[]
-  users?: HostUser[]
+  userID: string
+  users?: User[]
+  languageCodes: string[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
@@ -64,6 +62,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   manuscriptID,
   projectID,
   permittedActions,
+  userID,
   fileManagement,
   files,
   getAuthToken,
@@ -71,6 +70,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
   pluginInspectorTab,
   isReadOnly,
   users,
+  languageCodes,
 }) => {
   const [store, setStore] = useState<GenericStore>()
   const [, setError] = useState()
@@ -95,10 +95,12 @@ const EditorApp: React.FC<EditorAppProps> = ({
       projectID,
       manuscriptID,
       files,
-      WMsPermittedActions: permittedActions as Actions[],
+      permittedActions,
       pluginInspectorTab,
       isReadOnly,
-      hostUsers: users || [],
+      userID,
+      users: users || [],
+      languageCodes,
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])

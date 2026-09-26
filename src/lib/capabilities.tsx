@@ -9,13 +9,39 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import { Actions, Capabilities } from '@manuscripts/body-editor'
+import { Capabilities } from '@manuscripts/body-editor'
 import React from 'react'
-import { ManuscriptActions } from '@manuscripts/transform'
+
+// Used to be two separate enums (@manuscripts/body-editor's Actions and
+// @manuscripts/transform's ManuscriptActions) — permittedActions is now a
+// single flat list with no such distinction, so the actions it can contain
+// live here instead of in either package. Values must stay lowercase kebab-case:
+// leanworkflow-api's Action.forName() lowercases everything, and these must match
+// ManuscriptEditorAction's constants in leanworkflow-manuscripts-integration.
+export enum Actions {
+  updateAttachment = 'update-attachment',
+  updateDueDate = 'update-due-date',
+  addNote = 'add-note',
+  setMainManuscript = 'set-main-manuscript',
+  editWithoutTracking = 'edit-without-tracking',
+  handleSuggestion = 'handle-suggestion',
+  rejectOwnSuggestion = 'reject-own-suggestion',
+  handleOwnComments = 'handle-own-comments',
+  handleOthersComments = 'handle-others-comments',
+  resolveOwnComment = 'resolve-own-comment',
+  resolveOthersComment = 'resolve-others-comment',
+  createComment = 'create-comment',
+  canEditFiles = 'can-edit-files',
+  editArticle = 'edit-article',
+  formatArticle = 'format-article',
+  editMetadata = 'edit-metadata',
+  editCitationsAndRefs = 'edit-citations-and-refs',
+  seeEditorToolbar = 'see-editor-toolbar',
+  seeReferencesButtons = 'see-references-buttons',
+}
 
 export interface ProviderProps {
-  WMsPermittedActions?: string[]
-  manuscriptPermittedActions?: ManuscriptActions[]
+  permittedActions?: string[]
   children?: React.ReactNode
   isViewingMode?: boolean
 }
@@ -24,32 +50,27 @@ export interface ProviderProps {
 // checks which is helpful because there maybe numerous checks in on component
 
 export const getCapabilities = (
-  WMsActions?: string[],
-  manuscriptActions?: ManuscriptActions[],
+  permittedActions?: string[],
   isViewingMode?: boolean
 ): Capabilities => {
-  const WMsAllowed = (action: Actions) => !!WMsActions?.includes(action)
-  const ManAllowed = (action: ManuscriptActions) =>
-    !!manuscriptActions?.includes(action)
+  const allowed = (action: Actions) => !!permittedActions?.includes(action)
 
-  const canEditWithoutTracking = WMsAllowed(Actions.editWithoutTracking)
-  const canEditFiles =
-    ManAllowed(ManuscriptActions.canEditFiles) && !isViewingMode
-  const canUpdateAttachments =
-    canEditFiles && WMsAllowed(Actions.updateAttachment)
+  const canEditWithoutTracking = allowed(Actions.editWithoutTracking)
+  const canEditFiles = allowed(Actions.canEditFiles) && !isViewingMode
+  const canUpdateAttachments = canEditFiles && allowed(Actions.updateAttachment)
 
   return {
     /* track changes */
-    handleSuggestion: ManAllowed(ManuscriptActions.handleSuggestion),
+    handleSuggestion: allowed(Actions.handleSuggestion),
     editWithoutTracking: canEditWithoutTracking,
-    rejectOwnSuggestion: ManAllowed(ManuscriptActions.rejectOwnSuggestion),
+    rejectOwnSuggestion: allowed(Actions.rejectOwnSuggestion),
 
     /* comments */
-    handleOwnComments: ManAllowed(ManuscriptActions.handleOwnComments),
-    handleOthersComments: ManAllowed(ManuscriptActions.handleOthersComments),
-    resolveOwnComment: ManAllowed(ManuscriptActions.resolveOwnComment),
-    resolveOthersComment: ManAllowed(ManuscriptActions.resolveOthersComment),
-    createComment: ManAllowed(ManuscriptActions.createComment),
+    handleOwnComments: allowed(Actions.handleOwnComments),
+    handleOthersComments: allowed(Actions.handleOthersComments),
+    resolveOwnComment: allowed(Actions.resolveOwnComment),
+    resolveOthersComment: allowed(Actions.resolveOthersComment),
+    createComment: allowed(Actions.createComment),
 
     /* file handling */
     downloadFiles: true,
@@ -58,15 +79,15 @@ export const getCapabilities = (
     replaceFile: canUpdateAttachments,
     uploadFile: canUpdateAttachments,
     detachFile: canEditFiles,
-    setMainManuscript: WMsAllowed(Actions.setMainManuscript),
+    setMainManuscript: allowed(Actions.setMainManuscript),
 
     /* editor */
-    editArticle: ManAllowed(ManuscriptActions.editArticle),
-    formatArticle: ManAllowed(ManuscriptActions.formatArticle),
-    editMetadata: ManAllowed(ManuscriptActions.editMetadata),
-    editCitationsAndRefs: ManAllowed(ManuscriptActions.editCitationsAndRefs),
-    seeEditorToolbar: ManAllowed(ManuscriptActions.seeEditorToolbar),
-    seeReferencesButtons: ManAllowed(ManuscriptActions.seeReferencesButtons),
+    editArticle: allowed(Actions.editArticle),
+    formatArticle: allowed(Actions.formatArticle),
+    editMetadata: allowed(Actions.editMetadata),
+    editCitationsAndRefs: allowed(Actions.editCitationsAndRefs),
+    seeEditorToolbar: allowed(Actions.seeEditorToolbar),
+    seeReferencesButtons: allowed(Actions.seeReferencesButtons),
   }
 }
 
@@ -78,15 +99,10 @@ export const usePermissions = () => {
 }
 
 export const useCalcPermission = ({
-  WMsPermittedActions,
-  manuscriptPermittedActions,
+  permittedActions,
   isViewingMode,
 }: ProviderProps) => {
-  return getCapabilities(
-    WMsPermittedActions,
-    manuscriptPermittedActions,
-    isViewingMode
-  )
+  return getCapabilities(permittedActions, isViewingMode)
 }
 export const CapabilitiesProvider: React.FC<{
   can: Capabilities

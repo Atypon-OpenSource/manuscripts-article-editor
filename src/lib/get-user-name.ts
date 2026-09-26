@@ -7,41 +7,20 @@
  *
  * The Original Developer is the Initial Developer. The Initial Developer of the Original Code is Atypon Systems LLC.
  *
- * All portions of the code written by Atypon Systems LLC are Copyright (c) 2022 Atypon Systems LLC. All Rights Reserved.
+ * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
+import { User } from '@manuscripts/transform'
 
-import { Step } from 'prosemirror-transform'
-
-import { ManuscriptSnapshot } from '../lib/doc'
-
-export type TransformVersionResponse = {
-  transformVersion: string
+export const getUserName = (users: User[], userID?: string, full = true) => {
+  const user = users.find((u) => u.id === userID)
+  if (!user) {
+    return ''
+  }
+  if (!full) {
+    return (user.firstName || user.displayName)[0]
+  }
+  return (
+    [user.firstName, user.lastName].filter(Boolean).join(' ') ||
+    user.displayName
+  )
 }
-
-export type SendStepsPayload = {
-  steps: Step[]
-  version: number
-  clientID: number | string
-}
-
-export type SendStepsResponse = {
-  lastVersion?: number
-  steps?: number
-  error?: string
-}
-
-export type StepsSinceResponse = {
-  steps: Step[]
-  version: number
-  clientIDs: number[]
-}
-
-export interface CreateSnapshotResponse {
-  snapshot: ManuscriptSnapshot
-}
-
-export type StepsListener = (
-  version: number,
-  steps: unknown[],
-  clientIDs: number[]
-) => void
