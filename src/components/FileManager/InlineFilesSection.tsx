@@ -329,7 +329,9 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     )}
                     <FileActions
                       sectionType={FileSectionType.Inline}
-                      accept={fileAttachment.caption ? captionFileAccept : undefined}
+                      accept={
+                        fileAttachment.caption ? captionFileAccept : undefined
+                      }
                       onReplace={async (f) =>
                         await handleReplace(
                           fileAttachment.node,
