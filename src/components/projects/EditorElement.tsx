@@ -10,10 +10,12 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  addCaptionLink,
   FileAttachment,
   findInsertionPosition,
   getMatchingChild,
   getMediaTypeInfo,
+  isCaptionFile,
   useEditor,
 } from '@manuscripts/body-editor'
 import { Category, Dialog } from '@manuscripts/style-guide'
@@ -68,10 +70,22 @@ const EditorElement: React.FC = () => {
         const attrs: Record<string, unknown> = {
           src: file.id,
         }
+        const dropTarget = document.elementFromPoint(offset.x, offset.y)
+        const captionPlaceholder = dropTarget?.closest(
+          '.caption-file-placeholder'
+        )
 
         let targetNode = view.state.doc.nodeAt(docPos.pos) || resolvedPos.parent
         let mediaNodeWithPos
-        if (
+        if (captionPlaceholder) {
+          mediaNodeWithPos = findParentNodeClosestToPos(
+            resolvedPos,
+            (node) => node.type === schema.nodes.embed
+          )
+          if (mediaNodeWithPos) {
+            targetNode = mediaNodeWithPos.node
+          }
+        } else if (
           targetNode.type === schema.nodes.caption ||
           targetNode.type === schema.nodes.caption_title
         ) {
@@ -100,6 +114,15 @@ const EditorElement: React.FC = () => {
           }
           case schema.nodes.embed: {
             const media = targetNode as EmbedNode
+            if (captionPlaceholder) {
+              if (!isCaptionFile(file.name)) {
+                return false
+              }
+              setNodeAttrs(view.state, dispatch, media.attrs.id, {
+                extLinks: addCaptionLink(media.attrs.extLinks, file),
+              })
+              break
+            }
             setNodeAttrs(view.state, dispatch, media.attrs.id, {
               href: file.id,
               mimetype: mediaInfo.mimetype,
