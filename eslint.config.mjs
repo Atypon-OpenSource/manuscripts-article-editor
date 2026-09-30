@@ -31,5 +31,8 @@ export default defineConfig([
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
     },
+    settings: {
+      'import/core-modules': ['@manuscripts/style-guide/mui'],
+    },
   },
 ])
