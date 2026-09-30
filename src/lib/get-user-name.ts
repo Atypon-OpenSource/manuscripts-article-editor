@@ -9,43 +9,18 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
+import { User } from '@manuscripts/transform'
 
-import React from 'react'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-
-import EditorApp, { EditorAppProps } from './EditorApp'
-import { GlobalStyle } from './theme/theme'
-
-const Main: React.FC<EditorAppProps> = ({
-  fileManagement,
-  files,
-  docID,
-  permittedActions,
-  userID,
-  getAuthToken,
-  observer,
-  pluginInspectorTab,
-  isReadOnly,
-  users,
-}) => (
-  <DndProvider backend={HTML5Backend} context={window}>
-    {/* Using context={window} to to access the same DndProvider context, avoiding conflicts when multiple React roots
-    try to initialize their own HTML5Backend instances.*/}
-    <GlobalStyle />
-    <EditorApp
-      fileManagement={fileManagement}
-      files={files}
-      docID={docID}
-      permittedActions={permittedActions}
-      userID={userID}
-      getAuthToken={getAuthToken}
-      observer={observer}
-      pluginInspectorTab={pluginInspectorTab}
-      isReadOnly={isReadOnly}
-      users={users}
-    />
-  </DndProvider>
-)
-
-export default Main
+export const getUserName = (users: User[], userID?: string, full = true) => {
+  const user = users.find((u) => u.id === userID)
+  if (!user) {
+    return ''
+  }
+  if (!full) {
+    return (user.firstName || user.displayName)[0]
+  }
+  return (
+    [user.firstName, user.lastName].filter(Boolean).join(' ') ||
+    user.displayName
+  )
+}
