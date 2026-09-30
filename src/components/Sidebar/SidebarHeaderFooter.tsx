@@ -10,6 +10,8 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
 
+import { Typography } from '@manuscripts/style-guide/mui'
+import React from 'react'
 import styled, { css } from 'styled-components'
 
 const commonStyles = css`
@@ -20,16 +22,21 @@ const commonStyles = css`
   padding: 0 ${(props) => props.theme.grid.unit * 3}px;
 `
 
-export const SidebarTitle = styled.div`
+const SidebarTitleWrap = styled.div`
   ${commonStyles};
   margin-bottom: ${(props) => props.theme.grid.unit * 6}px;
-  font-size: ${(props) => props.theme.font.size.xlarge};
-  font-weight: ${(props) => props.theme.font.weight.semibold};
-  color: ${(props) => props.theme.colors.text.primary};
   user-select: none;
   white-space: nowrap;
   width: 100%;
 `
+
+export const SidebarTitle: React.FC<{ children?: React.ReactNode }> = ({
+  children,
+}) => (
+  <SidebarTitleWrap>
+    <Typography variant="h1">{children}</Typography>
+  </SidebarTitleWrap>
+)
 
 export const SidebarFooter = styled.div`
   ${commonStyles};

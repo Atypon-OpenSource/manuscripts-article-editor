@@ -9,6 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
+import { Typography } from '@manuscripts/style-guide/mui'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,11 +21,7 @@ const Container = styled.div`
   margin-top: 50px;
 `
 
-export const Message = styled.div`
-  font-size: ${(props) => props.theme.font.size.medium};
-  font-weight: ${(props) => props.theme.font.weight.light};
-  color: ${(props) => props.theme.colors.text.secondary};
-  text-align: center;
+const MessageLayout = styled.div`
   margin: ${(props) => props.theme.grid.unit * 5}px;
 `
 
@@ -59,8 +56,15 @@ const PlaceholderGraphic: React.FC = () => (
 export const CommentsPlaceholder: React.FC = () => (
   <Container>
     <PlaceholderGraphic />
-    <Message>
-      Discuss this manuscript with your collaborators by creating a comment.
-    </Message>
+    <MessageLayout>
+      <Typography
+        variant="h3"
+        fontWeight="regular"
+        color="secondary"
+        align="center"
+      >
+        Discuss this manuscript with your collaborators by creating a comment.
+      </Typography>
+    </MessageLayout>
   </Container>
 )
