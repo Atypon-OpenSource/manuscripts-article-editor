@@ -182,6 +182,7 @@ const createAttrsDisplay = (
                 (link) =>
                   link.label ||
                   files.find((f) => f.id === link.href)?.name ||
+                  link.href ||
                   ''
               )
               .filter(Boolean)

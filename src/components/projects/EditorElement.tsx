@@ -56,7 +56,7 @@ const EditorElement: React.FC = () => {
     accept: 'file',
     canDrop: () => can.replaceFile && can.editArticle,
     drop: async (item, monitor) => {
-      const offset = monitor.getSourceClientOffset()
+      const offset = monitor.getClientOffset()
       if (offset && offset.x && offset.y && view) {
         const docPos = view.posAtCoords({ left: offset.x, top: offset.y })
         // @ts-expect-error: Ignoring default type from the React DnD plugin. Seems to be unreachable

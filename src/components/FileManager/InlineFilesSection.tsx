@@ -219,13 +219,14 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     if (!pos || !file) {
       return
     }
+    if (captionHref && node.type === schema.nodes.embed && !isCaptionFile(file)) {
+      return
+    }
+
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
 
     if (captionHref && node.type === schema.nodes.embed) {
-      if (!isCaptionFile(file)) {
-        return
-      }
       tr.setNodeAttribute(
         pos,
         'extLinks',
