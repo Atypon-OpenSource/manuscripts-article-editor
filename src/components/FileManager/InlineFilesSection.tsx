@@ -10,12 +10,17 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2024 Atypon Systems LLC. All Rights Reserved.
  */
 import {
+  captionFileAccept,
   ElementFiles,
   getMediaTypeInfo,
+  isCaptionFile,
   NodeFile,
+  removeCaptionLink,
+  replaceCaptionLink,
 } from '@manuscripts/body-editor'
 import {
   ArrowDownCircleIcon,
+  CaptionIcon,
   FileFigureIcon,
   FileGraphicalAbstractIcon,
   FileHeadshotGridIcon,
@@ -162,13 +167,23 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
     view.dispatch(tr)
   }
 
-  const handleDetach = (node: ManuscriptNode, pos?: number) => {
+  const handleDetach = (
+    node: ManuscriptNode,
+    pos?: number,
+    captionHref?: string
+  ) => {
     if (!pos) {
       return
     }
     const tr = view.state.tr
 
-    if (node.type === schema.nodes.embed) {
+    if (captionHref && node.type === schema.nodes.embed) {
+      tr.setNodeAttribute(
+        pos,
+        'extLinks',
+        removeCaptionLink(node.attrs.extLinks, captionHref)
+      )
+    } else if (node.type === schema.nodes.embed) {
       tr.setNodeAttribute(pos, 'href', '')
     } else {
       tr.setNodeAttribute(pos, 'src', '')
@@ -198,15 +213,29 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
   const handleReplace = async (
     node: ManuscriptNode,
     pos?: number,
-    file?: File
+    file?: File,
+    captionHref?: string
   ) => {
     if (!pos || !file) {
       return
     }
+    if (captionHref && node.type === schema.nodes.embed && !isCaptionFile(file)) {
+      return
+    }
+
     const uploaded = await fileManagement.upload(file)
     const tr = view.state.tr
 
-    if (node.type === schema.nodes.embed) {
+    if (captionHref && node.type === schema.nodes.embed) {
+      tr.setNodeAttribute(
+        pos,
+        'extLinks',
+        replaceCaptionLink(node.attrs.extLinks, captionHref, {
+          id: uploaded.id,
+          name: file.name,
+        })
+      )
+    } else if (node.type === schema.nodes.embed) {
       const mediaInfo = getMediaTypeInfo(file)
       tr.setNodeAttribute(pos, 'href', uploaded.id)
       tr.setNodeAttribute(pos, 'mimetype', mediaInfo.mimetype)
@@ -276,8 +305,12 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                       }
                     }}
                   >
-                    {fileAttachment.file && (
-                      <FileTypeIcon file={fileAttachment.file} />
+                    {fileAttachment.caption ? (
+                      <CaptionIcon className="file-icon" />
+                    ) : (
+                      fileAttachment.file && (
+                        <FileTypeIcon file={fileAttachment.file} />
+                      )
                     )}
                     <FileNameText
                       data-cy="filename"
@@ -297,15 +330,27 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                     )}
                     <FileActions
                       sectionType={FileSectionType.Inline}
+                      accept={
+                        fileAttachment.caption ? captionFileAccept : undefined
+                      }
                       onReplace={async (f) =>
                         await handleReplace(
                           fileAttachment.node,
                           fileAttachment.pos,
-                          f
+                          f,
+                          fileAttachment.caption
+                            ? fileAttachment.file.id
+                            : undefined
                         )
                       }
                       onDetach={() =>
-                        handleDetach(fileAttachment.node, fileAttachment.pos)
+                        handleDetach(
+                          fileAttachment.node,
+                          fileAttachment.pos,
+                          fileAttachment.caption
+                            ? fileAttachment.file.id
+                            : undefined
+                        )
                       }
                       onDownload={() =>
                         fileAttachment.file &&
