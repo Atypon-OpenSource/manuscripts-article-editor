@@ -23,11 +23,13 @@ const Main: React.FC<EditorAppProps> = ({
   manuscriptID,
   projectID,
   permittedActions,
+  userID,
   getAuthToken,
   observer,
   pluginInspectorTab,
   isReadOnly,
   users,
+  languageCodes,
 }) => (
   <DndProvider backend={HTML5Backend} context={window}>
     {/* Using context={window} to to access the same DndProvider context, avoiding conflicts when multiple React roots
@@ -39,11 +41,13 @@ const Main: React.FC<EditorAppProps> = ({
       manuscriptID={manuscriptID}
       projectID={projectID}
       permittedActions={permittedActions}
+      userID={userID}
       getAuthToken={getAuthToken}
       observer={observer}
       pluginInspectorTab={pluginInspectorTab}
       isReadOnly={isReadOnly}
       users={users}
+      languageCodes={languageCodes}
     />
   </DndProvider>
 )

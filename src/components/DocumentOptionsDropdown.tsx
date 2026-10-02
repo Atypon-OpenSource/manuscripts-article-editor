@@ -35,7 +35,7 @@ const DocumentOptionsDropdown: React.FC = () => {
   const [storeState] = useStore((s) => ({
     doc: s.doc,
     view: s.view,
-    languages: s.languages,
+    languageCodes: s.languageCodes,
   }))
 
   const handleLanguageChange = async (languageCode: string) => {
@@ -136,7 +136,7 @@ const DocumentOptionsDropdown: React.FC = () => {
             currentLanguage={storeState.doc?.attrs?.primaryLanguageCode || 'en'}
             onLanguageSelect={handleLanguageChange}
             onCloseParent={toggleOpen}
-            languages={storeState.languages}
+            languageCodes={storeState.languageCodes}
             menuItemRef={(el) => {
               itemRefs.current[1] = el
             }}

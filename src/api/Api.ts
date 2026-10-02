@@ -9,13 +9,7 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2019 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Bundle,
-  ManuscriptTemplate,
-  ManuscriptActions,
-  Project,
-  UserProfile,
-} from '@manuscripts/transform'
+import { Bundle, ManuscriptTemplate } from '@manuscripts/transform'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -27,7 +21,6 @@ import { getConfig } from '../config'
 import { ManuscriptDoc, ManuscriptSnapshot } from '../lib/doc'
 import {
   CreateSnapshotResponse,
-  Language,
   SendStepsPayload,
   SendStepsResponse,
   StepsListener,
@@ -96,8 +89,6 @@ export class Api {
       (d) => d?.transformVersion || ''
     )
 
-  getUser = () => this.get<UserProfile>('user')
-
   getCSLLocale = (lang: string) =>
     lang ? this.get<string>(`/csl/locales?id=${lang}`) : undefined
 
@@ -114,8 +105,6 @@ export class Api {
       ? this.get<string>(`/csl/styles?id=${bundle.csl._id}`)
       : undefined
 
-  getLanguages = () => this.get<Language[]>('/languages')
-
   getOEmbedHtml = async (
     mediaUrl: string,
     maxWidth: number,
@@ -128,24 +117,6 @@ export class Api {
     })
     return this.get<{ html: string | null }>(`oembed/html?${params.toString()}`)
   }
-
-  getUserProfiles = (containerID: string) =>
-    this.get<UserProfile[]>(`/project/${containerID}/userProfiles`)
-
-  getProject = async (projectID: string) => {
-    const response = await this.get<Project>(`project/${projectID}`)
-    if (!response) {
-      throw new Error('Project not found.')
-    }
-    //old API versions return an array
-    if (Array.isArray(response)) {
-      return response[0]
-    }
-    return response
-  }
-
-  getProjectPermittedActions = (containerID: string) =>
-    this.get<ManuscriptActions[]>(`/project/${containerID}/permitted-actions`)
 
   getSnapshot = (snapshotID: string) =>
     this.get<ManuscriptSnapshot>(`snapshot/${snapshotID}`)

@@ -86,8 +86,8 @@ export const TrackChangesStyles: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const can = usePermissions()
-  const [{ user, trackState }] = useStore((store) => ({
-    user: store.user,
+  const [{ userID, trackState }] = useStore((store) => ({
+    userID: store.userID,
     trackState: store.trackState,
   }))
 
@@ -99,7 +99,7 @@ export const TrackChangesStyles: React.FC<{ children: React.ReactNode }> = ({
   const mySuggestedChangesSelector = trackChangesCssSelector(
     changeSet?.pending
       ? changeSet?.pending
-          .filter((change) => change.dataTracked.authorID == user?._id)
+          .filter((change) => change.dataTracked.authorID == userID)
           .map((change) => change.id)
       : []
   )
