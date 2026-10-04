@@ -119,7 +119,11 @@ const EditorElement: React.FC = () => {
                 return false
               }
               setNodeAttrs(view.state, dispatch, media.attrs.id, {
-                extLinks: addCaptionLink(media.attrs.extLinks, file),
+                extLinks: addCaptionLink(
+                  media.attrs.extLinks,
+                  file,
+                  view.state.doc.attrs.primaryLanguageCode || 'en'
+                ),
               })
               break
             }
