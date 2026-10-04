@@ -64,6 +64,7 @@ const getManuscriptData = async (templateID: string, api: Api) => {
   if (template.hiddenNodeTypes) {
     data.hiddenNodeTypes = convertNodeNamesToTypes(template.hiddenNodeTypes)
   }
+  data.validations = template.validations ?? []
 
   const bundle = await api.getBundle(template)
   if (!bundle) {
