@@ -21,9 +21,7 @@ export type { EditorAppProps } from './EditorApp'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
-export { ProjectRole } from './lib/roles'
 export type { state } from './store'
-export { getUserRole } from './lib/roles'
 export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
 export {
@@ -39,12 +37,14 @@ const ManuscriptEditor: React.FC<
   manuscriptID,
   projectID,
   permittedActions,
+  userID,
   getAuthToken,
   config,
   observer,
   pluginInspectorTab,
   isReadOnly,
   users,
+  languageCodes,
 }) => {
   setConfig(config)
   return (
@@ -59,11 +59,13 @@ const ManuscriptEditor: React.FC<
             manuscriptID={manuscriptID}
             projectID={projectID}
             permittedActions={permittedActions}
+            userID={userID}
             getAuthToken={getAuthToken}
             observer={observer}
             pluginInspectorTab={pluginInspectorTab}
             isReadOnly={isReadOnly}
             users={users}
+            languageCodes={languageCodes}
           />
         </Suspense>
       </ThemeProvider>

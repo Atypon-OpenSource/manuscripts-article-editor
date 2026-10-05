@@ -37,13 +37,7 @@ export class ApiSource implements StoreDataSourceStrategy {
     if (manuscriptID && projectID) {
       await this.checkTransformVersion()
       this.data = await buildData(projectID, manuscriptID, this.api)
-      this.utilities = buildUtilities(
-        projectID,
-        manuscriptID,
-        () => this.data,
-        setState,
-        this.api
-      )
+      this.utilities = buildUtilities(this.api)
     }
     next({ ...state, ...this.data, ...this.utilities })
   }
