@@ -357,13 +357,20 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                         fileManagement.download(fileAttachment.file)
                       }
                       onDelete={
-                        withFigureDelete
+                        fileAttachment.caption
                           ? () =>
-                              handleDelete(
+                              handleDetach(
                                 fileAttachment.node,
-                                fileAttachment.pos
+                                fileAttachment.pos,
+                                fileAttachment.file.id
                               )
-                          : undefined
+                          : withFigureDelete
+                            ? () =>
+                                handleDelete(
+                                  fileAttachment.node,
+                                  fileAttachment.pos
+                                )
+                            : undefined
                       }
                     />
                   </FileGroupItemContainer>
