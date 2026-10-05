@@ -9,11 +9,8 @@
  *
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
-import {
-  Actions,
-  FileAttachment,
-  FileManagement,
-} from '@manuscripts/body-editor'
+import { FileAttachment, FileManagement } from '@manuscripts/body-editor'
+import { User } from '@manuscripts/transform'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -28,17 +25,16 @@ import {
   createStore,
   GenericStore,
   GenericStoreProvider,
-  HostUser,
   state,
 } from './store'
 
 export interface EditorAppProps {
   fileManagement: FileManagement
   files: FileAttachment[]
-  manuscriptID: string
-  projectID: string
+  docID: string
   permittedActions: string[]
-  users?: HostUser[]
+  userID: string
+  users?: User[]
   getAuthToken: () => Promise<string | undefined>
   observer?: ManuscriptsStateObserver
   pluginInspectorTab?: PluginInspectorTab
@@ -61,9 +57,9 @@ const PlaceholderWrapper = styled.div`
 `
 
 const EditorApp: React.FC<EditorAppProps> = ({
-  manuscriptID,
-  projectID,
+  docID,
   permittedActions,
+  userID,
   fileManagement,
   files,
   getAuthToken,
@@ -92,13 +88,13 @@ const EditorApp: React.FC<EditorAppProps> = ({
     loadedRef.current = true
     const props = new BasicSource({
       fileManagement,
-      projectID,
-      manuscriptID,
+      docID,
       files,
-      WMsPermittedActions: permittedActions as Actions[],
+      permittedActions,
       pluginInspectorTab,
       isReadOnly,
-      hostUsers: users || [],
+      userID,
+      users: users || [],
     })
     const apiSource = new ApiSource(api)
     createStore([props, apiSource])
@@ -112,7 +108,7 @@ const EditorApp: React.FC<EditorAppProps> = ({
       store?.unmount()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [manuscriptID, projectID])
+  }, [docID])
 
   useEffect(() => {
     if (!observer || observerSubscribed.current || !store) {

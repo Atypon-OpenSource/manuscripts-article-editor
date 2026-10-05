@@ -21,9 +21,7 @@ export type { EditorAppProps } from './EditorApp'
 import Main from './Main'
 import { ThemeProvider } from './theme/ThemeProvider'
 export { detectInconsistencyPluginKey } from '@manuscripts/body-editor'
-export { ProjectRole } from './lib/roles'
 export type { state } from './store'
-export { getUserRole } from './lib/roles'
 export * from './hooks/external/use-manuscripts-state'
 export type { ManuscriptsEditorConfig } from './config'
 export {
@@ -36,9 +34,9 @@ const ManuscriptEditor: React.FC<
 > = ({
   fileManagement,
   files,
-  manuscriptID,
-  projectID,
+  docID,
   permittedActions,
+  userID,
   getAuthToken,
   config,
   observer,
@@ -56,9 +54,9 @@ const ManuscriptEditor: React.FC<
           <Main
             fileManagement={fileManagement}
             files={files}
-            manuscriptID={manuscriptID}
-            projectID={projectID}
+            docID={docID}
             permittedActions={permittedActions}
+            userID={userID}
             getAuthToken={getAuthToken}
             observer={observer}
             pluginInspectorTab={pluginInspectorTab}
@@ -79,6 +77,6 @@ export const ManuscriptEditorApp = React.memo(
   (prev, next) => {
     // Due to complexity of this component rerendering it idly would be a major inconvenience and a performance problem
     // To update that component from above we introduced the parentObserver that allowes to manipulate the state in a controlled manner
-    return prev.manuscriptID == next.manuscriptID // if props are equal, do not rerender
+    return prev.docID == next.docID // if props are equal, do not rerender
   }
 )
