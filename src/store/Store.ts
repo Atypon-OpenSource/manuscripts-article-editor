@@ -26,6 +26,7 @@ import {
   Project,
   SectionCategory,
   UserProfile,
+  ValidationConfig,
 } from '@manuscripts/transform'
 
 import { Language } from '../api/types'
@@ -101,6 +102,7 @@ export type state = {
   inspectorOpenTabs?: { primaryTab: number | null; secondaryTab: number | null }
   doInspectorTab?: (action: InspectorAction) => void
   hiddenNodeTypes?: ManuscriptNodeType[]
+  validations?: ValidationConfig[]
 
   pluginInspectorTab?: PluginInspectorTab // an inspector tab injected (plugged in) from the parent app
 }

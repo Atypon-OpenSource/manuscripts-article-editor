@@ -40,6 +40,7 @@ export const useCreateEditor = () => {
       sectionCategories,
       isViewingMode,
       hiddenNodeTypes,
+      validations,
     },
     dispatch,
     getState,
@@ -56,6 +57,7 @@ export const useCreateEditor = () => {
     sectionCategories: store.sectionCategories,
     isViewingMode: store.isViewingMode,
     hiddenNodeTypes: store.hiddenNodeTypes,
+    validations: store.validations,
   }))
 
   const api = useApi()
@@ -195,6 +197,8 @@ export const useCreateEditor = () => {
     isComparingMode,
     lockBody: config.features.lockBody,
     hiddenNodeTypes: hiddenNodeTypes,
+    validations,
+    getValidations: () => getState().validations,
     isViewingMode,
     fetchOEmbedHtml,
   }

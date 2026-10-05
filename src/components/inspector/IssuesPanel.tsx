@@ -10,10 +10,7 @@
  * All portions of the code written by Atypon Systems LLC are Copyright (c) 2025 Atypon Systems LLC. All Rights Reserved.
  */
 
-import {
-  detectInconsistencyPluginKey,
-  Inconsistency,
-} from '@manuscripts/body-editor'
+import { Inconsistency } from '@manuscripts/body-editor'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -25,13 +22,10 @@ const IssuesContainer = styled.div`
 `
 
 export const IssuesPanel: React.FC = () => {
-  const [view] = useStore((store) => store.view)
+  const [inconsistencies] = useStore((store) => store.inconsistencies ?? [])
   const [selectedInconsistencyKey, setSelectedInconsistencyKey] = useState<
     string | null
   >(null)
-  const inconsistencies = view?.state
-    ? detectInconsistencyPluginKey.getState(view.state)?.inconsistencies || []
-    : []
 
   const errors: Inconsistency[] = []
   const warnings: Inconsistency[] = []

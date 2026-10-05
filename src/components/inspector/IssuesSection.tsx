@@ -12,12 +12,10 @@
 
 import { Inconsistency } from '@manuscripts/body-editor'
 import { ExpandableSection } from '@manuscripts/style-guide'
-import { NodeSelection } from 'prosemirror-state'
 import React from 'react'
 import styled from 'styled-components'
 
-import { scrollIntoView } from '../../lib/utils'
-import { useStore } from '../../store'
+import { useIssueActions } from '../../hooks/use-issue-actions'
 
 type IssuesSectionProps = {
   title: string
@@ -32,28 +30,22 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
   selectedInconsistencyKey,
   setSelectedInconsistencyKey,
 }) => {
-  const [view] = useStore((store) => store.view)
+  const executeIssueAction = useIssueActions()
+  const hasItems = items.length > 0
 
   const handleInconsistencyClick = (
     key: string,
     inconsistency: Inconsistency
   ) => {
     setSelectedInconsistencyKey(key)
-    if (view) {
-      const tr = view.state.tr
-      tr.setSelection(NodeSelection.create(tr.doc, inconsistency.pos))
-      view.dispatch(tr)
-      const domNode = view.nodeDOM(inconsistency.pos)
-      if (domNode && domNode instanceof HTMLElement) {
-        scrollIntoView(domNode)
-      }
-    }
+    executeIssueAction(inconsistency)
   }
   return (
     <section className={`${title.toLowerCase()}-section`}>
       <ExpandableSection
+        key={hasItems ? 'populated' : 'empty'}
         title={`${title} (${items.length})`}
-        defaultOpen={items.length > 0}
+        defaultOpen={hasItems}
       >
         {items.length > 0 && (
           <InconsistenciesList>
@@ -68,7 +60,7 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
                   data-cy="inconsistency"
                 >
                   <InconsistencyTitle>
-                    {inconsistency.nodeDescription}:
+                    {inconsistency.title ?? inconsistency.nodeDescription}:
                   </InconsistencyTitle>
                   <InconsistencyMessage>
                     {inconsistency.message}
