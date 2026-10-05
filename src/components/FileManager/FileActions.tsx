@@ -69,7 +69,12 @@ export const FileActions: React.FC<{
     can?.moveFile && onUseAsMain && isValidMainDocumentFormat(file)
 
   const show =
-    showDownload || showReplace || showDetach || showMove || showUseAsMain
+    showDownload ||
+    showReplace ||
+    showDetach ||
+    showDelete ||
+    showMove ||
+    showUseAsMain
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (onReplace && event?.target?.files?.[0]) {

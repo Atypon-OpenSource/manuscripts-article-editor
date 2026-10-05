@@ -358,12 +358,7 @@ export const InlineFilesSection: React.FC<InlineFilesSectionProps> = ({
                       }
                       onDelete={
                         fileAttachment.caption
-                          ? () =>
-                              handleDetach(
-                                fileAttachment.node,
-                                fileAttachment.pos,
-                                fileAttachment.file.id
-                              )
+                          ? undefined
                           : withFigureDelete
                             ? () =>
                                 handleDelete(
