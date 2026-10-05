@@ -16,6 +16,7 @@ import {
   AffiliationNode,
   BibliographyItemNode,
   CreditRole,
+  ExtLink,
   FootnoteNode,
   isCitationNode,
   isInlineFootnoteNode,
@@ -172,6 +173,20 @@ const createAttrsDisplay = (
           return (filteredAttrs[key] = {
             label: 'Linked File',
             value: files.find((f) => f.id === value)?.name || (value as string),
+          })
+        case 'extLinks':
+          return (filteredAttrs[key] = {
+            label: 'Caption File',
+            value: (value as ExtLink[])
+              ?.map(
+                (link) =>
+                  link.label ||
+                  files.find((f) => f.id === link.href)?.name ||
+                  link.href ||
+                  ''
+              )
+              .filter(Boolean)
+              .join(', '),
           })
         case 'issued':
           return (filteredAttrs[key] = {

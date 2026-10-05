@@ -28,7 +28,7 @@ export const FileGroupItemContainer = styled.div`
   svg {
     width: 16px;
 
-    path {
+    &:not(.file-icon) path {
       fill: #6e6e6e;
     }
   }
