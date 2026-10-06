@@ -6,12 +6,12 @@ import {
 } from '@manuscripts/body-editor'
 import { useCallback } from 'react'
 
-import { executeIssueAction } from '../lib/issue-actions'
+import { executeInconsistencyAction } from '../lib/inconsistency-actions'
 import { scrollIntoView } from '../lib/utils'
 import { useStore } from '../store'
 import { InspectorAction } from './use-inspector-tabs-context'
 
-export const useIssueActions = () => {
+export const useInconsistencyActions = () => {
   const [{ view, doInspectorTab }] = useStore((store) => ({
     view: store.view,
     doInspectorTab: store.doInspectorTab,
@@ -19,7 +19,7 @@ export const useIssueActions = () => {
 
   return useCallback(
     (inconsistency: Inconsistency) =>
-      executeIssueAction(inconsistency, view, {
+      executeInconsistencyAction(inconsistency, view, {
         openAccessibility: openAccessibilityFields,
         openMainDocument: () =>
           doInspectorTab?.(InspectorAction.OpenMainDocument),

@@ -6,9 +6,9 @@ import type {
   selectInconsistency,
 } from '@manuscripts/body-editor'
 
-export type IssueActionView = Parameters<typeof selectInconsistency>[1]
+export type InconsistencyActionView = Parameters<typeof selectInconsistency>[1]
 
-export type IssueActionDependencies = {
+export type InconsistencyActionDependencies = {
   openAccessibility: typeof openAccessibilityFields
   openMainDocument: () => void
   openMetadata: typeof openMetadataTarget
@@ -23,20 +23,20 @@ type ActionByType = {
   >
 }
 
-type IssueActionContext = {
+type InconsistencyActionContext = {
   inconsistency: Inconsistency
-  view: IssueActionView
-  dependencies: IssueActionDependencies
+  view: InconsistencyActionView
+  dependencies: InconsistencyActionDependencies
 }
 
-type IssueActionHandlers = {
+type InconsistencyActionHandlers = {
   [Type in keyof ActionByType]: (
     action: ActionByType[Type],
-    context: IssueActionContext
+    context: InconsistencyActionContext
   ) => void
 }
 
-const issueActionHandlers: IssueActionHandlers = {
+const inconsistencyActionHandlers: InconsistencyActionHandlers = {
   'navigate-to-node': (_, { inconsistency, view, dependencies }) => {
     const domNode = dependencies.selectInconsistency(inconsistency, view)
     if (domNode) {
@@ -62,13 +62,13 @@ const issueActionHandlers: IssueActionHandlers = {
 const dispatchAction = <Type extends keyof ActionByType>(
   type: Type,
   action: ActionByType[Type],
-  context: IssueActionContext
-) => issueActionHandlers[type](action, context)
+  context: InconsistencyActionContext
+) => inconsistencyActionHandlers[type](action, context)
 
-export const executeIssueAction = (
+export const executeInconsistencyAction = (
   inconsistency: Inconsistency,
-  view: IssueActionView | undefined,
-  dependencies: IssueActionDependencies
+  view: InconsistencyActionView | undefined,
+  dependencies: InconsistencyActionDependencies
 ): void => {
   if (!view) {
     return

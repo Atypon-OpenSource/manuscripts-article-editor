@@ -15,7 +15,7 @@ import { ExpandableSection } from '@manuscripts/style-guide'
 import React from 'react'
 import styled from 'styled-components'
 
-import { useIssueActions } from '../../hooks/use-issue-actions'
+import { useInconsistencyActions } from '../../hooks/use-inconsistency-actions'
 
 type IssuesSectionProps = {
   title: string
@@ -30,7 +30,7 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
   selectedInconsistencyKey,
   setSelectedInconsistencyKey,
 }) => {
-  const executeIssueAction = useIssueActions()
+  const executeInconsistencyAction = useInconsistencyActions()
   const hasItems = items.length > 0
 
   const handleInconsistencyClick = (
@@ -38,7 +38,7 @@ export const IssuesSection: React.FC<IssuesSectionProps> = ({
     inconsistency: Inconsistency
   ) => {
     setSelectedInconsistencyKey(key)
-    executeIssueAction(inconsistency)
+    executeInconsistencyAction(inconsistency)
   }
   return (
     <section className={`${title.toLowerCase()}-section`}>
